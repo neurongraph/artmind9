@@ -1,0 +1,208 @@
+[
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_001",
+    "name": "Diarist",
+    "properties": {
+      "current_state": "tired after a chaotic day at work",
+      "recurring_behaviours": [
+        "dropping children at school",
+        "evening walks with dog"
+      ]
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_002",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "daughter",
+      "current_state": "quiet, experiencing exam pressure, not eating well",
+      "personality_traits": [
+        "stressed"
+      ]
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_003",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "wife/partner",
+      "recurring_behaviours": [
+        "picking up children from school"
+      ]
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_004",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "recurring_behaviours": [
+        "fighting with friend Aryan"
+      ]
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_005",
+    "name": "Aryan",
+    "properties": {
+      "relationship_to_diarist": "son's friend",
+      "current_state": "in conflict with Mohan"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_per_006",
+    "name": "Browny",
+    "properties": {
+      "relationship_to_diarist": "pet dog",
+      "notable_characteristics": [
+        "improving leash behavior"
+      ]
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_plc_001",
+    "name": "School",
+    "properties": {
+      "place_type": "educational institution",
+      "who_associated_with": [
+        "Neetish",
+        "Diarist",
+        "Preeti"
+      ]
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_plc_002",
+    "name": "Office",
+    "properties": {
+      "place_type": "workplace",
+      "atmosphere": "chaotic",
+      "narrative_function": "site of technical project crisis"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_plc_003",
+    "name": "Swad",
+    "properties": {
+      "place_type": "restaurant",
+      "location": "Indore",
+      "atmosphere": "favorite"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_evt_001",
+    "name": "Technical Project Crisis",
+    "properties": {
+      "date_or_time": "April 20, 2026",
+      "outcome": "critical problems fixed",
+      "emotional_significance": "exhausting",
+      "cause": "technical issues with new project"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_evt_002",
+    "name": "Mohan and Aryan Conflict",
+    "properties": {
+      "participants": [
+        "Mohan",
+        "Aryan"
+      ],
+      "is_recurring": true,
+      "outcome": "ongoing tension"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_act_001",
+    "name": "Evening Walk",
+    "properties": {
+      "who_involved": [
+        "Diarist",
+        "Browny"
+      ],
+      "frequency": "daily routine",
+      "purpose": "exercise/pet care"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_act_002",
+    "name": "Academic Support",
+    "properties": {
+      "who_involved": [
+        "Diarist",
+        "Neetish"
+      ],
+      "purpose": "helping with project",
+      "outcome_or_result": "Neetish feels more relaxed"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_emo_001",
+    "name": "Exam Pressure",
+    "properties": {
+      "experienced_by": "Neetish",
+      "intensity": "moderate",
+      "duration": "lingering"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_emo_002",
+    "name": "Pride",
+    "properties": {
+      "experienced_by": "Diarist",
+      "trigger": "Browny's improved behavior on the leash",
+      "intensity": "mild"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_pla_001",
+    "name": "Talk with Neetish",
+    "properties": {
+      "timeframe": "tonight",
+      "motivation": "concern over her silence and exam pressure",
+      "status": "firm intention"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  },
+  {
+    "id": "49ead5f2a09142ddbc30ea938274ec9e_001_pla_002",
+    "name": "Talk with Mohan",
+    "properties": {
+      "timeframe": "vague future",
+      "motivation": "recurring fights with Aryan",
+      "status": "firm intention"
+    },
+    "chunk_id": "49ead5f2a09142ddbc30ea938274ec9e_001",
+    "doc_id": "49ead5f2a09142ddbc30ea938274ec9e"
+  }
+]

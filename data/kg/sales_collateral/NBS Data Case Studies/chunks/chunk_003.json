@@ -1,0 +1,3151 @@
+{
+  "embedding": [
+    0.060880166,
+    0.042971693,
+    -0.18614957,
+    -0.059680868,
+    0.05784071,
+    -0.06288966,
+    0.063862056,
+    0.028723396,
+    -0.018116178,
+    -0.07502284,
+    0.0025252514,
+    0.02161295,
+    0.10893595,
+    -0.002068935,
+    0.023188964,
+    -0.02220533,
+    -0.044087473,
+    -0.023836838,
+    -0.0032318083,
+    0.04553824,
+    -0.007890614,
+    -0.021537436,
+    -0.0018163993,
+    -0.040968314,
+    0.04060371,
+    0.03589623,
+    -0.0033079202,
+    -0.02296699,
+    -0.040276885,
+    -0.022461597,
+    0.06320671,
+    0.019709693,
+    -0.0016092132,
+    -0.031020965,
+    -0.040962067,
+    -0.03705347,
+    0.008669045,
+    -0.012737745,
+    0.03527698,
+    0.005903453,
+    0.039245214,
+    -0.01890777,
+    0.015738035,
+    -0.0608915,
+    0.03695677,
+    0.0275633,
+    0.036435477,
+    -0.0010473707,
+    0.102302164,
+    -0.06826399,
+    -0.040677495,
+    0.043250915,
+    0.026322816,
+    0.047596466,
+    0.062454276,
+    0.025489997,
+    -0.028123422,
+    0.04427437,
+    -0.01238806,
+    -0.08512504,
+    0.069532685,
+    0.030899283,
+    -0.011262686,
+    0.06265919,
+    0.055749904,
+    -0.03644574,
+    -0.0020836964,
+    0.046503082,
+    0.005393997,
+    -0.02320512,
+    0.055643626,
+    -0.0053628176,
+    0.016794354,
+    0.010859448,
+    -0.029208679,
+    -0.013945798,
+    -0.03921317,
+    -0.020557597,
+    -0.02174131,
+    0.04968309,
+    0.014252528,
+    -0.010222524,
+    0.0728191,
+    0.05542997,
+    0.014818197,
+    -0.034206644,
+    -0.0076246,
+    -0.041594863,
+    -0.032014057,
+    0.084612966,
+    0.030147055,
+    0.020229232,
+    0.011426849,
+    -0.0010830421,
+    -0.06225382,
+    0.0057808254,
+    0.03445042,
+    -0.031588357,
+    0.015876252,
+    -0.015055819,
+    -0.02306637,
+    -0.0013146115,
+    0.032290816,
+    0.020351544,
+    0.03386851,
+    0.049262866,
+    0.016481673,
+    0.026884964,
+    -0.033696514,
+    -0.001717792,
+    -0.010387643,
+    0.0068844818,
+    -0.027369702,
+    0.00027765814,
+    0.033757113,
+    0.0015477324,
+    0.020090843,
+    -0.0074095065,
+    -0.042567585,
+    0.03423005,
+    -0.006282445,
+    -0.055879597,
+    0.01386546,
+    -0.002330507,
+    0.010006963,
+    0.022019533,
+    -0.06533896,
+    -0.013054907,
+    0.021104319,
+    -0.024336653,
+    0.0030056918,
+    -0.009493577,
+    -0.017557435,
+    -0.0016580479,
+    0.049932558,
+    0.048502933,
+    -0.029084377,
+    -0.05934817,
+    0.0037149882,
+    0.01080381,
+    0.026974067,
+    0.021021534,
+    -0.0051467856,
+    0.002336603,
+    0.03056544,
+    -0.058175873,
+    0.01844243,
+    -0.011632888,
+    -0.023132544,
+    -0.005435349,
+    -0.0037618717,
+    0.015942799,
+    -0.02274093,
+    0.032047752,
+    0.03556362,
+    -0.05605594,
+    -0.024979042,
+    0.012296025,
+    0.03451416,
+    0.037268557,
+    0.008506414,
+    -0.0075039724,
+    -0.05078841,
+    0.05132343,
+    0.012448857,
+    -0.08401202,
+    -0.03247902,
+    0.0006927904,
+    0.06407869,
+    0.046116997,
+    -0.05227756,
+    0.0015125843,
+    0.004870746,
+    -0.024943598,
+    0.013083195,
+    0.015921406,
+    0.06763642,
+    -0.029902378,
+    0.062482182,
+    -0.046397902,
+    0.003302742,
+    -0.060115445,
+    0.0038077864,
+    0.005389584,
+    -0.040182356,
+    -0.00945343,
+    -0.0104384795,
+    -0.0052733026,
+    -0.03480395,
+    -0.02466772,
+    0.047756728,
+    0.010977135,
+    -0.061636988,
+    -0.0072032264,
+    -0.028919963,
+    -0.05941099,
+    0.051332753,
+    -0.020035354,
+    0.02641052,
+    -0.0675613,
+    -0.04093948,
+    -0.0021125395,
+    -0.0070184413,
+    0.05070331,
+    -0.050653856,
+    0.030911922,
+    -0.011463359,
+    0.055426713,
+    -0.03242771,
+    0.014924533,
+    0.012115922,
+    -0.0070509366,
+    0.014915565,
+    0.022770058,
+    0.0070275473,
+    0.00046138733,
+    0.009239791,
+    -0.03786095,
+    -0.027845833,
+    0.025400776,
+    0.02025619,
+    -0.010632239,
+    0.028219322,
+    0.0020623347,
+    0.030647166,
+    -0.01708159,
+    -0.0075383824,
+    -0.033440303,
+    -0.009320542,
+    -0.009136501,
+    -0.024682052,
+    -0.095110156,
+    0.05974279,
+    -0.03624312,
+    0.01198316,
+    0.018461742,
+    -0.0093866335,
+    0.038828027,
+    0.01064234,
+    0.06895624,
+    -0.008522331,
+    0.04632705,
+    -0.025052285,
+    -0.0051616095,
+    -0.01959984,
+    -0.016510775,
+    0.0061504217,
+    0.021342168,
+    0.038909785,
+    0.04713718,
+    0.009234679,
+    0.006616385,
+    0.05116468,
+    0.030939944,
+    0.010466565,
+    -0.059508923,
+    -0.014798333,
+    0.030551761,
+    0.024997056,
+    0.021801857,
+    -0.00092991383,
+    0.012389972,
+    0.05487066,
+    -0.03447492,
+    0.01774336,
+    -0.038047135,
+    -0.0745242,
+    -0.05603055,
+    -0.0012441429,
+    0.011867525,
+    0.029621612,
+    -0.0035468838,
+    -0.011997887,
+    0.052490663,
+    0.015033834,
+    0.019940637,
+    0.007869189,
+    0.0034186507,
+    -0.043440588,
+    0.03448155,
+    -0.01699438,
+    -0.08842022,
+    0.008534562,
+    0.03293035,
+    -0.019248167,
+    0.038894102,
+    0.019462472,
+    0.022658298,
+    0.027493196,
+    0.040804185,
+    0.027104735,
+    -0.018695455,
+    -0.013308137,
+    0.0003425686,
+    -0.03249226,
+    0.004866806,
+    0.04767382,
+    0.0067903814,
+    -4.0071915e-05,
+    -0.06911357,
+    0.024788033,
+    0.04988154,
+    0.06523843,
+    0.034264017,
+    -0.006078232,
+    -0.037712418,
+    -0.014328462,
+    0.00063716806,
+    -0.020052101,
+    -0.019049112,
+    0.005691434,
+    -0.07663518,
+    -0.057913963,
+    -0.013954246,
+    -0.011630175,
+    0.030439425,
+    0.034095977,
+    0.021077001,
+    0.03464224,
+    0.02245145,
+    -0.009448494,
+    -0.107324176,
+    -0.006774463,
+    -0.03906926,
+    -0.024136007,
+    0.06640754,
+    -0.036263656,
+    0.01685794,
+    -0.021591157,
+    0.015485549,
+    0.009088209,
+    0.023875205,
+    0.025940558,
+    -0.03785981,
+    -0.0099382475,
+    0.037071366,
+    -0.011102782,
+    -0.0121600535,
+    0.03367403,
+    0.07217691,
+    0.010290368,
+    0.011557265,
+    0.020532003,
+    -0.046328705,
+    0.02329092,
+    0.0029559783,
+    -0.040009435,
+    0.007942784,
+    0.03897643,
+    0.019421507,
+    0.038463093,
+    -0.02134169,
+    0.0067653297,
+    -0.02003753,
+    0.011498928,
+    0.029161308,
+    -0.0025564742,
+    0.050425023,
+    -0.014629513,
+    -0.02311961,
+    0.031646837,
+    0.03755701,
+    -0.014553063,
+    0.038850274,
+    -0.03201095,
+    0.033322718,
+    0.06788,
+    0.044285968,
+    0.0099674035,
+    0.016170299,
+    0.012480289,
+    -0.02389922,
+    -0.030241441,
+    0.018540042,
+    -0.026513247,
+    0.0005818518,
+    -0.07343622,
+    0.003009208,
+    0.00067492394,
+    0.07174821,
+    0.0529573,
+    -0.0095315995,
+    -0.0032267903,
+    0.025375323,
+    0.006175607,
+    -0.051009856,
+    0.020239271,
+    -0.03943518,
+    -0.013487597,
+    0.050030537,
+    0.0034437291,
+    -0.014660791,
+    -0.019733436,
+    0.0029087127,
+    -0.00019939468,
+    -0.07944007,
+    -0.0067706057,
+    0.041629504,
+    -0.010479197,
+    0.06429186,
+    -0.06281128,
+    -0.05814943,
+    0.04921669,
+    0.023798572,
+    -0.025139747,
+    -0.0042193495,
+    -0.036924176,
+    -0.03214356,
+    0.032382615,
+    0.014958826,
+    0.041071232,
+    0.03789265,
+    0.0028915505,
+    -0.030812884,
+    0.059451584,
+    0.03530217,
+    0.08743051,
+    -0.043665618,
+    0.008972519,
+    -0.030522453,
+    0.0002269165,
+    0.025061302,
+    0.020890143,
+    -0.005247382,
+    0.041183095,
+    0.041663505,
+    0.023804214,
+    0.018940846,
+    -0.00083715766,
+    -0.065722704,
+    0.017514307,
+    0.028105015,
+    0.028152915,
+    0.0044935434,
+    -0.025798894,
+    0.015256991,
+    0.025549576,
+    0.028856166,
+    -0.006835151,
+    0.023010675,
+    0.008058942,
+    -0.04860493,
+    -0.015295004,
+    -0.057387646,
+    -0.010062706,
+    0.07612559,
+    0.019815722,
+    -0.04350705,
+    -0.053857524,
+    0.060451593,
+    -0.0039329547,
+    0.01634541,
+    -0.007815301,
+    0.010574759,
+    0.07106916,
+    -0.06737652,
+    0.014056186,
+    0.006154401,
+    0.013907131,
+    0.018643165,
+    0.009984548,
+    0.021546965,
+    -0.044947505,
+    -0.006489636,
+    -0.0077157714,
+    -0.046593893,
+    0.00023819307,
+    -0.005521701,
+    0.042467408,
+    0.062861286,
+    -0.036791753,
+    -0.015589089,
+    0.012160448,
+    0.027423868,
+    -0.024758002,
+    -0.00794576,
+    -0.029688261,
+    0.009662624,
+    0.01933804,
+    0.05354702,
+    -0.015746867,
+    -0.04687184,
+    -0.027068254,
+    -0.02289127,
+    -0.020979969,
+    0.052659966,
+    0.019446952,
+    -0.06475103,
+    -0.0033681374,
+    0.013224394,
+    0.029758915,
+    -0.00079642795,
+    0.04133883,
+    0.011414116,
+    -0.04329264,
+    -0.016271356,
+    -0.035620343,
+    0.033942536,
+    0.028520746,
+    0.01678926,
+    0.011615262,
+    0.031262774,
+    -0.04555246,
+    0.008787182,
+    0.047243856,
+    0.024355846,
+    0.07295945,
+    -0.0696095,
+    -0.03677493,
+    -0.014905214,
+    0.00032947646,
+    0.004763792,
+    0.012160896,
+    0.018402731,
+    0.043112513,
+    -0.08970159,
+    0.028034242,
+    0.05317778,
+    -0.05499456,
+    -0.006490176,
+    -0.009596059,
+    -0.03849991,
+    0.0051477654,
+    0.009505738,
+    -0.05811679,
+    0.023274725,
+    0.0031171674,
+    -0.058744013,
+    0.09753615,
+    -0.013952015,
+    0.00038568777,
+    0.04296132,
+    -0.010257859,
+    -0.03901256,
+    -0.020871991,
+    0.008574578,
+    -0.024891954,
+    0.037912868,
+    0.043302286,
+    0.056096304,
+    0.0059601194,
+    0.02831725,
+    0.006749233,
+    -0.001817294,
+    0.010094895,
+    -0.050852563,
+    0.0067887907,
+    0.05072542,
+    0.027775843,
+    -0.04885062,
+    0.036562514,
+    -0.04781758,
+    0.004991284,
+    -0.06595528,
+    0.010835422,
+    -0.020709986,
+    0.0115807,
+    -0.023626734,
+    -0.047466222,
+    -0.027105514,
+    0.005150206,
+    0.0074906945,
+    0.061512515,
+    0.009533882,
+    -8.145623e-05,
+    -0.047856797,
+    -0.0035299733,
+    0.050115716,
+    -0.011459047,
+    0.016223889,
+    0.03264938,
+    -0.057776123,
+    -0.04700118,
+    -0.036934927,
+    0.019945288,
+    0.021453727,
+    0.0586786,
+    -0.00080911926,
+    -0.028166419,
+    -0.052916456,
+    0.021778854,
+    -0.008988304,
+    0.034362763,
+    0.061783545,
+    -0.025466876,
+    0.01227219,
+    -0.063964434,
+    -0.036188997,
+    0.018474182,
+    -0.032960348,
+    -0.032077663,
+    0.019113228,
+    0.048485976,
+    -0.06399917,
+    0.03031347,
+    0.00856457,
+    0.010084497,
+    -0.020311836,
+    -0.04190503,
+    -0.072830126,
+    -0.012172745,
+    0.02655758,
+    0.03299682,
+    -0.04055902,
+    0.014385621,
+    0.029867597,
+    -0.012255955,
+    -0.02029929,
+    -0.0022807403,
+    -0.037707977,
+    0.058778957,
+    -0.011615214,
+    -0.019313844,
+    -0.013892067,
+    0.0252119,
+    -0.01402749,
+    0.04580409,
+    -0.024823472,
+    0.014207582,
+    -0.029266449,
+    -0.022964854,
+    -0.049269922,
+    0.019306839,
+    -0.016954288,
+    0.0004988603,
+    -0.019327076,
+    -0.023479067,
+    -0.025249247,
+    -0.0007147302,
+    0.034487907,
+    -0.058847263,
+    0.002684049,
+    -0.05070712,
+    -0.0056326953,
+    -0.07919465,
+    0.013437844,
+    -0.017985038,
+    -0.023649726,
+    -0.0228882,
+    0.009108897,
+    0.053327154,
+    -0.022080801,
+    -0.027888652,
+    0.040057454,
+    0.0723337,
+    -0.045940064,
+    0.002333759,
+    0.023339305,
+    0.037685536,
+    -0.022787796,
+    0.063894965,
+    0.11240551,
+    0.0016976177,
+    -0.015770994,
+    -0.010337116,
+    -0.02738888,
+    0.02778618,
+    -0.05049803,
+    -0.061887857,
+    -0.03399138,
+    0.0014794907,
+    0.016600078,
+    0.005164255,
+    -0.011102276,
+    -0.0018097383,
+    0.03965835,
+    0.0025506476,
+    0.025392847,
+    -0.018120967,
+    -0.01794012,
+    0.011299651,
+    0.028905274,
+    0.01070076,
+    0.026591392,
+    -0.019478124,
+    0.03253951,
+    0.018525284,
+    0.009377671,
+    -0.032766208,
+    0.03588866,
+    -0.03818824,
+    -0.016894773,
+    0.035297684,
+    -0.048687965,
+    -0.017248716,
+    -0.044929706,
+    0.033931408,
+    -0.0076254983,
+    -0.011776252,
+    -0.047927253,
+    -0.08013556,
+    -0.034239937,
+    -0.03365343,
+    -0.02621645,
+    0.037405197,
+    0.054375235,
+    0.010158229,
+    -0.029274467,
+    -0.035285637,
+    0.041311167,
+    -0.0070094974,
+    -0.011372563,
+    0.008085711,
+    0.015380241,
+    0.020920182,
+    -0.0041494444,
+    -0.014459378,
+    -0.005637587,
+    -0.013254023,
+    -0.045197014,
+    -0.0538513,
+    0.018419685,
+    -0.043134358,
+    0.019871896,
+    -0.014055329,
+    0.039389003,
+    -0.029871134,
+    -0.024486896,
+    -0.02592629,
+    0.021347586,
+    0.013179076,
+    -0.009273733,
+    -0.059292886,
+    -0.026195982,
+    -0.024708308,
+    0.011911059,
+    -0.00021976004,
+    -0.10804306,
+    0.009665071,
+    -0.017343432,
+    -0.026441496,
+    0.0014369368,
+    -0.04391915,
+    0.06065253,
+    -0.013124834,
+    0.023613697,
+    -0.021862987,
+    -0.028610894,
+    -0.06356955,
+    -0.02866337,
+    -0.03803797,
+    0.015019451,
+    -0.038635995,
+    0.006657994,
+    -0.005798452,
+    -0.009767112,
+    -0.027117185,
+    0.066324905,
+    0.021214226,
+    -0.044617623,
+    0.029422544,
+    0.00045333157,
+    -0.057034627,
+    0.03004009,
+    -0.0019358651,
+    0.03398529,
+    0.0118587585,
+    0.07109698,
+    0.087351315,
+    0.032427404,
+    0.037789743,
+    -0.045975756,
+    0.02930368,
+    0.010573125,
+    -0.054171126,
+    -0.056082632,
+    -0.07427309,
+    -0.032528505
+  ],
+  "chunk_seq": 3,
+  "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+  "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+  "text": "# Case Study for a UK based Bank  \n1. Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity\n2. Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity\n3. Review technical data reconciliation processes for Payments Screening—identifying gaps &amp; immediate steps  \nCompute data lineage  \nMeasure data quality  \nReview data reconciliation  \nPromote capability build  \n- Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas\n- Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements  \n- Derived technical rules from data lineage metadata and worked with 7 Business SMEs to create 400+ DQ rules and SSDs for 205 CDEs\n- Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity &amp; Completeness)  \n- Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation\n- Working with NW to identify additional review area and next steps for P.S. based on findings  \n- Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview\n- Actively coaching BAU colleagues to ensure successful handover  \nThe picture is a detailed data flow or process mapping diagram titled \"Analysis And MI Reporting.\"  \nThe diagram illustrates how data is sourced, processed, and aggregated from multiple core systems into a final reporting stage.  \n**Input Data Sources (Left Side):**\nData originates from several initial systems: Payments, Unumis, SAP, Sirs, Chaps, and CIS. These streams flow into a central component labeled FCD.  \n**Processing and Core Systems (Center):**\nThe FCD then processes data through various intermediary systems, including BASE24, IFM, Portman, TSYS, and FCRM. These systems interact with specialized modules such as RFS Personal Loans, RFS Personal Loans MIS, and Chaps.  \n**Analytical and Specialized Feeds (Right Side):**\nData proceeds into four major analytical blocks:\n1.  **RFS Personal Loans:** Processes data leading to the RFS Data Set.\n2.  **SAS Analytics (AML TXM):** Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set.\n3.  **CAW HDS:** Processes data streams to produce the HDS Data Set.\n4.  **NetReveal:** Generates the NetReveal Data Set.  \n**Final Reporting:**\nThe various data sets (RFS Data Set, RCD Data Set, CHAPS Data Set, HDS Data Set, AML Data Set, and NetReveal Data Set) converge at the final reporting step, shown under the title \"Analysis And MI Reporting.\"  \nThe picture is a complex screenshot of a computer interface, likely a spreadsheet program (such as Microsoft Excel) overlaid with a presentation view.  \n**Upper Interface/Ribbon:**\nThe top section includes menu tabs such as File, Home, Insert, Page Layout, Formulas, Data, Review, and View. The active ribbon controls include AutoSave, Print, Calibri, 10, and various formatting tools. In the middle, there are buttons for \"Presenting,\" \"Give control,\" and \"Stop presenting.\"  \n**Presentation Elements:**\nThe right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar. Below the \"Stop presenting\" area, controls for \"Analysis,\" \"Details,\" \"Insights,\" \"Filter,\" and \"Sort\" are visible.  \n**The Spreadsheet (Data Table):**\nThe main body is a spreadsheet with multiple columns and rows containing data related to product and customer information.\nThe visible column headers include:\nProduct, Source, File/Name, Business, Critical, Role, Rule, Rule Type, Binding Name, Issue, Customer, firstname, and lastname.  \nRepeated data fields visible in the cells include:\nProduct (e.g., loan), Source (e.g., RRS), File/Name (e.g., customer), Business (e.g., customer), Critical (e.g., Critical), Role (e.g., loan), Rule (e.g., loan), Rule Type (e.g., Customer), Binding Name (e.g., Customer), and Issue (e.g., Name).  \nData entries visible in the rows include examples such as:\nA6: loan | RRS | customer | customer | Critical | loan | loan | Customer | Customer | Issue\nA7: loan | RRS | customer | customer | Critical | loan | loan | Customer | Customer | Issue  \n**Bottom Interface/Status Bar:**\nThe footer includes status indicators, navigation tools, and current details, showing \"Q,\" \"24°C,\" \"EN,\" and the date \"12/09/2023.\"  \nThe picture is a detailed screenshot of a data management or spreadsheet application interface.  \n**Top Section (Menu/Toolbar):**\nThe visible menus across the top include: **File**, **Home**, **Insert**, **Page Layout**, **Formulas**, **Data**, **Review**, **View**, **Automate**, **Help**, and a search bar.  \n**Main Table/Grid:**\nThe core of the image is a large data table with the following column headers:\n*   **Input Name**\n*   **Input Source/Table Name**\n*   **Input Fields**\n*   **Input Fields Description**\n*   **Data Type**\n*   **Are Nullable?**\n*   **Critical?**  \nThe table is populated with numerous rows of data, including technical alphanumeric inputs and metadata entries. Visible examples of inputs and descriptions include:\n*   **Input Name/Source:** `SUBMIT/ACTIVATE`, `SOURCE_DEPOSIT_DEP_DETAILS_SRI`, `SO_NEM_MTRCPD_NEM_PRD01_ESB_SRI`, `QLITE_QUANTUM_MTR_SRI`, `EDBH_CASSTRE_DEPOSIT_SRI`, `MISO_DEPOSIT_DETAILS_SRI`, etc.\n*   **Input Fields:** Codes like `INPUT_SOURCE_CODE`, `EP_ASPT_F_SCHREED_SRI`, and various abbreviations.\n*   **Data Type:** Values like `VARCHAR(10)` are repeatedly listed.\n*   **Checkboxes/Status:** Entries in the **Are Nullable?** column use **YES** and **NO** status, and the **Critical?** column also uses **YES** and **NO**.  \nThe overall image depicts an organized, structured technical dataset used for mapping or validating input data fields.  \nThe picture is a screenshot of an Excel spreadsheet. The spreadsheet contains data organized into multiple columns, detailing various parameters for a scorecard/credit card/loan product.  \n**Visible Headers and Column Labels (Row 1):**\n*   `Scorecard`\n*   `Product`\n*   `Data Source (SAP Library / System)`\n*   `Biller`\n*   `Fiscal Name`\n*   `Rule Description from SME / DQ`\n*   `Rule ID`\n*   `Rule Name`  \n**The data visible in the rows suggests the following patterns and words:**\n*   **Product:** Contains entries like `Biller` and `Credit card/loan`.\n*   **Data Source:** Contains `FCD` (repeated multiple times) and sometimes `Master`.\n*   **Biller:** Contains values like `Master` and `Customer/biller`.\n*   **Fiscal Name:** Contains various descriptive phrases like `Equal to a numeric string`, `Equal to a string`, `Greater than equal to 1 and less than or equal to 30`, `Equal to 2 decimal places`, and `Numeric`.\n*   **Rule Description from SME / DQ:** Contains descriptions like `Must be Populated`.\n*   **Rule ID and Rule Name:** These columns repeatedly show entries like `1`, `Must be Populated`, `Must be Populated`, and numbers such as `155`, `135`, `24`, and `600`.  \nThe spreadsheet is densely populated with technical data entries relating to system rules and product configurations, spanning rows from 1 through 39.  \nThe picture is a screenshot of a spreadsheet interface, likely Microsoft Excel, displaying a data table used for mapping and process documentation.  \n**Navigation and Interface Elements (Top):**",
+  "name": "Chunk 3/6",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "30d6940aa9474b3983591cb09643c5b6_002",
+  "next_chunk_id": "30d6940aa9474b3983591cb09643c5b6_004",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "UK based Bank",
+      "aliases": [
+        "UK Bank",
+        "Financial Institution",
+        "Client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "anonymous_client",
+      "description": "A financial institution operating in the United Kingdom that engaged the selling organisation for a data management and compliance transformation initiative. The bank serves as the primary beneficiary of the data lineage, quality assessment, and reconciliation services described in the case study.",
+      "context": [
+        "# Case Study for a UK based Bank",
+        "The picture is a detailed data flow or process mapping diagram titled \"Analysis And MI Reporting.\""
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "Data Lineage & Quality Assessment Programme",
+      "aliases": [
+        "Eco Crime Data Assessment",
+        "CDE Maturity Programme"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A structured engagement focused on computing data lineage, measuring data quality for Critical Data Elements (CDEs), and reviewing technical data reconciliation processes. The programme aims to establish baseline maturity, identify operational gaps, and define immediate remediation steps for the client's functional areas.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Data Lineage Computation",
+      "aliases": [
+        "CDE Lineage Mapping",
+        "Data Flow Analysis"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to map and compute the end-to-end flow of data across functional areas and systems to establish baseline maturity and support compliance reporting. This capability enables the derivation of technical rules from metadata and supports accurate data tracking.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Derived technical rules from data lineage metadata and worked with 7 Business SMEs to create 400+ DQ rules and SSDs for 205 CDEs"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Data Quality Measurement & Rule Derivation",
+      "aliases": [
+        "DQ Rule Creation",
+        "Conformity & Completeness Checks"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "analytics_capability",
+      "description": "The capability to measure data quality across Critical Data Elements, derive technical rules from metadata, and configure automated quality checks against conformity and completeness dimensions. This ensures data accuracy and supports downstream reporting and compliance needs.",
+      "context": [
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Technical Data Reconciliation Review",
+      "aliases": [
+        "Payments Screening Reconciliation",
+        "As-Is Process Assessment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The ability to assess existing technical data reconciliation processes, identify operational gaps, and define immediate remediation steps for specific business areas. This capability relies on SME interviews and maturity assessment reporting to guide next steps.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Anti-Money Laundering (AML) Transaction Processing",
+      "aliases": [
+        "AML TXM Analytics",
+        "AML Data Set Generation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "fraud_detection",
+      "description": "Application of data analytics and reporting systems to process and monitor transactions for compliance with AML regulations. The use case leverages dedicated analytics platforms to generate structured AML data sets for regulatory reporting and risk mitigation.",
+      "context": [
+        "SAS Analytics (AML TXM): Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set.",
+        "The various data sets... converge at the final reporting step, shown under the title \"Analysis And MI Reporting.\""
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Payments Screening & Reconciliation",
+      "aliases": [
+        "PS Screening",
+        "Payment Data Validation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "Use of data mapping and reconciliation processes to validate payment flows, identify technical gaps, and ensure accurate reporting for screening operations. This use case focuses on aligning business and technology data to support compliant payment processing.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Working with NW to identify additional review area and next steps for P.S. based on findings"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Baseline Maturity Establishment",
+      "aliases": [
+        "Data Maturity Baseline",
+        "CDE Maturity Assessment"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "operational_efficiency",
+      "description": "Establishing a clear understanding of current data maturity levels to guide future improvements and compliance efforts. This benefit provides the client with a structured starting point for data governance and system modernisation.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Gap Identification & Remediation Planning",
+      "aliases": [
+        "Technical Gap Discovery",
+        "Reconciliation Gap Mapping"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "Identifying technical and operational gaps in data reconciliation processes to define immediate next steps and mitigate compliance risks. This benefit enables the client to proactively address data quality issues before they impact reporting or regulatory standing.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Working with NW to identify additional review area and next steps for P.S. based on findings"
+      ]
+    },
+    {
+      "id": "ben_003",
+      "name": "Successful Operational Handover",
+      "aliases": [
+        "BAU Capability Transfer",
+        "Coaching & Handover"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Ensuring business-as-usual (BAU) teams are fully equipped and coached to maintain data processes post-engagement. This benefit reduces dependency on external consultants and sustains long-term data governance standards.",
+      "context": [
+        "Actively coaching BAU colleagues to ensure successful handover",
+        "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Data Quality & Lineage Gaps",
+      "aliases": [
+        "CDE Data Quality Issues",
+        "Missing Data Lineage"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "data_quality_issue",
+      "description": "Lack of clear data lineage and measurable quality standards for Critical Data Elements (CDEs) across functional areas, hindering accurate reporting and compliance. The client faced difficulties in tracking data flows and establishing baseline maturity without structured assessment.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Technical Reconciliation Inefficiencies",
+      "aliases": [
+        "PS Process Gaps",
+        "As-Is Reconciliation Issues"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Existing technical data reconciliation processes for Payments Screening contain unidentified gaps requiring immediate review and remediation. These inefficiencies risk data accuracy and complicate compliance reporting without structured assessment and SME validation.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "SAS Analytics (AML TXM)",
+      "aliases": [
+        "SAS Tool",
+        "AML TXM Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "analytics_platform",
+      "description": "A specialized analytics platform used to process Anti-Money Laundering transactions and generate dedicated AML data sets for reporting. The platform is configured to run automated quality checks against conformity and completeness dimensions.",
+      "context": [
+        "SAS Analytics (AML TXM): Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set.",
+        "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)"
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "Planview",
+      "aliases": [
+        "Planview System",
+        "Portfolio Management Tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A project and portfolio management system used to store and augment functional mapping data, CDEs, and interface documentation. The platform serves as a central repository for business and technology alignment artifacts.",
+      "context": [
+        "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview",
+        "The picture is a detailed screenshot of a data management or spreadsheet application interface."
+      ]
+    },
+    {
+      "id": "tech_003",
+      "name": "Microsoft Excel",
+      "aliases": [
+        "Excel Spreadsheet",
+        "XLS Mapping File"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "spreadsheet_application",
+      "description": "A widely used spreadsheet application utilized for displaying data tables, mapping parameters, and managing scorecard/credit card/loan product configurations. The tool supports dense technical data entries and rule validation workflows.",
+      "context": [
+        "The picture is a complex screenshot of a computer interface, likely a spreadsheet program (such as Microsoft Excel) overlaid with a presentation view.",
+        "The picture is a screenshot of an Excel spreadsheet. The spreadsheet contains data organized into multiple columns, detailing various parameters for a scorecard/credit card/loan product."
+      ]
+    },
+    {
+      "id": "tech_004",
+      "name": "SAP",
+      "aliases": [
+        "SAP Library",
+        "SAP System"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "A core enterprise resource planning system serving as an initial data source feeding into the central FCD component. SAP provides foundational data that is processed through intermediary systems for final reporting.",
+      "context": [
+        "Data originates from several initial systems: Payments, Unumis, SAP, Sirs, Chaps, and CIS.",
+        "Data Source (SAP Library / System)"
+      ]
+    },
+    {
+      "id": "tech_005",
+      "name": "NetReveal",
+      "aliases": [
+        "NetReveal Module",
+        "NetReveal Data Set Generator"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "analytics_platform",
+      "description": "A specialized data processing module that generates dedicated NetReveal data sets for final reporting aggregation. The system processes data streams to support analytical and compliance reporting requirements.",
+      "context": [
+        "NetReveal: Generates the NetReveal Data Set.",
+        "The various data sets (RFS Data Set, RCD Data Set, CHAPS Data Set, HDS Data Set, AML Data Set, and NetReveal Data Set) converge at the final reporting step"
+      ]
+    },
+    {
+      "id": "diff_001",
+      "name": "Extensive SME Consultation & Documentation Review",
+      "aliases": [
+        "150+ SME Engagement",
+        "78 System Documentation Review"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "Leveraging deep engagement with over 150 subject matter experts across business and technology, alongside comprehensive review of 78 systems, to ensure accurate mapping and rule derivation. This extensive stakeholder involvement ensures high-fidelity data lineage and quality rule creation.",
+      "context": [
+        "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+        "Derived technical rules from data lineage metadata and worked with 7 Business SMEs to create 400+ DQ rules and SSDs for 205 CDEs"
+      ]
+    },
+    {
+      "id": "diff_002",
+      "name": "Comprehensive Dataflow & Interface Mapping",
+      "aliases": [
+        "6 Dataflow Diagrams",
+        "108 Interface Contracts"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "Delivering detailed visualizations including 6 dataflow diagrams and 108 interface contracts to map the flow of 205 Critical Data Elements. This structured mapping approach provides the client with a clear, auditable view of data movement and system interactions.",
+      "context": [
+        "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+        "The picture is a detailed data flow or process mapping diagram titled \"Analysis And MI Reporting.\""
+      ]
+    },
+    {
+      "id": "per_001",
+      "name": "Akant Pawar",
+      "aliases": [
+        "A. Pawar",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely a project team member or client representative involved in the data management or analytics engagement.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ]
+    },
+    {
+      "id": "per_002",
+      "name": "Tom Wheatley",
+      "aliases": [
+        "T. Wheatley",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely involved in the data management, analytics, or delivery team supporting the UK-based bank.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ]
+    },
+    {
+      "id": "per_003",
+      "name": "Dylan Anderson",
+      "aliases": [
+        "D. Anderson",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely part of the delivery or client team overseeing the data reconciliation and quality assessment programme.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ]
+    },
+    {
+      "id": "per_004",
+      "name": "Nishantik Paiwar",
+      "aliases": [
+        "N. Paiwar",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely involved in the data management, analytics, or compliance project delivery.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ]
+    },
+    {
+      "id": "obj_001",
+      "name": "Data Flow Diagram",
+      "aliases": [
+        "Analysis And MI Reporting Diagram",
+        "Process Mapping Diagram"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical_system",
+      "description": "A detailed visual mapping diagram illustrating how data is sourced, processed, and aggregated from multiple core systems into final reporting stages. The diagram serves as a key deliverable for understanding system interactions and data movement.",
+      "context": [
+        "The picture is a detailed data flow or process mapping diagram titled \"Analysis And MI Reporting.\"",
+        "The diagram illustrates how data is sourced, processed, and aggregated from multiple core systems into a final reporting stage."
+      ]
+    },
+    {
+      "id": "obj_002",
+      "name": "Scorecard/Credit Card/Loan Product Spreadsheet",
+      "aliases": [
+        "Product Parameter Table",
+        "Rule Validation Spreadsheet"
+      ],
+      "entity_class": "OBJECT",
+      "type": "tool",
+      "description": "A structured data table used for mapping and validating parameters related to financial product configurations, rules, and data sources. The spreadsheet supports dense technical data entries and rule validation workflows for credit and loan products.",
+      "context": [
+        "The picture is a screenshot of an Excel spreadsheet. The spreadsheet contains data organized into multiple columns, detailing various parameters for a scorecard/credit card/loan product.",
+        "The spreadsheet is densely populated with technical data entries relating to system rules and product configurations, spanning rows from 1 through 39."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "NW",
+      "aliases": [
+        "NW Team",
+        "External Partner"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "An external entity or internal team referenced as collaborating on identifying additional review areas and next steps for Payments Screening based on assessment findings. NW works alongside the delivery team to refine reconciliation processes.",
+      "context": [
+        "Working with NW to identify additional review area and next steps for P.S. based on findings"
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "UK",
+      "aliases": [
+        "United Kingdom",
+        "UK Market"
+      ],
+      "entity_class": "LOCATION",
+      "type": "country",
+      "description": "The geographic market where the UK-based bank operates and where the data management engagement is delivered. The region serves as the operational context for the bank's compliance and data governance initiatives.",
+      "context": [
+        "# Case Study for a UK based Bank"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+    "off_001": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+    "cap_001": "30d6940aa9474b3983591cb09643c5b6_003_cap_001",
+    "cap_002": "30d6940aa9474b3983591cb09643c5b6_003_cap_002",
+    "cap_003": "30d6940aa9474b3983591cb09643c5b6_003_cap_003",
+    "use_001": "30d6940aa9474b3983591cb09643c5b6_003_use_001",
+    "use_002": "30d6940aa9474b3983591cb09643c5b6_003_use_002",
+    "ben_001": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+    "ben_002": "30d6940aa9474b3983591cb09643c5b6_003_ben_002",
+    "ben_003": "30d6940aa9474b3983591cb09643c5b6_003_ben_003",
+    "cha_001": "30d6940aa9474b3983591cb09643c5b6_003_cha_001",
+    "cha_002": "30d6940aa9474b3983591cb09643c5b6_003_cha_002",
+    "tech_001": "30d6940aa9474b3983591cb09643c5b6_003_tech_001",
+    "tech_002": "30d6940aa9474b3983591cb09643c5b6_003_tech_002",
+    "tech_003": "30d6940aa9474b3983591cb09643c5b6_003_tech_003",
+    "tech_004": "30d6940aa9474b3983591cb09643c5b6_003_tech_004",
+    "tech_005": "30d6940aa9474b3983591cb09643c5b6_003_tech_005",
+    "diff_001": "30d6940aa9474b3983591cb09643c5b6_003_diff_001",
+    "diff_002": "30d6940aa9474b3983591cb09643c5b6_003_diff_002",
+    "per_001": "30d6940aa9474b3983591cb09643c5b6_003_per_001",
+    "per_002": "30d6940aa9474b3983591cb09643c5b6_003_per_002",
+    "per_003": "30d6940aa9474b3983591cb09643c5b6_003_per_003",
+    "per_004": "30d6940aa9474b3983591cb09643c5b6_003_per_004",
+    "obj_001": "30d6940aa9474b3983591cb09643c5b6_003_obj_001",
+    "obj_002": "30d6940aa9474b3983591cb09643c5b6_003_obj_002",
+    "org_001": "30d6940aa9474b3983591cb09643c5b6_003_org_001",
+    "loc_001": "30d6940aa9474b3983591cb09643c5b6_003_loc_001"
+  },
+  "entities": [
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "name": "UK based Bank",
+      "aliases": [
+        "UK Bank",
+        "Financial Institution",
+        "Client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "anonymous_client",
+      "description": "A financial institution operating in the United Kingdom that engaged the selling organisation for a data management and compliance transformation initiative. The bank serves as the primary beneficiary of the data lineage, quality assessment, and reconciliation services described in the case study.",
+      "context": [
+        "# Case Study for a UK based Bank",
+        "The picture is a detailed data flow or process mapping diagram titled \"Analysis And MI Reporting.\""
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "name": "Data Lineage & Quality Assessment Programme",
+      "aliases": [
+        "Eco Crime Data Assessment",
+        "CDE Maturity Programme"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A structured engagement focused on computing data lineage, measuring data quality for Critical Data Elements (CDEs), and reviewing technical data reconciliation processes. The programme aims to establish baseline maturity, identify operational gaps, and define immediate remediation steps for the client's functional areas.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cap_001",
+      "name": "Data Lineage Computation",
+      "aliases": [
+        "CDE Lineage Mapping",
+        "Data Flow Analysis"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to map and compute the end-to-end flow of data across functional areas and systems to establish baseline maturity and support compliance reporting. This capability enables the derivation of technical rules from metadata and supports accurate data tracking.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Derived technical rules from data lineage metadata and worked with 7 Business SMEs to create 400+ DQ rules and SSDs for 205 CDEs"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cap_002",
+      "name": "Data Quality Measurement & Rule Derivation",
+      "aliases": [
+        "DQ Rule Creation",
+        "Conformity & Completeness Checks"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "analytics_capability",
+      "description": "The capability to measure data quality across Critical Data Elements, derive technical rules from metadata, and configure automated quality checks against conformity and completeness dimensions. This ensures data accuracy and supports downstream reporting and compliance needs.",
+      "context": [
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cap_003",
+      "name": "Technical Data Reconciliation Review",
+      "aliases": [
+        "Payments Screening Reconciliation",
+        "As-Is Process Assessment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The ability to assess existing technical data reconciliation processes, identify operational gaps, and define immediate remediation steps for specific business areas. This capability relies on SME interviews and maturity assessment reporting to guide next steps.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_use_001",
+      "name": "Anti-Money Laundering (AML) Transaction Processing",
+      "aliases": [
+        "AML TXM Analytics",
+        "AML Data Set Generation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "fraud_detection",
+      "description": "Application of data analytics and reporting systems to process and monitor transactions for compliance with AML regulations. The use case leverages dedicated analytics platforms to generate structured AML data sets for regulatory reporting and risk mitigation.",
+      "context": [
+        "SAS Analytics (AML TXM): Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set.",
+        "The various data sets... converge at the final reporting step, shown under the title \"Analysis And MI Reporting.\""
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_use_002",
+      "name": "Payments Screening & Reconciliation",
+      "aliases": [
+        "PS Screening",
+        "Payment Data Validation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "Use of data mapping and reconciliation processes to validate payment flows, identify technical gaps, and ensure accurate reporting for screening operations. This use case focuses on aligning business and technology data to support compliant payment processing.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Working with NW to identify additional review area and next steps for P.S. based on findings"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+      "name": "Baseline Maturity Establishment",
+      "aliases": [
+        "Data Maturity Baseline",
+        "CDE Maturity Assessment"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "operational_efficiency",
+      "description": "Establishing a clear understanding of current data maturity levels to guide future improvements and compliance efforts. This benefit provides the client with a structured starting point for data governance and system modernisation.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_ben_002",
+      "name": "Gap Identification & Remediation Planning",
+      "aliases": [
+        "Technical Gap Discovery",
+        "Reconciliation Gap Mapping"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "Identifying technical and operational gaps in data reconciliation processes to define immediate next steps and mitigate compliance risks. This benefit enables the client to proactively address data quality issues before they impact reporting or regulatory standing.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Working with NW to identify additional review area and next steps for P.S. based on findings"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_ben_003",
+      "name": "Successful Operational Handover",
+      "aliases": [
+        "BAU Capability Transfer",
+        "Coaching & Handover"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Ensuring business-as-usual (BAU) teams are fully equipped and coached to maintain data processes post-engagement. This benefit reduces dependency on external consultants and sustains long-term data governance standards.",
+      "context": [
+        "Actively coaching BAU colleagues to ensure successful handover",
+        "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cha_001",
+      "name": "Data Quality & Lineage Gaps",
+      "aliases": [
+        "CDE Data Quality Issues",
+        "Missing Data Lineage"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "data_quality_issue",
+      "description": "Lack of clear data lineage and measurable quality standards for Critical Data Elements (CDEs) across functional areas, hindering accurate reporting and compliance. The client faced difficulties in tracking data flows and establishing baseline maturity without structured assessment.",
+      "context": [
+        "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+        "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cha_002",
+      "name": "Technical Reconciliation Inefficiencies",
+      "aliases": [
+        "PS Process Gaps",
+        "As-Is Reconciliation Issues"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Existing technical data reconciliation processes for Payments Screening contain unidentified gaps requiring immediate review and remediation. These inefficiencies risk data accuracy and complicate compliance reporting without structured assessment and SME validation.",
+      "context": [
+        "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+        "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_001",
+      "name": "SAS Analytics (AML TXM)",
+      "aliases": [
+        "SAS Tool",
+        "AML TXM Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "analytics_platform",
+      "description": "A specialized analytics platform used to process Anti-Money Laundering transactions and generate dedicated AML data sets for reporting. The platform is configured to run automated quality checks against conformity and completeness dimensions.",
+      "context": [
+        "SAS Analytics (AML TXM): Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set.",
+        "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_002",
+      "name": "Planview",
+      "aliases": [
+        "Planview System",
+        "Portfolio Management Tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A project and portfolio management system used to store and augment functional mapping data, CDEs, and interface documentation. The platform serves as a central repository for business and technology alignment artifacts.",
+      "context": [
+        "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview",
+        "The picture is a detailed screenshot of a data management or spreadsheet application interface."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_003",
+      "name": "Microsoft Excel",
+      "aliases": [
+        "Excel Spreadsheet",
+        "XLS Mapping File"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "spreadsheet_application",
+      "description": "A widely used spreadsheet application utilized for displaying data tables, mapping parameters, and managing scorecard/credit card/loan product configurations. The tool supports dense technical data entries and rule validation workflows.",
+      "context": [
+        "The picture is a complex screenshot of a computer interface, likely a spreadsheet program (such as Microsoft Excel) overlaid with a presentation view.",
+        "The picture is a screenshot of an Excel spreadsheet. The spreadsheet contains data organized into multiple columns, detailing various parameters for a scorecard/credit card/loan product."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_004",
+      "name": "SAP",
+      "aliases": [
+        "SAP Library",
+        "SAP System"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "A core enterprise resource planning system serving as an initial data source feeding into the central FCD component. SAP provides foundational data that is processed through intermediary systems for final reporting.",
+      "context": [
+        "Data originates from several initial systems: Payments, Unumis, SAP, Sirs, Chaps, and CIS.",
+        "Data Source (SAP Library / System)"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_005",
+      "name": "NetReveal",
+      "aliases": [
+        "NetReveal Module",
+        "NetReveal Data Set Generator"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "analytics_platform",
+      "description": "A specialized data processing module that generates dedicated NetReveal data sets for final reporting aggregation. The system processes data streams to support analytical and compliance reporting requirements.",
+      "context": [
+        "NetReveal: Generates the NetReveal Data Set.",
+        "The various data sets (RFS Data Set, RCD Data Set, CHAPS Data Set, HDS Data Set, AML Data Set, and NetReveal Data Set) converge at the final reporting step"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_diff_001",
+      "name": "Extensive SME Consultation & Documentation Review",
+      "aliases": [
+        "150+ SME Engagement",
+        "78 System Documentation Review"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "Leveraging deep engagement with over 150 subject matter experts across business and technology, alongside comprehensive review of 78 systems, to ensure accurate mapping and rule derivation. This extensive stakeholder involvement ensures high-fidelity data lineage and quality rule creation.",
+      "context": [
+        "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+        "Derived technical rules from data lineage metadata and worked with 7 Business SMEs to create 400+ DQ rules and SSDs for 205 CDEs"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_diff_002",
+      "name": "Comprehensive Dataflow & Interface Mapping",
+      "aliases": [
+        "6 Dataflow Diagrams",
+        "108 Interface Contracts"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "Delivering detailed visualizations including 6 dataflow diagrams and 108 interface contracts to map the flow of 205 Critical Data Elements. This structured mapping approach provides the client with a clear, auditable view of data movement and system interactions.",
+      "context": [
+        "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+        "The picture is a detailed data flow or process mapping diagram titled \"Analysis And MI Reporting.\""
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_001",
+      "name": "Akant Pawar",
+      "aliases": [
+        "A. Pawar",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely a project team member or client representative involved in the data management or analytics engagement.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_002",
+      "name": "Tom Wheatley",
+      "aliases": [
+        "T. Wheatley",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely involved in the data management, analytics, or delivery team supporting the UK-based bank.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_003",
+      "name": "Dylan Anderson",
+      "aliases": [
+        "D. Anderson",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely part of the delivery or client team overseeing the data reconciliation and quality assessment programme.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_004",
+      "name": "Nishantik Paiwar",
+      "aliases": [
+        "N. Paiwar",
+        "Project Stakeholder"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A professional individual referenced in the presentation interface, likely involved in the data management, analytics, or compliance project delivery.",
+      "context": [
+        "The right side shows several professional individuals: akant Pawar, Tom Wheatley, Dylan Anderson, and Nishantik Paiwar."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_obj_001",
+      "name": "Data Flow Diagram",
+      "aliases": [
+        "Analysis And MI Reporting Diagram",
+        "Process Mapping Diagram"
+      ],
+      "entity_class": "OBJECT",
+      "type": "physical_system",
+      "description": "A detailed visual mapping diagram illustrating how data is sourced, processed, and aggregated from multiple core systems into final reporting stages. The diagram serves as a key deliverable for understanding system interactions and data movement.",
+      "context": [
+        "The picture is a detailed data flow or process mapping diagram titled \"Analysis And MI Reporting.\"",
+        "The diagram illustrates how data is sourced, processed, and aggregated from multiple core systems into a final reporting stage."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_obj_002",
+      "name": "Scorecard/Credit Card/Loan Product Spreadsheet",
+      "aliases": [
+        "Product Parameter Table",
+        "Rule Validation Spreadsheet"
+      ],
+      "entity_class": "OBJECT",
+      "type": "tool",
+      "description": "A structured data table used for mapping and validating parameters related to financial product configurations, rules, and data sources. The spreadsheet supports dense technical data entries and rule validation workflows for credit and loan products.",
+      "context": [
+        "The picture is a screenshot of an Excel spreadsheet. The spreadsheet contains data organized into multiple columns, detailing various parameters for a scorecard/credit card/loan product.",
+        "The spreadsheet is densely populated with technical data entries relating to system rules and product configurations, spanning rows from 1 through 39."
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_org_001",
+      "name": "NW",
+      "aliases": [
+        "NW Team",
+        "External Partner"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "An external entity or internal team referenced as collaborating on identifying additional review areas and next steps for Payments Screening based on assessment findings. NW works alongside the delivery team to refine reconciliation processes.",
+      "context": [
+        "Working with NW to identify additional review area and next steps for P.S. based on findings"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_loc_001",
+      "name": "UK",
+      "aliases": [
+        "United Kingdom",
+        "UK Market"
+      ],
+      "entity_class": "LOCATION",
+      "type": "country",
+      "description": "The geographic market where the UK-based bank operates and where the data management engagement is delivered. The region serves as the operational context for the bank's compliance and data governance initiatives.",
+      "context": [
+        "# Case Study for a UK based Bank"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "name": "UK based Bank",
+      "properties": {
+        "industry": [
+          "banking"
+        ],
+        "geography": [
+          "UK"
+        ],
+        "size": [
+          "enterprise"
+        ],
+        "relationship_status": [
+          "active"
+        ],
+        "named_or_anonymous": [
+          false
+        ],
+        "pain_points": [
+          "Data Quality & Lineage Gaps",
+          "Technical Reconciliation Inefficiencies"
+        ],
+        "engagement_type": [
+          "Data Lineage & Quality Assessment Programme"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "name": "Data Lineage & Quality Assessment Programme",
+      "properties": {
+        "offering_type": [
+          "programme"
+        ],
+        "scope": [
+          "Compute data lineage for CDEs",
+          "Measure data quality for CDEs",
+          "Review technical data reconciliation processes for Payments Screening"
+        ],
+        "target_client_profile": [
+          "UK based Bank"
+        ],
+        "key_phases_or_components": [
+          "Baseline Maturity Establishment",
+          "Gap Identification & Remediation Planning",
+          "Successful Operational Handover"
+        ],
+        "named_assets_or_accelerators": [
+          "Data Flow Diagram",
+          "Scorecard/Credit Card/Loan Product Spreadsheet",
+          "XLS mapping file",
+          "Maturity assessment report"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cap_001",
+      "name": "Data Lineage Computation",
+      "properties": {
+        "what_it_does": [
+          "Compute data lineage for CDEs across in scope functional areas"
+        ],
+        "technical_components": [
+          "Dataflow diagrams",
+          "Interface contracts",
+          "Data lineage metadata"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Extensive SME Consultation & Documentation Review"
+        ],
+        "industry_applicability": [
+          "banking",
+          "payments",
+          "anti-money laundering"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cap_002",
+      "name": "Data Quality Measurement & Rule Derivation",
+      "properties": {
+        "what_it_does": [
+          "Measure data quality for CDEs and derive technical rules"
+        ],
+        "technical_components": [
+          "DQ rules",
+          "SSDs",
+          "SAS Tool",
+          "2 DQ dimensions (Conformity & Completeness)"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Worked with 7 Business SMEs to create 400+ DQ rules"
+        ],
+        "industry_applicability": [
+          "banking",
+          "payments"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cap_003",
+      "name": "Technical Data Reconciliation Review",
+      "properties": {
+        "what_it_does": [
+          "Review technical data reconciliation processes for Payments Screening"
+        ],
+        "technical_components": [
+          "Maturity assessment report",
+          "As-is technical data reconciliation"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Identifying gaps & immediate steps"
+        ],
+        "industry_applicability": [
+          "payments",
+          "banking"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_use_001",
+      "name": "Anti-Money Laundering (AML) Transaction Processing",
+      "properties": {
+        "problem_context": [
+          "Handling Anti-Money Laundering (AML) transactions"
+        ],
+        "approach": [
+          "SAS Analytics (AML TXM) handles transactions, generating the AML Data Set"
+        ],
+        "industry": [
+          "banking"
+        ],
+        "outcome_achieved": [
+          "Generating the AML Data Set"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_use_002",
+      "name": "Payments Screening & Reconciliation",
+      "properties": {
+        "problem_context": [
+          "Review technical data reconciliation processes for Payments Screening"
+        ],
+        "approach": [
+          "Interviewed c. 20 SMEs to produce 1 maturity assessment report on as-is technical data reconciliation"
+        ],
+        "industry": [
+          "payments"
+        ],
+        "outcome_achieved": [
+          "Identifying gaps & immediate steps"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+      "name": "Baseline Maturity Establishment",
+      "properties": {
+        "quantified_value": [
+          "establishing baseline maturity"
+        ],
+        "beneficiary": [
+          "client"
+        ],
+        "category": [
+          "quality"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_ben_002",
+      "name": "Gap Identification & Remediation Planning",
+      "properties": {
+        "quantified_value": [
+          "identifying gaps & immediate steps"
+        ],
+        "beneficiary": [
+          "client"
+        ],
+        "category": [
+          "risk"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_ben_003",
+      "name": "Successful Operational Handover",
+      "properties": {
+        "quantified_value": [
+          "successful handover"
+        ],
+        "beneficiary": [
+          "client"
+        ],
+        "category": [
+          "quality"
+        ],
+        "evidence_type": [
+          "claimed"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cha_001",
+      "name": "Data Quality & Lineage Gaps",
+      "properties": {
+        "root_cause": [
+          "Fragmented data sources and lack of visibility across 78 systems"
+        ],
+        "business_impact": [
+          "Inability to establish baseline maturity for CDEs"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "UK based Bank"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_cha_002",
+      "name": "Technical Reconciliation Inefficiencies",
+      "properties": {
+        "root_cause": [
+          "Lack of mature technical data reconciliation processes"
+        ],
+        "business_impact": [
+          "Operational risks in Payments Screening"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "UK based Bank"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_001",
+      "name": "SAS Analytics (AML TXM)",
+      "properties": {
+        "vendor": [
+          "SAS"
+        ],
+        "technology_category": [
+          "analytics",
+          "aml"
+        ],
+        "role_in_solution": [
+          "core"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_002",
+      "name": "Planview",
+      "properties": {
+        "vendor": [
+          "Planview"
+        ],
+        "technology_category": [
+          "project/portfolio management"
+        ],
+        "role_in_solution": [
+          "supporting"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "Used to augment information with XLS mapping file of functional areas, CDEs, interfaces, and SMEs"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_003",
+      "name": "Microsoft Excel",
+      "properties": {
+        "vendor": [
+          "Microsoft"
+        ],
+        "technology_category": [
+          "spreadsheet",
+          "data mapping"
+        ],
+        "role_in_solution": [
+          "supporting"
+        ],
+        "maturity": [
+          "legacy"
+        ],
+        "key_characteristics": [
+          "Used for scorecard/credit card/loan product data, rule mapping, and technical dataset validation"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_004",
+      "name": "SAP",
+      "properties": {
+        "vendor": [
+          "SAP"
+        ],
+        "technology_category": [
+          "erp",
+          "core system"
+        ],
+        "role_in_solution": [
+          "core"
+        ],
+        "maturity": [
+          "legacy"
+        ],
+        "key_characteristics": [
+          "Input data source for payments and product data"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_tech_005",
+      "name": "NetReveal",
+      "properties": {
+        "vendor": [
+          "NetReveal"
+        ],
+        "technology_category": [
+          "analytics",
+          "data processing"
+        ],
+        "role_in_solution": [
+          "core"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "Generates the NetReveal Data Set from data streams"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_diff_001",
+      "name": "Extensive SME Consultation & Documentation Review",
+      "properties": {
+        "competitive_advantage": [
+          "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems"
+        ],
+        "evidence_or_proof_point": [
+          "Created 6 dataflow diagrams and 108 interface contracts"
+        ],
+        "uniqueness": [
+          "scale-based"
+        ],
+        "target_audience": [
+          "banking clients requiring deep data lineage and quality assessment"
+        ],
+        "relates_to_offering": [
+          "Data Lineage & Quality Assessment Programme"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_diff_002",
+      "name": "Comprehensive Dataflow & Interface Mapping",
+      "properties": {
+        "competitive_advantage": [
+          "Visualised flow of 205 Critical Data Elements across 6 in scope areas"
+        ],
+        "evidence_or_proof_point": [
+          "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs"
+        ],
+        "uniqueness": [
+          "proprietary"
+        ],
+        "target_audience": [
+          "banking and payments teams"
+        ],
+        "relates_to_offering": [
+          "Data Lineage & Quality Assessment Programme"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_001",
+      "name": "Akant Pawar",
+      "properties": {
+        "role_title": [
+          "Professional/Consultant"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_002",
+      "name": "Tom Wheatley",
+      "properties": {
+        "role_title": [
+          "Professional/Consultant"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_003",
+      "name": "Dylan Anderson",
+      "properties": {
+        "role_title": [
+          "Professional/Consultant"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_per_004",
+      "name": "Nishantik Paiwar",
+      "properties": {
+        "role_title": [
+          "Professional/Consultant"
+        ],
+        "influence_level": [
+          "influencer"
+        ],
+        "relationship_to_deal": [
+          "evaluator"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_obj_001",
+      "name": "Data Flow Diagram",
+      "properties": {
+        "product_category": [
+          "process mapping",
+          "data visualization"
+        ],
+        "key_features": [
+          "Visualises flow of 205 Critical Data Elements",
+          "Shows data sourcing, processing, and aggregation"
+        ],
+        "compatibility": [
+          "SAS Analytics",
+          "SAP",
+          "NetReveal",
+          "Planview"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_obj_002",
+      "name": "Scorecard/Credit Card/Loan Product Spreadsheet",
+      "properties": {
+        "product_category": [
+          "data mapping",
+          "rule documentation"
+        ],
+        "key_features": [
+          "Details parameters for scorecard/credit card/loan product",
+          "Contains rule descriptions, IDs, and fiscal names"
+        ],
+        "compatibility": [
+          "Microsoft Excel",
+          "SAP Library"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_org_001",
+      "name": "NW",
+      "properties": {
+        "org_type": [
+          "partner"
+        ],
+        "relationship_to_offering": [
+          "complements"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_003_loc_001",
+      "name": "UK",
+      "properties": {
+        "market_type": [
+          "geographic"
+        ],
+        "strategic_importance": [
+          "core"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_001",
+      "target_name": "Data Lineage Computation",
+      "rel_type": "comprises",
+      "description": "The offering includes the capability to compute data lineage for critical data elements across functional areas.",
+      "properties": {
+        "component_type": "capability",
+        "scope": "in_scope_functional_areas"
+      },
+      "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_002",
+      "target_name": "Data Quality Measurement & Rule Derivation",
+      "rel_type": "comprises",
+      "description": "The offering includes the capability to measure data quality and derive technical rules for critical data elements.",
+      "properties": {
+        "component_type": "capability",
+        "scope": "in_scope_functional_areas"
+      },
+      "context": "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_003",
+      "target_name": "Technical Data Reconciliation Review",
+      "rel_type": "comprises",
+      "description": "The offering includes the capability to review technical data reconciliation processes for payments screening.",
+      "properties": {
+        "component_type": "capability",
+        "scope": "payments_screening"
+      },
+      "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_use_001",
+      "target_name": "Anti-Money Laundering (AML) Transaction Processing",
+      "rel_type": "addresses",
+      "description": "The offering addresses AML transaction processing by computing lineage and measuring quality for relevant data sets.",
+      "properties": {
+        "use_case_domain": "compliance",
+        "data_flow": "AML_TXM"
+      },
+      "context": "SAS Analytics (AML TXM): Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_use_002",
+      "target_name": "Payments Screening & Reconciliation",
+      "rel_type": "addresses",
+      "description": "The offering addresses payments screening and reconciliation by reviewing technical data processes and identifying gaps.",
+      "properties": {
+        "use_case_domain": "payments",
+        "focus": "technical_reconciliation"
+      },
+      "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cha_001",
+      "target_name": "Data Quality & Lineage Gaps",
+      "rel_type": "solves",
+      "description": "The offering solves data quality and lineage gaps by establishing baseline maturity through computation and measurement.",
+      "properties": {
+        "approach": "automated_assessment",
+        "completeness": "full"
+      },
+      "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cha_002",
+      "target_name": "Technical Reconciliation Inefficiencies",
+      "rel_type": "solves",
+      "description": "The offering solves technical reconciliation inefficiencies by reviewing processes and identifying immediate remediation steps.",
+      "properties": {
+        "approach": "process_review",
+        "completeness": "partial"
+      },
+      "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+      "target_name": "Baseline Maturity Establishment",
+      "rel_type": "has_delivered",
+      "description": "The offering has delivered baseline maturity establishment through data lineage computation and data quality measurement.",
+      "properties": {
+        "metric": "baseline_maturity",
+        "value": "established",
+        "timeframe": "project_phase"
+      },
+      "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_002",
+      "target_name": "Gap Identification & Remediation Planning",
+      "rel_type": "has_delivered",
+      "description": "The offering has delivered gap identification and remediation planning by reviewing technical reconciliation processes.",
+      "properties": {
+        "metric": "gap_identification",
+        "value": "identified",
+        "timeframe": "project_phase"
+      },
+      "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_003",
+      "target_name": "Successful Operational Handover",
+      "rel_type": "promises",
+      "description": "The offering promises successful operational handover through active coaching of BAU colleagues.",
+      "properties": {
+        "metric": "operational_handover",
+        "value": "ensured",
+        "timeframe": "post_project"
+      },
+      "context": "Actively coaching BAU colleagues to ensure successful handover",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cha_001",
+      "target_name": "Data Quality & Lineage Gaps",
+      "rel_type": "faces",
+      "description": "The client faces data quality and lineage gaps that require baseline maturity establishment.",
+      "properties": {
+        "impact_level": "high",
+        "domain": "data_governance"
+      },
+      "context": "Case Study for a UK based Bank",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cha_002",
+      "target_name": "Technical Reconciliation Inefficiencies",
+      "rel_type": "faces",
+      "description": "The client faces technical reconciliation inefficiencies in payments screening processes.",
+      "properties": {
+        "impact_level": "high",
+        "domain": "payments_operations"
+      },
+      "context": "Case Study for a UK based Bank",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "target_name": "Data Lineage & Quality Assessment Programme",
+      "rel_type": "engaged_with",
+      "description": "The client engaged with the offering to address data quality, lineage, and reconciliation challenges.",
+      "properties": {
+        "engagement_type": "case_study",
+        "status": "active"
+      },
+      "context": "Case Study for a UK based Bank",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+      "target_name": "Baseline Maturity Establishment",
+      "rel_type": "achieved",
+      "description": "The client achieved baseline maturity establishment through the offering's data lineage and quality capabilities.",
+      "properties": {
+        "metric": "baseline_maturity",
+        "value": "established",
+        "timeframe": "project_phase"
+      },
+      "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_002",
+      "target_name": "Gap Identification & Remediation Planning",
+      "rel_type": "achieved",
+      "description": "The client achieved gap identification and remediation planning by reviewing technical reconciliation processes.",
+      "properties": {
+        "metric": "gap_identification",
+        "value": "identified",
+        "timeframe": "project_phase"
+      },
+      "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_003",
+      "target_name": "Successful Operational Handover",
+      "rel_type": "achieved",
+      "description": "The client achieved successful operational handover through active coaching and process documentation.",
+      "properties": {
+        "metric": "operational_handover",
+        "value": "ensured",
+        "timeframe": "post_project"
+      },
+      "context": "Actively coaching BAU colleagues to ensure successful handover",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_001",
+      "target_name": "SAS Analytics (AML TXM)",
+      "rel_type": "uses",
+      "description": "The offering uses SAS Analytics to configure quality checks against data quality dimensions.",
+      "properties": {
+        "deployment_model": "configured",
+        "version": "current"
+      },
+      "context": "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_002",
+      "target_name": "Planview",
+      "rel_type": "uses",
+      "description": "The offering uses Planview as a repository to augment information with comprehensive mapping files.",
+      "properties": {
+        "deployment_model": "integrated",
+        "version": "current"
+      },
+      "context": "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_003",
+      "target_name": "Microsoft Excel",
+      "rel_type": "uses",
+      "description": "The offering uses Microsoft Excel to display and manage structured technical datasets and spreadsheets.",
+      "properties": {
+        "deployment_model": "software",
+        "version": "current"
+      },
+      "context": "The picture is a screenshot of an Excel spreadsheet. The spreadsheet contains data organized into multiple columns",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_004",
+      "target_name": "SAP",
+      "rel_type": "uses",
+      "description": "The offering uses SAP as an initial data source for payments and other functional streams.",
+      "properties": {
+        "deployment_model": "integrated",
+        "version": "current"
+      },
+      "context": "Data originates from several initial systems: Payments, Unumis, SAP, Sirs, Chaps, and CIS.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_005",
+      "target_name": "NetReveal",
+      "rel_type": "uses",
+      "description": "The offering uses NetReveal to generate specialized data sets for analytical feeds.",
+      "properties": {
+        "deployment_model": "integrated",
+        "version": "current"
+      },
+      "context": "NetReveal: Generates the NetReveal Data Set.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_diff_001",
+      "target_name": "Extensive SME Consultation & Documentation Review",
+      "rel_type": "distinguished_by",
+      "description": "The offering is distinguished by extensive consultation with over 150 SMEs and review of documentation across 78 systems.",
+      "properties": {
+        "basis": "consultation_and_mapping",
+        "depth": "extensive"
+      },
+      "context": "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_diff_002",
+      "target_name": "Comprehensive Dataflow & Interface Mapping",
+      "rel_type": "distinguished_by",
+      "description": "The offering is distinguished by comprehensive dataflow and interface mapping, creating 6 diagrams and 108 contracts.",
+      "properties": {
+        "basis": "consultation_and_mapping",
+        "depth": "comprehensive"
+      },
+      "context": "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_001",
+      "source_name": "Data Lineage Computation",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+      "target_name": "Baseline Maturity Establishment",
+      "rel_type": "delivers",
+      "description": "The capability delivers baseline maturity establishment by computing data lineage for critical data elements.",
+      "properties": {
+        "outcome": "baseline_maturity",
+        "timeframe": "project_phase"
+      },
+      "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_002",
+      "source_name": "Data Quality Measurement & Rule Derivation",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+      "target_name": "Baseline Maturity Establishment",
+      "rel_type": "delivers",
+      "description": "The capability delivers baseline maturity establishment by measuring data quality for critical data elements.",
+      "properties": {
+        "outcome": "baseline_maturity",
+        "timeframe": "project_phase"
+      },
+      "context": "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_003",
+      "source_name": "Technical Data Reconciliation Review",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_002",
+      "target_name": "Gap Identification & Remediation Planning",
+      "rel_type": "delivers",
+      "description": "The capability delivers gap identification and remediation planning by reviewing technical reconciliation processes.",
+      "properties": {
+        "outcome": "gap_identification",
+        "timeframe": "project_phase"
+      },
+      "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_use_002",
+      "source_name": "Payments Screening & Reconciliation",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cha_002",
+      "target_name": "Technical Reconciliation Inefficiencies",
+      "rel_type": "addresses",
+      "description": "The use case addresses technical reconciliation inefficiencies by identifying gaps and immediate steps.",
+      "properties": {
+        "problem_type": "reconciliation_inefficiency",
+        "status": "identified"
+      },
+      "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_use_001",
+      "source_name": "Anti-Money Laundering (AML) Transaction Processing",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_001",
+      "target_name": "SAS Analytics (AML TXM)",
+      "rel_type": "uses",
+      "description": "The use case uses SAS Analytics to handle AML transactions and generate the AML Data Set.",
+      "properties": {
+        "function": "aml_processing",
+        "data_type": "transactional"
+      },
+      "context": "SAS Analytics (AML TXM): Handles Anti-Money Laundering (AML) transactions, generating the AML Data Set.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_obj_002",
+      "source_name": "Scorecard/Credit Card/Loan Product Spreadsheet",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_003",
+      "target_name": "Microsoft Excel",
+      "rel_type": "runs_on",
+      "description": "The object runs on Microsoft Excel, displaying structured technical data and product parameters.",
+      "properties": {
+        "software_type": "spreadsheet",
+        "version": "excel"
+      },
+      "context": "The picture is a screenshot of an Excel spreadsheet. The spreadsheet contains data organized into multiple columns",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_org_001",
+      "target_name": "NW",
+      "rel_type": "integrates_with",
+      "description": "The offering integrates with NW to identify additional review areas and next steps based on findings.",
+      "properties": {
+        "collaboration_type": "review_and_next_steps",
+        "status": "ongoing"
+      },
+      "context": "Working with NW to identify additional review area and next steps for P.S. based on findings",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_loc_001",
+      "target_name": "UK",
+      "rel_type": "operates_in",
+      "description": "The client operates in the UK market, serving as the jurisdiction for the case study.",
+      "properties": {
+        "jurisdiction": "uk",
+        "market_type": "banking"
+      },
+      "context": "UK based Bank",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_001",
+      "source_name": "Akant Pawar",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "target_name": "UK based Bank",
+      "rel_type": "represents",
+      "description": "The person represents the client organization within the case study presentation context.",
+      "properties": {
+        "role": "project_stakeholder",
+        "visibility": "case_study_presentation"
+      },
+      "context": "The picture shows several professional individuals: akant Pawar",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_002",
+      "source_name": "Tom Wheatley",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "target_name": "UK based Bank",
+      "rel_type": "represents",
+      "description": "The person represents the client organization within the case study presentation context.",
+      "properties": {
+        "role": "project_stakeholder",
+        "visibility": "case_study_presentation"
+      },
+      "context": "The picture shows several professional individuals: Tom Wheatley",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_003",
+      "source_name": "Dylan Anderson",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "target_name": "UK based Bank",
+      "rel_type": "represents",
+      "description": "The person represents the client organization within the case study presentation context.",
+      "properties": {
+        "role": "project_stakeholder",
+        "visibility": "case_study_presentation"
+      },
+      "context": "The picture shows several professional individuals: Dylan Anderson",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_004",
+      "source_name": "Nishantik Paiwar",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "target_name": "UK based Bank",
+      "rel_type": "represents",
+      "description": "The person represents the client organization within the case study presentation context.",
+      "properties": {
+        "role": "project_stakeholder",
+        "visibility": "case_study_presentation"
+      },
+      "context": "The picture shows several professional individuals: Nishantik Paiwar",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cli_001",
+      "source_name": "UK based Bank",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_off_001",
+      "source_name": "Data Lineage & Quality Assessment Programme",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_001",
+      "source_name": "Data Lineage Computation",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_002",
+      "source_name": "Data Quality Measurement & Rule Derivation",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cap_003",
+      "source_name": "Technical Data Reconciliation Review",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_use_001",
+      "source_name": "Anti-Money Laundering (AML) Transaction Processing",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_use_002",
+      "source_name": "Payments Screening & Reconciliation",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_001",
+      "source_name": "Baseline Maturity Establishment",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_002",
+      "source_name": "Gap Identification & Remediation Planning",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_ben_003",
+      "source_name": "Successful Operational Handover",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cha_001",
+      "source_name": "Data Quality & Lineage Gaps",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_cha_002",
+      "source_name": "Technical Reconciliation Inefficiencies",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_001",
+      "source_name": "SAS Analytics (AML TXM)",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_002",
+      "source_name": "Planview",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_003",
+      "source_name": "Microsoft Excel",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_004",
+      "source_name": "SAP",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_tech_005",
+      "source_name": "NetReveal",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_diff_001",
+      "source_name": "Extensive SME Consultation & Documentation Review",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_diff_002",
+      "source_name": "Comprehensive Dataflow & Interface Mapping",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_001",
+      "source_name": "Akant Pawar",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_002",
+      "source_name": "Tom Wheatley",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_003",
+      "source_name": "Dylan Anderson",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_per_004",
+      "source_name": "Nishantik Paiwar",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_obj_001",
+      "source_name": "Data Flow Diagram",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_obj_002",
+      "source_name": "Scorecard/Credit Card/Loan Product Spreadsheet",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_org_001",
+      "source_name": "NW",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_003_loc_001",
+      "source_name": "UK",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_003",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_003",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    }
+  ]
+}

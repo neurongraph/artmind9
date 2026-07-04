@@ -1,0 +1,1054 @@
+[
+  {
+    "id": "091bcb9836824060839190fff58ae95a_001_dep_001",
+    "name": "Risk Department",
+    "properties": {
+      "department_name": "Risk",
+      "ownership": "Risk Appetite Statement 2026"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_001",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_002_rsk_001",
+    "name": "Conservative Risk Appetite",
+    "properties": {
+      "appetite_level": "conservative",
+      "appetite_rationale": "Balancing customer service delivery, business growth, and regulatory compliance",
+      "stated_prohibitions": [
+        "Pursuing growth at the expense of financial stability",
+        "Pursuing growth at the expense of customer protection",
+        "Pursuing growth at the expense of regulatory compliance"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_002",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_001",
+    "name": "High-Quality Customer Service Risk",
+    "properties": {
+      "appetite_level": "moderate",
+      "appetite_rationale": "Seek to achieve sustainable profitability through reliable and fair banking services"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_002",
+    "name": "Financial Stability Risk",
+    "properties": {
+      "appetite_level": "conservative",
+      "appetite_rationale": "Maintain capital above regulatory minimums with buffers to ensure sustainable profitability"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_003",
+    "name": "Compliance Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Willful regulatory breaches"
+      ],
+      "appetite_rationale": "Zero tolerance for willful regulatory breaches"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_004",
+    "name": "Operational Excellence Risk",
+    "properties": {
+      "appetite_level": "moderate",
+      "appetite_rationale": "Focus on reliable systems, robust controls, and continuous improvement"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_005",
+    "name": "High-Risk Lending Strategy",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Pursuing high-risk lending strategies"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_006",
+    "name": "Aggressive Growth in Loss-Making Areas",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Aggressive growth in loss-making areas"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_007",
+    "name": "Compliance and Control Shortcuts",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Shortcuts around compliance or controls"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_008",
+    "name": "Concentrated Exposure Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Concentrated exposure to single customers or sectors"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_009",
+    "name": "Excessive Leverage and Capital Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Excessive leverage or capital risk"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "name": "Credit Risk",
+    "properties": {
+      "appetite_level": "Conservative",
+      "appetite_rationale": "FirstUK Bank focuses on consumer lending (mortgages) with strong underwriting; does not pursue commercial lending or risky credit products",
+      "controls_in_place": [
+        "Credit scoring mandatory for mortgages",
+        "Affordability assessment per FCA rules",
+        "Arrears management and escalation procedures",
+        "Regular loan quality reviews"
+      ],
+      "stated_prohibitions": [
+        "Commercial lending",
+        "Risky credit products"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_001",
+    "name": "Loan Loss Ratio — Threshold <0.5% annually",
+    "properties": {
+      "metric_name": "Loan Loss Ratio",
+      "target_threshold": "<0.5% annually"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_002",
+    "name": "Delinquency Rate — Threshold <2% of active accounts",
+    "properties": {
+      "metric_name": "Delinquency Rate",
+      "target_threshold": "<2% of active accounts"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_003",
+    "name": "Concentration Limit — No single customer >10% of capital",
+    "properties": {
+      "metric_name": "Concentration Limit",
+      "target_threshold": "No single customer >10% of capital"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_004",
+    "name": "Mortgage LTV — Maximum <80%",
+    "properties": {
+      "metric_name": "Mortgage LTV",
+      "target_threshold": "<80% (maximum)"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "name": "Mortgages",
+    "properties": {
+      "product_risk_level": ""
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
+    "name": "Operational Risk",
+    "properties": {
+      "appetite_level": "low",
+      "appetite_rationale": "FirstUK Bank prioritizes operational reliability, customer trust, and regulatory compliance. Invests in systems, training, and controls to prevent operational failures.",
+      "controls_in_place": [
+        "Comprehensive SOPs and procedures",
+        "Staff training and competency assessment",
+        "System redundancy and disaster recovery",
+        "Automated controls where possible",
+        "Regular audits and monitoring"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_001",
+    "name": "Annual Operational Losses — Tolerance <£50,000",
+    "properties": {
+      "metric_name": "Annual Operational Losses",
+      "target_threshold": "<£50,000"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_002",
+    "name": "Major Incidents — Tolerance <1 per year",
+    "properties": {
+      "metric_name": "Major Incidents",
+      "target_threshold": "<1 per year"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_003",
+    "name": "System Outages — Tolerance <8 hours per year",
+    "properties": {
+      "metric_name": "System Outages",
+      "target_threshold": "<8 hours per year"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_004",
+    "name": "Process Errors — Tolerance <0.5% error rate",
+    "properties": {
+      "metric_name": "Process Errors",
+      "target_threshold": "<0.5% error rate"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
+    "name": "Compliance & Regulatory Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "appetite_level": "minimal/zero",
+      "appetite_rationale": "FirstUK Bank operates under close regulatory oversight; any regulatory breach damages reputation and license",
+      "controls_in_place": [
+        "Compliance policies and procedures",
+        "Regular regulatory scanning and updates",
+        "Mandatory annual staff training",
+        "Audit testing of compliance controls",
+        "Regulatory relationship management"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_001",
+    "name": "Regulatory Breaches Tolerance — Zero willful violations",
+    "properties": {
+      "metric_name": "Regulatory Breaches",
+      "target_threshold": "Zero willful violations",
+      "context": "Part of the minimal/zero appetite for Compliance & Regulatory Risk"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_002",
+    "name": "KYC/AML Non-Compliance Tolerance — 0%",
+    "properties": {
+      "metric_name": "KYC/AML Non-Compliance",
+      "target_threshold": "0%",
+      "context": "Part of the minimal/zero appetite for Compliance & Regulatory Risk"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_003",
+    "name": "Customer Protection Breaches Tolerance — 0%",
+    "properties": {
+      "metric_name": "Customer Protection Breaches",
+      "target_threshold": "0%",
+      "context": "Part of the minimal/zero appetite for Compliance & Regulatory Risk"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_004",
+    "name": "Disclosure Violations Tolerance — Zero",
+    "properties": {
+      "metric_name": "Disclosure Violations",
+      "target_threshold": "Zero",
+      "context": "Part of the minimal/zero appetite for Compliance & Regulatory Risk"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
+    "name": "Fraud Risk",
+    "properties": {
+      "appetite_level": "low",
+      "appetite_rationale": "FirstUK Bank invests in fraud prevention systems and monitoring. Committed to protecting customers and bank assets from fraud.",
+      "controls_in_place": [
+        "Advanced fraud detection engine (real-time)",
+        "Transaction monitoring and rules",
+        "Customer education and awareness",
+        "Investigation procedures",
+        "Segregation of duties"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_001",
+    "name": "Annual Fraud Loss — Threshold <£100,000 (0.3% of revenue)",
+    "properties": {
+      "metric_name": "Annual Fraud Loss",
+      "target_threshold": "<£100,000 (0.3% of revenue)"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_002",
+    "name": "Fraud Detection Rate — Threshold >96%",
+    "properties": {
+      "metric_name": "Fraud Detection Rate",
+      "target_threshold": ">96%"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_003",
+    "name": "Customer Reimbursement — Threshold <£30k annually",
+    "properties": {
+      "metric_name": "Customer Reimbursement",
+      "target_threshold": "<£30k annually"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_004",
+    "name": "Internal Fraud — Zero Tolerance",
+    "properties": {
+      "metric_name": "Internal Fraud",
+      "target_threshold": "Zero tolerance"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
+    "name": "Reputational Risk",
+    "properties": {
+      "appetite_level": "low",
+      "appetite_rationale": "FirstUK Bank's brand depends on customer trust and operational reliability",
+      "controls_in_place": [
+        "Customer service excellence (NPS tracking)",
+        "Fast complaint resolution",
+        "Transparent communication with regulators",
+        "Crisis communication planning",
+        "Social media monitoring"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_001",
+    "name": "Major Complaints — Tolerance <2 per 1,000 accounts",
+    "properties": {
+      "metric_name": "Major Complaints",
+      "target_threshold": "<2 per 1,000 accounts",
+      "context": "Reputational Risk tolerance monitoring"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_002",
+    "name": "Regulatory Complaints — Tolerance <1 per 1,000 accounts",
+    "properties": {
+      "metric_name": "Regulatory Complaints",
+      "target_threshold": "<1 per 1,000 accounts",
+      "context": "Reputational Risk tolerance monitoring"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_003",
+    "name": "Media Incidents — Tolerance Zero negative incidents",
+    "properties": {
+      "metric_name": "Media Incidents",
+      "target_threshold": "Zero negative incidents",
+      "context": "Aspirational reputational risk tolerance"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_004",
+    "name": "Customer Trust (NPS) — Target >70",
+    "properties": {
+      "metric_name": "Customer Trust (NPS)",
+      "target_threshold": ">70",
+      "context": "Net Promoter Score tracking for brand trust"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_rsk_001",
+    "name": "Capital Risk",
+    "properties": {
+      "appetite_level": "conservative",
+      "appetite_rationale": "Maintains strong capital ratios to absorb losses, fund growth, and meet regulatory requirements; prioritizes stability over maximizing shareholder returns",
+      "controls_in_place": [
+        "Annual capital planning",
+        "Stress testing (multiple scenarios)",
+        "Capital forecasting",
+        "Board-approved dividend policy",
+        "Regular ratio monitoring"
+      ],
+      "stated_prohibitions": [
+        "Maximizing shareholder returns at the expense of stability"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_met_001",
+    "name": "Capital Ratio (Pillar 1) — Minimum >15%, Target 18%+",
+    "properties": {
+      "metric_name": "Capital Ratio (Pillar 1)",
+      "target_threshold": "18%+",
+      "breach_threshold": "15%"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_met_002",
+    "name": "Leverage Ratio — >5%",
+    "properties": {
+      "metric_name": "Leverage Ratio",
+      "target_threshold": ">5%",
+      "regulatory_drivers": [
+        "Basel III"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_met_003",
+    "name": "Capital Adequacy Buffer — 3%+ above minimum",
+    "properties": {
+      "metric_name": "Capital Adequacy Buffer",
+      "target_threshold": "3%+ above minimum"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
+    "name": "Technology & Cybersecurity Risk",
+    "properties": {
+      "risk_category": "technology",
+      "appetite_level": "low",
+      "appetite_rationale": "FirstUK Bank depends on reliable technology. Invests in security, resilience, and disaster recovery to maintain service availability and protect customer data.",
+      "controls_in_place": [
+        "Regular security assessments",
+        "Penetration testing (annual)",
+        "Incident response planning",
+        "Disaster recovery procedures",
+        "Staff security training"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_001",
+    "name": "System Availability — SLA 99.8%",
+    "properties": {
+      "metric_name": "System Availability",
+      "target_threshold": "99.8%",
+      "context": "Service Level Agreement (SLA) for technology reliability"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_002",
+    "name": "Major Data Breach — Zero Tolerance",
+    "properties": {
+      "metric_name": "Major Data Breach",
+      "target_threshold": "Zero tolerance",
+      "context": "Protection of customer data"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_003",
+    "name": "Cybersecurity Incidents — <1 per year",
+    "properties": {
+      "metric_name": "Cybersecurity Incidents",
+      "target_threshold": "<1 per year"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_004",
+    "name": "Unplanned Downtime — <2 hours per year",
+    "properties": {
+      "metric_name": "Unplanned Downtime",
+      "target_threshold": "<2 hours per year"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
+    "name": "Liquidity Risk",
+    "properties": {
+      "risk_category": "liquidity",
+      "appetite_level": "conservative",
+      "appetite_rationale": "FirstUK Bank maintains strong liquidity to meet customer withdrawals and operational needs. Does not rely on external funding.",
+      "controls_in_place": [
+        "Deposit mix management",
+        "Liquidity forecasting",
+        "Asset-liability management",
+        "Borrowing facilities (backup)",
+        "Stress testing (liquidity scenarios)"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_met_001",
+    "name": "Loan-to-Deposit Ratio — Tolerance <90%",
+    "properties": {
+      "metric_name": "Loan-to-Deposit Ratio",
+      "target_threshold": "<90%",
+      "context": "Liquidity Risk tolerance measure"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_met_002",
+    "name": "Liquid Assets Buffer — Tolerance 30 days+ operating expenses",
+    "properties": {
+      "metric_name": "Liquid Assets Buffer",
+      "target_threshold": "30 days+ operating expenses",
+      "context": "Liquidity Risk tolerance measure"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_met_003",
+    "name": "Maturity Mismatch — Tolerance <6 months average",
+    "properties": {
+      "metric_name": "Maturity Mismatch",
+      "target_threshold": "<6 months average",
+      "context": "Liquidity Risk tolerance measure"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_001",
+    "name": "KYC and Screening Risk",
+    "properties": {
+      "appetite_level": "low",
+      "controls_in_place": [
+        "strong KYC",
+        "quality screening"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_002",
+    "name": "Mortgage Lending Risk",
+    "properties": {
+      "appetite_level": "moderate",
+      "controls_in_place": [
+        "affordability checks",
+        "reasonable LTV"
+      ],
+      "stated_prohibitions": [
+        "high LTV mortgages"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_003",
+    "name": "Pricing Strategy Risk",
+    "properties": {
+      "appetite_level": "conservative",
+      "stated_prohibitions": [
+        "predatory pricing"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_004",
+    "name": "Compliance and Fraud Systems Investment Risk",
+    "properties": {
+      "appetite_level": "low",
+      "controls_in_place": [
+        "investment in compliance and fraud systems"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_005",
+    "name": "Capital Stability and Growth Risk",
+    "properties": {
+      "appetite_level": "conservative",
+      "controls_in_place": [
+        "capital retention"
+      ],
+      "stated_prohibitions": [
+        "excessive leverage",
+        "capital risk"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_006",
+    "name": "Commercial Lending Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "high-risk commercial loans"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_007",
+    "name": "Aggressive Growth Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "growth that sacrifices control or compliance"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_008",
+    "name": "Regulatory Compliance Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "regulatory shortcuts",
+        "regulatory violations"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_met_001",
+    "name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "properties": {
+      "metric_name": "Customer Exposure Limit",
+      "target_threshold": "<10% of Capital",
+      "context": "Prevention of concentrated customer exposure"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_009",
+    "name": "Control and Staffing Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "weak controls",
+        "inadequate staffing"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_001",
+    "name": "Risk Team",
+    "properties": {
+      "accountability_finding": "Responsible for flagging issues where proposed decisions conflict with risk appetite"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_002",
+    "name": "Business Unit",
+    "properties": {
+      "accountability_finding": "Responsible for providing rationale when a proposed decision conflicts with risk appetite"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_003",
+    "name": "Executive Committee",
+    "properties": {
+      "department_name": "Executive Committee",
+      "ownership": "Review of risk appetite conflicts",
+      "members": [
+        "CRO",
+        "CFO",
+        "CEO"
+      ]
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_004",
+    "name": "Board Risk Committee",
+    "properties": {
+      "department_name": "Board Risk Committee",
+      "accountability_finding": "Notification body for significant risk appetite conflicts"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "name": "Risk Appetite Conflict Escalation Process",
+    "properties": {
+      "action_description": "Process to handle proposed decisions that conflict with risk appetite, involving flagging by Risk team, rationale from Business unit, review by Executive committee, and notification of Board Risk Committee",
+      "triggered_by": "Proposed Decision Conflicts with Risk Appetite"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dec_001",
+    "name": "Documented Decision and Justification Recording",
+    "properties": {
+      "decision_topic": "Conflict between proposed decision and risk appetite",
+      "decision_outcome": "approved",
+      "rationale": "Justification provided by the Business unit and reviewed by the Executive Committee"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_001",
+    "name": "Loan loss ratio — Threshold >0.5%",
+    "properties": {
+      "metric_name": "Loan loss ratio",
+      "target_threshold": ">0.5%",
+      "reporting_frequency": "Quarterly",
+      "breach_threshold": ">0.5%",
+      "context": "Review underwriting criteria if exceeded"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_002",
+    "name": "Operational incidents — Threshold >4/month",
+    "properties": {
+      "metric_name": "Operational incidents",
+      "target_threshold": ">4/month",
+      "reporting_frequency": "Monthly",
+      "breach_threshold": ">4/month",
+      "context": "Investigate root causes if exceeded"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_003",
+    "name": "Compliance violations — Threshold >0",
+    "properties": {
+      "metric_name": "Compliance violations",
+      "target_threshold": ">0",
+      "reporting_frequency": "Monthly",
+      "breach_threshold": ">0",
+      "context": "Immediate remediation if exceeded"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_004",
+    "name": "Fraud loss — Threshold >£25k/q",
+    "properties": {
+      "metric_name": "Fraud loss",
+      "target_threshold": ">£25k/q",
+      "reporting_frequency": "Quarterly",
+      "breach_threshold": ">£25k/q",
+      "context": "Enhance detection rules if exceeded"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_005",
+    "name": "System availability — Threshold <99.8%",
+    "properties": {
+      "metric_name": "System availability",
+      "target_threshold": "<99.8%",
+      "reporting_frequency": "Daily",
+      "breach_threshold": "<99.8%",
+      "context": "Emergency response if exceeded"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_006",
+    "name": "Capital ratio — Threshold <15%",
+    "properties": {
+      "metric_name": "Capital ratio",
+      "target_threshold": "<15%",
+      "reporting_frequency": "Daily",
+      "breach_threshold": "<15%",
+      "context": "Escalate to Board if exceeded"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_007",
+    "name": "Customer complaints — Threshold >2/1000",
+    "properties": {
+      "metric_name": "Customer complaints",
+      "target_threshold": ">2/1000",
+      "reporting_frequency": "Monthly",
+      "breach_threshold": ">2/1000",
+      "context": "Process review if exceeded"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_001",
+    "name": "Capital Ratio",
+    "properties": {
+      "reporting_frequency": "Daily"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_002",
+    "name": "System Availability",
+    "properties": {
+      "reporting_frequency": "Daily"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_003",
+    "name": "Fraud Incidents",
+    "properties": {
+      "reporting_frequency": "Daily"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_004",
+    "name": "Operational Incidents",
+    "properties": {
+      "reporting_frequency": "Weekly"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_005",
+    "name": "Compliance Alerts",
+    "properties": {
+      "reporting_frequency": "Weekly"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_006",
+    "name": "KRI Summary to Management",
+    "properties": {
+      "reporting_frequency": "Monthly"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_007",
+    "name": "Operational Losses",
+    "properties": {
+      "reporting_frequency": "Monthly"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_008",
+    "name": "Full Risk Dashboard to Board Risk Committee",
+    "properties": {
+      "reporting_frequency": "Quarterly"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_009",
+    "name": "Comprehensive Risk Assessment to Board",
+    "properties": {
+      "reporting_frequency": "Annually"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_dep_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "ownership": "Quarterly risk dashboard review"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_dep_002",
+    "name": "Board",
+    "properties": {
+      "ownership": "Annual comprehensive risk assessment review"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_016_dec_001",
+    "name": "Board of Directors Approval Authority for Review & Updates",
+    "properties": {
+      "decision_outcome": "approved",
+      "decision_topic": "Review & Updates Approval Authority",
+      "deciding_body": "Board of Directors",
+      "decision_date": "2026-01-15",
+      "next_review_date": "2027-01-15",
+      "review_frequency": "Annual (or upon significant change)"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_016",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dec_001",
+    "name": "Chief Risk Officer Approval of Document",
+    "properties": {
+      "decision_outcome": "approved",
+      "deciding_body": "Chief Risk Officer",
+      "decision_date": "2026-01-15",
+      "decision_topic": "Document Approval"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dec_002",
+    "name": "Board Risk Committee Approval of Document",
+    "properties": {
+      "decision_outcome": "approved",
+      "deciding_body": "Board Risk Committee",
+      "decision_date": "2026-01-15",
+      "decision_topic": "Document Approval"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dec_003",
+    "name": "Board of Directors Approval of Document",
+    "properties": {
+      "decision_outcome": "approved",
+      "deciding_body": "Board of Directors",
+      "decision_date": "2026-01-15",
+      "decision_topic": "Document Approval"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dep_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "department_name": "Board Risk Committee",
+      "ownership": "Risk Governance and Document Approval"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dep_002",
+    "name": "Board of Directors",
+    "properties": {
+      "department_name": "Board of Directors",
+      "ownership": "Ultimate Governance and Document Approval"
+    },
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  }
+]

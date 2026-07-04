@@ -1,0 +1,316 @@
+[
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_001",
+    "name": "Self",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The diarist who managed a client presentation at work and cared for their children in the evening.",
+    "context": [
+      "Dropped Neetish at school on the way to office",
+      "Left office early to check on Mohan",
+      "gave the kids a bath"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_002",
+    "name": "Browny",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The family pet who barked at the mailman and attempted to jump into the bathtub during the children's bath time.",
+    "context": [
+      "Browny barking at the mailman",
+      "Browny tried to jump in the tub"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_003",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "The diarist's partner who took Mohan to the doctor and prepared dal chawal for dinner.",
+    "context": [
+      "Preeti was still sleeping",
+      "Preeti called: Mohan had a fever",
+      "Preeti made dal chawal"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_004",
+    "name": "Neetish",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "The diarist's child who was dropped off at school but forgot her water bottle.",
+    "context": [
+      "Dropped Neetish at school",
+      "She forgot her water bottle"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_005",
+    "name": "Mohan",
+    "aliases": [
+      "he"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "The diarist's child who suffered from a viral fever and requested a dragon story at bedtime.",
+    "context": [
+      "Mohan had a fever",
+      "check on Mohan",
+      "Bedtime story for Mohan"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_006",
+    "name": "Boss",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "colleague",
+    "description": "The diarist's supervisor who expressed appreciation for the team's work on a client presentation.",
+    "context": [
+      "Boss appreciated the team's work"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_per_007",
+    "name": "Colleagues",
+    "aliases": [
+      "team"
+    ],
+    "entity_class": "PERSON",
+    "type": "colleague",
+    "description": "The diarist's coworkers who participated in the client presentation and had lunch together.",
+    "context": [
+      "Boss appreciated the team's work",
+      "Lunch with colleagues at the canteen"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_001",
+    "name": "School",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The location where Neetish was dropped off in the morning.",
+    "context": [
+      "Dropped Neetish at school"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_002",
+    "name": "Office",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The diarist's place of employment where a major client presentation took place.",
+    "context": [
+      "on the way to office",
+      "Office: major client presentation went well",
+      "Left office early"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_003",
+    "name": "Canteen",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "restaurant",
+    "description": "The office eating area where the diarist and colleagues discussed cricket.",
+    "context": [
+      "Lunch with colleagues at the canteen"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_004",
+    "name": "Doctor's Office",
+    "aliases": [
+      "the doctor"
+    ],
+    "entity_class": "PLACE",
+    "type": "hospital",
+    "description": "The medical facility where Preeti took Mohan to treat his fever.",
+    "context": [
+      "She took him to the doctor"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_005",
+    "name": "Home",
+    "aliases": [
+      "tub"
+    ],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The residence where the family spent the evening, including bath time and dinner.",
+    "context": [
+      "gave the kids a bath",
+      "jump in the tub"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_plc_006",
+    "name": "Mall",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "shop",
+    "description": "The destination for a planned family trip over the upcoming weekend.",
+    "context": [
+      "weekend trip to the mall with family"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_001",
+    "name": "Client Presentation",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "work_event",
+    "description": "A significant professional milestone that went well and received praise from the boss.",
+    "context": [
+      "major client presentation went well",
+      "Boss appreciated the team's work"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_002",
+    "name": "Mohan's Illness",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "health_incident",
+    "description": "An episode where Mohan developed a fever, requiring a doctor's visit and early departure from work for the diarist.",
+    "context": [
+      "Mohan had a fever",
+      "She took him to the doctor",
+      "He was fine, just a viral"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_evt_003",
+    "name": "Family Dinner",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "social_gathering",
+    "description": "An evening meal consisting of dal chawal prepared by Preeti.",
+    "context": [
+      "Preeti made dal chawal",
+      "Simple but tasty"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_001",
+    "name": "Work",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "work",
+    "description": "The diarist's professional duties, including the presentation and team collaboration.",
+    "context": [
+      "on the way to office",
+      "major client presentation went well"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_002",
+    "name": "Childcare",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "care",
+    "description": "Parental tasks including school drop-offs, bathing the children, and reading bedtime stories.",
+    "context": [
+      "Dropped Neetish at school",
+      "gave the kids a bath",
+      "Bedtime story for Mohan"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_act_003",
+    "name": "Socializing",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "social",
+    "description": "Interacting with colleagues during lunch to discuss sports.",
+    "context": [
+      "Lunch with colleagues at the canteen",
+      "Discussed the upcoming cricket match"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "5e80c406d4fc4366aea35f1e44831d7b_001_pln_001",
+    "name": "Weekend Mall Trip",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "family",
+    "description": "An intention to visit the mall with the family during the upcoming weekend.",
+    "context": [
+      "Planning the weekend trip to the mall with family"
+    ],
+    "chunk_id": "5e80c406d4fc4366aea35f1e44831d7b_001",
+    "doc_id": "5e80c406d4fc4366aea35f1e44831d7b",
+    "domain": "personal_journal"
+  }
+]

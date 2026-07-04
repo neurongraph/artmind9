@@ -1,0 +1,487 @@
+[
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_per_001",
+    "target_name": "Neetish",
+    "rel_type": "is_proud_of",
+    "description": "Self is proud of Neetish's math test score",
+    "properties": {
+      "reason": "scored 85 in math test",
+      "bond_strength": "close"
+    },
+    "context": "Neetish scored 85 in her math test. She was hoping for more but we're proud.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_001",
+    "source_name": "Neetish",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_evt_001",
+    "target_name": "Math Test",
+    "rel_type": "participates_in",
+    "description": "Neetish took her math test",
+    "properties": {
+      "role": "subject",
+      "outcome": "scored 85"
+    },
+    "context": "Neetish scored 85 in her math test.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_plc_001",
+    "target_name": "Office",
+    "rel_type": "works_at",
+    "description": "Self works at the office",
+    "properties": {},
+    "context": "Office: received an email about the promotion review next month.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_evt_002",
+    "target_name": "Promotion Review",
+    "rel_type": "prepares_for",
+    "description": "Self is preparing for a promotion review next month",
+    "properties": {
+      "timeframe": "next month"
+    },
+    "context": "Office: received an email about the promotion review next month.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_act_001",
+    "target_name": "Yoga",
+    "rel_type": "performs",
+    "description": "Preeti enrolled in yoga classes",
+    "properties": {
+      "status": "enrolled"
+    },
+    "context": "Preeti enrolled for a yoga class near home.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_pln_001",
+    "target_name": "Yoga Start Date",
+    "rel_type": "has_plan",
+    "description": "Preeti plans to start yoga next week",
+    "properties": {
+      "timeframe": "next week"
+    },
+    "context": "She starts next week.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_act_001",
+    "source_name": "Yoga",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_plc_002",
+    "target_name": "Home",
+    "rel_type": "associated_with",
+    "description": "Yoga class is located near home",
+    "properties": {
+      "proximity": "near"
+    },
+    "context": "Preeti enrolled for a yoga class near home.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_003",
+    "source_name": "Mohan",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_plc_003",
+    "target_name": "School",
+    "rel_type": "studies_at",
+    "description": "Mohan attends school",
+    "properties": {},
+    "context": "Mohan brought home a drawing he made in school.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_003",
+    "source_name": "Mohan",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "target_name": "Browny",
+    "rel_type": "related_to",
+    "description": "Mohan considers Browny part of the family",
+    "properties": {
+      "nature": "family/pet",
+      "bond_strength": "close"
+    },
+    "context": "It was of our family including Browny.",
+    "bidirectional": true,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "target_name": "Browny",
+    "rel_type": "cares_for",
+    "description": "Self takes Browny to the vet",
+    "properties": {},
+    "context": "took Browny to the vet for his annual vaccination.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "source_name": "Browny",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_evt_003",
+    "target_name": "Annual Vaccination",
+    "rel_type": "participates_in",
+    "description": "Browny received his annual vaccination",
+    "properties": {
+      "role": "subject"
+    },
+    "context": "took Browny to the vet for his annual vaccination.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_evt_003",
+    "source_name": "Annual Vaccination",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_plc_004",
+    "target_name": "Vet Clinic",
+    "rel_type": "occurs_at",
+    "description": "Vaccination took place at the vet clinic",
+    "properties": {},
+    "context": "took Browny to the vet for his annual vaccination.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_005",
+    "source_name": "The Vet",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "target_name": "Browny",
+    "rel_type": "looks_after",
+    "description": "The vet assesses Browny's health",
+    "properties": {
+      "assessment": "healthy but overweight"
+    },
+    "context": "The vet said Browny is healthy but needs to lose some weight.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_act_003",
+    "target_name": "Browny's Diet",
+    "rel_type": "performs",
+    "description": "Self started a diet for Browny",
+    "properties": {
+      "status": "started"
+    },
+    "context": "Started a diet for Browny.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "source_name": "Browny",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_act_003",
+    "target_name": "Browny's Diet",
+    "rel_type": "dislikes",
+    "description": "Browny is unhappy with the diet",
+    "properties": {
+      "intensity": "high"
+    },
+    "context": "He's not happy about it.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "source_name": "Browny",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_emo_002",
+    "target_name": "Dissatisfaction",
+    "rel_type": "experiences",
+    "description": "Browny feels dissatisfied with the diet",
+    "properties": {},
+    "context": "He's not happy about it.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_per_001",
+    "target_name": "Neetish",
+    "rel_type": "supports",
+    "description": "Self helped Neetish with her history project",
+    "properties": {
+      "activity": "academic help"
+    },
+    "context": "Helped Neetish with her history project.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_001",
+    "source_name": "Neetish",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_act_002",
+    "target_name": "History Project",
+    "rel_type": "performs",
+    "description": "Neetish is working on a project about Maratha history",
+    "properties": {
+      "topic": "Maratha history"
+    },
+    "context": "She's doing it on Maratha history.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001_emo_001",
+    "target_name": "Pride",
+    "rel_type": "experiences",
+    "description": "Self feels pride regarding Neetish's achievement",
+    "properties": {},
+    "context": "She was hoping for more but we're proud.",
+    "bidirectional": false,
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_001",
+    "source_name": "Neetish",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_003",
+    "source_name": "Mohan",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_004",
+    "source_name": "Browny",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_005",
+    "source_name": "The Vet",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_per_006",
+    "source_name": "Self",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_plc_001",
+    "source_name": "Office",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_plc_002",
+    "source_name": "Home",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_plc_003",
+    "source_name": "School",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_plc_004",
+    "source_name": "Vet Clinic",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_evt_001",
+    "source_name": "Math Test",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_evt_002",
+    "source_name": "Promotion Review",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_evt_003",
+    "source_name": "Annual Vaccination",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_act_001",
+    "source_name": "Yoga",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_act_002",
+    "source_name": "History Project",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_act_003",
+    "source_name": "Browny's Diet",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_emo_001",
+    "source_name": "Pride",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_emo_002",
+    "source_name": "Dissatisfaction",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "53891f4689c14a279e314b0d49f95778_001_pln_001",
+    "source_name": "Yoga Start Date",
+    "target_id": "53891f4689c14a279e314b0d49f95778_001",
+    "target_name": "53891f4689c14a279e314b0d49f95778_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "53891f4689c14a279e314b0d49f95778_001",
+    "doc_id": "53891f4689c14a279e314b0d49f95778",
+    "domain": "personal_journal"
+  }
+]

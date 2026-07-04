@@ -1,0 +1,1147 @@
+[
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_tpl_001",
+    "name": "Opening Script (All Calls)",
+    "properties": {
+      "trigger_event": "Incoming customer phone call",
+      "channel": "call",
+      "recipient": "Bank Customer",
+      "key_content": [
+        "Bank identification",
+        "Customer name request",
+        "Reason for call inquiry",
+        "Security verification (Account digits and DOB)"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[reason]"
+      ],
+      "tone": "formal",
+      "do_not_alter_sections": [
+        "Security verification questions"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Opening Script (All Calls)"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_var_002",
+    "name": "Reason for Call",
+    "properties": {
+      "variable_placeholder": "[reason]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Opening Script (All Calls)"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_obl_001",
+    "name": "Customer Identity Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Call Agents",
+      "timeframe": "At the start of every call",
+      "verification_method": "Verification of last 4 digits of account number and date of birth against system"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_cust_001",
+    "name": "Bank Customer",
+    "properties": {
+      "communication_context": "Inbound phone call opening and identity verification"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "communication_context": "Identity verification via last 4 digits of account number"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_tpl_001",
+    "name": "Account Opening Inquiry Agent Script",
+    "properties": {
+      "trigger_event": "Customer inquiry regarding opening a SmartSaver account",
+      "channel": "call",
+      "recipient": "New Customer",
+      "key_content": [
+        "Interest rate offering (4.50% to 4.80% AER)",
+        "Fee structure (no monthly fees)",
+        "Account opening options (Online, Branch, Post)",
+        "Required documentation for online opening",
+        "Processing timelines for each channel"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Interest rates",
+        "Required documentation list"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "key_features_taught": [
+        "Interest rates between 4.50% and 4.80% AER",
+        "No monthly fees"
+      ],
+      "customer_facing_messaging": "Positioned as having some of the best interest rates available"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_cust_001",
+    "name": "New Customer",
+    "properties": {
+      "communication_context": "Account opening inquiry",
+      "customer_type": "new"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_acc_001",
+    "name": "SmartSaver Account Opening",
+    "properties": {
+      "account_type": "savings",
+      "communication_context": "Account opening inquiry",
+      "training_context": "Agent script for onboarding"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_kyc_001",
+    "name": "SmartSaver Identity and Address Verification",
+    "properties": {
+      "required_documents": [
+        "UK Passport",
+        "Driving License",
+        "Utility bill",
+        "Council tax",
+        "Bank statement"
+      ],
+      "verification_channels": [
+        "Online",
+        "Branch",
+        "Post"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_tpl_001",
+    "name": "Interest Rate Question Agent Script",
+    "properties": {
+      "trigger_event": "Customer inquiring why their interest rate dropped",
+      "channel": "call",
+      "recipient": "SmartSaver Customer",
+      "key_content": [
+        "Explanation of variable rates linked to Bank of England base rate",
+        "Disclosure of fixed 2.5% margin above BoE rate",
+        "Confirmation of current AER rate",
+        "Offer to explain calculation and next payment date"
+      ],
+      "variables_used": [
+        "Current Interest Rate"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "fixed 2.5% margin above the BoE rate"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_var_001",
+    "name": "Current Interest Rate",
+    "properties": {
+      "variable_placeholder": "4.50% AER",
+      "data_type": "percentage",
+      "example_value": "4.50% AER",
+      "appears_in_templates": [
+        "Interest Rate Question Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_prod_001",
+    "name": "SmartSaver",
+    "properties": {
+      "key_features_taught": [
+        "Variable interest rates",
+        "Linked to Bank of England base rate",
+        "Fixed 2.5% margin above BoE rate"
+      ],
+      "communication_template": [
+        "Interest Rate Question Agent Script"
+      ],
+      "customer_facing_messaging": "Rates are competitive and move in line with the Bank of England"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_cust_001",
+    "name": "SmartSaver Customer",
+    "properties": {
+      "communication_context": "Inquiry regarding interest rate decreases",
+      "customer_type": "existing"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_tpl_001",
+    "name": "Failed Transaction Agent Script",
+    "properties": {
+      "trigger_event": "Customer reporting a failed transfer",
+      "channel": "call",
+      "recipient": "Customer",
+      "key_content": [
+        "Apology and acknowledgment",
+        "Verification of transfer details",
+        "Explanation of failure reason",
+        "Resolution offer based on specific failure scenario"
+      ],
+      "variables_used": [
+        "Transfer Attempt Date",
+        "Transfer Amount",
+        "Recipient Account",
+        "Failure Reason",
+        "Resolution Offer"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Initial apology and inquiry questions"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_001",
+    "name": "Transfer Attempt Date",
+    "properties": {
+      "variable_placeholder": "[When did you attempt the transfer?]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_002",
+    "name": "Transfer Amount",
+    "properties": {
+      "variable_placeholder": "[How much was it for?]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_003",
+    "name": "Recipient Account",
+    "properties": {
+      "variable_placeholder": "[To which account?]",
+      "data_type": "account_number",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_004",
+    "name": "Failure Reason",
+    "properties": {
+      "variable_placeholder": "[reason: insufficient funds/invalid recipient/account closed/other]",
+      "data_type": "string",
+      "example_value": "insufficient funds",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_005",
+    "name": "Resolution Offer",
+    "properties": {
+      "variable_placeholder": "[Offer resolution based on scenario]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "Reporting a failed transfer transaction",
+      "customer_type": "existing"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "communication_context": "Transaction record review for failed transfer",
+      "training_context": "Account management and troubleshooting"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_txn_001",
+    "name": "Failed Transfer Transaction",
+    "properties": {
+      "transaction_context": "Failed transfer due to insufficient funds, invalid recipient, or closed account",
+      "warning_sign_link": "invalid recipient/account closed"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_tpl_001",
+    "name": "Fraud/Unauthorized Transaction Agent Script",
+    "properties": {
+      "trigger_event": "Customer reports an unauthorized transaction",
+      "channel": "call",
+      "recipient": "Customer",
+      "key_content": [
+        "Apology and assurance of investigation",
+        "Collection of transaction details",
+        "Immediate blocking of suspicious activity",
+        "Refund timeline (10 days)",
+        "Security recommendations (password change, PIN safety)",
+        "Follow-up commitment (5 business days)"
+      ],
+      "variables_used": [
+        "Unauthorized Transaction Details",
+        "Customer Contact Phone Number"
+      ],
+      "tone": "formal",
+      "do_not_alter_sections": [
+        "Refund timeline",
+        "Follow-up deadline"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_var_001",
+    "name": "Unauthorized Transaction Details",
+    "properties": {
+      "variable_placeholder": "[Customer provides details]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Fraud/Unauthorized Transaction Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_var_002",
+    "name": "Customer Contact Phone Number",
+    "properties": {
+      "variable_placeholder": "[phone number]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Fraud/Unauthorized Transaction Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_obl_001",
+    "name": "Immediate Blocking of Suspicious Transactions",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Agent",
+      "timeframe": "right away",
+      "verification_method": "Account audit logs"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_obl_002",
+    "name": "Fraud Investigation and Refund Timeline",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 10 days",
+      "consequence_of_failure": "Regulatory breach regarding customer funds recovery"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_obl_003",
+    "name": "Fraud Investigation Follow-up Deadline",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "within 5 business days",
+      "applies_to": "Agent/Investigation Team"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_cust_001",
+    "name": "Fraud Victim Customer",
+    "properties": {
+      "communication_context": "Fraud/Unauthorized Transaction reporting",
+      "customer_type": "at-risk",
+      "protection_taught": [
+        "Account monitoring",
+        "Password rotation",
+        "PIN confidentiality"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_txn_001",
+    "name": "Unauthorized Transaction",
+    "properties": {
+      "transaction_context": "Fraud report",
+      "warning_sign_link": "yes"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_tpl_001",
+    "name": "Complaint Handling Agent Script",
+    "properties": {
+      "trigger_event": "Customer expresses desire to file a complaint",
+      "channel": "call",
+      "recipient": "Complaining Customer",
+      "key_content": [
+        "Apology for poor experience",
+        "Information gathering (what, when, resolution desired)",
+        "Escalation process explanation",
+        "Investigation timeline",
+        "Financial Ombudsman Service disclosure",
+        "Provision of complaint reference number"
+      ],
+      "variables_used": [
+        "[EXC-XXXXX]"
+      ],
+      "tone": "formal",
+      "do_not_alter_sections": [
+        "Financial Ombudsman Service disclosure",
+        "Investigation timeline"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_var_001",
+    "name": "Complaint Reference Number",
+    "properties": {
+      "variable_placeholder": "[EXC-XXXXX]",
+      "data_type": "string",
+      "example_value": "EXC-XXXXX",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Complaint Handling Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_obl_001",
+    "name": "Complaint Investigation Timeline Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Complaints Team",
+      "timeframe": "within 8 calendar days",
+      "verification_method": "Email response to customer with findings"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_obl_002",
+    "name": "Complaint Escalation Disclosure Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Agent",
+      "regulatory_source": "Financial Ombudsman Service",
+      "description": "Inform the customer of their right to escalate to the Financial Ombudsman Service if they disagree with the findings"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_cust_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "communication_context": "Complaint filing and resolution process",
+      "customer_type": "existing",
+      "protection_taught": "Right to free and independent escalation via Financial Ombudsman Service"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_tpl_001",
+    "name": "Standing Order Setup Agent Script",
+    "properties": {
+      "trigger_event": "Customer request to set up a standing order",
+      "channel": "call",
+      "recipient": "Customer",
+      "key_content": [
+        "Collection of recipient name",
+        "Collection of bank details",
+        "Collection of payment amount",
+        "Collection of payment frequency",
+        "Collection of start date",
+        "Confirmation of details",
+        "Instruction on how to change or cancel"
+      ],
+      "variables_used": [
+        "[Recipient]",
+        "[amount]",
+        "[frequency]",
+        "[date]"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Confirmation summary",
+        "Cancellation instructions"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_001",
+    "name": "Recipient Name",
+    "properties": {
+      "variable_placeholder": "[Recipient]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Standing Order Setup Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_002",
+    "name": "Payment Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Standing Order Setup Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_003",
+    "name": "Payment Frequency",
+    "properties": {
+      "variable_placeholder": "[frequency]",
+      "data_type": "string",
+      "example_value": "Weekly, monthly, quarterly, annually",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Standing Order Setup Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_004",
+    "name": "Start Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Standing Order Setup Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_005",
+    "name": "Recipient Bank Details",
+    "properties": {
+      "data_type": "account_number_and_sort_code",
+      "mandatory": "yes"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_prd_001",
+    "name": "Standing Order",
+    "properties": {
+      "communication_template": [
+        "Standing Order Setup Agent Script"
+      ],
+      "key_features_taught": [
+        "Recurring payments to anyone",
+        "Customer can change or cancel anytime via phone"
+      ],
+      "customer_facing_messaging": "A standing order lets you set up recurring payments to anyone."
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_mod_001",
+    "name": "Scenario 7: Account Closure",
+    "properties": {
+      "module_topic": "Account Closure",
+      "topics_covered": [
+        "Handling account closure requests",
+        "Final balance calculation",
+        "Cancellation of standing orders and direct debits",
+        "Fund transfer options",
+        "Customer retention attempts"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_tpl_001",
+    "name": "Account Closure Agent Script",
+    "properties": {
+      "trigger_event": "Customer requesting to close their account",
+      "channel": "call",
+      "recipient": "Customer",
+      "key_content": [
+        "Reason for closure inquiry",
+        "Explanation of closure process",
+        "Final balance delivery options",
+        "Retention attempt",
+        "Confirmation of request"
+      ],
+      "variables_used": [
+        "[Customer explains]",
+        "[Customer chooses option]"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Closure process steps",
+        "Timeline for closure (5-7 business days)"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_cust_001",
+    "name": "Customer requesting account closure",
+    "properties": {
+      "communication_context": "Account closure request and retention attempt",
+      "customer_type": "existing"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_acc_001",
+    "name": "Customer Account for Closure",
+    "properties": {
+      "communication_context": "Account closure process",
+      "training_context": "Account management guidance for closure"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_txn_001",
+    "name": "Standing Orders and Direct Debits",
+    "properties": {
+      "transaction_context": "Cancellation during account closure process"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_txn_002",
+    "name": "Final Balance Transfer",
+    "properties": {
+      "transaction_context": "Transfer of remaining funds to a new bank",
+      "alert_threshold": "Final balance including pending interest"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_obl_001",
+    "name": "Account Closure Process Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "5-7 business days",
+      "verification_method": "Calculation of final balance and cancellation of recurring payments"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_tpl_001",
+    "name": "Direct Debit Question Agent Script",
+    "properties": {
+      "trigger_event": "Customer inquiring why they were charged by Direct Debit",
+      "channel": "call",
+      "recipient": "Direct Debit Inquiring Customer",
+      "key_content": [
+        "Explanation of Direct Debit",
+        "Verification of company, date, and amount",
+        "Confirmation of authorization",
+        "Cancellation options",
+        "Refund promise for unauthorized charges"
+      ],
+      "variables_used": [
+        "[Company Name]",
+        "[utility/subscription]",
+        "[Company]"
+      ],
+      "tone": "helpful",
+      "do_not_alter_sections": [
+        "refund you within 10 days"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_var_001",
+    "name": "Company Name",
+    "properties": {
+      "variable_placeholder": "[Company Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Direct Debit Question Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_var_002",
+    "name": "Company Category",
+    "properties": {
+      "variable_placeholder": "[utility/subscription]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Direct Debit Question Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_var_003",
+    "name": "Company Contact",
+    "properties": {
+      "variable_placeholder": "[Company]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Direct Debit Question Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_cust_001",
+    "name": "Direct Debit Inquiring Customer",
+    "properties": {
+      "communication_context": "Querying specific Direct Debit charges",
+      "customer_type": "existing"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "communication_context": "Direct Debit deduction inquiry"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_txn_001",
+    "name": "Direct Debit Transaction",
+    "properties": {
+      "transaction_context": "Automatic deduction by a third-party company",
+      "warning_sign_link": "Unauthorized charge"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_obl_001",
+    "name": "Unauthorized Direct Debit Refund Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 10 days",
+      "applies_to": "Customer Service Agents",
+      "consequence_of_failure": "Regulatory breach regarding unauthorized charges"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_tpl_001",
+    "name": "Card Replacement Agent Script",
+    "properties": {
+      "trigger_event": "Customer reporting lost or damaged card",
+      "channel": "call",
+      "recipient": "Customer",
+      "key_content": [
+        "Immediate card blocking",
+        "Replacement delivery options (Standard vs Expedited)",
+        "Cost of expedited delivery",
+        "Continuity of Direct Debits and standing orders",
+        "Alternative access methods (Online banking, Mobile app, Branch withdrawal)"
+      ],
+      "variables_used": [],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Immediate card blocking statement"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_cus_001",
+    "name": "Customer reporting lost/damaged card",
+    "properties": {
+      "communication_context": "Card replacement request",
+      "customer_type": "existing",
+      "protection_taught": "Immediate blocking of card to prevent unauthorized use"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_crd_001",
+    "name": "Replacement Payment Card",
+    "properties": {
+      "card_event": "replacement",
+      "communication_trigger": "Customer reporting lost/damaged card",
+      "training_context": "Card replacement options and delivery timelines"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_obl_001",
+    "name": "Immediate Card Blocking Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Agent",
+      "timeframe": "immediately",
+      "consequence_of_failure": "Unauthorized card usage/fraud risk"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_tpl_001",
+    "name": "Password Reset Agent Script",
+    "properties": {
+      "trigger_event": "Customer unable to log into online banking",
+      "channel": "call",
+      "recipient": "Online Banking Customer",
+      "key_content": [
+        "Identity verification",
+        "Password reset link delivery instructions",
+        "Email troubleshooting steps",
+        "Password strength guidance"
+      ],
+      "variables_used": [
+        "Account Number Last 4 Digits",
+        "Customer Date of Birth",
+        "Mother's Maiden Name"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Identity verification questions"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_var_001",
+    "name": "Account Number Last 4 Digits",
+    "properties": {
+      "variable_placeholder": "[verify]",
+      "data_type": "account_number",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Password Reset Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_var_002",
+    "name": "Customer Date of Birth",
+    "properties": {
+      "variable_placeholder": "[verify]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Password Reset Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_var_003",
+    "name": "Mother's Maiden Name",
+    "properties": {
+      "variable_placeholder": "[verify]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Password Reset Agent Script"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_cust_001",
+    "name": "Online Banking Customer",
+    "properties": {
+      "communication_context": "Password reset request",
+      "customer_type": "existing"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_acc_001",
+    "name": "Online Banking Account",
+    "properties": {
+      "account_type": "online banking",
+      "communication_context": "Password reset and identity verification"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_obl_001",
+    "name": "Identity Verification Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Agent",
+      "timeframe": "Prior to password reset link issuance",
+      "verification_method": "Three-point check (Account digits, DOB, Mother's maiden name)"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_014_tpl_001",
+    "name": "Closing Script (All Calls)",
+    "properties": {
+      "channel": "call",
+      "recipient": "Customer",
+      "key_content": [
+        "Offer of further assistance",
+        "Closing thank you",
+        "Provision of case reference number"
+      ],
+      "variables_used": [
+        "[number]"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Thank you for calling FirstUK Bank"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_014",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_014_var_001",
+    "name": "Case Reference Number",
+    "properties": {
+      "variable_placeholder": "[number]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Closing Script (All Calls)"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_014",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_001",
+    "name": "Customer Identity Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "timeframe": "before discussing accounts"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_002",
+    "name": "Escalation Duty for High-Value or High-Risk Issues",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "trigger_events": [
+        "Financial amount >£1,000",
+        "Customer escalates to complaint",
+        "Potential fraud",
+        "Regulatory issue",
+        "Customer very upset/angry"
+      ]
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_003",
+    "name": "Accurate Product Information Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "verification_method": "Use document references ([[products]], [[policies]])"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_004",
+    "name": "Promise Limitation Prohibition",
+    "properties": {
+      "obligation_type": "prohibition",
+      "description": "Never promise what you can't deliver"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_001",
+    "name": "High Value Transaction Trigger (>£1,000)",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Financial amount exceeds £1,000",
+      "required_action": "Escalate",
+      "alert_threshold": ">£1,000"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_002",
+    "name": "Potential Fraud Indicator",
+    "properties": {
+      "risk_domain": "fraud",
+      "required_action": "Escalate"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_003",
+    "name": "Customer Complaint or High Emotional Distress Signal",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "Customer escalates to complaint or is very upset/angry",
+      "required_action": "Escalate"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_004",
+    "name": "Regulatory Issue Indicator",
+    "properties": {
+      "risk_domain": "regulatory",
+      "required_action": "Escalate"
+    },
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89"
+  }
+]

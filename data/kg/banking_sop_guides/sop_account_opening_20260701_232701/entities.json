@@ -1,0 +1,4326 @@
+[
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [
+      "ACCT-OPEN-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The formal end-to-end procedure for opening new bank accounts at FirstUK Bank. Managed by the Head of Retail Banking and applicable to Branch Staff, Customer Service, Operations, and Compliance teams.",
+    "context": [
+      "FirstUK Bank — Account Opening SOP",
+      "Document ID | ACCT-OPEN-SOP-001"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_001",
+    "name": "Head of Retail Banking",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The designated owner of the Account Opening SOP, responsible for the oversight and governance of the retail banking account opening procedures.",
+    "context": [
+      "Owner | Head of Retail Banking"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_002",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Personnel located within bank branches who are part of the target audience and executors of the account opening procedure.",
+    "context": [
+      "Audience | Branch Staff, Customer Service, Operations, Compliance"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_003",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "Staff members providing customer support services who are required to adhere to the account opening SOP.",
+    "context": [
+      "Audience | Branch Staff, Customer Service, Operations, Compliance"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_004",
+    "name": "Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The operational department responsible for the back-end processing and execution of account opening tasks.",
+    "context": [
+      "Audience | Branch Staff, Customer Service, Operations, Compliance",
+      "Department | Retail Banking, Operations"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_001_rol_005",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The compliance team responsible for ensuring the account opening process meets regulatory requirements and internal policies.",
+    "context": [
+      "Audience | Branch Staff, Customer Service, Operations, Compliance"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_001",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prc_001",
+    "name": "Customer Account Opening Process",
+    "aliases": [
+      "opening customer accounts"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "A standardized operational workflow for opening SmartSaver, Current, and Mortgage accounts. The process is executed across branch, online, and postal channels to ensure regulatory compliance, data accuracy, and consistent customer experience.",
+    "context": [
+      "Establish standardized procedures for opening customer accounts (SmartSaver, Current, Mortgage)",
+      "across all channels (branch, online, postal) to ensure regulatory compliance, data accuracy, and consistent customer experience."
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A specific banking product available for opening under the standardized customer account opening procedures.",
+    "context": [
+      "opening customer accounts (SmartSaver, Current, Mortgage)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prd_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A specific banking product available for opening under the standardized customer account opening procedures.",
+    "context": [
+      "opening customer accounts (SmartSaver, Current, Mortgage)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_002_prd_003",
+    "name": "Mortgage Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A specific banking product available for opening under the standardized customer account opening procedures.",
+    "context": [
+      "opening customer accounts (SmartSaver, Current, Mortgage)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_002",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prc_001",
+    "name": "New Customer Account Opening Process",
+    "aliases": [
+      "account openings"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end operational procedure for opening accounts for new customers. This process covers all banking product types, including savings, current accounts, and mortgages, and is applicable across branch, online, and postal channels.",
+    "context": [
+      "Applies to: New customer account openings",
+      "All product types (savings, current, mortgages)",
+      "All channels (branch, online, postal)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prd_001",
+    "name": "Savings Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A type of banking product governed by the New Customer Account Opening Process.",
+    "context": [
+      "All product types (savings, current, mortgages)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prd_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A type of banking product governed by the New Customer Account Opening Process.",
+    "context": [
+      "All product types (savings, current, mortgages)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_prd_003",
+    "name": "Mortgage Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A type of banking product governed by the New Customer Account Opening Process.",
+    "context": [
+      "All product types (savings, current, mortgages)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_rol_001",
+    "name": "Head Office Staff",
+    "aliases": [
+      "head office"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Personnel located at the head office responsible for executing account opening procedures.",
+    "context": [
+      "All locations (head office, branches)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_003_rol_002",
+    "name": "Branch Staff",
+    "aliases": [
+      "branches"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Personnel located at bank branches responsible for executing account opening procedures.",
+    "context": [
+      "All locations (head office, branches)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_003",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end operational workflow for establishing a new customer account. The timeline varies by channel: 1–2 business days for online/branch and 5–7 days for postal applications.",
+    "context": [
+      "Account Opening Process:",
+      "Timeline: 1–2 business days (online/branch), 5–7 days (postal)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_001",
+    "name": "Customer Request",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the account opening process where the customer expresses intent to open an account.",
+    "context": [
+      "Customer Request"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_002",
+    "name": "Channel Selection",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step where the method of application is determined, specifically whether it is processed via Branch, Online, or Postal channels.",
+    "context": [
+      "Channel Selection (Branch/Online/Postal)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_003",
+    "name": "Application Form Completion",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The stage where the necessary application forms are filled out by the customer.",
+    "context": [
+      "Application Form Completion"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_004",
+    "name": "KYC Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A step involving the verification of the customer's identity and address documents.",
+    "context": [
+      "KYC Verification (ID + Address)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_005",
+    "name": "AML Screening",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "aml_screening",
+    "description": "The process of screening the applicant against Anti-Money Laundering lists and criteria.",
+    "context": [
+      "AML Screening"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_006",
+    "name": "Risk Assessment",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The evaluation of the customer's risk profile to determine the suitability of opening the account.",
+    "context": [
+      "Risk Assessment"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_dec_001",
+    "name": "Approval or Rejection Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A critical branching point where the application is either approved for account creation or rejected based on the preceding verification and risk steps.",
+    "context": [
+      "Approval/Rejection Decision"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_007",
+    "name": "Account Creation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of establishing the account in the bank's systems, contingent upon the approval decision.",
+    "context": [
+      "Account Creation (if approved)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_008",
+    "name": "Card Issuance",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_issuance",
+    "description": "The step where a payment card is issued to the customer, if applicable to the chosen product.",
+    "context": [
+      "Card Issuance (if applicable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_009",
+    "name": "Customer Notification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The stage where the customer is informed of the outcome of their application and the status of their account.",
+    "context": [
+      "Customer Notification"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_stp_010",
+    "name": "Account Activation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final step to make the newly created account operational for the customer.",
+    "context": [
+      "Account Activation"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_004_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual applying for a new account who initiates the request and completes the application form.",
+    "context": [
+      "Customer Request",
+      "Customer Notification"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_004",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for opening a bank account, initiated by a customer's request at a branch. It involves product selection and initial greeting, with an estimated time of 5 minutes for the first stage.",
+    "context": [
+      "Step 1: Customer Request & Channel Selection",
+      "Branch Opening",
+      "Customer Arrives at Branch"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_001",
+    "name": "Customer Intent Identification",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial interaction where the customer explicitly states their intention to open a savings account.",
+    "context": [
+      "Customer states intent: \"I want to open a savings account\""
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_002",
+    "name": "Customer Greeting and Seating",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The staff member welcomes the customer and provides a designated seating area to begin the process.",
+    "context": [
+      "Branch staff greets customer, offers seating"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_003",
+    "name": "Account Opening Form Retrieval",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of accessing the necessary account opening documentation, which can be provided in either paper or tablet format.",
+    "context": [
+      "Branch staff pulls up account opening form (paper or tablet)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_stp_004",
+    "name": "Product Availability Explanation",
+    "aliases": [
+      "4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Staff provides an overview of the available banking products, including SmartSaver and Current Accounts.",
+    "context": [
+      "Explain products available (SmartSaver, Current Account, etc.)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_rol_001",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The employee responsible for greeting the customer, retrieving opening forms, and explaining product options.",
+    "context": [
+      "Branch staff greets customer, offers seating",
+      "Branch staff pulls up account opening form"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_rol_002",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual visiting the branch to initiate the account opening process and select a banking product.",
+    "context": [
+      "Customer Arrives at Branch",
+      "Customer states intent",
+      "Customer Chooses Product"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_dec_001",
+    "name": "Product Selection Gate",
+    "aliases": [
+      "Customer Chooses Product"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point where the customer selects the specific product they wish to open, leading to different account types: SmartSaver, Current Account, or Mortgage.",
+    "context": [
+      "Customer Chooses Product",
+      "SmartSaver Account (savings)",
+      "Current Account (transactional)",
+      "Mortgage (lending)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings-specific banking product available for selection during the account opening process.",
+    "context": [
+      "SmartSaver Account (savings)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prd_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A transactional banking product available for selection during the account opening process.",
+    "context": [
+      "Current Account (transactional)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_005_prd_003",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A lending-based product available for selection during the account opening process.",
+    "context": [
+      "Mortgage (lending)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_005",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_prc_001",
+    "name": "Online Account Opening Process",
+    "aliases": [
+      "Online Opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end digital workflow for customers to open a bank account via the website. The process takes approximately 15–20 minutes if documentation is ready.",
+    "context": [
+      "Online Opening",
+      "Customer navigates to \"Open Account\" page",
+      "Estimated Time: 15–20 minutes (if documents ready)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual initiating the account opening process by interacting with the bank's website and providing necessary information and documentation.",
+    "context": [
+      "Customer Visits Website",
+      "Customer navigates to \"Open Account\" page"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_001",
+    "name": "Website Navigation to Open Account Page",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial action where the customer accesses the specific 'Open Account' landing page on the bank's website.",
+    "context": [
+      "1. Customer navigates to \"Open Account\" page"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_002",
+    "name": "Product Type Selection",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step where the customer chooses the specific banking product they wish to open.",
+    "context": [
+      "2. Selects product type"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_003",
+    "name": "Online Form Completion",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The stage where the customer fills out the required digital application forms.",
+    "context": [
+      "3. Begins online form completion"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_stp_004",
+    "name": "KYC Verification Execution",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "The phase of the online application where the customer undergoes identity and address verification procedures.",
+    "context": [
+      "4. Proceeds through KYC verification"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_006_chk_001",
+    "name": "KYC Compliance Gate",
+    "aliases": [
+      "KYC verification"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory regulatory check within the online opening process to verify customer identity before the account can be opened.",
+    "context": [
+      "4. Proceeds through KYC verification"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_006",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_prc_001",
+    "name": "Postal Account Opening Process",
+    "aliases": [
+      "Postal Opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "An end-to-end workflow for opening a bank account via mail. It involves request, mailing of forms, customer completion, and backend processing with an estimated timeline of 5–7 days.",
+    "context": [
+      "Postal Opening",
+      "Estimated Time: 5–7 days"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_001",
+    "name": "Postal Pack Request",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where a customer requests a postal application pack through phone support or the bank's website.",
+    "context": [
+      "Phone support or website requests postal pack"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_002",
+    "name": "Application Form Dispatch",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action of mailing application forms to the customer, which includes providing a prepaid envelope for return.",
+    "context": [
+      "Application forms mailed to customer (with prepaid envelope)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_003",
+    "name": "Application Completion and Return",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The stage where the customer fills out the provided application forms and returns them to the bank via mail.",
+    "context": [
+      "Customer completes and returns by mail"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_stp_004",
+    "name": "Application Processing",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final stage where the returned application is processed by the internal operations staff.",
+    "context": [
+      "Staff processes in Operations team"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual requesting the account opening and responsible for completing and returning the postal application forms.",
+    "context": [
+      "Customer Requests Postal Application",
+      "Customer completes and returns by mail"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_002",
+    "name": "Phone Support",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The channel or staff responsible for receiving postal pack requests via telephone.",
+    "context": [
+      "Phone support or website requests postal pack"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_003",
+    "name": "Website",
+    "aliases": [
+      "online portal"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The digital interface used by customers to request a postal application pack.",
+    "context": [
+      "Phone support or website requests postal pack"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_007_rol_004",
+    "name": "Operations Team",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal bank team responsible for processing the completed application forms received by mail.",
+    "context": [
+      "Staff processes in Operations team"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_007",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_stp_001",
+    "name": "Application Form Completion",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The second stage of the onboarding process where the applicant's personal details, financial information, and product preferences are collected. This step ensures all necessary data for account opening and compliance is captured.",
+    "context": [
+      "Step 2: Application Form Completion",
+      "Required Information"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_cus_001",
+    "name": "Applicant",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual applying for a banking product, whose personal and financial details are collected during the Application Form Completion step.",
+    "context": [
+      "Full legal name",
+      "Date of birth",
+      "Nationality",
+      "Occupation/employment"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_adr_001",
+    "name": "Customer Address Collection",
+    "aliases": [],
+    "entity_class": "ADDRESS",
+    "type": "address_recording",
+    "description": "The process of capturing the applicant's current address and any previous addresses if they have lived at their current residence for less than 3 years.",
+    "context": [
+      "Address (current + previous if <3 years)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_prd_001",
+    "name": "Product Selection",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "The selection of the specific banking product type and associated features requested by the applicant.",
+    "context": [
+      "Product type and features requested",
+      "Account access preferences"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_crd_001",
+    "name": "Card Type Selection",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "card_issuance",
+    "description": "The identification of the specific payment card type the applicant wishes to receive as part of their product selection.",
+    "context": [
+      "Card type (if applicable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_sto_001",
+    "name": "Standing Order Setup Identification",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_creation",
+    "description": "The identification of any known standing orders the customer intends to set up during the application process.",
+    "context": [
+      "Standing orders/direct debits (if known)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_dd_001",
+    "name": "Direct Debit Setup Identification",
+    "aliases": [],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The identification of any known direct debit mandates the customer intends to establish during the application process.",
+    "context": [
+      "Standing orders/direct debits (if known)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_008_acc_001",
+    "name": "New Account Setup",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The target account being established through the collection of personal and financial data, including access preferences.",
+    "context": [
+      "Account access preferences"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_008",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_prc_001",
+    "name": "Data Accuracy Checks Process",
+    "aliases": [
+      "Data Accuracy Checks"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational workflow used to ensure that customer information is accurate, complete, and correctly formatted across different application channels including Branch, Online, and Postal.",
+    "context": [
+      "### Data Accuracy Checks"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_rol_001",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Personnel responsible for verifying customer information, spelling, and contact details during in-person interactions.",
+    "context": [
+      "Branch Staff:",
+      "Verify information with customer"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_001",
+    "name": "Customer Information Verification",
+    "aliases": [
+      "Verify information with customer"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "A step performed by Branch Staff to confirm the accuracy of provided information directly with the customer.",
+    "context": [
+      "Verify information with customer"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_002",
+    "name": "Spelling and Accuracy Review",
+    "aliases": [
+      "Check spelling and accuracy"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A review step conducted by Branch Staff to ensure all entered data is spelled correctly and accurate.",
+    "context": [
+      "Check spelling and accuracy"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_003",
+    "name": "Contact Details Confirmation",
+    "aliases": [
+      "Confirm contact details correct"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "A verification step where Branch Staff confirm that the customer's contact information is correct.",
+    "context": [
+      "Confirm contact details correct"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_004",
+    "name": "Completeness Review",
+    "aliases": [
+      "Review for completeness"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A final check performed by Branch Staff to ensure no required information is missing from the application.",
+    "context": [
+      "Review for completeness"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_rol_002",
+    "name": "Online Validation System",
+    "aliases": [
+      "Online"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system responsible for real-time validation of data formats and mandatory field presence for online applications.",
+    "context": [
+      "Online:",
+      "Real-time validation (email format, postcode)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_005",
+    "name": "Real-time Field Validation",
+    "aliases": [
+      "email format",
+      "postcode"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "Automated check of data formats, such as email and postcode, performed instantly during the online application process.",
+    "context": [
+      "Real-time validation (email format, postcode)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_006",
+    "name": "Mandatory Field Check",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "An automated check to ensure all required fields are populated before an online application can be submitted.",
+    "context": [
+      "Mandatory field checks"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_007",
+    "name": "Online Address Postcode Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification",
+    "description": "Automated verification of the customer's postcode during the online submission process.",
+    "context": [
+      "Address postcode verification"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_rol_003",
+    "name": "Operations Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Personnel responsible for reviewing postal applications for completeness and clarity of handwriting.",
+    "context": [
+      "Operations staff review for completeness",
+      "Verify handwriting where unclear"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_008",
+    "name": "Postal Completeness Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A manual review conducted by Operations staff to ensure postal applications are complete.",
+    "context": [
+      "Operations staff review for completeness"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_009",
+    "name": "Missing Information Customer Outreach",
+    "aliases": [
+      "Contact customer if missing information"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "A step where Operations staff contact the customer to obtain information that was missing from a postal application.",
+    "context": [
+      "Contact customer if missing information"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_009_stp_010",
+    "name": "Handwriting Verification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A review process where Operations staff verify unclear handwriting on postal documents to ensure data accuracy.",
+    "context": [
+      "Verify handwriting where unclear"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_009",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_010_stp_001",
+    "name": "Identity Verification (KYC)",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A discrete operational step focused on verifying the identity of the customer. This step refers to a separate detailed policy document for the full KYC procedures.",
+    "context": [
+      "Step 3: Identity Verification (KYC)",
+      "See [[policy_customer_identification]] for detailed KYC procedures."
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_010",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for opening a bank account, encompassing three distinct channels: Branch, Online, and Postal. The process defines the specific documentation and certification requirements based on the chosen channel.",
+    "context": [
+      "Branch Opening (Physical Document Required)",
+      "Online Opening (Certified Copy Required)",
+      "Postal Opening (Certified Copy Required)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_stp_001",
+    "name": "Branch Document Examination",
+    "aliases": [
+      "Branch Opening"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The step in the account opening process where physical, original identification documents are examined at a branch location.",
+    "context": [
+      "Branch Opening (Physical Document Required)",
+      "UK Passport (original examination)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_stp_002",
+    "name": "Online Document Submission",
+    "aliases": [
+      "Online Opening"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_collection",
+    "description": "The stage where customers provide digital scans or photos of their identification documents for account opening via the online channel.",
+    "context": [
+      "Online Opening (Certified Copy Required)",
+      "Scan/photo of passport or driving license"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_stp_003",
+    "name": "Postal Document Submission",
+    "aliases": [
+      "Postal Opening"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_collection",
+    "description": "The stage where customers submit a scan attached to an application along with notarized copies via post.",
+    "context": [
+      "Postal Opening (Certified Copy Required)",
+      "Scan attached to application",
+      "Notarized copy (certified by solicitor, notary, etc.)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_doc_001",
+    "name": "UK Passport",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "An acceptable form of primary identification used across Branch, Online, and Postal opening channels.",
+    "context": [
+      "UK Passport (original examination)",
+      "Scan/photo of passport or driving license"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_doc_002",
+    "name": "UK Driving License",
+    "aliases": [
+      "Photocard"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "driving_licence_check",
+    "description": "An acceptable form of identification, specifically requiring a photocard format for branch openings.",
+    "context": [
+      "UK Driving License (photocard)",
+      "Scan/photo of passport or driving license"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_011_rol_001",
+    "name": "Notary or Solicitor",
+    "aliases": [
+      "Notarized certification"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "An external authorized professional responsible for certifying the authenticity of document copies for Online and Postal account openings.",
+    "context": [
+      "Notarized certification (for postal copies)",
+      "Notarized copy (certified by solicitor, notary, etc.)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_011",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_prc_001",
+    "name": "Verification Process",
+    "aliases": [
+      "Verification Steps"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "An operational workflow for verifying customer identity documents through three distinct channels: Branch, Online, and Postal. Processing times vary by channel from under 1 minute (Online) to 2 business days (Postal).",
+    "context": [
+      "Verification Steps",
+      "Branch Processing Time: 10 minutes",
+      "Online Processing Time: Automated, <1 minute",
+      "Postal Processing Time: 1–2 business days"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_stp_001",
+    "name": "Document Collection Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the verification process involving requesting a primary identity document, recording its details (number, issue/expiry dates), and ensuring the document has not expired.",
+    "context": [
+      "Step 1: Document Collection",
+      "Request primary identity document",
+      "Record document number, issue/expiry dates",
+      "Check document valid (not expired)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_stp_002",
+    "name": "Physical Verification Step",
+    "aliases": [
+      "Step 2",
+      "Branch Only"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "A branch-specific verification action where the staff examines the document, compares the photo to the customer, validates the signature, and notes any concerns.",
+    "context": [
+      "Step 2: Physical Verification (Branch Only)",
+      "Examine document",
+      "Compare photo to customer appearance",
+      "Check signature matches",
+      "Note any document concerns"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_stp_003",
+    "name": "System Recording Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final stage of the process where the document type and number are entered into the AMS system, linked to the customer record, and marked as verified.",
+    "context": [
+      "Step 3: System Recording",
+      "Enter document type and number",
+      "Link to customer record (AMS)",
+      "Mark as \"verified\" in system"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_rol_001",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The personnel responsible for executing the Physical Verification step and managing the branch processing timeline of 10 minutes.",
+    "context": [
+      "Physical Verification (Branch Only)",
+      "Branch Processing Time: 10 minutes"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_rol_002",
+    "name": "AMS System",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system of record used to link document details to the customer record and track the verification status.",
+    "context": [
+      "Link to customer record (AMS)",
+      "Mark as \"verified\" in system"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_dec_001",
+    "name": "Document Validity Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A check to determine if the identity document is valid or has expired, which is a prerequisite for completing Step 1.",
+    "context": [
+      "Check document valid (not expired)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual whose identity is being verified and whose appearance is compared against the provided identity document.",
+    "context": [
+      "Compare photo to customer appearance",
+      "Link to customer record (AMS)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_012_doc_001",
+    "name": "Primary Identity Document",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport_verification",
+    "description": "The official document collected from the customer, consisting of a photo, signature, and issue/expiry dates.",
+    "context": [
+      "Request primary identity document",
+      "Record document number, issue/expiry dates",
+      "Examine document"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_012",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_013_stp_001",
+    "name": "Address Verification Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification",
+    "description": "A discrete action within the operational workflow focused on verifying the customer's address. Detailed procedures for this step are governed by the customer identification policy.",
+    "context": [
+      "Step 4: Address Verification",
+      "See [[policy_customer_identification]] for detailed address verification procedures."
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_013",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_013_prc_001",
+    "name": "Customer Identification Process",
+    "aliases": [
+      "policy_customer_identification"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "The overarching policy and procedural framework governing how FirstUK Bank identifies customers and verifies their address details.",
+    "context": [
+      "See [[policy_customer_identification]] for detailed address verification procedures."
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_013",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_001",
+    "name": "Utility Bill",
+    "aliases": [
+      "Primary (Preferred)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A preferred primary document used for address verification, which must be dated within the last 3 months.",
+    "context": [
+      "Utility bill (dated within 3 months)",
+      "Primary (Preferred)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_002",
+    "name": "Council Tax Document",
+    "aliases": [
+      "Primary (Preferred)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A preferred primary document used for address verification.",
+    "context": [
+      "Council tax document",
+      "Primary (Preferred)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_003",
+    "name": "Bank Statement",
+    "aliases": [
+      "Primary (Preferred)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A preferred primary document used for address verification.",
+    "context": [
+      "Bank statement",
+      "Primary (Preferred)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_004",
+    "name": "Mortgage Statement",
+    "aliases": [
+      "Primary (Preferred)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A preferred primary document used for address verification.",
+    "context": [
+      "Mortgage statement",
+      "Primary (Preferred)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_005",
+    "name": "Tenancy Agreement",
+    "aliases": [
+      "Secondary (If Primary Unavailable)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification when primary documents are unavailable.",
+    "context": [
+      "Tenancy agreement",
+      "Secondary (If Primary Unavailable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_006",
+    "name": "Insurance Policy",
+    "aliases": [
+      "Secondary (If Primary Unavailable)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification when primary documents are unavailable.",
+    "context": [
+      "Insurance policy",
+      "Secondary (If Primary Unavailable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_007",
+    "name": "HM Revenue & Customs Letter",
+    "aliases": [
+      "Secondary (If Primary Unavailable)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification when primary documents are unavailable.",
+    "context": [
+      "HM Revenue & Customs letter",
+      "Secondary (If Primary Unavailable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_014_id_008",
+    "name": "Electoral Register Extract",
+    "aliases": [
+      "Secondary (If Primary Unavailable)"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification when primary documents are unavailable.",
+    "context": [
+      "Electoral register extract",
+      "Secondary (If Primary Unavailable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_014",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_prc_001",
+    "name": "Verification Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "address_verification",
+    "description": "An operational workflow focused on the collection, validation, and recording of customer address documentation to ensure residency verification.",
+    "context": [
+      "Verification Process"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_stp_001",
+    "name": "Document Collection Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the verification process where the operator requests an address verification document and records the specific document type and date.",
+    "context": [
+      "Step 1: Document Collection",
+      "Request address verification document",
+      "Record document type and date"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_stp_002",
+    "name": "Address Verification Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification",
+    "description": "A validation stage involving the comparison of the address on the ID against the provided address document, specifically checking for UK postcode format and consistency.",
+    "context": [
+      "Step 2: Verification",
+      "Compare address on ID with address document",
+      "Confirm UK address format (postcode)",
+      "Check addresses match"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_stp_003",
+    "name": "System Recording Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final administrative stage where the document type is entered into the system, linked to the specific customer record, and the address status is updated to 'verified'.",
+    "context": [
+      "Step 3: System Recording",
+      "Enter address document type",
+      "Link to customer record",
+      "Mark address as \"verified\""
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_dec_001",
+    "name": "Address Match Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A critical check within the verification step to determine if the address on the ID matches the provided address document.",
+    "context": [
+      "Check addresses match"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_015_chk_001",
+    "name": "Address Validity Compliance Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "address_verification_step",
+    "description": "A mandatory control point to ensure the address adheres to UK formatting and matches identification documents before the record is marked as verified.",
+    "context": [
+      "Confirm UK address format (postcode)",
+      "Check addresses match"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_015",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_016_stp_001",
+    "name": "AML Screening Step",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sanctions_screening_step",
+    "description": "A discrete stage in the operational workflow dedicated to Anti-Money Laundering screening. The execution of this step is governed by the detailed procedures outlined in the policy_aml document.",
+    "context": [
+      "Step 5: AML Screening",
+      "See [[policy_aml]] for detailed AML procedures."
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_016",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_prc_001",
+    "name": "Sanctions and PEP Screening Process",
+    "aliases": [
+      "Screening Requirements"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "The operational workflow for screening customers against global sanctions lists and Politically Exposed Person (PEP) databases. It defines both mandatory screening requirements for all customers and additional requirements for those identified as high-risk.",
+    "context": [
+      "Screening Requirements",
+      "Mandatory Screening Against",
+      "Additional Screening (High-Risk)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_001",
+    "name": "OFAC Sanctions Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory regulatory gate where the customer is screened against the Office of Foreign Assets Control (OFAC) Sanctions List.",
+    "context": [
+      "Mandatory Screening Against: OFAC Sanctions List"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_002",
+    "name": "EU Consolidated Sanctions Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory regulatory gate where the customer is screened against the EU Consolidated Sanctions List.",
+    "context": [
+      "Mandatory Screening Against: EU Consolidated Sanctions List"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_003",
+    "name": "HMT Sanctions Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory regulatory gate where the customer is screened against the HM Treasury (HMT) Sanctions List.",
+    "context": [
+      "Mandatory Screening Against: HMT Sanctions List"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_004",
+    "name": "UN Sanctions Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory regulatory gate where the customer is screened against the United Nations (UN) Sanctions List.",
+    "context": [
+      "Mandatory Screening Against: UN Sanctions List"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_005",
+    "name": "PEP Database Screening",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "pep_screening",
+    "description": "A mandatory regulatory gate to identify if a customer is a Politically Exposed Person (PEP) via database screening.",
+    "context": [
+      "Mandatory Screening Against: PEP Database"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_006",
+    "name": "Adverse Media Screening",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "An additional compliance gate required specifically for customers classified as high-risk to identify negative news or reputational risk.",
+    "context": [
+      "Additional Screening (High-Risk): Adverse media screening"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_chk_007",
+    "name": "Beneficial Ownership Verification",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "beneficial_owner_check",
+    "description": "An additional compliance gate for high-risk entities to verify the identity of the beneficial owners.",
+    "context": [
+      "Additional Screening (High-Risk): Beneficial ownership (if entity)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_017_dec_001",
+    "name": "Risk Level Determination",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A branching point in the screening process that determines if a customer is 'Standard' (requiring only mandatory screening) or 'High-Risk' (requiring additional adverse media and beneficial ownership checks).",
+    "context": [
+      "Mandatory Screening Against",
+      "Additional Screening (High-Risk)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_017",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_prc_001",
+    "name": "Screening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "An operational workflow used to screen customers against sanctions, PEP, and adverse media lists. The process is primarily automated with manual review for matches, typically completing within 5–10 minutes.",
+    "context": [
+      "Screening Process",
+      "Processing Time: 5–10 minutes (automated with manual review if needed)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_001",
+    "name": "Name Screening Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sanctions_screening_step",
+    "description": "The initial phase where the customer name is automatically checked against all relevant lists. Results are generated by the system in less than one minute.",
+    "context": [
+      "Step 1: Name Screening",
+      "Customer name screened against all lists",
+      "System automatically performs checks",
+      "Results available in <1 minute"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_002",
+    "name": "Match Assessment Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "match_review",
+    "description": "The stage where screening results are evaluated to determine if a match is a true hit or a false positive based on name similarity. If a match is found, it triggers a manual review by the Compliance team.",
+    "context": [
+      "Step 2: Match Assessment",
+      "False positive assessment (name similarity vs. true match)",
+      "If match found: Manual review by Compliance"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_003",
+    "name": "Hit Handling Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "escalation_trigger",
+    "description": "The action phase following a confirmed match, where different handling paths are taken based on whether the hit is a sanctions match, a PEP match, or adverse media.",
+    "context": [
+      "Step 3: Hit Handling",
+      "If sanctions match: Escalate immediately, account blocked, Compliance notified",
+      "If PEP match: Enhanced due diligence required",
+      "If adverse media: Risk assessment, possible rejection"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_stp_004",
+    "name": "Screening Record Entry Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final step where screening results, identified matches, and their resolutions are documented in the system and linked to the customer's account record.",
+    "context": [
+      "Step 4: Record",
+      "Document screening result in system",
+      "Record any matches and resolution",
+      "Link to account record"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_rol_001",
+    "name": "Compliance Team",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The personnel responsible for performing manual reviews of screening matches and receiving notifications regarding sanctions hits.",
+    "context": [
+      "Manual review by Compliance",
+      "Compliance notified"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_rol_002",
+    "name": "Screening System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated engine that performs name screening against lists and generates results within one minute.",
+    "context": [
+      "System automatically performs checks",
+      "Results available in <1 minute"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_dec_001",
+    "name": "Match Found Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A branching point after name screening to determine if a match was found. No match leads to the next step, while a match triggers a manual compliance review.",
+    "context": [
+      "If no match: Proceed to next step",
+      "If match found: Manual review by Compliance"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_dec_002",
+    "name": "Hit Type Classification Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A decision point that routes the process based on the type of match: sanctions (immediate escalation/block), PEP (enhanced due diligence), or adverse media (risk assessment/rejection).",
+    "context": [
+      "If sanctions match: Escalate immediately",
+      "If PEP match: Enhanced due diligence required",
+      "If adverse media: Risk assessment, possible rejection"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_chk_001",
+    "name": "Sanctions and PEP Screening Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory compliance gate verifying that the customer has been screened against sanctions and PEP lists before the account can proceed.",
+    "context": [
+      "Customer name screened against all lists",
+      "If sanctions match: Escalate immediately, account blocked"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_cus_001",
+    "name": "Screened Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The individual whose name is being screened against regulatory and risk lists.",
+    "context": [
+      "Customer name screened against all lists"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_018_acc_001",
+    "name": "Screened Account",
+    "aliases": [
+      "account record"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account associated with the screening process, which may be blocked in the event of a sanctions match.",
+    "context": [
+      "account blocked",
+      "Link to account record"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_018",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_stp_001",
+    "name": "Risk Assessment Step",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "A discrete stage in the onboarding process where the customer's risk level is determined based on demographic, residency, and status criteria. This step involves assigning a risk category based on specific risk scoring factors.",
+    "context": [
+      "Step 6: Risk Assessment",
+      "Customer Risk Level Determined By"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_dec_001",
+    "name": "Customer Risk Level Determination",
+    "aliases": [
+      "Risk Scoring"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A branching decision point where a customer is categorized as Low, Medium, or High risk based on age, nationality, PEP status, adverse media, and account size. The outcome determines the final risk category assigned to the customer.",
+    "context": [
+      "Risk Scoring",
+      "Customer Risk Level Determined By",
+      "Risk Categories"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_chk_001",
+    "name": "PEP Status Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "pep_screening",
+    "description": "A mandatory compliance check to determine if a customer is a Politically Exposed Person (PEP) or a member of a PEP family. A 'yes' outcome triggers a higher risk classification.",
+    "context": [
+      "PEP status (yes = higher)",
+      "High Risk: PEP, PEP family"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_chk_002",
+    "name": "Adverse Media Screening",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A compliance verification step to check for adverse media associated with the customer. The presence of adverse media results in a higher risk assignment.",
+    "context": [
+      "Adverse media (yes = higher)",
+      "High Risk: ... adverse media"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_cust_001",
+    "name": "Risk-Assessed Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual undergoing risk scoring during the assessment process. Their attributes such as age, nationality, and status are used to determine their risk category.",
+    "context": [
+      "Customer Risk Level Determined By"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_019_prod_001",
+    "name": "Risk-Rated Banking Product",
+    "aliases": [
+      "Product"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "The specific banking product or account size being applied for, which influences the overall risk score (e.g., standard vs high-value).",
+    "context": [
+      "Product/account size (standard = lower, high-value = higher)",
+      "Standard customer, standard product, standard amount"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_019",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_prc_001",
+    "name": "Enhanced Due Diligence (EDD) Process",
+    "aliases": [
+      "EDD"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "A specialized due diligence procedure triggered when a customer is identified as high-risk. It involves senior staff review, ownership verification, fund documentation, and final approval by the Compliance Head.",
+    "context": [
+      "Enhanced Due Diligence (EDD)",
+      "Required If High-Risk"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_001",
+    "name": "Senior Staff Review Step",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The initial step in the EDD process where senior staff members conduct a review of the high-risk profile.",
+    "context": [
+      "1. Senior staff review"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_002",
+    "name": "Beneficial Ownership Verification Step",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "beneficial_owner_check",
+    "description": "A verification process to identify and confirm the beneficial owners when the customer is an entity.",
+    "context": [
+      "2. Beneficial ownership verification (if entity)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_003",
+    "name": "Source of Funds Documentation Step",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_collection",
+    "description": "The collection and verification of documentation proving the origin of the customer's funds.",
+    "context": [
+      "3. Source of funds documentation"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_004",
+    "name": "Additional Screening Step",
+    "aliases": [
+      "4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sanctions_screening_step",
+    "description": "Supplemental screening measures performed as part of the enhanced due diligence requirements.",
+    "context": [
+      "4. Additional screening"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_stp_005",
+    "name": "Compliance Head Approval Step",
+    "aliases": [
+      "5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The final step in the EDD workflow requiring formal sign-off from the Compliance Head.",
+    "context": [
+      "5. Compliance Head approval"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_rol_001",
+    "name": "Senior Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Personnel responsible for performing the initial review of high-risk customers during the EDD process.",
+    "context": [
+      "1. Senior staff review"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_rol_002",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The ultimate authority responsible for approving the EDD process and acting as the escalation point.",
+    "context": [
+      "5. Compliance Head approval",
+      "Refer to Compliance Head for approval"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_dec_001",
+    "name": "High-Risk Trigger Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A decision point that determines if the standard process should be escalated to the Enhanced Due Diligence (EDD) workflow based on the customer's risk level.",
+    "context": [
+      "Required If High-Risk"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_esc_001",
+    "name": "Compliance Head Escalation Level",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The highest tier of escalation for EDD, where the Compliance Head provides final approval for high-risk cases.",
+    "context": [
+      "EDD Escalation: Refer to Compliance Head for approval"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_020_chk_001",
+    "name": "EDD Compliance Approval Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "The mandatory regulatory gate where the Compliance Head verifies all EDD steps have been completed and grants formal approval.",
+    "context": [
+      "5. Compliance Head approval",
+      "Refer to Compliance Head for approval"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_020",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for opening a bank account, including the final approval/rejection phase based on KYC, address, and AML criteria. Approval timelines vary by channel: immediate for branch, under one hour for online, and 1-2 business days for postal.",
+    "context": [
+      "Step 7: Approval/Rejection Decision",
+      "Account Approved If",
+      "Account opening form complete and accurate"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_stp_001",
+    "name": "Approval/Rejection Decision Step",
+    "aliases": [
+      "Step 7"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The final stage of the account opening process where the application is evaluated against specific approval criteria to determine if the account can be opened.",
+    "context": [
+      "Step 7: Approval/Rejection Decision",
+      "Account Approved If"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_dec_001",
+    "name": "Account Approval Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A decision point where an account is approved if KYC, address verification, AML screening, risk assessment, and form accuracy are all successful. Failure to meet these criteria leads to rejection.",
+    "context": [
+      "Account Approved If",
+      "KYC verification complete and successful",
+      "AML screening passed (no sanctions hits)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_rol_001",
+    "name": "Account Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The actor responsible for providing approval for accounts classified as Low-Medium Risk.",
+    "context": [
+      "Low-Medium Risk: Account Manager approval"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_rol_002",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The actor responsible for providing approval for accounts classified as High Risk.",
+    "context": [
+      "High Risk: Compliance Head approval"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The high-level authority responsible for approving accounts that require a policy exception.",
+    "context": [
+      "Exceptions: CRO approval (if policy exception)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_001",
+    "name": "KYC Completion Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory regulatory gate verifying that KYC verification is complete and successful before account approval.",
+    "context": [
+      "KYC verification complete and successful"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_002",
+    "name": "Address Verification Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "address_verification",
+    "description": "A mandatory control point verifying that the customer's address has been successfully verified.",
+    "context": [
+      "Address verification complete"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_003",
+    "name": "AML and Sanctions Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A regulatory gate verifying that AML screening has passed and no sanctions hits were identified.",
+    "context": [
+      "AML screening passed (no sanctions hits)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_021_chk_004",
+    "name": "Risk Assessment Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A policy gate verifying that the risk assessment for the applicant is within acceptable parameters.",
+    "context": [
+      "Risk assessment acceptable"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_021",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_prc_001",
+    "name": "Account Rejection Process",
+    "aliases": [
+      "Rejection Scenarios"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational workflow for rejecting a customer's account application based on failed KYC, AML, PEP, or regulatory checks. It defines the triggers for rejection and the mandatory notification protocol to prevent tipping off.",
+    "context": [
+      "Rejection Scenarios",
+      "Account Rejected If:",
+      "Rejection Notification:"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_dec_001",
+    "name": "Account Application Approval Gate",
+    "aliases": [
+      "Account Rejected If"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A critical branching point where the application is rejected if any of the listed KYC, AML, PEP, beneficial ownership, source of funds, or regulatory criteria are not met.",
+    "context": [
+      "Account Rejected If:",
+      "KYC verification failed",
+      "AML hit (sanctions match confirmed)",
+      "PEP/adverse media (cannot mitigate risk)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_001",
+    "name": "KYC Identity Verification Checkpoint",
+    "aliases": [
+      "KYC verification"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory compliance gate to verify the identity of the applicant. Failure to verify identity results in immediate account rejection.",
+    "context": [
+      "KYC verification failed (cannot verify identity)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_002",
+    "name": "AML Sanctions Screening Checkpoint",
+    "aliases": [
+      "AML hit"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A compliance gate to check for sanctions matches. A confirmed sanctions match triggers an account rejection.",
+    "context": [
+      "AML hit (sanctions match confirmed)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_003",
+    "name": "PEP and Adverse Media Risk Checkpoint",
+    "aliases": [
+      "PEP/adverse media"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "pep_screening",
+    "description": "A regulatory check for Politically Exposed Persons or adverse media. The account is rejected if the associated risk cannot be mitigated.",
+    "context": [
+      "PEP/adverse media (cannot mitigate risk)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_004",
+    "name": "Beneficial Ownership Verification Checkpoint",
+    "aliases": [
+      "Beneficial ownership"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "beneficial_owner_check",
+    "description": "A mandatory check for entity customers to ensure clear beneficial ownership. Unclear ownership leads to account rejection.",
+    "context": [
+      "Beneficial ownership unclear (entity customers)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_005",
+    "name": "Source of Funds Fraud Checkpoint",
+    "aliases": [
+      "Source of funds"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "fraud_flag",
+    "description": "A verification step to assess the legitimacy of the customer's source of funds. Suspicious findings trigger a rejection due to fraud concerns.",
+    "context": [
+      "Source of funds suspicious (fraud concern)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_chk_006",
+    "name": "Regulatory Exception Approval Checkpoint",
+    "aliases": [
+      "Regulatory exception"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "compliance_gate",
+    "description": "A final gate to determine if a regulatory exception has been granted. If the exception is denied, the account is rejected.",
+    "context": [
+      "Regulatory exception denied"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_stp_001",
+    "name": "Rejection Notification Issuance",
+    "aliases": [
+      "Rejection Notification"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The act of sending a written notice to the customer stating the account cannot be opened. To prevent 'tipping off', no specific AML reasons or detailed explanations are provided.",
+    "context": [
+      "Written notice to customer (no AML reason disclosed—tipping off risk)",
+      "Letter: \"We are unable to open your account at this time. Please contact us for more information.\"",
+      "No detailed explanation (prevents tipping off)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_022_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual or entity applying for an account who is the subject of the KYC/AML checks and the recipient of the rejection notice.",
+    "context": [
+      "Written notice to customer",
+      "entity customers"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_022",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_prc_001",
+    "name": "Account Creation Process",
+    "aliases": [
+      "Step 8"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The operational workflow for creating a new bank account through Branch or Online channels. It involves system setup in AMS and configuration of product settings with an automated processing time of less than 15 minutes.",
+    "context": [
+      "Step 8: Account Creation",
+      "Branch/Online Opening",
+      "Processing Time: <15 minutes (automated)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_001",
+    "name": "AMS Account Creation",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The initial action of creating the account record within the Account Management System (AMS).",
+    "context": [
+      "Account created in AMS (Account Management System)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_002",
+    "name": "Account Number Assignment",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of assigning a unique account identifier following the format ACC-00XXX.",
+    "context": [
+      "Account number assigned (ACC-00XXX)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_003",
+    "name": "Product Settings Configuration",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The configuration of specific product parameters associated with the new account.",
+    "context": [
+      "Product settings configured"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_004",
+    "name": "Interest Rate Setup",
+    "aliases": [
+      "4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The application of the interest rate to the account based on the current applicable schedule.",
+    "context": [
+      "Interest rate set (per current schedule)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_stp_005",
+    "name": "Linked System Update",
+    "aliases": [
+      "5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The synchronization of the new account details across integrated platforms, specifically including online banking and the fraud engine.",
+    "context": [
+      "Linked systems updated (online banking, fraud engine, etc.)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_rol_001",
+    "name": "AMS (Account Management System)",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The primary system used for creating and recording account details during the opening process.",
+    "context": [
+      "Account created in AMS (Account Management System)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_rol_002",
+    "name": "Fraud Engine",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "A linked system that must be updated during the account creation process to enable fraud monitoring.",
+    "context": [
+      "Linked systems updated (online banking, fraud engine, etc.)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_023_acc_001",
+    "name": "New Account",
+    "aliases": [
+      "ACC-00XXX"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The customer account being established in the AMS, assigned a number, and configured with product settings.",
+    "context": [
+      "Account created in AMS",
+      "Account number assigned (ACC-00XXX)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_023",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_prc_001",
+    "name": "Initial Balance Funding Process",
+    "aliases": [
+      "Initial Balance"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The procedure for establishing the initial balance of a new account, providing various deposit options including cash, transfers, and zero-balance setups. The process concludes with the account being set to 'Active' status.",
+    "context": [
+      "Initial Balance",
+      "Deposit Options",
+      "Account Status: \"Active\" once created"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_001",
+    "name": "Cash Deposit Processing",
+    "aliases": [
+      "Cash Deposit"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "A funding step performed at a physical branch location. Deposits are capped at a maximum of £10k per individual transaction.",
+    "context": [
+      "Cash Deposit: At branch (max £10k per transaction)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_002",
+    "name": "FPS Transfer Processing",
+    "aliases": [
+      "Transfer"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A funding step where funds are moved from an existing bank account using the Faster Payments System (FPS).",
+    "context": [
+      "Transfer: From existing bank account (FPS)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_003",
+    "name": "Mobile Check Deposit",
+    "aliases": [
+      "Check Deposit"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A proposed funding method via the mobile application, currently noted as a future feature.",
+    "context": [
+      "Check Deposit: Via mobile app (future feature)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_stp_004",
+    "name": "Zero Balance Account Setup",
+    "aliases": [
+      "No Initial Deposit"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "An option allowing the account to be created without any initial funding, resulting in a £0 balance.",
+    "context": [
+      "No Initial Deposit: Account created with £0 balance"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_rol_001",
+    "name": "Branch Staff",
+    "aliases": [
+      "branch"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The personnel responsible for facilitating and accepting cash deposits at the branch location.",
+    "context": [
+      "At branch (max £10k per transaction)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_024_acc_001",
+    "name": "New Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The bank account being funded and activated through the Initial Balance process.",
+    "context": [
+      "Account created with £0 balance",
+      "Account Status: \"Active\" once created"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_024",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_prc_001",
+    "name": "Card Issuance Process",
+    "aliases": [
+      "Step 9"
+    ],
+    "entity_class": "PROCESS",
+    "type": "card_issuance",
+    "description": "The operational workflow for issuing and activating debit cards for customers, covering branch, online, and postal channels. The process includes card ordering, delivery timelines, and PIN setup procedures.",
+    "context": [
+      "Step 9: Card Issuance (If Applicable)",
+      "Debit Card Activation",
+      "Card issued immediately (if available in branch)",
+      "Card ordered via mail (5–7 business days)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_stp_001",
+    "name": "Card Issuance Execution",
+    "aliases": [
+      "Card Issuance"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_issuance",
+    "description": "The action of providing a Visa Debit card to the customer. Delivery method and timing vary by channel: immediate for branch, and 5–7 business days for online or postal orders.",
+    "context": [
+      "Branch: Card issued immediately (if available in branch)",
+      "Online: Card ordered via mail (5–7 business days)",
+      "Postal: Card ordered after account approved (5–7 days)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_stp_002",
+    "name": "PIN Setup Procedure",
+    "aliases": [
+      "PIN Setup"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_activation",
+    "description": "The process of establishing a Personal Identification Number for the issued card. Methods vary by channel, utilizing PinPads in-branch or online/phone options for remote customers.",
+    "context": [
+      "Branch: PIN set by customer at branch (PinPad)",
+      "Online: PIN set online or via phone",
+      "Postal: PIN set via phone or online"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder who receives the card and is responsible for setting their own PIN via the provided channel methods.",
+    "context": [
+      "PIN set by customer at branch (PinPad)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_prd_001",
+    "name": "Visa Debit Card",
+    "aliases": [
+      "Debit Card",
+      "Card"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "card_product",
+    "description": "The specific banking product issued, characterized as a Visa Debit card with contactless and chip capabilities and a 3-year validity period.",
+    "context": [
+      "Visa Debit card",
+      "Contactless enabled",
+      "Chip enabled",
+      "Card validity: 3 years"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_025_crd_001",
+    "name": "Debit Card Activation",
+    "aliases": [
+      "Activation"
+    ],
+    "entity_class": "CARD",
+    "type": "card_activation",
+    "description": "The status transition of the issued Visa Debit card from inactive to active through the completion of the PIN setup process.",
+    "context": [
+      "Debit Card Activation",
+      "PIN set by customer at branch (PinPad)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_025",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_prc_001",
+    "name": "Card Activation Procedure",
+    "aliases": [
+      "Card Activation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "card_activation",
+    "description": "The end-to-end workflow for activating a payment card received by a customer. The process is completed same day if performed at a branch or by the next business day if performed online.",
+    "context": [
+      "Card Activation Procedure",
+      "Card Activation Time: Same day (if at branch), next business day (if online)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_001",
+    "name": "Card Delivery Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_issuance",
+    "description": "The initial stage where the customer receives the physical payment card via mail.",
+    "context": [
+      "1. Customer receives card in mail"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_002",
+    "name": "Activation Channel Selection",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_activation",
+    "description": "The step where the customer initiates activation through one of three approved channels: online, mobile, or phone.",
+    "context": [
+      "2. Activate online/mobile/phone"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_003",
+    "name": "PIN Confirmation Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_activation",
+    "description": "The verification stage where the card's Personal Identification Number (PIN) is confirmed.",
+    "context": [
+      "3. PIN confirmed"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_stp_004",
+    "name": "Card Transactional Activation",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_activation",
+    "description": "The final state where the card is officially active and available for use in transactions.",
+    "context": [
+      "4. Card active for transactions"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who receives the card and performs the activation steps via the specified channels.",
+    "context": [
+      "1. Customer receives card in mail",
+      "2. Activate online/mobile/phone"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_026_crd_001",
+    "name": "Payment Card",
+    "aliases": [
+      "card"
+    ],
+    "entity_class": "CARD",
+    "type": "card_activation",
+    "description": "The physical payment card that is sent to the customer and must be activated before it can be used for transactions.",
+    "context": [
+      "Customer receives card in mail",
+      "Card active for transactions"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_026",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for opening a new bank account, encompassing various customer channels including Branch, Online, and Postal. The process culminates in customer notification and the provision of account details.",
+    "context": [
+      "Account Opening Confirmation"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_stp_001",
+    "name": "Customer Notification Step",
+    "aliases": [
+      "Step 10"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final stage of the account opening process where the customer is informed that their account has been successfully created. The method of notification varies based on the channel used by the customer.",
+    "context": [
+      "Step 10: Customer Notification",
+      "Account Opening Confirmation"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_rol_001",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The personnel responsible for providing verbal and written confirmation and distributing welcome packs to customers visiting the branch.",
+    "context": [
+      "Branch Customers: Verbal confirmation at branch"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_rol_002",
+    "name": "Automated Notification System",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system responsible for triggering immediate email confirmations and welcome emails to customers who apply online.",
+    "context": [
+      "Email confirmation (immediate after account creation)",
+      "Welcome email with account details"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_cus_001",
+    "name": "Branch Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "A customer who opens an account via a physical branch and receives immediate verbal and written confirmation.",
+    "context": [
+      "Branch Customers: Verbal confirmation at branch"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_cus_002",
+    "name": "Online Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "A customer who opens an account via digital channels and receives immediate email notifications.",
+    "context": [
+      "Online Customers: Email confirmation (immediate after account creation)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_cus_003",
+    "name": "Postal Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "A customer who opens an account via post and receives confirmation via a letter sent the following day.",
+    "context": [
+      "Postal Customers: Letter confirmation (posted next day)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_027_acc_001",
+    "name": "New Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The account being created for the customer, for which the account number, sort code, and login details are generated and shared.",
+    "context": [
+      "Account number, sort code, online login details",
+      "Includes account number, sort code, online login setup instructions"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_027",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_prc_001",
+    "name": "Welcome Communications Process",
+    "aliases": [
+      "Welcome Communications"
+    ],
+    "entity_class": "PROCESS",
+    "type": "customer_onboarding_communications",
+    "description": "The operational workflow for delivering introductory materials to new customers, including CEO letters, product guides, and fraud advice. Delivery timelines vary by channel: same day for branch, next day for email, and 2–3 days for postal delivery.",
+    "context": [
+      "Welcome Communications",
+      "Delivery: Same day (branch), next day (email), 2–3 days (postal)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_001",
+    "name": "Welcome Letter Issuance",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action of providing a formal welcome letter from the CEO to the customer as part of the communication package.",
+    "context": [
+      "Welcome letter from CEO"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_002",
+    "name": "Product Guide Distribution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The delivery of the product guide containing terms, features, and FAQs to the customer.",
+    "context": [
+      "Product guide (terms, features, FAQs)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_003",
+    "name": "Getting Started Guide Distribution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The delivery of instructions regarding online banking and the mobile app to help the customer begin using bank services.",
+    "context": [
+      "Getting started guide (online banking, mobile app)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_004",
+    "name": "Contact Information Provision",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The provision of bank contact details to the customer within the welcome package.",
+    "context": [
+      "Contact information"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_028_stp_005",
+    "name": "Fraud Prevention Advice Delivery",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The delivery of guidance to the customer on how to prevent fraud.",
+    "context": [
+      "Fraud prevention advice"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_028",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_prc_001",
+    "name": "Account Activation Process",
+    "aliases": [
+      "Step 11"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_activation",
+    "description": "The end-to-end procedure for activating a customer's account through both Online Banking and Mobile App setup. It involves credential delivery, security configuration, and biometric enrollment to enable transactions.",
+    "context": [
+      "Step 11: Account Activation",
+      "Online Banking Setup",
+      "Mobile App Setup"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_001",
+    "name": "Credential Delivery",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The initial stage of online banking setup where the customer is provided with their login credentials.",
+    "context": [
+      "Customer receives online banking credentials"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_002",
+    "name": "Online Banking Portal Access",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action where the customer navigates to the official FirstUK Bank login URL to begin the activation process.",
+    "context": [
+      "Customer visits firstuk.bank/login"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_003",
+    "name": "Password Permanency Update",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The security step where the customer replaces their temporary password with a permanent one.",
+    "context": [
+      "Temporary password reset to permanent"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_004",
+    "name": "Security Question Configuration",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The setup of security questions to ensure account protection and verification.",
+    "context": [
+      "Security questions set up"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_005",
+    "name": "Online Banking Activation Completion",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final state where the online banking facility is fully enabled for the customer.",
+    "context": [
+      "Online banking fully active"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_006",
+    "name": "Mobile Application Installation",
+    "aliases": [
+      "Step 1 (Mobile App)"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The step where the customer downloads the official FirstUK Bank application to their device.",
+    "context": [
+      "Download FirstUK Bank app"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_007",
+    "name": "Mobile App Authentication",
+    "aliases": [
+      "Step 2 (Mobile App)"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of logging into the mobile application using the previously established online banking credentials.",
+    "context": [
+      "Login with online banking credentials"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_008",
+    "name": "Biometric Security Setup",
+    "aliases": [
+      "Step 3 (Mobile App)"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The configuration of biometric identifiers, such as fingerprint or face ID, for secure app access.",
+    "context": [
+      "Biometric setup (fingerprint/face ID)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_stp_009",
+    "name": "Mobile App Transaction Activation",
+    "aliases": [
+      "Step 4 (Mobile App)"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final stage where the mobile application is fully enabled for performing financial transactions.",
+    "context": [
+      "App active for transactions"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_029_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The primary actor responsible for performing the activation steps, including password resets and biometric setup.",
+    "context": [
+      "Customer receives online banking credentials",
+      "Customer visits firstuk.bank/login"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_029",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_prc_001",
+    "name": "Access Activation Process",
+    "aliases": [
+      "Access Activation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_activation",
+    "description": "The end-to-end operational workflow to transition an account to a fully active state. It encompasses KYC, AML, system creation, card issuance, and customer notification, with a completion timeline of 1–7 business days.",
+    "context": [
+      "Access Activation",
+      "Accounts Fully Active When:",
+      "Timeline: 1–7 business days"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_001",
+    "name": "KYC Verification Step",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_verification_step",
+    "description": "The stage where Know Your Customer verification is performed and completed to enable account activation.",
+    "context": [
+      "KYC verification complete"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_002",
+    "name": "AML Screening Step",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "sanctions_screening_step",
+    "description": "The process of screening the account holder against Anti-Money Laundering lists to ensure a passing result.",
+    "context": [
+      "AML screening passed"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_003",
+    "name": "System Account Creation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The administrative action of creating the account records across all required bank systems.",
+    "context": [
+      "Account created in all systems"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_004",
+    "name": "Card Issuance and Activation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_issuance",
+    "description": "The step involving the physical or digital issuance and subsequent activation of a payment card, if applicable to the account type.",
+    "context": [
+      "Card issued and activated (if applicable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_005",
+    "name": "Digital Access Configuration",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The technical setup of online and mobile banking access for the customer.",
+    "context": [
+      "Online/mobile access configured"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_stp_006",
+    "name": "Customer Notification Step",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final action of notifying the customer that their account is fully active and ready for use.",
+    "context": [
+      "Customer notified"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_chk_001",
+    "name": "KYC Compliance Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory regulatory gate verifying that the KYC process has been successfully completed before the account can be marked as active.",
+    "context": [
+      "KYC verification complete"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_chk_002",
+    "name": "AML Compliance Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory regulatory gate verifying that the AML screening has passed before the account can be marked as active.",
+    "context": [
+      "AML screening passed"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_030_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "applicant",
+    "description": "The subject of the activation process who must be notified once all activation criteria are met.",
+    "context": [
+      "Customer notified"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_030",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_prc_001",
+    "name": "Account Quality Assurance Process",
+    "aliases": [
+      "Quality Assurance",
+      "Error Checks"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A comprehensive quality assurance and error-checking workflow conducted both before and after account approval to ensure data accuracy, compliance adherence, and correct system setup.",
+    "context": [
+      "Quality Assurance",
+      "Error Checks",
+      "Before Approval",
+      "Post-Approval"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_001",
+    "name": "Pre-Approval Compliance and Data Validation",
+    "aliases": [
+      "Before Approval"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A critical review stage occurring before account approval to verify that all fields are complete, KYC and AML checks are passed, and risk assessments are documented.",
+    "context": [
+      "Before Approval:",
+      "All required fields completed",
+      "Data entry accurate (spelling, numbers)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_002",
+    "name": "Post-Approval System and Notification Execution",
+    "aliases": [
+      "Post-Approval"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final stage of the process following approval, focusing on account creation in the system, updating linked systems, ordering cards, and notifying the customer.",
+    "context": [
+      "Post-Approval:",
+      "Account created correctly in system",
+      "Customer notification sent"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_chk_001",
+    "name": "KYC Verification Checkpoint",
+    "aliases": [
+      "KYC verification"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory control gate ensuring that identity and address verification have been completed before the account can proceed to approval.",
+    "context": [
+      "KYC verification done (ID + Address)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_chk_002",
+    "name": "AML Screening Checkpoint",
+    "aliases": [
+      "AML screening"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A regulatory gate requiring confirmation that the AML screening process has been successfully passed prior to account approval.",
+    "context": [
+      "AML screening passed"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_dec_001",
+    "name": "Authority-Based Approval Gate",
+    "aliases": [
+      "Approval obtained"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision point where approval must be obtained based on the specific authority limits of the reviewer before the process can move to the post-approval stage.",
+    "context": [
+      "Approval obtained (per authority)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_rol_001",
+    "name": "Approving Authority",
+    "aliases": [
+      "per authority"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The individual or role with the designated authority to provide final approval for the account opening based on the completed QA checks.",
+    "context": [
+      "Approval obtained (per authority)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_003",
+    "name": "Risk Assessment Documentation",
+    "aliases": [
+      "Risk assessment"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The step of documenting the risk assessment associated with the account as part of the pre-approval quality check.",
+    "context": [
+      "Risk assessment documented"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_031_stp_004",
+    "name": "Card Ordering Process",
+    "aliases": [
+      "Card ordered"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_issuance",
+    "description": "An optional post-approval step where a payment card is ordered if applicable to the specific account product.",
+    "context": [
+      "Card ordered (if applicable)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_031",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_prc_001",
+    "name": "Monthly Audit Process",
+    "aliases": [
+      "Audit Sampling"
+    ],
+    "entity_class": "PROCESS",
+    "type": "quality_check",
+    "description": "A recurring monthly procedure to sample account opening files to ensure compliance with KYC/AML standards, data accuracy, and timeliness. The process aims for an error rate of less than 0.5%.",
+    "context": [
+      "Monthly Audit",
+      "Audit Sampling",
+      "Error Rate Target: <0.5% (99.5% accuracy)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_stp_001",
+    "name": "Account Opening File Review",
+    "aliases": [
+      "10+ account opening files reviewed"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The initial stage of the monthly audit where a sample of 10 or more account opening files are selected and reviewed for compliance.",
+    "context": [
+      "10+ account opening files reviewed"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_chk_001",
+    "name": "KYC and AML Completion Verification",
+    "aliases": [
+      "Check KYC/AML completion"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A mandatory control point within the audit to verify that all required Know Your Customer (KYC) and Anti-Money Laundering (AML) procedures were completed for the sampled accounts.",
+    "context": [
+      "Check KYC/AML completion"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_stp_002",
+    "name": "Data Accuracy Verification",
+    "aliases": [
+      "Verify data accuracy"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "An audit step focused on ensuring that the data entered into the systems matches the supporting documentation in the account opening file.",
+    "context": [
+      "Verify data accuracy"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_stp_003",
+    "name": "Timeliness Assessment",
+    "aliases": [
+      "Assess timeliness"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "An evaluation of whether the account opening process was completed within the bank's defined expected timeframes.",
+    "context": [
+      "Assess timeliness"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_032_dec_001",
+    "name": "Error Rate Threshold Check",
+    "aliases": [
+      "Error Rate Target"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision gate to determine if the monthly audit results meet the quality standard, requiring an error rate of less than 0.5% to be considered successful.",
+    "context": [
+      "Error Rate Target: <0.5% (99.5% accuracy)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_032",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_prc_001",
+    "name": "Common Issues and Resolution Process",
+    "aliases": [
+      "Issue Resolution"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A workflow for identifying and resolving common discrepancies and system issues encountered during the onboarding or account maintenance phase, including KYC, address, and AML failures.",
+    "context": [
+      "Common Issues & Resolution"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_001",
+    "name": "Expired KYC Document Resolution",
+    "aliases": [
+      "KYC document expired"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The action of requesting a new, valid identity document from the customer when the submitted ID has expired.",
+    "context": [
+      "KYC document expired",
+      "Request new valid document"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_002",
+    "name": "Address Mismatch Resolution",
+    "aliases": [
+      "Address mismatch"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "address_verification",
+    "description": "The process of explaining address requirements to the customer and requesting current address verification when ID and verification addresses do not match.",
+    "context": [
+      "Address mismatch",
+      "Explain requirement, request current address verification"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_003",
+    "name": "AML Screening Delay Management",
+    "aliases": [
+      "AML screening delay"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "Handling delays in AML screening caused by system lags or hits, involving waiting for confirmation and escalating if the delay persists.",
+    "context": [
+      "AML screening delay",
+      "Wait for confirmation, escalate if needed"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_004",
+    "name": "Incomplete Form Resolution",
+    "aliases": [
+      "Form incomplete"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "Contacting the customer to request missing information when application fields have been left blank.",
+    "context": [
+      "Form incomplete",
+      "Contact customer, request missing info"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_stp_005",
+    "name": "Online Opening System Issue Resolution",
+    "aliases": [
+      "Slow online opening"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "Handling slow system processing during online account opening by retrying the process or contacting support if the issue is persistent.",
+    "context": [
+      "Slow online opening",
+      "Retry, contact support if persistent"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_dec_001",
+    "name": "AML Delay Escalation Gate",
+    "aliases": [
+      "escalate if needed"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point during an AML screening delay to determine if the wait time has exceeded thresholds requiring escalation.",
+    "context": [
+      "Wait for confirmation, escalate if needed"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "Applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual providing identity documents, completing forms, and verifying address details.",
+    "context": [
+      "Customer used old ID",
+      "Contact customer, request missing info"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_rol_002",
+    "name": "Support Team",
+    "aliases": [
+      "support"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The internal support entity contacted to resolve persistent system processing issues during online account opening.",
+    "context": [
+      "contact support if persistent"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_chk_001",
+    "name": "KYC Document Validity Check",
+    "aliases": [
+      "Expired KYC document"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A mandatory control point to verify that the provided identification document is current and not expired.",
+    "context": [
+      "KYC document expired"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_chk_002",
+    "name": "Address Consistency Check",
+    "aliases": [
+      "Address mismatch"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "address_verification_step",
+    "description": "A compliance gate ensuring that the address on the ID matches the verification address provided by the customer.",
+    "context": [
+      "Address mismatch",
+      "ID/verification address different"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_033_chk_003",
+    "name": "AML Screening Gate",
+    "aliases": [
+      "AML screening delay"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A regulatory control point requiring confirmation of AML screening status before proceeding with the application.",
+    "context": [
+      "AML screening delay",
+      "Wait for confirmation"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_033",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_prc_001",
+    "name": "Staff Training and Competency Process",
+    "aliases": [
+      "Training & Competency"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The end-to-end procedure for ensuring bank staff are trained and certified in operational procedures, including annual refreshers and practical assessments.",
+    "context": [
+      "Training & Competency",
+      "Staff Required Training",
+      "Certification"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_001",
+    "name": "Annual Training Completion",
+    "aliases": [
+      "Staff Required Training"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The requirement for staff to undergo annual training across account opening, KYC, AML, and compliance obligations, as well as product-specific system training.",
+    "context": [
+      "Account opening procedures (annual)",
+      "KYC verification (annual)",
+      "AML procedures (annual)",
+      "Compliance obligations (annual)",
+      "System training (product-specific)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_002",
+    "name": "Knowledge Assessment",
+    "aliases": [
+      "pass knowledge assessment"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A formal certification step where staff must pass a knowledge assessment to demonstrate theoretical understanding of procedures.",
+    "context": [
+      "Staff must pass knowledge assessment"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_003",
+    "name": "Observed Practice Review",
+    "aliases": [
+      "Observed practice"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A practical certification step where a manager observes the staff member performing operational tasks to ensure competency.",
+    "context": [
+      "Observed practice (by manager)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_stp_004",
+    "name": "Senior Staff Shadowing",
+    "aliases": [
+      "Shadow senior staff"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A practical training requirement where staff must shadow senior personnel for a minimum of 10 account processes.",
+    "context": [
+      "Shadow senior staff (minimum 10 accounts)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_rol_001",
+    "name": "Bank Staff",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The personnel responsible for completing annual training, passing assessments, and undergoing observed practice.",
+    "context": [
+      "Staff Required Training",
+      "Staff must pass knowledge assessment"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_rol_002",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "The actor responsible for conducting the observed practice assessment of staff members.",
+    "context": [
+      "Observed practice (by manager)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_034_rol_003",
+    "name": "Senior Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Experienced personnel who provide shadowing opportunities for staff during the certification process.",
+    "context": [
+      "Shadow senior staff (minimum 10 accounts)"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_034",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_036_rol_001",
+    "name": "Head of Retail Banking",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The executive role responsible for authoring and updating the SOP, including the addition of online opening procedures, card activation, and updated KYC requirements.",
+    "context": [
+      "Author | Head of Retail Banking"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_036",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_037_rol_001",
+    "name": "Head of Retail Banking",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "Senior executive responsible for the operational approval and sign-off of the banking procedure document.",
+    "context": [
+      "Approved by: Head of Retail Banking"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_037",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_037_rol_002",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Senior executive responsible for ensuring the procedure meets regulatory requirements and providing formal sign-off.",
+    "context": [
+      "Approved by: Head of Compliance"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_037",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0c51b36017c846ffbeed1248fa8bfc59_037_rol_003",
+    "name": "Chief Operating Officer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "Top-level executive providing final operational approval and sign-off for the document.",
+    "context": [
+      "Approved by: Chief Operating Officer"
+    ],
+    "chunk_id": "0c51b36017c846ffbeed1248fa8bfc59_037",
+    "doc_id": "0c51b36017c846ffbeed1248fa8bfc59",
+    "domain": "banking_sop_guides"
+  }
+]

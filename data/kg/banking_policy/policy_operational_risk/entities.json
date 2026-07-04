@@ -1,0 +1,3818 @@
+[
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_001_pol_001",
+    "name": "FirstUK Bank — Operational Risk Policy",
+    "aliases": [
+      "ORP-POL-003"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The formal governing instrument for managing operational risk at FirstUK Bank. It is owned by the Chief Risk Officer and is currently active as of version 2.0.",
+    "context": [
+      "FirstUK Bank — Operational Risk Policy",
+      "Document ID | ORP-POL-003"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_001",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_001_reg_001",
+    "name": "PRA Rulebook (Pillar 2)",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "rulebook",
+    "description": "A regulatory rulebook issued by the Prudential Regulation Authority (PRA) specifically regarding Pillar 2 requirements that the Operational Risk Policy must comply with.",
+    "context": [
+      "Regulatory Reference | PRA Rulebook (Pillar 2)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_001",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_001_reg_002",
+    "name": "Basel III Operational Risk",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "international_standard",
+    "description": "The international banking regulatory framework for operational risk that serves as a basis for the bank's policy.",
+    "context": [
+      "Regulatory Reference | Basel III Operational Risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_001",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_001_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The primary category of risk addressed by this policy, encompassing the potential for loss resulting from inadequate or failed internal processes, people, and systems.",
+    "context": [
+      "FirstUK Bank — Operational Risk Policy"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_001",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_001_rol_001",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role designated as the owner of the Operational Risk Policy, accountable for its maintenance and oversight.",
+    "context": [
+      "Owner | Chief Risk Officer"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_001",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_001_rol_002",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of all bank employees who are within the target audience for the Operational Risk Policy.",
+    "context": [
+      "Audience | Risk, Operations, All Staff, Board"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_001",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_001_rol_003",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The bank's governing board, identified as a key audience for the operational risk framework.",
+    "context": [
+      "Audience | Risk, Operations, All Staff, Board"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_001",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_pol_001",
+    "name": "Operational Risk Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing instrument used by FirstUK Bank to identify, assess, and mitigate operational risks that could impact customers, staff, or business continuity.",
+    "context": [
+      "FirstUK Bank maintains an Operational Risk Policy to identify, assess, and mitigate operational risks"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A broad category of risk encompassing process failures, systems outages, fraud, and compliance breaches that may impact the bank's operations, staff, and customers.",
+    "context": [
+      "identify, assess, and mitigate operational risks (process failures, systems outages, fraud, compliance breaches, etc.)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_rsk_002",
+    "name": "Process Failure",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of operational risk identified as a failure in internal processes.",
+    "context": [
+      "operational risks (process failures, systems outages, fraud, compliance breaches, etc.)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_rsk_003",
+    "name": "Systems Outage",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of operational risk involving the failure or unavailability of technical systems.",
+    "context": [
+      "operational risks (process failures, systems outages, fraud, compliance breaches, etc.)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_rsk_004",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A specific type of operational risk involving fraudulent activity that could impact the bank.",
+    "context": [
+      "operational risks (process failures, systems outages, fraud, compliance breaches, etc.)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_rsk_005",
+    "name": "Compliance Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A specific type of operational risk involving failures to adhere to regulatory or internal policy requirements.",
+    "context": [
+      "operational risks (process failures, systems outages, fraud, compliance breaches, etc.)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_rol_001",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The bank's clients who are identified as parties that could be impacted by operational risks.",
+    "context": [
+      "could impact customers, staff, or business continuity"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_002_rol_002",
+    "name": "Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The bank's employees who are identified as parties that could be impacted by operational risks.",
+    "context": [
+      "could impact customers, staff, or business continuity"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_002",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_pol_001",
+    "name": "Operational Risk Management Policy",
+    "aliases": [
+      "Purpose & Scope"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal policy document establishing the procedures for managing operational risk within FirstUK Bank. It defines the framework for proactive risk identification, assessment, mitigation, monitoring, and reporting.",
+    "context": [
+      "To establish procedures for operational risk management",
+      "Identify operational risks proactively",
+      "Assess risk impact and likelihood"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The category of risk that the policy is designed to proactively identify, assess for impact and likelihood, and mitigate through controls.",
+    "context": [
+      "establish procedures for operational risk management",
+      "Identify operational risks proactively"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_prv_001",
+    "name": "Proactive Identification of Operational Risks",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to proactively identify operational risks as part of the bank's risk management procedures.",
+    "context": [
+      "Identify operational risks proactively"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_prv_002",
+    "name": "Assessment of Risk Impact and Likelihood",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to assess both the potential impact and the likelihood of identified operational risks.",
+    "context": [
+      "Assess risk impact and likelihood"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_prv_003",
+    "name": "Implementation of Mitigation Controls",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to implement specific controls designed to mitigate identified operational risks.",
+    "context": [
+      "Implement mitigation controls"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_prv_004",
+    "name": "Monitoring of Risk Metrics",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to monitor risk metrics to ensure the effectiveness of the operational risk management framework.",
+    "context": [
+      "Monitor risk metrics"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_prv_005",
+    "name": "Reporting of Operational Risk to Senior Management and Board",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "An obligation to report operational risk findings and metrics to the bank's senior management and the Board.",
+    "context": [
+      "Report to senior management and Board"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_ctl_001",
+    "name": "Mitigation Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Operational safeguards implemented to reduce the impact or likelihood of operational risks.",
+    "context": [
+      "Implement mitigation controls"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_rol_001",
+    "name": "Senior Management",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A collective of senior bank officials responsible for receiving operational risk reports.",
+    "context": [
+      "Report to senior management and Board"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_003_rol_002",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The governing body of the bank responsible for oversight and receiving operational risk reports.",
+    "context": [
+      "Report to senior management and Board"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_003",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_004_pol_001",
+    "name": "FirstUK Bank Formal Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing policy document establishing the scope of application across the bank's operations. It defines the universal applicability of its mandates across all business processes, technology, and personnel.",
+    "context": [
+      "Applies to: All business processes",
+      "All systems and technology",
+      "All staff and contractors",
+      "All products and services",
+      "All geographic locations"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_004",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_004_rol_001",
+    "name": "All Staff and Contractors",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of all employees and external contractors within FirstUK Bank to whom the policy mandates apply.",
+    "context": [
+      "Applies to: All staff and contractors"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_004",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_pol_001",
+    "name": "FirstUK Bank Operational Risk Policy",
+    "aliases": [
+      "Policy Statement"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing policy instrument establishing the bank's framework for preventing, detecting, and mitigating operational risks.",
+    "context": [
+      "FirstUK Bank operates controls to prevent, detect, and mitigate operational risks"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The broad category of risk the bank seeks to prevent, detect, and mitigate, encompassing process, system, fraud, compliance, and external failures.",
+    "context": [
+      "prevent, detect, and mitigate operational risks"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_rsk_002",
+    "name": "Process Failure",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of operational risk focusing on failures within the bank's internal processes.",
+    "context": [
+      "particular focus on process failures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_rsk_003",
+    "name": "System Outage",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of operational risk relating to the unavailability or failure of bank systems.",
+    "context": [
+      "particular focus on... system outages"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_rsk_004",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A specific type of operational risk involving fraudulent activity that the bank must control.",
+    "context": [
+      "particular focus on... fraud"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_rsk_005",
+    "name": "Compliance Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A specific type of operational risk involving failures to adhere to regulatory or internal compliance requirements.",
+    "context": [
+      "particular focus on... compliance breaches"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_rsk_006",
+    "name": "External Event",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of operational risk arising from events outside the bank's internal control.",
+    "context": [
+      "particular focus on... external events"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_005_prv_001",
+    "name": "Obligation to Operate Operational Risk Controls",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for FirstUK Bank to maintain and operate controls designed to prevent, detect, and mitigate operational risks.",
+    "context": [
+      "FirstUK Bank operates controls to prevent, detect, and mitigate operational risks"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_005",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_006_pol_001",
+    "name": "Operational Risk Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal policy document defining the bank's stance and framework for managing operational risk, specifically focusing on losses resulting from internal failures or external events.",
+    "context": [
+      "Operational Risk Categories"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_006",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_006_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of financial loss resulting from inadequate or failed internal processes, people, and systems, or from external events.",
+    "context": [
+      "Operational Risk = Risk of loss due to inadequate/failed processes, people, systems, or external events."
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_006",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_007_pol_001",
+    "name": "Process Risk Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing the identification and mitigation of process failures that cause errors or delays within the bank's operations.",
+    "context": [
+      "Process Risk",
+      "Process failures causing errors or delays"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_007",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_007_rsk_001",
+    "name": "Process Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of process failures resulting in operational errors or delays, specifically including account opening, payment processing, reconciliation, and fraud detection failures.",
+    "context": [
+      "Process Risk",
+      "Process failures causing errors or delays",
+      "Account opening errors",
+      "Payment processing failures",
+      "Reconciliation errors",
+      "Fraud detection failures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_007",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_007_ctl_001",
+    "name": "Standard Operating Procedures",
+    "aliases": [
+      "SOPs"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The use of standardized operating procedures to mitigate the risk of process failures and errors.",
+    "context": [
+      "Standard operating procedures (SOPs)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_007",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_007_ctl_002",
+    "name": "Staff Training",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The provision of training to staff as a mitigation measure against process-related errors and delays.",
+    "context": [
+      "Staff training"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_007",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_007_ctl_003",
+    "name": "Supervisory Review",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "The implementation of supervisory reviews to oversee processes and mitigate the risk of operational failure.",
+    "context": [
+      "Supervisory review"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_007",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_007_ctl_004",
+    "name": "Process Automation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The application of automation to banking processes where possible to reduce the likelihood of manual errors.",
+    "context": [
+      "Automation where possible"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_007",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_007_prv_001",
+    "name": "Mandatory Mitigation of Process Risk",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to mitigate process failures causing errors or delays through the use of SOPs, training, supervisory review, and automation.",
+    "context": [
+      "Mitigation:",
+      "Standard operating procedures (SOPs)",
+      "Staff training",
+      "Supervisory review",
+      "Automation where possible"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_007",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_rsk_001",
+    "name": "System Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A category of risk involving technology failures that result in service disruption. This includes outages, data corruption, integration failures, and security breaches.",
+    "context": [
+      "System Risk",
+      "Technology failures causing service disruption"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_rsk_002",
+    "name": "System Outages",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of technology failure under System Risk that causes service disruption.",
+    "context": [
+      "System outages"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_rsk_003",
+    "name": "Data Corruption",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of technology failure under System Risk that causes service disruption.",
+    "context": [
+      "Data corruption"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_rsk_004",
+    "name": "Integration Failures",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific type of technology failure under System Risk that causes service disruption.",
+    "context": [
+      "Integration failures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_rsk_005",
+    "name": "Security Breaches",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "A specific type of technology failure under System Risk that causes service disruption.",
+    "context": [
+      "Security breaches"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_ctl_001",
+    "name": "System Redundancy and Backup",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "An operational safeguard used to mitigate System Risk by ensuring system availability and data recovery.",
+    "context": [
+      "System redundancy/backup"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_ctl_002",
+    "name": "Disaster Recovery Planning",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A planning mechanism used to mitigate System Risk and ensure service continuity after a failure.",
+    "context": [
+      "Disaster recovery planning"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_ctl_003",
+    "name": "Change Management",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "A control process used to mitigate System Risk by managing how changes to technology are implemented.",
+    "context": [
+      "Change management"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_008_ctl_004",
+    "name": "Security Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "General protective tools and mechanisms used to mitigate System Risk and prevent security breaches.",
+    "context": [
+      "Security controls"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_008",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_rsk_001",
+    "name": "People Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A category of risk encompassing potential losses or failures resulting from staff errors or misconduct within the bank.",
+    "context": [
+      "3. People Risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_rsk_002",
+    "name": "Unauthorized Transactions",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "A specific risk under People Risk where transactions are executed without proper authorization.",
+    "context": [
+      "Unauthorized transactions"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_rsk_003",
+    "name": "Policy Violations",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk involving the failure of staff to adhere to established bank policies.",
+    "context": [
+      "Policy violations"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_rsk_004",
+    "name": "Staff Negligence",
+    "aliases": [
+      "Negligence"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risk arising from staff failure to exercise reasonable care in the performance of their duties.",
+    "context": [
+      "Negligence"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_rsk_005",
+    "name": "Staff Theft and Fraud",
+    "aliases": [
+      "Theft/fraud"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Risk of internal financial crime where staff engage in theft or fraudulent activities.",
+    "context": [
+      "Theft/fraud"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_ctl_001",
+    "name": "Training and Awareness",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "An operational safeguard used to mitigate People Risk by ensuring staff are educated and aware of their obligations.",
+    "context": [
+      "Training and awareness"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_ctl_002",
+    "name": "Segregation of Duties",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "dual_authorisation",
+    "description": "A control mechanism that divides tasks among multiple people to reduce the risk of error or fraud.",
+    "context": [
+      "Segregation of duties"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_ctl_003",
+    "name": "Access Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Technical or operational safeguards that restrict system or physical access to authorized personnel only.",
+    "context": [
+      "Access controls"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_009_ctl_004",
+    "name": "Monitoring and Audits",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The process of ongoing oversight and periodic formal reviews to detect and prevent People Risk.",
+    "context": [
+      "Monitoring and audits"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_009",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_rsk_001",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A category of risk encompassing regulatory violations or breaches, specifically including KYC failures, AML violations, GDPR breaches, and reporting errors.",
+    "context": [
+      "4. Compliance Risk",
+      "Regulatory violations or breaches: - KYC failures - AML violations - GDPR breaches - Reporting errors"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_rsk_002",
+    "name": "KYC Failures",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A specific type of regulatory violation involving failures in the Know Your Customer verification process.",
+    "context": [
+      "KYC failures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_rsk_003",
+    "name": "AML Violations",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "money_laundering",
+    "description": "A regulatory breach involving violations of Anti-Money Laundering laws and policies.",
+    "context": [
+      "AML violations"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_rsk_004",
+    "name": "GDPR Breaches",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "A regulatory violation involving breaches of the General Data Protection Regulation.",
+    "context": [
+      "GDPR breaches"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_rsk_005",
+    "name": "Reporting Errors",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "Regulatory violations resulting from errors in mandatory reporting obligations.",
+    "context": [
+      "Reporting errors"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_ctl_001",
+    "name": "Policies and Procedures",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The implementation of formal policies and procedures used to mitigate compliance risk and regulatory violations.",
+    "context": [
+      "Mitigation: - Policies and procedures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_ctl_002",
+    "name": "Compliance Training",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "Training programs provided to staff to ensure adherence to regulations and mitigate compliance risk.",
+    "context": [
+      "Mitigation: - Compliance training"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_ctl_003",
+    "name": "Regular Audits",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The performance of periodic audits to detect and mitigate regulatory violations and compliance failures.",
+    "context": [
+      "Mitigation: - Regular audits"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_ctl_004",
+    "name": "Regulatory Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The ongoing process of monitoring regulatory changes and compliance status to mitigate risk.",
+    "context": [
+      "Mitigation: - Regulatory monitoring"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_010_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The data protection regulation the bank must comply with to avoid GDPR breaches.",
+    "context": [
+      "GDPR breaches"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_010",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_pol_001",
+    "name": "Fraud Risk Policy",
+    "aliases": [
+      "Section 5"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing policy section addressing the identification and mitigation of internal and external fraud risks within FirstUK Bank.",
+    "context": [
+      "### 5. Fraud Risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_rsk_001",
+    "name": "Customer Fraud",
+    "aliases": [
+      "unauthorized transactions"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Fraud committed by or against customers, specifically characterized by unauthorized transactions.",
+    "context": [
+      "Customer fraud (unauthorized transactions)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_rsk_002",
+    "name": "Employee Fraud",
+    "aliases": [
+      "embezzlement"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Internal fraud committed by bank staff, specifically characterized by embezzlement.",
+    "context": [
+      "Employee fraud (embezzlement)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_rsk_003",
+    "name": "Third-party Fraud",
+    "aliases": [
+      "vendor fraud"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Fraud involving external partners or vendors.",
+    "context": [
+      "Third-party fraud (vendor fraud)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_rsk_004",
+    "name": "System Fraud",
+    "aliases": [
+      "data manipulation"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Fraud involving the manipulation of bank data or systems.",
+    "context": [
+      "System fraud (data manipulation)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_ctl_001",
+    "name": "Fraud Detection Systems",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "Technical systems implemented to detect fraudulent activity.",
+    "context": [
+      "Fraud detection systems"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_ctl_002",
+    "name": "Segregation of Duties",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "dual_authorisation",
+    "description": "An operational safeguard ensuring that no single individual has control over all phases of a business transaction to prevent fraud.",
+    "context": [
+      "Segregation of duties"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_ctl_003",
+    "name": "Whistleblower Procedures",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "Formal procedures allowing for the reporting of suspected fraudulent activity.",
+    "context": [
+      "Whistleblower procedures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_011_ctl_004",
+    "name": "Investigation Protocols",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "fraud_investigation",
+    "description": "Standardized protocols for conducting investigations into suspected fraud.",
+    "context": [
+      "Investigation protocols"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_011",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_rsk_001",
+    "name": "Reputational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "reputational_risk",
+    "description": "The risk of reputational damage resulting from operational failures, regulatory breaches, or misconduct. This risk is characterized by negative public perception arising from customer complaints, press coverage of violations, or service disruptions.",
+    "context": [
+      "Reputational Risk",
+      "Reputational damage from failures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_rsk_002",
+    "name": "Customer Complaint Risk",
+    "aliases": [
+      "social media"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "reputational_risk",
+    "description": "A specific driver of reputational damage stemming from customer complaints, particularly those amplified via social media.",
+    "context": [
+      "Customer complaints (social media)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_rsk_003",
+    "name": "Regulatory Violation Risk",
+    "aliases": [
+      "press"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk of reputational damage caused by regulatory violations that become public through press coverage.",
+    "context": [
+      "Regulatory violations (press)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_rsk_004",
+    "name": "System Outage Risk",
+    "aliases": [
+      "service disruption"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of reputational damage resulting from system outages and the subsequent disruption of services.",
+    "context": [
+      "System outages (service disruption)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_rsk_005",
+    "name": "Fraud and Misconduct Risk",
+    "aliases": [
+      "scandal"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of reputational damage and public scandal arising from internal or external fraud and misconduct.",
+    "context": [
+      "Fraud/misconduct (scandal)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_ctl_001",
+    "name": "Service Quality Focus",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "operational_safeguard",
+    "description": "An operational focus on maintaining service quality to mitigate the risk of customer complaints and reputational damage.",
+    "context": [
+      "Service quality focus"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_ctl_002",
+    "name": "Regulatory Compliance Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "compliance_monitoring",
+    "description": "The implementation of regulatory compliance measures to prevent violations that could lead to negative press and reputational harm.",
+    "context": [
+      "Regulatory compliance"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_ctl_003",
+    "name": "Incident Response",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The use of incident response protocols to manage and mitigate the impact of system outages or other failures.",
+    "context": [
+      "Incident response"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_012_ctl_004",
+    "name": "Media Management",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "communication_control",
+    "description": "The application of media management strategies to control the bank's public image during crises or scandals.",
+    "context": [
+      "Media management"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_012",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_rsk_001",
+    "name": "External Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks arising from external events beyond the bank's control, including environmental, technical, third-party, and legal shifts.",
+    "context": [
+      "External Risk",
+      "External events beyond control"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_rsk_002",
+    "name": "Natural Disasters",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "A specific category of external risk involving natural events that may disrupt bank operations.",
+    "context": [
+      "Natural disasters"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_rsk_003",
+    "name": "Cyberattacks",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "External threats involving malicious digital attacks against the bank's infrastructure.",
+    "context": [
+      "Cyberattacks"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_rsk_004",
+    "name": "Vendor Failures",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with the failure of third-party service providers to meet their obligations.",
+    "context": [
+      "Vendor failures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_rsk_005",
+    "name": "Regulatory Changes",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "Risks stemming from changes in the external regulatory environment that may impact bank operations.",
+    "context": [
+      "Regulatory changes"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_ctl_001",
+    "name": "Business Continuity Planning",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational safeguard used to mitigate the impact of external events and ensure the bank can continue functioning during disasters.",
+    "context": [
+      "Business continuity planning"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_ctl_002",
+    "name": "Cybersecurity Measures",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Technical and operational safeguards implemented to protect the bank from cyberattacks.",
+    "context": [
+      "Cybersecurity measures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_ctl_003",
+    "name": "Vendor Management",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "The process of monitoring and managing third-party providers to mitigate the risk of vendor failure.",
+    "context": [
+      "Vendor management"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_013_ctl_004",
+    "name": "Regulatory Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The ongoing process of tracking regulatory changes to ensure the bank remains compliant.",
+    "context": [
+      "Regulatory monitoring"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_013",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_pol_001",
+    "name": "Risk Assessment Framework",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A governing framework establishing the processes for identifying, logging, and assessing risks within the bank. It mandates a continuous approach to risk identification and the maintenance of a centralized risk register.",
+    "context": [
+      "Risk Assessment Framework",
+      "Risk Identification",
+      "Continuous Process"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_prv_001",
+    "name": "Mandatory Annual Departmental Risk Assessment",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement for each department to conduct a risk assessment on an annual basis as part of the continuous risk identification process.",
+    "context": [
+      "Annual risk assessment (by department)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_prv_002",
+    "name": "Management Process Walk-throughs",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to perform process walk-throughs with management to identify potential risks.",
+    "context": [
+      "Process walk-throughs with management"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_prv_003",
+    "name": "Incident Trend Analysis Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to analyze trends in incidents to identify emerging or systemic risks.",
+    "context": [
+      "Incident trend analysis"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_prv_004",
+    "name": "Regulatory Change Assessment",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to assess changes in regulations to determine their impact on the bank's risk profile.",
+    "context": [
+      "Regulatory change assessment"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_prv_005",
+    "name": "External Threat Monitoring",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to monitor external threats as part of the continuous risk identification process.",
+    "context": [
+      "External threat monitoring"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_ctl_001",
+    "name": "Centralized Risk Register",
+    "aliases": [
+      "Risk Register"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "A centralized log used to document identified risks, including their description, impact, likelihood, and risk ratings (current and residual), as well as the assigned responsible party.",
+    "context": [
+      "Risk Register:",
+      "Centralized log of identified risks",
+      "Risk ID, description, impact, likelihood",
+      "Current and residual risk rating",
+      "Responsible party"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_014_rol_001",
+    "name": "Responsible Party",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The individual or entity designated within the Risk Register as being accountable for a specific identified risk.",
+    "context": [
+      "Responsible party"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_014",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_pol_001",
+    "name": "Risk Scoring Policy",
+    "aliases": [
+      "Risk Scoring"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal framework defining the methodology for assessing risk through impact and likelihood scales. It establishes a risk rating matrix to categorize risks from Low to Critical based on financial loss and frequency.",
+    "context": [
+      "Risk Scoring",
+      "Risk Rating Matrix",
+      "Risk Categories"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_prv_001",
+    "name": "Risk Impact Assessment Requirement",
+    "aliases": [
+      "Impact Scale (1–5)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of a 1–5 scale to determine the impact of a risk, correlating the score to specific loss amounts ranging from <£10k (Minimal) to >£1M (Critical).",
+    "context": [
+      "Impact Scale (1–5):",
+      "1 | Minimal | <£10k",
+      "5 | Critical | >£1M"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_prv_002",
+    "name": "Risk Likelihood Assessment Requirement",
+    "aliases": [
+      "Likelihood Scale (1–5)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of a 1–5 scale to determine the likelihood of a risk occurrence, based on frequency ranging from 'Rare' (<1 in 10 years) to 'Very Likely' (Monthly+).",
+    "context": [
+      "Likelihood Scale (1–5):",
+      "1 | Rare | <1 in 10 years",
+      "5 | Very Likely | Monthly+"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_prv_003",
+    "name": "Risk Rating Categorization and Action Mandate",
+    "aliases": [
+      "Risk Categories"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Defines the required response based on the calculated risk score: Green (1-5) requires standard controls, Yellow (6-10) requires monitoring, Orange (12-15) requires senior oversight, and Red (16-25) requires immediate mitigation.",
+    "context": [
+      "Green (1–5): Low risk, accept, standard controls",
+      "Yellow (6–10): Medium risk, monitor, targeted controls",
+      "Orange (12–15): High risk, mitigate, senior oversight",
+      "Red (16–25): Critical, urgent action, immediate mitigation"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with system outages, process errors, and service disruptions as defined in the likelihood and impact scales.",
+    "context": [
+      "Service disruption <1 hour",
+      "System outage 1–4 hours",
+      "Process error, occasional system glitch"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_rsk_002",
+    "name": "Regulatory and Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "Risks involving regulatory breaches and threats to the bank's operating license.",
+    "context": [
+      "Regulatory breach, significant loss, reputational",
+      "Major breach, large loss, license risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_rsk_003",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Risks associated with fraud detection events, categorized as 'Likely' in the frequency scale.",
+    "context": [
+      "Fraud detection, customer complaint"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_ctl_001",
+    "name": "Standard Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "Baseline safeguards applied to risks categorized as Green (Low risk).",
+    "context": [
+      "Green (1–5): Low risk, accept, standard controls"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_ctl_002",
+    "name": "Targeted Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "Specific monitoring mechanisms applied to risks categorized as Yellow (Medium risk).",
+    "context": [
+      "Yellow (6–10): Medium risk, monitor, targeted controls"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_ctl_003",
+    "name": "Senior Oversight",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "Management-level supervision required for risks categorized as Orange (High risk).",
+    "context": [
+      "Orange (12–15): High risk, mitigate, senior oversight"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_015_ctl_004",
+    "name": "Immediate Mitigation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "Urgent corrective actions required for risks categorized as Red (Critical).",
+    "context": [
+      "Red (16–25): Critical, urgent action, immediate mitigation"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_015",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_pol_001",
+    "name": "Risk Assessment Process",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal framework defining the four-step lifecycle for identifying, scoring, mitigating, and monitoring risks within the bank. It establishes a collaborative workflow between individual departments and the Risk Team.",
+    "context": [
+      "Risk Assessment Process",
+      "Step 1: Identify (Department-Led)",
+      "Step 2: Score (Risk Team + Department)",
+      "Step 3: Mitigate (Department-Led)",
+      "Step 4: Monitor (Continuous)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_prv_001",
+    "name": "Mandatory Risk Identification",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires departments to lead the identification of potential risks, specifically assessing process failures, systems, and fraud scenarios.",
+    "context": [
+      "Step 1: Identify (Department-Led)",
+      "Department lists potential risks",
+      "Assess process failures, systems, fraud scenarios"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_prv_002",
+    "name": "Risk Scoring and Residual Risk Calculation",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates a joint effort between the Risk Team and the Department to estimate impact and likelihood, account for existing controls, and calculate the resulting residual risk.",
+    "context": [
+      "Step 2: Score (Risk Team + Department)",
+      "Estimate impact and likelihood",
+      "Consider existing controls",
+      "Calculate residual risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_prv_003",
+    "name": "Risk Mitigation and Control Implementation",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligates departments to identify control gaps, implement targeted controls, and assign a specific responsibility and timeline for mitigation.",
+    "context": [
+      "Step 3: Mitigate (Department-Led)",
+      "Identify control gaps",
+      "Implement targeted controls",
+      "Assign responsibility and timeline"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_prv_004",
+    "name": "Continuous Risk Monitoring and Escalation",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires continuous monitoring of key risk indicators (KRIs), the adjustment of controls as necessary, and the escalation of risks if they increase.",
+    "context": [
+      "Step 4: Monitor (Continuous)",
+      "Monitor key risk indicators (KRIs)",
+      "Adjust controls if needed",
+      "Escalate if risk increases"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_rsk_001",
+    "name": "Fraud Scenarios",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Potential fraud-related events that must be identified and assessed as part of the department-led risk identification process.",
+    "context": [
+      "Assess process failures, systems, fraud scenarios"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_rsk_002",
+    "name": "Process Failures",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks arising from failures in internal processes that must be identified during the risk assessment process.",
+    "context": [
+      "Assess process failures, systems, fraud scenarios"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_rsk_003",
+    "name": "System Risks",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with bank systems that are subject to identification and assessment by departments.",
+    "context": [
+      "Assess process failures, systems, fraud scenarios"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_ctl_001",
+    "name": "Key Risk Indicators (KRIs)",
+    "aliases": [
+      "KRIs"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "Monitoring mechanisms used to continuously track risk levels and trigger control adjustments or escalations.",
+    "context": [
+      "Monitor key risk indicators (KRIs)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_rol_001",
+    "name": "Department",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The organizational unit responsible for leading risk identification, implementing targeted controls, and assigning mitigation timelines.",
+    "context": [
+      "Step 1: Identify (Department-Led)",
+      "Department lists potential risks",
+      "Step 3: Mitigate (Department-Led)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_016_rol_002",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "risk_committee",
+    "description": "The specialized team that collaborates with departments to score risks, estimate impact/likelihood, and calculate residual risk.",
+    "context": [
+      "Step 2: Score (Risk Team + Department)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_016",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_pol_001",
+    "name": "Control Framework",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing framework establishing the Three Lines of Defense model to manage risk, monitoring, and assurance within the bank.",
+    "context": [
+      "## Control Framework",
+      "Three Lines of Defense"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_rol_001",
+    "name": "Frontline Management",
+    "aliases": [
+      "Line 1"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The first line of defense consisting of department heads responsible for risk, operating procedures, daily monitoring, and immediate incident response.",
+    "context": [
+      "Line 1: Frontline Management",
+      "Department heads responsible for risk",
+      "Operating procedures",
+      "Daily monitoring",
+      "Immediate incident response"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_rol_002",
+    "name": "Risk & Compliance",
+    "aliases": [
+      "Line 2"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The second line of defense responsible for the risk policy and framework, independent risk monitoring, control testing, and escalation procedures.",
+    "context": [
+      "Line 2: Risk & Compliance",
+      "Risk policy and framework",
+      "Independent risk monitoring",
+      "Control testing",
+      "Escalation procedures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_rol_003",
+    "name": "Internal Audit",
+    "aliases": [
+      "Line 3"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The third line of defense providing independent assurance through control testing, audit reports, and follow-up verification.",
+    "context": [
+      "Line 3: Internal Audit",
+      "Independent assurance",
+      "Control testing",
+      "Audit reports",
+      "Follow-up verification"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_001",
+    "name": "Daily Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "A first-line operational safeguard involving the daily monitoring of activities to identify risks.",
+    "context": [
+      "Daily monitoring"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_002",
+    "name": "Immediate Incident Response",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A first-line control requiring the immediate response to identified incidents.",
+    "context": [
+      "Immediate incident response"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_003",
+    "name": "Independent Risk Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "A second-line control providing independent oversight and monitoring of risk.",
+    "context": [
+      "Independent risk monitoring"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_004",
+    "name": "Control Testing",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A control mechanism utilized by both the second line (Risk & Compliance) and third line (Internal Audit) to verify the effectiveness of controls.",
+    "context": [
+      "Control testing"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_005",
+    "name": "Escalation Procedures",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A second-line operational mechanism for escalating risks and compliance issues.",
+    "context": [
+      "Escalation procedures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_006",
+    "name": "Independent Assurance",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A third-line safeguard providing objective assurance on the bank's risk management processes.",
+    "context": [
+      "Independent assurance"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_007",
+    "name": "Audit Reports",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The formal documentation of audit findings produced by the third line of defense.",
+    "context": [
+      "Audit reports"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_017_ctl_008",
+    "name": "Follow-up Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A third-line control to ensure that audit findings and recommendations have been addressed.",
+    "context": [
+      "Follow-up verification"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_017",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_018_pol_001",
+    "name": "Incident Management Policy",
+    "aliases": [
+      "Incident Management"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal policy governing the management of unplanned events that result in actual loss or regulatory breaches within FirstUK Bank.",
+    "context": [
+      "Incident Management"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_018",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_018_rsk_001",
+    "name": "Incident Risk",
+    "aliases": [
+      "Incident"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "An unplanned event that causes an actual financial loss or a regulatory breach.",
+    "context": [
+      "Incident = Unplanned event causing actual loss or regulatory breach"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_018",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_pol_001",
+    "name": "Incident Reporting Policy",
+    "aliases": [
+      "Incident Reporting"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal policy governing the immediate actions, escalation paths, and data capture requirements following an operational incident.",
+    "context": [
+      "### Incident Reporting"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_prv_001",
+    "name": "Immediate Manager Notification",
+    "aliases": [
+      "Immediate Actions"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A mandatory requirement for staff to report an incident to their manager immediately upon discovery.",
+    "context": [
+      "Report to manager immediately"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_prv_002",
+    "name": "Mandatory Incident Logging",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "An obligation to ensure that all incidents are formally recorded within the designated incident log.",
+    "context": [
+      "Record in incident log"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_prv_003",
+    "name": "Financial Loss Escalation Threshold",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory escalation requirement to the Risk team for any incident resulting in a loss exceeding £10,000.",
+    "context": [
+      "Escalate to Risk team if >£10k loss"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_prv_004",
+    "name": "Regulatory Breach Escalation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to escalate the incident to the Compliance department if a regulatory breach has occurred.",
+    "context": [
+      "Escalate to Compliance if regulatory breach"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_prv_005",
+    "name": "Incident Information Capture Standard",
+    "aliases": [
+      "Information Captured"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A standard defining the specific data points that must be captured for every incident, including date, time, type, affected systems, impact, root cause, and containment steps.",
+    "context": [
+      "Information Captured:",
+      "Date, time, incident type",
+      "Affected systems/processes",
+      "Estimated impact",
+      "Root cause (if known)",
+      "Immediate containment steps"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_ctl_001",
+    "name": "Incident Log",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational tool used to record and track incidents as required by the reporting policy.",
+    "context": [
+      "Record in incident log"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_rol_001",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The first point of contact for incident reporting who receives immediate notifications from staff.",
+    "context": [
+      "Report to manager immediately"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_rol_002",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The body responsible for handling escalated incidents involving financial losses greater than £10,000.",
+    "context": [
+      "Escalate to Risk team if >£10k loss"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_rol_003",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The department responsible for managing and overseeing incidents that constitute a regulatory breach.",
+    "context": [
+      "Escalate to Compliance if regulatory breach"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_rsk_001",
+    "name": "Financial Loss",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of monetary loss resulting from an incident, with a specific reporting threshold of £10,000.",
+    "context": [
+      "Escalate to Risk team if >£10k loss"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_019_rsk_002",
+    "name": "Regulatory Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk of failing to comply with external laws or regulations, triggering a mandatory escalation to Compliance.",
+    "context": [
+      "Escalate to Compliance if regulatory breach"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_019",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_pol_001",
+    "name": "Fraud Investigation Policy",
+    "aliases": [
+      "Investigation"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the investigation of fraud incidents, specifying mandatory timelines for completion based on the financial value of the incident and the required elements of the investigation report.",
+    "context": [
+      "### Investigation"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_prv_001",
+    "name": "Investigation Timeline for Incidents under £10k",
+    "aliases": [
+      "Timeline <£10k"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement that fraud incidents with a value of less than £10,000 must be investigated within 5 business days.",
+    "context": [
+      "Incidents <£10k: Investigated within 5 business days"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_prv_002",
+    "name": "Investigation Timeline for Incidents between £10k and £100k",
+    "aliases": [
+      "Timeline £10k–£100k"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement that fraud incidents with a value between £10,000 and £100,000 must be investigated within 2 business days.",
+    "context": [
+      "Incidents £10k–£100k: Investigated within 2 business days"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_prv_003",
+    "name": "Immediate Escalation for Incidents over £100k",
+    "aliases": [
+      "Timeline >£100k"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Mandatory requirement for immediate escalation to the Chief Risk Officer (CRO) and Chief Executive Officer (CEO) for any fraud incident exceeding £100,000.",
+    "context": [
+      "Incidents >£100k: Immediate escalation to CRO + CEO"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_prv_004",
+    "name": "Mandatory Investigation Elements",
+    "aliases": [
+      "Investigation Elements"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all fraud investigations must include a detailed timeline of events, root cause analysis, lessons learned, corrective action, and prevention measures.",
+    "context": [
+      "Investigation Elements:",
+      "What happened (detailed timeline)",
+      "Root cause analysis",
+      "Lessons learned",
+      "Corrective action",
+      "Prevention measures"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_rol_001",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Executive role responsible for receiving immediate escalations regarding high-value fraud incidents exceeding £100,000.",
+    "context": [
+      "Immediate escalation to CRO + CEO"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_rol_002",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Executive role responsible for receiving immediate escalations regarding high-value fraud incidents exceeding £100,000.",
+    "context": [
+      "Immediate escalation to CRO + CEO"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_020_ctl_001",
+    "name": "Root Cause Analysis",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "An operational mechanism used during fraud investigations to identify the underlying cause of an incident to prevent recurrence.",
+    "context": [
+      "Root cause analysis"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_020",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_pol_001",
+    "name": "Incident Escalation Policy",
+    "aliases": [
+      "Escalation"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing the triggers, timelines, and reporting lines for escalating financial losses based on the amount of the loss.",
+    "context": [
+      "### Escalation",
+      "Incident Escalation Triggers"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_prv_001",
+    "name": "Low Value Loss Reporting Requirement",
+    "aliases": [
+      "<£1k"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "For losses under £1,000, the Department Manager is required to report the incident to Risk.",
+    "context": [
+      "<£1k | Department Manager | Report to Risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_prv_002",
+    "name": "Medium Value Loss Reporting Requirement",
+    "aliases": [
+      "£1k–£10k"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "For losses between £1,000 and £10,000, the Risk Manager must report the incident to the CRO within 1 day.",
+    "context": [
+      "£1k–£10k | Risk Manager | Report to CRO within 1 day"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_prv_003",
+    "name": "High Value Loss Reporting Requirement",
+    "aliases": [
+      "£10k–£100k"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "For losses between £10,000 and £100,000, the CRO and CEO must be notified within 24 hours.",
+    "context": [
+      "£10k–£100k | CRO + CEO | Report within 24 hours"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_prv_004",
+    "name": "Critical Value Loss Reporting Requirement",
+    "aliases": [
+      ">£100k"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "For losses exceeding £100,000, immediate notification to the Board and Regulators is mandatory, including formal regulatory notification.",
+    "context": [
+      ">£100k | Board + Regulators | Immediate + regulatory notification"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_rol_001",
+    "name": "Department Manager",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Responsible for reporting losses of less than £1,000 to the Risk function.",
+    "context": [
+      "<£1k | Department Manager | Report to Risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_rol_002",
+    "name": "Risk Manager",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Responsible for reporting losses between £1,000 and £10,000 to the CRO within a one-day timeframe.",
+    "context": [
+      "£1k–£10k | Risk Manager | Report to CRO within 1 day"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_rol_003",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "An executive role that receives reports for medium-value losses and is part of the escalation chain for high-value losses (£10k–£100k).",
+    "context": [
+      "Report to CRO within 1 day",
+      "£10k–£100k | CRO + CEO"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_rol_004",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "An executive role required to be notified of losses between £10,000 and £100,000 within 24 hours.",
+    "context": [
+      "£10k–£100k | CRO + CEO | Report within 24 hours"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_rol_005",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The governing body that must be notified immediately in the event of losses exceeding £100,000.",
+    "context": [
+      ">£100k | Board + Regulators | Immediate + regulatory notification"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_rol_006",
+    "name": "Regulators",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "External authorities that must receive immediate notification for losses exceeding £100,000.",
+    "context": [
+      ">£100k | Board + Regulators | Immediate + regulatory notification"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_rsk_001",
+    "name": "Financial Loss",
+    "aliases": [
+      "Loss Amount"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of financial loss, categorized by monetary thresholds to determine the appropriate escalation path.",
+    "context": [
+      "Loss Amount",
+      "Incident Escalation Triggers"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_021_ctl_001",
+    "name": "Incident Escalation Matrix",
+    "aliases": [
+      "Escalation Triggers"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A structured matrix used to ensure that financial losses are reported to the correct level of management within specified timeframes.",
+    "context": [
+      "Incident Escalation Triggers:",
+      "| Loss Amount | Escalation | Timeline |"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_021",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_022_rsk_001",
+    "name": "Key Risk Indicators",
+    "aliases": [
+      "KRIs"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Early warning signals used by the bank to identify and monitor emerging risks before they materialize into significant events.",
+    "context": [
+      "Key Risk Indicators (KRIs)",
+      "KRIs = Early warning signals of emerging risk"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_022",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_pol_001",
+    "name": "Operational Risk Policy",
+    "aliases": [
+      "Operational KRIs"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing operational risk management through the definition of Key Risk Indicators (KRIs), target thresholds, and mandatory remediation actions when targets are exceeded.",
+    "context": [
+      "Operational KRIs"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The overarching risk category addressed by the monitoring of account opening errors, system availability, reconciliation variances, and compliance violations.",
+    "context": [
+      "Operational KRIs"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_rsk_002",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity, monitored via the fraud detection rate KRI to ensure gaps are investigated and rules are tuned.",
+    "context": [
+      "Fraud detection rate"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_rsk_003",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk of regulatory or policy violations, with a target of zero occurrences and a requirement for immediate remediation.",
+    "context": [
+      "Compliance violations"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_prv_001",
+    "name": "Remediation of Account Opening Errors",
+    "aliases": [
+      "KRI: Account opening errors"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "Mandatory requirement to review the process and retrain staff if account opening errors exceed a target of 0.5%.",
+    "context": [
+      "Account opening errors | <0.5% | Review process, retrain staff"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_prv_002",
+    "name": "System Availability Remediation",
+    "aliases": [
+      "KRI: System availability"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligation to investigate outages and remediate issues if system availability falls below the 99.8% target.",
+    "context": [
+      "System availability | 99.8% | Investigate outage, remediate"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_prv_003",
+    "name": "Reconciliation Variance Correction",
+    "aliases": [
+      "KRI: Reconciliation variance"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to investigate and correct daily reconciliation variances that exceed £1,000.",
+    "context": [
+      "Reconciliation variance | <£1k daily | Investigate, correct"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_prv_004",
+    "name": "Fraud Detection Rule Tuning",
+    "aliases": [
+      "KRI: Fraud detection rate"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligation to tune fraud rules and investigate gaps if the fraud detection rate falls below 97%.",
+    "context": [
+      "Fraud detection rate | 97%+ | Tune fraud rules, investigate gaps"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_prv_005",
+    "name": "Immediate Remediation of Compliance Violations",
+    "aliases": [
+      "KRI: Compliance violations"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Strict requirement for immediate remediation upon the occurrence of any compliance violations (target is 0).",
+    "context": [
+      "Compliance violations | 0 | Immediate remediation"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_prv_006",
+    "name": "Customer Complaint Root Cause Analysis",
+    "aliases": [
+      "KRI: Customer complaints"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to perform a root cause analysis if customer complaints exceed 2 per 1,000 accounts.",
+    "context": [
+      "Customer complaints | <2 per 1,000 accounts | Root cause analysis"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_ctl_001",
+    "name": "Operational KRI Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The use of Key Risk Indicators (KRIs) to monitor operational health across account opening, system availability, reconciliation, fraud, compliance, and complaints.",
+    "context": [
+      "Operational KRIs",
+      "Target",
+      "Action if Exceeded"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_023_rol_001",
+    "name": "Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members who are subject to retraining in the event that account opening error targets are exceeded.",
+    "context": [
+      "retrain staff"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_023",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_pol_001",
+    "name": "Process KRI Policy",
+    "aliases": [
+      "Process KRIs"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing the Key Risk Indicators (KRIs) for core banking processes, defining target thresholds and monitoring frequencies for operational performance.",
+    "context": [
+      "Process KRIs"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_prv_001",
+    "name": "Account Opening Error Rate Threshold",
+    "aliases": [
+      "Account Opening KRI"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to maintain an error rate of less than 0.5% for the Account Opening process, with monitoring conducted on a monthly basis.",
+    "context": [
+      "Account Opening | Error rate | <0.5% | Monthly"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_prv_002",
+    "name": "Payment Processing Failure Rate Threshold",
+    "aliases": [
+      "Payment Processing KRI"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to maintain a failed transaction rate of less than 0.1% for Payment Processing, with monitoring conducted on a daily basis.",
+    "context": [
+      "Payment Processing | Failed transactions | <0.1% | Daily"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_prv_003",
+    "name": "Fraud Detection False Positive Rate Threshold",
+    "aliases": [
+      "Fraud Detection KRI"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to maintain a false positive rate of less than 2% for Fraud Detection, with monitoring conducted on a weekly basis.",
+    "context": [
+      "Fraud Detection | False positive rate | <2% | Weekly"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_prv_004",
+    "name": "AML Screening Delay Threshold",
+    "aliases": [
+      "AML Screening KRI"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to ensure AML Screening delays remain under 2 hours, with monitoring conducted continuously.",
+    "context": [
+      "AML Screening | Screening delay | <2 hours | Continuous"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of loss resulting from inadequate or failed internal processes, people, and systems, as evidenced by the tracking of error rates and processing failures.",
+    "context": [
+      "Error rate",
+      "Failed transactions",
+      "False positive rate",
+      "Screening delay"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_rsk_002",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity, mitigated by monitoring the false positive rate of detection systems.",
+    "context": [
+      "Fraud Detection | False positive rate"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_rsk_003",
+    "name": "Money Laundering Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "money_laundering",
+    "description": "The risk of money laundering, mitigated by ensuring timely AML screening.",
+    "context": [
+      "AML Screening | Screening delay"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_ctl_001",
+    "name": "KRI Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of tracking Key Risk Indicators (KRIs) on daily, weekly, monthly, and continuous schedules to ensure process stability.",
+    "context": [
+      "Monitoring",
+      "Monthly",
+      "Daily",
+      "Weekly",
+      "Continuous"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_aml_001",
+    "name": "AML Screening Process",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "ongoing_monitoring",
+    "description": "The process of screening for AML compliance, which is subject to a maximum delay threshold of 2 hours.",
+    "context": [
+      "AML Screening | Screening delay | <2 hours | Continuous"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_acc_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The process of opening new accounts, monitored for error rates to ensure operational quality.",
+    "context": [
+      "Account Opening | Error rate"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_024_trn_001",
+    "name": "Payment Transactions",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "Financial transactions processed by the bank, monitored for failure rates.",
+    "context": [
+      "Payment Processing | Failed transactions"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_024",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_pol_001",
+    "name": "Risk Governance Policy",
+    "aliases": [
+      "Risk Governance"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing framework for risk oversight at FirstUK Bank, detailing the structure, frequency, and agenda of risk governance bodies.",
+    "context": [
+      "## Risk Governance"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_rol_001",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "Risk Committee"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "risk_committee",
+    "description": "A cross-functional committee responsible for overseeing risk appetite, Key Risk Indicators (KRIs), incidents, and the effectiveness of controls. The committee meets on a quarterly basis.",
+    "context": [
+      "### Risk Committee (see [[departments]] Board Risk Committee)",
+      "Frequency: Quarterly",
+      "Agenda: Risk appetite, KRIs, incidents, control effectiveness"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_prv_001",
+    "name": "Quarterly Risk Committee Meeting Requirement",
+    "aliases": [
+      "Frequency: Quarterly"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Mandatory requirement for the Board Risk Committee to convene and review risk governance matters on a quarterly frequency.",
+    "context": [
+      "Frequency: Quarterly"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_ctl_001",
+    "name": "Risk Governance Agenda Review",
+    "aliases": [
+      "Agenda"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of reviewing risk appetite, KRIs, incidents, and control effectiveness through a structured committee agenda.",
+    "context": [
+      "Agenda: Risk appetite, KRIs, incidents, control effectiveness"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_rol_002",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A designated member of the Board Risk Committee responsible for risk oversight.",
+    "context": [
+      "Members: CRO, CEO, CFO, Compliance Head, Internal Audit"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_rol_003",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A designated member of the Board Risk Committee responsible for risk oversight.",
+    "context": [
+      "Members: CRO, CEO, CFO, Compliance Head, Internal Audit"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_rol_004",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A designated member of the Board Risk Committee responsible for risk oversight.",
+    "context": [
+      "Members: CRO, CEO, CFO, Compliance Head, Internal Audit"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_rol_005",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A designated member of the Board Risk Committee responsible for risk oversight.",
+    "context": [
+      "Members: CRO, CEO, CFO, Compliance Head, Internal Audit"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_025_rol_006",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "A designated member of the Board Risk Committee responsible for risk oversight.",
+    "context": [
+      "Members: CRO, CEO, CFO, Compliance Head, Internal Audit"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_025",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_026_rol_001",
+    "name": "Department Risk Owners",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Staff members responsible for the identification, implementation, and monitoring of risks and controls within their specific departmental areas, including reporting to the Risk team and escalating incidents.",
+    "context": [
+      "Department Risk Owners",
+      "Identify risks in area",
+      "Implement controls",
+      "Monitor KRIs",
+      "Report to Risk team",
+      "Escalate incidents"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_026",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_026_ctl_001",
+    "name": "KRI Monitoring",
+    "aliases": [
+      "KRIs"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The process of monitoring Key Risk Indicators (KRIs) as part of the risk management obligations of Department Risk Owners.",
+    "context": [
+      "Monitor KRIs"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_026",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_026_ctl_002",
+    "name": "Incident Escalation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The operational requirement to escalate identified incidents to the appropriate authority.",
+    "context": [
+      "Escalate incidents"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_026",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_026_prv_001",
+    "name": "Risk Identification Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A mandatory requirement for Department Risk Owners to identify risks within their specific area of responsibility.",
+    "context": [
+      "Identify risks in area"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_026",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_026_prv_002",
+    "name": "Control Implementation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for Department Risk Owners to implement necessary controls to mitigate identified risks.",
+    "context": [
+      "Implement controls"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_026",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_026_prv_003",
+    "name": "Risk Reporting Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement for Department Risk Owners to report risk-related information to the Risk team.",
+    "context": [
+      "Report to Risk team"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_026",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_027_rol_001",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "risk_committee",
+    "description": "An internal team responsible for the maintenance of the risk framework, aggregation of risk assessments, and monitoring of trends. They serve as the regulatory liaison and are tasked with reporting findings to the Board Risk Committee.",
+    "context": [
+      "Risk Team",
+      "Maintain risk framework",
+      "Aggregate risk assessment",
+      "Monitor trends",
+      "Report to Board Risk Committee",
+      "Regulatory liaison"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_027",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_027_rol_002",
+    "name": "Board Risk Committee",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The governing body to which the Risk Team reports risk assessments and trend monitoring.",
+    "context": [
+      "Report to Board Risk Committee"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_027",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_pol_001",
+    "name": "FirstUK Bank Risk Appetite Statement",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A governing statement defining FirstUK Bank's overall risk appetite as conservative and establishing specific quantitative tolerances for operational losses, incidents, compliance, and fraud.",
+    "context": [
+      "FirstUK Bank's Risk Appetite = Conservative",
+      "Operational Loss Tolerance"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of loss resulting from inadequate or failed internal processes, people, and systems, with a defined annual loss tolerance of less than £50k.",
+    "context": [
+      "Operational Loss Tolerance",
+      "Annual operational losses: <£50k (0.15% of revenue)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_rsk_002",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk of legal or regulatory sanctions, financial loss, or reputation loss resulting from failure to comply with laws and regulations, for which the bank has zero tolerance.",
+    "context": [
+      "Compliance violations: 0 tolerated"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_rsk_003",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of financial loss due to fraudulent activity, with an annual loss tolerance threshold of less than £100k.",
+    "context": [
+      "Fraud loss: <£100k annually"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_prv_001",
+    "name": "Annual Operational Loss Limit",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that annual operational losses must be kept below £50,000, which represents 0.15% of revenue.",
+    "context": [
+      "Annual operational losses: <£50k (0.15% of revenue)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_prv_002",
+    "name": "Major Incident Frequency Limit",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that the bank must experience fewer than one major incident per year.",
+    "context": [
+      "Major incident acceptance: <1 per year"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_prv_003",
+    "name": "Zero Tolerance for Compliance Violations",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "A strict prohibition against compliance violations, stating that zero violations are tolerated.",
+    "context": [
+      "Compliance violations: 0 tolerated"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_028_prv_004",
+    "name": "Annual Fraud Loss Limit",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that total annual losses resulting from fraud must be less than £100,000.",
+    "context": [
+      "Fraud loss: <£100k annually"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_028",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_pol_001",
+    "name": "Training & Awareness Policy",
+    "aliases": [
+      "Training & Awareness"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing the training and awareness requirements for staff regarding operational risk. It defines mandatory training frequencies and levels based on staff roles.",
+    "context": [
+      "## Training & Awareness"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_prv_001",
+    "name": "Mandatory Annual Operational Risk Awareness Training for All Staff",
+    "aliases": [
+      "Mandatory Annual Training"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for all staff members to complete a 1-hour operational risk awareness training session on an annual basis.",
+    "context": [
+      "Mandatory Annual Training:",
+      "All staff: 1-hour operational risk awareness"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_prv_002",
+    "name": "Quarterly Risk Workshops for Process Owners",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for process owners to participate in risk workshops on a quarterly basis.",
+    "context": [
+      "Process owners: Quarterly risk workshops"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_prv_003",
+    "name": "Advanced Training and Certifications for Risk Team",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A requirement for members of the risk team to undergo advanced training and obtain professional certifications.",
+    "context": [
+      "Risk team: Advanced training and certifications"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The category of risk that the training and awareness program is designed to mitigate through staff education.",
+    "context": [
+      "1-hour operational risk awareness"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_ctl_001",
+    "name": "Staff Training",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The operational safeguard of providing tiered training (awareness, workshops, and certifications) to ensure staff can identify and manage risk.",
+    "context": [
+      "Mandatory Annual Training",
+      "Quarterly risk workshops",
+      "Advanced training and certifications"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are obligated to complete annual operational risk awareness training.",
+    "context": [
+      "All staff: 1-hour operational risk awareness"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_rol_002",
+    "name": "Process Owners",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Staff members responsible for specific business processes who are required to attend quarterly risk workshops.",
+    "context": [
+      "Process owners: Quarterly risk workshops"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_029_rol_003",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "risk_committee",
+    "description": "The specialized team responsible for risk management, required to maintain advanced training and certifications.",
+    "context": [
+      "Risk team: Advanced training and certifications"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_029",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_pol_001",
+    "name": "Audit & Monitoring Policy",
+    "aliases": [
+      "Audit & Monitoring"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A governing framework defining the requirements for internal and regulatory audit activities to ensure operational risk management and compliance.",
+    "context": [
+      "## Audit & Monitoring"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_prv_001",
+    "name": "Annual Operational Risk Assessment",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement to conduct an operational risk assessment on an annual basis as part of the internal audit process.",
+    "context": [
+      "Annual operational risk assessment"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_prv_002",
+    "name": "Process Control Testing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to perform testing on process controls to ensure they are operating effectively.",
+    "context": [
+      "Process control testing"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_prv_003",
+    "name": "KRI Validation",
+    "aliases": [
+      "Key Risk Indicator Validation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to validate Key Risk Indicators (KRIs) to ensure accurate risk measurement and reporting.",
+    "context": [
+      "KRI validation"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_prv_004",
+    "name": "Incident Investigation Sampling",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform sampling of incident investigations to verify the quality and thoroughness of the process.",
+    "context": [
+      "Incident investigation sampling"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_prv_005",
+    "name": "PRA Periodic Operational Risk Reviews",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement to undergo periodic operational risk reviews conducted by the Prudential Regulation Authority (PRA).",
+    "context": [
+      "PRA periodic operational risk reviews"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_prv_006",
+    "name": "Compliance with Pillar 2 Requirements",
+    "aliases": [
+      "Pillar 2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to ensure the bank complies with the specific regulatory requirements defined under Pillar 2.",
+    "context": [
+      "Compliance with Pillar 2 requirements"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_reg_001",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body responsible for conducting periodic operational risk reviews of the bank.",
+    "context": [
+      "PRA periodic operational risk reviews"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_reg_002",
+    "name": "Pillar 2 Requirements",
+    "aliases": [
+      "Pillar 2"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The specific regulatory framework and requirements that the bank must comply with regarding capital and risk management.",
+    "context": [
+      "Compliance with Pillar 2 requirements"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of loss resulting from inadequate or failed internal processes, people, and systems, which is the primary focus of the audit and monitoring activities.",
+    "context": [
+      "Annual operational risk assessment",
+      "PRA periodic operational risk reviews"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_ctl_001",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The overarching internal mechanism used to perform risk assessments, control testing, and KRI validation.",
+    "context": [
+      "Internal Audit:"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_030_ctl_002",
+    "name": "Regulatory Audit",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The external monitoring mechanism involving reviews by the PRA to ensure regulatory compliance.",
+    "context": [
+      "Regulatory Audit:"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_030",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_031_dep_001",
+    "name": "Risk Department",
+    "aliases": [
+      "[[departments]]"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk_management_department",
+    "description": "The organisational department responsible for risk oversight and the management of related documentation.",
+    "context": [
+      "[[departments]] — Risk Department"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_031",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_031_pol_001",
+    "name": "Business Continuity Plan",
+    "aliases": [
+      "BCP-001"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal governing document outlining the bank's strategy and procedures for maintaining business operations during a disruption.",
+    "context": [
+      "Business Continuity Plan (BCP-001)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_031",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_031_ctl_001",
+    "name": "Risk Assessment Template",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "A standardised tool used by the bank to ensure consistent identification and evaluation of risks.",
+    "context": [
+      "Risk Assessment Template"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_031",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_031_ctl_002",
+    "name": "Incident Log",
+    "aliases": [
+      "tracking"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A tracking mechanism used to record and monitor incidents for compliance and operational oversight.",
+    "context": [
+      "Incident Log (tracking)"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_031",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_032_rol_001",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the formal approval and sign-off of the policy document.",
+    "context": [
+      "Approved by: Chief Risk Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_032",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "68b796b33ca8451390c8704d6de54a88_032_rol_002",
+    "name": "Chief Executive Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the formal approval and sign-off of the policy document.",
+    "context": [
+      "Chief Executive Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "68b796b33ca8451390c8704d6de54a88_032",
+    "doc_id": "68b796b33ca8451390c8704d6de54a88",
+    "domain": "banking_policy"
+  }
+]

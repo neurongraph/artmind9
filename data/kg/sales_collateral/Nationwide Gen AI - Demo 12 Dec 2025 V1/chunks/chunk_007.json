@@ -1,0 +1,2244 @@
+{
+  "embedding": [
+    0.011069806,
+    0.08431008,
+    -0.16465378,
+    -0.06670865,
+    0.001964409,
+    -0.028840011,
+    0.04995244,
+    0.029152036,
+    -0.040344037,
+    -0.023839764,
+    -0.05716895,
+    0.052186213,
+    0.116721764,
+    -0.011921703,
+    0.03721068,
+    -0.033825103,
+    -0.015586136,
+    -0.020751165,
+    -0.035952963,
+    0.076181486,
+    0.052802816,
+    -0.027835904,
+    0.003961048,
+    -0.06636697,
+    0.027287891,
+    0.02697036,
+    0.03032886,
+    -0.0041283825,
+    -0.036088645,
+    -0.0070902454,
+    0.07657508,
+    -0.015053621,
+    -0.04371604,
+    -0.058782995,
+    -0.030893672,
+    -0.05758352,
+    0.012371339,
+    -0.036533684,
+    0.048712224,
+    0.005782933,
+    0.036235556,
+    0.006144117,
+    0.015093128,
+    -0.039227914,
+    0.06124352,
+    0.0021445914,
+    0.018253494,
+    -0.034948997,
+    0.055630054,
+    -0.07648467,
+    -0.045812104,
+    0.011993393,
+    0.014182606,
+    0.028029118,
+    0.029580843,
+    0.037688974,
+    -0.027412537,
+    -0.0055230074,
+    0.013428216,
+    -0.041145857,
+    0.07001951,
+    0.08294325,
+    0.04312024,
+    0.04358332,
+    0.04197654,
+    -0.014136599,
+    0.0021243505,
+    0.04538607,
+    0.008407049,
+    -0.025473766,
+    0.015881175,
+    -0.026710825,
+    -0.023402048,
+    0.037047368,
+    -0.044746954,
+    0.000918925,
+    -0.0123132225,
+    -0.06620528,
+    0.010479262,
+    0.03698282,
+    0.0390986,
+    -0.04147271,
+    0.0012589868,
+    0.008216016,
+    0.021122538,
+    -0.030174982,
+    -0.019181764,
+    -0.003590632,
+    -0.05279299,
+    0.06568039,
+    -0.0037100387,
+    -0.028782193,
+    -0.005297198,
+    0.031758446,
+    -0.05273921,
+    0.0064827353,
+    0.012292502,
+    0.015835667,
+    -0.025758045,
+    -0.004223015,
+    -0.015697554,
+    -0.048814885,
+    0.0182369,
+    -0.020498723,
+    0.02211429,
+    0.043835424,
+    -0.017791646,
+    -0.010332394,
+    -0.01574867,
+    -0.0019889474,
+    -0.039292064,
+    0.04641656,
+    -0.031115714,
+    0.014268623,
+    0.038585883,
+    -0.039980903,
+    0.055751316,
+    -0.024980024,
+    -0.02395716,
+    0.03565136,
+    0.01923244,
+    -0.07755526,
+    -0.00017146076,
+    0.021879,
+    0.026207073,
+    0.027207177,
+    -0.040894978,
+    -0.031827908,
+    0.0027801166,
+    -0.06310772,
+    0.0070205326,
+    0.014678048,
+    -0.012393096,
+    0.031378873,
+    0.014779314,
+    0.0066827517,
+    -0.0534115,
+    -0.039766338,
+    0.039001845,
+    0.028047122,
+    0.046456568,
+    0.0017759074,
+    0.0025957916,
+    0.0069274493,
+    -0.00045509852,
+    -0.03407519,
+    -0.006049891,
+    0.024278756,
+    -0.033669192,
+    -0.02232286,
+    0.0023587497,
+    -0.006002368,
+    -0.018509284,
+    0.036392443,
+    0.020082112,
+    -0.04251943,
+    -0.00048062502,
+    0.02477388,
+    0.005972383,
+    0.042701863,
+    -0.0138119105,
+    -0.0009136618,
+    -0.040821098,
+    0.03932159,
+    0.0034877604,
+    -0.060529884,
+    0.011705799,
+    0.02767813,
+    -0.0072710533,
+    -0.013183799,
+    -0.049135964,
+    -0.00080159656,
+    0.025697354,
+    -0.012346169,
+    0.022435602,
+    -0.021629056,
+    0.0658512,
+    -0.0038189457,
+    0.012247864,
+    -0.055807017,
+    0.0085251015,
+    -0.04293638,
+    0.046278797,
+    0.014237229,
+    -0.071285516,
+    -0.01357839,
+    0.014757265,
+    -0.0011124983,
+    -0.0013783167,
+    -0.041519005,
+    0.06683564,
+    0.0016553735,
+    -0.06054641,
+    -0.0001602533,
+    -0.047936358,
+    -0.03320668,
+    0.049790226,
+    0.033661235,
+    0.0024452084,
+    -0.05610563,
+    -0.037303023,
+    0.015977278,
+    -0.03733064,
+    -0.0032885107,
+    0.007862882,
+    0.009655272,
+    0.020410841,
+    0.039001435,
+    -0.03328507,
+    0.022492139,
+    0.02876633,
+    0.021120958,
+    -0.030911317,
+    0.03203346,
+    0.055200007,
+    -0.004290459,
+    0.006145227,
+    -0.02308568,
+    -0.033751883,
+    0.025864223,
+    0.027675765,
+    -0.012470522,
+    0.015523635,
+    -0.009321315,
+    0.07736777,
+    -0.007890537,
+    -0.041679613,
+    -0.055101626,
+    -0.0084580695,
+    -0.0024368346,
+    0.018312225,
+    -0.049489632,
+    0.06648365,
+    0.015306739,
+    0.020091174,
+    0.02653427,
+    0.008202539,
+    0.058473572,
+    -0.0013603134,
+    0.032580864,
+    0.016817745,
+    0.056683913,
+    -0.023807218,
+    -0.022369677,
+    0.025469255,
+    -0.028249007,
+    0.02731499,
+    -0.03568289,
+    0.0095649185,
+    0.07749608,
+    0.02786397,
+    -0.020489812,
+    0.047857318,
+    0.029008003,
+    0.035298508,
+    -0.024780622,
+    -0.030115897,
+    0.00326784,
+    -0.0073451814,
+    0.0016208346,
+    0.009686228,
+    0.01206032,
+    0.016887147,
+    -0.05091167,
+    0.0180081,
+    -0.0076655755,
+    -0.04292092,
+    -0.011190613,
+    0.03776119,
+    -0.013424199,
+    0.03617261,
+    0.02674149,
+    -0.009538487,
+    0.03576663,
+    -0.033945337,
+    -0.010920228,
+    0.0018212072,
+    -0.012808406,
+    -0.055042926,
+    0.056837182,
+    -0.0412524,
+    -0.07872257,
+    -0.0073374263,
+    -0.006319519,
+    -0.033196174,
+    0.03090455,
+    -0.001442687,
+    0.02628943,
+    0.008081393,
+    0.020832945,
+    0.03099717,
+    0.009633093,
+    -0.035867944,
+    -0.0061322423,
+    -0.02734558,
+    0.03300018,
+    0.04856435,
+    0.01256128,
+    0.017757295,
+    -0.065525465,
+    0.027141124,
+    0.024772393,
+    0.061157096,
+    0.048448052,
+    0.013088487,
+    -0.01885358,
+    -0.03411336,
+    -0.014090115,
+    -0.058154628,
+    -0.026416168,
+    0.0005896135,
+    -0.04770591,
+    -0.046743274,
+    0.010386029,
+    -0.04076649,
+    0.021823673,
+    0.023406861,
+    -0.0050038896,
+    0.08285409,
+    0.029102392,
+    0.012347685,
+    -0.07562508,
+    0.0060100164,
+    -0.056039855,
+    -0.01798722,
+    0.06884082,
+    -0.02703322,
+    0.024471074,
+    -0.021898948,
+    0.036941793,
+    -0.006461958,
+    0.020765781,
+    0.01823043,
+    -0.034274347,
+    -0.009337589,
+    0.030872105,
+    0.016762579,
+    0.021804363,
+    0.013925364,
+    0.051689103,
+    0.041787073,
+    0.007152319,
+    0.024714721,
+    -0.053407382,
+    0.026964394,
+    -0.00034158034,
+    0.051349692,
+    -0.015378191,
+    0.049087122,
+    0.011379616,
+    -0.00024912166,
+    0.015824653,
+    -0.0063478593,
+    -0.054105923,
+    0.033155,
+    0.028657567,
+    0.0111479815,
+    0.04777517,
+    0.028669624,
+    -0.030222828,
+    0.041015692,
+    0.017811878,
+    0.045488503,
+    0.056263793,
+    -0.006727561,
+    0.03422588,
+    0.052604325,
+    4.4136745e-05,
+    0.01212346,
+    -0.027243288,
+    -0.011283033,
+    -0.03469291,
+    -0.010312575,
+    0.030179935,
+    0.009408855,
+    0.03262813,
+    -0.0393402,
+    -0.0029990918,
+    -0.013158122,
+    0.035757538,
+    0.046082277,
+    -0.039309096,
+    -0.046902813,
+    -0.012910183,
+    0.011542436,
+    -0.026049187,
+    0.014027601,
+    -0.0407644,
+    -0.02266338,
+    0.02141703,
+    0.0020335105,
+    -0.011345764,
+    0.022614459,
+    -0.02525266,
+    0.019184176,
+    -0.03717923,
+    0.014989813,
+    0.03250912,
+    0.0024680698,
+    0.020189188,
+    -0.07642345,
+    -0.07564052,
+    0.021893926,
+    0.020330114,
+    -0.009315886,
+    -0.006926652,
+    -0.03752001,
+    -0.03055099,
+    0.04888151,
+    0.0023259798,
+    0.019220475,
+    0.042265736,
+    0.0062865093,
+    0.00052380277,
+    0.036413677,
+    0.0072647207,
+    0.075693734,
+    -0.03869006,
+    -0.06719665,
+    0.028820537,
+    0.025760295,
+    0.04017012,
+    0.010555491,
+    0.018822543,
+    0.026876608,
+    0.025792144,
+    0.042283297,
+    -0.0010588408,
+    -0.0016185467,
+    -0.041051246,
+    0.007510682,
+    0.04617838,
+    0.007845048,
+    -0.015476612,
+    0.008154828,
+    0.027080335,
+    0.032733604,
+    -0.0070489044,
+    0.023436533,
+    0.02272643,
+    0.01985793,
+    -0.03542329,
+    0.0038586075,
+    -0.041578416,
+    -0.009173226,
+    0.07974125,
+    0.052383248,
+    -0.03863678,
+    -0.04366277,
+    0.045893993,
+    0.032251142,
+    0.060250673,
+    0.006449094,
+    0.04159647,
+    0.08118198,
+    -0.014544291,
+    -0.021684464,
+    -0.018041048,
+    -0.009379753,
+    0.04512464,
+    -0.030169062,
+    0.049648974,
+    -0.05544629,
+    -0.021005854,
+    -0.0067103114,
+    -0.053081043,
+    0.025126867,
+    0.008330483,
+    0.03778559,
+    0.106328264,
+    -0.058499314,
+    0.00022434338,
+    0.0017870103,
+    -0.015004554,
+    -0.01371158,
+    0.05984037,
+    -0.015497317,
+    -0.020890182,
+    0.074705265,
+    0.059306353,
+    0.018216569,
+    -0.0841284,
+    -0.023224674,
+    -0.0807135,
+    -0.040925767,
+    0.05087618,
+    0.0065964744,
+    -0.056736298,
+    0.015581731,
+    -0.03505197,
+    0.01883051,
+    0.018200424,
+    0.005050743,
+    0.007371432,
+    -0.016497655,
+    0.013966212,
+    -0.03779535,
+    0.018567428,
+    0.0286944,
+    -0.0063456967,
+    0.0372698,
+    0.037802648,
+    -0.03797002,
+    0.015373481,
+    0.036256995,
+    -0.03113427,
+    0.02233901,
+    -0.044154625,
+    -0.024676375,
+    0.017672969,
+    -0.027770473,
+    -0.0040845545,
+    0.021543033,
+    -0.039063197,
+    0.03918262,
+    -0.08441752,
+    0.009713034,
+    -0.011006726,
+    -0.05709897,
+    -0.03902036,
+    -0.0063930517,
+    -0.01777959,
+    -0.011276338,
+    0.0101132095,
+    -0.06396049,
+    0.032070037,
+    0.020241063,
+    -0.048435487,
+    0.046939764,
+    0.0035200224,
+    -0.0052403384,
+    0.044613946,
+    -0.023623904,
+    -0.026294893,
+    -0.016354887,
+    0.0038343328,
+    -0.03041208,
+    -0.004497397,
+    0.054579303,
+    0.01742343,
+    -0.004407062,
+    0.038705535,
+    -0.023319272,
+    0.023799233,
+    0.012286618,
+    -0.050115816,
+    0.010414639,
+    0.023521159,
+    -0.017763713,
+    -0.08770638,
+    0.062669314,
+    -0.062046323,
+    0.028846607,
+    -0.049629256,
+    0.037579592,
+    0.016477253,
+    0.05266456,
+    -0.041735787,
+    -0.06270134,
+    -0.023185657,
+    -0.022912215,
+    0.023365792,
+    0.06596649,
+    0.03441599,
+    0.0017091163,
+    -0.03897237,
+    0.0041782185,
+    0.018600836,
+    0.003825891,
+    0.041608274,
+    0.023430506,
+    -0.066119015,
+    -0.04769454,
+    -0.02955732,
+    -0.016925804,
+    -0.03238512,
+    0.041224543,
+    -0.0005798931,
+    -0.08742534,
+    -0.035554733,
+    -0.023141703,
+    -0.03829421,
+    0.013727128,
+    0.060067385,
+    -0.045892633,
+    0.0062201717,
+    -0.029226739,
+    -0.06604584,
+    0.007124376,
+    -0.010942357,
+    -0.042732757,
+    0.022705402,
+    0.054877173,
+    -0.034954015,
+    -0.0041998643,
+    0.03143799,
+    -0.014526681,
+    -0.030269176,
+    -0.05065296,
+    -0.021739224,
+    -0.033164967,
+    0.02252414,
+    0.03993834,
+    -0.032781903,
+    -0.002446674,
+    0.023610666,
+    -0.037930336,
+    0.018229218,
+    -0.03663226,
+    -0.06971408,
+    0.059028152,
+    -0.034808397,
+    -0.0042720847,
+    0.0022127747,
+    0.04831926,
+    0.021994764,
+    0.034887142,
+    -0.015037801,
+    0.013217502,
+    -0.024764124,
+    0.0028808059,
+    -0.05790715,
+    0.008125282,
+    -0.041168902,
+    -0.03785493,
+    0.0030842056,
+    -0.0054119546,
+    -0.040366344,
+    -0.034032717,
+    0.020025462,
+    -0.04332367,
+    0.025165468,
+    -0.060990904,
+    -0.0204947,
+    -0.08543818,
+    0.025278611,
+    -0.0020591773,
+    0.0031429434,
+    -0.0030935248,
+    0.018919334,
+    0.05812429,
+    -0.02941882,
+    0.00091989397,
+    0.02957103,
+    0.059496533,
+    -0.010166228,
+    0.0067157503,
+    0.023096368,
+    0.06935392,
+    -0.008900473,
+    0.053248312,
+    0.06367481,
+    -0.0079149725,
+    0.0073898216,
+    0.016478,
+    -0.0020788647,
+    0.0163715,
+    -0.045252178,
+    -0.034670297,
+    -0.020404365,
+    -0.0073854923,
+    0.012237412,
+    0.01502933,
+    0.012035875,
+    0.029324142,
+    0.026565226,
+    0.00011527667,
+    -0.006759309,
+    -0.036374476,
+    -0.03383269,
+    0.010229473,
+    0.058478143,
+    -0.0251596,
+    0.011577817,
+    -0.03010414,
+    0.0658331,
+    0.038488433,
+    0.017564049,
+    -0.03960711,
+    0.046985075,
+    0.0130088255,
+    0.02460747,
+    0.019607048,
+    -0.040563937,
+    0.004708065,
+    0.013559862,
+    0.0034218717,
+    0.043506805,
+    -0.017297983,
+    -0.025346735,
+    -0.008334029,
+    0.012474682,
+    -0.05010923,
+    -0.021284806,
+    0.028026352,
+    0.08059554,
+    -0.0047511496,
+    -0.051964294,
+    -0.04166962,
+    0.038040005,
+    -0.002920602,
+    0.019705987,
+    -0.010602474,
+    0.02610792,
+    -0.0021951285,
+    0.025256509,
+    0.0053997096,
+    -0.03286885,
+    -0.029254103,
+    -0.015870608,
+    -0.020876916,
+    0.026174108,
+    0.026765373,
+    0.009400801,
+    0.00018496125,
+    0.09154194,
+    -0.0063976594,
+    -0.04474942,
+    -0.024391599,
+    0.004748981,
+    0.023934683,
+    0.0016953477,
+    -0.09412179,
+    -0.038752753,
+    0.010203071,
+    0.06876634,
+    0.03177936,
+    -0.061201688,
+    -0.0320177,
+    -0.066376895,
+    0.02625659,
+    -0.022334179,
+    -0.053929653,
+    0.060460236,
+    -0.050784353,
+    0.006518872,
+    -0.04484366,
+    -0.0036993027,
+    -0.037992187,
+    -0.037439924,
+    -0.06348895,
+    0.010825164,
+    -0.061856177,
+    0.021537587,
+    -0.0019116864,
+    -0.022822816,
+    -0.029425316,
+    0.022462957,
+    0.010671626,
+    -0.050237708,
+    0.041347936,
+    -0.024539128,
+    -0.07140144,
+    -0.010413265,
+    -0.0019073867,
+    0.04710325,
+    0.0061410805,
+    0.018054878,
+    0.10270697,
+    0.046144776,
+    0.031589102,
+    -0.03820534,
+    0.035470698,
+    -0.01940132,
+    -0.033386,
+    -0.03457646,
+    -0.06626729,
+    -0.02526479
+  ],
+  "chunk_seq": 7,
+  "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+  "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+  "text": "# Teradata Migration  \nNationwide - IBM Gen AI Demo 2025  \nlogo  \nHarnessing AI to streamline code and data migration for accelerated timelines and superior business outcomes.Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.  \nMonumental Migration Challenge  \nMigrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.  \nAggressive Timeline Constraints  \nThe migration had a 60–70% shorter timeline than industry standards due to contractual demands.  \nComprehensive Migration Scope  \nThe project included code conversion, data hydration into a modern Data Lakehouse, and system repointing.  \nInnovative Technical Solutions  \nAdvanced expertise and innovative methods ensured quality delivery within a complex, condensed timeline.  \n| Migration Component                | Details                                    |\n|------------------------------------|--------------------------------------------|\n| Data Volume                        | 50+ TB                                     |\n| Stored Procedures                  | ~ 700 Procedures  (2.5+ Mil Lines of Code) |\n| Complex Views                      | ~ 6500Views                                |\n| Users                              | XXX+ Users                                 |\n| Reports                            | ~ 300 Reports                              |\n| Downstream Applications + Extracts | ~ 700 Applications                         |  \n| Phase        | Time Reduction   |\n|--------------|------------------|\n| Analysis     | 25%              |\n| Design       | 30%              |\n| Conversion   | 60%              |\n| User Testing | 20%              |  \nIBM &amp; Nationwide – Gen AI Demo",
+  "name": "Chunk 7/14",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "83c2abe250494b798eae0af6fabd3b12_006",
+  "next_chunk_id": "83c2abe250494b798eae0af6fabd3b12_008",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide Insurance"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services organization that engaged IBM to execute a large-scale Teradata migration. The client faced significant contractual timeline pressures and required modernization of a massive legacy data environment to meet business objectives.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025",
+        "IBM & Nationwide – Gen AI Demo"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "GENAI Copilot",
+      "aliases": [
+        "Gen AI",
+        "IBM Gen AI",
+        "AI Copilot"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "An AI-powered acceleration platform utilized to streamline code and data migration processes. It enables rapid transformation of legacy systems into modern data architectures, significantly reducing project timelines and improving delivery quality through automated assistance.",
+      "context": [
+        "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+        "IBM Gen AI Demo 2025"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "AI-Driven Code and Data Migration",
+      "aliases": [
+        "code conversion",
+        "data hydration",
+        "system repointing",
+        "migration automation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "migration_capability",
+      "description": "The core technical capability of converting legacy code, hydrating data into modern architectures, and repointing downstream systems. This capability leverages AI to automate complex transformations and ensure seamless integration into a Data Lakehouse environment while maintaining operational continuity.",
+      "context": [
+        "streamline code and data migration",
+        "code conversion, data hydration into a modern Data Lakehouse, and system repointing"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Teradata Modernization",
+      "aliases": [
+        "Teradata migration",
+        "legacy system modernization",
+        "data environment modernization"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The application of AI-driven migration capabilities to modernize a massive Teradata environment. This use case focuses on replacing legacy data infrastructure with a modern Data Lakehouse while maintaining operational continuity and meeting strict contractual deadlines.",
+      "context": [
+        "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+        "complex Teradata migration"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Accelerated Project Timelines",
+      "aliases": [
+        "60-70% shorter timeline",
+        "phase time reductions",
+        "condensed delivery schedule"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Significant reduction in project duration across all migration phases, achieving a 60-70% shorter timeline than industry standards. Specific phase reductions include 25% in analysis, 30% in design, 60% in conversion, and 20% in user testing, delivering faster time-to-value and meeting aggressive contractual demands.",
+      "context": [
+        "60–70% shorter timeline than industry standards due to contractual demands.",
+        "Time Reduction: Analysis 25%, Design 30%, Conversion 60%, User Testing 20%"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Unprecedented Operational Efficiency",
+      "aliases": [
+        "superior business outcomes",
+        "streamlined processes",
+        "process acceleration"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Delivers exceptional process efficiency and superior business outcomes by leveraging AI to automate and optimize complex migration workflows. This efficiency gain reduces manual effort, accelerates delivery, and ensures high-quality results within a compressed schedule.",
+      "context": [
+        "Achieving unprecedented efficiency in complex Teradata migration",
+        "superior business outcomes"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Massive Teradata Environment Scale",
+      "aliases": [
+        "Monumental Migration Challenge",
+        "legacy data constraints",
+        "large-scale data warehouse"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The client faced a highly complex and large-scale legacy data environment that posed significant cost and technical limitations. Migrating this massive Teradata setup required overcoming substantial architectural and operational hurdles to successfully modernize the infrastructure.",
+      "context": [
+        "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+        "Monumental Migration Challenge"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Aggressive Contractual Timeline",
+      "aliases": [
+        "timeline constraints",
+        "condensed delivery schedule",
+        "strict deadline pressure"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Strict contractual demands required a migration timeline 60-70% shorter than industry standards. This aggressive schedule created significant pressure to deliver complex code and data transformations without compromising quality or accuracy.",
+      "context": [
+        "The migration had a 60–70% shorter timeline than industry standards due to contractual demands.",
+        "complex, condensed timeline"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "Teradata",
+      "aliases": [
+        "legacy Teradata environment",
+        "Teradata system",
+        "legacy data warehouse"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "A large-scale legacy data warehouse platform hosting over 50 TB of data, 700 stored procedures, 6,500 complex views, and hundreds of reports. The system served as the primary target for modernization and migration to a modern data architecture.",
+      "context": [
+        "Migrating a massive Teradata environment",
+        "complex Teradata migration",
+        "50+ TB",
+        "700 Procedures",
+        "6500Views"
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "Data Lakehouse",
+      "aliases": [
+        "modern Data Lakehouse",
+        "target data architecture",
+        "modern data platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "database",
+      "description": "A modern data architecture designed to replace the legacy Teradata environment. It serves as the destination for hydrated data, enabling scalable storage and advanced analytics capabilities for downstream applications and reporting.",
+      "context": [
+        "data hydration into a modern Data Lakehouse",
+        "modern Data Lakehouse"
+      ]
+    },
+    {
+      "id": "dif_001",
+      "name": "AI-Powered Migration Acceleration",
+      "aliases": [
+        "GENAI Copilot acceleration",
+        "innovative technical solutions",
+        "advanced AI methods"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "innovation",
+      "description": "The use of advanced AI capabilities to drastically compress migration timelines while maintaining high-quality delivery. This differentiator combines proprietary AI tools with deep domain expertise to solve complex technical challenges faster than traditional manual methods.",
+      "context": [
+        "Advanced expertise and innovative methods ensured quality delivery within a complex, condensed timeline.",
+        "accelerating processes with GENAI Copilot"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Gen AI",
+        "IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The primary technology vendor and solution provider delivering the Gen AI Copilot platform and migration services. IBM leveraged its advanced AI expertise and innovative methodologies to execute the complex migration for Nationwide.",
+      "context": [
+        "IBM Gen AI Demo 2025",
+        "IBM & Nationwide – Gen AI Demo"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "IBM Gen AI Demo 2025",
+      "aliases": [
+        "Gen AI Demo",
+        "2025 AI Demonstration",
+        "Nationwide Gen AI Demo"
+      ],
+      "entity_class": "EVENT",
+      "type": "demo",
+      "description": "A 2025 demonstration event showcasing IBM's Gen AI Copilot capabilities applied to a real-world Teradata migration project. The event highlighted the successful delivery of accelerated timelines and superior business outcomes for the client.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025",
+        "IBM & Nationwide – Gen AI Demo"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+    "off_001": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+    "cap_001": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+    "use_001": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+    "ben_001": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+    "ben_002": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+    "cha_001": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+    "cha_002": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+    "tech_001": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+    "tech_002": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+    "dif_001": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+    "org_001": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+    "evt_001": "83c2abe250494b798eae0af6fabd3b12_007_evt_001"
+  },
+  "entities": [
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide Insurance"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services organization that engaged IBM to execute a large-scale Teradata migration. The client faced significant contractual timeline pressures and required modernization of a massive legacy data environment to meet business objectives.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025",
+        "IBM & Nationwide – Gen AI Demo"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "name": "GENAI Copilot",
+      "aliases": [
+        "Gen AI",
+        "IBM Gen AI",
+        "AI Copilot"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "An AI-powered acceleration platform utilized to streamline code and data migration processes. It enables rapid transformation of legacy systems into modern data architectures, significantly reducing project timelines and improving delivery quality through automated assistance.",
+      "context": [
+        "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+        "IBM Gen AI Demo 2025"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "name": "AI-Driven Code and Data Migration",
+      "aliases": [
+        "code conversion",
+        "data hydration",
+        "system repointing",
+        "migration automation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "migration_capability",
+      "description": "The core technical capability of converting legacy code, hydrating data into modern architectures, and repointing downstream systems. This capability leverages AI to automate complex transformations and ensure seamless integration into a Data Lakehouse environment while maintaining operational continuity.",
+      "context": [
+        "streamline code and data migration",
+        "code conversion, data hydration into a modern Data Lakehouse, and system repointing"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "name": "Teradata Modernization",
+      "aliases": [
+        "Teradata migration",
+        "legacy system modernization",
+        "data environment modernization"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The application of AI-driven migration capabilities to modernize a massive Teradata environment. This use case focuses on replacing legacy data infrastructure with a modern Data Lakehouse while maintaining operational continuity and meeting strict contractual deadlines.",
+      "context": [
+        "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+        "complex Teradata migration"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+      "name": "Accelerated Project Timelines",
+      "aliases": [
+        "60-70% shorter timeline",
+        "phase time reductions",
+        "condensed delivery schedule"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Significant reduction in project duration across all migration phases, achieving a 60-70% shorter timeline than industry standards. Specific phase reductions include 25% in analysis, 30% in design, 60% in conversion, and 20% in user testing, delivering faster time-to-value and meeting aggressive contractual demands.",
+      "context": [
+        "60–70% shorter timeline than industry standards due to contractual demands.",
+        "Time Reduction: Analysis 25%, Design 30%, Conversion 60%, User Testing 20%"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+      "name": "Unprecedented Operational Efficiency",
+      "aliases": [
+        "superior business outcomes",
+        "streamlined processes",
+        "process acceleration"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Delivers exceptional process efficiency and superior business outcomes by leveraging AI to automate and optimize complex migration workflows. This efficiency gain reduces manual effort, accelerates delivery, and ensures high-quality results within a compressed schedule.",
+      "context": [
+        "Achieving unprecedented efficiency in complex Teradata migration",
+        "superior business outcomes"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+      "name": "Massive Teradata Environment Scale",
+      "aliases": [
+        "Monumental Migration Challenge",
+        "legacy data constraints",
+        "large-scale data warehouse"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The client faced a highly complex and large-scale legacy data environment that posed significant cost and technical limitations. Migrating this massive Teradata setup required overcoming substantial architectural and operational hurdles to successfully modernize the infrastructure.",
+      "context": [
+        "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+        "Monumental Migration Challenge"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+      "name": "Aggressive Contractual Timeline",
+      "aliases": [
+        "timeline constraints",
+        "condensed delivery schedule",
+        "strict deadline pressure"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Strict contractual demands required a migration timeline 60-70% shorter than industry standards. This aggressive schedule created significant pressure to deliver complex code and data transformations without compromising quality or accuracy.",
+      "context": [
+        "The migration had a 60–70% shorter timeline than industry standards due to contractual demands.",
+        "complex, condensed timeline"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+      "name": "Teradata",
+      "aliases": [
+        "legacy Teradata environment",
+        "Teradata system",
+        "legacy data warehouse"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "A large-scale legacy data warehouse platform hosting over 50 TB of data, 700 stored procedures, 6,500 complex views, and hundreds of reports. The system served as the primary target for modernization and migration to a modern data architecture.",
+      "context": [
+        "Migrating a massive Teradata environment",
+        "complex Teradata migration",
+        "50+ TB",
+        "700 Procedures",
+        "6500Views"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+      "name": "Data Lakehouse",
+      "aliases": [
+        "modern Data Lakehouse",
+        "target data architecture",
+        "modern data platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "database",
+      "description": "A modern data architecture designed to replace the legacy Teradata environment. It serves as the destination for hydrated data, enabling scalable storage and advanced analytics capabilities for downstream applications and reporting.",
+      "context": [
+        "data hydration into a modern Data Lakehouse",
+        "modern Data Lakehouse"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+      "name": "AI-Powered Migration Acceleration",
+      "aliases": [
+        "GENAI Copilot acceleration",
+        "innovative technical solutions",
+        "advanced AI methods"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "innovation",
+      "description": "The use of advanced AI capabilities to drastically compress migration timelines while maintaining high-quality delivery. This differentiator combines proprietary AI tools with deep domain expertise to solve complex technical challenges faster than traditional manual methods.",
+      "context": [
+        "Advanced expertise and innovative methods ensured quality delivery within a complex, condensed timeline.",
+        "accelerating processes with GENAI Copilot"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Gen AI",
+        "IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The primary technology vendor and solution provider delivering the Gen AI Copilot platform and migration services. IBM leveraged its advanced AI expertise and innovative methodologies to execute the complex migration for Nationwide.",
+      "context": [
+        "IBM Gen AI Demo 2025",
+        "IBM & Nationwide – Gen AI Demo"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_evt_001",
+      "name": "IBM Gen AI Demo 2025",
+      "aliases": [
+        "Gen AI Demo",
+        "2025 AI Demonstration",
+        "Nationwide Gen AI Demo"
+      ],
+      "entity_class": "EVENT",
+      "type": "demo",
+      "description": "A 2025 demonstration event showcasing IBM's Gen AI Copilot capabilities applied to a real-world Teradata migration project. The event highlighted the successful delivery of accelerated timelines and superior business outcomes for the client.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025",
+        "IBM & Nationwide – Gen AI Demo"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "name": "Nationwide",
+      "properties": {
+        "industry": [
+          "financial_services"
+        ],
+        "size": [
+          "enterprise"
+        ],
+        "pain_points": [
+          "significant_cost_and_technical_limitations",
+          "aggressive_contractual_timeline_constraints"
+        ],
+        "engagement_type": [
+          "migration_project",
+          "gen_ai_demo"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "name": "GENAI Copilot",
+      "properties": {
+        "offering_type": [
+          "ai_copilot"
+        ],
+        "scope": [
+          "code_conversion",
+          "data_hydration",
+          "system_repointing"
+        ],
+        "key_phases_or_components": [
+          "analysis",
+          "design",
+          "conversion",
+          "user_testing"
+        ],
+        "target_client_profile": [
+          "enterprise"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "name": "AI-Driven Code and Data Migration",
+      "properties": {
+        "what_it_does": [
+          "streamlines_code_and_data_migration",
+          "accelerates_complex_teradata_modernization"
+        ],
+        "technical_components": [
+          "code_conversion",
+          "data_hydration",
+          "system_repointing",
+          "stored_procedure_migration",
+          "complex_view_migration"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "ai_powered_acceleration_for_massive_scale"
+        ],
+        "industry_applicability": [
+          "financial_services"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "name": "Teradata Modernization",
+      "properties": {
+        "problem_context": [
+          "massive_teradata_environment_with_cost_and_technical_limitations",
+          "aggressive_contractual_timeline_constraints"
+        ],
+        "approach": [
+          "ai_driven_code_and_data_migration",
+          "data_hydration_into_data_lakehouse",
+          "system_repointing"
+        ],
+        "industry": [
+          "financial_services"
+        ],
+        "outcome_achieved": [
+          "accelerated_project_timelines",
+          "unprecedented_operational_efficiency",
+          "25-60%_phase_time_reduction"
+        ],
+        "complexity_level": [
+          "highly_complex"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+      "name": "Accelerated Project Timelines",
+      "properties": {
+        "quantified_value": [
+          "60-70%_shorter_than_industry_standards",
+          "analysis_25%_reduction",
+          "design_30%_reduction",
+          "conversion_60%_reduction",
+          "user_testing_20%_reduction"
+        ],
+        "beneficiary": [
+          "client",
+          "delivery_team"
+        ],
+        "category": [
+          "speed",
+          "cost"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+      "name": "Unprecedented Operational Efficiency",
+      "properties": {
+        "quantified_value": [
+          "unprecedented_efficiency",
+          "superior_business_outcomes"
+        ],
+        "beneficiary": [
+          "client",
+          "end_users"
+        ],
+        "category": [
+          "efficiency",
+          "quality"
+        ],
+        "evidence_type": [
+          "claimed"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+      "name": "Massive Teradata Environment Scale",
+      "properties": {
+        "root_cause": [
+          "legacy_teradata_architecture",
+          "large_data_volume_and_codebase"
+        ],
+        "business_impact": [
+          "significant_cost_and_technical_limitations",
+          "modernization_bottlenecks"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "nationwide"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+      "name": "Aggressive Contractual Timeline",
+      "properties": {
+        "root_cause": [
+          "strict_contractual_demands"
+        ],
+        "business_impact": [
+          "60-70%_shorter_timeline_than_industry_standards",
+          "high_delivery_pressure"
+        ],
+        "urgency": [
+          "critical"
+        ],
+        "who_faces_it": [
+          "nationwide",
+          "ibm_delivery_team"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+      "name": "Teradata",
+      "properties": {
+        "vendor_or_provider": [
+          "teradata"
+        ],
+        "technology_category": [
+          "data_warehouse",
+          "legacy_database"
+        ],
+        "role_in_solution": [
+          "legacy_target",
+          "modernization_source"
+        ],
+        "maturity": [
+          "legacy"
+        ],
+        "key_characteristics": [
+          "massive_scale",
+          "50+_tb_data_volume",
+          "2.5m+_lines_of_code",
+          "700_stored_procedures",
+          "6500_complex_views"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+      "name": "Data Lakehouse",
+      "properties": {
+        "vendor_or_provider": [
+          "modern_data_platform"
+        ],
+        "technology_category": [
+          "data_lakehouse",
+          "modern_data_architecture"
+        ],
+        "role_in_solution": [
+          "target_destination",
+          "modernization_destination"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "modern_data_architecture",
+          "destination_for_hydrated_data",
+          "supports_complex_views_and_reports"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+      "name": "AI-Powered Migration Acceleration",
+      "properties": {
+        "competitive_advantage": [
+          "ai_driven_acceleration_of_code_and_data_migration",
+          "enables_delivery_under_aggressive_contractual_timelines"
+        ],
+        "evidence_or_proof_point": [
+          "25-60%_phase_time_reduction",
+          "successful_migration_of_50+_tb_and_2.5m_loc"
+        ],
+        "uniqueness": [
+          "proprietary_ai_acceleration",
+          "best_in_class"
+        ],
+        "target_audience": [
+          "enterprise_financial_services",
+          "data_modernization_teams"
+        ],
+        "relates_to_offering": [
+          "genai_copilot"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+      "name": "IBM",
+      "properties": {
+        "org_type": [
+          "technology_vendor",
+          "service_provider"
+        ],
+        "relationship_to_offering": [
+          "provider",
+          "implementer"
+        ],
+        "geographic_presence": [
+          "global"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_007_evt_001",
+      "name": "IBM Gen AI Demo 2025",
+      "properties": {
+        "event_type": [
+          "demo",
+          "case_study_presentation"
+        ],
+        "date_or_period": [
+          "2025"
+        ],
+        "relevance_to_deal": [
+          "milestone",
+          "proof_of_concept",
+          "reference_case"
+        ],
+        "key_participants": [
+          "ibm",
+          "nationwide"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+      "target_name": "Massive Teradata Environment Scale",
+      "rel_type": "faces",
+      "description": "Nationwide faces significant cost and technical limitations due to the massive scale of its legacy Teradata environment.",
+      "properties": {
+        "impact_level": "high",
+        "category": "technical_and_cost"
+      },
+      "context": "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+      "target_name": "Aggressive Contractual Timeline",
+      "rel_type": "faces",
+      "description": "Nationwide faces a highly compressed project timeline driven by strict contractual demands.",
+      "properties": {
+        "timeline_reduction": "60-70% shorter than industry standards",
+        "driver": "contractual_demands"
+      },
+      "context": "The migration had a 60–70% shorter timeline than industry standards due to contractual demands.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "target_name": "GENAI Copilot",
+      "rel_type": "engaged_with",
+      "description": "Nationwide engaged with GENAI Copilot to streamline code and data migration processes.",
+      "properties": {
+        "engagement_type": "implementation_and_demo",
+        "phase": "migration_and_modernization"
+      },
+      "context": "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+      "target_name": "Accelerated Project Timelines",
+      "rel_type": "achieved",
+      "description": "Nationwide achieved significantly accelerated project timelines across all migration phases.",
+      "properties": {
+        "metric": "phase_time_reduction",
+        "values": {
+          "Analysis": "25%",
+          "Design": "30%",
+          "Conversion": "60%",
+          "User Testing": "20%"
+        }
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines... Phase Time Reduction: Analysis 25%, Design 30%, Conversion 60%, User Testing 20%",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+      "target_name": "Unprecedented Operational Efficiency",
+      "rel_type": "achieved",
+      "description": "Nationwide achieved unprecedented operational efficiency through streamlined migration processes.",
+      "properties": {
+        "metric": "operational_efficiency",
+        "qualifier": "unprecedented",
+        "scope": "complex_teradata_migration"
+      },
+      "context": "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "target_name": "AI-Driven Code and Data Migration",
+      "rel_type": "comprises",
+      "description": "GENAI Copilot comprises the core capability of AI-driven code and data migration.",
+      "properties": {
+        "component_type": "core_capability",
+        "optional": false
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines and superior business outcomes.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "target_name": "Teradata Modernization",
+      "rel_type": "addresses",
+      "description": "GENAI Copilot directly addresses the Teradata Modernization use case.",
+      "properties": {
+        "application_scope": "complex_teradata_migration",
+        "completeness": "full"
+      },
+      "context": "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+      "target_name": "Accelerated Project Timelines",
+      "rel_type": "produces",
+      "description": "GENAI Copilot produces accelerated project timelines through AI-driven process streamlining.",
+      "properties": {
+        "metric": "phase_time_reduction",
+        "values": {
+          "Analysis": "25%",
+          "Design": "30%",
+          "Conversion": "60%",
+          "User Testing": "20%"
+        }
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines...",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+      "target_name": "Unprecedented Operational Efficiency",
+      "rel_type": "has_delivered",
+      "description": "GENAI Copilot has delivered unprecedented operational efficiency in the migration process.",
+      "properties": {
+        "metric": "operational_efficiency",
+        "qualifier": "unprecedented",
+        "scope": "complex_teradata_migration"
+      },
+      "context": "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+      "target_name": "Massive Teradata Environment Scale",
+      "rel_type": "solves",
+      "description": "GENAI Copilot solves the challenges posed by the massive scale of the Teradata environment.",
+      "properties": {
+        "approach": "ai_driven_streamlining",
+        "completeness": "full"
+      },
+      "context": "Migrating a massive Teradata environment posed significant cost and technical limitations... Achieving unprecedented efficiency... by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+      "target_name": "Aggressive Contractual Timeline",
+      "rel_type": "mitigates",
+      "description": "GENAI Copilot mitigates the risk of aggressive contractual timelines through accelerated processing.",
+      "properties": {
+        "approach": "timeline_acceleration",
+        "completeness": "full"
+      },
+      "context": "The migration had a 60–70% shorter timeline than industry standards due to contractual demands... Advanced expertise and innovative methods ensured quality delivery within a complex, condensed timeline.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+      "target_name": "AI-Powered Migration Acceleration",
+      "rel_type": "distinguished_by",
+      "description": "GENAI Copilot is distinguished by its AI-powered migration acceleration capability.",
+      "properties": {
+        "differentiation_focus": "speed_and_efficiency",
+        "mechanism": "ai_driven"
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines and superior business outcomes.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+      "target_name": "Teradata",
+      "rel_type": "replaces",
+      "description": "GENAI Copilot replaces legacy Teradata systems through modernization and migration.",
+      "properties": {
+        "migration_direction": "legacy_to_modern",
+        "scope": "code_and_data"
+      },
+      "context": "Migrating a massive Teradata environment... The project included code conversion, data hydration into a modern Data Lakehouse...",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+      "target_name": "Data Lakehouse",
+      "rel_type": "integrates_with",
+      "description": "GENAI Copilot integrates with modern Data Lakehouse architectures for data hydration and repointing.",
+      "properties": {
+        "integration_type": "data_hydration_and_repointing",
+        "target_architecture": "modern"
+      },
+      "context": "The project included code conversion, data hydration into a modern Data Lakehouse, and system repointing.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "source_name": "AI-Driven Code and Data Migration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+      "target_name": "Teradata",
+      "rel_type": "uses",
+      "description": "The AI-Driven Code and Data Migration capability operates on and processes legacy Teradata systems.",
+      "properties": {
+        "usage_type": "legacy_processing_and_conversion",
+        "volume": "50+ TB, ~700 Procedures, ~6500 Views"
+      },
+      "context": "Migrating a massive Teradata environment... Data Volume 50+ TB, Stored Procedures ~ 700 Procedures (2.5+ Mil Lines of Code), Complex Views ~ 6500Views",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "source_name": "AI-Driven Code and Data Migration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+      "target_name": "Data Lakehouse",
+      "rel_type": "integrates_with",
+      "description": "The AI-Driven Code and Data Migration capability integrates with Data Lakehouse environments for modern data storage.",
+      "properties": {
+        "integration_type": "data_hydration",
+        "target_architecture": "modern"
+      },
+      "context": "The project included code conversion, data hydration into a modern Data Lakehouse, and system repointing.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "source_name": "AI-Driven Code and Data Migration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "target_name": "Teradata Modernization",
+      "rel_type": "enables",
+      "description": "AI-Driven Code and Data Migration enables the Teradata Modernization use case.",
+      "properties": {
+        "enablement_scope": "full_migration_lifecycle",
+        "complexity": "high"
+      },
+      "context": "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "source_name": "AI-Driven Code and Data Migration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+      "target_name": "Accelerated Project Timelines",
+      "rel_type": "delivers",
+      "description": "AI-Driven Code and Data Migration delivers accelerated project timelines across analysis, design, conversion, and testing phases.",
+      "properties": {
+        "metric": "phase_time_reduction",
+        "values": {
+          "Analysis": "25%",
+          "Design": "30%",
+          "Conversion": "60%",
+          "User Testing": "20%"
+        }
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines... Phase Time Reduction: Analysis 25%, Design 30%, Conversion 60%, User Testing 20%",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "source_name": "AI-Driven Code and Data Migration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+      "target_name": "Unprecedented Operational Efficiency",
+      "rel_type": "results_in",
+      "description": "AI-Driven Code and Data Migration results in unprecedented operational efficiency through streamlined processes.",
+      "properties": {
+        "metric": "operational_efficiency",
+        "qualifier": "unprecedented",
+        "driver": "ai_streamlining"
+      },
+      "context": "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "source_name": "Teradata Modernization",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+      "target_name": "Massive Teradata Environment Scale",
+      "rel_type": "addresses",
+      "description": "The Teradata Modernization use case addresses the challenges of a massive legacy environment scale.",
+      "properties": {
+        "addressing_scope": "full_environment",
+        "complexity": "high"
+      },
+      "context": "Migrating a massive Teradata environment posed significant cost and technical limitations to modernization efforts.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "source_name": "Teradata Modernization",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+      "target_name": "Aggressive Contractual Timeline",
+      "rel_type": "mitigates",
+      "description": "The Teradata Modernization use case mitigates risks associated with aggressive contractual timelines.",
+      "properties": {
+        "mitigation_strategy": "condensed_timeline_delivery",
+        "driver": "contractual_demands"
+      },
+      "context": "The migration had a 60–70% shorter timeline than industry standards due to contractual demands. Advanced expertise and innovative methods ensured quality delivery within a complex, condensed timeline.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "source_name": "Teradata Modernization",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+      "target_name": "Accelerated Project Timelines",
+      "rel_type": "produces",
+      "description": "The Teradata Modernization use case produces accelerated project timelines across all project phases.",
+      "properties": {
+        "metric": "phase_time_reduction",
+        "values": {
+          "Analysis": "25%",
+          "Design": "30%",
+          "Conversion": "60%",
+          "User Testing": "20%"
+        }
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines... Phase Time Reduction: Analysis 25%, Design 30%, Conversion 60%, User Testing 20%",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "source_name": "Teradata Modernization",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+      "target_name": "Unprecedented Operational Efficiency",
+      "rel_type": "demonstrates",
+      "description": "The Teradata Modernization use case demonstrates unprecedented operational efficiency in complex migration scenarios.",
+      "properties": {
+        "demonstration_scope": "complex_teradata_migration",
+        "qualifier": "unprecedented"
+      },
+      "context": "Achieving unprecedented efficiency in complex Teradata migration by accelerating processes with GENAI Copilot.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "source_name": "Teradata Modernization",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+      "target_name": "Teradata",
+      "rel_type": "uses",
+      "description": "The Teradata Modernization use case operates on and processes legacy Teradata technology.",
+      "properties": {
+        "usage_type": "legacy_system_processing",
+        "volume": "50+ TB, ~700 Procedures, ~6500 Views"
+      },
+      "context": "Migrating a massive Teradata environment... Data Volume 50+ TB, Stored Procedures ~ 700 Procedures (2.5+ Mil Lines of Code), Complex Views ~ 6500Views",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "source_name": "Teradata Modernization",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+      "target_name": "Data Lakehouse",
+      "rel_type": "migrates_to",
+      "description": "The Teradata Modernization use case migrates data and workloads to a modern Data Lakehouse architecture.",
+      "properties": {
+        "migration_direction": "legacy_to_modern",
+        "target_architecture": "data_lakehouse"
+      },
+      "context": "The project included code conversion, data hydration into a modern Data Lakehouse, and system repointing.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+      "source_name": "AI-Powered Migration Acceleration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "target_name": "AI-Driven Code and Data Migration",
+      "rel_type": "based_on",
+      "description": "AI-Powered Migration Acceleration is fundamentally based on AI-Driven Code and Data Migration capabilities.",
+      "properties": {
+        "foundation_type": "core_capability",
+        "mechanism": "ai_driven"
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines and superior business outcomes.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+      "source_name": "AI-Powered Migration Acceleration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "target_name": "GENAI Copilot",
+      "rel_type": "distinguishes",
+      "description": "AI-Powered Migration Acceleration distinguishes GENAI Copilot from standard migration tools.",
+      "properties": {
+        "differentiation_focus": "speed_and_efficiency",
+        "mechanism": "ai_driven"
+      },
+      "context": "Harnessing AI to streamline code and data migration for accelerated timelines and superior business outcomes.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+      "source_name": "IBM",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "target_name": "GENAI Copilot",
+      "rel_type": "distributes",
+      "description": "IBM distributes and delivers the GENAI Copilot offering.",
+      "properties": {
+        "distribution_role": "vendor_and_developer",
+        "context": "demo_and_implementation"
+      },
+      "context": "IBM & Nationwide – Gen AI Demo",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+      "source_name": "IBM",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "partners_with",
+      "description": "IBM partners with Nationwide to deliver the Gen AI Demo and migration solution.",
+      "properties": {
+        "partnership_type": "vendor_client",
+        "context": "demo_and_modernization"
+      },
+      "context": "IBM & Nationwide – Gen AI Demo",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_evt_001",
+      "source_name": "IBM Gen AI Demo 2025",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "target_name": "GENAI Copilot",
+      "rel_type": "demonstrated_at",
+      "description": "GENAI Copilot was demonstrated at the IBM Gen AI Demo 2025 event.",
+      "properties": {
+        "demonstration_focus": "ai_driven_migration",
+        "event_year": "2025"
+      },
+      "context": "Nationwide - IBM Gen AI Demo 2025",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_evt_001",
+      "source_name": "IBM Gen AI Demo 2025",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "involves",
+      "description": "The IBM Gen AI Demo 2025 event involves Nationwide as the primary client and use case subject.",
+      "properties": {
+        "involvement_type": "client_use_case",
+        "event_year": "2025"
+      },
+      "context": "Nationwide - IBM Gen AI Demo 2025",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_off_001",
+      "source_name": "GENAI Copilot",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cap_001",
+      "source_name": "AI-Driven Code and Data Migration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_use_001",
+      "source_name": "Teradata Modernization",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_001",
+      "source_name": "Accelerated Project Timelines",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_ben_002",
+      "source_name": "Unprecedented Operational Efficiency",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_001",
+      "source_name": "Massive Teradata Environment Scale",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_cha_002",
+      "source_name": "Aggressive Contractual Timeline",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_001",
+      "source_name": "Teradata",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_tech_002",
+      "source_name": "Data Lakehouse",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_dif_001",
+      "source_name": "AI-Powered Migration Acceleration",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_org_001",
+      "source_name": "IBM",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_007_evt_001",
+      "source_name": "IBM Gen AI Demo 2025",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_007",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    }
+  ]
+}

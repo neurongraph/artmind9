@@ -1,0 +1,2189 @@
+[
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_001_prc_001",
+    "name": "FirstUK Bank Escalation Matrix",
+    "properties": {
+      "document_id": "ESC-001",
+      "owner": "Chief Operating Officer",
+      "departments_involved": [
+        "Operations"
+      ],
+      "status": "Active",
+      "classification": "Internal",
+      "audience": [
+        "All Staff",
+        "Management",
+        "Executives"
+      ],
+      "related_documents": [
+        "departments",
+        "policy_complaints",
+        "policy_operational_risk"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_001",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_001_rol_001",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "authority_level": "Process Owner"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_001",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_001_rol_002",
+    "name": "Operations Department",
+    "properties": {
+      "role_type": "system",
+      "department": "Operations"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_001",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_002_prc_001",
+    "name": "Escalation Matrix Process",
+    "properties": {
+      "purpose": "Defines clear escalation paths for issues, incidents, and decisions based on severity, type, and financial impact to ensure rapid resolution, appropriate authority, and transparent accountability."
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_002",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_prc_001",
+    "name": "Escalation and Approvals Procedure",
+    "properties": {
+      "scope": "Frontline resolution and financial approval limits",
+      "owner": "Frontline Staff",
+      "departments_involved": [
+        "Customer Service",
+        "Branch Operations",
+        "Account Management"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_esc_001",
+    "name": "Level 1 — Frontline Resolution",
+    "properties": {
+      "level_number": 1,
+      "authority": "Customer Service Staff, Branch Staff, Account Managers",
+      "approval_limit": "<£500",
+      "response_time": "Same day (within 24 hours)",
+      "examples": [
+        "Account inquiry resolution",
+        "Simple fee reversal request",
+        "Standard product inquiry",
+        "Lost card replacement",
+        "Password reset"
+      ],
+      "escalation_trigger": "Customer unhappy or issue complex",
+      "escalates_to": "Level 2"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_rol_001",
+    "name": "Customer Service Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Frontline Resolution",
+      "approval_limit": "<£500"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_rol_002",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Frontline Resolution",
+      "approval_limit": "<£500"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_rol_003",
+    "name": "Account Managers",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Frontline Resolution",
+      "approval_limit": "<£500"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_001",
+    "name": "Account Inquiry Resolution",
+    "properties": {
+      "actor": "Customer Service Staff, Branch Staff, or Account Managers",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_002",
+    "name": "Simple Fee Reversal Request",
+    "properties": {
+      "actor": "Customer Service Staff, Branch Staff, or Account Managers",
+      "approval_limit": "<£500"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_003",
+    "name": "Standard Product Inquiry",
+    "properties": {
+      "actor": "Customer Service Staff, Branch Staff, or Account Managers"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_004",
+    "name": "Lost Card Replacement",
+    "properties": {
+      "actor": "Customer Service Staff, Branch Staff, or Account Managers",
+      "output": "Replacement Card",
+      "estimated_cost": "£15 fee"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_005",
+    "name": "Password Reset",
+    "properties": {
+      "actor": "Customer Service Staff, Branch Staff, or Account Managers"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_dec_001",
+    "name": "Level 2 Escalation Trigger",
+    "properties": {
+      "decision_question": "Should the issue be escalated to Level 2?",
+      "criteria": "Customer is unhappy or the issue is complex",
+      "decision_maker": "Frontline Staff",
+      "path_yes": "Escalate to Level 2",
+      "path_no": "Resolve at Level 1"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_esc_001",
+    "name": "Level 2 — Supervisor/Manager Resolution",
+    "properties": {
+      "level_number": 2,
+      "authority": [
+        "Supervisor",
+        "Branch Manager",
+        "Complaints Handler"
+      ],
+      "approval_limit": "£500–£5,000",
+      "response_time": "1–3 business days",
+      "examples": [
+        "Complaint investigation",
+        "Non-standard fee reversal",
+        "Account exception handling",
+        "Customer retention offer",
+        "Process waiver requests"
+      ],
+      "escalation_trigger": "unresolved or >£5k impact",
+      "escalates_to": "Level 3"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_rol_001",
+    "name": "Supervisor",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Level 2 Resolution",
+      "approval_limit": "£500–£5,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_rol_002",
+    "name": "Branch Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Level 2 Resolution",
+      "approval_limit": "£500–£5,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_rol_003",
+    "name": "Complaints Handler",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Level 2 Resolution",
+      "approval_limit": "£500–£5,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_dec_001",
+    "name": "Level 2 Escalation Trigger",
+    "properties": {
+      "decision_question": "Does the issue remain unresolved or exceed the £5,000 financial impact threshold?",
+      "criteria": "unresolved status OR financial impact > £5,000",
+      "path_yes": "Escalate to Level 3",
+      "path_no": "Resolve at Level 2"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_001",
+    "name": "Complaint Investigation",
+    "properties": {
+      "actor": "Supervisor, Branch Manager, or Complaints Handler",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_002",
+    "name": "Non-standard Fee Reversal",
+    "properties": {
+      "actor": "Supervisor, Branch Manager, or Complaints Handler",
+      "approval_limit": "£500–£5,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_003",
+    "name": "Account Exception Handling",
+    "properties": {
+      "actor": "Supervisor, Branch Manager, or Complaints Handler"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_004",
+    "name": "Customer Retention Offer",
+    "properties": {
+      "actor": "Supervisor, Branch Manager, or Complaints Handler",
+      "approval_limit": "£500–£5,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_005",
+    "name": "Process Waiver Request",
+    "properties": {
+      "actor": "Supervisor, Branch Manager, or Complaints Handler"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_esc_001",
+    "name": "Level 3 — Department Head Resolution",
+    "properties": {
+      "level_number": 3,
+      "authority": "Department Head (e.g., Head of Retail Banking, Head of Compliance)",
+      "approval_limit": "£5,000–£50,000",
+      "response_time": "3–5 business days",
+      "examples": [
+        "Significant complaint resolution (substantial refund)",
+        "Regulatory exception requests",
+        "High-value fraud investigation",
+        "Product exception request",
+        "Vendor/partnership dispute",
+        "AML/KYC escalation (high-risk customer decision)"
+      ],
+      "escalation_trigger": "unresolved or >£50k impact",
+      "escalates_to": "Level 4 Escalation Tier"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_rol_001",
+    "name": "Department Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Department Head (e.g., Head of Retail Banking, Head of Compliance)",
+      "approval_limit": "£5,000–£50,000",
+      "response_time_sla": "3–5 business days"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_dec_001",
+    "name": "Level 3 Escalation Condition Gate",
+    "properties": {
+      "decision_question": "Is the issue unresolved or does it have a financial impact >£50k?",
+      "criteria": "Unresolved status or impact exceeding £50,000",
+      "decision_maker": "Department Head",
+      "path_yes": "Escalate to Level 4",
+      "path_no": "Resolve at Level 3"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_esc_002",
+    "name": "Level 4 Escalation Tier",
+    "properties": {
+      "level_number": 4
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_chk_001",
+    "name": "High-Risk Customer AML/KYC Decision Gate",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Department Head",
+      "timing": "Level 3 Escalation"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_esc_001",
+    "name": "Level 4 — Executive Committee Resolution",
+    "properties": {
+      "level_number": 4,
+      "authority": "Executive Committee (CEO, CFO, CRO, COO)",
+      "approval_limit": "£50,000–£500,000",
+      "response_time": "24–48 hours",
+      "examples": [
+        "Major financial loss (>£50k)",
+        "Significant regulatory breach",
+        "Reputational crisis",
+        "Major vendor issue",
+        "Strategic exception",
+        "Large fraud investigation"
+      ],
+      "escalation_trigger": "unresolved or >£500k impact",
+      "escalates_to": "Level 5 — Board Resolution"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_rol_001",
+    "name": "Executive Committee",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Executive (CEO, CFO, CRO, COO)",
+      "approval_limit": "Up to £500,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_dec_001",
+    "name": "Level 4 Resolution Outcome Gate",
+    "properties": {
+      "decision_question": "Is the issue resolved or is the financial impact ≤£500,000?",
+      "criteria": "Resolution status and financial impact threshold",
+      "decision_maker": "Executive Committee",
+      "path_yes": "Case Closed",
+      "path_no": "Escalate to Level 5 (Board)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_esc_002",
+    "name": "Level 5 — Board Resolution",
+    "properties": {
+      "level_number": 5,
+      "authority": "Board of Directors"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_007_esc_001",
+    "name": "Level 5 — Board Resolution",
+    "properties": {
+      "level_number": 5,
+      "authority": "Board of Directors",
+      "approval_limit": ">£500,000",
+      "response_time": "24–72 hours",
+      "examples": [
+        "Major financial loss (>£500k)",
+        "Critical regulatory breach",
+        "Reputational crisis",
+        "Legal liability",
+        "Strategic decisions",
+        "License/charter risk",
+        "Systemic operational failure"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_007",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_007_rol_001",
+    "name": "Board of Directors",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Highest/Board Level",
+      "approval_limit": ">£500,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_007",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_007_dec_001",
+    "name": "Level 5 Escalation Trigger",
+    "properties": {
+      "decision_question": "Does the issue meet the criteria for Level 5 Board Resolution?",
+      "criteria": "Financial loss >£500k, critical regulatory breach, reputational crisis, legal liability, strategic decisions, license/charter risk, or systemic operational failure",
+      "decision_maker": "Board of Directors",
+      "path_yes": "Proceed to Board Resolution",
+      "path_no": "Maintain at lower escalation level"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_007",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_prc_001",
+    "name": "Customer Complaints Escalation Process",
+    "properties": {
+      "purpose": "Management and resolution of customer complaints based on severity",
+      "scope": "Customer complaints (Low, High, and Critical severity)",
+      "timeline_sla": "24 to 48 hours depending on severity",
+      "departments_involved": [
+        "Customer Service",
+        "Compliance",
+        "Bank Board"
+      ],
+      "trigger": "Receipt of customer complaint"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_001",
+    "name": "Customer Service Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Customer Service",
+      "authority_level": "Initial handler for low severity issues"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_002",
+    "name": "Complaints Manager",
+    "properties": {
+      "role_type": "human",
+      "department": "Customer Service",
+      "authority_level": "Initial handler for high severity issues; escalation point for low severity"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_003",
+    "name": "Head of Customer Service",
+    "properties": {
+      "role_type": "human",
+      "department": "Customer Service",
+      "authority_level": "Initial handler for critical severity issues"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_004",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "authority_level": "Initial handler for critical severity issues"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_005",
+    "name": "Compliance Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "authority_level": "Notified of high severity complaints with regulatory implications"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_006",
+    "name": "Bank Board",
+    "properties": {
+      "role_type": "human",
+      "department": "Board",
+      "authority_level": "Notified of critical breaches and financial losses exceeding £100k"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_007",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Regulatory body to be notified of critical breaches within 24 hours"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_001",
+    "name": "Level 1–2 — Frontline Resolution",
+    "properties": {
+      "level_number": "1-2",
+      "authority": "Customer Service Staff",
+      "response_time": "24 hours",
+      "examples": [
+        "Minor service issue"
+      ],
+      "escalation_trigger": "If unresolved",
+      "escalates_to": "Complaints Manager (Level 3)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_002",
+    "name": "Level 3 — Complaints Manager Resolution",
+    "properties": {
+      "level_number": 3,
+      "authority": "Complaints Manager",
+      "response_time": "24–48 hours",
+      "examples": [
+        "Significant financial loss"
+      ],
+      "escalation_trigger": "Financial loss >£100k or unresolved high severity",
+      "escalates_to": "Management/Board Resolution"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_003",
+    "name": "Level 4 — Management Resolution",
+    "properties": {
+      "level_number": 4,
+      "authority": "Head of Customer Service + Compliance Head",
+      "response_time": "24 hours",
+      "examples": [
+        "Regulatory/reputational breach",
+        "Significant financial loss"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_004",
+    "name": "Level 5 — Executive/Board Resolution",
+    "properties": {
+      "level_number": 5,
+      "authority": "Bank Board",
+      "response_time": "Immediate",
+      "examples": [
+        "Financial loss >£100k",
+        "Critical regulatory/reputational breach"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_dec_001",
+    "name": "Complaint Severity Assessment",
+    "properties": {
+      "decision_question": "What is the severity of the complaint?",
+      "criteria": "Minor service issue vs Significant financial loss vs Regulatory/reputational breach",
+      "path_yes": "Route to appropriate Initial Handler (Staff, Manager, or Head/Compliance)",
+      "decision_maker": "Incoming triage/Initial handler"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_dec_002",
+    "name": "Low Severity Resolution Check",
+    "properties": {
+      "decision_question": "Is the low severity issue resolved within 24 hours?",
+      "criteria": "Resolution status at 24-hour mark",
+      "path_yes": "Close complaint",
+      "path_no": "Escalate to Complaints Manager (Level 3)",
+      "decision_maker": "Customer Service Staff"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_dec_003",
+    "name": "Financial Loss Threshold Check",
+    "properties": {
+      "decision_question": "Does the financial loss exceed £100k?",
+      "criteria": "Monetary value of loss > £100,000",
+      "path_yes": "Immediate Board notification",
+      "path_no": "Standard High Severity process (Notify Compliance)",
+      "decision_maker": "Complaints Manager"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_prc_001",
+    "name": "Fraud Incident Handling Process",
+    "properties": {
+      "scope": "Fraud incidents across all amounts",
+      "owner": "Financial Crime Team",
+      "timeline_sla": "4 hours to 24 hours depending on fraud amount",
+      "outcome_success": "Investigation complete, account secured, and customer reimbursed where applicable"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_dec_001",
+    "name": "Fraud Amount Threshold Decision",
+    "properties": {
+      "decision_question": "What is the total amount of the fraud incident?",
+      "criteria": "Fraud amount <£1,000, £1,000–£10,000, or >£10,000",
+      "path_yes": "Determine handler and escalation level based on specific amount bracket",
+      "decision_maker": "Financial Crime Team"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime",
+      "authority_level": "Primary handler for incidents up to £10,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_002",
+    "name": "Chief Risk Officer (CRO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Joint handler for incidents >£1,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_003",
+    "name": "Chief Executive Officer (CEO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Joint handler for incidents >£10,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_004",
+    "name": "The Board",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Oversight for high-value incidents (>£10,000)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_005",
+    "name": "Law Enforcement",
+    "properties": {
+      "role_type": "external",
+      "channels": "notification"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_esc_001",
+    "name": "Level 2 — Financial Crime Team Resolution",
+    "properties": {
+      "level_number": 2,
+      "authority": "Financial Crime Team",
+      "approval_limit": "<£1,000",
+      "response_time": "24 hours",
+      "escalation_trigger": "Fraud amount >= £1,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_esc_002",
+    "name": "Level 3 — Financial Crime Team and CRO Resolution",
+    "properties": {
+      "level_number": 3,
+      "authority": "Financial Crime Team + CRO",
+      "approval_limit": "£1,000–£10,000",
+      "response_time": "24 hours",
+      "escalation_trigger": "Fraud amount > £10,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_esc_003",
+    "name": "Level 4–5 — Executive Management Resolution",
+    "properties": {
+      "level_number": "4-5",
+      "authority": "CRO + CEO",
+      "approval_limit": ">£10,000",
+      "response_time": "4 hours"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_001",
+    "name": "Fraud Investigation",
+    "properties": {
+      "actor": "Financial Crime Team / CRO / CEO",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_002",
+    "name": "Account Block",
+    "properties": {
+      "actor": "Financial Crime Team",
+      "criteria": "If fraud is ongoing",
+      "mandatory": "conditional"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_003",
+    "name": "Customer Reimbursement",
+    "properties": {
+      "actor": "Financial Crime Team / CRO / CEO",
+      "criteria": "If customer fraud",
+      "timeline_sla": "Within 10 days (for amounts >= £1,000)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_004",
+    "name": "Law Enforcement Notification",
+    "properties": {
+      "actor": "Financial Crime Team / CRO / CEO",
+      "criteria": "If warranted (£1,000–£10,000) or mandatory (>£10,000)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_005",
+    "name": "Board Update",
+    "properties": {
+      "actor": "CRO / CEO",
+      "criteria": "Fraud amount > £10,000",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_chk_001",
+    "name": "SAR Filing Compliance Check",
+    "properties": {
+      "regulatory_basis": "SAR filing/notification requirements",
+      "mandatory": "conditional",
+      "criteria": "Fraud amount > £10,000",
+      "performed_by": "Financial Crime Team / CRO / CEO"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_prc_001",
+    "name": "Operational Incidents/System Outages Management Process",
+    "properties": {
+      "purpose": "Manage and resolve system outages and operational incidents based on duration and impact",
+      "scope": "System outages and operational incidents",
+      "timeline_sla": "Varies by severity (<1 hour, 1-4 hours, >4 hours)",
+      "trigger": "Occurrence of an operational incident or system outage",
+      "outcome_success": "Resolution of the incident within the specified timeline"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_001",
+    "name": "IT Operations",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Initial handler",
+      "department": "IT"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_002",
+    "name": "Chief Technology Officer (CTO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Executive management",
+      "department": "Technology"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Executive oversight",
+      "department": "Risk"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_004",
+    "name": "Chief Operating Officer (COO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Executive oversight",
+      "department": "Operations"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_005",
+    "name": "Chief Executive Officer (CEO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final executive authority",
+      "department": "Executive Office"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_006",
+    "name": "Executive Committee",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Strategic oversight",
+      "department": "Executive Management"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_007",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Regulatory"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_008",
+    "name": "The Board",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Governance",
+      "department": "Board of Directors"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_esc_001",
+    "name": "Level 1–2 — Initial IT Operations Resolution",
+    "properties": {
+      "level_number": 1,
+      "authority": "IT Operations",
+      "response_time": "<1 hour",
+      "examples": [
+        "Minimal customer impact outages"
+      ],
+      "escalation_trigger": "Duration exceeds 1 hour"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_esc_002",
+    "name": "Level 2–3 — IT Operations and CTO Resolution",
+    "properties": {
+      "level_number": 2,
+      "authority": "IT Operations and CTO",
+      "response_time": "1–4 hours",
+      "examples": [
+        "Significant customer impact outages"
+      ],
+      "escalation_trigger": "Duration exceeds 4 hours"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_esc_003",
+    "name": "Level 4–5 — Executive Management Resolution",
+    "properties": {
+      "level_number": 4,
+      "authority": "CTO and CEO",
+      "response_time": "Immediate response",
+      "examples": [
+        "Critical customer impact outages"
+      ],
+      "escalation_trigger": "Duration exceeds 8 hours for Board update"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_dec_001",
+    "name": "Incident Duration Gate",
+    "properties": {
+      "decision_question": "How long has the incident lasted?",
+      "criteria": "Duration (<1hr, 1-4hrs, >4hrs)",
+      "path_yes": "Assign handler and escalation level based on time bracket",
+      "decision_maker": "IT Operations"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_dec_002",
+    "name": "Executive Escalation Trigger (2 Hour Mark)",
+    "properties": {
+      "decision_question": "Has the incident duration exceeded 2 hours?",
+      "criteria": "Current duration > 2 hours",
+      "path_yes": "Escalate to CRO and COO; Update customers",
+      "path_no": "Continue IT Operations resolution",
+      "decision_maker": "IT Operations"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_stp_001",
+    "name": "Incident Logging",
+    "properties": {
+      "step_number": 1,
+      "actor": "IT Operations",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_stp_002",
+    "name": "Customer Communication Update",
+    "properties": {
+      "actor": "IT Operations / CTO",
+      "trigger": "Incident duration > 2 hours",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_stp_003",
+    "name": "Regulatory Notification Filing",
+    "properties": {
+      "actor": "CTO / CEO",
+      "trigger": "Incident duration > 4 hours",
+      "mandatory": "conditional",
+      "evidence_required": "Incident logs and impact analysis",
+      "channel": "system"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_prc_001",
+    "name": "Compliance Violation Handling Process",
+    "properties": {
+      "purpose": "Manage and remediate policy violations and regulatory breaches",
+      "scope": "Internal policy violations and external regulatory breaches",
+      "departments_involved": [
+        "Compliance",
+        "Legal",
+        "Executive Management"
+      ],
+      "outcome_success": "Remediation completed and reported to relevant authorities/board"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_esc_001",
+    "name": "Level 2 — Department Manager Resolution",
+    "properties": {
+      "level_number": 2,
+      "authority": "Department Manager",
+      "response_time": "30 days",
+      "examples": [
+        "Policy Violation"
+      ],
+      "escalation_trigger": "Regulatory Rule Breach"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_esc_002",
+    "name": "Level 3 — CRO Remediation",
+    "properties": {
+      "level_number": 3,
+      "authority": "Chief Risk Officer",
+      "response_time": "5 days",
+      "examples": [
+        "Regulatory Rule Breach (Low Impact)"
+      ],
+      "escalation_trigger": "Significant Regulatory Breach"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_esc_003",
+    "name": "Level 4–5 — Executive and Board Resolution",
+    "properties": {
+      "level_number": "4-5",
+      "authority": "CEO, CRO, Legal, Board",
+      "response_time": "24 hours",
+      "examples": [
+        "Significant Regulatory Breach"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_001",
+    "name": "Compliance Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_002",
+    "name": "Department Manager",
+    "properties": {
+      "role_type": "human",
+      "department": "Relevant Business Unit"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_003",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_type": "human",
+      "department": "Risk Management"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_004",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "role_type": "human",
+      "department": "Executive"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_005",
+    "name": "Legal Department",
+    "properties": {
+      "role_type": "human",
+      "department": "Legal"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_006",
+    "name": "Board",
+    "properties": {
+      "role_type": "human",
+      "department": "Board of Directors"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_007",
+    "name": "External Regulator",
+    "properties": {
+      "role_type": "external",
+      "examples": [
+        "FCA",
+        "PRA"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_dec_001",
+    "name": "Violation Severity Assessment",
+    "properties": {
+      "decision_question": "What is the severity of the compliance violation?",
+      "criteria": "Whether it is a Policy Violation, Low Impact Regulatory Breach, or Significant Regulatory Breach",
+      "path_yes": "Route to Level 2 (Policy), Level 3 (Low Impact), or Level 4-5 (Significant)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_001",
+    "name": "Corrective Action Execution",
+    "properties": {
+      "actor": "Compliance + Department Manager",
+      "output": "Counseling, corrective action plan",
+      "estimated_duration": "30 days",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_002",
+    "name": "Regulatory Remediation and Notification",
+    "properties": {
+      "actor": "Compliance + CRO",
+      "output": "Immediate remediation and internal notification",
+      "estimated_duration": "5 days",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_003",
+    "name": "Critical Regulatory Escalation",
+    "properties": {
+      "actor": "CRO + CEO + Legal",
+      "output": "Regulatory contact (FCA/PRA) and Board notification",
+      "estimated_duration": "24 hours",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_004",
+    "name": "Root Cause Analysis and Prevention Planning",
+    "properties": {
+      "actor": "CRO + CEO + Legal",
+      "output": "Root cause analysis + prevention plan",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_prc_001",
+    "name": "AML/KYC Issues Handling Process",
+    "properties": {
+      "purpose": "Handling of missed KYC documentation, PEP/Sanctions hits, and suspicious transaction patterns",
+      "departments_involved": [
+        "Compliance",
+        "Financial Crime"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_001",
+    "name": "Obtain Missing KYC Documentation",
+    "properties": {
+      "actor": "Compliance",
+      "timeline_sla": "Same day",
+      "mandatory": "yes",
+      "output": "Complete KYC documentation"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_002",
+    "name": "Immediate Account Freeze",
+    "properties": {
+      "actor": "Compliance, Financial Crime",
+      "timeline_sla": "Within 4 hours",
+      "trigger": "PEP/Sanctions Hit",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_003",
+    "name": "NCA Notification",
+    "properties": {
+      "actor": "Compliance, Financial Crime",
+      "tools_or_systems": "Office of Financial Sanctions Implementation",
+      "trigger": "PEP/Sanctions Hit"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_004",
+    "name": "Enhanced Transaction Monitoring",
+    "properties": {
+      "actor": "Financial Crime, Compliance",
+      "timeline_sla": "Investigate within 5 days",
+      "trigger": "Suspicious Transaction Pattern"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_005",
+    "name": "SAR Filing",
+    "properties": {
+      "actor": "Financial Crime, Compliance",
+      "timeline_sla": "Within 30 days",
+      "trigger": "Suspicious Transaction Pattern (if warranted)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_rol_001",
+    "name": "Compliance Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_rol_002",
+    "name": "Financial Crime Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_esc_001",
+    "name": "Level 2 Escalation",
+    "properties": {
+      "level_number": 2,
+      "examples": [
+        "Missed KYC Documentation",
+        "Suspicious Transaction Pattern"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_esc_002",
+    "name": "Level 3 Escalation",
+    "properties": {
+      "level_number": 3,
+      "examples": [
+        "PEP/Sanctions Hit",
+        "Suspicious Transaction Pattern"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_esc_003",
+    "name": "Level 4 Escalation",
+    "properties": {
+      "level_number": 4,
+      "examples": [
+        "PEP/Sanctions Hit"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_chk_001",
+    "name": "KYC Documentation Check",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Compliance",
+      "timing": "Before processing account"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_chk_002",
+    "name": "PEP and Sanctions Screening Gate",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Compliance, Financial Crime",
+      "failure_consequence": "Immediate account freeze and NCA notification"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_prc_001",
+    "name": "Decision Authority Matrix Process",
+    "properties": {
+      "purpose": "Define financial and operational approval limits for specific banking decisions",
+      "scope": "Operational expenditures, customer reimbursements, and policy exceptions",
+      "owner": "Compliance",
+      "outcome_success": "Decision approved within authorized limits or correctly escalated"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_001",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Low to Medium",
+      "approval_limit": "Up to £1,000 for Fee Reversals; Up to £5,000 for Complaint Resolution"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_002",
+    "name": "Director",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Medium",
+      "approval_limit": "Fee Reversals > £1,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "High",
+      "approval_limit": "Complaint Resolution > £5,000",
+      "examples": [
+        "KYC Exceptions for PEP/sanctions",
+        "Lending policy violations"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_004",
+    "name": "Compliance",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Medium",
+      "approval_limit": "Up to £10,000 for Fraud Reimbursement"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_005",
+    "name": "Chief Executive Officer (CEO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Executive",
+      "approval_limit": "Fraud Reimbursement > £10,000; Vendor Contracts > £100,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_006",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "High",
+      "approval_limit": "Any amount for standard KYC Exceptions"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_007",
+    "name": "Product Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Medium",
+      "approval_limit": "Up to £50,000 for Product Exceptions"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_008",
+    "name": "Board",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Executive",
+      "approval_limit": "Product Exceptions > £50,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_009",
+    "name": "Underwriter",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Medium",
+      "approval_limit": "Based on Credit Policy"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_010",
+    "name": "Chief Technology Officer (CTO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "High",
+      "approval_limit": "Up to £50,000 for System Expenditure"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_011",
+    "name": "Chief Financial Officer (CFO)",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "High",
+      "approval_limit": "System Expenditure > £50,000"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_012",
+    "name": "Department Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Medium",
+      "approval_limit": "Up to £100,000 for Vendor Contracts"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_001",
+    "name": "Fee Reversal Authority Limit Check",
+    "properties": {
+      "decision_question": "Is the fee reversal amount within the Manager's limit?",
+      "criteria": "Amount <= £1,000",
+      "decision_maker": "Manager",
+      "path_yes": "Approved by Manager",
+      "path_no": "Escalate to Director"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_002",
+    "name": "Complaint Resolution Authority Limit Check",
+    "properties": {
+      "decision_question": "Is the complaint resolution amount within the Manager's limit?",
+      "criteria": "Amount <= £5,000",
+      "decision_maker": "Manager",
+      "path_yes": "Approved by Manager",
+      "path_no": "Escalate to CRO"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_003",
+    "name": "Fraud Reimbursement Authority Limit Check",
+    "properties": {
+      "decision_question": "Is the fraud reimbursement amount within Compliance's limit?",
+      "criteria": "Amount <= £10,000",
+      "decision_maker": "Compliance",
+      "path_yes": "Approved by Compliance",
+      "path_no": "Escalate to CEO"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_004",
+    "name": "KYC Exception Risk Gate",
+    "properties": {
+      "decision_question": "Does the KYC exception involve a PEP or sanctioned individual?",
+      "criteria": "PEP/Sanctions status",
+      "decision_maker": "Compliance Head",
+      "path_yes": "Escalate to CRO",
+      "path_no": "Approved by Compliance Head"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_005",
+    "name": "Product Exception Authority Limit Check",
+    "properties": {
+      "decision_question": "Is the product exception value within the Product Manager's limit?",
+      "criteria": "Amount <= £50,000",
+      "decision_maker": "Product Manager",
+      "path_yes": "Approved by Product Manager",
+      "path_no": "Escalate to Board"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_006",
+    "name": "Lending Policy Compliance Check",
+    "properties": {
+      "decision_question": "Does the lending exception violate the credit policy?",
+      "criteria": "Credit policy adherence",
+      "decision_maker": "Underwriter",
+      "path_yes": "Escalate to CRO",
+      "path_no": "Approved by Underwriter"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_007",
+    "name": "System Expenditure Authority Limit Check",
+    "properties": {
+      "decision_question": "Is the system expenditure within the CTO's limit?",
+      "criteria": "Amount <= £50,000",
+      "decision_maker": "CTO",
+      "path_yes": "Approved by CTO",
+      "path_no": "Escalate to CFO"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_008",
+    "name": "Vendor Contract Authority Limit Check",
+    "properties": {
+      "decision_question": "Is the vendor contract value within the Department Head's limit?",
+      "criteria": "Amount <= £100,000",
+      "decision_maker": "Department Head",
+      "path_yes": "Approved by Department Head",
+      "path_no": "Escalate to CEO"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_014_prc_001",
+    "name": "Escalation Procedure",
+    "properties": {
+      "purpose": "Guidance on when to elevate issues to higher authority to manage risk and resolve complex queries",
+      "scope": "All frontline operational issues",
+      "trigger": "Financial impact, regulatory risk, reputational risk, or time-based staleness",
+      "timeline_sla": "24 hours (maximum resolution time before mandatory escalation)"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_014",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_014_dec_001",
+    "name": "Escalation Trigger Determination",
+    "properties": {
+      "decision_question": "Does the current issue require immediate escalation?",
+      "criteria": [
+        "Financial impact exceeds current approval limit",
+        "Regulatory or compliance implications",
+        "Reputational risk",
+        "Customer relationship at risk",
+        "Lack of actor authority or expertise",
+        "Issue is unclear or complex",
+        "Unresolved for more than 24 hours"
+      ],
+      "path_yes": "Escalate immediately to a higher authority",
+      "path_no": "Continue handling at current level"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_014",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_014_rol_001",
+    "name": "Frontline Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Limited by specific approval limits",
+      "response_time_sla": "24 hours to resolve before escalation is required"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_014",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_prc_001",
+    "name": "Issue Escalation Process",
+    "properties": {
+      "purpose": "To resolve operational issues through higher authority intervention",
+      "scope": "General internal issue escalation",
+      "channels": [
+        "email",
+        "phone"
+      ],
+      "outcome_success": "Decision implemented and stakeholders updated"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_001",
+    "name": "Issue Documentation Step",
+    "properties": {
+      "step_number": 1,
+      "input": [
+        "summary",
+        "timeline",
+        "financial impact",
+        "efforts so far"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_002",
+    "name": "Contact Escalation Authority Step",
+    "properties": {
+      "step_number": 2,
+      "channels": [
+        "email",
+        "phone"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_rol_001",
+    "name": "Escalation Authority",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "email",
+        "phone"
+      ],
+      "authority_level": "Decision maker for escalated issues"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_003",
+    "name": "Provide Context Step",
+    "properties": {
+      "step_number": 3,
+      "input": [
+        "background",
+        "options considered",
+        "recommendation"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_004",
+    "name": "Response Awaiting Step",
+    "properties": {
+      "step_number": 4,
+      "failure_path": "Respond promptly to any questions asked by authority"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_dec_001",
+    "name": "Authority Decision Point",
+    "properties": {
+      "decision_question": "What is the resolution for the escalated issue?",
+      "decision_maker": "Escalation Authority",
+      "path_yes": "Proceed to decision implementation"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_005",
+    "name": "Decision Implementation Step",
+    "properties": {
+      "step_number": 5,
+      "timeline_sla": "immediately",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_006",
+    "name": "Stakeholder Update Step",
+    "properties": {
+      "step_number": 6,
+      "output": "Notification to customer, team, and manager"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "external",
+      "notification_required": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_rol_003",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "notification_required": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_prc_001",
+    "name": "Escalation Procedure",
+    "properties": {
+      "purpose": "Standardize the process for escalating issues to higher authority levels",
+      "scope": "Operational issues requiring higher authority approval or resolution",
+      "trigger": "Issue cannot be resolved at current authority level or exceeds authority limit",
+      "outcome_success": "Decision implemented and issue resolved"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_rol_001",
+    "name": "Escalation Authority",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Higher operational authority",
+      "channels": [
+        "system",
+        "email",
+        "internal communication"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_rol_002",
+    "name": "Initiating Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Entry/Standard level",
+      "obligation": "Provide complete context and recommendation before escalation"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_dec_001",
+    "name": "Authority Limit Check",
+    "properties": {
+      "decision_question": "Does the issue fall within the staff member's authority limit?",
+      "criteria": "Comparison of issue scale/type against defined authority limits",
+      "path_yes": "Resolve at current level",
+      "path_no": "Proceed to escalation"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_dec_002",
+    "name": "Re-escalation Validity Check",
+    "properties": {
+      "decision_question": "Has the circumstance changed since the previous decision?",
+      "criteria": "Identification of new facts or altered circumstances",
+      "path_yes": "Escalate again",
+      "path_no": "Adhere to original decision"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_stp_001",
+    "name": "Context and Recommendation Preparation",
+    "properties": {
+      "actor": "Initiating Staff",
+      "input": "Case details and findings",
+      "output": "Complete context and a thoughtful recommendation",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_stp_002",
+    "name": "Decision Implementation",
+    "properties": {
+      "actor": "Initiating Staff",
+      "output": "Executed decision",
+      "mandatory": "yes",
+      "failure_path": "Second-guessing or failure to implement leading to operational inconsistency"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_prc_001",
+    "name": "Emergency Escalation Process",
+    "properties": {
+      "purpose": "Provide 24/7 escalation paths for critical incidents",
+      "scope": "System outages, security incidents, regulatory issues, and customer crises",
+      "channels": [
+        "phone"
+      ],
+      "owner": "Operations Team",
+      "trigger": "Occurrence of a critical system, security, regulatory, or customer emergency"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_001",
+    "name": "IT On-Call",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ],
+      "contact_details": "0800-888-TECH",
+      "responsibility": "System outage resolution"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_002",
+    "name": "Security On-Call",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ],
+      "contact_details": "0800-888-SECU",
+      "responsibility": "Security incident response"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ],
+      "responsibility": "Regulatory issue management",
+      "contact_method": "Mobile registered with ops team"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_004",
+    "name": "CEO/COO",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ],
+      "responsibility": "Customer crisis management",
+      "contact_method": "Mobile registered with ops team"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_005",
+    "name": "Operations Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "responsibility": "Maintenance and updates of the On-Call contact list"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_dec_001",
+    "name": "Emergency Type Classification",
+    "properties": {
+      "decision_question": "What is the nature of the emergency?",
+      "criteria": "Category of incident (System vs Security vs Regulatory vs Customer)",
+      "path_yes": "Route to specific on-call contact based on incident type",
+      "decision_maker": "Person initiating the escalation"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_stp_001",
+    "name": "On-Call List Maintenance",
+    "properties": {
+      "actor": "Operations Team",
+      "mandatory": "yes",
+      "timeline_sla": "monthly",
+      "output": "Updated On-Call contact list"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_001",
+    "name": "Level 1 Escalation",
+    "properties": {
+      "level_number": 1,
+      "response_time": {
+        "acknowledgment": "1 hour",
+        "investigation": "24 hours",
+        "decision": "Same day"
+      }
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_002",
+    "name": "Level 2 Escalation",
+    "properties": {
+      "level_number": 2,
+      "response_time": {
+        "acknowledgment": "2 hours",
+        "investigation": "2 days",
+        "decision": "3 days"
+      }
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_003",
+    "name": "Level 3 Escalation",
+    "properties": {
+      "level_number": 3,
+      "response_time": {
+        "acknowledgment": "4 hours",
+        "investigation": "3 days",
+        "decision": "5 days"
+      }
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_004",
+    "name": "Level 4 Escalation",
+    "properties": {
+      "level_number": 4,
+      "response_time": {
+        "acknowledgment": "2 hours",
+        "investigation": "1 day",
+        "decision": "2 days"
+      }
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_005",
+    "name": "Level 5 Escalation",
+    "properties": {
+      "level_number": 5,
+      "response_time": {
+        "acknowledgment": "1 hour",
+        "investigation": "24 hours",
+        "decision": "3 days (or immediate if critical)"
+      }
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_prc_001",
+    "name": "Escalation Reporting Process",
+    "properties": {
+      "purpose": "To track escalation trends, monitor resolution times, and notify governing committees of high-level and regulatory issues",
+      "outcome_success": "Identification of systemic issues and implementation of process improvements"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_stp_001",
+    "name": "Monthly Escalation Report Generation",
+    "properties": {
+      "step_number": 1,
+      "output": "Monthly Escalation Report containing total escalations by level, average resolution time, common reasons, systemic issues, and trend analysis",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_stp_002",
+    "name": "Quarterly Escalation Review",
+    "properties": {
+      "step_number": 2,
+      "output": "Notification to Board Risk Committee and Audit Committee; discussion of trends and process improvements",
+      "mandatory": "yes"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_rol_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Governing Body",
+      "channels": [
+        "system",
+        "report"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_rol_002",
+    "name": "Audit Committee",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Governing Body",
+      "channels": [
+        "system",
+        "report"
+      ]
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_esc_001",
+    "name": "Level 5 Escalation",
+    "properties": {
+      "level_number": 5,
+      "authority": "Board Risk Committee"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_chk_001",
+    "name": "Regulatory Escalation Check",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Audit Committee",
+      "evidence_required": "Regulatory escalation records"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_022_rol_001",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_022",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_022_rol_002",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_022",
+    "doc_id": "87caa5a80d99442ba778b80130b66716"
+  }
+]

@@ -1,0 +1,246 @@
+[
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "name": "Diarist",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The author of the journal who spent a relaxing Sunday with their family, visiting markets and a mall.",
+    "context": [
+      "The entire day was spent with family",
+      "took the family to PCSO",
+      "Preeti and I sat on the balcony"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_002",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "The diarist's partner who accompanied them to the local market and the mall, where she bought jewelry.",
+    "context": [
+      "went to the local market with Preeti",
+      "Preeti bought some jewelry",
+      "Preeti and I sat on the balcony"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_003",
+    "name": "Neetish",
+    "aliases": [
+      "the kids"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the diarist's children who wanted a new backpack for school.",
+    "context": [
+      "Neetish wanted a new backpack for school",
+      "The kids enjoyed the rides"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_004",
+    "name": "Mohan",
+    "aliases": [
+      "the kids"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the diarist's children who asked for a toy car during the market visit.",
+    "context": [
+      "Mohan asked for a toy car",
+      "The kids love the poha and jalebi there"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_005",
+    "name": "Mother-in-law",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "parent",
+    "description": "The diarist's mother-in-law who stayed home and looked after the pet, Browny.",
+    "context": [
+      "Browny stayed at home with my mother-in-law",
+      "She fed him extra treats"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_006",
+    "name": "Browny",
+    "aliases": [
+      "him"
+    ],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The family pet who was fed extra treats by the mother-in-law, making his diet harder to maintain.",
+    "context": [
+      "Browny stayed at home",
+      "He's going to be even harder to put on a diet now"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_001",
+    "name": "Local Market",
+    "aliases": [
+      "Indore markets"
+    ],
+    "entity_class": "PLACE",
+    "type": "shop",
+    "description": "A bustling market in Indore where the diarist bought vegetables and clothes for the children.",
+    "context": [
+      "went to the local market with Preeti",
+      "Indore markets are always bustling"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_002",
+    "name": "PCSO",
+    "aliases": [
+      "the mall near Sarafa Bazaar"
+    ],
+    "entity_class": "PLACE",
+    "type": "shop",
+    "description": "A mall located near Sarafa Bazaar where the family spent the evening and the children enjoyed rides.",
+    "context": [
+      "took the family to PCSO (the mall near Sarafa Bazaar)",
+      "The kids enjoyed the rides"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_003",
+    "name": "Sarah's",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "restaurant",
+    "description": "An eatery where the family had chaat, poha, and jalebi.",
+    "context": [
+      "We had chaat at Sarah's",
+      "The kids love the poha and jalebi there"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_004",
+    "name": "Home",
+    "aliases": [
+      "balcony"
+    ],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The diarist's residence where they spent the relaxed evening and discussed future plans on the balcony.",
+    "context": [
+      "Browny stayed at home",
+      "sat on the balcony talking about future plans"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_005",
+    "name": "Bangalore",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "city",
+    "description": "A city mentioned as a potential destination for a future family holiday trip.",
+    "context": [
+      "Maybe a trip to Bangalore during the holidays"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "name": "Family Outing",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "outing",
+    "description": "A full day spent with family visiting the local market and the PCSO mall.",
+    "context": [
+      "The entire day was spent with family",
+      "took the family to PCSO"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_act_001",
+    "name": "Shopping",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "errand",
+    "description": "The act of purchasing vegetables, children's clothes, a backpack, a toy car, and jewelry.",
+    "context": [
+      "Got fresh vegetables and some clothes for the kids",
+      "Preeti bought some jewelry"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_emo_001",
+    "name": "Contentment",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "contentment",
+    "description": "A feeling of peace and satisfaction derived from taking a break from work and spending time with family.",
+    "context": [
+      "It felt nice to take a break from the office routine",
+      "Evening was relaxed"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_pln_001",
+    "name": "Bangalore Trip",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "family",
+    "description": "A tentative plan discussed by the diarist and Preeti to visit Bangalore during the holidays.",
+    "context": [
+      "talking about future plans",
+      "Maybe a trip to Bangalore during the holidays"
+    ],
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  }
+]

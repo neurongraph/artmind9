@@ -1,0 +1,1840 @@
+{
+  "embedding": [
+    0.032512717,
+    0.05330239,
+    -0.16389397,
+    -0.05702957,
+    0.10860435,
+    -0.056934763,
+    0.065781556,
+    -0.009864351,
+    0.039392155,
+    -0.022808269,
+    -0.018561248,
+    -0.01169523,
+    0.048932787,
+    0.007072282,
+    0.0033337441,
+    -0.067641616,
+    0.02069186,
+    0.009817238,
+    -0.068504326,
+    0.037590735,
+    0.0077862376,
+    0.005746542,
+    -0.034337852,
+    -0.024925144,
+    0.014895169,
+    0.029133681,
+    -0.013760595,
+    -0.00026262668,
+    -0.027386209,
+    -0.030116182,
+    0.07981655,
+    -0.022814548,
+    0.0025911606,
+    -0.06744988,
+    -0.09371858,
+    -0.033738725,
+    0.066271365,
+    0.019239612,
+    -0.010805098,
+    -0.00084229076,
+    0.016202068,
+    0.028297188,
+    0.007370596,
+    -0.08817923,
+    0.026880527,
+    0.03938903,
+    0.06099802,
+    0.005099616,
+    0.057595566,
+    -0.033993583,
+    0.017443502,
+    0.0149141885,
+    0.00063043425,
+    0.06248178,
+    0.016341778,
+    0.025489554,
+    -0.03167676,
+    0.059411712,
+    -0.0024305207,
+    -0.06738612,
+    0.07684616,
+    0.016385969,
+    0.0070526395,
+    0.07536467,
+    0.033847123,
+    -0.040628217,
+    -0.035572987,
+    0.043670032,
+    0.04086158,
+    -0.051381588,
+    0.055036664,
+    0.007699759,
+    0.0014436941,
+    0.053296085,
+    0.0015671845,
+    0.000494281,
+    0.002663756,
+    -0.01861314,
+    -0.0030590233,
+    0.01937696,
+    0.016989106,
+    -0.008451026,
+    0.05978521,
+    0.030897023,
+    0.029482774,
+    0.019973932,
+    -0.0077833096,
+    -0.033944644,
+    -0.022322195,
+    0.09219546,
+    -0.0044654203,
+    -0.015629696,
+    0.030655054,
+    -0.0042771106,
+    -0.1074378,
+    0.013457965,
+    -0.0057490515,
+    0.0155219715,
+    -0.046249386,
+    -0.02027628,
+    -0.04793753,
+    -0.0069647166,
+    0.004803074,
+    0.024710389,
+    0.061815254,
+    0.055876058,
+    0.031816557,
+    0.03373661,
+    0.010548443,
+    0.0075785313,
+    -0.05655323,
+    0.03542558,
+    -0.021134121,
+    0.018562306,
+    0.054823432,
+    -0.026592582,
+    0.043086026,
+    0.014485344,
+    -0.02841675,
+    0.023198765,
+    -5.4520842e-05,
+    -0.083963454,
+    -0.026611071,
+    0.009929587,
+    -0.010206773,
+    0.00016783981,
+    -0.05128523,
+    -0.02613663,
+    0.014027447,
+    -0.0038451392,
+    -0.03195546,
+    -0.038941026,
+    0.012012322,
+    -0.0062429733,
+    0.017507087,
+    -0.0036102727,
+    -0.021128595,
+    -0.05005041,
+    -0.018394383,
+    0.034969136,
+    0.058936734,
+    0.024120092,
+    -0.010086965,
+    0.005948997,
+    0.04302951,
+    -0.06729175,
+    0.03998282,
+    -0.032898054,
+    -0.0077875513,
+    -0.0060859746,
+    0.016133001,
+    0.013645948,
+    -0.00983306,
+    0.038927592,
+    0.007940895,
+    -0.040531307,
+    -0.0026102106,
+    -0.0017950637,
+    0.019954683,
+    0.067291245,
+    0.016201915,
+    -0.0073797354,
+    -0.025105825,
+    0.02533987,
+    0.0068492405,
+    -0.07364646,
+    0.0016517817,
+    0.02875494,
+    0.04236747,
+    0.020429807,
+    -0.07783635,
+    -0.010295337,
+    -0.013484571,
+    -0.016130319,
+    0.064867854,
+    0.062272657,
+    0.07219409,
+    -0.036626328,
+    0.011140838,
+    -0.04676345,
+    -0.010789855,
+    -0.028596304,
+    0.026359003,
+    0.014373329,
+    0.03137608,
+    0.008170697,
+    0.022868993,
+    -0.016602563,
+    0.0039262054,
+    -0.049028218,
+    0.030078841,
+    0.004217657,
+    -0.03224307,
+    -0.015980892,
+    -0.009915695,
+    -0.02705636,
+    0.048213147,
+    -0.02097931,
+    0.028944343,
+    -0.07040628,
+    -0.040682886,
+    0.0022293716,
+    -0.011935229,
+    0.040145416,
+    -0.036922105,
+    0.05472299,
+    -0.031807747,
+    0.010072848,
+    -0.04018737,
+    0.016615031,
+    0.0335114,
+    -0.009438268,
+    -0.018444723,
+    0.012499213,
+    -0.047748465,
+    -0.017642818,
+    0.06252603,
+    0.025255367,
+    -0.036698606,
+    -0.008721894,
+    -0.03177327,
+    -0.026818529,
+    0.019319972,
+    -0.047097106,
+    0.0354384,
+    -0.008757498,
+    -0.03631126,
+    -0.05599357,
+    -0.03506972,
+    -0.009530767,
+    -0.0010978676,
+    -0.0901479,
+    0.035059787,
+    -0.029706225,
+    -0.008110926,
+    -0.0058774715,
+    0.005063885,
+    0.017980395,
+    0.019983804,
+    0.06158459,
+    -0.027786056,
+    0.028711526,
+    -0.005767623,
+    0.0013082712,
+    -0.0098773595,
+    0.030962244,
+    0.005057962,
+    -0.027218256,
+    0.0075431163,
+    0.06544488,
+    0.008050941,
+    0.045577057,
+    0.053280506,
+    0.009781061,
+    0.050347727,
+    -0.03541707,
+    0.01609191,
+    0.041607257,
+    0.013955793,
+    0.02392405,
+    0.021842608,
+    -0.009100765,
+    0.057931267,
+    -0.014477448,
+    -0.0095173735,
+    -0.085079886,
+    -0.061947007,
+    0.004458887,
+    -0.018605735,
+    -0.023040442,
+    -0.009474922,
+    0.020045802,
+    0.010821892,
+    0.09775264,
+    0.012195801,
+    0.011244382,
+    -0.010194073,
+    -0.02101877,
+    -0.028365467,
+    0.042765398,
+    0.0013447042,
+    -0.039645005,
+    0.021691864,
+    0.011813741,
+    -0.013397811,
+    0.038350426,
+    -0.0067140046,
+    0.022465989,
+    0.00032318756,
+    0.04595495,
+    0.01622628,
+    -0.01312594,
+    -0.050264318,
+    0.010556315,
+    -0.03651076,
+    0.0029169777,
+    0.042333685,
+    -0.002617224,
+    -0.009956243,
+    -0.07717291,
+    0.047866285,
+    0.042255886,
+    0.036761753,
+    0.085237876,
+    0.055379953,
+    -0.01812108,
+    -0.02810167,
+    0.015487023,
+    0.0042826612,
+    -0.032860775,
+    0.013873043,
+    -0.060164914,
+    -0.039157566,
+    -0.04790542,
+    -0.021370193,
+    0.021371117,
+    0.05419324,
+    0.052354284,
+    0.008035468,
+    0.025439981,
+    -0.057921857,
+    -0.018386824,
+    0.016542738,
+    -0.04979364,
+    -0.00310026,
+    0.06216975,
+    -0.045018535,
+    0.009811225,
+    -0.071451426,
+    0.0133141065,
+    -0.050278846,
+    0.016227785,
+    0.03642132,
+    -0.06089051,
+    -0.03257978,
+    0.0150090875,
+    0.010762243,
+    0.011122488,
+    0.07055279,
+    0.005836907,
+    0.058355905,
+    0.02723797,
+    0.006319667,
+    -0.075314045,
+    0.0027664318,
+    0.004403382,
+    -0.057564203,
+    0.0258281,
+    0.07522107,
+    -0.011179216,
+    0.011130449,
+    0.021081947,
+    0.0020050174,
+    -0.02109259,
+    0.013521283,
+    -0.002470873,
+    0.03276527,
+    0.04881764,
+    -0.0066580684,
+    -0.01372715,
+    0.06062314,
+    0.014412916,
+    0.015521749,
+    0.0003469585,
+    0.005463072,
+    0.05369976,
+    0.060005914,
+    -0.019161884,
+    0.011005304,
+    -0.0070615383,
+    -0.016771996,
+    -0.04931469,
+    -0.048202902,
+    -0.011506735,
+    0.0146205975,
+    -0.009637545,
+    -0.028923638,
+    -0.0050168457,
+    -0.01175857,
+    0.07189358,
+    0.07518545,
+    0.027649501,
+    -0.0071497303,
+    0.020726727,
+    0.020014439,
+    0.014227651,
+    -0.012817822,
+    -0.015962267,
+    -0.05553508,
+    0.028397566,
+    0.0046510273,
+    0.0029989432,
+    -0.0058453525,
+    -0.028948497,
+    0.015478412,
+    -0.05611279,
+    -0.0033529673,
+    0.01145528,
+    0.010504474,
+    0.029331466,
+    -0.040723257,
+    -0.1172331,
+    0.027409678,
+    0.0017172523,
+    -0.020754958,
+    0.020125987,
+    -0.03466168,
+    -0.0390345,
+    0.03908592,
+    0.0035643817,
+    0.009621127,
+    0.035475627,
+    -0.018071823,
+    -0.049550343,
+    0.022900943,
+    0.0075716563,
+    0.04674187,
+    -0.027249483,
+    0.0054387734,
+    -0.028855944,
+    0.03741066,
+    0.0054305904,
+    0.050216056,
+    0.015569603,
+    0.04024922,
+    0.04513923,
+    0.0027464086,
+    0.027946103,
+    -0.01216549,
+    -0.07260535,
+    0.04087242,
+    0.022024741,
+    0.02787805,
+    -0.004892046,
+    -0.033838835,
+    0.0058979997,
+    0.06437263,
+    0.03795178,
+    -0.010105694,
+    0.03931458,
+    0.017775662,
+    -0.030493554,
+    -0.026961647,
+    -0.06877466,
+    0.035027403,
+    0.05514438,
+    0.062329855,
+    -0.021193761,
+    -0.052262884,
+    0.009797275,
+    0.006785244,
+    0.030039044,
+    -0.018207991,
+    0.0051301043,
+    0.06087961,
+    -0.04651702,
+    0.016234951,
+    -0.010546913,
+    -0.040034704,
+    0.016563864,
+    0.049164206,
+    0.0002973851,
+    -0.05651071,
+    0.0057969014,
+    0.038417775,
+    -0.021841856,
+    0.018483594,
+    -0.015875967,
+    0.020334315,
+    0.069069885,
+    -0.05555971,
+    0.017424667,
+    -0.010716408,
+    -0.019649548,
+    -0.011932462,
+    -0.0028625696,
+    -0.040583186,
+    0.03282388,
+    0.006305546,
+    0.047875416,
+    0.011162884,
+    -0.019573186,
+    -0.0012149295,
+    -0.02416522,
+    -0.0454804,
+    0.06917343,
+    0.010129658,
+    -0.054323353,
+    -0.006835579,
+    0.018865986,
+    0.00078381744,
+    -0.005719014,
+    0.028943826,
+    -0.014729134,
+    -0.015730722,
+    0.0151584465,
+    -0.05799437,
+    0.016724452,
+    0.0031483164,
+    0.044680033,
+    0.032344807,
+    0.040468577,
+    -0.053435322,
+    -0.015785718,
+    0.06583777,
+    0.0022409202,
+    0.05297071,
+    -0.051193807,
+    -0.02328381,
+    -0.01370303,
+    0.0054893405,
+    -0.038596716,
+    -0.0067263325,
+    0.015262486,
+    0.013880574,
+    -0.015274452,
+    0.0401214,
+    0.010380052,
+    -0.05546376,
+    -0.006779145,
+    -0.039210442,
+    -0.01864302,
+    -0.008728466,
+    -0.037642047,
+    -0.033264525,
+    -0.022110151,
+    0.017461963,
+    -0.07265623,
+    0.0483183,
+    -0.03048373,
+    0.0055039893,
+    0.036565702,
+    -0.022469629,
+    0.011680154,
+    0.009616655,
+    -0.040461715,
+    -0.0015496874,
+    0.028098868,
+    0.03408518,
+    0.065277584,
+    0.027791495,
+    0.010935816,
+    -0.0008847576,
+    0.030958658,
+    -0.024616849,
+    -0.024894537,
+    0.033713713,
+    0.025887895,
+    0.019947605,
+    -0.05004175,
+    0.0689779,
+    -0.026027236,
+    0.0041759866,
+    -0.045740344,
+    0.0011878748,
+    -0.046289813,
+    0.0047915145,
+    -0.012153015,
+    -0.04414203,
+    -0.04647404,
+    0.0039935727,
+    0.01162141,
+    0.017826749,
+    0.013466693,
+    0.0057515535,
+    -0.02435239,
+    -0.027780317,
+    0.020118257,
+    -0.0070924372,
+    0.021186054,
+    0.025983697,
+    -0.040204596,
+    -0.046341717,
+    -0.02044764,
+    0.020422958,
+    0.021864418,
+    -4.8064985e-06,
+    -0.008063094,
+    -0.05464633,
+    -0.05444754,
+    0.034505684,
+    -0.015785068,
+    0.022349872,
+    0.054226052,
+    -0.025976384,
+    0.031173557,
+    -0.045466308,
+    -0.06253183,
+    0.009489435,
+    -0.04402144,
+    -0.0107342,
+    0.03109374,
+    0.024785422,
+    -0.041057203,
+    0.024221266,
+    0.0066981614,
+    0.046232212,
+    0.015515223,
+    -0.0699449,
+    -0.0666945,
+    -0.009527151,
+    -0.00099415,
+    0.0069464617,
+    -0.031232446,
+    0.01179046,
+    0.054498725,
+    -0.022196926,
+    -0.0011733139,
+    -0.010816328,
+    -0.060954835,
+    0.032843422,
+    0.003985248,
+    0.0016938015,
+    -0.0023449096,
+    0.040201865,
+    -0.033300314,
+    -0.009310143,
+    -0.007539861,
+    -0.009709112,
+    -0.037534393,
+    0.009330923,
+    -0.054346427,
+    -0.0153396875,
+    -0.0319154,
+    -0.025796574,
+    -0.014082836,
+    -0.04438574,
+    -0.05840842,
+    -0.014937617,
+    0.039201614,
+    -0.024104364,
+    0.027311679,
+    -0.02129268,
+    -0.01760806,
+    -0.059901837,
+    0.01918237,
+    -0.014311262,
+    -0.028486993,
+    -0.04559194,
+    -0.011187186,
+    0.041959383,
+    -0.030822195,
+    -0.013458704,
+    0.07068217,
+    0.057718195,
+    -0.051196694,
+    0.015293451,
+    0.054019153,
+    0.06311082,
+    0.012429036,
+    0.045542035,
+    0.10408603,
+    0.035410672,
+    -0.010994849,
+    -0.03923178,
+    -0.030618107,
+    -0.00019928817,
+    -0.031512886,
+    -0.005958658,
+    -0.02812291,
+    0.0014034513,
+    0.005074787,
+    -0.07299345,
+    0.02026503,
+    -0.026298651,
+    0.0062798164,
+    0.013260125,
+    0.012774387,
+    -0.03451432,
+    -0.06083475,
+    0.024769574,
+    0.013509819,
+    0.015358301,
+    0.012052207,
+    -0.028870199,
+    0.026492095,
+    0.07401177,
+    0.033828054,
+    -0.0018570512,
+    0.021718385,
+    -0.022453388,
+    0.014944535,
+    0.053033225,
+    -0.0020067275,
+    -0.045936197,
+    -0.007694943,
+    0.021499895,
+    -0.0078443615,
+    -0.050056513,
+    -0.008813326,
+    -0.049246665,
+    -0.023762116,
+    0.0309815,
+    -0.03913078,
+    0.027131958,
+    0.06659632,
+    0.06979752,
+    -0.04899133,
+    -0.04910478,
+    0.036677714,
+    -0.011238807,
+    -0.016610416,
+    0.021920618,
+    0.013922772,
+    0.04757759,
+    0.0107515715,
+    0.020604378,
+    -0.030740965,
+    0.0028099811,
+    -0.027499681,
+    -0.019748762,
+    0.0117739905,
+    -0.06522892,
+    0.025075633,
+    0.022197366,
+    0.016976524,
+    -0.02541573,
+    -0.06877581,
+    -0.0076807495,
+    0.012779201,
+    0.034509968,
+    0.014099892,
+    -0.0580846,
+    -0.053535014,
+    -0.018205479,
+    0.022457229,
+    0.059703764,
+    -0.054887414,
+    0.011216701,
+    -0.03527277,
+    -0.03242082,
+    0.00518951,
+    -0.047849502,
+    0.038224827,
+    -0.017505754,
+    0.0026177801,
+    -0.016833268,
+    -0.017539747,
+    -0.05923595,
+    -0.050313167,
+    -0.036668606,
+    0.019518776,
+    -0.03140147,
+    0.027287921,
+    -0.029440498,
+    -0.03222364,
+    -0.00046470182,
+    0.027136479,
+    0.04898264,
+    -0.047561537,
+    0.015543168,
+    0.029012468,
+    -0.057981092,
+    0.057453014,
+    0.009108476,
+    0.014427514,
+    0.042170007,
+    0.03596293,
+    0.04210478,
+    0.012539025,
+    0.008229493,
+    -0.04078873,
+    0.012470368,
+    -0.008593351,
+    -0.027932635,
+    -0.03198518,
+    -0.055599764,
+    -0.030594671
+  ],
+  "chunk_seq": 5,
+  "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+  "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+  "text": "*   None of the 19 SMEs consulted could identify the overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective, specifically for Regulatory Compliance. This includes specific frameworks, guiding principles, or even an example of a similar end-to-end data reconciliation process conducted for another transaction management process.\n*   Further improvement needed across Nationwide on how best to define Data Reconciliation policies, processes and governance framework as multiple instances of disconnected observed.\n*   Apparent lack of action plan and strategy to address 3rd Party Audit report findings about absence of data reconciliation process in Payment Screening area to confirm monitoring of all transactional activities across all customers, products, lines of business, and transaction types within Nationwide.  \n**Key Facts:**\nThe bullet points under \"Key Facts\" include:\n*   Information gathered from various meetings with FCTP screening Delivery leads.\n*   Referred artifacts \"FCTP - Screening - Decision\" in Confluence, dated July 12, 2023. As \"Payment Screening: No reconciliation / evidence exists to confirm that all of the payments that need to be screened by HLS are sent to the various payment systems across NOBS\" (Ongoing Data Lineage exercise revealed connection between various payment services like Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds and Filter Saver (HLS). However, it does not unveil the following:\n*   If the products across channels are sending all the required transaction to HLS.\n*   What are the checks and balances in place across different 'hops' all the way to HLS and back.\n*   In the Screening functional area, titled \"Payment Screening Data Reconciliation BRD\", it is indicated that the scope is yet to be defined, specifically highlighting a \"Value to Value\" comparison from the Source System to the Target System.",
+  "name": "Chunk 5/6",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "30d6940aa9474b3983591cb09643c5b6_004",
+  "next_chunk_id": "30d6940aa9474b3983591cb09643c5b6_006",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "the client",
+        "Nationwide organization"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A financial services organization undergoing assessment of its data governance and reconciliation processes, particularly for regulatory compliance and payment screening. The organization faces significant gaps in defining end-to-end data reconciliation policies and lacks a clear action plan to address audit findings.",
+      "context": [
+        "overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective",
+        "across all customers, products, lines of business, and transaction types within Nationwide",
+        "across different 'hops' all the way to HLS and back"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Lack of Data Reconciliation Process",
+      "aliases": [
+        "missing reconciliation framework",
+        "unidentified reconciliation process"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "regulatory_burden",
+      "description": "Absence of a defined, end-to-end data reconciliation process and governance framework for regulatory compliance, leading to disconnected policies and inability to confirm transactional monitoring across the organization.",
+      "context": [
+        "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process employed by Nationwide",
+        "absence of data reconciliation process in Payment Screening area to confirm monitoring of all transactional activities",
+        "multiple instances of disconnected observed"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Undefined Payment Screening Reconciliation Scope",
+      "aliases": [
+        "undefined value-to-value comparison scope",
+        "unscoped BRD for screening reconciliation"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "data_quality_issue",
+      "description": "Incomplete definition of scope for value-to-value comparison between source and target systems in the payment screening functional area, preventing evidence generation for compliance and leaving checks and balances unverified.",
+      "context": [
+        "scope is yet to be defined, specifically highlighting a 'Value to Value' comparison from the Source System to the Target System",
+        "No reconciliation / evidence exists to confirm that all of the payments that need to be screened by HLS are sent to the various payment systems",
+        "What are the checks and balances in place across different 'hops' all the way to HLS and back"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Data Reconciliation Process",
+      "aliases": [
+        "end-to-end data reconciliation",
+        "transactional data reconciliation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The operational capability to verify and align data across systems, specifically required to confirm transactional activities and support regulatory compliance frameworks. Currently absent or unidentified within the client's landscape.",
+      "context": [
+        "overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective",
+        "absence of data reconciliation process in Payment Screening area",
+        "end-to-end data reconciliation process conducted for another transaction management process"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Payment Screening",
+      "aliases": [
+        "screening functional area",
+        "FCTP screening"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "The functional area and use case focused on monitoring and validating transactional activities across customers, products, and lines of business to ensure compliance. Currently lacks defined reconciliation evidence and scope.",
+      "context": [
+        "Payment Screening area to confirm monitoring of all transactional activities",
+        "Screening functional area, titled 'Payment Screening Data Reconciliation BRD'",
+        "all of the payments that need to be screened by HLS"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "Data Governance Framework",
+      "aliases": [
+        "governance framework",
+        "data reconciliation policies and processes"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "The structured set of policies, processes, and guiding principles intended to manage data quality and compliance. Currently described as disconnected and requiring improvement to address regulatory and operational needs.",
+      "context": [
+        "how best to define Data Reconciliation policies, processes and governance framework",
+        "specifically for Regulatory Compliance",
+        "Data Governance perspective"
+      ]
+    },
+    {
+      "id": "tec_001",
+      "name": "HLS (Filter Saver)",
+      "aliases": [
+        "Filter Saver",
+        "HLS system",
+        "screening target system"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "payment_platform",
+      "description": "A screening and filtering system used to process payments, referenced as the target system for reconciliation and evidence generation in payment screening workflows. Connection to upstream payment services is known but lacks downstream verification.",
+      "context": [
+        "screened by HLS are sent to the various payment systems",
+        "Filter Saver (HLS)",
+        "all the way to HLS and back"
+      ]
+    },
+    {
+      "id": "tec_002",
+      "name": "Payment Systems Landscape",
+      "aliases": [
+        "Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds",
+        "payment networks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "payment_platform",
+      "description": "A collection of interconnected payment networks and channels used to route transactions, identified through data lineage exercises but lacking clear reconciliation mapping or evidence of complete transaction routing.",
+      "context": [
+        "various payment services like Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds and Filter Saver (HLS)",
+        "connection between various payment services like Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds",
+        "sent to the various payment systems across NOBS"
+      ]
+    },
+    {
+      "id": "tec_003",
+      "name": "Confluence",
+      "aliases": [
+        "Confluence platform",
+        "project documentation tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A collaboration and documentation platform used to store project artifacts and decision records related to FCTP screening. Referenced as the source of dated screening decisions and lineage artifacts.",
+      "context": [
+        "Referred artifacts 'FCTP - Screening - Decision' in Confluence, dated July 12, 2023",
+        "Information gathered from various meetings with FCTP screening Delivery leads"
+      ]
+    },
+    {
+      "id": "per_001",
+      "name": "SMEs (Subject Matter Experts)",
+      "aliases": [
+        "19 SMEs",
+        "consulted experts",
+        "subject matter consultants"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A group of 19 subject matter experts consulted during the assessment, unable to identify the existing data reconciliation processes or governance frameworks, highlighting a critical knowledge or documentation gap.",
+      "context": [
+        "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process",
+        "meetings with FCTP screening Delivery leads"
+      ]
+    },
+    {
+      "id": "eve_001",
+      "name": "3rd Party Audit Report",
+      "aliases": [
+        "external audit findings",
+        "audit report on payment screening"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "An external audit assessment that identified the absence of a data reconciliation process in the payment screening area, prompting the need for an action plan and strategy to address compliance gaps.",
+      "context": [
+        "3rd Party Audit report findings about absence of data reconciliation process",
+        "address 3rd Party Audit report findings about absence of data reconciliation process in Payment Screening area"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "FCTP Screening Delivery Leads",
+      "aliases": [
+        "FCTP delivery team",
+        "screening delivery leads"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The delivery team or functional group responsible for FCTP screening operations, providing information, artifacts, and meeting notes during the assessment process.",
+      "context": [
+        "meetings with FCTP screening Delivery leads",
+        "FCTP - Screening - Decision"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+    "cha_001": "30d6940aa9474b3983591cb09643c5b6_005_cha_001",
+    "cha_002": "30d6940aa9474b3983591cb09643c5b6_005_cha_002",
+    "cap_001": "30d6940aa9474b3983591cb09643c5b6_005_cap_001",
+    "use_001": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+    "off_001": "30d6940aa9474b3983591cb09643c5b6_005_off_001",
+    "tec_001": "30d6940aa9474b3983591cb09643c5b6_005_tec_001",
+    "tec_002": "30d6940aa9474b3983591cb09643c5b6_005_tec_002",
+    "tec_003": "30d6940aa9474b3983591cb09643c5b6_005_tec_003",
+    "per_001": "30d6940aa9474b3983591cb09643c5b6_005_per_001",
+    "eve_001": "30d6940aa9474b3983591cb09643c5b6_005_eve_001",
+    "org_001": "30d6940aa9474b3983591cb09643c5b6_005_org_001"
+  },
+  "entities": [
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "the client",
+        "Nationwide organization"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A financial services organization undergoing assessment of its data governance and reconciliation processes, particularly for regulatory compliance and payment screening. The organization faces significant gaps in defining end-to-end data reconciliation policies and lacks a clear action plan to address audit findings.",
+      "context": [
+        "overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective",
+        "across all customers, products, lines of business, and transaction types within Nationwide",
+        "across different 'hops' all the way to HLS and back"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cha_001",
+      "name": "Lack of Data Reconciliation Process",
+      "aliases": [
+        "missing reconciliation framework",
+        "unidentified reconciliation process"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "regulatory_burden",
+      "description": "Absence of a defined, end-to-end data reconciliation process and governance framework for regulatory compliance, leading to disconnected policies and inability to confirm transactional monitoring across the organization.",
+      "context": [
+        "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process employed by Nationwide",
+        "absence of data reconciliation process in Payment Screening area to confirm monitoring of all transactional activities",
+        "multiple instances of disconnected observed"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cha_002",
+      "name": "Undefined Payment Screening Reconciliation Scope",
+      "aliases": [
+        "undefined value-to-value comparison scope",
+        "unscoped BRD for screening reconciliation"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "data_quality_issue",
+      "description": "Incomplete definition of scope for value-to-value comparison between source and target systems in the payment screening functional area, preventing evidence generation for compliance and leaving checks and balances unverified.",
+      "context": [
+        "scope is yet to be defined, specifically highlighting a 'Value to Value' comparison from the Source System to the Target System",
+        "No reconciliation / evidence exists to confirm that all of the payments that need to be screened by HLS are sent to the various payment systems",
+        "What are the checks and balances in place across different 'hops' all the way to HLS and back"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cap_001",
+      "name": "Data Reconciliation Process",
+      "aliases": [
+        "end-to-end data reconciliation",
+        "transactional data reconciliation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The operational capability to verify and align data across systems, specifically required to confirm transactional activities and support regulatory compliance frameworks. Currently absent or unidentified within the client's landscape.",
+      "context": [
+        "overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective",
+        "absence of data reconciliation process in Payment Screening area",
+        "end-to-end data reconciliation process conducted for another transaction management process"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "name": "Payment Screening",
+      "aliases": [
+        "screening functional area",
+        "FCTP screening"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "The functional area and use case focused on monitoring and validating transactional activities across customers, products, and lines of business to ensure compliance. Currently lacks defined reconciliation evidence and scope.",
+      "context": [
+        "Payment Screening area to confirm monitoring of all transactional activities",
+        "Screening functional area, titled 'Payment Screening Data Reconciliation BRD'",
+        "all of the payments that need to be screened by HLS"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_off_001",
+      "name": "Data Governance Framework",
+      "aliases": [
+        "governance framework",
+        "data reconciliation policies and processes"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "The structured set of policies, processes, and guiding principles intended to manage data quality and compliance. Currently described as disconnected and requiring improvement to address regulatory and operational needs.",
+      "context": [
+        "how best to define Data Reconciliation policies, processes and governance framework",
+        "specifically for Regulatory Compliance",
+        "Data Governance perspective"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_tec_001",
+      "name": "HLS (Filter Saver)",
+      "aliases": [
+        "Filter Saver",
+        "HLS system",
+        "screening target system"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "payment_platform",
+      "description": "A screening and filtering system used to process payments, referenced as the target system for reconciliation and evidence generation in payment screening workflows. Connection to upstream payment services is known but lacks downstream verification.",
+      "context": [
+        "screened by HLS are sent to the various payment systems",
+        "Filter Saver (HLS)",
+        "all the way to HLS and back"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_tec_002",
+      "name": "Payment Systems Landscape",
+      "aliases": [
+        "Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds",
+        "payment networks"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "payment_platform",
+      "description": "A collection of interconnected payment networks and channels used to route transactions, identified through data lineage exercises but lacking clear reconciliation mapping or evidence of complete transaction routing.",
+      "context": [
+        "various payment services like Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds and Filter Saver (HLS)",
+        "connection between various payment services like Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds",
+        "sent to the various payment systems across NOBS"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_tec_003",
+      "name": "Confluence",
+      "aliases": [
+        "Confluence platform",
+        "project documentation tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A collaboration and documentation platform used to store project artifacts and decision records related to FCTP screening. Referenced as the source of dated screening decisions and lineage artifacts.",
+      "context": [
+        "Referred artifacts 'FCTP - Screening - Decision' in Confluence, dated July 12, 2023",
+        "Information gathered from various meetings with FCTP screening Delivery leads"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_per_001",
+      "name": "SMEs (Subject Matter Experts)",
+      "aliases": [
+        "19 SMEs",
+        "consulted experts",
+        "subject matter consultants"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "A group of 19 subject matter experts consulted during the assessment, unable to identify the existing data reconciliation processes or governance frameworks, highlighting a critical knowledge or documentation gap.",
+      "context": [
+        "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process",
+        "meetings with FCTP screening Delivery leads"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_eve_001",
+      "name": "3rd Party Audit Report",
+      "aliases": [
+        "external audit findings",
+        "audit report on payment screening"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "An external audit assessment that identified the absence of a data reconciliation process in the payment screening area, prompting the need for an action plan and strategy to address compliance gaps.",
+      "context": [
+        "3rd Party Audit report findings about absence of data reconciliation process",
+        "address 3rd Party Audit report findings about absence of data reconciliation process in Payment Screening area"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_org_001",
+      "name": "FCTP Screening Delivery Leads",
+      "aliases": [
+        "FCTP delivery team",
+        "screening delivery leads"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The delivery team or functional group responsible for FCTP screening operations, providing information, artifacts, and meeting notes during the assessment process.",
+      "context": [
+        "meetings with FCTP screening Delivery leads",
+        "FCTP - Screening - Decision"
+      ],
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "name": "Nationwide",
+      "properties": {
+        "industry": [
+          "banking"
+        ],
+        "geography": [
+          "UK"
+        ],
+        "size": [
+          "enterprise"
+        ],
+        "pain_points": [
+          "lack of overarching data reconciliation process",
+          "disconnected data reconciliation policies and processes",
+          "absence of action plan for audit findings"
+        ],
+        "named_or_anonymous": false
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cha_001",
+      "name": "Lack of Data Reconciliation Process",
+      "properties": {
+        "root_cause": [
+          "absence of defined frameworks, guiding principles, or end-to-end process from a data governance perspective"
+        ],
+        "business_impact": [
+          "inability to confirm monitoring of all transactional activities",
+          "regulatory compliance risk"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cha_002",
+      "name": "Undefined Payment Screening Reconciliation Scope",
+      "properties": {
+        "root_cause": [
+          "scope for 'Value to Value' comparison from Source System to Target System is undefined"
+        ],
+        "business_impact": [
+          "cannot verify if products send required transactions to HLS",
+          "lack of checks and balances across system hops"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_cap_001",
+      "name": "Data Reconciliation Process",
+      "properties": {
+        "what_it_does": [
+          "confirms monitoring of all transactional activities across customers, products, LOBs, and transaction types"
+        ],
+        "technical_components": [
+          "data governance frameworks",
+          "guiding principles",
+          "end-to-end process mapping",
+          "value-to-value comparison"
+        ],
+        "delivery_maturity": [
+          "underdeveloped"
+        ],
+        "industry_applicability": [
+          "banking",
+          "financial_services"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "name": "Payment Screening",
+      "properties": {
+        "problem_context": [
+          "ensuring all payments requiring screening are correctly routed and verified across payment systems"
+        ],
+        "approach": [
+          "data reconciliation and evidence confirmation"
+        ],
+        "industry": [
+          "banking"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_off_001",
+      "name": "Data Governance Framework",
+      "properties": {
+        "offering_type": [
+          "framework_development"
+        ],
+        "scope": [
+          "defining data reconciliation policies, processes, and governance frameworks"
+        ],
+        "target_client_profile": [
+          "financial_institutions_with_regulatory_requirements"
+        ],
+        "key_phases_or_components": [
+          "framework_definition",
+          "policy_development",
+          "governance_structure"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_tec_001",
+      "name": "HLS (Filter Saver)",
+      "properties": {
+        "vendor_or_provider": [
+          "HLS"
+        ],
+        "technology_category": [
+          "payment_screening"
+        ],
+        "role_in_solution": [
+          "core_target_system"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "receives_transactions_for_screening",
+          "requires_reconciliation_evidence",
+          "part_of_data_lineage_exercise"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_tec_002",
+      "name": "Payment Systems Landscape",
+      "properties": {
+        "vendor_or_provider": [
+          "Chips",
+          "Swift",
+          "SEPA",
+          "Fast Payment",
+          "Visa Fund Fast Funds"
+        ],
+        "technology_category": [
+          "payment_processing"
+        ],
+        "role_in_solution": [
+          "supporting_routing_systems"
+        ],
+        "key_characteristics": [
+          "diverse_transaction_channels",
+          "connected_via_data_lineage",
+          "lack_of_defined_checks_and_balances"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_tec_003",
+      "name": "Confluence",
+      "properties": {
+        "vendor_or_provider": [
+          "Atlassian"
+        ],
+        "technology_category": [
+          "collaboration_platform"
+        ],
+        "role_in_solution": [
+          "artifact_repository"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "hosts_screening_decision_artifacts",
+          "tracks_reconciliation_status",
+          "dated_July_12_2023"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_per_001",
+      "name": "SMEs (Subject Matter Experts)",
+      "properties": {
+        "role_title": [
+          "Subject Matter Experts"
+        ],
+        "influence_level": [
+          "evaluator"
+        ],
+        "known_pain_points": [
+          "lack_of_overarching_data_reconciliation_process",
+          "undefined_frameworks_and_guiding_principles"
+        ],
+        "relationship_to_deal": [
+          "consultant"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_eve_001",
+      "name": "3rd Party Audit Report",
+      "properties": {
+        "event_type": [
+          "audit_report"
+        ],
+        "relevance_to_deal": [
+          "critical_driver_for_governance_improvement"
+        ],
+        "key_participants": [
+          "FCTP_Screening_Delivery_Leads",
+          "SMEs"
+        ],
+        "findings": [
+          "absence_of_data_reconciliation_process_in_Payment_Screening"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "id": "30d6940aa9474b3983591cb09643c5b6_005_org_001",
+      "name": "FCTP Screening Delivery Leads",
+      "properties": {
+        "org_type": [
+          "internal_delivery_team"
+        ],
+        "relationship_to_offering": [
+          "primary_stakeholder"
+        ],
+        "responsibilities": [
+          "providing_insights_on_screening_decisions",
+          "addressing_audit_findings"
+        ]
+      },
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_cha_001",
+      "target_name": "Lack of Data Reconciliation Process",
+      "rel_type": "faces",
+      "description": "Nationwide faces a lack of a defined overarching data reconciliation process for regulatory compliance.",
+      "properties": {
+        "impact": "regulatory compliance risk",
+        "status": "unidentified"
+      },
+      "context": "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective, specifically for Regulatory Compliance.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_off_001",
+      "target_name": "Data Governance Framework",
+      "rel_type": "is_target_for",
+      "description": "The Data Governance Framework is a target solution for Nationwide to improve policies, processes, and governance.",
+      "properties": {
+        "focus_area": "policies, processes and governance",
+        "status": "needs improvement"
+      },
+      "context": "Further improvement needed across Nationwide on how best to define Data Reconciliation policies, processes and governance framework as multiple instances of disconnected observed.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_eve_001",
+      "target_name": "3rd Party Audit Report",
+      "rel_type": "impacted_by",
+      "description": "Nationwide's operational strategy is impacted by findings from the 3rd Party Audit Report regarding data reconciliation gaps.",
+      "properties": {
+        "finding_focus": "absence of data reconciliation process",
+        "action_needed": "action plan and strategy"
+      },
+      "context": "Apparent lack of action plan and strategy to address 3rd Party Audit report findings about absence of data reconciliation process in Payment Screening area to confirm monitoring of all transactional activities across all customers, products, lines of business, and transaction types within Nationwide.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "target_name": "Payment Screening",
+      "rel_type": "operates",
+      "description": "Nationwide operates a Payment Screening functional area requiring comprehensive transactional monitoring.",
+      "properties": {
+        "scope": "all customers, products, lines of business, and transaction types"
+      },
+      "context": "...confirm monitoring of all transactional activities across all customers, products, lines of business, and transaction types within Nationwide.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_per_001",
+      "source_name": "SMEs (Subject Matter Experts)",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "evaluates_for",
+      "description": "Subject Matter Experts were consulted to evaluate and identify Nationwide's data reconciliation processes.",
+      "properties": {
+        "count": 19,
+        "role": "consulted experts"
+      },
+      "context": "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process employed by Nationwide...",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_org_001",
+      "source_name": "FCTP Screening Delivery Leads",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "supplies",
+      "description": "FCTP Screening Delivery Leads supply information and delivery support to Nationwide through meetings and artifacts.",
+      "properties": {
+        "activity": "meetings and artifact provision",
+        "focus": "screening decisions"
+      },
+      "context": "Information gathered from various meetings with FCTP screening Delivery leads.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "source_name": "Payment Screening",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_001",
+      "target_name": "HLS (Filter Saver)",
+      "rel_type": "uses",
+      "description": "The Payment Screening use case utilizes HLS (Filter Saver) to screen incoming payments.",
+      "properties": {
+        "function": "payment screening",
+        "dependency": "evidence of screening required"
+      },
+      "context": "...payments that need to be screened by HLS are sent to the various payment systems across NOBS...",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "source_name": "Payment Screening",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_002",
+      "target_name": "Payment Systems Landscape",
+      "rel_type": "integrates_with",
+      "description": "Payment Screening integrates with various payment systems across the landscape for transaction routing.",
+      "properties": {
+        "systems": "Chips, Swift, SEPA, Fast Payment, Visa Fund Fast Funds",
+        "direction": "to and from"
+      },
+      "context": "...sent to the various payment systems across NOBS... connection between various payment services like Chips, Swift, SEPA...",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "source_name": "Payment Screening",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_003",
+      "target_name": "Confluence",
+      "rel_type": "uses",
+      "description": "The Payment Screening functional area uses Confluence to store decision artifacts and documentation.",
+      "properties": {
+        "artifact": "FCTP - Screening - Decision",
+        "date": "July 12, 2023"
+      },
+      "context": "Referred artifacts \"FCTP - Screening - Decision\" in Confluence, dated July 12, 2023.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cha_002",
+      "source_name": "Undefined Payment Screening Reconciliation Scope",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "target_name": "Payment Screening",
+      "rel_type": "impacted_by",
+      "description": "The Payment Screening use case is impacted by an undefined reconciliation scope for value-to-value comparisons.",
+      "properties": {
+        "scope_type": "Value to Value comparison",
+        "status": "yet to be defined"
+      },
+      "context": "...it is indicated that the scope is yet to be defined, specifically highlighting a \"Value to Value\" comparison from the Source System to the Target System.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cap_001",
+      "source_name": "Data Reconciliation Process",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_cha_001",
+      "target_name": "Lack of Data Reconciliation Process",
+      "rel_type": "solves",
+      "description": "The Data Reconciliation Process capability is designed to solve the identified lack of reconciliation processes.",
+      "properties": {
+        "approach": "overarching framework",
+        "compliance_focus": "regulatory"
+      },
+      "context": "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process... Further improvement needed... to define Data Reconciliation policies...",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cap_001",
+      "source_name": "Data Reconciliation Process",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_cha_002",
+      "target_name": "Undefined Payment Screening Reconciliation Scope",
+      "rel_type": "addresses",
+      "description": "The Data Reconciliation Process addresses the undefined scope within Payment Screening reconciliation.",
+      "properties": {
+        "method": "Value to Value comparison",
+        "target": "Source to Target System"
+      },
+      "context": "...highlighting a \"Value to Value\" comparison from the Source System to the Target System.",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_off_001",
+      "source_name": "Data Governance Framework",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "is_target_for",
+      "description": "The Data Governance Framework is a target solution for Nationwide's compliance and reconciliation needs.",
+      "properties": {
+        "focus": "regulatory compliance",
+        "status": "needs definition"
+      },
+      "context": "overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective...",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_001",
+      "source_name": "HLS (Filter Saver)",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_002",
+      "target_name": "Payment Systems Landscape",
+      "rel_type": "integrates_with",
+      "description": "HLS (Filter Saver) integrates with the broader Payment Systems Landscape for data lineage and routing.",
+      "properties": {
+        "lineage_status": "ongoing exercise",
+        "connection_type": "service to service"
+      },
+      "context": "Ongoing Data Lineage exercise revealed connection between various payment services... and Filter Saver (HLS).",
+      "bidirectional": false,
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cha_001",
+      "source_name": "Lack of Data Reconciliation Process",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cha_002",
+      "source_name": "Undefined Payment Screening Reconciliation Scope",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_cap_001",
+      "source_name": "Data Reconciliation Process",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_use_001",
+      "source_name": "Payment Screening",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_off_001",
+      "source_name": "Data Governance Framework",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_001",
+      "source_name": "HLS (Filter Saver)",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_002",
+      "source_name": "Payment Systems Landscape",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_tec_003",
+      "source_name": "Confluence",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_per_001",
+      "source_name": "SMEs (Subject Matter Experts)",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_eve_001",
+      "source_name": "3rd Party Audit Report",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "30d6940aa9474b3983591cb09643c5b6_005_org_001",
+      "source_name": "FCTP Screening Delivery Leads",
+      "target_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "target_name": "30d6940aa9474b3983591cb09643c5b6_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "30d6940aa9474b3983591cb09643c5b6_005",
+      "doc_id": "30d6940aa9474b3983591cb09643c5b6",
+      "domain": "sales_collateral"
+    }
+  ]
+}

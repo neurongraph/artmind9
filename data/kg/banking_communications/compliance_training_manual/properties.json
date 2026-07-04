@@ -1,0 +1,3962 @@
+[
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_002_mod_001",
+    "name": "Mandatory Annual Compliance Training",
+    "properties": {
+      "mandatory": true,
+      "completion_frequency": "annual",
+      "topics_covered": [
+        "regulatory requirements",
+        "customer protection",
+        "anti-money laundering (AML)",
+        "know-your-customer (KYC)",
+        "GDPR",
+        "fraud prevention",
+        "reporting obligations"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_002",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_003_mod_001",
+    "name": "Module 1: AML & Sanctions Compliance",
+    "properties": {
+      "module_number": 1,
+      "module_topic": "AML & Sanctions Compliance",
+      "target_audience": "all staff",
+      "mandatory": true,
+      "completion_frequency": "annual",
+      "pass_threshold": "80%+",
+      "certificate_issued": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_003",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_003_mod_002",
+    "name": "Module 2: Know Your Customer (KYC)",
+    "properties": {
+      "module_number": 2,
+      "module_topic": "Know Your Customer (KYC)",
+      "target_audience": "all staff",
+      "mandatory": true,
+      "completion_frequency": "annual",
+      "pass_threshold": "80%+",
+      "certificate_issued": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_003",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_003_mod_003",
+    "name": "Module 3: GDPR & Data Protection",
+    "properties": {
+      "module_number": 3,
+      "module_topic": "GDPR & Data Protection",
+      "target_audience": "all staff",
+      "mandatory": true,
+      "completion_frequency": "annual",
+      "pass_threshold": "80%+",
+      "certificate_issued": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_003",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_003_mod_004",
+    "name": "Module 4: Fraud Prevention",
+    "properties": {
+      "module_number": 4,
+      "module_topic": "Fraud Prevention",
+      "target_audience": "all staff",
+      "mandatory": true,
+      "completion_frequency": "annual",
+      "pass_threshold": "80%+",
+      "certificate_issued": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_003",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_003_mod_005",
+    "name": "Module 5: Reporting Obligations",
+    "properties": {
+      "module_number": 5,
+      "module_topic": "Reporting Obligations",
+      "target_audience": "all staff",
+      "mandatory": true,
+      "completion_frequency": "annual",
+      "pass_threshold": "80%+",
+      "certificate_issued": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_003",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_003_mod_006",
+    "name": "Module 6: Consequences of Non-Compliance",
+    "properties": {
+      "module_number": 6,
+      "module_topic": "Consequences of Non-Compliance",
+      "target_audience": "all staff",
+      "mandatory": true,
+      "completion_frequency": "annual",
+      "pass_threshold": "80%+",
+      "certificate_issued": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_003",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_003_obl_001",
+    "name": "Mandatory Annual Training Completion",
+    "properties": {
+      "obligation_type": "training",
+      "applies_to": "all staff",
+      "timeframe": "annual",
+      "verification_method": "Quiz (80%+ pass mark) and Certificate issuance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_003",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_004_mod_001",
+    "name": "Module 1 — AML & Sanctions Compliance",
+    "properties": {
+      "module_number": 1,
+      "module_topic": "AML & Sanctions Compliance",
+      "target_audience": "All Staff",
+      "regulatory_basis": [
+        "Money Laundering Regulations 2017"
+      ],
+      "topics_covered": [
+        "Definition of AML",
+        "Prevention of money laundering",
+        "Regulatory consequences of violations",
+        "Staff role in identifying and reporting suspicious activity"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_004",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_004_obj_001",
+    "name": "Identification and Reporting of Suspicious Activity",
+    "properties": {
+      "module": "Module 1 — AML & Sanctions Compliance",
+      "objective_statement": "Staff must be able to identify and report suspicious activity to prevent money laundering",
+      "skill_type": "skill"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_004",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_004_obl_001",
+    "name": "Compliance with Money Laundering Regulations 2017",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "regulatory_source": "Money Laundering Regulations 2017",
+      "consequence_of_failure": [
+        "FCA fines exceeding £10M",
+        "Criminal prosecution",
+        "Loss of banking license"
+      ],
+      "applies_to": "FirstUK Bank"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_004",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_005_mod_001",
+    "name": "The AML Process",
+    "properties": {
+      "module_topic": "The AML Process",
+      "topics_covered": [
+        "Suspicious Activity Detection",
+        "Reporting to Compliance",
+        "Investigation",
+        "FCA Reporting",
+        "Law Enforcement Action"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_005",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_005_wrn_001",
+    "name": "Suspicious Activity Detected",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Detection of suspicious activity",
+      "required_action": "Report to Compliance Team",
+      "escalation_path": "Compliance Team"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_005",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_005_obl_001",
+    "name": "Report to Compliance Team",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Staff detecting suspicious activity",
+      "verification_method": "Internal report submission"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_005",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_005_obl_002",
+    "name": "Report to FCA (if necessary)",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "regulatory_source": "FCA",
+      "timeframe": "Post-investigation"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_005",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_006_wrn_001",
+    "name": "Multiple large deposits followed by immediate large withdrawals",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Multiple large deposits followed by immediate large withdrawals",
+      "required_action": "Report as a red flag for potential money laundering"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_006",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_006_wrn_002",
+    "name": "Frequent transfers to multiple accounts or jurisdictions",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Frequent transfers to multiple accounts/jurisdictions",
+      "required_action": "Report as a red flag for potential money laundering"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_006",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_006_wrn_003",
+    "name": "Round-number transactions",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Round-number transactions",
+      "examples": [
+        "£10k",
+        "£20k exactly"
+      ],
+      "required_action": "Report as a red flag for potential money laundering"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_006",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_006_wrn_004",
+    "name": "Transfers to high-risk countries",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Transfers to high-risk countries",
+      "required_action": "Report as a red flag for potential money laundering"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_006",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_006_wrn_005",
+    "name": "Transactions inconsistent with customer profile",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Transactions inconsistent with customer profile",
+      "examples": [
+        "A pensioner suddenly transferring £50,000 to a shell company in Panama"
+      ],
+      "required_action": "Report as a red flag for potential money laundering"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_006",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_007_wrn_001",
+    "name": "Reluctance to provide documentation",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Customer is unwilling or hesitant to provide required identification or supporting documentation"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_007",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_007_wrn_002",
+    "name": "Vague about purpose of account",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Customer provides non-specific or ambiguous explanations regarding why they are opening the account"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_007",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_007_wrn_003",
+    "name": "Changes story about transaction purpose",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Customer provides inconsistent or contradictory explanations for the purpose of a transaction"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_007",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_007_wrn_004",
+    "name": "Uses third party as proxy",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Customer utilizes another person to act on their behalf to obscure ownership or control"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_007",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_007_wrn_005",
+    "name": "Avoids using account normally after opening",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Account activity does not align with typical customer behavior or the stated purpose of the account after it has been opened"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_007",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_007_wrn_006",
+    "name": "Account opening followed by large deposit and third-party withdrawal",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Rapid sequence of account opening, a significant deposit, and subsequent withdrawal by a third party",
+      "examples": [
+        "Customer opens account, deposits £30,000, then has friend withdraw it"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_007",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_008_wrn_001",
+    "name": "Money services (remittance) Business Activity",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Business activity involving money services and remittance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_008",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_008_wrn_002",
+    "name": "Casinos and Gambling Business Activity",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Business activity involving casinos and gambling"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_008",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_008_wrn_003",
+    "name": "Art Dealers and Jewelers Business Activity",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Business activity involving art dealers and jewelers"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_008",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_008_wrn_004",
+    "name": "Cash-intensive Retail Business Activity",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Business activity characterized by cash-intensive retail operations"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_008",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_008_wrn_005",
+    "name": "Used Car Dealerships Business Activity",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Business activity involving used car dealerships"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_008",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_008_wrn_006",
+    "name": "High-value Goods (Watches, Handbags) Business Activity",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Business activity involving high-value goods such as watches and handbags"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_008",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_009_wrn_001",
+    "name": "Customer Association with OFAC Listed Countries (Geographic Risk)",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Customer association with countries listed by the Office of Foreign Assets Control (OFAC)",
+      "examples": [
+        "Iran",
+        "North Korea",
+        "Syria",
+        "Crimea",
+        "Cuba",
+        "Sudan"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_009",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_009_wrn_002",
+    "name": "Customer Association with EU Consolidated List Entities (Geographic Risk)",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Customer association with entities appearing on the EU Consolidated List"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_009",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_009_wrn_003",
+    "name": "Customer Association with HMT Sanctioned Entities (Geographic Risk)",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Customer association with entities sanctioned by Her Majesty's Treasury (HMT)"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_009",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_009_wrn_004",
+    "name": "Customer Association with High-Corruption Countries (Geographic Risk)",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Customer association with countries identified as having high levels of corruption",
+      "examples": [
+        "Nigeria",
+        "Zimbabwe",
+        "Venezuela"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_009",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_mod_001",
+    "name": "Screening Requirements Training",
+    "properties": {
+      "module_topic": "Screening Requirements",
+      "topics_covered": [
+        "New Customer Screening Process",
+        "Sanctions and PEP Screening",
+        "Escalation Procedures",
+        "Documentation of Results"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_obj_001",
+    "name": "New Customer Screening Process Knowledge",
+    "properties": {
+      "module": "Screening Requirements Training",
+      "objective_statement": "Staff must be able to obtain customer details and screen them against required lists before opening an account",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_obl_001",
+    "name": "Mandatory Sanctions and PEP Screening",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff opening new accounts",
+      "timeframe": "Upon Account Opening",
+      "regulatory_source": [
+        "OFAC",
+        "EU Consolidated List",
+        "HMT Sanctions",
+        "UN Sanctions",
+        "PEP Database"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_obl_002",
+    "name": "Immediate Compliance Escalation for Screening Matches",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "immediately",
+      "consequence_of_failure": "Account may be opened without proper screening clearance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_obl_003",
+    "name": "Screening Result Documentation",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "Staff opening new accounts"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_wrn_001",
+    "name": "Sanctions or PEP List Match",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "A match found during screening against OFAC, EU, HMT, UN, or PEP databases",
+      "required_action": "Escalate to Compliance",
+      "escalation_path": "Compliance Department"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_cust_001",
+    "name": "New Customer",
+    "properties": {
+      "customer_type": "new",
+      "communication_context": "Account Opening",
+      "training_context": "Identity collection and screening requirements"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_acc_001",
+    "name": "New Account",
+    "properties": {
+      "account_type": "new",
+      "training_context": "Account opening screening process",
+      "communication_context": "Pre-opening clearance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_aml_001",
+    "name": "Sanctions and PEP Screening Process",
+    "properties": {
+      "training_module": "Screening Requirements Training",
+      "red_flags_taught": [
+        "Sanctions list match",
+        "PEP database match"
+      ],
+      "reporting_process_taught": "Immediate escalation to Compliance",
+      "regulatory_basis": [
+        "OFAC",
+        "EU Consolidated List",
+        "HMT Sanctions",
+        "UN Sanctions"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_010_kyc_001",
+    "name": "New Customer Identity Collection",
+    "properties": {
+      "training_module": "Screening Requirements Training",
+      "learning_objectives": [
+        "Obtain customer name, DOB, and address"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_010",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_obl_001",
+    "name": "Monthly Transaction Review Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "Monthly",
+      "verification_method": "Review of transactions >£5,000"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_obl_002",
+    "name": "Monthly Sanctions Screening Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "Monthly",
+      "verification_method": "Screening against updated sanctions lists"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_obl_003",
+    "name": "Ongoing Customer Risk Assessment Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "Monthly",
+      "verification_method": "Assessment of continuing customer risk"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_obl_004",
+    "name": "Transaction Halt Obligation on Sanctions Match",
+    "properties": {
+      "obligation_type": "prohibition",
+      "timeframe": "Immediate upon match",
+      "consequence_of_failure": "Processing a sanctioned transaction"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_obl_005",
+    "name": "Compliance Escalation Duty",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "Immediate upon match",
+      "verification_method": "Escalation to Compliance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_obl_006",
+    "name": "Anti-Tipping Off Prohibition",
+    "properties": {
+      "obligation_type": "prohibition",
+      "consequence_of_failure": "Illegal"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_wrn_001",
+    "name": "High Value Transaction (>£5,000) Indicator",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Transactions exceeding £5,000",
+      "required_action": "Review"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_wrn_002",
+    "name": "Unusual Transaction Patterns",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Unusual patterns in transaction activity",
+      "required_action": "Check"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_011_wrn_003",
+    "name": "Sanctions List Match",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Match found during screening against updated sanctions lists",
+      "required_action": [
+        "Don't process transaction",
+        "Escalate to Compliance",
+        "Do NOT inform customer"
+      ],
+      "escalation_path": "Compliance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_011",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_012_aml_001",
+    "name": "OFAC Sanctions List",
+    "properties": {
+      "red_flags_taught": [
+        "US-sanctioned parties",
+        "Iran",
+        "North Korea",
+        "Syria"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_012",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_012_aml_002",
+    "name": "EU Consolidated Sanctions List",
+    "properties": {
+      "red_flags_taught": [
+        "EU-sanctioned individuals",
+        "EU-sanctioned entities"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_012",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_012_aml_003",
+    "name": "HMT Sanctions List",
+    "properties": {
+      "red_flags_taught": [
+        "UK Home Treasury-sanctioned parties"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_012",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_012_aml_004",
+    "name": "UN Sanctions List",
+    "properties": {
+      "red_flags_taught": [
+        "UN-sanctioned individuals",
+        "UN-sanctioned entities"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_012",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_012_aml_005",
+    "name": "PEP Database",
+    "properties": {
+      "red_flags_taught": [
+        "Politically Exposed Persons",
+        "high-risk individuals"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_012",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_012_aml_006",
+    "name": "Adverse Media Screening",
+    "properties": {
+      "red_flags_taught": [
+        "Individuals in news for financial crime"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_012",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_obl_001",
+    "name": "Escalation of Potential Sanctions Matches",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All Staff",
+      "required_action": "Escalate to Compliance and do not process the transaction",
+      "consequence_of_failure": "Processing a transaction for a sanctioned entity"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_obl_002",
+    "name": "Anti-Tipping Off Prohibition",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "All Staff",
+      "description": "Do not disclose screening activities to the customer",
+      "consequence_of_failure": "Illegal activity (tipping-off)"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_obl_003",
+    "name": "Suspicious Activity Reporting Prior to Account Closure",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All Staff",
+      "timeframe": "Prior to account closure",
+      "required_action": "Report suspicious activity to Compliance first"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_obl_004",
+    "name": "Continuous Customer Screening Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All Staff",
+      "timeframe": "Continuously throughout customer relationship",
+      "verification_method": "Ongoing screening beyond initial onboarding"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_wrn_001",
+    "name": "Ignoring Potential Sanctions Match",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Ignoring a potential match and processing the transaction anyway",
+      "required_action": "Escalate to Compliance",
+      "escalation_path": "Compliance Team"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_wrn_002",
+    "name": "Tipping Off Customer Regarding Sanctions Screening",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Telling customer that the bank is checking if they are on a sanctions list",
+      "required_action": "Do not disclose screening to customer",
+      "regulatory_obligation": "Mandatory (tipping-off is illegal)"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_wrn_003",
+    "name": "Premature Account Closure Without Investigation",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Closing an account without conducting a proper investigation",
+      "required_action": "Report suspicious activity to Compliance first",
+      "escalation_path": "Compliance Team"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_013_wrn_004",
+    "name": "One-Time Only Screening at Onboarding",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Only performing screening at the point of account opening",
+      "required_action": "Implement continuous screening throughout the customer relationship"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_013",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_mod_001",
+    "name": "Module 2: Know Your Customer (KYC)",
+    "properties": {
+      "module_number": 2,
+      "module_topic": "Know Your Customer (KYC)",
+      "topics_covered": [
+        "Collect customer identity information",
+        "Verify customer identity",
+        "Understand customer's business/source of funds",
+        "Assess customer's risk level"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_obj_001",
+    "name": "Collect customer identity information",
+    "properties": {
+      "module": "Module 2: Know Your Customer (KYC)",
+      "objective_statement": "Collect customer identity information",
+      "skill_type": "skill"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_obj_002",
+    "name": "Verify customer identity",
+    "properties": {
+      "module": "Module 2: Know Your Customer (KYC)",
+      "objective_statement": "Verify customer identity",
+      "skill_type": "skill"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_obj_003",
+    "name": "Understand customer's business/source of funds",
+    "properties": {
+      "module": "Module 2: Know Your Customer (KYC)",
+      "objective_statement": "Understand customer's business/source of funds",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_obj_004",
+    "name": "Assess customer's risk level",
+    "properties": {
+      "module": "Module 2: Know Your Customer (KYC)",
+      "objective_statement": "Assess customer's risk level",
+      "skill_type": "skill"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_obl_001",
+    "name": "KYC Identity Collection and Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "banks"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_kyc_001",
+    "name": "KYC Process",
+    "properties": {
+      "training_module": "Module 2: Know Your Customer (KYC)",
+      "learning_objectives": [
+        "Collect customer identity information",
+        "Verify customer identity",
+        "Understand customer's business/source of funds",
+        "Assess customer's risk level"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_014_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "training_context": "Subject of identity collection, verification, and risk assessment within KYC rules"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_014",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_obl_001",
+    "name": "Primary Identity Document Verification Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "staff performing KYC",
+      "verification_method": "Original document inspection and copying both sides",
+      "exceptions": [
+        "UK Passport",
+        "UK Driving License"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_obl_002",
+    "name": "Passport Verification Procedure",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "verification_method": [
+        "Verify original is valid",
+        "Copy both sides",
+        "Check for tampering"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_obl_003",
+    "name": "Driving License Verification Procedure",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "verification_method": [
+        "Verify original is valid",
+        "Copy both sides",
+        "Check photo matches customer"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_wrn_001",
+    "name": "Expired Identity Documentation (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Customer provides identity documents that have passed their expiry date",
+      "required_action": "Reject document as not acceptable"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_wrn_002",
+    "name": "Submission of Photocopies Only (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Customer provides photocopies without presenting the original document",
+      "required_action": "Request original document for inspection"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_wrn_003",
+    "name": "Non-UK Identity Documentation (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Customer provides identity documents issued by countries other than the UK",
+      "required_action": "Reject document as not acceptable"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_cust_001",
+    "name": "Customer",
+    "properties": {
+      "training_context": "Identity verification and KYC document submission"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_015_kyc_001",
+    "name": "Primary Identity Document Verification Process",
+    "properties": {
+      "common_errors_taught": [
+        "Accepting expired documents",
+        "Accepting photocopies without originals",
+        "Accepting non-UK documentation"
+      ],
+      "verification_steps": [
+        "Check validity",
+        "Copy both sides",
+        "Verify authenticity/photo match"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_015",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_016_kyc_001",
+    "name": "Proof of Address Verification",
+    "properties": {
+      "accepted_documents": [
+        "Utility Bill",
+        "Council Tax Letter",
+        "Bank Statement"
+      ],
+      "rejected_documents": [
+        "Expired documents",
+        "P45/P60 tax documents",
+        "Tenancy agreements",
+        "Mobile phone bills"
+      ],
+      "verification_requirements": [
+        "Must show customer name",
+        "Must show customer address"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_016",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_016_obl_001",
+    "name": "Utility Bill Validity Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "dated within 3 months",
+      "mandatory_fields": [
+        "customer name",
+        "address"
+      ],
+      "verification_method": "Copy and file"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_016",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_016_obl_002",
+    "name": "Council Tax Letter Validity Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "current year",
+      "mandatory_fields": [
+        "customer name",
+        "address"
+      ],
+      "verification_method": "Copy and file"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_016",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_016_obl_003",
+    "name": "Bank Statement Validity Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "dated within 3 months",
+      "mandatory_fields": [
+        "customer name",
+        "address"
+      ],
+      "verification_method": "Copy and file"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_016",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_016_obl_004",
+    "name": "Address Document Filing Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "required_action": "Copy and file",
+      "applies_to": "all address verification documents"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_016",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_016_wrn_001",
+    "name": "Unacceptable Address Documentation (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Submission of non-compliant or prohibited address evidence",
+      "examples": [
+        "Expired documents",
+        "P45/P60 tax documents",
+        "Tenancy agreements",
+        "Mobile phone bills"
+      ],
+      "required_action": "Reject document and request acceptable alternative"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_016",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_016_cus_001",
+    "name": "Customer",
+    "properties": {
+      "training_context": "KYC Proof of Address verification",
+      "required_identifiers": [
+        "Full Name",
+        "Residential Address"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_016",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_cus_001",
+    "name": "New Customer",
+    "properties": {
+      "customer_type": "new",
+      "training_context": "Subject of the Verification Checklist for account opening"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_obl_001",
+    "name": "New Customer Identity Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff performing account opening",
+      "verification_method": [
+        "Photo ID obtained and genuine",
+        "Customer face matches ID photo",
+        "ID document validity check"
+      ],
+      "consequence_of_failure": "Do not open account"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_obl_002",
+    "name": "Proof of Address Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "dated within 3 months",
+      "verification_method": [
+        "Address matches documents",
+        "Customer name matches documents"
+      ],
+      "consequence_of_failure": "Do not open account"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_obl_003",
+    "name": "Secure Document Filing and Record Completion Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "verification_method": [
+        "Copies securely filed",
+        "System record complete"
+      ],
+      "consequence_of_failure": "Do not open account"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_obl_004",
+    "name": "Sanctions Screening Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "verification_method": "No sanctions list matches",
+      "consequence_of_failure": "Do not open account"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_obl_005",
+    "name": "Verification Failure Escalation Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "required_action": "Escalate to manager",
+      "trigger_event": "Any check in the verification checklist fails",
+      "consequence_of_failure": "Account must not be opened"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_kyc_001",
+    "name": "New Customer Verification Process",
+    "properties": {
+      "common_errors_taught": [
+        "Expired ID documents",
+        "Address proof older than 3 months",
+        "Mismatched names/addresses across documents"
+      ],
+      "verification_steps": [
+        "Photo ID verification",
+        "Face matching",
+        "Address verification",
+        "Document filing",
+        "System record completion",
+        "Sanctions screening"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_aml_001",
+    "name": "Sanctions List Screening",
+    "properties": {
+      "red_flags_taught": [
+        "Sanctions list matches"
+      ],
+      "reporting_process_taught": "Escalate to manager if match found",
+      "regulatory_basis": "Sanctions compliance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_017_acc_001",
+    "name": "New Account",
+    "properties": {
+      "account_type": "new",
+      "training_context": "Account opening conditional upon successful completion of Verification Checklist"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_017",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_mod_001",
+    "name": "Enhanced Due Diligence (EDD) Training",
+    "properties": {
+      "module_topic": "Enhanced Due Diligence (EDD)",
+      "topics_covered": [
+        "Higher-Risk Customer identification",
+        "Additional verification steps",
+        "Source of funds verification",
+        "Ongoing monitoring"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_wrn_001",
+    "name": "High-Net-Worth Individual (>£500k) (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Individuals with assets or funds exceeding £500,000",
+      "required_action": "Apply Enhanced Due Diligence (EDD) process"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_wrn_002",
+    "name": "Politically Exposed Person (PEP) (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Individuals holding prominent public functions",
+      "required_action": "Apply Enhanced Due Diligence (EDD) process"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_wrn_003",
+    "name": "Business in High-Risk Industry (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Corporate entities operating within sectors identified as high-risk",
+      "required_action": "Apply Enhanced Due Diligence (EDD) process"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_wrn_004",
+    "name": "Customer in High-Risk Country (KYC Red Flag)",
+    "properties": {
+      "risk_domain": "kyc",
+      "description": "Customers residing in or operating from jurisdictions flagged as high-risk",
+      "required_action": "Apply Enhanced Due Diligence (EDD) process"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_obl_001",
+    "name": "Verify Source of Funds",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Higher-Risk Customers",
+      "verification_method": "Source of funds verification"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_obl_002",
+    "name": "Obtain Business Documents",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "Higher-Risk Customers (Businesses)",
+      "verification_method": "Collection of business documentation"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_obl_003",
+    "name": "Understand Purpose of Account",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Higher-Risk Customers",
+      "verification_method": "Customer inquiry and documentation of account purpose"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_obl_004",
+    "name": "Ongoing Monitoring",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Higher-Risk Customers",
+      "verification_method": "Continuous transaction and activity monitoring"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_obl_005",
+    "name": "Regular Review",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Higher-Risk Customers",
+      "verification_method": "Periodic account and KYC review"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_cust_001",
+    "name": "Higher-Risk Customer",
+    "properties": {
+      "customer_type": "at-risk",
+      "training_context": "Customers requiring Enhanced Due Diligence (EDD) due to wealth, political status, industry, or geography"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_018_kyc_001",
+    "name": "Enhanced Due Diligence Process",
+    "properties": {
+      "training_module": "Enhanced Due Diligence (EDD) Training",
+      "learning_objectives": [
+        "Identify higher-risk customer triggers",
+        "Execute additional verification steps including source of funds and business documentation"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_018",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_019_obl_001",
+    "name": "Original Identity Document Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "verification_method": "verify original, then copy"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_019",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_019_obl_002",
+    "name": "Address Proof Recency Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 3 months"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_019",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_019_obl_003",
+    "name": "Documentation-Based Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "verification_method": "documentation"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_019",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_019_obl_004",
+    "name": "Universal KYC Application Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all customers",
+      "exceptions": "none"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_019",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_019_kyc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "common_errors_taught": [
+        "Opening account without seeing original ID",
+        "Accepting address proof dated >3 months ago",
+        "Relying on verbal description instead of documentation",
+        "Skipping KYC because customer is 'nice'"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_019",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_019_cust_001",
+    "name": "Bank Customer",
+    "properties": {
+      "training_context": "KYC applies to every customer without exception"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_019",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_019_acc_001",
+    "name": "New Bank Account",
+    "properties": {
+      "training_context": "Account opening requires original ID verification"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_019",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_020_mod_001",
+    "name": "Module 3 — GDPR & Data Protection",
+    "properties": {
+      "module_number": 3,
+      "module_topic": "GDPR & Data Protection",
+      "topics_covered": [
+        "What Is GDPR?",
+        "EU/UK data protection law",
+        "Collection, use, and storage of personal data"
+      ],
+      "regulatory_basis": [
+        "General Data Protection Regulation (GDPR)"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_020",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_001",
+    "name": "Lawfulness Principle",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Data processing must be legal and justified"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_002",
+    "name": "Fairness Principle",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Must be transparent with customers"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_003",
+    "name": "Purpose Limitation Principle",
+    "properties": {
+      "obligation_type": "prohibition",
+      "description": "Only use data for stated purpose"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_004",
+    "name": "Data Minimization Principle",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Only collect what's needed"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_005",
+    "name": "Accuracy Principle",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Keep data current and correct"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_006",
+    "name": "Storage Limitation Principle",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Only keep data as long as necessary"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_007",
+    "name": "Integrity & Confidentiality Principle",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Protect data with security"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_021_obl_008",
+    "name": "Accountability Principle",
+    "properties": {
+      "obligation_type": "documentation",
+      "description": "Document what you do with data"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_021",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_022_obl_001",
+    "name": "Data Access Request Handling Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All staff receiving requests",
+      "timeframe": "within 30 days",
+      "regulatory_source": "Customer Data Rights",
+      "verification_method": "DPO response"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_022",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_022_cus_001",
+    "name": "Customer Requesting Data Access",
+    "properties": {
+      "communication_context": "Right to Access request",
+      "customer_type": "existing",
+      "protection_taught": "Right to see all data held by the bank"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_022",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_023_obl_001",
+    "name": "Right to Erasure Request Handling Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff receiving requests",
+      "required_steps": [
+        "Acknowledge request",
+        "Send to DPO",
+        "DPO review of legal requirements",
+        "Delete if legally possible"
+      ],
+      "verification_method": "DPO review of legal requirements"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_023",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_023_cust_001",
+    "name": "Customer Requesting Data Erasure",
+    "properties": {
+      "communication_context": "Right to Erasure request",
+      "customer_type": "Existing customer",
+      "request_trigger": "Delete my data"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_023",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_024_obl_001",
+    "name": "Data Portability Request Handling Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff receiving customer requests",
+      "required_actions": [
+        "Acknowledge request",
+        "Send request to DPO"
+      ],
+      "verification_method": "DPO provision of structured, commonly used format (PDF, CSV, etc.)"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_024",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_024_cust_001",
+    "name": "Customer Requesting Data Portability",
+    "properties": {
+      "communication_context": "Requesting data in a portable format",
+      "customer_type": "Existing customer exercising data rights"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_024",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_025_obl_001",
+    "name": "Marketing Opt-Out Processing Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "required_actions": [
+        "Acknowledge request",
+        "Stop marketing communications",
+        "Document opt-out in system"
+      ],
+      "verification_method": "system documentation of opt-out"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_025",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_025_cus_001",
+    "name": "Customer Requesting Marketing Opt-Out",
+    "properties": {
+      "communication_context": "Right to Object request",
+      "customer_type": "existing",
+      "request_intent": "Stop use of data for marketing"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_025",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_026_obl_001",
+    "name": "Right to Restrict Processing Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "required_actions": [
+        "Acknowledge request",
+        "Pause processing (except legal requirements)",
+        "Resume when investigation complete"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_026",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_026_cust_001",
+    "name": "Customer Requesting Data Restriction",
+    "properties": {
+      "communication_context": "Request to pause data processing during investigation",
+      "customer_type": "existing"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_026",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_027_obl_001",
+    "name": "Identity Verification Data Collection",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "data_points_collected": [
+        "Name",
+        "DOB",
+        "address"
+      ],
+      "purpose": "identity verification"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_027",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_027_obl_002",
+    "name": "Account Information Collection for Service Provision",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "purpose": "service provision"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_027",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_027_obl_003",
+    "name": "Transaction History Collection for AML Compliance",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "purpose": "AML compliance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_027",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_027_obl_004",
+    "name": "Payment Details Collection for Transaction Processing",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "purpose": "transaction processing"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_027",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_027_kyc_001",
+    "name": "Identity Verification Process",
+    "properties": {
+      "required_data": [
+        "Name",
+        "DOB",
+        "address"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_027",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_027_aml_001",
+    "name": "AML Compliance Monitoring",
+    "properties": {
+      "required_data": [
+        "Transaction history"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_027",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_028_var_001",
+    "name": "Contact Preference",
+    "properties": {
+      "variable_placeholder": "[Contact preference]",
+      "data_type": "string",
+      "example_value": "email/phone/SMS",
+      "mandatory": false
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_028",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_028_var_002",
+    "name": "Marketing Consent",
+    "properties": {
+      "variable_placeholder": "[Marketing consent]",
+      "data_type": "boolean",
+      "mandatory": false,
+      "key_content": "separate opt-in"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_028",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_028_var_003",
+    "name": "Product Preferences",
+    "properties": {
+      "variable_placeholder": "[Product preferences]",
+      "data_type": "string",
+      "mandatory": false,
+      "key_content": "service improvement"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_028",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_029_obl_001",
+    "name": "Prohibition on Collection of Sensitive Personal Data Without Consent",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "all staff",
+      "prohibited_data_types": [
+        "Political beliefs",
+        "Religious beliefs",
+        "Sexual orientation",
+        "Health information",
+        "Criminal records"
+      ],
+      "exceptions": [
+        "Health information if relevant",
+        "Criminal records if legally required"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_029",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_030_mod_001",
+    "name": "GDPR Training",
+    "properties": {
+      "module_topic": "GDPR",
+      "target_audience": "All staff",
+      "mandatory": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_030",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_030_obl_001",
+    "name": "Password Confidentiality Obligation",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "All staff",
+      "description": "Don't share passwords"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_030",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_030_obl_002",
+    "name": "Workstation Session Management Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff",
+      "description": "Log out when leaving desk"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_030",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_030_obl_003",
+    "name": "Customer Data Privacy Obligation",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "All staff",
+      "description": "Don't discuss customer data publicly"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_030",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_030_obl_004",
+    "name": "Security Concern Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All staff",
+      "timeframe": "immediately",
+      "description": "Report security concerns immediately"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_030",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_030_obl_005",
+    "name": "Physical Document Security Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff",
+      "description": "Lock documents when not in use"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_030",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_030_cust_001",
+    "name": "Bank Customer",
+    "properties": {
+      "protection_taught": [
+        "Encryption (TLS 1.3 in transit, AES-256 at rest)",
+        "Role-based access control (RBAC)",
+        "Audit logging of access",
+        "Physical security of records"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_030",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_031_obl_001",
+    "name": "Stop Further Access to Data",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff discovering a breach",
+      "regulatory_source": "Data Breach Response Protocol"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_031",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_031_obl_002",
+    "name": "Immediate Managerial Reporting of Breach",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Staff discovering a breach",
+      "timeframe": "immediately"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_031",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_031_obl_003",
+    "name": "DPO Breach Notification",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Staff discovering a breach",
+      "verification_method": "Email to dpo@firstuk.bank"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_031",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_031_obl_004",
+    "name": "Prohibition of Breach Concealment",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "All staff",
+      "consequence_of_failure": [
+        "Reputational damage",
+        "Potential fines",
+        "Criminal prosecution"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_031",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_031_obl_005",
+    "name": "Regulatory and Customer Notification Timeline",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "DPO",
+      "timeframe": "within 72 hours",
+      "regulatory_source": "FCA",
+      "consequence_of_failure": [
+        "Potential fines (up to €20M or 4% revenue)",
+        "Criminal prosecution"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_031",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_031_cust_001",
+    "name": "Affected Customers",
+    "properties": {
+      "communication_context": "Data breach notification",
+      "customer_type": "at-risk"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_031",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_obl_001",
+    "name": "Data Access Request Forwarding Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 24 hours",
+      "regulatory_source": "Data Protection",
+      "verification_method": "Forwarding to DPO"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_obl_002",
+    "name": "Customer Data Third-Party Sharing Restriction",
+    "properties": {
+      "obligation_type": "prohibition",
+      "exceptions": [
+        "explicit permission",
+        "legal requirement"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_obl_003",
+    "name": "Customer Data Retention and Disposal Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "when retention period expires",
+      "required_action": "Delete/archive"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_obl_004",
+    "name": "Customer Data Confidentiality and Privacy Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "required_action": "Have sensitive conversations in private area"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_wrn_001",
+    "name": "Ignoring Customer Data Access Request (Data Protection Concern)",
+    "properties": {
+      "risk_domain": "data_protection",
+      "description": "Ignoring customer data access request",
+      "required_action": "Forward to DPO within 24 hours",
+      "escalation_path": "DPO"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_wrn_002",
+    "name": "Unauthorized Third-Party Data Sharing (Data Protection Concern)",
+    "properties": {
+      "risk_domain": "data_protection",
+      "description": "Sharing customer data with third party without consent",
+      "required_action": "Ensure explicit permission or legal requirement is met"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_wrn_003",
+    "name": "Excessive Data Retention (Data Protection Concern)",
+    "properties": {
+      "risk_domain": "data_protection",
+      "description": "Keeping customer data longer than necessary",
+      "required_action": "Delete or archive data when retention period expires"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_032_wrn_004",
+    "name": "Public Discussion of Customer Data (Data Protection Concern)",
+    "properties": {
+      "risk_domain": "data_protection",
+      "description": "Discussing customer data in public where others can overhear",
+      "required_action": "Move sensitive conversations to a private area"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_032",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_033_mod_001",
+    "name": "Module 4: Fraud Prevention",
+    "properties": {
+      "module_number": 4,
+      "module_topic": "Fraud Prevention",
+      "topics_covered": [
+        "Definition of Fraud",
+        "Detection systems",
+        "Staff training",
+        "Customer education",
+        "Rapid response"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_033",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_034_wrn_001",
+    "name": "Unusual transactions (Account Takeover Signal)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Transactions that deviate from the customer's normal behavior",
+      "examples": [
+        "Unusual transactions"
+      ],
+      "warning_sign_link": "Account Takeover"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_034",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_034_wrn_002",
+    "name": "Login from new device (Account Takeover Signal)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Account access from a device not previously associated with the user",
+      "examples": [
+        "login from new device"
+      ],
+      "warning_sign_link": "Account Takeover"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_034",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_034_wrn_003",
+    "name": "Password change (Account Takeover Signal)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Unauthorized or suspicious modification of account credentials",
+      "examples": [
+        "password change"
+      ],
+      "warning_sign_link": "Account Takeover"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_034",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_034_fraud_001",
+    "name": "Account Takeover",
+    "properties": {
+      "fraud_patterns_taught": [
+        "Unusual transactions",
+        "Login from new device",
+        "Password change"
+      ],
+      "prevention_methods": [
+        "2FA",
+        "strong passwords",
+        "monitoring"
+      ],
+      "definition": "Fraudster gains access to customer's account"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_034",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_034_cust_001",
+    "name": "Customer",
+    "properties": {
+      "training_context": "Target of Account Takeover fraud"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_034",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_034_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "training_context": "Subject of unauthorized access and monitoring for fraud signs"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_034",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_035_wrn_001",
+    "name": "Customer claims 'I didn't authorize this' (Impersonation Indicator)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Customer claims they did not authorize a specific action or transaction",
+      "examples": [
+        "Customer claims 'I didn't authorize this'"
+      ],
+      "required_action": [
+        "Verify identity",
+        "Document authorization"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_035",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_035_obl_001",
+    "name": "Identity Verification Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff",
+      "regulatory_source": "Impersonation Prevention Guidance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_035",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_035_obl_002",
+    "name": "Authorization Documentation Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "All staff",
+      "regulatory_source": "Impersonation Prevention Guidance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_035",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_036_wrn_001",
+    "name": "Large Transaction (Unauthorized Transaction Indicator)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "A transaction of a size that is atypical for the customer",
+      "required_action": "Fraud detection and monitoring"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_036",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_036_wrn_002",
+    "name": "Unusual Merchant (Unauthorized Transaction Indicator)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Transaction occurring at a merchant that does not align with customer behavior",
+      "required_action": "Fraud detection and monitoring"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_036",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_036_wrn_003",
+    "name": "Foreign Location (Unauthorized Transaction Indicator)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Transaction originating from a foreign location",
+      "required_action": "Fraud detection and monitoring"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_036",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_036_prd_001",
+    "name": "Customer Card",
+    "properties": {
+      "card_event": "unauthorized use",
+      "training_context": "fraud prevention and detection"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_036",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_036_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "training_context": "fraud prevention and detection",
+      "communication_context": "unauthorized access"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_036",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_036_txn_001",
+    "name": "Unauthorized Transaction",
+    "properties": {
+      "transaction_context": "fraudster uses customer's card/account without permission",
+      "warning_sign_link": [
+        "Large transaction",
+        "unusual merchant",
+        "foreign location"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_036",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_037_mod_001",
+    "name": "Insider Fraud Training",
+    "properties": {
+      "module_topic": "Insider Fraud",
+      "topics_covered": [
+        "Definition of Insider Fraud",
+        "Warning signs of insider fraud",
+        "Prevention methods"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_037",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_037_wrn_001",
+    "name": "Unusual Account Access (Insider Fraud Sign)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Unusual account access by staff members"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_037",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_037_wrn_002",
+    "name": "Undocumented Transactions (Insider Fraud Sign)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Transactions performed by staff that are not properly documented"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_037",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_037_wrn_003",
+    "name": "Authority Abuse (Insider Fraud Sign)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Staff members using their position or authority to commit fraud"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_037",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_037_obl_001",
+    "name": "Whistleblower Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Staff"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_037",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_001",
+    "name": "Customer Seems Coached or Nervous",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Customer appears to be following a script or exhibits signs of anxiety during interaction",
+      "required_action": "Be alert and monitor interaction"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_002",
+    "name": "Inability to Explain Purpose of Transaction",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Customer is unable to provide a clear or logical explanation for the transaction they are performing",
+      "required_action": "Be alert and monitor interaction"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_003",
+    "name": "Use of Unusual Channels or Amounts",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Transaction involves amounts or delivery channels that are atypical for the customer's profile",
+      "required_action": "Be alert and monitor interaction"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_004",
+    "name": "Third Party Controlling Conversation",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "A third party is present and dominating the conversation, preventing the customer from speaking freely",
+      "required_action": "Be alert and monitor interaction"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_005",
+    "name": "Immediate Cash Request After Deposit",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Customer requests a cash withdrawal immediately following a deposit",
+      "required_action": "Be alert and monitor interaction"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_006",
+    "name": "Teller Colleague Bypassing Controls",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "A teller colleague is intentionally avoiding or skipping established internal controls",
+      "required_action": "Be alert and monitor behavior"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_007",
+    "name": "Teller Colleague Working Unusual Hours Alone",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "A teller colleague is working outside of standard hours without supervision",
+      "required_action": "Be alert and monitor behavior"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_008",
+    "name": "Teller Colleague With Unauthorized Access",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "A teller colleague has access to systems or areas for which they do not have authorization",
+      "required_action": "Be alert and monitor behavior"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_038_wrn_009",
+    "name": "Teller Colleague Making Undocumented Exceptions",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "A teller colleague is granting exceptions to rules or procedures without proper documentation",
+      "required_action": "Be alert and monitor behavior"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_038",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_039_mod_001",
+    "name": "Your Role in Fraud Prevention",
+    "properties": {
+      "module_topic": "Fraud Prevention",
+      "topics_covered": [
+        "Recognizing Fraud",
+        "Monitoring suspicious transactions",
+        "Reporting concerns"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_039",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_039_obj_001",
+    "name": "Recognize Fraud",
+    "properties": {
+      "module": "Your Role in Fraud Prevention",
+      "objective_statement": "Staff must be able to monitor for suspicious transactions, ask probing questions, and trust instincts to identify potential fraud.",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_039",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_039_obl_001",
+    "name": "Report Fraud Concerns",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All staff",
+      "mandatory_action": "Report concerns when suspicious activity is identified"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_039",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_039_wrn_001",
+    "name": "Suspicious Transaction Patterns",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Transactions that seem 'off' or deviate from normal patterns",
+      "required_action": "Ask questions and report concerns"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_039",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_040_obl_001",
+    "name": "Prohibition of Confronting Fraudsters",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "all staff",
+      "consequence_of_failure": "potential safety risk or tipping-off"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_040",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_040_obl_002",
+    "name": "Fraud Observation Documentation Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "all staff",
+      "required_action": "Document observations"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_040",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_040_obl_003",
+    "name": "Managerial Fraud Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "escalation_path": "manager"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_040",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_040_obl_004",
+    "name": "Compliance and Financial Crime Team Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "escalation_path": "Compliance/Financial Crime team"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_040",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_040_obl_005",
+    "name": "Adherence to Fraud Policy Procedures",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "regulatory_source": "policy_fraud"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_040",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_041_mod_001",
+    "name": "Prevent Fraud Training",
+    "properties": {
+      "module_topic": "Prevent Fraud",
+      "topics_covered": [
+        "KYC/AML procedures",
+        "Secure password usage",
+        "Computer security",
+        "Credential confidentiality",
+        "Account monitoring"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_041",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_041_obl_001",
+    "name": "Adherence to KYC/AML Procedures",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "risk_domain": "aml"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_041",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_041_obl_002",
+    "name": "Secure Password Usage",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "risk_domain": "data_protection"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_041",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_041_obl_003",
+    "name": "Computer Locking Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "risk_domain": "data_protection"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_041",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_041_obl_004",
+    "name": "Credential Confidentiality",
+    "properties": {
+      "obligation_type": "prohibition",
+      "description": "Don't share credentials",
+      "risk_domain": "data_protection"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_041",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_041_obl_005",
+    "name": "Account Monitoring Duty",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Monitor your own account"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_041",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_mod_001",
+    "name": "Help Customers Prevent Fraud",
+    "properties": {
+      "module_topic": "Fraud Prevention",
+      "topics_covered": [
+        "Security hygiene",
+        "Transaction monitoring",
+        "Phishing scams",
+        "Card security practices"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_obj_001",
+    "name": "Educate Customers on Security Hygiene",
+    "properties": {
+      "module": "Help Customers Prevent Fraud",
+      "objective_statement": "Educate customers on security hygiene, specifically strong passwords and 2FA",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_obj_002",
+    "name": "Encourage Customer Transaction Monitoring",
+    "properties": {
+      "module": "Help Customers Prevent Fraud",
+      "objective_statement": "Encourage customers to monitor their transactions",
+      "skill_type": "behaviour"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_obj_003",
+    "name": "Advise Customers on Phishing Scams",
+    "properties": {
+      "module": "Help Customers Prevent Fraud",
+      "objective_statement": "Advise customers on how to identify and handle phishing scams",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_obj_004",
+    "name": "Promote Card Security Practices",
+    "properties": {
+      "module": "Help Customers Prevent Fraud",
+      "objective_statement": "Promote best practices for card security",
+      "skill_type": "behaviour"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "training_context": "Target of fraud prevention education regarding security hygiene, phishing, and card safety",
+      "protection_taught": [
+        "Strong passwords",
+        "2FA",
+        "Transaction monitoring",
+        "Phishing awareness",
+        "Card security"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_txn_001",
+    "name": "Customer Transactions",
+    "properties": {
+      "transaction_context": "Monitoring for fraud prevention"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_042_crd_001",
+    "name": "Payment Card",
+    "properties": {
+      "training_context": "Card security practices to prevent fraud"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_042",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_043_prod_001",
+    "name": "Direct Debit Guarantee",
+    "properties": {
+      "key_features_taught": [
+        "Full refund for unauthorized Direct Debits",
+        "Refund for wrong amounts charged",
+        "Refund for duplicate payments"
+      ],
+      "customer_facing_messaging": "Automatic protection with no liability and no questions asked refunds"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_043",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_043_obl_001",
+    "name": "Direct Debit Refund Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 10 days",
+      "applies_to": "FirstUK Bank",
+      "verification_method": "Refund issuance for unauthorized, incorrect, or duplicate payments"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_043",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_043_cust_001",
+    "name": "Direct Debit Customer",
+    "properties": {
+      "protection_taught": [
+        "Full refund for unauthorized payments",
+        "Full refund for incorrect amounts",
+        "Full refund for duplicate payments",
+        "No liability for errors"
+      ],
+      "training_context": "Customer Fraud Protection"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_043",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_044_mod_001",
+    "name": "Chargeback (Card Fraud) Training",
+    "properties": {
+      "module_topic": "Chargeback (Card Fraud)",
+      "topics_covered": [
+        "Unauthorized card transactions",
+        "Merchant error",
+        "Item not received"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_044",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_044_obj_001",
+    "name": "Understanding Chargeback Dispute Categories",
+    "properties": {
+      "module": "Chargeback (Card Fraud) Training",
+      "objective_statement": "Understand the different categories of chargeback disputes including unauthorized transactions, merchant errors, and items not received"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_044",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_044_obl_001",
+    "name": "Fraud Reporting Timeline Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "within 120 days",
+      "verification_method": "Bank investigation and dispute with merchant"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_044",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_044_prd_001",
+    "name": "Payment Card",
+    "properties": {
+      "training_module": "Chargeback (Card Fraud) Training",
+      "key_features_taught": [
+        "Chargeback dispute process",
+        "Fraud reporting timelines"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_044",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_044_trn_001",
+    "name": "Unauthorized Card Transaction",
+    "properties": {
+      "transaction_context": "Chargeback dispute with card scheme",
+      "warning_sign_link": "Card Fraud"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_044",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_045_obl_001",
+    "name": "Customer Reporting Obligation for Unauthorized Transactions",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Customer",
+      "timeframe": "within 120 days",
+      "consequence_of_failure": "Bank is not liable for the fraud"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_045",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_045_obl_002",
+    "name": "Customer Security Measure Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Customer",
+      "description": "Follow reasonable security measures",
+      "consequence_of_failure": "Bank is not liable for unauthorized transactions"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_045",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_045_wrn_001",
+    "name": "Gross Negligence via Credential Sharing (Security Warning)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Gross negligence regarding security credentials",
+      "examples": [
+        "shared password",
+        "written PIN"
+      ],
+      "consequence": "Bank is not liable for resulting transactions"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_045",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_045_tra_001",
+    "name": "Unauthorized Transaction",
+    "properties": {
+      "transaction_context": "Liability determination for fraud",
+      "warning_sign_link": "wrn_001"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_045",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_045_acc_001",
+    "name": "Customer Account Balance",
+    "properties": {
+      "communication_context": "Liability limit for unauthorized transactions",
+      "training_context": "Maximum reimbursement threshold"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_045",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_046_obl_001",
+    "name": "Obligation to Report All Suspicious Activity to Compliance",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All Staff",
+      "required_action": "Report ALL concerns to Compliance"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_046",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_046_obl_002",
+    "name": "Obligation to Treat All Customer Fraud Reports Seriously",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All Staff",
+      "required_action": "Take all fraud reports seriously"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_046",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_046_obl_003",
+    "name": "Prohibition on Sharing Access Credentials",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "All Staff",
+      "required_action": "Keep credentials private always"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_046",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_046_wrn_001",
+    "name": "Convincing Fraudster Persona (Fraud Indicator)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Fraudsters can be very convincing and may not be obvious",
+      "required_action": "Stay alert"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_046",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_mod_001",
+    "name": "Module 5 — Reporting Obligations",
+    "properties": {
+      "module_number": 5,
+      "module_topic": "Reporting Obligations",
+      "topics_covered": [
+        "Types of Reports",
+        "Suspicious Activity Report (SAR)",
+        "Filing Procedures"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_obj_001",
+    "name": "Understanding SAR Filing Requirements",
+    "properties": {
+      "module": "Module 5 — Reporting Obligations",
+      "objective_statement": "Understand when and how to file a Suspicious Activity Report (SAR)"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_wrn_001",
+    "name": "Suspicious Transaction Exceeding £5,000",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "A single transaction exceeding £5,000 that appears suspicious",
+      "required_action": "File SAR",
+      "escalation_path": "Compliance Manager"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_wrn_002",
+    "name": "Pattern of Unusual Activity",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "A series of transactions that deviate from normal customer behavior",
+      "required_action": "File SAR",
+      "escalation_path": "Compliance Manager"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_wrn_003",
+    "name": "Potential Money Laundering",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Activity suggesting the concealment of the origins of illegally obtained money",
+      "required_action": "File SAR",
+      "escalation_path": "Compliance Manager"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_wrn_004",
+    "name": "Fraud Indicators",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Indicators suggesting fraudulent activity",
+      "required_action": "File SAR",
+      "escalation_path": "Compliance Manager"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_wrn_005",
+    "name": "Sanctions List Match",
+    "properties": {
+      "risk_domain": "sanctions",
+      "description": "Customer or entity matching a known sanctions list",
+      "required_action": "File SAR",
+      "escalation_path": "Compliance Manager"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_wrn_006",
+    "name": "Rapid Movement of Large Cash Deposits to Unknown Parties",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Customer deposits large sums of cash and quickly withdraws/transfers them to unknown parties",
+      "examples": [
+        "Customer deposits £30k cash, withdraws £30k to unknown party next day"
+      ],
+      "required_action": "File SAR",
+      "escalation_path": "Compliance Manager"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_obl_001",
+    "name": "SAR Filing Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All staff",
+      "verification_method": "Document filing"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_obl_002",
+    "name": "SAR Submission Deadline",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "within 30 days",
+      "regulatory_source": "FCA"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_047_sar_001",
+    "name": "Suspicious Activity Report (SAR)",
+    "properties": {
+      "training_module": "Module 5 — Reporting Obligations",
+      "filing_steps_taught": [
+        "Document suspicious activity",
+        "Report to Compliance Manager",
+        "Complete SAR form",
+        "Submit to FCA",
+        "Document filing"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_047",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_048_obl_001",
+    "name": "Currency Transaction Report (CTR) Filing Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "within 5 business days",
+      "regulatory_source": "FCA",
+      "mandatory_action": "File CTR for cash transactions exceeding £10,000",
+      "reporting_requirements": [
+        "Customer name and ID",
+        "Transaction date and amount",
+        "Transaction purpose (if known)",
+        "Customer status (new or existing)"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_048",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_048_wrn_001",
+    "name": "Cash Transaction Exceeding £10,000 (CTR Trigger)",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Any transaction exceeding £10,000 in cash",
+      "required_action": "File a Currency Transaction Report (CTR)",
+      "escalation_path": "FCA"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_048",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_048_cus_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "CTR reporting",
+      "customer_type": [
+        "new",
+        "existing"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_048",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_048_tra_001",
+    "name": "Cash Transaction",
+    "properties": {
+      "transaction_context": "CTR filing trigger",
+      "alert_threshold": ">£10,000",
+      "warning_sign_link": "wrn_001"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_048",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_049_obl_001",
+    "name": "Counterparty Transaction Report (CCTR) Filing Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "trigger_events": [
+        "Transaction involving high-risk countries",
+        "Transaction with PEP or sanctioned party",
+        "Wire transfer outside UK"
+      ],
+      "required_reporting_fields": [
+        "Customer details",
+        "Counterparty details",
+        "Transaction details",
+        "Risk assessment"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_049",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_049_trn_001",
+    "name": "High-Risk Country Transaction",
+    "properties": {
+      "transaction_context": "Triggers a Counterparty Transaction Report (CCTR)",
+      "warning_sign_link": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_049",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_049_trn_002",
+    "name": "PEP or Sanctioned Party Transaction",
+    "properties": {
+      "transaction_context": "Triggers a Counterparty Transaction Report (CCTR)",
+      "warning_sign_link": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_049",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_049_trn_003",
+    "name": "International Wire Transfer",
+    "properties": {
+      "transaction_context": "Wire transfer outside UK; triggers a Counterparty Transaction Report (CCTR)",
+      "warning_sign_link": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_049",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_049_cus_001",
+    "name": "CCTR Customer Details",
+    "properties": {
+      "communication_context": "Required data component for Counterparty Transaction Report (CCTR)"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_049",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_049_aml_001",
+    "name": "CCTR Risk Assessment",
+    "properties": {
+      "reporting_process_taught": "Required component to be included in a Counterparty Transaction Report (CCTR)"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_049",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_obl_001",
+    "name": "Internal Whistleblowing Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "verification_method": "reporting to manager or HR"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_obl_002",
+    "name": "Confidential Whistleblowing Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "verification_method": "contacting Data Protection Officer via dpo@firstuk.bank"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_obl_003",
+    "name": "External Whistleblowing Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "verification_method": "contacting FCA Whistleblowing via 0300 500 0023"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_obl_004",
+    "name": "Non-Retaliation Prohibition",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "all staff",
+      "regulatory_source": "protected by law"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_obl_005",
+    "name": "Whistleblower Confidentiality Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "verification_method": "confidentiality maintained during investigation"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_wrn_001",
+    "name": "Colleague Fraud (Whistleblowing Warning Sign)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "suspicion of fraud committed by a colleague",
+      "required_action": "report via internal, confidential, or external channels"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_wrn_002",
+    "name": "Policy Violation (Whistleblowing Warning Sign)",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "observation of policy violations",
+      "required_action": "report via internal, confidential, or external channels"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_wrn_003",
+    "name": "Compliance Breach (Whistleblowing Warning Sign)",
+    "properties": {
+      "risk_domain": "compliance",
+      "description": "observation of compliance breaches",
+      "required_action": "report via internal, confidential, or external channels"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_050_wrn_004",
+    "name": "General Misconduct (Whistleblowing Warning Sign)",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "witnessing general misconduct",
+      "required_action": "report via internal, confidential, or external channels"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_050",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_051_obl_001",
+    "name": "Detailed Activity Documentation Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "all staff",
+      "mandatory_fields": [
+        "Date",
+        "time",
+        "location",
+        "People involved",
+        "Details of activity",
+        "Reason for suspected violation",
+        "Actions taken",
+        "Outcome"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_051",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_051_obl_002",
+    "name": "Customer File Retention Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "6 years after closure"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_051",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_051_obl_003",
+    "name": "Transaction Record Retention Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "6 years"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_051",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_051_obl_004",
+    "name": "KYC/AML Record Retention Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "5–6 years"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_051",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_051_obl_005",
+    "name": "SAR Record Retention Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "5 years minimum"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_051",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_051_obl_006",
+    "name": "Secure Record Storage and Access Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "storage_requirements": [
+        "Secure filing (locked cabinet)",
+        "Digital records encrypted"
+      ],
+      "access_control": "Limited to authorized staff",
+      "maintenance_requirement": "Backed up regularly"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_051",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_052_mod_001",
+    "name": "Module 6 — Consequences of Non-Compliance",
+    "properties": {
+      "module_number": 6,
+      "module_topic": "Consequences of Non-Compliance",
+      "topics_covered": [
+        "FCA Fines",
+        "Regulatory Action",
+        "Reputational Damage"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_052",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_052_obl_001",
+    "name": "AML Compliance Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "consequence_of_failure": "FCA fines up to £10M+ per incident",
+      "regulatory_source": "FCA"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_052",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_052_obl_002",
+    "name": "GDPR Compliance Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "consequence_of_failure": "Fines up to €20M or 4% revenue",
+      "regulatory_source": "GDPR"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_052",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_052_obl_003",
+    "name": "Customer Protection Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "consequence_of_failure": "Fines up to £50M+",
+      "regulatory_source": "FCA"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_052",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_053_mod_001",
+    "name": "Consequences of Non-Compliance Training",
+    "properties": {
+      "topics_covered": [
+        "Criminal Liability",
+        "Professional Consequences",
+        "Financial Consequences"
+      ],
+      "target_audience": "Staff Member"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_053",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_053_obl_001",
+    "name": "Prohibition of Tipping-Off",
+    "properties": {
+      "obligation_type": "prohibition",
+      "description": "Warning customer of screening",
+      "consequence_of_failure": "Criminal offense"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_053",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_053_obl_002",
+    "name": "Prevention of Money Laundering Facilitation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "consequence_of_failure": "Up to 14 years prison"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_053",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_053_obl_003",
+    "name": "Fraud Prevention Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "consequence_of_failure": "Up to 10 years prison"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_053",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_053_obl_004",
+    "name": "Data Protection Compliance",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "consequence_of_failure": "Up to 2 years prison"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_053",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_mod_001",
+    "name": "Consequence Management Case Studies",
+    "properties": {
+      "module_topic": "Consequence Management Case Studies",
+      "topics_covered": [
+        "AML Failure (Danske Bank)",
+        "Account Fraud (Wells Fargo)",
+        "GDPR Violation (Facebook)"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_wrn_001",
+    "name": "Ignoring Suspicious Transactions (AML Red Flag)",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Staff ignoring suspicious money flows",
+      "examples": [
+        "Danske Bank case: £200B suspicious money allowed through"
+      ],
+      "consequence_of_failure": [
+        "Heavy regulatory fines",
+        "Executive resignations",
+        "Reputational destruction"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_wrn_002",
+    "name": "Unauthorized Account Creation (Fraud Indicator)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Staff creating accounts without customer authorization",
+      "examples": [
+        "Wells Fargo case: Fake accounts created to meet targets"
+      ],
+      "consequence_of_failure": [
+        "Multi-billion dollar fines",
+        "CEO prosecution",
+        "Massive layoffs"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_wrn_003",
+    "name": "Data Sharing Without Consent (GDPR Violation)",
+    "properties": {
+      "risk_domain": "data_protection",
+      "description": "Sharing user data without obtaining proper consent",
+      "examples": [
+        "Facebook case: Shared user data without consent"
+      ],
+      "consequence_of_failure": [
+        "Significant regulatory fines",
+        "Ongoing investigations"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_obl_001",
+    "name": "Ethical Conduct and Target Adherence",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff",
+      "consequence_of_failure": "Prosecution, layoffs, and massive corporate fines",
+      "regulatory_source": "Ethics and Conduct Standards"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_obl_002",
+    "name": "User Data Consent Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "consequence_of_failure": "Heavy fines and regulatory investigations",
+      "regulatory_source": "GDPR"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_txn_001",
+    "name": "Suspicious Money Flow",
+    "properties": {
+      "transaction_context": "AML failure case study",
+      "warning_sign_link": "wrn_001"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_054_acc_001",
+    "name": "Fake Accounts",
+    "properties": {
+      "account_type": "unauthorized",
+      "training_context": "Fraud indicator case study (Wells Fargo)",
+      "communication_context": "Unauthorized account creation"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_054",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_055_obl_001",
+    "name": "Mandatory Training Completion",
+    "properties": {
+      "obligation_type": "training",
+      "applies_to": "all staff",
+      "verification_method": "completion of modules and assessments"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_055",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_055_obl_002",
+    "name": "Escalation of Uncertainties",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "escalation_path": [
+        "manager",
+        "compliance"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_055",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_055_obl_003",
+    "name": "Adherence to SOPs and Policies",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "regulatory_source": [
+        "policy_aml",
+        "policy_customer_identification",
+        "policy_privacy"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_055",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_055_obl_004",
+    "name": "Reporting of Suspicious Activity",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_055",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_055_obl_005",
+    "name": "Documentation of Actions",
+    "properties": {
+      "obligation_type": "documentation",
+      "verification_method": "keeping records of actions taken"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_055",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_055_obl_006",
+    "name": "Annual Refresher Training Attendance",
+    "properties": {
+      "obligation_type": "training",
+      "timeframe": "annually"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_055",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_055_obl_007",
+    "name": "Maintenance of Professional Ethics",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_055",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_mod_001",
+    "name": "Assessment Quiz",
+    "properties": {
+      "pass_threshold": "80%+",
+      "topics_covered": [
+        "AML screening requirements",
+        "KYC document validity",
+        "GDPR customer rights",
+        "Fraud red flags",
+        "Reporting obligations",
+        "Consequences of violations"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obj_001",
+    "name": "AML Screening Requirements Knowledge",
+    "properties": {
+      "module": "Assessment Quiz",
+      "objective_statement": "Understand and apply AML screening requirements",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obj_002",
+    "name": "KYC Document Validity Knowledge",
+    "properties": {
+      "module": "Assessment Quiz",
+      "objective_statement": "Determine the validity of KYC documents",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obj_003",
+    "name": "GDPR Customer Rights Knowledge",
+    "properties": {
+      "module": "Assessment Quiz",
+      "objective_statement": "Understand GDPR customer rights",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obj_004",
+    "name": "Fraud Red Flag Recognition",
+    "properties": {
+      "module": "Assessment Quiz",
+      "objective_statement": "Recognize fraud red flags",
+      "skill_type": "skill",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obj_005",
+    "name": "Reporting Obligations Knowledge",
+    "properties": {
+      "module": "Assessment Quiz",
+      "objective_statement": "Understand reporting obligations",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obj_006",
+    "name": "Consequences of Violations Knowledge",
+    "properties": {
+      "module": "Assessment Quiz",
+      "objective_statement": "Understand the consequences of compliance violations",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obl_001",
+    "name": "Escalation Duty for Missing Proof of Address",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "required_action": "Do not open account and escalate to manager",
+      "verification_method": "Managerial review"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obl_002",
+    "name": "Anti-Tipping-Off Prohibition",
+    "properties": {
+      "obligation_type": "prohibition",
+      "description": "Do not inform a customer they matched a sanctions screen",
+      "consequence_of_failure": "Illegal"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obl_003",
+    "name": "Customer Data Retention Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "timeframe": "6 years after account closure"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_056_obl_004",
+    "name": "Direct Debit Guarantee Refund Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 10 days",
+      "description": "Full refund of unauthorized Direct Debits"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_056",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_mod_001",
+    "name": "Comprehensive Staff Training Program",
+    "properties": {
+      "mandatory": true,
+      "pass_threshold": "80%+",
+      "topics_covered": [
+        "AML and Sanctions Requirements",
+        "KYC Document Requirements",
+        "GDPR and Data Rights",
+        "Fraud Red Flags",
+        "Reporting Obligations",
+        "Consequences of Non-compliance"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obj_001",
+    "name": "Understanding AML and Sanctions Requirements",
+    "properties": {
+      "module": "Comprehensive Staff Training Program",
+      "objective_statement": "Understand AML/sanctions requirements",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obj_002",
+    "name": "Knowledge of KYC Document Requirements",
+    "properties": {
+      "module": "Comprehensive Staff Training Program",
+      "objective_statement": "Know KYC document requirements",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obj_003",
+    "name": "Understanding GDPR and Data Rights",
+    "properties": {
+      "module": "Comprehensive Staff Training Program",
+      "objective_statement": "Understand GDPR and data rights",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obj_004",
+    "name": "Identification of Fraud Red Flags",
+    "properties": {
+      "module": "Comprehensive Staff Training Program",
+      "objective_statement": "Can identify fraud red flags",
+      "skill_type": "skill",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obj_005",
+    "name": "Knowledge of Reporting Obligations",
+    "properties": {
+      "module": "Comprehensive Staff Training Program",
+      "objective_statement": "Know reporting obligations",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obj_006",
+    "name": "Understanding of Consequences",
+    "properties": {
+      "module": "Comprehensive Staff Training Program",
+      "objective_statement": "Understand consequences",
+      "skill_type": "knowledge",
+      "assessed_in_quiz": true
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obl_001",
+    "name": "Mandatory Training Completion and Assessment",
+    "properties": {
+      "obligation_type": "training",
+      "applies_to": "All Staff",
+      "verification_method": "Assessment quiz score of 80%+"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_057_obl_002",
+    "name": "Signed Training Acknowledgment",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "All Staff",
+      "verification_method": "Signed acknowledgment"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_057",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_058_obl_001",
+    "name": "Compliance Training Completion Obligation",
+    "properties": {
+      "obligation_type": "training",
+      "applies_to": "All staff signing the acknowledgment",
+      "verification_method": "Staff signature and Manager sign-off",
+      "documentation": "Signed Staff Acknowledgment form"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_058",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_058_obl_002",
+    "name": "Policy Adherence Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff signing the acknowledgment",
+      "description": "Understand and follow all FirstUK Bank policies and procedures going forward",
+      "verification_method": "Staff signature and Manager sign-off"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_058",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_058_obl_003",
+    "name": "Concern Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All staff signing the acknowledgment",
+      "description": "Knowledge of how to report concerns",
+      "verification_method": "Staff signature and Manager sign-off"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_058",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_058_obl_004",
+    "name": "Violation Consequences Awareness Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff signing the acknowledgment",
+      "description": "Understanding the consequences of policy violations",
+      "verification_method": "Staff signature and Manager sign-off"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_058",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_061_mod_001",
+    "name": "Annual Renewal Training",
+    "properties": {
+      "module_topic": "Annual Renewal",
+      "completion_frequency": "annual",
+      "expiry_date": "January 15, 2027",
+      "scheduling_deadline": "December 31, 2026",
+      "support_contacts": [
+        "Head of Compliance (compliance@firstuk.bank)",
+        "Data Protection Officer (dpo@firstuk.bank)",
+        "Line Manager"
+      ]
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_061",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  },
+  {
+    "id": "9f30e6c2879a420c82eed6a810cd57b3_061_obl_001",
+    "name": "Annual Training Completion Obligation",
+    "properties": {
+      "obligation_type": "training",
+      "timeframe": "By January 15, 2027",
+      "mandatory": true,
+      "action_required": "Schedule training via email to training@firstuk.bank by December 31, 2026"
+    },
+    "chunk_id": "9f30e6c2879a420c82eed6a810cd57b3_061",
+    "doc_id": "9f30e6c2879a420c82eed6a810cd57b3"
+  }
+]

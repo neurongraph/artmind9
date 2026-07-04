@@ -1,0 +1,2387 @@
+{
+  "embedding": [
+    -0.0079722805,
+    0.072951265,
+    -0.19214343,
+    -0.024907876,
+    0.090125956,
+    -0.05390535,
+    0.011286052,
+    -0.008276622,
+    -0.029537879,
+    -0.030634427,
+    -0.0032955196,
+    0.02573904,
+    0.059728626,
+    -0.031908244,
+    0.018117175,
+    -0.00979085,
+    0.056556746,
+    -0.031135453,
+    -0.038691826,
+    0.026008299,
+    0.011189089,
+    -0.030765278,
+    -0.012966324,
+    -0.00588308,
+    0.045789465,
+    0.013898288,
+    -0.012263939,
+    -0.030670652,
+    0.019571096,
+    -0.0530848,
+    0.06683199,
+    -0.057419453,
+    0.012894377,
+    -0.07223533,
+    -0.018199543,
+    -0.058119275,
+    0.044422593,
+    -0.017291611,
+    -0.030591102,
+    -0.03561513,
+    0.019242017,
+    0.015988162,
+    -0.01828232,
+    -0.06474937,
+    -0.0051046605,
+    -0.0043188576,
+    0.012355597,
+    -0.029660854,
+    0.08225959,
+    -0.03906105,
+    0.03322277,
+    0.03653935,
+    -0.030782454,
+    -0.009052,
+    0.06059116,
+    0.010494679,
+    -0.020274442,
+    0.0051945928,
+    -0.05036436,
+    -0.05752218,
+    0.10666437,
+    0.021676313,
+    0.0031716104,
+    0.07094825,
+    0.06590775,
+    -0.02671274,
+    -0.0051889196,
+    0.06109912,
+    0.039241374,
+    -0.029342117,
+    0.031785816,
+    -0.021448104,
+    0.02241536,
+    0.0067782863,
+    -0.010399375,
+    -0.01536722,
+    0.043054838,
+    -0.049960926,
+    -0.023290783,
+    0.034228783,
+    0.009522934,
+    -0.0175669,
+    0.058588337,
+    -0.008522486,
+    0.057696085,
+    -0.034103315,
+    -0.032391272,
+    -0.009947645,
+    -0.055936445,
+    0.11324593,
+    0.047534365,
+    -0.0033995665,
+    0.00041998818,
+    0.03819052,
+    -0.04522477,
+    -0.0063870205,
+    0.022412501,
+    0.009489689,
+    -0.014092336,
+    -0.025811406,
+    -0.019942677,
+    0.0029886516,
+    -0.038071193,
+    0.01694627,
+    0.0067464807,
+    -0.0034189073,
+    0.025079628,
+    -0.0040980424,
+    0.004672808,
+    0.0132950535,
+    -0.011007365,
+    0.023386257,
+    -0.03569132,
+    0.013448605,
+    0.051439825,
+    -0.0054389914,
+    0.024680413,
+    -0.0726362,
+    -0.0005226771,
+    0.03122024,
+    0.014212887,
+    -0.035545647,
+    -0.0429109,
+    -0.022967476,
+    -0.007182431,
+    -0.0010403257,
+    -0.06682999,
+    -0.022003433,
+    -0.046020612,
+    -0.043423325,
+    0.007151995,
+    0.017982652,
+    -0.034311626,
+    0.025491957,
+    0.033603944,
+    0.030589381,
+    -0.070515685,
+    -0.054393075,
+    -0.0007476739,
+    0.032133106,
+    0.02639217,
+    0.06631346,
+    -0.014673178,
+    0.017225957,
+    -0.002882974,
+    -0.030019738,
+    0.0182439,
+    -0.020537497,
+    -0.06430393,
+    0.030264296,
+    -0.00013981735,
+    0.0107982345,
+    -0.0036381253,
+    0.034118786,
+    0.013304152,
+    -0.07030417,
+    -0.0062607387,
+    0.048176177,
+    0.011522322,
+    0.0768543,
+    0.029354636,
+    0.023886265,
+    -0.09493143,
+    0.04144328,
+    0.007895937,
+    -0.017203543,
+    0.0021765311,
+    0.021007502,
+    0.018889025,
+    0.053927414,
+    -0.08732936,
+    -0.050232586,
+    0.025520314,
+    0.007914475,
+    0.022499662,
+    0.036215633,
+    0.042186808,
+    -0.023856211,
+    -0.007850899,
+    -0.025935274,
+    0.060064547,
+    -0.086743094,
+    0.032107614,
+    0.0015860406,
+    -0.0532975,
+    0.021015747,
+    0.0045392564,
+    -0.054011952,
+    -0.0058950908,
+    -0.027824497,
+    0.024001248,
+    0.0050758137,
+    -0.048897035,
+    -0.026511746,
+    -0.07917115,
+    -0.049214415,
+    0.033416856,
+    -0.017094823,
+    0.043580275,
+    -0.012746907,
+    -0.03449967,
+    0.023598913,
+    -0.05749547,
+    0.015157687,
+    -0.0024797271,
+    0.06823341,
+    -0.016860213,
+    0.061864134,
+    0.022986818,
+    0.03413391,
+    0.07427865,
+    -0.02532132,
+    0.013968942,
+    -0.014303003,
+    -0.009643057,
+    -0.032232683,
+    0.058718707,
+    -0.031266462,
+    -0.05304013,
+    0.00051537884,
+    0.046252385,
+    0.025038524,
+    0.0001655281,
+    0.0025300758,
+    0.014312353,
+    -0.027815308,
+    -0.034109227,
+    -0.025137266,
+    0.022113815,
+    0.0038433683,
+    -0.0208826,
+    -0.054191325,
+    0.031879883,
+    -0.009563604,
+    -0.018631645,
+    0.02026802,
+    -0.03675479,
+    0.024687808,
+    0.020607376,
+    0.031850416,
+    0.06793509,
+    0.046373654,
+    -0.025462002,
+    -0.0317424,
+    -0.032708976,
+    -0.0028287184,
+    -0.003393392,
+    -0.024612112,
+    0.046642788,
+    0.07260187,
+    0.027056864,
+    0.0324081,
+    0.006703422,
+    0.023821777,
+    0.045769557,
+    -0.00982818,
+    -0.029722454,
+    0.044743065,
+    -0.04391048,
+    -0.011007535,
+    0.022601133,
+    -0.032182753,
+    0.013115628,
+    -0.019949483,
+    0.007953042,
+    -0.0360284,
+    -0.048919942,
+    -0.0015759445,
+    0.012200579,
+    0.0011746829,
+    0.030012384,
+    0.05392164,
+    -0.020807028,
+    0.07130814,
+    -0.00048205067,
+    8.0456746e-05,
+    -0.008030402,
+    -0.0036078303,
+    -0.056195296,
+    0.011379879,
+    -0.050063394,
+    -0.04793135,
+    -0.008576143,
+    -0.0045564114,
+    0.007937346,
+    0.023106102,
+    -0.010797149,
+    -0.047985107,
+    0.02967964,
+    -0.0075601735,
+    0.045287915,
+    0.016511172,
+    -0.01112879,
+    0.009685252,
+    -0.025028842,
+    0.043673877,
+    0.020756043,
+    -0.03442156,
+    0.0005883628,
+    -0.06625358,
+    0.0053048795,
+    0.041485723,
+    0.035877846,
+    0.028651915,
+    -0.03225604,
+    -0.03564192,
+    -0.048866954,
+    0.035221756,
+    0.013550423,
+    -0.005760043,
+    -0.0020222845,
+    -0.016387537,
+    -0.017045379,
+    0.007298139,
+    -0.023815814,
+    -0.022445787,
+    0.024230095,
+    0.021065537,
+    0.045421872,
+    -0.028817587,
+    0.014232957,
+    -0.028237859,
+    -0.030628812,
+    -0.060570084,
+    -0.034552813,
+    0.06197986,
+    -0.0061094123,
+    0.021216545,
+    0.022069085,
+    0.017058257,
+    0.016710894,
+    0.06759634,
+    0.029463546,
+    -0.030591752,
+    0.047159325,
+    0.046901643,
+    0.009492028,
+    0.0060835914,
+    0.0012537087,
+    0.041543946,
+    0.038438156,
+    -0.022465218,
+    0.00023867951,
+    -0.024717135,
+    -0.018763745,
+    -0.028084658,
+    0.0015864001,
+    -0.011748313,
+    0.019300666,
+    0.007906748,
+    -0.010778809,
+    0.020521346,
+    -0.06988953,
+    -0.037740033,
+    0.0024717457,
+    0.03142241,
+    0.022776257,
+    0.04027677,
+    0.0085208425,
+    -0.023626337,
+    0.009990061,
+    0.026090218,
+    0.04778753,
+    0.009620227,
+    0.025473436,
+    0.051851675,
+    0.048281867,
+    0.0048439703,
+    0.005881373,
+    0.046156,
+    -0.030660179,
+    -0.011846791,
+    0.012411711,
+    0.035417374,
+    -0.007008136,
+    0.028959585,
+    -0.05157758,
+    -0.006724117,
+    -0.061161086,
+    0.01168884,
+    0.04268488,
+    0.031593718,
+    -0.009144344,
+    0.01230067,
+    0.035869725,
+    0.015339598,
+    0.038710553,
+    -0.04605934,
+    -0.0013590006,
+    0.015269982,
+    -0.04927795,
+    0.014444143,
+    0.016285889,
+    0.0045783953,
+    0.027222143,
+    -0.020557655,
+    -0.012460989,
+    -0.017567769,
+    0.026208736,
+    0.05283692,
+    -0.081108116,
+    -0.04476571,
+    0.0046776,
+    0.01575039,
+    -0.012148223,
+    -0.011198017,
+    -0.037778683,
+    0.008644546,
+    0.044585213,
+    0.02671449,
+    0.039434887,
+    0.02400267,
+    0.00437623,
+    -0.03895948,
+    0.06417877,
+    -0.0018075034,
+    0.05689211,
+    -0.020837663,
+    -0.035146352,
+    0.04288499,
+    0.00976899,
+    0.020600982,
+    0.0592889,
+    -0.0057778596,
+    0.07226989,
+    0.0331204,
+    0.026548482,
+    -0.018571641,
+    0.023106234,
+    -0.044050004,
+    0.0448182,
+    0.027218085,
+    0.0019926825,
+    0.006031832,
+    0.014439641,
+    0.05083365,
+    0.05003743,
+    0.018271714,
+    0.05047967,
+    0.03316577,
+    0.026362676,
+    -0.016669538,
+    -0.039553396,
+    0.008331548,
+    0.010038197,
+    0.06606955,
+    0.05987619,
+    -0.038721345,
+    -0.035195675,
+    0.028989421,
+    0.0088077495,
+    0.0044077234,
+    0.022347372,
+    0.04230214,
+    0.093080126,
+    -0.019951656,
+    -0.016763028,
+    0.011983545,
+    -0.0044084615,
+    -0.021699404,
+    -0.011218062,
+    -0.0034497287,
+    -0.057784975,
+    0.0025007064,
+    -0.0036276614,
+    0.0092713935,
+    -0.046865728,
+    -0.0018741,
+    0.018536258,
+    0.12361522,
+    -0.04177287,
+    -0.009967742,
+    -0.0074417423,
+    -0.03667758,
+    0.0057077236,
+    0.013398714,
+    -0.00059394893,
+    0.0069359997,
+    0.016462192,
+    0.051292054,
+    0.029566182,
+    -0.024445409,
+    -0.06500921,
+    -0.07391182,
+    -0.016887695,
+    0.040748235,
+    0.018243982,
+    -0.042508375,
+    0.027903268,
+    -0.06450054,
+    0.061234992,
+    0.017032381,
+    0.0015087316,
+    -0.011807986,
+    -0.03661161,
+    0.005557956,
+    -0.020930637,
+    0.0073857764,
+    0.015116741,
+    -0.008975625,
+    0.020807628,
+    0.041593555,
+    -0.037809875,
+    0.02566983,
+    0.021574982,
+    0.016749933,
+    0.066336095,
+    -0.062187504,
+    -0.05232518,
+    -0.019614711,
+    -0.0043163085,
+    0.018338637,
+    0.01605087,
+    -0.030804329,
+    0.03342649,
+    -0.046461053,
+    0.030336468,
+    -0.016448982,
+    -0.037303194,
+    0.0018508604,
+    0.036618877,
+    -0.03056885,
+    -0.018412955,
+    -0.010919691,
+    -0.06389577,
+    0.04368138,
+    -0.004641965,
+    -0.03141913,
+    0.046312474,
+    -0.014797093,
+    -0.009214201,
+    0.010242504,
+    0.028010625,
+    0.037573252,
+    -0.025491145,
+    -0.002785212,
+    -0.016233247,
+    0.0018358135,
+    0.07074348,
+    0.004607253,
+    0.026924217,
+    -0.0018571926,
+    -0.020045336,
+    0.030277308,
+    0.006909548,
+    -0.0431334,
+    -0.018571796,
+    0.03752258,
+    0.0063811806,
+    -0.024872202,
+    0.065940924,
+    -0.073460884,
+    0.0032723208,
+    -0.00784588,
+    -0.0015443857,
+    -0.0035235328,
+    -0.0005133386,
+    -0.0454532,
+    -0.0324841,
+    -0.021205576,
+    -0.027688915,
+    0.025973182,
+    0.07639326,
+    0.027929537,
+    -0.0069588465,
+    -0.060927477,
+    -0.016216189,
+    -0.023287492,
+    -0.022978574,
+    0.00010784235,
+    0.01875311,
+    -0.033322223,
+    -0.029529527,
+    -0.012673078,
+    -0.03132548,
+    -0.020089407,
+    0.026209686,
+    0.0019005385,
+    -0.038065393,
+    -0.009691251,
+    0.055705253,
+    -0.05929482,
+    -0.026305825,
+    0.016499354,
+    -0.03785506,
+    0.0400369,
+    -0.034266155,
+    -0.08852263,
+    -0.006378886,
+    -0.07142361,
+    0.03134526,
+    0.002681792,
+    0.0022496532,
+    0.0048054955,
+    -0.00010945653,
+    0.015132672,
+    0.055975616,
+    -0.004323638,
+    -0.031203441,
+    -0.0022969693,
+    -0.057380747,
+    0.04656382,
+    0.04268424,
+    -0.07780546,
+    0.013545701,
+    0.01999093,
+    0.0032030793,
+    0.00967045,
+    -0.014159995,
+    -0.028745877,
+    0.028216576,
+    -0.019352134,
+    -0.0005614213,
+    0.0047940887,
+    0.040318124,
+    -0.014051864,
+    0.033252187,
+    0.0031298592,
+    0.020460626,
+    -0.009892313,
+    -0.015928097,
+    -0.014064202,
+    0.031442974,
+    -0.011031863,
+    -0.018874098,
+    -0.030255813,
+    -0.040939353,
+    -0.040085696,
+    -0.027858764,
+    0.02323815,
+    -0.03241727,
+    0.04042689,
+    -0.03550518,
+    -0.013679962,
+    -0.057974014,
+    0.0138157755,
+    0.018284988,
+    0.018753434,
+    0.008725035,
+    0.023026906,
+    0.05300908,
+    -0.054073088,
+    -0.033481024,
+    0.059738543,
+    0.05194117,
+    -0.021908501,
+    -0.0011018479,
+    -0.0071118567,
+    0.063564055,
+    0.0009894908,
+    0.044799574,
+    0.0070238295,
+    -0.010936558,
+    -0.018251877,
+    0.010560444,
+    0.014416247,
+    -0.0045980536,
+    -0.03716181,
+    -0.049221665,
+    -0.013041498,
+    0.022746429,
+    -0.0008696217,
+    0.02666635,
+    0.019979673,
+    0.0022336,
+    -0.01254551,
+    0.013134661,
+    0.00048632038,
+    -0.06336712,
+    -0.064704455,
+    0.043837976,
+    0.053345058,
+    -0.0043464624,
+    0.0018416644,
+    -0.006604482,
+    0.021108799,
+    0.07933391,
+    0.05049937,
+    -0.0152103435,
+    0.020536067,
+    0.00430723,
+    0.017562054,
+    0.05704785,
+    -0.014546698,
+    -0.016022492,
+    -0.04369409,
+    0.05870814,
+    -0.019917877,
+    -0.03349369,
+    -0.052913602,
+    -0.009765764,
+    -0.050365817,
+    -0.012801073,
+    -0.029339548,
+    -0.024481347,
+    0.057639252,
+    -0.0068983007,
+    -0.0074810386,
+    -0.08388279,
+    0.05446438,
+    -0.03514049,
+    0.039973915,
+    -0.008595056,
+    0.05330005,
+    -0.01091503,
+    0.034232054,
+    0.02913046,
+    -0.0055322526,
+    -0.011044504,
+    -0.048646946,
+    -0.015961682,
+    0.033550818,
+    -0.03449791,
+    0.04249856,
+    0.010857185,
+    0.038839195,
+    -0.01903815,
+    -0.046577983,
+    0.016367553,
+    0.01142215,
+    0.014638883,
+    -0.024242265,
+    -0.09738443,
+    -0.035503276,
+    -0.012975336,
+    0.0025771584,
+    0.022357712,
+    -0.038345136,
+    -0.03761522,
+    -0.07202045,
+    -0.030238546,
+    -0.03780909,
+    -0.041752025,
+    0.0333967,
+    0.018441366,
+    0.009489634,
+    -0.034581877,
+    -0.030367047,
+    -0.043540724,
+    -0.03244319,
+    -0.042563565,
+    0.027045334,
+    -0.018065842,
+    0.01009168,
+    0.0038128202,
+    -0.0038537416,
+    -0.039813105,
+    0.06727164,
+    -0.005613736,
+    -0.050714705,
+    0.05568509,
+    -0.031785756,
+    -0.052498963,
+    0.0023139855,
+    -0.025867598,
+    -0.03194196,
+    0.02719119,
+    0.066136286,
+    0.09229567,
+    0.055352952,
+    0.038838174,
+    -0.048307557,
+    0.018439358,
+    -0.017404262,
+    -0.022250693,
+    -0.06749166,
+    -0.036378514,
+    -0.05676211
+  ],
+  "chunk_seq": 6,
+  "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+  "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+  "text": "# Generative AI at Nationwide – Partnership  \n9  \nNationwide and IBM confidential   |    © 2024 IBM Corporation  \nOver the last year, our joint Nationwide &amp; IBM teams have successfully defined how AI will be put to work safely and responsibly at Nationwide, built generative AI muscle through the POC experiments and begun setting up the foundations for accelerated delivery and governance.  \n| Aug 24   | Sep 24   | Oct 24   | Nov 24   | Dec 24   | Jan 25   | Feb 25   | Mar 25   | Apr 25   | May 25   | Jun 25   | Jul 25   |\n|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|----------|  \nQA-AI Assist POC  \nPilot Rollout  \nComplaints Pilot go-Live  \nComplaints onboarding new journeys  \nScale out  \nGenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)  \nOther x n use cases  \nIntegration with Lakehouse, Solution Accelerators, Agentic workflows, Small Language Model  \nDocuments Intelligence  \nPilot rollout  \nI  \nFIGMA Code Converter POC  \nFIGMA – React Code Conversion  \nCobol IQP+ (Testing) PoC  \nIQP+ Deployed  \nCustomer  \nColleague  \nIT Operations  \nFraud Analysis  \nPilot Rollout  \nCall Transcripts  \nArti 2 – Watsonx Assitant v2",
+  "name": "Chunk 6/7",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_005",
+  "next_chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_007",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide & IBM",
+        "the client",
+        "our joint teams"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services organization and the primary client for the generative AI partnership initiative. The document outlines a multi-month roadmap for deploying AI solutions safely and responsibly across customer, colleague, and IT operations domains.",
+      "context": [
+        "Nationwide and IBM confidential",
+        "our joint Nationwide & IBM teams have successfully defined how AI will be put to work safely and responsibly at Nationwide",
+        "Complaints onboarding new journeys"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Corporation",
+        "the partner"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The technology and consulting partner collaborating with Nationwide on a joint generative AI delivery and governance program. IBM provides the underlying platforms, accelerators, and AI workforce to support the client's transformation.",
+      "context": [
+        "Nationwide and IBM confidential",
+        "© 2024 IBM Corporation",
+        "our joint Nationwide & IBM teams have successfully defined"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "Generative AI",
+      "aliases": [
+        "GenAI",
+        "AI muscle",
+        "AI initiatives"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "The core strategic offering being deployed across Nationwide's operations. The solution encompasses a suite of AI-driven capabilities, platforms, and use cases designed to modernize workflows, enhance customer experience, and improve operational efficiency.",
+      "context": [
+        "how AI will be put to work safely and responsibly at Nationwide",
+        "built generative AI muscle through the POC experiments",
+        "Other x n use cases"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "GenAI Platform Federation",
+      "aliases": [
+        "Platform Federation",
+        "Federated AI Platform"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "A centralized governance and delivery architecture enabling scalable AI consumption. It integrates API management, consumer access controls, and governance frameworks to ensure secure and compliant AI deployment across the enterprise.",
+      "context": [
+        "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)",
+        "begun setting up the foundations for accelerated delivery and governance"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "WatsonX.gov",
+      "aliases": [
+        "WatsonX Government",
+        "Governance Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "platform",
+      "description": "IBM's enterprise governance and risk management platform integrated into the GenAI Federation. It provides the controls, auditing, and compliance frameworks necessary to deploy AI safely and responsibly at scale.",
+      "context": [
+        "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)"
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "Watsonx Assistant v2",
+      "aliases": [
+        "Arti 2",
+        "Watsonx Assitant v2",
+        "Watson Assistant v2"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "The second version of IBM's conversational AI platform, positioned as a key delivery vehicle for customer and colleague-facing generative AI applications within the Nationwide ecosystem.",
+      "context": [
+        "Arti 2 – Watsonx Assitant v2"
+      ]
+    },
+    {
+      "id": "tech_003",
+      "name": "FIGMA Code Converter",
+      "aliases": [
+        "Figma Converter",
+        "Design-to-Code Tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "An AI-powered development tool used to translate FIGMA design prototypes into functional React code. It accelerates front-end development and reduces manual coding effort for UI/UX modernization.",
+      "context": [
+        "FIGMA Code Converter POC",
+        "FIGMA – React Code Conversion"
+      ]
+    },
+    {
+      "id": "tech_004",
+      "name": "Cobol IQP+",
+      "aliases": [
+        "IQP+",
+        "Cobol Testing Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "tool",
+      "description": "A specialized testing and quality assurance tool focused on legacy COBOL systems. It is being piloted to validate testing workflows and support modernization efforts for older application codebases.",
+      "context": [
+        "Cobol IQP+ (Testing) PoC",
+        "IQP+ Deployed"
+      ]
+    },
+    {
+      "id": "tech_005",
+      "name": "Lakehouse",
+      "aliases": [
+        "Data Lakehouse",
+        "Lakehouse Architecture"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "infrastructure",
+      "description": "A modern data architecture combining data warehousing and data lake capabilities. It serves as the foundational data layer for integrating AI workloads, accelerators, and agentic workflows.",
+      "context": [
+        "Integration with Lakehouse, Solution Accelerators, Agentic workflows, Small Language Model"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Agentic Workflows",
+      "aliases": [
+        "AI Agents",
+        "Autonomous Workflows"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to deploy autonomous AI agents that execute multi-step business processes without constant human intervention. Integrated with the Lakehouse and solution accelerators to drive end-to-end automation.",
+      "context": [
+        "Integration with Lakehouse, Solution Accelerators, Agentic workflows, Small Language Model"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Documents Intelligence",
+      "aliases": [
+        "Doc AI",
+        "Document Processing"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "An AI-driven capability for extracting, classifying, and analyzing unstructured document data. It supports downstream use cases such as complaints processing and transcript analysis.",
+      "context": [
+        "Documents Intelligence"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Governance",
+      "aliases": [
+        "AI Governance",
+        "Governance Framework"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The operational and compliance framework ensuring AI solutions are deployed safely, responsibly, and in alignment with regulatory standards. Central to the GenAI Platform Federation and WatsonX.gov integration.",
+      "context": [
+        "how AI will be put to work safely and responsibly at Nationwide",
+        "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)",
+        "foundations for accelerated delivery and governance"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Complaints Management",
+      "aliases": [
+        "Complaints Processing",
+        "Complaints Journeys"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "A customer-facing application where AI is used to streamline, analyze, and resolve customer complaints. The use case involves onboarding new digital journeys and scaling AI-driven support workflows.",
+      "context": [
+        "Complaints Pilot go-Live",
+        "Complaints onboarding new journeys"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Fraud Analysis",
+      "aliases": [
+        "Fraud Detection",
+        "Fraud Analytics"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "fraud_detection",
+      "description": "An operational use case leveraging AI to identify, investigate, and mitigate fraudulent activities. Positioned as a key consumer of the generative AI platform within IT and security operations.",
+      "context": [
+        "Fraud Analysis"
+      ]
+    },
+    {
+      "id": "use_003",
+      "name": "Call Transcript Analysis",
+      "aliases": [
+        "Transcript Processing",
+        "Voice Analytics"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "A data-driven use case that processes recorded customer interactions to extract insights, improve service quality, and support compliance auditing. Serves as a primary data source for AI model training and governance.",
+      "context": [
+        "Call Transcripts"
+      ]
+    },
+    {
+      "id": "use_004",
+      "name": "Code Modernisation",
+      "aliases": [
+        "React Code Conversion",
+        "Design-to-Code Modernisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "A development use case that converts legacy or prototype FIGMA designs into production-ready React code. It accelerates UI development cycles and reduces manual engineering effort.",
+      "context": [
+        "FIGMA – React Code Conversion"
+      ]
+    },
+    {
+      "id": "use_005",
+      "name": "Legacy System Testing",
+      "aliases": [
+        "COBOL Testing",
+        "IQP+ Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "A quality assurance use case focused on validating legacy COBOL applications. The pilot rollout of Cobol IQP+ ensures system reliability and compliance before broader deployment or modernization.",
+      "context": [
+        "Cobol IQP+ (Testing) PoC"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Safe and Responsible AI Deployment",
+      "aliases": [
+        "Responsible AI",
+        "Safe AI Work"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "A strategic outcome ensuring that AI initiatives are implemented with appropriate safeguards, ethical standards, and regulatory compliance. Mitigates operational and reputational risks associated with generative AI adoption.",
+      "context": [
+        "how AI will be put to work safely and responsibly at Nationwide"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Accelerated Delivery",
+      "aliases": [
+        "Faster Delivery",
+        "Speed to Value"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "An operational benefit achieved through established governance foundations and platform federation. Enables faster rollout of AI use cases, pilots, and production deployments across customer, colleague, and IT domains.",
+      "context": [
+        "foundations for accelerated delivery and governance"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "POC Experiments",
+      "aliases": [
+        "Proof of Concept Phase",
+        "POC Work"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "The initial experimental phase where joint teams tested generative AI capabilities to build foundational knowledge and validate technical approaches. Served as the catalyst for scaling and governance setup.",
+      "context": [
+        "built generative AI muscle through the POC experiments"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Pilot Rollout",
+      "aliases": [
+        "Pilot Phase",
+        "Pilot Launch"
+      ],
+      "entity_class": "EVENT",
+      "type": "pilot",
+      "description": "A controlled deployment event marking the transition from proof-of-concept to early production use. Applied across multiple workstreams including complaints, code conversion, and legacy testing.",
+      "context": [
+        "Pilot Rollout",
+        "Pilot rollout"
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "Complaints Pilot Go-Live",
+      "aliases": [
+        "Complaints Pilot Launch",
+        "Complaints Go-Live"
+      ],
+      "entity_class": "EVENT",
+      "type": "pilot",
+      "description": "A specific milestone event marking the operational launch of the AI-driven complaints management use case. Represents a key step in scaling generative AI across customer-facing journeys.",
+      "context": [
+        "Complaints Pilot go-Live"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+    "org_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+    "off_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+    "off_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+    "tech_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_001",
+    "tech_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_002",
+    "tech_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_003",
+    "tech_004": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_004",
+    "tech_005": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_005",
+    "cap_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_001",
+    "cap_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_002",
+    "cap_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_003",
+    "use_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+    "use_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_002",
+    "use_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_003",
+    "use_004": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_004",
+    "use_005": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_005",
+    "ben_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_001",
+    "ben_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_002",
+    "evt_001": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_001",
+    "evt_002": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_002",
+    "evt_003": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_003"
+  },
+  "entities": [
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide & IBM",
+        "the client",
+        "our joint teams"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services organization and the primary client for the generative AI partnership initiative. The document outlines a multi-month roadmap for deploying AI solutions safely and responsibly across customer, colleague, and IT operations domains.",
+      "context": [
+        "Nationwide and IBM confidential",
+        "our joint Nationwide & IBM teams have successfully defined how AI will be put to work safely and responsibly at Nationwide",
+        "Complaints onboarding new journeys"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Corporation",
+        "the partner"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The technology and consulting partner collaborating with Nationwide on a joint generative AI delivery and governance program. IBM provides the underlying platforms, accelerators, and AI workforce to support the client's transformation.",
+      "context": [
+        "Nationwide and IBM confidential",
+        "© 2024 IBM Corporation",
+        "our joint Nationwide & IBM teams have successfully defined"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "name": "Generative AI",
+      "aliases": [
+        "GenAI",
+        "AI muscle",
+        "AI initiatives"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "The core strategic offering being deployed across Nationwide's operations. The solution encompasses a suite of AI-driven capabilities, platforms, and use cases designed to modernize workflows, enhance customer experience, and improve operational efficiency.",
+      "context": [
+        "how AI will be put to work safely and responsibly at Nationwide",
+        "built generative AI muscle through the POC experiments",
+        "Other x n use cases"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+      "name": "GenAI Platform Federation",
+      "aliases": [
+        "Platform Federation",
+        "Federated AI Platform"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "A centralized governance and delivery architecture enabling scalable AI consumption. It integrates API management, consumer access controls, and governance frameworks to ensure secure and compliant AI deployment across the enterprise.",
+      "context": [
+        "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)",
+        "begun setting up the foundations for accelerated delivery and governance"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_001",
+      "name": "WatsonX.gov",
+      "aliases": [
+        "WatsonX Government",
+        "Governance Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "platform",
+      "description": "IBM's enterprise governance and risk management platform integrated into the GenAI Federation. It provides the controls, auditing, and compliance frameworks necessary to deploy AI safely and responsibly at scale.",
+      "context": [
+        "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_002",
+      "name": "Watsonx Assistant v2",
+      "aliases": [
+        "Arti 2",
+        "Watsonx Assitant v2",
+        "Watson Assistant v2"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "The second version of IBM's conversational AI platform, positioned as a key delivery vehicle for customer and colleague-facing generative AI applications within the Nationwide ecosystem.",
+      "context": [
+        "Arti 2 – Watsonx Assitant v2"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_003",
+      "name": "FIGMA Code Converter",
+      "aliases": [
+        "Figma Converter",
+        "Design-to-Code Tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "An AI-powered development tool used to translate FIGMA design prototypes into functional React code. It accelerates front-end development and reduces manual coding effort for UI/UX modernization.",
+      "context": [
+        "FIGMA Code Converter POC",
+        "FIGMA – React Code Conversion"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_004",
+      "name": "Cobol IQP+",
+      "aliases": [
+        "IQP+",
+        "Cobol Testing Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "tool",
+      "description": "A specialized testing and quality assurance tool focused on legacy COBOL systems. It is being piloted to validate testing workflows and support modernization efforts for older application codebases.",
+      "context": [
+        "Cobol IQP+ (Testing) PoC",
+        "IQP+ Deployed"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_005",
+      "name": "Lakehouse",
+      "aliases": [
+        "Data Lakehouse",
+        "Lakehouse Architecture"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "infrastructure",
+      "description": "A modern data architecture combining data warehousing and data lake capabilities. It serves as the foundational data layer for integrating AI workloads, accelerators, and agentic workflows.",
+      "context": [
+        "Integration with Lakehouse, Solution Accelerators, Agentic workflows, Small Language Model"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_001",
+      "name": "Agentic Workflows",
+      "aliases": [
+        "AI Agents",
+        "Autonomous Workflows"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to deploy autonomous AI agents that execute multi-step business processes without constant human intervention. Integrated with the Lakehouse and solution accelerators to drive end-to-end automation.",
+      "context": [
+        "Integration with Lakehouse, Solution Accelerators, Agentic workflows, Small Language Model"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_002",
+      "name": "Documents Intelligence",
+      "aliases": [
+        "Doc AI",
+        "Document Processing"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "An AI-driven capability for extracting, classifying, and analyzing unstructured document data. It supports downstream use cases such as complaints processing and transcript analysis.",
+      "context": [
+        "Documents Intelligence"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_003",
+      "name": "Governance",
+      "aliases": [
+        "AI Governance",
+        "Governance Framework"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The operational and compliance framework ensuring AI solutions are deployed safely, responsibly, and in alignment with regulatory standards. Central to the GenAI Platform Federation and WatsonX.gov integration.",
+      "context": [
+        "how AI will be put to work safely and responsibly at Nationwide",
+        "GenAI Platform Federation – API Management + Consumers + Governance (WatsonX.gov)",
+        "foundations for accelerated delivery and governance"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+      "name": "Complaints Management",
+      "aliases": [
+        "Complaints Processing",
+        "Complaints Journeys"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "A customer-facing application where AI is used to streamline, analyze, and resolve customer complaints. The use case involves onboarding new digital journeys and scaling AI-driven support workflows.",
+      "context": [
+        "Complaints Pilot go-Live",
+        "Complaints onboarding new journeys"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_002",
+      "name": "Fraud Analysis",
+      "aliases": [
+        "Fraud Detection",
+        "Fraud Analytics"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "fraud_detection",
+      "description": "An operational use case leveraging AI to identify, investigate, and mitigate fraudulent activities. Positioned as a key consumer of the generative AI platform within IT and security operations.",
+      "context": [
+        "Fraud Analysis"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_003",
+      "name": "Call Transcript Analysis",
+      "aliases": [
+        "Transcript Processing",
+        "Voice Analytics"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "A data-driven use case that processes recorded customer interactions to extract insights, improve service quality, and support compliance auditing. Serves as a primary data source for AI model training and governance.",
+      "context": [
+        "Call Transcripts"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_004",
+      "name": "Code Modernisation",
+      "aliases": [
+        "React Code Conversion",
+        "Design-to-Code Modernisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "A development use case that converts legacy or prototype FIGMA designs into production-ready React code. It accelerates UI development cycles and reduces manual engineering effort.",
+      "context": [
+        "FIGMA – React Code Conversion"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_005",
+      "name": "Legacy System Testing",
+      "aliases": [
+        "COBOL Testing",
+        "IQP+ Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "A quality assurance use case focused on validating legacy COBOL applications. The pilot rollout of Cobol IQP+ ensures system reliability and compliance before broader deployment or modernization.",
+      "context": [
+        "Cobol IQP+ (Testing) PoC"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_001",
+      "name": "Safe and Responsible AI Deployment",
+      "aliases": [
+        "Responsible AI",
+        "Safe AI Work"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "A strategic outcome ensuring that AI initiatives are implemented with appropriate safeguards, ethical standards, and regulatory compliance. Mitigates operational and reputational risks associated with generative AI adoption.",
+      "context": [
+        "how AI will be put to work safely and responsibly at Nationwide"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_002",
+      "name": "Accelerated Delivery",
+      "aliases": [
+        "Faster Delivery",
+        "Speed to Value"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "An operational benefit achieved through established governance foundations and platform federation. Enables faster rollout of AI use cases, pilots, and production deployments across customer, colleague, and IT domains.",
+      "context": [
+        "foundations for accelerated delivery and governance"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_001",
+      "name": "POC Experiments",
+      "aliases": [
+        "Proof of Concept Phase",
+        "POC Work"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "The initial experimental phase where joint teams tested generative AI capabilities to build foundational knowledge and validate technical approaches. Served as the catalyst for scaling and governance setup.",
+      "context": [
+        "built generative AI muscle through the POC experiments"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_002",
+      "name": "Pilot Rollout",
+      "aliases": [
+        "Pilot Phase",
+        "Pilot Launch"
+      ],
+      "entity_class": "EVENT",
+      "type": "pilot",
+      "description": "A controlled deployment event marking the transition from proof-of-concept to early production use. Applied across multiple workstreams including complaints, code conversion, and legacy testing.",
+      "context": [
+        "Pilot Rollout",
+        "Pilot rollout"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_003",
+      "name": "Complaints Pilot Go-Live",
+      "aliases": [
+        "Complaints Pilot Launch",
+        "Complaints Go-Live"
+      ],
+      "entity_class": "EVENT",
+      "type": "pilot",
+      "description": "A specific milestone event marking the operational launch of the AI-driven complaints management use case. Represents a key step in scaling generative AI across customer-facing journeys.",
+      "context": [
+        "Complaints Pilot go-Live"
+      ],
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+      "name": "Nationwide",
+      "properties": {
+        "industry": "banking",
+        "size": "enterprise",
+        "relationship_status": "active",
+        "engagement_type": "joint AI implementation partnership"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+      "name": "IBM",
+      "properties": {
+        "org_type": "technology_vendor",
+        "relationship_to_offering": "primary_provider_and_partner"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "name": "Generative AI",
+      "properties": {
+        "offering_type": "programme",
+        "scope": "safe and responsible AI deployment across multiple use cases",
+        "target_client_profile": "financial services",
+        "key_phases_or_components": [
+          "POC experiments",
+          "Pilot Rollout",
+          "Complaints Pilot Go-Live",
+          "Scale out",
+          "API Management",
+          "Governance"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+      "name": "GenAI Platform Federation",
+      "properties": {
+        "offering_type": "platform",
+        "scope": "API Management, Consumer integration, and Governance",
+        "key_components": [
+          "API Management",
+          "Consumers",
+          "Governance"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_001",
+      "name": "WatsonX.gov",
+      "properties": {
+        "vendor": "IBM",
+        "technology_category": "government_cloud_platform",
+        "role_in_solution": "core_infrastructure",
+        "maturity": "modern",
+        "key_characteristics": "enables governance and API management for GenAI platform federation"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_002",
+      "name": "Watsonx Assistant v2",
+      "properties": {
+        "vendor": "IBM",
+        "technology_category": "conversational_ai",
+        "role_in_solution": "supporting",
+        "maturity": "modern",
+        "key_characteristics": "AI assistant for customer and colleague interactions"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_003",
+      "name": "FIGMA Code Converter",
+      "properties": {
+        "vendor": "Figma",
+        "technology_category": "design_to_code_automation",
+        "role_in_solution": "supporting_accelerator",
+        "maturity": "modern",
+        "key_characteristics": "converts Figma designs to React code"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_004",
+      "name": "Cobol IQP+",
+      "properties": {
+        "technology_category": "legacy_code_testing",
+        "role_in_solution": "supporting_tool",
+        "maturity": "proven",
+        "key_characteristics": "testing and modernization for COBOL systems"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_005",
+      "name": "Lakehouse",
+      "properties": {
+        "technology_category": "data_platform",
+        "role_in_solution": "core_data_foundation",
+        "maturity": "modern",
+        "key_characteristics": "unified data architecture for AI and analytics workloads"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_001",
+      "name": "Agentic Workflows",
+      "properties": {
+        "what_it_does": "enables autonomous AI task execution and process automation",
+        "technical_components": [
+          "Small Language Models",
+          "Lakehouse integration"
+        ],
+        "delivery_maturity": "emerging",
+        "differentiating_aspect": "leverages small language models for efficient, targeted automation"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_002",
+      "name": "Documents Intelligence",
+      "properties": {
+        "what_it_does": "extracts and analyzes information from unstructured documents",
+        "delivery_maturity": "proven",
+        "industry_applicability": [
+          "banking",
+          "insurance",
+          "legal"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_003",
+      "name": "Governance",
+      "properties": {
+        "what_it_does": "ensures safe, responsible, and compliant AI deployment and usage",
+        "technical_components": [
+          "API management",
+          "consumer tracking",
+          "policy enforcement"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "built-in safety and responsibility framework for enterprise AI"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+      "name": "Complaints Management",
+      "properties": {
+        "problem_context": "handling customer complaints efficiently and accurately",
+        "approach": "AI-driven pilot rollout and journey onboarding",
+        "industry": "banking",
+        "outcome_achieved": "pilot go-live and new journey onboarding",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_002",
+      "name": "Fraud Analysis",
+      "properties": {
+        "problem_context": "detecting and analyzing fraudulent activities",
+        "approach": "AI-powered pilot rollout",
+        "industry": "banking",
+        "outcome_achieved": "pilot rollout",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_003",
+      "name": "Call Transcript Analysis",
+      "properties": {
+        "problem_context": "analyzing customer service call recordings for insights",
+        "approach": "AI assistant processing call transcripts",
+        "industry": "banking",
+        "outcome_achieved": "AI assistant deployment for transcript analysis",
+        "complexity_level": "moderate"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_004",
+      "name": "Code Modernisation",
+      "properties": {
+        "problem_context": "modernizing legacy codebases and design-to-code workflows",
+        "approach": "POCs for Figma-to-React conversion and COBOL testing",
+        "industry": "it_and_financial_services",
+        "outcome_achieved": "POC completion and deployment of testing tools",
+        "complexity_level": "highly_complex"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_005",
+      "name": "Legacy System Testing",
+      "properties": {
+        "problem_context": "testing and validating legacy COBOL systems",
+        "approach": "AI-powered testing POC and deployment",
+        "industry": "it_and_financial_services",
+        "outcome_achieved": "POC completion and deployment",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_001",
+      "name": "Safe and Responsible AI Deployment",
+      "properties": {
+        "beneficiary": [
+          "client",
+          "end_users"
+        ],
+        "category": "risk_and_quality",
+        "evidence_type": "projected",
+        "description": "ensures AI is deployed and operated within safe, responsible, and governed boundaries"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_002",
+      "name": "Accelerated Delivery",
+      "properties": {
+        "beneficiary": "client",
+        "category": "speed",
+        "evidence_type": "projected",
+        "description": "enables faster scaling and deployment of AI solutions post-pilot"
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_001",
+      "name": "POC Experiments",
+      "properties": {
+        "event_type": "proof_of_concept",
+        "date_or_period": "Aug 24",
+        "relevance_to_deal": "milestone",
+        "key_participants": [
+          "joint Nationwide & IBM teams"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_002",
+      "name": "Pilot Rollout",
+      "properties": {
+        "event_type": "pilot_deployment",
+        "date_or_period": "Sep 24",
+        "relevance_to_deal": "milestone",
+        "key_participants": [
+          "joint Nationwide & IBM teams"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_003",
+      "name": "Complaints Pilot Go-Live",
+      "properties": {
+        "event_type": "pilot_go_live",
+        "date_or_period": "Oct 24",
+        "relevance_to_deal": "milestone",
+        "key_participants": [
+          "joint Nationwide & IBM teams"
+        ]
+      },
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+      "target_name": "IBM",
+      "rel_type": "partners_with",
+      "description": "Established a confidential joint partnership to co-develop and deploy AI solutions.",
+      "properties": {
+        "partnership_type": "confidential",
+        "status": "active"
+      },
+      "context": "Nationwide and IBM confidential",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "engaged_with",
+      "description": "Actively deploying and operationalizing generative AI across its operations.",
+      "properties": {
+        "deployment_phase": "in_progress",
+        "focus_area": "safe and responsible AI"
+      },
+      "context": "how AI will be put to work safely and responsibly at Nationwide",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "source_name": "Generative AI",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_001",
+      "target_name": "Safe and Responsible AI Deployment",
+      "rel_type": "promises",
+      "description": "Delivers secure, governed AI operations aligned with enterprise risk standards.",
+      "properties": {
+        "approach": "governance framework",
+        "status": "projected"
+      },
+      "context": "defined how AI will be put to work safely and responsibly at Nationwide",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "source_name": "Generative AI",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_002",
+      "target_name": "Accelerated Delivery",
+      "rel_type": "promises",
+      "description": "Enables faster time-to-value through established foundational AI capabilities.",
+      "properties": {
+        "foundation_status": "active",
+        "timeline": "ongoing"
+      },
+      "context": "begun setting up the foundations for accelerated delivery",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_001",
+      "source_name": "POC Experiments",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "demonstrated_at",
+      "description": "Validated core generative AI capabilities and built organizational AI readiness.",
+      "properties": {
+        "outcome": "AI muscle building",
+        "timeframe": "Aug 24 - Sep 24"
+      },
+      "context": "built generative AI muscle through the POC experiments",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+      "source_name": "GenAI Platform Federation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_003",
+      "target_name": "Governance",
+      "rel_type": "comprises",
+      "description": "Incorporates enterprise-grade governance as a core platform component.",
+      "properties": {
+        "component_type": "core capability",
+        "optional": false
+      },
+      "context": "GenAI Platform Federation – API Management + Consumers + Governance",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+      "source_name": "GenAI Platform Federation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_001",
+      "target_name": "WatsonX.gov",
+      "rel_type": "built_on",
+      "description": "Leverages the government-cloud variant of WatsonX for secure AI infrastructure.",
+      "properties": {
+        "version": "gov",
+        "deployment_model": "government cloud"
+      },
+      "context": "(WatsonX.gov)",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "source_name": "Generative AI",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_001",
+      "target_name": "Agentic Workflows",
+      "rel_type": "integrates_with",
+      "description": "Connects with autonomous workflow orchestration to enable multi-step AI tasks.",
+      "properties": {
+        "integration_type": "core",
+        "status": "active"
+      },
+      "context": "Integration with ... Agentic workflows",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "source_name": "Generative AI",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_005",
+      "target_name": "Lakehouse",
+      "rel_type": "integrates_with",
+      "description": "Consumes and processes data directly from the enterprise lakehouse architecture.",
+      "properties": {
+        "data_layer": "lakehouse",
+        "status": "active"
+      },
+      "context": "Integration with Lakehouse",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "source_name": "Generative AI",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_002",
+      "target_name": "Documents Intelligence",
+      "rel_type": "delivers",
+      "description": "Provides automated extraction and analysis of unstructured document data.",
+      "properties": {
+        "capability_type": "AI processing",
+        "status": "deployed"
+      },
+      "context": "Documents Intelligence",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+      "source_name": "Complaints Management",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "addresses",
+      "description": "Leverages AI to streamline complaint handling and onboard new customer journeys.",
+      "properties": {
+        "application_area": "customer service",
+        "maturity": "pilot"
+      },
+      "context": "Complaints onboarding new journeys",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_003",
+      "source_name": "Complaints Pilot Go-Live",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "piloted_for",
+      "description": "Marked the successful production launch of AI-driven complaints handling.",
+      "properties": {
+        "pilot_status": "go-live",
+        "scope": "new journeys"
+      },
+      "context": "Complaints Pilot go-Live",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_002",
+      "source_name": "Fraud Analysis",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "addresses",
+      "description": "Applies generative AI to detect and analyze fraudulent patterns.",
+      "properties": {
+        "application_area": "risk & compliance",
+        "maturity": "pilot"
+      },
+      "context": "Fraud Analysis",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_003",
+      "source_name": "Call Transcript Analysis",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "addresses",
+      "description": "Utilizes AI to process and extract insights from customer call recordings.",
+      "properties": {
+        "application_area": "contact center",
+        "maturity": "pilot"
+      },
+      "context": "Call Transcripts",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_004",
+      "source_name": "Code Modernisation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_003",
+      "target_name": "FIGMA Code Converter",
+      "rel_type": "uses",
+      "description": "Employs FIGMA tools to automate React code conversion and modernize legacy UIs.",
+      "properties": {
+        "tool_type": "code conversion",
+        "status": "POC"
+      },
+      "context": "FIGMA Code Converter POC",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_005",
+      "source_name": "Legacy System Testing",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_004",
+      "target_name": "Cobol IQP+",
+      "rel_type": "uses",
+      "description": "Deploys Cobol IQP+ to validate and test legacy COBOL-based systems.",
+      "properties": {
+        "tool_type": "legacy testing",
+        "status": "deployed"
+      },
+      "context": "Cobol IQP+ (Testing) PoC",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_002",
+      "source_name": "Watsonx Assistant v2",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+      "target_name": "Complaints Management",
+      "rel_type": "enables",
+      "description": "Powers AI-assisted complaint resolution and QA workflows.",
+      "properties": {
+        "version": "v2",
+        "application": "QA and AI assistance"
+      },
+      "context": "QA-AI Assist POC",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+      "source_name": "IBM",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "distributes",
+      "description": "Provides and co-delivers the generative AI platform and associated technologies.",
+      "properties": {
+        "role": "technology provider",
+        "status": "active partner"
+      },
+      "context": "joint Nationwide & IBM teams",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_002",
+      "source_name": "Pilot Rollout",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "target_name": "Generative AI",
+      "rel_type": "demonstrated_at",
+      "description": "Represents the broader scaling phase of AI capabilities across multiple use cases.",
+      "properties": {
+        "scope": "broad",
+        "phase": "scaling"
+      },
+      "context": "Pilot Rollout",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+      "target_name": "GenAI Platform Federation",
+      "rel_type": "is_target_for",
+      "description": "Adopting the federated platform to standardize API management and consumer governance.",
+      "properties": {
+        "engagement_phase": "foundation setup",
+        "scope": "platform federation"
+      },
+      "context": "GenAI Platform Federation – API Management + Consumers + Governance",
+      "bidirectional": false,
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_org_001",
+      "source_name": "IBM",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_001",
+      "source_name": "Generative AI",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_off_002",
+      "source_name": "GenAI Platform Federation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_001",
+      "source_name": "WatsonX.gov",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_002",
+      "source_name": "Watsonx Assistant v2",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_003",
+      "source_name": "FIGMA Code Converter",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_004",
+      "source_name": "Cobol IQP+",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_tech_005",
+      "source_name": "Lakehouse",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_001",
+      "source_name": "Agentic Workflows",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_002",
+      "source_name": "Documents Intelligence",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_cap_003",
+      "source_name": "Governance",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_001",
+      "source_name": "Complaints Management",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_002",
+      "source_name": "Fraud Analysis",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_003",
+      "source_name": "Call Transcript Analysis",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_004",
+      "source_name": "Code Modernisation",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_use_005",
+      "source_name": "Legacy System Testing",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_001",
+      "source_name": "Safe and Responsible AI Deployment",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_ben_002",
+      "source_name": "Accelerated Delivery",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_001",
+      "source_name": "POC Experiments",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_002",
+      "source_name": "Pilot Rollout",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006_evt_003",
+      "source_name": "Complaints Pilot Go-Live",
+      "target_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "target_name": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "8419c3fe0b9c4b83bbc3da42a2169c4a_006",
+      "doc_id": "8419c3fe0b9c4b83bbc3da42a2169c4a",
+      "domain": "sales_collateral"
+    }
+  ]
+}

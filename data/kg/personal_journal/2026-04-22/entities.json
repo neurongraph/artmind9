@@ -1,0 +1,314 @@
+[
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_001",
+    "name": "Self",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The diarist and parent of Neetish and Mohan. They are currently managing a demanding work situation and coordinating their children's social and academic lives.",
+    "context": [
+      "Preeti and I both went to watch",
+      "Office was demanding",
+      "browny and I went to the Meghdoot Garden"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_002",
+    "name": "Neetish",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "The diarist's daughter who gave a history presentation at school. Despite being nervous, she performed wonderfully.",
+    "context": [
+      "Neetish had her history presentation in school",
+      "She was nervous but did wonderfully",
+      "She's growing up so fast"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_003",
+    "name": "Preeti",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "The diarist's partner who attended Neetish's presentation and is attending yoga classes.",
+    "context": [
+      "Preeti and I both went to watch",
+      "Preeti is tired from the yoga class",
+      "She wants to go again tomorrow"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_004",
+    "name": "Mohan",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "The diarist's son who was involved in a fight/misunderstanding with another boy named Aryan.",
+    "context": [
+      "Met with Mohan's principal regarding the Aryan situation"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_005",
+    "name": "Aryan",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "acquaintance",
+    "description": "A boy who had a conflict with Mohan, which was later determined to be a misunderstanding.",
+    "context": [
+      "regarding the Aryan situation",
+      "Both boys want to resolve it"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_006",
+    "name": "Mohan's Principal",
+    "aliases": [
+      "principal"
+    ],
+    "entity_class": "PERSON",
+    "type": "professional",
+    "description": "The school administrator the diarist met with to resolve the conflict between Mohan and Aryan.",
+    "context": [
+      "Met with Mohan's principal regarding the Aryan situation"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_007",
+    "name": "Browny",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "A companion, likely a pet, who accompanied the diarist to the garden.",
+    "context": [
+      "browny and I went to the Meghdoot Garden"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_008",
+    "name": "The Team",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "colleague",
+    "description": "The diarist's work colleagues who are feeling disappointed after a client rejected their proposal.",
+    "context": [
+      "The team is a bit disappointed but we'll bounce back"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_001",
+    "name": "School",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The educational institution where Neetish gave her presentation and where the meeting with the principal occurred.",
+    "context": [
+      "Neetish had her history presentation in school"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_002",
+    "name": "Office",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The diarist's place of employment where a client proposal was recently rejected.",
+    "context": [
+      "Office was demanding"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_003",
+    "name": "Meghdoot Garden",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "park",
+    "description": "A peaceful spot in Indore visited by the diarist and Browny in the evening.",
+    "context": [
+      "went to the Meghdoot Garden",
+      "It's peaceful there in the evenings"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_004",
+    "name": "Indore",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "city",
+    "description": "The city where the diarist resides, noted for having nice spots like the garden.",
+    "context": [
+      "Indore has such nice spots"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_evt_001",
+    "name": "Neetish's History Presentation",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "achievement",
+    "description": "A school presentation given by Neetish that was successful despite her initial nerves.",
+    "context": [
+      "Neetish had her history presentation in school",
+      "She was nervous but did wonderfully"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_evt_002",
+    "name": "Client Proposal Rejection",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "work_event",
+    "description": "A professional setback where a client rejected a proposal, necessitating a strategy rework.",
+    "context": [
+      "The client rejected one of our proposals",
+      "Need to rework the entire strategy"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_evt_003",
+    "name": "Principal Meeting",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "conversation",
+    "description": "A meeting to discuss a fight between Mohan and Aryan, which revealed the incident was a misunderstanding.",
+    "context": [
+      "Met with Mohan's principal regarding the Aryan situation",
+      "It turns out the fight was mostly a misunderstanding"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_act_001",
+    "name": "Yoga",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "exercise",
+    "description": "A physical activity Preeti attends; she found the instructor good but felt tired after the session.",
+    "context": [
+      "Preeti is tired from the yoga class",
+      "The instructor is good"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_emo_001",
+    "name": "Pride",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "pride",
+    "description": "The feeling experienced by the parents following Neetish's successful presentation.",
+    "context": [
+      "Proud parents moment"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_emo_002",
+    "name": "Disappointment",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "frustration",
+    "description": "The mood of the work team following the rejection of their proposal.",
+    "context": [
+      "The team is a bit disappointed"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_pln_001",
+    "name": "Strategy Rework",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "work",
+    "description": "The necessary task of redesigning the work strategy after the client's rejection.",
+    "context": [
+      "Need to rework the entire strategy"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_pln_002",
+    "name": "Mohan and Aryan Playdate",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "social",
+    "description": "A planned meeting this weekend to help Mohan and Aryan mend their relationship.",
+    "context": [
+      "Organized a playdate for them this weekend to mend things"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_pln_003",
+    "name": "Preeti's Next Yoga Class",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "health",
+    "description": "Preeti's intention to attend another yoga session tomorrow.",
+    "context": [
+      "She wants to go again tomorrow"
+    ],
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa",
+    "domain": "personal_journal"
+  }
+]

@@ -1,0 +1,278 @@
+[
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_001",
+    "name": "Diarist",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The author of the journal who is feeling exhausted after a successful work week. They provided care for Preeti and watched the children from the balcony.",
+    "context": [
+      "Feeling exhausted but the week went well",
+      "Came home early to help with the kids",
+      "Watched them from the balcony"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_002",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "The diarist's partner who is feeling under the weather with a fever. Despite her illness, she attempted to manage the household and dinner.",
+    "context": [
+      "Preeti called. She's feeling under the weather",
+      "She insisted she's fine but I could see she's tired",
+      "Preeti is resting now"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_003",
+    "name": "Mohan",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the children who had a playdate and played cricket in the compound.",
+    "context": [
+      "Mohan and Aryan had their playdate today",
+      "They played cricket in the compound"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_004",
+    "name": "Aryan",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the children who played cricket with Mohan and other kids.",
+    "context": [
+      "Mohan and Aryan had their playdate today",
+      "They played cricket in the compound"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_005",
+    "name": "Neetish",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "A responsible child who helped Preeti with dinner even though she was not feeling well herself.",
+    "context": [
+      "Neetish helped Preeti with dinner despite not feeling well herself",
+      "She's become so responsible"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_per_006",
+    "name": "Browny",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The diarist's pet who went for a quick evening walk.",
+    "context": [
+      "Evening walk with Browny was quick"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_001",
+    "name": "Office",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The location where the diarist gave a big presentation to a client.",
+    "context": [
+      "big presentation at office"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_002",
+    "name": "Café near Regal Square",
+    "aliases": [
+      "café"
+    ],
+    "entity_class": "PLACE",
+    "type": "restaurant",
+    "description": "A local eatery where the diarist and their team celebrated a successful proposal.",
+    "context": [
+      "small celebration at a café near Regal Square"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_003",
+    "name": "Home",
+    "aliases": [
+      "compound",
+      "balcony"
+    ],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The residence where the diarist cares for Preeti and where the children play cricket.",
+    "context": [
+      "Came home early to help with the kids",
+      "played cricket in the compound",
+      "Watched them from the balcony"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_plc_004",
+    "name": "Indore",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "city",
+    "description": "The city where the diarist lives, currently experiencing the onset of summer heat.",
+    "context": [
+      "It's getting warmer in Indore"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_evt_001",
+    "name": "Client Presentation",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "work_event",
+    "description": "A significant professional milestone where a revised proposal was presented and well-received by the client.",
+    "context": [
+      "big presentation at office",
+      "The client loved our revised proposal"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_evt_002",
+    "name": "Team Celebration",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "social_gathering",
+    "description": "A small outing to a café to celebrate the success of the team's proposal.",
+    "context": [
+      "went out for a small celebration at a café"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_evt_003",
+    "name": "Children's Playdate",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "social_gathering",
+    "description": "A gathering where Mohan and Aryan played cricket with other children in the compound.",
+    "context": [
+      "Mohan and Aryan had their playdate today",
+      "They played cricket in the compound with some other kids"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_act_001",
+    "name": "Caregiving",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "care",
+    "description": "The act of supporting Preeti during her illness, including making tea and toast.",
+    "context": [
+      "Came home early to help with the kids",
+      "Made her hot chai and some toast"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_act_002",
+    "name": "Evening Walk",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "leisure",
+    "description": "A brief walk taken with the pet, Browny.",
+    "context": [
+      "Evening walk with Browny was quick"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_emo_001",
+    "name": "Exhaustion",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "exhaustion",
+    "description": "The physical and mental fatigue felt by the diarist at the end of the work week.",
+    "context": [
+      "Feeling exhausted but the week went well"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_emo_002",
+    "name": "Contentment",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "contentment",
+    "description": "A sense of peace and satisfaction derived from seeing the children get along and having a quiet moment.",
+    "context": [
+      "It's nice to see them getting along again",
+      "Quiet moment"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "93fa69545a9344a8977e641c4c1421c9_001_pln_001",
+    "name": "Weekend Planning",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "social",
+    "description": "The intention to organize activities or tasks for the upcoming weekend on the following day.",
+    "context": [
+      "Need to plan for the weekend tomorrow"
+    ],
+    "chunk_id": "93fa69545a9344a8977e641c4c1421c9_001",
+    "doc_id": "93fa69545a9344a8977e641c4c1421c9",
+    "domain": "personal_journal"
+  }
+]

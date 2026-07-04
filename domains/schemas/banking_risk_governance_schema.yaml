@@ -34,6 +34,54 @@ entities_prompt: |
     A new regulation, amended regulation, FCA/PRA circular, compliance bulletin, enforcement action, or regulatory deadline that requires the bank to take action. Each distinct regulatory change or circular is a separate entity.
     example type values: new_regulation | amended_regulation | fca_circular | pra_circular | enforcement_action | consultation_paper | implementation_deadline | guidance_update | supervisory_letter
 
+  CUSTOMER
+    A bank customer referenced as the subject of an audit finding, risk observation, or governance concern. Extract when customer-facing processes, data, or controls are the subject of a finding or risk.
+    example type values: individual_customer | high_risk_customer | pep_customer | dormant_customer | screened_customer
+
+  ACCOUNT
+    A customer account referenced in an audit finding, risk metric, or governance review. Extract when account-level controls (opening, closure, dormancy, balance limits) are the subject of an audit finding or risk.
+    example type values: savings_account | current_account | dormant_account | joint_account | frozen_account
+
+  TRANSACTION
+    A financial event referenced in an audit finding or risk concern — suspicious transactions, high-value cash, or monitoring gaps. Extract when transaction processing or monitoring is the subject of a finding.
+    example type values: suspicious_transaction | high_value_transaction | cash_transaction | monitoring_gap | failed_transaction
+
+  PRODUCT
+    A banking product referenced in risk assessments, audit scope definitions, or governance decisions. Extract when a product's risk profile or controls are under review.
+    example type values: savings_product | current_account_product | mortgage | card_product
+
+  CARD
+    A payment card referenced in fraud risk findings, card dispute audits, or contactless limit reviews.
+    example type values: debit_card | card_fraud | contactless | card_issuance_gap
+
+  KYC_VERIFICATION
+    The KYC process or a specific KYC gap identified in an audit — verification failures, refresh overdue, or enhanced due diligence weaknesses. Extract when KYC controls or compliance status are the subject of a finding.
+    example type values: kyc_gap | kyc_refresh_overdue | edd_weakness | identity_verification_failure
+
+  AML_SCREENING
+    AML screening effectiveness or a specific AML gap — screening failures, list coverage, or transaction monitoring weaknesses. Extract when AML controls are the subject of an audit finding or risk appetite statement.
+    example type values: aml_gap | screening_failure | sanctions_miss | transaction_monitoring_weakness | list_coverage_gap
+
+  SAR
+    A Suspicious Activity Report referenced in governance, audit, or compliance tracking — filing rates, timeliness, or quality. Extract when SAR obligations or performance are subject to review.
+    example type values: sar_filing_rate | sar_timeliness | sar_quality | sar_volume | sar_obligation
+
+  FRAUD_ALERT
+    A fraud detection alert or fraud risk referenced in audit findings, fraud metrics, or risk appetite. Extract when fraud detection rates, false positive rates, or investigation backlogs are under review.
+    example type values: fraud_detection_rate | false_positive_rate | card_fraud | account_takeover | investigation_backlog
+
+  STANDING_ORDER
+    A standing order process or control gap referenced in an audit finding — validation failures, beneficiary check weaknesses, or payment failure handling.
+    example type values: standing_order_validation_gap | beneficiary_check_failure | payment_failure_handling
+
+  EMPLOYEE
+    A bank employee or staff category referenced in governance findings — training gaps, misconduct, or accountability concerns.
+    example type values: frontline_staff | compliance_officer | branch_manager | financial_crime_analyst | all_staff
+
+  DEPARTMENT
+    An organisational department referenced as responsible for, or implicated in, a finding, risk, or governance decision.
+    example type values: financial_crime | compliance | retail_banking | technology | risk | operations | internal_audit
+
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -180,6 +228,69 @@ properties_prompt: |
     - implementation_status (planned | in_progress | completed)
     - related_action_items (list of actions required)
 
+  For CUSTOMER, consider:
+    - customer_risk_segment (standard | high_risk | pep | sanctioned)
+    - finding_context (how customers appear in the finding or risk — e.g., screening gap, data exposure)
+    - volume_affected (number of customers if stated)
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint | dormant)
+    - finding_context (what account-level control gap was identified)
+    - sample_size (number of accounts examined in the audit scope)
+
+  For TRANSACTION, consider:
+    - transaction_risk_type (suspicious | high_value | monitoring_gap)
+    - threshold (monetary or volume threshold referenced)
+    - monitoring_gap_description (what monitoring failed or was absent)
+
+  For PRODUCT, consider:
+    - product_id (e.g., SAV-001)
+    - product_risk_level (low | medium | high)
+    - audit_scope_inclusion (whether this product was explicitly in scope)
+
+  For CARD, consider:
+    - card_risk_type (card_fraud | issuance_gap | contactless_limit)
+    - finding_context (what card control weakness was identified)
+
+  For KYC_VERIFICATION, consider:
+    - gap_type (what KYC control failed or was weak)
+    - affected_population (customers or accounts affected)
+    - regulatory_breach (whether a regulatory requirement was violated)
+    - remediation_required (yes/no)
+
+  For AML_SCREENING, consider:
+    - screening_gap (what screening weakness was identified)
+    - lists_affected (which sanction or PEP lists were involved)
+    - false_negative_risk (whether screening misses are the concern)
+    - monitoring_gap (what ongoing monitoring was absent or weak)
+
+  For SAR, consider:
+    - sar_metric (timeliness | volume | quality)
+    - compliance_rate (percentage filed within required timeframe if stated)
+    - regulatory_obligation (30-day filing requirement or equivalent)
+    - gap_identified (what SAR-related weakness was found)
+
+  For FRAUD_ALERT, consider:
+    - detection_rate (percentage of fraud correctly flagged)
+    - false_positive_rate (percentage incorrectly flagged)
+    - investigation_backlog (outstanding alerts awaiting review)
+    - fraud_type (card_fraud | account_takeover | identity_fraud)
+
+  For STANDING_ORDER, consider:
+    - validation_gap (what standing order control was weak)
+    - failure_handling (how payment failures are managed)
+    - beneficiary_check (adequacy of beneficiary account validation)
+
+  For EMPLOYEE, consider:
+    - role_type (frontline | manager | specialist | compliance)
+    - training_gap (what training obligation was not met)
+    - accountability (what they are responsible for under the finding)
+
+  For DEPARTMENT, consider:
+    - department_name (Financial Crime, Compliance, Risk, etc.)
+    - accountability_finding (what the department failed to do or must improve)
+    - ownership (what risk or process they own)
+
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "remediation_deadline" not "rem_dl")
     2. Use arrays for multiple values
@@ -309,6 +420,93 @@ relationships_prompt: |
 
   REGULATORY_UPDATE ↔ REGULATORY_UPDATE:
     amends, supersedes, related_to, complements
+
+  AUDIT_FINDING ↔ CUSTOMER:
+    identifies_gap_in_customer_controls, affects_customer_population, implicates
+
+  AUDIT_FINDING ↔ ACCOUNT:
+    identifies_gap_in_account_controls, found_in_review_of, affects
+
+  AUDIT_FINDING ↔ TRANSACTION:
+    identifies_monitoring_gap_for, relates_to, evidence_from
+
+  AUDIT_FINDING ↔ PRODUCT:
+    scoped_to, identifies_risk_in, relates_to_product
+
+  AUDIT_FINDING ↔ KYC_VERIFICATION:
+    identifies_weakness_in, found_gap_in
+
+  AUDIT_FINDING ↔ AML_SCREENING:
+    identifies_weakness_in, found_gap_in
+
+  AUDIT_FINDING ↔ SAR:
+    measures_compliance_of, identifies_gap_in
+
+  AUDIT_FINDING ↔ FRAUD_ALERT:
+    identifies_weakness_in, measures_performance_of
+
+  AUDIT_FINDING ↔ STANDING_ORDER:
+    identifies_validation_gap_in, relates_to
+
+  AUDIT_FINDING ↔ EMPLOYEE:
+    identifies_training_gap_for, assigns_accountability_to
+
+  AUDIT_FINDING ↔ DEPARTMENT:
+    implicates, assigns_remediation_to, owned_by
+
+  RISK ↔ CUSTOMER:
+    pertains_to_customers, governs_exposure_of
+
+  RISK ↔ ACCOUNT:
+    pertains_to_accounts, governs_controls_for
+
+  RISK ↔ TRANSACTION:
+    pertains_to_transactions, monitors_for, governs
+
+  RISK ↔ KYC_VERIFICATION:
+    mitigated_by, relies_on_effectiveness_of
+
+  RISK ↔ AML_SCREENING:
+    mitigated_by, relies_on_effectiveness_of
+
+  RISK ↔ FRAUD_ALERT:
+    detected_by, mitigated_by
+
+  RISK ↔ DEPARTMENT:
+    owned_by, managed_by
+
+  GOVERNANCE_DECISION ↔ DEPARTMENT:
+    assigns_ownership_to, holds_accountable
+
+  GOVERNANCE_DECISION ↔ EMPLOYEE:
+    assigns_accountability_to
+
+  ACTION_ITEM ↔ DEPARTMENT:
+    assigned_to, owned_by
+
+  ACTION_ITEM ↔ EMPLOYEE:
+    assigned_to
+
+  ACTION_ITEM ↔ KYC_VERIFICATION:
+    aims_to_improve, targets_remediation_of
+
+  ACTION_ITEM ↔ AML_SCREENING:
+    aims_to_improve, targets_remediation_of
+
+  ACTION_ITEM ↔ SAR:
+    aims_to_improve_compliance_of
+
+  RISK_METRIC ↔ KYC_VERIFICATION:
+    measures_performance_of, tracks_compliance_of
+
+  RISK_METRIC ↔ AML_SCREENING:
+    measures_performance_of, tracks_compliance_of
+
+  RISK_METRIC ↔ SAR:
+    measures_timeliness_of, tracks_volume_of
+
+  RISK_METRIC ↔ FRAUD_ALERT:
+    measures_detection_rate_of, tracks_false_positive_rate_of
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

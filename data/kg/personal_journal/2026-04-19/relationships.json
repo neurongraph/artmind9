@@ -1,0 +1,443 @@
+[
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_002",
+    "target_name": "Preeti",
+    "rel_type": "spends_time_with",
+    "description": "Spent the day and evening with Preeti",
+    "properties": {
+      "bond_strength": "close",
+      "activity": "shopping and talking"
+    },
+    "context": "went to the local market with Preeti... Preeti and I sat on the balcony talking about future plans",
+    "bidirectional": true,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_003",
+    "target_name": "Neetish",
+    "rel_type": "cares_for",
+    "description": "Diarist provides for Neetish's school needs",
+    "properties": {
+      "nature": "parental"
+    },
+    "context": "Neetish wanted a new backpack for school.",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_004",
+    "target_name": "Mohan",
+    "rel_type": "cares_for",
+    "description": "Diarist provides for Mohan's requests",
+    "properties": {
+      "nature": "parental"
+    },
+    "context": "Mohan asked for a toy car.",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "target_name": "Family Outing",
+    "rel_type": "participates_in",
+    "description": "Diarist organized and attended the family outing",
+    "properties": {
+      "role": "organiser",
+      "outcome": "successful"
+    },
+    "context": "The entire day was spent with family... took the family to PCSO",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_pln_001",
+    "target_name": "Bangalore Trip",
+    "rel_type": "has_plan",
+    "description": "Diarist is considering a trip to Bangalore",
+    "properties": {
+      "timeframe": "holidays",
+      "urgency": "low"
+    },
+    "context": "Maybe a trip to Bangalore during the holidays.",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_emo_001",
+    "target_name": "Contentment",
+    "rel_type": "experiences",
+    "description": "Diarist felt a sense of peace and satisfaction from the family break",
+    "properties": {
+      "intensity": "moderate"
+    },
+    "context": "It felt nice to take a break from the office routine.",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_001",
+    "target_name": "Local Market",
+    "rel_type": "visits",
+    "description": "Preeti went to the local market for shopping",
+    "properties": {
+      "purpose": "shopping"
+    },
+    "context": "went to the local market with Preeti",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_002",
+    "target_name": "PCSO",
+    "rel_type": "visits",
+    "description": "Preeti visited the mall to buy jewelry",
+    "properties": {
+      "purpose": "shopping"
+    },
+    "context": "took the family to PCSO... Preeti bought some jewelry",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_pln_001",
+    "target_name": "Bangalore Trip",
+    "rel_type": "discussed_with",
+    "description": "Preeti discussed the potential Bangalore trip with the Diarist",
+    "properties": {
+      "status": "proposed"
+    },
+    "context": "Preeti and I sat on the balcony talking about future plans. Maybe a trip to Bangalore",
+    "bidirectional": true,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "target_name": "Family Outing",
+    "rel_type": "participates_in",
+    "description": "Neetish participated in the family outing and enjoyed rides",
+    "properties": {
+      "role": "participant",
+      "outcome": "enjoyed"
+    },
+    "context": "The kids enjoyed the rides.",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "target_name": "Family Outing",
+    "rel_type": "participates_in",
+    "description": "Mohan participated in the family outing",
+    "properties": {
+      "role": "participant"
+    },
+    "context": "took the family to PCSO",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_005",
+    "source_name": "Mother-in-law",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_006",
+    "target_name": "Browny",
+    "rel_type": "cares_for",
+    "description": "Mother-in-law looked after Browny and gave him treats",
+    "properties": {
+      "action": "feeding",
+      "bond_strength": "affectionate"
+    },
+    "context": "Browny stayed at home with my mother-in-law. She fed him extra treats",
+    "bidirectional": true,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_006",
+    "source_name": "Browny",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_004",
+    "target_name": "Home",
+    "rel_type": "lives_at",
+    "description": "Browny stayed at home during the outing",
+    "properties": {},
+    "context": "Browny stayed at home with my mother-in-law",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "source_name": "Family Outing",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_001",
+    "target_name": "Local Market",
+    "rel_type": "occurs_at",
+    "description": "Part of the family outing took place at the local market",
+    "properties": {},
+    "context": "went to the local market with Preeti",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "source_name": "Family Outing",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_002",
+    "target_name": "PCSO",
+    "rel_type": "occurs_at",
+    "description": "The family outing included a visit to the PCSO mall",
+    "properties": {},
+    "context": "took the family to PCSO",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "source_name": "Family Outing",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_003",
+    "target_name": "Sarah's",
+    "rel_type": "occurs_at",
+    "description": "The family ate at Sarah's as part of their outing",
+    "properties": {},
+    "context": "We had chaat at Sarah's",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_act_001",
+    "source_name": "Shopping",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_001",
+    "target_name": "Local Market",
+    "rel_type": "takes_place_at",
+    "description": "Shopping for vegetables and clothes happened at the local market",
+    "properties": {},
+    "context": "went to the local market with Preeti. Got fresh vegetables and some clothes",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_act_001",
+    "source_name": "Shopping",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_002",
+    "target_name": "PCSO",
+    "rel_type": "takes_place_at",
+    "description": "Shopping for jewelry happened at PCSO",
+    "properties": {},
+    "context": "took the family to PCSO... Preeti bought some jewelry",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_pln_001",
+    "source_name": "Bangalore Trip",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_005",
+    "target_name": "Bangalore",
+    "rel_type": "linked_to",
+    "description": "The plan is to travel to the city of Bangalore",
+    "properties": {},
+    "context": "Maybe a trip to Bangalore during the holidays",
+    "bidirectional": false,
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_005",
+    "source_name": "Mother-in-law",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_006",
+    "source_name": "Browny",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_001",
+    "source_name": "Local Market",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_002",
+    "source_name": "PCSO",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_003",
+    "source_name": "Sarah's",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_004",
+    "source_name": "Home",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_005",
+    "source_name": "Bangalore",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "source_name": "Family Outing",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_act_001",
+    "source_name": "Shopping",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_emo_001",
+    "source_name": "Contentment",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "48220d0cd19d4ca1a39ba83ed841663b_001_pln_001",
+    "source_name": "Bangalore Trip",
+    "target_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "target_name": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b",
+    "domain": "personal_journal"
+  }
+]

@@ -9,7 +9,6 @@ from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
 
-import ollama
 import yaml
 from langchain_text_splitters import (
     MarkdownHeaderTextSplitter,
@@ -19,6 +18,7 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from artmind.db import _get_db
+from artmind.setup import _setup_neo4j
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -29,6 +29,7 @@ from artmind.extraction import (
     parse_json_response as _parse_json_response,
     entities_list_text as _entities_list_text,
 )
+from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import (
     DB_PATH,
@@ -124,6 +125,46 @@ def _delete_from_registry(domain: str, document_name: str) -> int:
             "DELETE FROM documents WHERE domain = ? AND UPPER(filename) = ?",
             (domain, document_name.upper()),
         )
+        deleted = cursor.rowcount
+        conn.commit()
+        return deleted
+    finally:
+        conn.close()
+
+
+def _table_exists(conn: sqlite3.Connection, table: str) -> bool:
+    return conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (table,)
+    ).fetchone() is not None
+
+
+def _delete_chunk_status(doc_sha256: str) -> int:
+    if not DB_PATH.exists():
+        return 0
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        if not _table_exists(conn, "kg_chunk_status"):
+            return 0
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM kg_chunk_status WHERE doc_sha256 = ?", (doc_sha256,))
+        deleted = cursor.rowcount
+        conn.commit()
+        return deleted
+    finally:
+        conn.close()
+
+
+def _delete_chunk_status_by_doc_id(doc_id: str) -> int:
+    """Delete kg_chunk_status rows by doc_id — needed for force-ingested duplicates,
+    whose extraction key differs from the registry's real sha256."""
+    if not DB_PATH.exists():
+        return 0
+    conn = sqlite3.connect(DB_PATH)
+    try:
+        if not _table_exists(conn, "kg_chunk_status"):
+            return 0
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM kg_chunk_status WHERE doc_id = ?", (doc_id,))
         deleted = cursor.rowcount
         conn.commit()
         return deleted
@@ -278,6 +319,7 @@ _DESCRIBE_PROMPTS = [
 def _describe_image(image: Path, model: str) -> str | None:
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
+    provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
     logger.debug(
         "Describing image: {} (model={}, timeout={}s)", image.name, model, timeout
     )
@@ -290,11 +332,10 @@ def _describe_image(image: Path, model: str) -> str | None:
             image.name,
         )
         try:
-            response = ollama.Client(timeout=timeout).chat(
-                model=model,
-                messages=[{"role": "user", "content": prompt, "images": [str(image)]}],
-            )
-            description = (response.message.content or "").strip()
+            if provider == "openrouter":
+                description = describe_image_openrouter(image, model, prompt, timeout, env)
+            else:
+                description = describe_image_ollama(image, model, prompt, timeout)
             log_llm_call("chat", model, f"[IMAGE: {image.name}]\n{prompt}", description)
             logger.debug(
                 "LLM RESPONSE (image description, attempt {}):\n{}",
@@ -345,6 +386,7 @@ def ingest_file(
     domain: str = "general",
     job_id: str | None = None,
     chunk_size: int = 6000,
+    force: bool = False,
 ):
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -355,7 +397,8 @@ def ingest_file(
 
     file_sha256 = _compute_sha256(source)
     logger.debug("SHA256: {}", file_sha256)
-    if _sha256_in_registry(file_sha256):
+    is_duplicate = _sha256_in_registry(file_sha256)
+    if is_duplicate and not force:
         logger.warning(
             "Skipping duplicate — SHA256 already registered: {}", source.name
         )
@@ -368,6 +411,17 @@ def ingest_file(
                 error_message="Duplicate SHA256 already registered",
             )
         return file_result
+
+    # A forced duplicate gets its own extraction identity (chunk cache, doc_id,
+    # Neo4j document node) so it doesn't collide/merge with the original document
+    # that shares this content hash. The registry still records the real sha256.
+    extraction_sha256 = file_sha256
+    if is_duplicate and force:
+        extraction_sha256 = f"{file_sha256}-{uuid.uuid4().hex[:8]}"
+        logger.info(
+            "Forcing duplicate ingestion of {} — using independent extraction key",
+            source.name,
+        )
 
     dest_filename = source.name
     if _filename_in_registry(dest_filename):
@@ -487,7 +541,7 @@ def ingest_file(
 
         file_result["status"] = "ok"
         file_result["domain"] = domain
-        file_result["sha256"] = file_sha256
+        file_result["sha256"] = extraction_sha256
         file_result["registered_path"] = str(registered_path)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
@@ -554,6 +608,25 @@ def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tu
 def _save_debug(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8")
     logger.debug("Raw LLM response saved for debugging: {}", path.name)
+
+
+def _filter_valid_items(
+    items: list, seq: int, step_name: str, required_key: str | None = None
+) -> list:
+    """Drop non-dict items an LLM occasionally mixes into otherwise-valid JSON output."""
+
+    def is_valid(item) -> bool:
+        if not isinstance(item, dict):
+            return False
+        return required_key is None or required_key in item
+
+    valid = [item for item in items if is_valid(item)]
+    dropped = len(items) - len(valid)
+    if dropped:
+        logger.warning(
+            "  Chunk {} — dropped {} malformed {} item(s) from LLM output", seq, dropped, step_name
+        )
+    return valid
 
 
 def _rewrite_entity_ids(
@@ -644,21 +717,7 @@ def _merge_props_dicts(existing: dict, incoming: dict) -> dict:
 
 
 def _ensure_neo4j_schema(session, embedding_dim: int = 768) -> None:
-    session.run(
-        "CREATE CONSTRAINT document_id IF NOT EXISTS FOR (n:Document) REQUIRE n.id IS UNIQUE"
-    )
-    session.run(
-        "CREATE CONSTRAINT chunk_id IF NOT EXISTS FOR (n:DocChunk) REQUIRE n.id IS UNIQUE"
-    )
-    session.run(
-        "CREATE INDEX entity_lookup IF NOT EXISTS FOR (n:Entity) ON (n.name, n.entity_class, n.domain)"
-    )
-    session.run(
-        f"CREATE VECTOR INDEX chunk_embedding IF NOT EXISTS "
-        f"FOR (c:DocChunk) ON (c.embedding) "
-        f"OPTIONS {{indexConfig: {{`vector.dimensions`: {embedding_dim}, "
-        f"`vector.similarity_function`: 'cosine'}}}}"
-    )
+    _setup_neo4j(session, embedding_dim)
 
 
 def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
@@ -1001,6 +1060,7 @@ def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -
         "markdowns": 0,
         "markdown_artifacts": 0,
         "kg_dirs": 0,
+        "chunk_status_rows": 0,
         "neo4j_documents": 0,
         "neo4j_chunks": 0,
         "neo4j_orphan_entities": 0,
@@ -1017,8 +1077,24 @@ def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -
             result["markdowns"] += 1
         if _delete_path(MARKDOWNS_DIR / f"{stem}_artifacts", MARKDOWNS_DIR):
             result["markdown_artifacts"] += 1
-        if _delete_path(KG_DIR / domain / stem, KG_DIR):
+
+        # Read doc_id before deleting the KG dir — needed to find chunk-status rows
+        # for force-ingested duplicates, whose extraction key differs from sha256.
+        doc_kg_dir = KG_DIR / domain / stem
+        doc_json = doc_kg_dir / "document.json"
+        if doc_json.exists():
+            try:
+                doc_id = json.loads(doc_json.read_text(encoding="utf-8")).get("id")
+            except Exception:
+                doc_id = None
+            if doc_id:
+                result["chunk_status_rows"] += _delete_chunk_status_by_doc_id(doc_id)
+
+        if _delete_path(doc_kg_dir, KG_DIR):
             result["kg_dirs"] += 1
+
+        if row.get("sha256"):
+            result["chunk_status_rows"] += _delete_chunk_status(row["sha256"])
 
     result["registry_rows"] = _delete_from_registry(domain, document_name)
 
@@ -1159,6 +1235,7 @@ def extract_kg(
             )
             _update_chunk_step(doc_sha256, seq, "entities", "ok" if ok else "failed")
             if ok:
+                raw_entities = _filter_valid_items(raw_entities, seq, "entity", required_key="id")
                 entities, id_map = _rewrite_entity_ids(raw_entities, chunk_id)
                 data["raw_entities"] = raw_entities
                 data["id_map"] = id_map
@@ -1189,6 +1266,7 @@ def extract_kg(
             )
             _update_chunk_step(doc_sha256, seq, "properties", "ok" if ok else "failed")
             if ok:
+                raw_props = _filter_valid_items(raw_props, seq, "property")
                 props = _rewrite_ref_ids(raw_props, id_map, "id")
                 data["properties"] = [
                     {**p, "chunk_id": chunk_id, "doc_id": doc_id} for p in props
@@ -1211,6 +1289,7 @@ def extract_kg(
             )
             _update_chunk_step(doc_sha256, seq, "relationships", "ok" if ok else "failed")
             if ok:
+                raw_rels = _filter_valid_items(raw_rels, seq, "relationship")
                 rels = _rewrite_ref_ids(raw_rels, id_map, "source_id", "target_id")
                 rels = [{**r, "chunk_id": chunk_id, "doc_id": doc_id} for r in rels]
                 for e in data.get("entities", []):

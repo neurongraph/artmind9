@@ -1,0 +1,1942 @@
+{
+  "embedding": [
+    0.0025888535,
+    0.05915776,
+    -0.1852534,
+    -0.08083907,
+    0.03983848,
+    -0.057188433,
+    0.045965888,
+    0.015079725,
+    0.0016835624,
+    -0.03323105,
+    -0.023748325,
+    0.033884585,
+    0.054566856,
+    0.015861318,
+    -0.007102467,
+    -0.033471774,
+    0.022523817,
+    -0.056991983,
+    -0.07235147,
+    0.035239913,
+    0.030799288,
+    -0.030930901,
+    -0.047573492,
+    -0.0419037,
+    0.02386931,
+    0.05807502,
+    0.016381864,
+    0.0038201853,
+    -0.031830955,
+    0.00935489,
+    0.0070302933,
+    -0.0010293789,
+    -0.057003263,
+    -0.038059346,
+    -0.061696533,
+    -0.0063018403,
+    0.033811245,
+    -0.07881073,
+    0.00017327462,
+    -0.00843384,
+    0.089239575,
+    -0.0062902477,
+    0.03029236,
+    -0.011019456,
+    0.05933787,
+    0.0034026608,
+    0.02799043,
+    0.030139115,
+    0.025411725,
+    -0.03526569,
+    0.0054624816,
+    -0.07329271,
+    0.016347263,
+    0.030912308,
+    -0.007448795,
+    0.06003704,
+    -0.030497922,
+    0.017127512,
+    -0.016867954,
+    -0.026831169,
+    0.069791436,
+    0.07073802,
+    -0.03261484,
+    0.095218144,
+    0.03951809,
+    -0.018201789,
+    0.018206732,
+    0.05446104,
+    0.01448233,
+    -0.02400773,
+    -0.00947487,
+    -0.0410245,
+    -0.01471716,
+    0.05772792,
+    -0.022572754,
+    0.017089702,
+    -0.014609853,
+    -0.038375884,
+    0.018613188,
+    0.06453139,
+    0.04365792,
+    -0.040603355,
+    0.053751405,
+    -0.026681729,
+    0.06511369,
+    -0.05390231,
+    -0.046240963,
+    0.0033886286,
+    -0.07092847,
+    0.08670381,
+    0.024486395,
+    0.015572311,
+    0.0056964047,
+    -0.03366382,
+    -0.049287766,
+    0.0133111775,
+    -0.013559323,
+    -0.0045473445,
+    -0.05563583,
+    -0.024481945,
+    0.012986236,
+    -0.024132252,
+    -0.00021423706,
+    0.00808747,
+    0.002866963,
+    0.06105168,
+    0.0095818695,
+    0.02770822,
+    -0.007198631,
+    -0.021425022,
+    -0.030145297,
+    0.03348823,
+    -0.013544694,
+    0.014295772,
+    0.026877435,
+    0.005728683,
+    0.092047036,
+    -0.044570383,
+    0.0066693057,
+    0.088768534,
+    -0.0074283704,
+    -0.063346826,
+    -0.030023113,
+    -0.0031632704,
+    0.0063651404,
+    -0.0017544079,
+    0.014477746,
+    0.016585356,
+    -0.016642097,
+    -0.047977254,
+    -0.0041299243,
+    -0.017326161,
+    -0.028941821,
+    -0.021489039,
+    0.027049083,
+    0.044429783,
+    -0.0130496435,
+    -0.030459667,
+    -0.009386274,
+    0.013319757,
+    0.04512097,
+    -0.005687068,
+    0.036084466,
+    0.036692284,
+    0.014219486,
+    -0.028912459,
+    -0.011109085,
+    -0.015876347,
+    -0.03683698,
+    0.03613183,
+    -0.020711806,
+    -0.042487882,
+    0.01710403,
+    -0.021905929,
+    0.023604037,
+    -0.030912573,
+    -0.047439728,
+    0.03469921,
+    0.03763327,
+    0.02923822,
+    0.0029718932,
+    0.006564718,
+    -0.06204265,
+    0.08652123,
+    -0.009320455,
+    -0.047545753,
+    -0.027520651,
+    0.05227032,
+    -0.029663004,
+    0.04118535,
+    -0.059561566,
+    -0.035312172,
+    0.017344989,
+    -0.009925338,
+    0.024473205,
+    -0.01588705,
+    0.06609928,
+    -0.022422837,
+    0.013108717,
+    -0.08692413,
+    0.037317637,
+    -0.054836676,
+    0.03996786,
+    0.03145336,
+    -0.032548394,
+    0.035311427,
+    0.05679835,
+    -0.037754107,
+    0.007929181,
+    -0.032622073,
+    0.033899255,
+    0.008654487,
+    -0.08759634,
+    -0.02170634,
+    -0.024640596,
+    0.0055732164,
+    0.012748041,
+    -0.03706242,
+    -0.042091258,
+    -0.046972465,
+    0.0084491195,
+    -0.0058489456,
+    -0.016243035,
+    0.0015207072,
+    -0.019782849,
+    0.040470317,
+    0.015970076,
+    0.009635949,
+    -0.031390496,
+    0.034553923,
+    0.04411829,
+    -0.01144588,
+    -0.018186202,
+    0.036959905,
+    -0.0018276302,
+    0.017286446,
+    -0.04879599,
+    -0.00839633,
+    -0.039915375,
+    0.0024328975,
+    0.036826946,
+    -0.005314213,
+    -0.00081395725,
+    -0.011716884,
+    0.019257024,
+    0.0017771147,
+    -0.03343764,
+    -0.036921106,
+    0.0042732237,
+    -0.021176886,
+    0.025536522,
+    -0.08462089,
+    0.06669241,
+    0.017311484,
+    -0.053347576,
+    -0.0021793093,
+    -0.016551841,
+    0.029275728,
+    0.011658435,
+    -0.019680627,
+    0.013821208,
+    0.10414874,
+    0.005696248,
+    -0.0007066431,
+    -0.018965062,
+    0.0026827932,
+    0.0026333544,
+    -0.03498503,
+    0.0078092907,
+    0.083274476,
+    0.03653623,
+    0.018219369,
+    0.055438023,
+    0.006588914,
+    0.044206157,
+    -0.020359846,
+    0.023488846,
+    0.027734729,
+    0.040579848,
+    0.003267005,
+    0.0010679245,
+    -0.037564185,
+    0.035950694,
+    -0.04226303,
+    -0.05241615,
+    -0.040253974,
+    -0.008485741,
+    0.01649688,
+    0.012207944,
+    -0.04010171,
+    0.029904805,
+    0.040049758,
+    0.028540935,
+    0.044254884,
+    -0.039013613,
+    0.01502699,
+    -0.0036802774,
+    -0.017925669,
+    -0.017161252,
+    0.031922318,
+    0.039542306,
+    -0.05193556,
+    -0.005695962,
+    -0.004585833,
+    -0.013213704,
+    0.024316678,
+    -0.0106894905,
+    -0.0022421416,
+    0.009471287,
+    0.0151268225,
+    0.010238853,
+    -0.029457403,
+    -0.08693543,
+    0.015901536,
+    -0.06316617,
+    0.055833135,
+    0.061154116,
+    -0.0055280337,
+    -0.0016854604,
+    -0.06255883,
+    0.013294156,
+    0.023244109,
+    0.04713101,
+    0.057434753,
+    -0.016074719,
+    -0.02018083,
+    0.015040453,
+    0.006475728,
+    -0.0013866314,
+    -0.013395603,
+    -0.042754654,
+    -0.012625049,
+    -0.012226926,
+    0.020680247,
+    -0.0010111965,
+    0.030153796,
+    0.042791862,
+    0.04815848,
+    0.033525664,
+    0.011409072,
+    -0.00050216366,
+    -0.0475578,
+    0.041605648,
+    -0.05579045,
+    -0.044361003,
+    0.06350507,
+    -0.014961848,
+    0.04713407,
+    0.028611962,
+    0.004599249,
+    0.021288319,
+    0.029059455,
+    -0.00647647,
+    -0.055389315,
+    0.012997667,
+    0.06040417,
+    0.04539951,
+    0.009980198,
+    0.02596329,
+    0.03266147,
+    0.0074279667,
+    0.01144229,
+    0.0019675982,
+    -0.06856307,
+    0.023374047,
+    0.005479423,
+    -0.0027459534,
+    -0.004423203,
+    0.009010495,
+    0.012289014,
+    0.0060199946,
+    0.021320162,
+    0.042662226,
+    -0.04507323,
+    0.061373293,
+    0.0019929388,
+    -0.0053250715,
+    0.058179785,
+    0.0045019966,
+    -0.028102048,
+    0.045034736,
+    0.060737003,
+    0.03224224,
+    0.03563719,
+    0.015464594,
+    0.051632103,
+    0.047195327,
+    -0.046594072,
+    0.009789297,
+    -0.016203081,
+    0.010842602,
+    -0.063810125,
+    -0.0051308316,
+    0.00825136,
+    0.0062983567,
+    0.019945752,
+    -0.047930665,
+    -0.03458479,
+    -0.027299939,
+    0.025415149,
+    0.004105954,
+    -0.019636707,
+    -0.030637734,
+    -0.03424115,
+    -0.0070593036,
+    0.03248511,
+    -0.0059815333,
+    -0.052376665,
+    0.0065983296,
+    0.020979958,
+    0.00025095337,
+    -0.04027694,
+    -0.004297789,
+    0.028609792,
+    0.024739167,
+    -0.050631613,
+    0.029942347,
+    0.007699265,
+    0.028175745,
+    0.039912876,
+    -0.018248336,
+    -0.054632697,
+    0.04144091,
+    0.042541005,
+    -0.024753246,
+    -0.007496766,
+    -0.051006783,
+    -0.019810649,
+    0.04640865,
+    -0.007942317,
+    0.015036764,
+    0.028837284,
+    -0.001705174,
+    -0.04005564,
+    0.05202039,
+    0.029039705,
+    0.058012486,
+    0.005669213,
+    -0.02622753,
+    0.0045065,
+    0.04985011,
+    0.046385374,
+    0.0006855412,
+    0.024700774,
+    0.039822802,
+    0.042662483,
+    0.013148455,
+    -0.0045765834,
+    0.014979852,
+    -0.07899683,
+    0.07721073,
+    0.03874107,
+    0.022601089,
+    0.013748245,
+    0.0076719094,
+    0.026699563,
+    0.01474069,
+    0.017479876,
+    0.04073203,
+    0.028165787,
+    0.05090495,
+    -0.054130234,
+    -0.002912555,
+    -0.036724146,
+    0.027483027,
+    0.0593935,
+    0.064653866,
+    -0.03864472,
+    -0.05427087,
+    0.0027708123,
+    0.019150726,
+    0.04374255,
+    0.014861272,
+    -0.007601658,
+    0.068951316,
+    -0.03356808,
+    0.004085974,
+    -0.013158659,
+    0.0023862426,
+    0.06595176,
+    0.00968986,
+    -0.00076127204,
+    -0.022468388,
+    0.020512614,
+    -0.009100443,
+    -0.028631227,
+    0.021722583,
+    0.012593775,
+    0.04016403,
+    0.03870137,
+    -0.06750029,
+    -0.02165232,
+    0.0016322732,
+    -0.024300264,
+    -0.036690682,
+    0.019376596,
+    -0.022174044,
+    -0.02603537,
+    0.026377311,
+    0.06853706,
+    0.054112103,
+    -0.078881055,
+    -0.051507764,
+    -0.048939884,
+    -0.02620636,
+    0.007215308,
+    0.051929835,
+    -0.04952643,
+    -0.013243605,
+    -0.05787102,
+    0.017291686,
+    0.028114453,
+    -0.027819153,
+    0.010139611,
+    0.011163659,
+    -0.0020510068,
+    -0.075879484,
+    0.028641338,
+    0.03546894,
+    -0.017776595,
+    0.01129627,
+    0.03119734,
+    0.0030966278,
+    -0.0015908804,
+    0.03487404,
+    -0.019329367,
+    0.0071803,
+    -0.065256506,
+    -0.023948418,
+    0.012422027,
+    0.0060180235,
+    0.005193776,
+    0.0840579,
+    -0.01227243,
+    0.052022714,
+    -0.014882058,
+    0.0086695105,
+    -0.021698773,
+    -0.044003673,
+    0.014180111,
+    0.042075157,
+    -0.031905282,
+    -0.01005667,
+    -0.04070267,
+    -0.07528983,
+    0.028944118,
+    -0.021221248,
+    -0.079417974,
+    0.055990193,
+    -0.0129382955,
+    0.00072386133,
+    0.009634709,
+    -0.05271481,
+    0.013212068,
+    0.007205128,
+    0.010413443,
+    -0.00036166026,
+    0.03938592,
+    0.055991758,
+    0.023061538,
+    -0.008123003,
+    0.0021932516,
+    0.021711407,
+    -0.009830537,
+    0.08073882,
+    -0.050569475,
+    -0.008027961,
+    0.017070113,
+    -0.019836796,
+    -0.03815665,
+    0.03405094,
+    -0.03289412,
+    0.023942897,
+    -0.031617492,
+    0.013485599,
+    -0.0076973867,
+    -0.0065007745,
+    -0.055033006,
+    -0.0087072775,
+    -0.026289487,
+    -0.021053957,
+    0.0015967062,
+    0.04212061,
+    0.027111145,
+    0.021557385,
+    -0.0020573877,
+    -0.035434276,
+    0.0175061,
+    -0.01039625,
+    -0.0012250588,
+    0.031633303,
+    -0.04568003,
+    -0.019735899,
+    -0.017135208,
+    -0.018354671,
+    -0.020479776,
+    0.039866142,
+    0.0027433138,
+    -0.06201947,
+    -0.053822238,
+    0.03650028,
+    -0.029610382,
+    0.03059749,
+    0.05254192,
+    -0.0069352305,
+    -0.01845154,
+    -0.034424804,
+    -0.069836855,
+    0.022451723,
+    -0.031325694,
+    -0.03539287,
+    -0.02185885,
+    0.04097923,
+    -0.029307647,
+    -0.036322147,
+    0.03556386,
+    0.018502425,
+    -0.042294964,
+    -0.034773257,
+    -0.03533064,
+    -0.017688276,
+    0.04404453,
+    0.022066977,
+    -0.059709266,
+    0.012402991,
+    -0.015648441,
+    -0.057919685,
+    -0.0033431605,
+    0.00923401,
+    -0.028810209,
+    0.037119407,
+    -0.0029271464,
+    0.034401372,
+    -0.014048872,
+    0.052120607,
+    -0.025562242,
+    0.06704258,
+    -0.016984148,
+    0.01658015,
+    -0.075314365,
+    -0.026998172,
+    -0.04014546,
+    0.03536475,
+    -0.039012503,
+    0.014376097,
+    0.018996464,
+    -0.031171387,
+    -0.016007315,
+    -0.014564045,
+    0.033241823,
+    -0.04055545,
+    0.013251253,
+    -0.04732911,
+    -0.03126657,
+    -0.10009612,
+    -0.011994605,
+    -0.010197882,
+    -0.020229967,
+    -0.011582169,
+    0.01079738,
+    0.048402753,
+    -0.015626993,
+    -0.028915614,
+    0.042733412,
+    0.033509802,
+    -0.055425316,
+    0.062160652,
+    0.02099547,
+    0.02221977,
+    -0.0003905111,
+    0.057178687,
+    0.051559467,
+    -0.008686966,
+    -0.009766874,
+    0.037327223,
+    -0.015412886,
+    0.046217956,
+    -0.05325845,
+    -0.03811491,
+    -0.023858752,
+    0.015771955,
+    0.004642227,
+    0.00055072346,
+    0.005739436,
+    0.027060613,
+    -0.010950984,
+    -0.036781862,
+    -0.022711411,
+    -0.024854781,
+    -0.056244608,
+    0.06725027,
+    0.054640215,
+    0.013837911,
+    -0.000834847,
+    -0.021077449,
+    0.03915822,
+    0.018729497,
+    0.023822147,
+    0.0030673062,
+    0.014775128,
+    -0.010782041,
+    -0.0023297295,
+    0.032565065,
+    -0.02694411,
+    0.040280856,
+    -0.03446746,
+    0.0054844213,
+    0.0043385183,
+    0.013434415,
+    0.0020799306,
+    -0.0027998888,
+    -0.0088418005,
+    -0.02023334,
+    -0.032028176,
+    0.0021886236,
+    0.06787806,
+    -0.018424485,
+    -0.0269239,
+    -0.04322463,
+    0.0067663216,
+    0.01473661,
+    0.065986335,
+    -0.01638576,
+    0.010647579,
+    -0.0012003945,
+    0.026589412,
+    -0.020051239,
+    -0.010133851,
+    -0.0116733685,
+    -0.035859928,
+    -0.011194161,
+    -0.013859967,
+    -0.051258776,
+    0.030070739,
+    0.0068993387,
+    0.0664924,
+    -0.023636365,
+    -0.050493825,
+    -0.0017839583,
+    -0.011217072,
+    0.03024414,
+    -0.00817499,
+    -0.061482813,
+    -0.063323,
+    0.025693491,
+    0.039201606,
+    0.051350035,
+    -0.041931048,
+    -0.02376793,
+    -0.025013678,
+    -0.017382693,
+    -0.009292004,
+    -0.04189909,
+    0.089108124,
+    -0.03203332,
+    -0.02011149,
+    -0.020232301,
+    0.00042537472,
+    -0.04850365,
+    -0.017907746,
+    -0.04682726,
+    0.010768057,
+    -0.038082503,
+    0.014951317,
+    -0.0041997596,
+    -0.043543406,
+    -0.05677227,
+    0.014202284,
+    0.0037874111,
+    -0.053934313,
+    0.025921332,
+    -0.00649812,
+    -0.065017596,
+    0.0033301439,
+    -0.010774515,
+    0.0004807528,
+    0.05855246,
+    0.051863145,
+    0.055014115,
+    0.045627788,
+    0.010299629,
+    -0.03667567,
+    0.042933375,
+    -0.041429635,
+    -0.038100753,
+    -0.026259702,
+    -0.021846348,
+    -0.060001373
+  ],
+  "chunk_seq": 12,
+  "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+  "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+  "text": "# Complaints Letter Generation  \nNationwide - IBM Gen AI Demo 2025  \nChallenge:  \nNationwide receive over 1000 complaints per week. Each Complaint must be reviewed and the outcome crafted into a final response letter.  \nThis letter takes 45 minutes to manually write and there were quality and consistency concerns.  \nDeveloped Solution:  \nDeterministic Gen AI letter generator, that uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes to generate professional letters.  \nUse case learnings – Pathfinder for delivery and governance defined, repeatable patterns  \nlogo  \nComplaint hander population planned post system upgrade  \n100%  \n90%  \nTime saving on AI Generated Letters (45mins to 4)  \nVery good or good ratings from existing complaint handlers for the vast majority of AI-generated examples  \nHigh Quality",
+  "name": "Chunk 12/14",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "83c2abe250494b798eae0af6fabd3b12_011",
+  "next_chunk_id": "83c2abe250494b798eae0af6fabd3b12_013",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide Insurance",
+        "Client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services and insurance provider referenced as the client undergoing a generative AI transformation to automate and standardize the handling of high volumes of customer complaints.",
+      "context": [
+        "Nationwide receive over 1000 complaints per week.",
+        "Nationwide - IBM Gen AI Demo 2025"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "Deterministic Gen AI Letter Generator",
+      "aliases": [
+        "Complaints Letter Generation",
+        "AI Letter Generator"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A custom-built generative AI application designed to automate the drafting of final response letters for customer complaints, leveraging retrieval-augmented generation against standardized templates and case notes to ensure professional and compliant output.",
+      "context": [
+        "Deterministic Gen AI letter generator, that uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes to generate professional letters.",
+        "Complaints Letter Generation"
+      ]
+    },
+    {
+      "id": "cha_003",
+      "name": "Manual Complaint Response Processing",
+      "aliases": [
+        "Manual Letter Drafting",
+        "Complaint Review Workflow"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "The client's existing manual workflow for reviewing complaints and drafting final response letters, which is highly time-consuming and suffers from inconsistent quality and compliance risks.",
+      "context": [
+        "Each Complaint must be reviewed and the outcome crafted into a final response letter.",
+        "This letter takes 45 minutes to manually write and there were quality and consistency concerns."
+      ]
+    },
+    {
+      "id": "cha_004",
+      "name": "High Complaint Volume",
+      "aliases": [
+        "1000+ Weekly Complaints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "The high volume of customer complaints received weekly, creating a bottleneck in the manual response process and straining existing operational capacity.",
+      "context": [
+        "Nationwide receive over 1000 complaints per week."
+      ]
+    },
+    {
+      "id": "cap_005",
+      "name": "Retrieval Augmented Generation (RAG)",
+      "aliases": [
+        "RAG",
+        "Context-Aware AI Generation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "The core AI technique used to ground the generative model on authoritative 'gold standard' letters and specific complaint case notes, ensuring accurate, compliant, and contextually relevant output.",
+      "context": [
+        "uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes"
+      ]
+    },
+    {
+      "id": "use_006",
+      "name": "Automated Complaint Response Generation",
+      "aliases": [
+        "Complaint Handler Workflow Automation",
+        "Response Letter Automation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The application of the AI solution to automate the drafting of professional response letters for customer complaints, streamlining the complaint handler workflow and improving turnaround times.",
+      "context": [
+        "Complaint hander population planned post system upgrade",
+        "generate professional letters"
+      ]
+    },
+    {
+      "id": "ben_007",
+      "name": "Significant Time Reduction",
+      "aliases": [
+        "45mins to 4mins Saving",
+        "Efficiency Gain"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A dramatic reduction in the time required to draft complaint response letters, cutting the manual process from 45 minutes down to just 4 minutes per letter.",
+      "context": [
+        "Time saving on AI Generated Letters (45mins to 4)"
+      ]
+    },
+    {
+      "id": "ben_008",
+      "name": "Improved Quality & Consistency",
+      "aliases": [
+        "High Quality Output",
+        "Handler Satisfaction"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "Enhanced output quality and consistency in complaint response letters, validated by high ratings from existing complaint handlers and the elimination of previous manual inconsistencies.",
+      "context": [
+        "there were quality and consistency concerns.",
+        "Very good or good ratings from existing complaint handlers for the vast majority of AI-generated examples",
+        "High Quality"
+      ]
+    },
+    {
+      "id": "tec_009",
+      "name": "Gen AI Platform",
+      "aliases": [
+        "Generative AI",
+        "IBM Gen AI"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "The underlying generative artificial intelligence technology powering the letter generation solution, enabling automated content creation based on structured and unstructured data inputs.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025",
+        "Deterministic Gen AI letter generator"
+      ]
+    },
+    {
+      "id": "dif_010",
+      "name": "Deterministic AI Approach",
+      "aliases": [
+        "Deterministic Gen AI",
+        "Predictable AI Output"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "The use of a deterministic Gen AI model rather than a purely probabilistic one, ensuring predictable, reliable, and compliant output for sensitive customer communications and regulatory environments.",
+      "context": [
+        "Deterministic Gen AI letter generator"
+      ]
+    },
+    {
+      "id": "dif_011",
+      "name": "Pathfinder Governance Framework",
+      "aliases": [
+        "Pathfinder Delivery Model",
+        "Repeatable AI Patterns"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "A defined delivery and governance methodology ('Pathfinder') that establishes repeatable patterns and structured governance for AI implementation, ensuring scalable and compliant rollout.",
+      "context": [
+        "Use case learnings – Pathfinder for delivery and governance defined, repeatable patterns"
+      ]
+    },
+    {
+      "id": "eve_012",
+      "name": "IBM Gen AI Demo 2025",
+      "aliases": [
+        "2025 Gen AI Demo",
+        "Nationwide Demo"
+      ],
+      "entity_class": "EVENT",
+      "type": "demo",
+      "description": "A 2025 demonstration event showcasing the Gen AI capabilities and the Nationwide case study, highlighting the solution's impact on complaint handling workflows.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025"
+      ]
+    },
+    {
+      "id": "org_013",
+      "name": "IBM",
+      "aliases": [
+        "IBM Corporation",
+        "Selling Organization"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The technology and consulting firm delivering the Gen AI solution, conducting the demo, and providing the underlying AI platform and governance frameworks.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+    "off_002": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+    "cha_003": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+    "cha_004": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+    "cap_005": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+    "use_006": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+    "ben_007": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+    "ben_008": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+    "tec_009": "83c2abe250494b798eae0af6fabd3b12_012_tec_009",
+    "dif_010": "83c2abe250494b798eae0af6fabd3b12_012_dif_010",
+    "dif_011": "83c2abe250494b798eae0af6fabd3b12_012_dif_011",
+    "eve_012": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+    "org_013": "83c2abe250494b798eae0af6fabd3b12_012_org_013"
+  },
+  "entities": [
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide Insurance",
+        "Client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services and insurance provider referenced as the client undergoing a generative AI transformation to automate and standardize the handling of high volumes of customer complaints.",
+      "context": [
+        "Nationwide receive over 1000 complaints per week.",
+        "Nationwide - IBM Gen AI Demo 2025"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "name": "Deterministic Gen AI Letter Generator",
+      "aliases": [
+        "Complaints Letter Generation",
+        "AI Letter Generator"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A custom-built generative AI application designed to automate the drafting of final response letters for customer complaints, leveraging retrieval-augmented generation against standardized templates and case notes to ensure professional and compliant output.",
+      "context": [
+        "Deterministic Gen AI letter generator, that uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes to generate professional letters.",
+        "Complaints Letter Generation"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+      "name": "Manual Complaint Response Processing",
+      "aliases": [
+        "Manual Letter Drafting",
+        "Complaint Review Workflow"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "The client's existing manual workflow for reviewing complaints and drafting final response letters, which is highly time-consuming and suffers from inconsistent quality and compliance risks.",
+      "context": [
+        "Each Complaint must be reviewed and the outcome crafted into a final response letter.",
+        "This letter takes 45 minutes to manually write and there were quality and consistency concerns."
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+      "name": "High Complaint Volume",
+      "aliases": [
+        "1000+ Weekly Complaints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "The high volume of customer complaints received weekly, creating a bottleneck in the manual response process and straining existing operational capacity.",
+      "context": [
+        "Nationwide receive over 1000 complaints per week."
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+      "name": "Retrieval Augmented Generation (RAG)",
+      "aliases": [
+        "RAG",
+        "Context-Aware AI Generation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "The core AI technique used to ground the generative model on authoritative 'gold standard' letters and specific complaint case notes, ensuring accurate, compliant, and contextually relevant output.",
+      "context": [
+        "uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+      "name": "Automated Complaint Response Generation",
+      "aliases": [
+        "Complaint Handler Workflow Automation",
+        "Response Letter Automation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The application of the AI solution to automate the drafting of professional response letters for customer complaints, streamlining the complaint handler workflow and improving turnaround times.",
+      "context": [
+        "Complaint hander population planned post system upgrade",
+        "generate professional letters"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+      "name": "Significant Time Reduction",
+      "aliases": [
+        "45mins to 4mins Saving",
+        "Efficiency Gain"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A dramatic reduction in the time required to draft complaint response letters, cutting the manual process from 45 minutes down to just 4 minutes per letter.",
+      "context": [
+        "Time saving on AI Generated Letters (45mins to 4)"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+      "name": "Improved Quality & Consistency",
+      "aliases": [
+        "High Quality Output",
+        "Handler Satisfaction"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "Enhanced output quality and consistency in complaint response letters, validated by high ratings from existing complaint handlers and the elimination of previous manual inconsistencies.",
+      "context": [
+        "there were quality and consistency concerns.",
+        "Very good or good ratings from existing complaint handlers for the vast majority of AI-generated examples",
+        "High Quality"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_tec_009",
+      "name": "Gen AI Platform",
+      "aliases": [
+        "Generative AI",
+        "IBM Gen AI"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "The underlying generative artificial intelligence technology powering the letter generation solution, enabling automated content creation based on structured and unstructured data inputs.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025",
+        "Deterministic Gen AI letter generator"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_010",
+      "name": "Deterministic AI Approach",
+      "aliases": [
+        "Deterministic Gen AI",
+        "Predictable AI Output"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "The use of a deterministic Gen AI model rather than a purely probabilistic one, ensuring predictable, reliable, and compliant output for sensitive customer communications and regulatory environments.",
+      "context": [
+        "Deterministic Gen AI letter generator"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_011",
+      "name": "Pathfinder Governance Framework",
+      "aliases": [
+        "Pathfinder Delivery Model",
+        "Repeatable AI Patterns"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "A defined delivery and governance methodology ('Pathfinder') that establishes repeatable patterns and structured governance for AI implementation, ensuring scalable and compliant rollout.",
+      "context": [
+        "Use case learnings – Pathfinder for delivery and governance defined, repeatable patterns"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+      "name": "IBM Gen AI Demo 2025",
+      "aliases": [
+        "2025 Gen AI Demo",
+        "Nationwide Demo"
+      ],
+      "entity_class": "EVENT",
+      "type": "demo",
+      "description": "A 2025 demonstration event showcasing the Gen AI capabilities and the Nationwide case study, highlighting the solution's impact on complaint handling workflows.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_org_013",
+      "name": "IBM",
+      "aliases": [
+        "IBM Corporation",
+        "Selling Organization"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The technology and consulting firm delivering the Gen AI solution, conducting the demo, and providing the underlying AI platform and governance frameworks.",
+      "context": [
+        "Nationwide - IBM Gen AI Demo 2025"
+      ],
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "name": "Nationwide",
+      "properties": {
+        "size": "enterprise",
+        "relationship_status": "reference_client",
+        "pain_points": [
+          "manual complaint response processing taking 45 minutes",
+          "quality and consistency concerns in response letters"
+        ],
+        "engagement_type": "system upgrade"
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "name": "Deterministic Gen AI Letter Generator",
+      "properties": {
+        "offering_type": "AI application",
+        "scope": [
+          "generates professional complaint response letters",
+          "references gold standard letters and case notes"
+        ],
+        "key_phases_or_components": [
+          "Retrieval Augmented Generation (RAG)",
+          "Pathfinder governance framework"
+        ],
+        "named_assets_or_accelerators": [
+          "Pathfinder Governance Framework"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+      "name": "Manual Complaint Response Processing",
+      "properties": {
+        "root_cause": [
+          "manual drafting of final response letters"
+        ],
+        "business_impact": [
+          "45 minutes per letter",
+          "quality and consistency concerns"
+        ],
+        "urgency": "high",
+        "who_faces_it": [
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+      "name": "High Complaint Volume",
+      "properties": {
+        "root_cause": [
+          "high volume of customer complaints"
+        ],
+        "business_impact": [
+          "over 1000 complaints per week",
+          "resource strain on complaint handlers"
+        ],
+        "urgency": "critical",
+        "who_faces_it": [
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+      "name": "Retrieval Augmented Generation (RAG)",
+      "properties": {
+        "what_it_does": [
+          "references gold standard letters and complaint case notes to generate professional letters"
+        ],
+        "technical_components": [
+          "RAG",
+          "case note integration",
+          "gold standard letter referencing"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": [
+          "deterministic outputs based on verified historical data"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+      "name": "Automated Complaint Response Generation",
+      "properties": {
+        "problem_context": [
+          "generating professional response letters for customer complaints"
+        ],
+        "approach": [
+          "AI-driven generation using RAG and Pathfinder governance"
+        ],
+        "industry": [
+          "financial services"
+        ],
+        "outcome_achieved": [
+          "time reduced from 45 mins to 4 mins",
+          "very good/good ratings from handlers",
+          "high quality"
+        ],
+        "complexity_level": "complex"
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+      "name": "Significant Time Reduction",
+      "properties": {
+        "quantified_value": [
+          "45 minutes to 4 minutes per letter"
+        ],
+        "beneficiary": [
+          "complaint handlers",
+          "Nationwide"
+        ],
+        "time_to_value": "post system upgrade",
+        "category": "speed",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+      "name": "Improved Quality & Consistency",
+      "properties": {
+        "quantified_value": [
+          "very good or good ratings from existing complaint handlers for the vast majority of AI-generated examples"
+        ],
+        "beneficiary": [
+          "complaint handlers",
+          "end-customers"
+        ],
+        "time_to_value": "post system upgrade",
+        "category": "quality",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_tec_009",
+      "name": "Gen AI Platform",
+      "properties": {
+        "vendor": [
+          "IBM"
+        ],
+        "technology_category": [
+          "ai"
+        ],
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": [
+          "deterministic output",
+          "supports RAG",
+          "governance-ready"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_010",
+      "name": "Deterministic AI Approach",
+      "properties": {
+        "competitive_advantage": [
+          "ensures consistent, high-quality outputs without hallucination risks"
+        ],
+        "evidence_or_proof_point": [
+          "45 mins to 4 mins time saving",
+          "very good/good ratings from handlers",
+          "high quality"
+        ],
+        "uniqueness": "proprietary",
+        "target_audience": [
+          "risk-averse financial institutions",
+          "compliance-heavy industries"
+        ],
+        "relates_to_offering": "Deterministic Gen AI Letter Generator"
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_dif_011",
+      "name": "Pathfinder Governance Framework",
+      "properties": {
+        "competitive_advantage": [
+          "provides defined, repeatable patterns for delivery and governance"
+        ],
+        "evidence_or_proof_point": [
+          "defined in use case learnings",
+          "supports scalable AI deployment"
+        ],
+        "uniqueness": "best-in-class",
+        "target_audience": [
+          "enterprise clients requiring strict AI governance"
+        ],
+        "relates_to_offering": "Deterministic Gen AI Letter Generator"
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+      "name": "IBM Gen AI Demo 2025",
+      "properties": {
+        "event_type": "demo",
+        "date_or_period": "2025",
+        "relevance_to_deal": "milestone",
+        "key_participants": [
+          "Nationwide",
+          "IBM"
+        ]
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "id": "83c2abe250494b798eae0af6fabd3b12_012_org_013",
+      "name": "IBM",
+      "properties": {
+        "org_type": "vendor",
+        "relationship_to_offering": "provider",
+        "geographic_presence": "global"
+      },
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+      "target_name": "High Complaint Volume",
+      "rel_type": "faces",
+      "description": "Client processes a high volume of weekly complaints requiring manual handling",
+      "properties": {
+        "volume": "1000 per week",
+        "impact": "operational_bottleneck"
+      },
+      "context": "Nationwide receive over 1000 complaints per week.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+      "target_name": "Manual Complaint Response Processing",
+      "rel_type": "faces",
+      "description": "Client struggles with time-consuming manual letter drafting and quality inconsistencies",
+      "properties": {
+        "process_type": "manual",
+        "pain_point": "time & quality"
+      },
+      "context": "This letter takes 45 minutes to manually write and there were quality and consistency concerns.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "target_name": "Deterministic Gen AI Letter Generator",
+      "rel_type": "engaged_with",
+      "description": "Client evaluated and piloted the AI letter generation solution during a demo event",
+      "properties": {
+        "engagement_type": "demo_evaluation",
+        "status": "piloted"
+      },
+      "context": "Developed Solution: Deterministic Gen AI letter generator... Nationwide - IBM Gen AI Demo 2025",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+      "target_name": "Manual Complaint Response Processing",
+      "rel_type": "solves",
+      "description": "Solution automates the manual drafting process, eliminating manual effort and inconsistency",
+      "properties": {
+        "approach": "automation",
+        "completeness": "full"
+      },
+      "context": "This letter takes 45 minutes to manually write... Developed Solution: Deterministic Gen AI letter generator",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+      "target_name": "High Complaint Volume",
+      "rel_type": "mitigates",
+      "description": "Solution scales response capacity to handle high complaint volumes efficiently",
+      "properties": {
+        "approach": "volume_handling",
+        "completeness": "partial"
+      },
+      "context": "Nationwide receive over 1000 complaints per week... Developed Solution...",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+      "target_name": "Retrieval Augmented Generation (RAG)",
+      "rel_type": "comprises",
+      "description": "Solution architecture incorporates RAG to retrieve and apply gold standard references",
+      "properties": {
+        "component_type": "core_engine",
+        "optional": false
+      },
+      "context": "Deterministic Gen AI letter generator, that uses Retrieval Augmented Generation to refer to gold standard letters...",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+      "source_name": "Retrieval Augmented Generation (RAG)",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_tec_009",
+      "target_name": "Gen AI Platform",
+      "rel_type": "powered_by",
+      "description": "RAG capability is executed on the underlying Gen AI platform infrastructure",
+      "properties": {
+        "version": "Gen AI",
+        "deployment_model": "cloud"
+      },
+      "context": "Gen AI Demo 2025 / Deterministic Gen AI letter generator",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+      "target_name": "Automated Complaint Response Generation",
+      "rel_type": "addresses",
+      "description": "Solution is specifically designed to automate the generation of complaint response letters",
+      "properties": {
+        "applicability": "primary",
+        "domain": "customer_service"
+      },
+      "context": "Complaints Letter Generation... to generate professional letters.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+      "source_name": "Retrieval Augmented Generation (RAG)",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+      "target_name": "Automated Complaint Response Generation",
+      "rel_type": "enables",
+      "description": "RAG capability provides the contextual retrieval mechanism required for automated letter generation",
+      "properties": {
+        "mechanism": "context_retrieval",
+        "dependency": "required"
+      },
+      "context": "uses Retrieval Augmented Generation to refer to gold standard letters and complaint case notes to generate professional letters.",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+      "target_name": "Significant Time Reduction",
+      "rel_type": "has_delivered",
+      "description": "Solution reduced the time required to generate complaint letters from 45 minutes to 4 minutes",
+      "properties": {
+        "metric": "time_reduction",
+        "value": "45 mins to 4 mins",
+        "timeframe": "per_letter"
+      },
+      "context": "Time saving on AI Generated Letters (45mins to 4)",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+      "target_name": "Improved Quality & Consistency",
+      "rel_type": "has_delivered",
+      "description": "Solution delivered high-quality outputs with consistent ratings from complaint handlers",
+      "properties": {
+        "metric": "quality_rating",
+        "value": "Very good/Good",
+        "timeframe": "post_implementation"
+      },
+      "context": "Very good or good ratings from existing complaint handlers for the vast majority of AI-generated examples / High Quality",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+      "target_name": "Significant Time Reduction",
+      "rel_type": "achieved",
+      "description": "Client realized substantial time savings in complaint letter generation",
+      "properties": {
+        "metric": "time_reduction",
+        "value": "45 mins to 4 mins",
+        "timeframe": "per_letter"
+      },
+      "context": "Time saving on AI Generated Letters (45mins to 4)",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+      "target_name": "Improved Quality & Consistency",
+      "rel_type": "achieved",
+      "description": "Client achieved high-quality and consistent complaint response outputs",
+      "properties": {
+        "metric": "quality_rating",
+        "value": "Very good/Good",
+        "timeframe": "post_implementation"
+      },
+      "context": "Very good or good ratings from existing complaint handlers... High Quality",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+      "source_name": "Automated Complaint Response Generation",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+      "target_name": "Significant Time Reduction",
+      "rel_type": "produces",
+      "description": "The use case directly results in reduced processing time for complaint letters",
+      "properties": {
+        "metric": "time_reduction",
+        "value": "45 mins to 4 mins"
+      },
+      "context": "Time saving on AI Generated Letters (45mins to 4)",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+      "source_name": "Automated Complaint Response Generation",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+      "target_name": "Improved Quality & Consistency",
+      "rel_type": "produces",
+      "description": "The use case yields high-quality and consistent complaint response outputs",
+      "properties": {
+        "metric": "quality_rating",
+        "value": "Very good/Good"
+      },
+      "context": "Very good or good ratings from existing complaint handlers... High Quality",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_dif_010",
+      "target_name": "Deterministic AI Approach",
+      "rel_type": "distinguished_by",
+      "description": "Solution is differentiated by its deterministic AI methodology ensuring predictable outputs",
+      "properties": {
+        "basis": "deterministic_output",
+        "focus": "reliability"
+      },
+      "context": "Deterministic Gen AI letter generator",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_dif_011",
+      "target_name": "Pathfinder Governance Framework",
+      "rel_type": "distinguished_by",
+      "description": "Solution is differentiated by structured governance and delivery patterns defined by Pathfinder",
+      "properties": {
+        "basis": "governance_framework",
+        "focus": "compliance"
+      },
+      "context": "Use case learnings – Pathfinder for delivery and governance defined, repeatable patterns",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+      "source_name": "IBM Gen AI Demo 2025",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "target_name": "Deterministic Gen AI Letter Generator",
+      "rel_type": "demonstrated_at",
+      "description": "Solution was showcased and evaluated during the IBM Gen AI Demo event",
+      "properties": {
+        "event_type": "demo",
+        "status": "completed"
+      },
+      "context": "Nationwide - IBM Gen AI Demo 2025",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+      "source_name": "IBM Gen AI Demo 2025",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "involves",
+      "description": "Event included Nationwide as the participating client evaluating the solution",
+      "properties": {
+        "role": "client_participant",
+        "activity": "demo_evaluation"
+      },
+      "context": "Nationwide - IBM Gen AI Demo 2025",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_org_013",
+      "source_name": "IBM",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "target_name": "Deterministic Gen AI Letter Generator",
+      "rel_type": "distributes",
+      "description": "Organization developed and delivered the AI letter generator solution to the client",
+      "properties": {
+        "channel": "demo_event",
+        "relationship": "vendor_client"
+      },
+      "context": "IBM Gen AI Demo 2025",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_org_013",
+      "source_name": "IBM",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+      "target_name": "IBM Gen AI Demo 2025",
+      "rel_type": "distributes",
+      "description": "Organization hosted and facilitated the Gen AI demonstration event",
+      "properties": {
+        "role": "host",
+        "activity": "event_management"
+      },
+      "context": "IBM Gen AI Demo 2025",
+      "bidirectional": false,
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_off_002",
+      "source_name": "Deterministic Gen AI Letter Generator",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cha_003",
+      "source_name": "Manual Complaint Response Processing",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cha_004",
+      "source_name": "High Complaint Volume",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_cap_005",
+      "source_name": "Retrieval Augmented Generation (RAG)",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_use_006",
+      "source_name": "Automated Complaint Response Generation",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_007",
+      "source_name": "Significant Time Reduction",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_ben_008",
+      "source_name": "Improved Quality & Consistency",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_tec_009",
+      "source_name": "Gen AI Platform",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_dif_010",
+      "source_name": "Deterministic AI Approach",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_dif_011",
+      "source_name": "Pathfinder Governance Framework",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_eve_012",
+      "source_name": "IBM Gen AI Demo 2025",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "83c2abe250494b798eae0af6fabd3b12_012_org_013",
+      "source_name": "IBM",
+      "target_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "target_name": "83c2abe250494b798eae0af6fabd3b12_012",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "83c2abe250494b798eae0af6fabd3b12_012",
+      "doc_id": "83c2abe250494b798eae0af6fabd3b12",
+      "domain": "sales_collateral"
+    }
+  ]
+}

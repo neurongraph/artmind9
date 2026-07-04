@@ -1,0 +1,312 @@
+[
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "family member",
+      "current_state": "feeling refreshed"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "family member",
+      "current_state": "experiencing exam stress",
+      "personality_traits": [
+        "open"
+      ]
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "recurring_behaviours": [
+        "requesting bedtime stories"
+      ],
+      "current_state": "involved in a school fight"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+    "name": "Aryan",
+    "properties": {
+      "relationship_to_diarist": "peer of son",
+      "notable_characteristics": [
+        "involved in a fight with Mohan"
+      ]
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_005",
+    "name": "The Principal",
+    "properties": {
+      "occupation": "School Principal",
+      "narrative_function": "authority figure to be met regarding Mohan's behavior"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+    "name": "Browny",
+    "properties": {
+      "species": "dog",
+      "personality_traits": [
+        "naughty"
+      ],
+      "recurring_behaviours": [
+        "escaping the house",
+        "eating others' food"
+      ]
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+    "name": "Self",
+    "properties": {
+      "current_state": "working on project proposals"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_001",
+    "name": "Mohan's School",
+    "properties": {
+      "place_type": "school",
+      "narrative_function": "site of a conflict between students"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_002",
+    "name": "Office",
+    "properties": {
+      "place_type": "workplace",
+      "narrative_function": "place of project submission"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+    "name": "Rajkumar",
+    "properties": {
+      "place_type": "dhaba",
+      "location": "near Vijay Nagar",
+      "atmosphere": "popular"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_004",
+    "name": "Vijay Nagar",
+    "properties": {
+      "place_type": "neighborhood/area"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+    "name": "Home",
+    "properties": {
+      "place_type": "residence",
+      "atmosphere": "peaceful"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_006",
+    "name": "Neighbor's House",
+    "properties": {
+      "place_type": "residence",
+      "narrative_function": "where Browny was found"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_007",
+    "name": "Compound",
+    "properties": {
+      "place_type": "residential outdoor area",
+      "who_associated_with": [
+        "kids",
+        "Browny"
+      ]
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_001",
+    "name": "Preeti's First Yoga Class",
+    "properties": {
+      "date_or_time": "April 21, 2026",
+      "participants": [
+        "Preeti"
+      ],
+      "outcome": "positive",
+      "emotional_significance": "left her feeling refreshed"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_002",
+    "name": "Neetish's Disclosure",
+    "properties": {
+      "participants": [
+        "Neetish",
+        "Self"
+      ],
+      "cause": "exam stress",
+      "outcome": "Neetish feeling better"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+    "name": "Mohan's School Fight",
+    "properties": {
+      "participants": [
+        "Mohan",
+        "Aryan"
+      ],
+      "outcome": "negative",
+      "emotional_significance": "necessitated a meeting with the principal"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_004",
+    "name": "Browny's Escape",
+    "properties": {
+      "cause": "gate was open",
+      "outcome": "Browny found at neighbor's house eating food"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+    "name": "Family Dinner",
+    "properties": {
+      "date_or_time": "Evening",
+      "participants": [
+        "Family"
+      ],
+      "outcome": "peaceful"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_001",
+    "name": "Yoga",
+    "properties": {
+      "who_involved": [
+        "Preeti"
+      ],
+      "frequency": "first-time",
+      "emotional_valence": "refreshed"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_002",
+    "name": "Work",
+    "properties": {
+      "who_involved": [
+        "Self"
+      ],
+      "purpose": "project proposal submission",
+      "outcome_or_result": "waiting for client approval"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+    "name": "Bedtime Stories",
+    "properties": {
+      "who_involved": [
+        "Self",
+        "Mohan"
+      ],
+      "frequency": "routine",
+      "emotional_valence": "positive"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_001",
+    "name": "Refreshed",
+    "properties": {
+      "experienced_by": "Preeti",
+      "trigger": "first yoga class",
+      "intensity": "moderate"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_002",
+    "name": "Exam Stress",
+    "properties": {
+      "experienced_by": "Neetish",
+      "resolution": "talking about it",
+      "intensity": "moderate"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_003",
+    "name": "Peaceful",
+    "properties": {
+      "experienced_by": "Self",
+      "trigger": "family dinner",
+      "duration": "evening"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  },
+  {
+    "id": "a95e2a21830b44978e613bb3e21f8e4a_001_pla_001",
+    "name": "Principal Meeting",
+    "properties": {
+      "timeframe": "future",
+      "who_involved": [
+        "Self",
+        "The Principal"
+      ],
+      "motivation": "Mohan's fight with Aryan",
+      "status": "firm intention",
+      "urgency": "high"
+    },
+    "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+    "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+  }
+]

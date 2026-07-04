@@ -1,0 +1,3498 @@
+{
+  "embedding": [
+    0.011688494,
+    0.078160204,
+    -0.20038395,
+    0.016591862,
+    0.07857279,
+    -0.03976499,
+    0.027485266,
+    0.038462058,
+    -0.034570254,
+    -0.063457616,
+    0.016346682,
+    0.03772123,
+    0.105132945,
+    0.050054308,
+    0.028373007,
+    0.0026537376,
+    0.024895068,
+    -0.07327239,
+    -0.036259666,
+    0.041148596,
+    0.045883764,
+    -0.04658728,
+    -0.00679054,
+    -0.052635387,
+    0.049483832,
+    0.017626539,
+    -0.013214533,
+    -0.003841085,
+    -0.02849486,
+    0.00020863024,
+    0.06514447,
+    -0.014212066,
+    -0.0057589663,
+    -0.073935114,
+    -0.043637764,
+    -0.01181792,
+    0.03592488,
+    -0.030504692,
+    0.006725656,
+    -0.019480346,
+    0.0216343,
+    -0.0133065665,
+    -0.0022426164,
+    -0.048938148,
+    0.05039149,
+    -0.043681633,
+    0.033541735,
+    -0.025227908,
+    0.066312976,
+    -0.08610626,
+    -0.018936433,
+    -0.004896296,
+    0.011866061,
+    0.013186637,
+    0.023248538,
+    -0.03777807,
+    -0.018249162,
+    0.027434843,
+    -0.00211344,
+    -0.047849547,
+    0.07944395,
+    0.058000952,
+    -0.032007676,
+    0.025492534,
+    0.05126128,
+    -0.040479243,
+    -0.0077752518,
+    0.028378185,
+    0.02188667,
+    -0.028954653,
+    0.06016265,
+    -0.041413635,
+    -0.023766331,
+    0.05323975,
+    -0.018418657,
+    0.0054501505,
+    -0.008920987,
+    -0.0029116324,
+    -0.014159708,
+    0.03755537,
+    0.05040026,
+    -0.0072856173,
+    0.0070999935,
+    0.023644978,
+    0.03416024,
+    -0.0015650347,
+    0.016544476,
+    0.02543529,
+    -0.057631552,
+    0.09733238,
+    -0.015731135,
+    -0.0010348241,
+    0.030118179,
+    0.051327296,
+    -0.041277103,
+    0.0081908135,
+    0.016537981,
+    -0.012636728,
+    0.014465357,
+    0.022522539,
+    -0.0143806385,
+    -0.025588095,
+    -0.046145134,
+    -0.053213093,
+    -0.0026954457,
+    0.06698107,
+    0.014277433,
+    0.02615328,
+    0.009377507,
+    -0.017660398,
+    -0.035418786,
+    0.0039153276,
+    -0.06533236,
+    -0.015481336,
+    0.008941978,
+    0.010723954,
+    0.042881276,
+    -0.052893985,
+    0.0038447494,
+    0.0022809848,
+    0.0044364985,
+    -0.05803971,
+    0.0012685576,
+    0.005780966,
+    0.04079836,
+    0.003954617,
+    -0.032002892,
+    -0.012132852,
+    -0.050101604,
+    -0.044659384,
+    0.017178278,
+    0.0061718225,
+    -0.056959815,
+    -0.0016376779,
+    0.022031397,
+    0.059161182,
+    -0.02160279,
+    -0.01600795,
+    0.010691161,
+    0.028282143,
+    0.011785728,
+    0.059589546,
+    0.005742043,
+    0.0026535224,
+    0.02721165,
+    -0.054580007,
+    -0.030803578,
+    -0.0011598549,
+    -0.02837476,
+    -0.008413629,
+    0.019164568,
+    -0.005364501,
+    -0.026403181,
+    0.04781909,
+    0.03763697,
+    -0.03280571,
+    -0.036373578,
+    -0.0025904605,
+    0.017668001,
+    0.012298526,
+    0.03646271,
+    0.008621905,
+    -0.055907812,
+    0.034428738,
+    0.007904363,
+    -0.080688216,
+    0.0069303676,
+    0.030079298,
+    0.057805747,
+    -0.007917257,
+    -0.053012926,
+    -0.008751713,
+    0.056334224,
+    0.03825403,
+    -0.014470854,
+    0.008525796,
+    0.08310176,
+    -0.030182399,
+    -0.022074921,
+    -0.047556695,
+    0.013254644,
+    -0.04463067,
+    0.04941892,
+    0.0052243015,
+    -0.06996572,
+    0.005946118,
+    0.012436254,
+    -0.04228546,
+    -0.0065079825,
+    -0.02627215,
+    0.051110815,
+    0.007586338,
+    -0.02190227,
+    0.00832402,
+    -0.035222393,
+    -0.03945159,
+    0.035441518,
+    -0.008856047,
+    0.03143027,
+    -0.042361017,
+    -0.038615048,
+    -0.020136897,
+    -0.06091228,
+    0.010441425,
+    -0.002063742,
+    0.047216397,
+    0.024186073,
+    0.03513836,
+    -0.0026305583,
+    0.012499935,
+    0.033336077,
+    -0.006311379,
+    -0.048113555,
+    0.009555223,
+    0.06803363,
+    -0.014937709,
+    0.0058418377,
+    -0.074680135,
+    -0.033716407,
+    0.03497109,
+    0.034861792,
+    -0.01923115,
+    -0.017375981,
+    -0.030274913,
+    0.0032860797,
+    -0.04412021,
+    -0.049329393,
+    0.0002726873,
+    -0.013637794,
+    -0.0041902256,
+    -0.012348115,
+    -0.057412818,
+    0.06315166,
+    -0.036655724,
+    -0.021473015,
+    0.026404921,
+    -0.010803556,
+    0.07066862,
+    0.05156988,
+    0.040915675,
+    0.025320742,
+    0.044710435,
+    -0.0013105137,
+    -0.0120011,
+    -0.006403733,
+    -0.040671583,
+    -0.0004480403,
+    -0.0042355144,
+    -0.0075228284,
+    0.046287198,
+    0.02691844,
+    0.0012580028,
+    0.030914519,
+    0.021617895,
+    0.037049387,
+    -0.018120097,
+    -0.04732674,
+    0.0047859997,
+    -0.029268725,
+    -0.021772891,
+    0.01510718,
+    -0.010851975,
+    0.014685421,
+    -0.046890166,
+    -0.015445988,
+    0.009692009,
+    -0.06542625,
+    -0.028083602,
+    0.025923157,
+    -0.022166278,
+    0.021199934,
+    0.018717922,
+    0.01410283,
+    0.06829234,
+    -0.0077181594,
+    -0.04273754,
+    0.015693342,
+    -0.033961225,
+    0.03184411,
+    0.024366295,
+    -0.025080696,
+    -0.065793045,
+    0.0027836415,
+    0.04903911,
+    -0.030503163,
+    0.028966956,
+    -0.022975206,
+    0.009137415,
+    0.020454265,
+    0.00081015297,
+    0.043494634,
+    -0.028650634,
+    0.035630964,
+    -0.038425352,
+    -0.024960222,
+    0.03762296,
+    0.046708494,
+    -0.045903787,
+    -0.008891347,
+    -0.10888822,
+    0.069137596,
+    0.060766093,
+    0.038819518,
+    -0.00031189993,
+    -0.01468041,
+    -0.005653358,
+    -0.021798095,
+    1.5558012e-06,
+    -0.019485712,
+    -0.03895956,
+    0.0031557186,
+    -0.03126309,
+    -0.06188004,
+    -0.013706897,
+    -0.07048464,
+    -0.01893507,
+    -0.00068415445,
+    0.013374712,
+    0.06577055,
+    -0.002119216,
+    -0.01868396,
+    -0.07391904,
+    -0.03263957,
+    -0.0410298,
+    -0.009114419,
+    0.06586919,
+    -0.005028781,
+    0.024979636,
+    0.01767721,
+    0.0195552,
+    -0.004685965,
+    0.0774647,
+    0.018781545,
+    -0.033474214,
+    -0.021319441,
+    0.016921252,
+    0.000850035,
+    0.027711982,
+    0.0030181338,
+    0.027097134,
+    0.019798622,
+    0.009951999,
+    0.0055433265,
+    -0.017236948,
+    0.022341663,
+    -0.013025964,
+    0.028296074,
+    -0.018744325,
+    0.062207997,
+    0.025909685,
+    0.023383945,
+    -0.013844439,
+    -0.03752823,
+    -0.020463383,
+    0.031454623,
+    0.047585376,
+    -0.01990599,
+    0.031818483,
+    0.0028644071,
+    -0.018931245,
+    -0.011832395,
+    0.057036217,
+    0.0042324876,
+    0.007838114,
+    0.035022277,
+    0.020298028,
+    0.062543966,
+    0.008305189,
+    0.007502854,
+    0.03381386,
+    -0.018255044,
+    -0.008432521,
+    -0.03804273,
+    0.05453684,
+    0.0015425475,
+    0.037555594,
+    -0.08072821,
+    -0.037896346,
+    0.0063028415,
+    0.011018663,
+    0.018745448,
+    -0.008814876,
+    -0.024491096,
+    -0.022972533,
+    0.017658092,
+    -0.01299023,
+    0.034934223,
+    -0.050117332,
+    0.002600803,
+    0.011112726,
+    -0.061275005,
+    -0.018769938,
+    -0.025740793,
+    -0.023664653,
+    -0.00060182565,
+    -0.027441196,
+    0.01948619,
+    0.0018269102,
+    0.015860924,
+    0.04208311,
+    -0.06904577,
+    -0.0153144365,
+    0.0063647437,
+    -0.0073210564,
+    -0.031865425,
+    -0.024671767,
+    -0.056519873,
+    -0.05709369,
+    -0.0035165735,
+    0.0062487214,
+    0.035893623,
+    0.052457944,
+    -0.0029004905,
+    -0.040627882,
+    0.034016438,
+    -0.008499206,
+    0.079511344,
+    -0.02470306,
+    -0.019313157,
+    0.035822637,
+    0.03786148,
+    0.0131326765,
+    0.044622354,
+    -0.005095063,
+    0.044496037,
+    0.020079913,
+    0.029115073,
+    -0.0030273602,
+    0.015879659,
+    -0.039976895,
+    0.038477916,
+    -0.014302292,
+    0.020374719,
+    0.0072988686,
+    -0.0005161251,
+    -0.015267059,
+    0.011853269,
+    0.032203577,
+    0.010780917,
+    0.055684812,
+    -0.0050444603,
+    -0.06414603,
+    -0.0038429678,
+    -0.018634068,
+    0.011540723,
+    0.084658645,
+    0.05282737,
+    0.0036493668,
+    -0.035719767,
+    0.057282772,
+    0.024111263,
+    0.03382811,
+    0.023590399,
+    0.035781447,
+    0.074872516,
+    0.00222399,
+    -0.0054780925,
+    -0.023077283,
+    0.022314548,
+    -0.0038710476,
+    -0.019795012,
+    0.024421893,
+    -0.022463491,
+    0.053966064,
+    0.031038,
+    -0.015668817,
+    0.01790904,
+    -0.0015955716,
+    0.03283837,
+    0.05730389,
+    -0.057865333,
+    0.021150887,
+    -0.004122636,
+    -0.03434509,
+    -0.011910562,
+    0.0030217129,
+    0.013284412,
+    -0.01645925,
+    0.04987547,
+    0.0974236,
+    0.0366125,
+    -0.017451819,
+    -0.044657122,
+    -0.07599059,
+    -0.02397959,
+    0.09832512,
+    0.031312007,
+    -0.07186326,
+    -0.008455715,
+    -0.015958088,
+    0.0069116885,
+    -0.01603111,
+    0.0026540041,
+    -0.006049748,
+    -0.05563751,
+    -0.012644634,
+    -0.00023585258,
+    0.05368807,
+    0.027135411,
+    -0.01790016,
+    0.05314658,
+    -0.003052148,
+    -0.0138759855,
+    0.022920419,
+    0.033649094,
+    0.0120354,
+    0.03942012,
+    -0.081059396,
+    -0.044317484,
+    -0.014699167,
+    -0.05221132,
+    0.007925331,
+    0.044537686,
+    -0.0032191332,
+    0.012842621,
+    -0.045536824,
+    0.025660893,
+    -0.031302948,
+    -0.059277594,
+    -0.027917044,
+    0.03977879,
+    -0.039222028,
+    -0.008719298,
+    0.0049438225,
+    -0.06408849,
+    0.00797995,
+    -0.011867161,
+    -0.02084682,
+    0.048153307,
+    -0.004501056,
+    0.024432315,
+    0.09164401,
+    -0.052815616,
+    -0.013114079,
+    0.0035516608,
+    -0.004515149,
+    -0.01231332,
+    -0.023027204,
+    0.054330144,
+    -0.016450038,
+    -0.018021133,
+    0.016011521,
+    0.027767295,
+    -0.014116651,
+    0.0149157755,
+    -0.055223603,
+    0.003304181,
+    0.049372308,
+    0.02014382,
+    -0.07918203,
+    0.03717635,
+    -0.029553559,
+    0.037617654,
+    -0.041055046,
+    0.030617366,
+    -0.012313731,
+    0.051457632,
+    -0.043554682,
+    -0.051944654,
+    -0.029033016,
+    0.0067908852,
+    0.025979899,
+    0.07756565,
+    0.03890581,
+    0.013850617,
+    -0.032331128,
+    -0.029220494,
+    0.026246006,
+    0.0103518795,
+    0.008003272,
+    0.026096052,
+    -0.035956357,
+    -0.011172702,
+    -0.0013511104,
+    -0.008664939,
+    -0.015825981,
+    0.054429818,
+    0.051488288,
+    -0.031118952,
+    -0.02923903,
+    0.008627897,
+    -0.015264537,
+    0.064114526,
+    0.032936588,
+    -0.009706514,
+    0.019492786,
+    -0.036142785,
+    -0.028161272,
+    0.0628395,
+    -0.062190585,
+    -0.009508093,
+    0.019587817,
+    0.049290758,
+    -0.0056270747,
+    -0.010539746,
+    0.02158127,
+    -0.009507471,
+    -0.05227433,
+    -0.06670361,
+    -0.017627845,
+    -0.026800627,
+    0.059741568,
+    0.02944252,
+    -0.03371869,
+    0.0025987262,
+    0.010856875,
+    0.034015607,
+    -0.029033134,
+    0.0026708073,
+    -0.006448051,
+    0.053715218,
+    -0.033808798,
+    -0.022031385,
+    -0.020286031,
+    -0.008716748,
+    0.018973507,
+    0.07550882,
+    -0.014320616,
+    0.021496238,
+    -0.07666348,
+    -0.028554533,
+    -0.059069928,
+    0.059282083,
+    -0.025551545,
+    -0.02303818,
+    -0.0062089795,
+    -0.013460184,
+    -0.015594934,
+    -0.022805987,
+    0.050744846,
+    -0.0066856886,
+    -0.01820524,
+    -0.044738155,
+    -0.023794184,
+    -0.073971406,
+    0.02421051,
+    0.009703799,
+    0.018118886,
+    -0.013156509,
+    0.01691538,
+    0.018286906,
+    -0.014215135,
+    -0.024542276,
+    0.048027523,
+    0.037150707,
+    -0.033593845,
+    0.00030503375,
+    0.041431494,
+    0.07952023,
+    -0.019777445,
+    0.05998596,
+    0.05219515,
+    0.02952171,
+    -0.00085881044,
+    0.036261667,
+    -0.0029171172,
+    0.023274641,
+    -0.024095528,
+    -0.059926827,
+    -0.038251836,
+    -0.0005092031,
+    0.014386745,
+    0.0037137878,
+    0.023799382,
+    0.011967199,
+    0.008354082,
+    -0.005587301,
+    0.0171281,
+    -0.05620678,
+    -0.03781062,
+    0.029790595,
+    0.03857497,
+    -0.031178212,
+    -0.01760743,
+    0.029787263,
+    0.007581108,
+    0.03618046,
+    0.017252823,
+    -0.0110688405,
+    0.004912592,
+    0.01637142,
+    -0.014670065,
+    0.018856537,
+    -0.039877098,
+    0.029193075,
+    0.029875109,
+    0.023778789,
+    -0.03989494,
+    0.016100345,
+    -0.05714349,
+    -0.027346253,
+    -0.015861183,
+    -0.018560996,
+    -0.024531832,
+    -0.0036491447,
+    0.02540406,
+    0.0024155788,
+    -0.018956423,
+    -0.037430782,
+    0.05026985,
+    -0.04384184,
+    0.04295467,
+    0.012071927,
+    0.06866524,
+    -0.005493923,
+    -0.0069578206,
+    -0.016045077,
+    -0.034218267,
+    -0.050200984,
+    -0.051242735,
+    0.00289459,
+    -0.022427825,
+    -0.007735954,
+    0.037615508,
+    -0.0006290762,
+    0.059992824,
+    -0.029245406,
+    -0.051009573,
+    0.010414584,
+    0.0522331,
+    0.03751439,
+    -0.040616747,
+    -0.07130978,
+    -0.0029393102,
+    -0.0025322032,
+    0.033228688,
+    -0.009435068,
+    -0.052994005,
+    0.0016226012,
+    -0.054986916,
+    -0.025127552,
+    -0.013089456,
+    -0.03198428,
+    0.05682261,
+    0.0030875574,
+    0.0044715255,
+    -0.00022524108,
+    0.0030320613,
+    -0.04180735,
+    -0.026224697,
+    -0.042566158,
+    -0.0029943713,
+    -0.026909087,
+    0.0075399326,
+    0.014295995,
+    -0.037888255,
+    -0.02386638,
+    0.06429015,
+    -0.0008099037,
+    0.002190705,
+    0.037434988,
+    0.008258311,
+    -0.061248478,
+    -0.024716627,
+    -0.012526772,
+    0.013061853,
+    0.046342578,
+    0.025596011,
+    0.073597565,
+    0.05488714,
+    -0.0041841716,
+    -0.06499377,
+    0.0031223781,
+    -0.039915264,
+    -0.019004565,
+    -0.057706006,
+    -0.03824559,
+    -0.06582005
+  ],
+  "chunk_seq": 5,
+  "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+  "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+  "text": "# Deliver Initiatives  \nDesign, Code and Test  \nPre Sprint  \nEnsures that our sprint teams are well-equipped to deliver  \nhigh-quality digital solutions efficiently and predictably.  \nAgile “sprint” Teams  \nBy focusing on data-driven and engineering-driven practices,  ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.  \nPost Sprint  \nRoute to Live  \nBy focusing on efficient post-sprint processes, we ensure  our solutions are deployed quickly and reliably, minimizing risk and maximizing value for our clients.  \n2-week sprints  \nReady for coding  \nEnd of  \ncoding  \nInitiatives  \nDev  \n- Reusable code components and snippets\n- Digital microservices builder\n- Automated build and deployment process\n- Trunk based development and feature toggling with Launch Darkly\n- Gamification – rewarding individuals who produce high quality code\n- GenAI for code simplification, refactoring, unit testing, debugging  \nTesting  \n- Implementing developer led automated UI testing – align technology\n- Test embedded in dev process (review unit tests, approve PR’s, etc)\n- GenAI – test scenarios, test scripts from requirements\n- Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)\n- Implement technology specific test automation frameworks\n- Address test automation debt – 70% automation achieved\n- ROI for automation\n- Embedded technical leaders (IBM code owners, tech lead, SME’s)  \nInitiatives  \n- Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks  \nVisits to India to remove cultural, organisational and capability divides  \nDesign boards to bring together design decisions with technical feasibility  \nInitiatives  \n- Produce screen designs that meet both technical and business requirements.\n- Clear Solution Intent to align stakeholders and set expectations.\n- Identify dependencies and potential risks to enable accurate work estimation and planning.\n- Standardised and reusable patterns\n- GenAI Code Analyser\n- GenAI for userstories &amp; doc\n- Enabling Figma Dev licences to improve visibility, versioning, and tracking  \nOver 200 but here are some of the big hitters  \nEpic Refinement  \n&amp; Prioritisation  \nApp Support  \nPredictability  \nFaster &amp; Better Build &amp; Test  \nReliable Releases  \nThe picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\"  \nThe graph tracks metrics across years, specifically spanning \"2023,\" \"2024,\" and \"2025,\" with monthly labels from \"January\" through \"November.\" The vertical axis provides numerical counts up to 200.  \nA legend defines four key categories:\n1. Total No of PRs completed\n2. Green (Suggestions & Recommendations)\n3. Amber (Good to have)\n4. Red (Need to Fix)  \nThe footer includes corporate branding and confidential information: \"nationwide IBM\" and the date \"21/01/26.\" The copyright notice reads: \"© 2025 - Nationwide Building Society and IBM Confidential,\" and the page number is \"16.\"  \nThe image is a slide presentation detailing \"Hackathon 2025.\"  \nThe slide contains explanatory text and a visual process diagram outlining four phases that lead to ideas getting executed. The text states: \"We will have 4 phases that will lead to Ideas getting executed. We are working out on the duration (3 days versus 4-5 weeks).\"  \nThe four phases listed in bullet points are:\n1. **Discovery** – Nationwide + IBM Leadership to identify the theme for the teams to ideate.\n2. **Ideation** – team to submit ideas for selection for POC.\n3. **POC** – Team to demo the selected ideas for selection and award.\n4. **Selection** – judges to rank the ideas based on the decided criteria. The highest ranked ideas to get sponsorship for execution.  \nThe visual flow diagram, which represents the process, proceeds through several steps:  \n*   **Discovery:** The icon is a target/dartboard. The text describes this step as: \"Identify strategic focus area and problem areas.\" This phase is allocated \"3 weeks.\"\n*   **Ideation:** The icon is a lightbulb. The text describes this step as: \"Conceptualize ideas, refine theme, and unique ideas.\" This phase is allocated \"3 weeks.\"\n*   **POC:** The icon is a magnifying glass. The text describes this step as: \"Conceptualize ideas, aligned with strategic goal.\" This phase is allocated \"4 weeks.\"\n*   **Selection:** The icon is a trophy. The text describes this step as: \"Prioritize and budget ideas, develop proposal.\" This phase is allocated \"2 weeks.\"\n*   **Sponsorship & Execution:** The icon shows a group of people. The text describes this step as: \"Add the idea to the digital roadmap for execution.\"  \nBeneath the main process, there is an additional note: \"We have a good pipeline of ideas, many of which can be taken up during this hackathon.\"  \nThe footer includes the logos and names \"nationwide\" and \"ibm,\" and the copyright text: \"© 2025 - Nationwide Building Society and IBM Confidential.\" The date listed is \"21/01/26,\" and the slide number is \"28.\"  \nThe image is a close-up architectural photograph showing the facade of a modern building set against a clear, light sky. The structure is characterized by a highly geometric and repetitive pattern of staggered windows. The facade is clad in two main materials: dark gray, rectangular tiling that covers the majority of the wall surface, and lighter gray, horizontal rectangular cladding that frames the windows. The windows themselves are angled and staggered across the face of the building, creating a strong sense of pattern and depth.  \nA week in India – 2 journeys and 1 Hackathon  \nClose Accounts  \nGoal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.  \nOrder Tax Certificate  \nGoal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.  \nHackathon  \nGoal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace and also to understand how the teams understand the designs shared with them and deliver on them. This is also to identify how we can further streamline our design handoff process and nurture the close collaboration between design and development teams.",
+  "name": "Chunk 5/8",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+  "next_chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide Building Society",
+      "aliases": [
+        "Nationwide",
+        "the client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "reference_client",
+      "description": "A major UK building society and strategic partner engaged in a collaborative digital transformation and agile delivery programme with IBM. The client is actively involved in co-creating solutions through hackathons, sprint planning, and joint leadership initiatives to modernise digital customer journeys and streamline development workflows.",
+      "context": [
+        "© 2025 - Nationwide Building Society and IBM Confidential",
+        "We are working out on the duration (3 days versus 4-5 weeks).",
+        "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+        "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon."
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM",
+      "aliases": [
+        "the vendor",
+        "IBM code owners"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "A global technology and consulting firm serving as the primary delivery partner for Nationwide Building Society. IBM provides embedded technical leadership, AI-driven development tools, and agile sprint methodologies to co-deliver digital solutions and drive operational modernisation.",
+      "context": [
+        "© 2025 - Nationwide Building Society and IBM Confidential",
+        "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+        "Nationwide + IBM Leadership to identify the theme for the teams to ideate.",
+        "The image is a slide presentation detailing \"Hackathon 2025.\""
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "Agile Sprint Teams",
+      "aliases": [
+        "sprint teams",
+        "Agile delivery model"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A structured delivery framework utilising data-driven and engineering-driven practices to ensure optimal resource allocation, time efficiency, and evidence-based quality checks. The solution is designed to equip development teams for predictable, high-quality digital delivery across pre-sprint, sprint, and post-sprint phases.",
+      "context": [
+        "Agile “sprint” Teams By focusing on data-driven and engineering-driven practices, ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+        "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "2-week sprints",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably."
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "Hackathon 2025",
+      "aliases": [
+        "Hackathon",
+        "2025 Innovation Hackathon"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A structured innovation and proof-of-concept programme designed to accelerate idea execution through discovery, ideation, POC, and selection phases. The programme serves as a collaborative engine to test delivery approaches, streamline design handoffs, and identify high-value initiatives for the digital roadmap.",
+      "context": [
+        "The image is a slide presentation detailing \"Hackathon 2025.\"",
+        "We will have 4 phases that will lead to Ideas getting executed.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Automated Build and Deployment Process",
+      "aliases": [
+        "CI/CD pipeline",
+        "automated deployment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "A technical delivery capability that automates the compilation, testing, and release of software components. This capability reduces manual intervention, accelerates release cycles, and ensures consistent deployment standards across development environments.",
+      "context": [
+        "- Automated build and deployment process",
+        "Address test automation debt – 70% automation achieved",
+        "Implementing developer led automated UI testing – align technology",
+        "Implement technology specific test automation frameworks"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Trunk Based Development and Feature Toggling",
+      "aliases": [
+        "TBD",
+        "feature toggling",
+        "Launch Darkly integration"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "A modern software engineering practice that maintains a single main code branch and uses feature flags to control code visibility. This capability enables safer, faster releases and reduces merge conflicts while allowing controlled rollout of new functionality.",
+      "context": [
+        "- Trunk based development and feature toggling with Launch Darkly",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "2-week sprints",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "GenAI Code Simplification and Refactoring",
+      "aliases": [
+        "GenAI for code",
+        "AI-driven development assistance"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "An artificial intelligence-driven capability that assists developers in simplifying complex code, refactoring legacy structures, and generating unit tests. This capability accelerates development velocity, improves code quality, and reduces debugging time through automated AI assistance.",
+      "context": [
+        "- GenAI for code simplification, refactoring, unit testing, debugging",
+        "- GenAI Code Analyser",
+        "- GenAI for userstories & doc",
+        "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\""
+      ]
+    },
+    {
+      "id": "cap_004",
+      "name": "Environment Virtualisation Stubs",
+      "aliases": [
+        "virtual stubs",
+        "environment virtualisation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "A technical capability that replaces physical testing environments and data dependencies with virtualised stubs. This reduces infrastructure overhead, accelerates test execution, and eliminates bottlenecks caused by physical environment provisioning.",
+      "context": [
+        "- Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+        "Visits to India to remove cultural, organisational and capability divides",
+        "remove requirement on physical environments and data",
+        "Address test automation debt – 70% automation achieved"
+      ]
+    },
+    {
+      "id": "cap_005",
+      "name": "Design Boards and Clear Solution Intent",
+      "aliases": [
+        "design boards",
+        "solution intent alignment",
+        "design-technical feasibility boards"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A collaborative delivery capability that bridges design and engineering through structured design boards and clear solution intent documentation. This ensures design decisions are technically feasible, aligns stakeholder expectations, and standardises reusable patterns for faster implementation.",
+      "context": [
+        "- Design boards to bring together design decisions with technical feasibility",
+        "- Clear Solution Intent to align stakeholders and set expectations.",
+        "Standardised and reusable patterns",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning."
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Digital Solutions Delivery",
+      "aliases": [
+        "digital delivery",
+        "sprint delivery"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The application of agile sprint methodologies and automated engineering practices to deliver modern digital products. This use case focuses on transforming traditional development workflows into predictable, high-quality, and efficiently resourced delivery cycles.",
+      "context": [
+        "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "By focusing on data-driven and engineering-driven practices, ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "Post Sprint Route to Live By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Close Account Journey Modernisation",
+      "aliases": [
+        "close account journey",
+        "account closure digitalisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The digital transformation of the customer account closure process, leveraging React-based development and hackathon-driven validation. This use case aims to streamline user flows, improve developer readiness, and enhance the overall customer experience through rapid prototyping.",
+      "context": [
+        "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "This is also to identify how we can further streamline our design handoff process and nurture the close collaboration between design and development teams.",
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+      ]
+    },
+    {
+      "id": "use_003",
+      "name": "Order Certificate Journey Design",
+      "aliases": [
+        "order certificate journey",
+        "certificate ordering digitalisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The design and development of a digital order certificate workflow, utilising native platform capabilities and hackathon validation. This use case focuses on aligning business requirements with technical feasibility to deliver a seamless, standardised customer-facing process.",
+      "context": [
+        "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.",
+        "Produce screen designs that meet both technical and business requirements.",
+        "Standardised and reusable patterns",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning."
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "High-Quality Predictable Delivery",
+      "aliases": [
+        "predictable delivery",
+        "quality delivery"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "A measurable outcome where development teams consistently produce digital solutions that meet quality standards while adhering to predictable timelines. This benefit reduces delivery uncertainty and increases stakeholder confidence in project outcomes.",
+      "context": [
+        "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "evidence-based quality checks at all levels",
+        "Predictability",
+        "Reliable Releases"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Optimal Resource and Time Utilization",
+      "aliases": [
+        "resource optimisation",
+        "time efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A quantifiable operational benefit achieved through data-driven and engineering-driven practices. This outcome ensures that development teams maximise productive hours, minimise idle time, and allocate resources precisely to high-value tasks.",
+      "context": [
+        "ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+        "By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably",
+        "2-week sprints",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+      ]
+    },
+    {
+      "id": "ben_003",
+      "name": "Rapid and Reliable Deployment",
+      "aliases": [
+        "fast deployment",
+        "reliable releases"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "A delivery outcome where solutions are moved to production quickly and with high reliability. This benefit minimises deployment risk, accelerates time-to-value, and maximises client impact through streamlined post-sprint processes and automated sign-offs.",
+      "context": [
+        "we ensure our solutions are deployed quickly and reliably, minimizing risk and maximizing value for our clients.",
+        "minimizing risk and maximizing value for our clients.",
+        "Reliable Releases",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+      ]
+    },
+    {
+      "id": "ben_004",
+      "name": "50% Reduction in Physical Environments",
+      "aliases": [
+        "environment reduction",
+        "virtualisation cost saving"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "A quantified infrastructure benefit achieved through environment virtualisation stubs. This outcome eliminates the need for physical testing environments and associated data, directly reducing infrastructure costs and accelerating test cycle times.",
+      "context": [
+        "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+        "remove requirement on physical environments and data",
+        "Address test automation debt – 70% automation achieved",
+        "ROI for automation"
+      ]
+    },
+    {
+      "id": "ben_005",
+      "name": "70% Test Automation Achievement",
+      "aliases": [
+        "test automation rate",
+        "automation debt reduction"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A measurable quality assurance outcome where 70% of testing processes are fully automated. This benefit significantly reduces manual testing effort, accelerates feedback loops, and improves overall software reliability through embedded technical leadership and automated frameworks.",
+      "context": [
+        "Address test automation debt – 70% automation achieved",
+        "Implementing developer led automated UI testing – align technology",
+        "Implement technology specific test automation frameworks",
+        "ROI for automation"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Cultural and Organisational Divides",
+      "aliases": [
+        "organisational silos",
+        "capability gaps",
+        "cultural barriers"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "skill_gap",
+      "description": "A structural and operational challenge stemming from geographical and organisational separation between delivery teams. This challenge hinders effective collaboration, knowledge sharing, and unified execution, requiring targeted interventions such as cross-site visits and embedded leadership.",
+      "context": [
+        "Visits to India to remove cultural, organisational and capability divides",
+        "cultural, organisational and capability divides",
+        "A week in India – 2 journeys and 1 Hackathon",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning."
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Test Automation Debt",
+      "aliases": [
+        "automation backlog",
+        "testing debt"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "technical_debt",
+      "description": "A technical constraint where legacy or manual testing processes create bottlenecks in the development lifecycle. This challenge slows release velocity, increases error risk, and requires systematic investment in automated frameworks and developer-led testing practices.",
+      "context": [
+        "Address test automation debt – 70% automation achieved",
+        "Implementing developer led automated UI testing – align technology",
+        "Implement technology specific test automation frameworks",
+        "ROI for automation"
+      ]
+    },
+    {
+      "id": "cha_003",
+      "name": "Physical Environment and Data Dependencies",
+      "aliases": [
+        "infrastructure dependencies",
+        "physical environment constraints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "An operational constraint where development and testing workflows are bottlenecked by the need for physical environments and real data. This challenge increases provisioning time, raises infrastructure costs, and limits testing agility until virtualisation is implemented.",
+      "context": [
+        "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+        "remove requirement on physical environments and data",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning.",
+        "Standardised and reusable patterns"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "Launch Darkly",
+      "aliases": [
+        "LaunchDarkly",
+        "feature flagging platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A feature flagging and release management platform integrated into the development workflow. This technology enables trunk-based development by allowing teams to merge code safely and toggle features on or off without redeploying, supporting faster and safer releases.",
+      "context": [
+        "- Trunk based development and feature toggling with Launch Darkly",
+        "Trunk based development and feature toggling",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "2-week sprints"
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "React",
+      "aliases": [
+        "React.js",
+        "frontend framework"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A JavaScript UI library used for building the close account journey interface. This technology enables component-based development, improves rendering performance, and supports rapid prototyping during hackathon-driven development cycles.",
+      "context": [
+        "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "in React",
+        "Produce screen designs that meet both technical and business requirements."
+      ]
+    },
+    {
+      "id": "tech_003",
+      "name": "Native",
+      "aliases": [
+        "native platform",
+        "native development"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "platform",
+      "description": "A platform-specific development approach used for building the order certificate journey. This technology leverages device-native capabilities to ensure optimal performance, security, and user experience for mobile or desktop applications.",
+      "context": [
+        "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "in Native",
+        "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\""
+      ]
+    },
+    {
+      "id": "tech_004",
+      "name": "Figma",
+      "aliases": [
+        "Figma Dev licences",
+        "design collaboration tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "design_tool",
+      "description": "A cloud-based design and prototyping platform enabled through developer licences. This technology improves design visibility, version control, and tracking, bridging the gap between design and development teams to streamline handoffs and reduce rework.",
+      "context": [
+        "- Enabling Figma Dev licences to improve visibility, versioning, and tracking",
+        "Enabling Figma Dev licences to improve visibility, versioning, and tracking",
+        "Design boards to bring together design decisions with technical feasibility",
+        "This is also to identify how we can further streamline our design handoff process and nurture the close collaboration between design and development teams."
+      ]
+    },
+    {
+      "id": "dif_001",
+      "name": "Gamified Quality Incentives",
+      "aliases": [
+        "gamification",
+        "quality rewards"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "innovation",
+      "description": "A unique delivery differentiator that uses gamification to reward developers for producing high-quality code. This approach shifts quality from a compliance requirement to a motivated behaviour, driving higher engagement and reducing defect rates organically.",
+      "context": [
+        "- Gamification – rewarding individuals who produce high quality code",
+        "Gamification – rewarding individuals who produce high quality code",
+        "evidence-based quality checks at all levels",
+        "Address test automation debt – 70% automation achieved"
+      ]
+    },
+    {
+      "id": "dif_002",
+      "name": "Embedded Technical Leadership",
+      "aliases": [
+        "IBM code owners",
+        "embedded SMEs",
+        "tech lead integration"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "A competitive advantage where senior technical leaders, code owners, and subject matter experts are embedded directly within client delivery teams. This ensures real-time architectural guidance, faster decision-making, and tighter alignment between business goals and technical execution.",
+      "context": [
+        "- Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+        "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning.",
+        "Standardised and reusable patterns"
+      ]
+    },
+    {
+      "id": "dif_003",
+      "name": "Bi-Weekly Deployment Cadence",
+      "aliases": [
+        "2-week deployments",
+        "streamlined sign-offs"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "speed",
+      "description": "A delivery differentiator that enables consistent bi-weekly production deployments through streamlined post-sprint sign-off processes. This capability reduces release bottlenecks, accelerates time-to-market, and provides clients with predictable, frequent value delivery.",
+      "context": [
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks",
+        "2-week sprints",
+        "By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably"
+      ]
+    },
+    {
+      "id": "dif_004",
+      "name": "Strong Innovation Pipeline",
+      "aliases": [
+        "idea pipeline",
+        "hackathon pipeline"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "scale_advantage",
+      "description": "A competitive advantage characterised by a robust and continuous flow of validated ideas ready for execution. This pipeline ensures sustained innovation, reduces ideation-to-delivery latency, and provides a steady stream of high-impact initiatives for the digital roadmap.",
+      "context": [
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon.",
+        "good pipeline of ideas, many of which can be taken up during this hackathon.",
+        "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\"",
+        "The image is a slide presentation detailing \"Hackathon 2025.\""
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "India",
+      "aliases": [
+        "India delivery centre",
+        "offshore location"
+      ],
+      "entity_class": "LOCATION",
+      "type": "country",
+      "description": "A key geographic delivery location hosting development and testing teams. This location is strategically leveraged to bridge cultural and organisational divides, enable cross-site collaboration, and support the execution of digital journeys and hackathon initiatives.",
+      "context": [
+        "Visits to India to remove cultural, organisational and capability divides",
+        "A week in India – 2 journeys and 1 Hackathon",
+        "Visits to India to remove cultural, organisational and capability divides",
+        "The image is a slide presentation detailing \"Hackathon 2025.\""
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Hackathon 2025",
+      "aliases": [
+        "Hackathon",
+        "2025 Innovation Event"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A structured innovation event designed to accelerate idea execution through discovery, ideation, POC, and selection phases. This event serves as a collaborative proving ground to test delivery approaches, validate digital journeys, and identify high-value initiatives for sponsorship and roadmap integration.",
+      "context": [
+        "The image is a slide presentation detailing \"Hackathon 2025.\"",
+        "We will have 4 phases that will lead to Ideas getting executed.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+    "org_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+    "off_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+    "off_002": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+    "cap_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+    "cap_002": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+    "cap_003": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_003",
+    "cap_004": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+    "cap_005": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+    "use_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+    "use_002": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+    "use_003": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+    "ben_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+    "ben_002": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+    "ben_003": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+    "ben_004": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+    "ben_005": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+    "cha_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+    "cha_002": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_002",
+    "cha_003": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+    "tech_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_001",
+    "tech_002": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_002",
+    "tech_003": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_003",
+    "tech_004": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_004",
+    "dif_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+    "dif_002": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+    "dif_003": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_003",
+    "dif_004": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_004",
+    "loc_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_loc_001",
+    "evt_001": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001"
+  },
+  "entities": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "name": "Nationwide Building Society",
+      "aliases": [
+        "Nationwide",
+        "the client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "reference_client",
+      "description": "A major UK building society and strategic partner engaged in a collaborative digital transformation and agile delivery programme with IBM. The client is actively involved in co-creating solutions through hackathons, sprint planning, and joint leadership initiatives to modernise digital customer journeys and streamline development workflows.",
+      "context": [
+        "© 2025 - Nationwide Building Society and IBM Confidential",
+        "We are working out on the duration (3 days versus 4-5 weeks).",
+        "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+        "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+      "name": "IBM",
+      "aliases": [
+        "the vendor",
+        "IBM code owners"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "A global technology and consulting firm serving as the primary delivery partner for Nationwide Building Society. IBM provides embedded technical leadership, AI-driven development tools, and agile sprint methodologies to co-deliver digital solutions and drive operational modernisation.",
+      "context": [
+        "© 2025 - Nationwide Building Society and IBM Confidential",
+        "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+        "Nationwide + IBM Leadership to identify the theme for the teams to ideate.",
+        "The image is a slide presentation detailing \"Hackathon 2025.\""
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "name": "Agile Sprint Teams",
+      "aliases": [
+        "sprint teams",
+        "Agile delivery model"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A structured delivery framework utilising data-driven and engineering-driven practices to ensure optimal resource allocation, time efficiency, and evidence-based quality checks. The solution is designed to equip development teams for predictable, high-quality digital delivery across pre-sprint, sprint, and post-sprint phases.",
+      "context": [
+        "Agile “sprint” Teams By focusing on data-driven and engineering-driven practices, ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+        "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "2-week sprints",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+      "name": "Hackathon 2025",
+      "aliases": [
+        "Hackathon",
+        "2025 Innovation Hackathon"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A structured innovation and proof-of-concept programme designed to accelerate idea execution through discovery, ideation, POC, and selection phases. The programme serves as a collaborative engine to test delivery approaches, streamline design handoffs, and identify high-value initiatives for the digital roadmap.",
+      "context": [
+        "The image is a slide presentation detailing \"Hackathon 2025.\"",
+        "We will have 4 phases that will lead to Ideas getting executed.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "name": "Automated Build and Deployment Process",
+      "aliases": [
+        "CI/CD pipeline",
+        "automated deployment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "A technical delivery capability that automates the compilation, testing, and release of software components. This capability reduces manual intervention, accelerates release cycles, and ensures consistent deployment standards across development environments.",
+      "context": [
+        "- Automated build and deployment process",
+        "Address test automation debt – 70% automation achieved",
+        "Implementing developer led automated UI testing – align technology",
+        "Implement technology specific test automation frameworks"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+      "name": "Trunk Based Development and Feature Toggling",
+      "aliases": [
+        "TBD",
+        "feature toggling",
+        "Launch Darkly integration"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "A modern software engineering practice that maintains a single main code branch and uses feature flags to control code visibility. This capability enables safer, faster releases and reduces merge conflicts while allowing controlled rollout of new functionality.",
+      "context": [
+        "- Trunk based development and feature toggling with Launch Darkly",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "2-week sprints",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_003",
+      "name": "GenAI Code Simplification and Refactoring",
+      "aliases": [
+        "GenAI for code",
+        "AI-driven development assistance"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "An artificial intelligence-driven capability that assists developers in simplifying complex code, refactoring legacy structures, and generating unit tests. This capability accelerates development velocity, improves code quality, and reduces debugging time through automated AI assistance.",
+      "context": [
+        "- GenAI for code simplification, refactoring, unit testing, debugging",
+        "- GenAI Code Analyser",
+        "- GenAI for userstories & doc",
+        "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\""
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+      "name": "Environment Virtualisation Stubs",
+      "aliases": [
+        "virtual stubs",
+        "environment virtualisation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "A technical capability that replaces physical testing environments and data dependencies with virtualised stubs. This reduces infrastructure overhead, accelerates test execution, and eliminates bottlenecks caused by physical environment provisioning.",
+      "context": [
+        "- Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+        "Visits to India to remove cultural, organisational and capability divides",
+        "remove requirement on physical environments and data",
+        "Address test automation debt – 70% automation achieved"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+      "name": "Design Boards and Clear Solution Intent",
+      "aliases": [
+        "design boards",
+        "solution intent alignment",
+        "design-technical feasibility boards"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "A collaborative delivery capability that bridges design and engineering through structured design boards and clear solution intent documentation. This ensures design decisions are technically feasible, aligns stakeholder expectations, and standardises reusable patterns for faster implementation.",
+      "context": [
+        "- Design boards to bring together design decisions with technical feasibility",
+        "- Clear Solution Intent to align stakeholders and set expectations.",
+        "Standardised and reusable patterns",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+      "name": "Digital Solutions Delivery",
+      "aliases": [
+        "digital delivery",
+        "sprint delivery"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The application of agile sprint methodologies and automated engineering practices to deliver modern digital products. This use case focuses on transforming traditional development workflows into predictable, high-quality, and efficiently resourced delivery cycles.",
+      "context": [
+        "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "By focusing on data-driven and engineering-driven practices, ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "Post Sprint Route to Live By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+      "name": "Close Account Journey Modernisation",
+      "aliases": [
+        "close account journey",
+        "account closure digitalisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The digital transformation of the customer account closure process, leveraging React-based development and hackathon-driven validation. This use case aims to streamline user flows, improve developer readiness, and enhance the overall customer experience through rapid prototyping.",
+      "context": [
+        "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "This is also to identify how we can further streamline our design handoff process and nurture the close collaboration between design and development teams.",
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+      "name": "Order Certificate Journey Design",
+      "aliases": [
+        "order certificate journey",
+        "certificate ordering digitalisation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The design and development of a digital order certificate workflow, utilising native platform capabilities and hackathon validation. This use case focuses on aligning business requirements with technical feasibility to deliver a seamless, standardised customer-facing process.",
+      "context": [
+        "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.",
+        "Produce screen designs that meet both technical and business requirements.",
+        "Standardised and reusable patterns",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+      "name": "High-Quality Predictable Delivery",
+      "aliases": [
+        "predictable delivery",
+        "quality delivery"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "A measurable outcome where development teams consistently produce digital solutions that meet quality standards while adhering to predictable timelines. This benefit reduces delivery uncertainty and increases stakeholder confidence in project outcomes.",
+      "context": [
+        "Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "evidence-based quality checks at all levels",
+        "Predictability",
+        "Reliable Releases"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+      "name": "Optimal Resource and Time Utilization",
+      "aliases": [
+        "resource optimisation",
+        "time efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A quantifiable operational benefit achieved through data-driven and engineering-driven practices. This outcome ensures that development teams maximise productive hours, minimise idle time, and allocate resources precisely to high-value tasks.",
+      "context": [
+        "ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+        "By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably",
+        "2-week sprints",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+      "name": "Rapid and Reliable Deployment",
+      "aliases": [
+        "fast deployment",
+        "reliable releases"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "A delivery outcome where solutions are moved to production quickly and with high reliability. This benefit minimises deployment risk, accelerates time-to-value, and maximises client impact through streamlined post-sprint processes and automated sign-offs.",
+      "context": [
+        "we ensure our solutions are deployed quickly and reliably, minimizing risk and maximizing value for our clients.",
+        "minimizing risk and maximizing value for our clients.",
+        "Reliable Releases",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+      "name": "50% Reduction in Physical Environments",
+      "aliases": [
+        "environment reduction",
+        "virtualisation cost saving"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "A quantified infrastructure benefit achieved through environment virtualisation stubs. This outcome eliminates the need for physical testing environments and associated data, directly reducing infrastructure costs and accelerating test cycle times.",
+      "context": [
+        "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+        "remove requirement on physical environments and data",
+        "Address test automation debt – 70% automation achieved",
+        "ROI for automation"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+      "name": "70% Test Automation Achievement",
+      "aliases": [
+        "test automation rate",
+        "automation debt reduction"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A measurable quality assurance outcome where 70% of testing processes are fully automated. This benefit significantly reduces manual testing effort, accelerates feedback loops, and improves overall software reliability through embedded technical leadership and automated frameworks.",
+      "context": [
+        "Address test automation debt – 70% automation achieved",
+        "Implementing developer led automated UI testing – align technology",
+        "Implement technology specific test automation frameworks",
+        "ROI for automation"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+      "name": "Cultural and Organisational Divides",
+      "aliases": [
+        "organisational silos",
+        "capability gaps",
+        "cultural barriers"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "skill_gap",
+      "description": "A structural and operational challenge stemming from geographical and organisational separation between delivery teams. This challenge hinders effective collaboration, knowledge sharing, and unified execution, requiring targeted interventions such as cross-site visits and embedded leadership.",
+      "context": [
+        "Visits to India to remove cultural, organisational and capability divides",
+        "cultural, organisational and capability divides",
+        "A week in India – 2 journeys and 1 Hackathon",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_002",
+      "name": "Test Automation Debt",
+      "aliases": [
+        "automation backlog",
+        "testing debt"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "technical_debt",
+      "description": "A technical constraint where legacy or manual testing processes create bottlenecks in the development lifecycle. This challenge slows release velocity, increases error risk, and requires systematic investment in automated frameworks and developer-led testing practices.",
+      "context": [
+        "Address test automation debt – 70% automation achieved",
+        "Implementing developer led automated UI testing – align technology",
+        "Implement technology specific test automation frameworks",
+        "ROI for automation"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+      "name": "Physical Environment and Data Dependencies",
+      "aliases": [
+        "infrastructure dependencies",
+        "physical environment constraints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "An operational constraint where development and testing workflows are bottlenecked by the need for physical environments and real data. This challenge increases provisioning time, raises infrastructure costs, and limits testing agility until virtualisation is implemented.",
+      "context": [
+        "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+        "remove requirement on physical environments and data",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning.",
+        "Standardised and reusable patterns"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_001",
+      "name": "Launch Darkly",
+      "aliases": [
+        "LaunchDarkly",
+        "feature flagging platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A feature flagging and release management platform integrated into the development workflow. This technology enables trunk-based development by allowing teams to merge code safely and toggle features on or off without redeploying, supporting faster and safer releases.",
+      "context": [
+        "- Trunk based development and feature toggling with Launch Darkly",
+        "Trunk based development and feature toggling",
+        "Pre Sprint Ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+        "2-week sprints"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_002",
+      "name": "React",
+      "aliases": [
+        "React.js",
+        "frontend framework"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A JavaScript UI library used for building the close account journey interface. This technology enables component-based development, improves rendering performance, and supports rapid prototyping during hackathon-driven development cycles.",
+      "context": [
+        "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "in React",
+        "Produce screen designs that meet both technical and business requirements."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_003",
+      "name": "Native",
+      "aliases": [
+        "native platform",
+        "native development"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "platform",
+      "description": "A platform-specific development approach used for building the order certificate journey. This technology leverages device-native capabilities to ensure optimal performance, security, and user experience for mobile or desktop applications.",
+      "context": [
+        "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "in Native",
+        "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\""
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_004",
+      "name": "Figma",
+      "aliases": [
+        "Figma Dev licences",
+        "design collaboration tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "design_tool",
+      "description": "A cloud-based design and prototyping platform enabled through developer licences. This technology improves design visibility, version control, and tracking, bridging the gap between design and development teams to streamline handoffs and reduce rework.",
+      "context": [
+        "- Enabling Figma Dev licences to improve visibility, versioning, and tracking",
+        "Enabling Figma Dev licences to improve visibility, versioning, and tracking",
+        "Design boards to bring together design decisions with technical feasibility",
+        "This is also to identify how we can further streamline our design handoff process and nurture the close collaboration between design and development teams."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+      "name": "Gamified Quality Incentives",
+      "aliases": [
+        "gamification",
+        "quality rewards"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "innovation",
+      "description": "A unique delivery differentiator that uses gamification to reward developers for producing high-quality code. This approach shifts quality from a compliance requirement to a motivated behaviour, driving higher engagement and reducing defect rates organically.",
+      "context": [
+        "- Gamification – rewarding individuals who produce high quality code",
+        "Gamification – rewarding individuals who produce high quality code",
+        "evidence-based quality checks at all levels",
+        "Address test automation debt – 70% automation achieved"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+      "name": "Embedded Technical Leadership",
+      "aliases": [
+        "IBM code owners",
+        "embedded SMEs",
+        "tech lead integration"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "A competitive advantage where senior technical leaders, code owners, and subject matter experts are embedded directly within client delivery teams. This ensures real-time architectural guidance, faster decision-making, and tighter alignment between business goals and technical execution.",
+      "context": [
+        "- Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+        "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+        "Identify dependencies and potential risks to enable accurate work estimation and planning.",
+        "Standardised and reusable patterns"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_003",
+      "name": "Bi-Weekly Deployment Cadence",
+      "aliases": [
+        "2-week deployments",
+        "streamlined sign-offs"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "speed",
+      "description": "A delivery differentiator that enables consistent bi-weekly production deployments through streamlined post-sprint sign-off processes. This capability reduces release bottlenecks, accelerates time-to-market, and provides clients with predictable, frequent value delivery.",
+      "context": [
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks",
+        "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks",
+        "2-week sprints",
+        "By focusing on efficient post-sprint processes, we ensure our solutions are deployed quickly and reliably"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_004",
+      "name": "Strong Innovation Pipeline",
+      "aliases": [
+        "idea pipeline",
+        "hackathon pipeline"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "scale_advantage",
+      "description": "A competitive advantage characterised by a robust and continuous flow of validated ideas ready for execution. This pipeline ensures sustained innovation, reduces ideation-to-delivery latency, and provides a steady stream of high-impact initiatives for the digital roadmap.",
+      "context": [
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon.",
+        "good pipeline of ideas, many of which can be taken up during this hackathon.",
+        "The picture is a complex data visualization titled \"Trend of PR Review Count vs Comments (Native).\"",
+        "The image is a slide presentation detailing \"Hackathon 2025.\""
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_loc_001",
+      "name": "India",
+      "aliases": [
+        "India delivery centre",
+        "offshore location"
+      ],
+      "entity_class": "LOCATION",
+      "type": "country",
+      "description": "A key geographic delivery location hosting development and testing teams. This location is strategically leveraged to bridge cultural and organisational divides, enable cross-site collaboration, and support the execution of digital journeys and hackathon initiatives.",
+      "context": [
+        "Visits to India to remove cultural, organisational and capability divides",
+        "A week in India – 2 journeys and 1 Hackathon",
+        "Visits to India to remove cultural, organisational and capability divides",
+        "The image is a slide presentation detailing \"Hackathon 2025.\""
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+      "name": "Hackathon 2025",
+      "aliases": [
+        "Hackathon",
+        "2025 Innovation Event"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A structured innovation event designed to accelerate idea execution through discovery, ideation, POC, and selection phases. This event serves as a collaborative proving ground to test delivery approaches, validate digital journeys, and identify high-value initiatives for sponsorship and roadmap integration.",
+      "context": [
+        "The image is a slide presentation detailing \"Hackathon 2025.\"",
+        "We will have 4 phases that will lead to Ideas getting executed.",
+        "Hackathon Goal: Challenge the development teams to deliver on the 2 journeys in both React and Native to understand which gets delivered at pace",
+        "We have a good pipeline of ideas, many of which can be taken up during this hackathon."
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "name": "Nationwide Building Society",
+      "properties": {
+        "industry": "banking",
+        "geography": "UK",
+        "size": "large",
+        "relationship_status": "active",
+        "named_or_anonymous": true,
+        "pain_points": [
+          "cultural and organisational divides",
+          "test automation debt",
+          "physical environment and data dependencies",
+          "inefficient design handoff process"
+        ],
+        "engagement_type": "agile delivery and hackathon collaboration"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+      "name": "IBM",
+      "properties": {
+        "org_type": "partner",
+        "relationship_to_offering": "co-delivery and embedded technical leadership",
+        "geographic_presence": "global"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "name": "Agile Sprint Teams",
+      "properties": {
+        "offering_type": "programme",
+        "delivery_model": "hybrid",
+        "scope": "design, code, test, and route to live",
+        "duration_or_contract_type": "2-week sprints",
+        "target_client_profile": "large banking",
+        "key_phases_or_components": [
+          "pre sprint",
+          "post sprint",
+          "route to live",
+          "epic refinement & prioritisation",
+          "app support"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+      "name": "Hackathon 2025",
+      "properties": {
+        "offering_type": "event",
+        "scope": "ideation, proof of concept, and execution pipeline development",
+        "duration_or_contract_type": "3 days to 4-5 weeks",
+        "target_client_profile": "development and design teams",
+        "key_phases_or_components": [
+          "discovery",
+          "ideation",
+          "poc",
+          "selection",
+          "sponsorship & execution"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "name": "Automated Build and Deployment Process",
+      "properties": {
+        "what_it_does": "automates build and deployment workflows",
+        "technical_components": [
+          "reusable code components",
+          "digital microservices builder"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "enables predictable and high-quality delivery",
+        "industry_applicability": [
+          "banking",
+          "digital solutions"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+      "name": "Trunk Based Development and Feature Toggling",
+      "properties": {
+        "what_it_does": "manages code integration and feature releases via trunk-based workflows",
+        "technical_components": [
+          "launch darkly",
+          "feature toggling"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "enables safe, rapid code integration and deployment",
+        "industry_applicability": [
+          "software development",
+          "banking"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_003",
+      "name": "GenAI Code Simplification and Refactoring",
+      "properties": {
+        "what_it_does": "leverages generative AI for code simplification, refactoring, and testing",
+        "technical_components": [
+          "genai code analyser",
+          "genai for unit testing",
+          "genai for debugging",
+          "genai for user stories & docs"
+        ],
+        "delivery_maturity": "emerging",
+        "differentiating_aspect": "accelerates development cycles and improves code quality",
+        "industry_applicability": [
+          "software engineering",
+          "digital banking"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+      "name": "Environment Virtualisation Stubs",
+      "properties": {
+        "what_it_does": "eliminates reliance on physical environments and data dependencies",
+        "technical_components": [
+          "environment virtualisation stubs"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "reduces physical environment footprint by 50%",
+        "industry_applicability": [
+          "testing",
+          "devops"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+      "name": "Design Boards and Clear Solution Intent",
+      "properties": {
+        "what_it_does": "aligns design decisions with technical feasibility and stakeholder expectations",
+        "technical_components": [
+          "design boards",
+          "clear solution intent",
+          "standardised and reusable patterns"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "enables accurate work estimation and planning",
+        "industry_applicability": [
+          "product design",
+          "software development"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+      "name": "Digital Solutions Delivery",
+      "properties": {
+        "problem_context": "delivering high-quality digital solutions efficiently and predictably",
+        "approach": "data-driven and engineering-driven practices with evidence-based quality checks",
+        "industry_or_vertical": "banking",
+        "outcome_achieved": "predictable delivery, faster build & test, reliable releases",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+      "name": "Close Account Journey Modernisation",
+      "properties": {
+        "problem_context": "modernizing the account closure process",
+        "approach": "react-based development with optimized design handoff and hackathon validation",
+        "industry_or_vertical": "banking",
+        "outcome_achieved": "streamlined journey ready for development and improved design-dev collaboration",
+        "complexity_level": "moderate"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+      "name": "Order Certificate Journey Design",
+      "properties": {
+        "problem_context": "designing and delivering the order certificate journey",
+        "approach": "native development with feasibility alignment and hackathon validation",
+        "industry_or_vertical": "banking",
+        "outcome_achieved": "validated design understanding and streamlined delivery pipeline",
+        "complexity_level": "moderate"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+      "name": "High-Quality Predictable Delivery",
+      "properties": {
+        "beneficiary": "client and end-users",
+        "category": "quality",
+        "evidence_type": "claimed"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+      "name": "Optimal Resource and Time Utilization",
+      "properties": {
+        "beneficiary": "delivery teams",
+        "category": "efficiency",
+        "evidence_type": "claimed"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+      "name": "Rapid and Reliable Deployment",
+      "properties": {
+        "beneficiary": "client",
+        "category": "speed",
+        "evidence_type": "claimed"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+      "name": "50% Reduction in Physical Environments",
+      "properties": {
+        "quantified_value": "50% reduction",
+        "beneficiary": "delivery teams",
+        "category": "cost",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+      "name": "70% Test Automation Achievement",
+      "properties": {
+        "quantified_value": "70% automation",
+        "beneficiary": "testing teams",
+        "category": "quality",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+      "name": "Cultural and Organisational Divides",
+      "properties": {
+        "root_cause": "geographic and cultural separation between teams",
+        "business_impact": "hinders collaboration and slows delivery",
+        "urgency": "high",
+        "who_faces_it": [
+          "nationwide",
+          "ibm"
+        ],
+        "current_workaround": "on-site visits, hackathons, and embedded technical leadership"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_002",
+      "name": "Test Automation Debt",
+      "properties": {
+        "root_cause": "legacy testing practices and manual processes",
+        "business_impact": "slows release cycles and increases deployment risk",
+        "urgency": "high",
+        "who_faces_it": [
+          "development",
+          "testing teams"
+        ],
+        "current_workaround": "developer-led automated ui testing and genai test scripts"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+      "name": "Physical Environment and Data Dependencies",
+      "properties": {
+        "root_cause": "reliance on physical infrastructure and specific data sets",
+        "business_impact": "delays testing and increases environment management overhead",
+        "urgency": "high",
+        "who_faces_it": [
+          "devops",
+          "testing teams"
+        ],
+        "current_workaround": "environment virtualisation stubs"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_001",
+      "name": "Launch Darkly",
+      "properties": {
+        "vendor_or_provider": "launch darkly",
+        "technology_category": "devops",
+        "role_in_solution": "supporting",
+        "maturity": "modern",
+        "key_characteristics": "enables trunk-based development and feature toggling"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_002",
+      "name": "React",
+      "properties": {
+        "vendor_or_provider": "meta",
+        "technology_category": "frontend framework",
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": "used for close account journey development"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_003",
+      "name": "Native",
+      "properties": {
+        "technology_category": "mobile development",
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": "used for order certificate journey development"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_004",
+      "name": "Figma",
+      "properties": {
+        "vendor_or_provider": "figma",
+        "technology_category": "design collaboration",
+        "role_in_solution": "supporting",
+        "maturity": "modern",
+        "key_characteristics": "dev licences for visibility, versioning, and tracking"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+      "name": "Gamified Quality Incentives",
+      "properties": {
+        "competitive_advantage": "rewards individuals for producing high quality code",
+        "evidence_or_proof_point": "gamification initiative and hackathon challenges",
+        "uniqueness": "cultural",
+        "target_audience": "development teams",
+        "relates_to_offering": "agile sprint teams"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+      "name": "Embedded Technical Leadership",
+      "properties": {
+        "competitive_advantage": "provides embedded code owners, tech leads, and smes within the delivery team",
+        "evidence_or_proof_point": "ibm code owners and tech leads embedded in sprint teams",
+        "uniqueness": "structural",
+        "target_audience": "client delivery teams",
+        "relates_to_offering": "agile sprint teams"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_003",
+      "name": "Bi-Weekly Deployment Cadence",
+      "properties": {
+        "competitive_advantage": "enables rapid, predictable releases every 2 weeks",
+        "evidence_or_proof_point": "streamlined post-sprint go-live signoffs",
+        "uniqueness": "process-based",
+        "target_audience": "client stakeholders",
+        "relates_to_offering": "agile sprint teams"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_004",
+      "name": "Strong Innovation Pipeline",
+      "properties": {
+        "competitive_advantage": "maintains a continuous flow of validated ideas for execution",
+        "evidence_or_proof_point": "hackathon 2025 phases and structured idea pipeline",
+        "uniqueness": "programmatic",
+        "target_audience": "client leadership",
+        "relates_to_offering": "hackathon 2025"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_loc_001",
+      "name": "India",
+      "properties": {
+        "market_type": "offshore delivery location",
+        "strategic_importance": "core"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+      "name": "Hackathon 2025",
+      "properties": {
+        "event_type": "hackathon",
+        "date_or_period": "2025",
+        "relevance_to_deal": "milestone",
+        "key_participants": [
+          "nationwide",
+          "ibm",
+          "development teams",
+          "judges"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+      "target_name": "Cultural and Organisational Divides",
+      "rel_type": "faces",
+      "description": "Nationwide faces significant cultural and organisational divides that hinder collaboration and delivery efficiency.",
+      "properties": {
+        "severity": "high",
+        "impact_area": "cross-functional teams"
+      },
+      "context": "Visits to India to remove cultural, organisational and capability divides",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "target_name": "Agile Sprint Teams",
+      "rel_type": "engaged_with",
+      "description": "Nationwide has engaged with IBM's Agile Sprint Teams to modernise delivery practices.",
+      "properties": {
+        "engagement_type": "strategic partnership",
+        "status": "active"
+      },
+      "context": "Agile “sprint” Teams... ensures that our sprint teams are well-equipped to deliver",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+      "target_name": "High-Quality Predictable Delivery",
+      "rel_type": "achieved",
+      "description": "Nationwide has achieved high-quality and predictable delivery outcomes through the new operating model.",
+      "properties": {
+        "metric": "delivery_quality",
+        "value": "high",
+        "timeframe": "ongoing"
+      },
+      "context": "ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+      "target_name": "Optimal Resource and Time Utilization",
+      "rel_type": "achieved",
+      "description": "Nationwide has realised optimal utilisation of engineering resources and project timelines.",
+      "properties": {
+        "metric": "resource_efficiency",
+        "value": "optimal",
+        "timeframe": "post-sprint"
+      },
+      "context": "ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+      "target_name": "Rapid and Reliable Deployment",
+      "rel_type": "achieved",
+      "description": "Nationwide has achieved rapid and reliable deployment of digital solutions.",
+      "properties": {
+        "metric": "deployment_speed",
+        "value": "rapid",
+        "risk_level": "minimized"
+      },
+      "context": "ensure our solutions are deployed quickly and reliably, minimizing risk and maximizing value for our clients.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+      "target_name": "50% Reduction in Physical Environments",
+      "rel_type": "achieved",
+      "description": "Nationwide has achieved a 50% reduction in physical environment dependencies.",
+      "properties": {
+        "metric": "environment_reduction",
+        "value": "50%",
+        "timeframe": "current"
+      },
+      "context": "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+      "target_name": "70% Test Automation Achievement",
+      "rel_type": "achieved",
+      "description": "Nationwide has achieved a 70% test automation rate across its delivery pipeline.",
+      "properties": {
+        "metric": "test_automation_rate",
+        "value": "70%",
+        "timeframe": "current"
+      },
+      "context": "Address test automation debt – 70% automation achieved",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+      "source_name": "IBM",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "target_name": "Nationwide Building Society",
+      "rel_type": "partners_with",
+      "description": "IBM partners with Nationwide Building Society to deliver digital transformation initiatives.",
+      "properties": {
+        "partnership_type": "strategic",
+        "scope": "digital delivery"
+      },
+      "context": "© 2025 - Nationwide Building Society and IBM Confidential",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+      "source_name": "IBM",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "target_name": "Agile Sprint Teams",
+      "rel_type": "distributes",
+      "description": "IBM distributes and operationalises the Agile Sprint Teams capability for Nationwide.",
+      "properties": {
+        "distribution_model": "embedded",
+        "governance": "joint"
+      },
+      "context": "Agile “sprint” Teams... ensures that our sprint teams are well-equipped to deliver",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "target_name": "Automated Build and Deployment Process",
+      "rel_type": "comprises",
+      "description": "The Agile Sprint Teams offering comprises an automated build and deployment process.",
+      "properties": {
+        "component_type": "automation",
+        "criticality": "high"
+      },
+      "context": "- Automated build and deployment process",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+      "target_name": "Trunk Based Development and Feature Toggling",
+      "rel_type": "comprises",
+      "description": "The Agile Sprint Teams offering comprises trunk-based development and feature toggling practices.",
+      "properties": {
+        "component_type": "engineering_practice",
+        "criticality": "high"
+      },
+      "context": "- Trunk based development and feature toggling with Launch Darkly",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_003",
+      "target_name": "GenAI Code Simplification and Refactoring",
+      "rel_type": "comprises",
+      "description": "The Agile Sprint Teams offering comprises GenAI-driven code simplification and refactoring capabilities.",
+      "properties": {
+        "component_type": "ai_capability",
+        "criticality": "medium"
+      },
+      "context": "- GenAI for code simplification, refactoring, unit testing, debugging",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+      "target_name": "Environment Virtualisation Stubs",
+      "rel_type": "comprises",
+      "description": "The Agile Sprint Teams offering comprises environment virtualisation stubs to reduce physical dependencies.",
+      "properties": {
+        "component_type": "infrastructure_stub",
+        "criticality": "high"
+      },
+      "context": "- Introducing environment virtualisation stubs to remove requirement on physical environments and data",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+      "target_name": "Design Boards and Clear Solution Intent",
+      "rel_type": "comprises",
+      "description": "The Agile Sprint Teams offering comprises design boards and clear solution intent mechanisms.",
+      "properties": {
+        "component_type": "design_governance",
+        "criticality": "medium"
+      },
+      "context": "- Design boards to bring together design decisions with technical feasibility",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+      "target_name": "Digital Solutions Delivery",
+      "rel_type": "addresses",
+      "description": "The Agile Sprint Teams offering addresses the digital solutions delivery use case.",
+      "properties": {
+        "coverage": "full",
+        "domain": "engineering"
+      },
+      "context": "ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+      "target_name": "Close Account Journey Modernisation",
+      "rel_type": "addresses",
+      "description": "The Agile Sprint Teams offering addresses the close account journey modernisation use case.",
+      "properties": {
+        "coverage": "full",
+        "domain": "customer_lifecycle"
+      },
+      "context": "Close Accounts... make it ready for the developers to pick up in Hackathon.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+      "target_name": "Order Certificate Journey Design",
+      "rel_type": "addresses",
+      "description": "The Agile Sprint Teams offering addresses the order certificate journey design use case.",
+      "properties": {
+        "coverage": "full",
+        "domain": "product_services"
+      },
+      "context": "Order Tax Certificate... Design the order certificate journey",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+      "target_name": "Cultural and Organisational Divides",
+      "rel_type": "solves",
+      "description": "The Agile Sprint Teams offering solves cultural and organisational divides through embedded collaboration.",
+      "properties": {
+        "approach": "cross-functional teams",
+        "completeness": "full"
+      },
+      "context": "Visits to India to remove cultural, organisational and capability divides",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_002",
+      "target_name": "Test Automation Debt",
+      "rel_type": "solves",
+      "description": "The Agile Sprint Teams offering solves test automation debt through automated frameworks and GenAI.",
+      "properties": {
+        "approach": "automation & ai",
+        "completeness": "full"
+      },
+      "context": "Address test automation debt – 70% automation achieved",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+      "target_name": "Physical Environment and Data Dependencies",
+      "rel_type": "solves",
+      "description": "The Agile Sprint Teams offering solves physical environment and data dependencies via virtualisation stubs.",
+      "properties": {
+        "approach": "virtualisation",
+        "completeness": "full"
+      },
+      "context": "Introducing environment virtualisation stubs to remove requirement on physical environments and data",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+      "target_name": "High-Quality Predictable Delivery",
+      "rel_type": "produces",
+      "description": "The Agile Sprint Teams offering produces high-quality and predictable delivery outcomes.",
+      "properties": {
+        "outcome_type": "quality",
+        "reliability": "high"
+      },
+      "context": "ensures that our sprint teams are well-equipped to deliver high-quality digital solutions efficiently and predictably.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+      "target_name": "Optimal Resource and Time Utilization",
+      "rel_type": "produces",
+      "description": "The Agile Sprint Teams offering produces optimal resource and time utilization across engineering workflows.",
+      "properties": {
+        "outcome_type": "efficiency",
+        "reliability": "high"
+      },
+      "context": "ensures optimal resource and time utilization, along with evidence-based quality checks at all levels.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+      "target_name": "Rapid and Reliable Deployment",
+      "rel_type": "produces",
+      "description": "The Agile Sprint Teams offering produces rapid and reliable deployment capabilities.",
+      "properties": {
+        "outcome_type": "speed",
+        "reliability": "high"
+      },
+      "context": "ensure our solutions are deployed quickly and reliably, minimizing risk and maximizing value for our clients.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+      "target_name": "50% Reduction in Physical Environments",
+      "rel_type": "produces",
+      "description": "The Agile Sprint Teams offering produces a 50% reduction in physical environment requirements.",
+      "properties": {
+        "outcome_type": "cost_savings",
+        "reliability": "quantified"
+      },
+      "context": "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+      "target_name": "70% Test Automation Achievement",
+      "rel_type": "produces",
+      "description": "The Agile Sprint Teams offering produces a 70% test automation achievement rate.",
+      "properties": {
+        "outcome_type": "automation",
+        "reliability": "quantified"
+      },
+      "context": "Address test automation debt – 70% automation achieved",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+      "source_name": "Hackathon 2025",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+      "target_name": "Hackathon 2025",
+      "rel_type": "demonstrated_through",
+      "description": "The Hackathon 2025 offering is demonstrated through the Hackathon 2025 event.",
+      "properties": {
+        "demonstration_format": "event",
+        "phase": "execution"
+      },
+      "context": "Hackathon 2025... slide presentation detailing",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+      "source_name": "Hackathon 2025",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+      "target_name": "Close Account Journey Modernisation",
+      "rel_type": "addresses",
+      "description": "The Hackathon 2025 offering addresses the close account journey modernisation use case.",
+      "properties": {
+        "coverage": "full",
+        "domain": "customer_lifecycle"
+      },
+      "context": "Goal: Complete the journey for close account (in React) and make it ready for the developers to pick up in Hackathon.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+      "source_name": "Hackathon 2025",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+      "target_name": "Order Certificate Journey Design",
+      "rel_type": "addresses",
+      "description": "The Hackathon 2025 offering addresses the order certificate journey design use case.",
+      "properties": {
+        "coverage": "full",
+        "domain": "product_services"
+      },
+      "context": "Goal: Design the order certificate journey (in Native) and make it ready for the developers to pick up in Hackathon.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "source_name": "Automated Build and Deployment Process",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+      "target_name": "Rapid and Reliable Deployment",
+      "rel_type": "delivers",
+      "description": "The automated build and deployment process delivers rapid and reliable deployment outcomes.",
+      "properties": {
+        "delivery_mechanism": "automation",
+        "impact": "high"
+      },
+      "context": "Automated build and deployment process... ensure our solutions are deployed quickly and reliably",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "source_name": "Automated Build and Deployment Process",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+      "target_name": "70% Test Automation Achievement",
+      "rel_type": "delivers",
+      "description": "The automated build and deployment process delivers the 70% test automation achievement.",
+      "properties": {
+        "delivery_mechanism": "automation",
+        "impact": "high"
+      },
+      "context": "Address test automation debt – 70% automation achieved",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+      "source_name": "Trunk Based Development and Feature Toggling",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_001",
+      "target_name": "Launch Darkly",
+      "rel_type": "integrates_with",
+      "description": "Trunk based development and feature toggling integrates with Launch Darkly for feature management.",
+      "properties": {
+        "integration_type": "sdk",
+        "version": "latest"
+      },
+      "context": "Trunk based development and feature toggling with Launch Darkly",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+      "source_name": "Environment Virtualisation Stubs",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+      "target_name": "Physical Environment and Data Dependencies",
+      "rel_type": "mitigates",
+      "description": "Environment virtualisation stubs mitigate physical environment and data dependencies.",
+      "properties": {
+        "mitigation_strategy": "virtualisation",
+        "severity_reduction": "high"
+      },
+      "context": "Introducing environment virtualisation stubs to remove requirement on physical environments and data",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+      "source_name": "Environment Virtualisation Stubs",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+      "target_name": "50% Reduction in Physical Environments",
+      "rel_type": "delivers",
+      "description": "Environment virtualisation stubs deliver a 50% reduction in physical environments.",
+      "properties": {
+        "delivery_metric": "environment_reduction",
+        "value": "50%"
+      },
+      "context": "Introducing environment virtualisation stubs to remove requirement on physical environments and data (50% reduction of environments)",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+      "source_name": "Design Boards and Clear Solution Intent",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+      "target_name": "Digital Solutions Delivery",
+      "rel_type": "enables",
+      "description": "Design boards and clear solution intent enable digital solutions delivery.",
+      "properties": {
+        "enablement_type": "governance",
+        "impact": "medium"
+      },
+      "context": "Design boards to bring together design decisions with technical feasibility",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+      "source_name": "Close Account Journey Modernisation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_002",
+      "target_name": "React",
+      "rel_type": "uses",
+      "description": "The close account journey modernisation use case uses React as its primary frontend technology.",
+      "properties": {
+        "usage_type": "frontend_framework",
+        "version": "latest"
+      },
+      "context": "Complete the journey for close account (in React)",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+      "source_name": "Order Certificate Journey Design",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_003",
+      "target_name": "Native",
+      "rel_type": "uses",
+      "description": "The order certificate journey design use case uses Native technologies for implementation.",
+      "properties": {
+        "usage_type": "platform_specific",
+        "version": "latest"
+      },
+      "context": "Design the order certificate journey (in Native)",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+      "source_name": "Gamified Quality Incentives",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "target_name": "Agile Sprint Teams",
+      "rel_type": "distinguishes",
+      "description": "Gamified quality incentives distinguish the Agile Sprint Teams offering by rewarding high-quality code.",
+      "properties": {
+        "differentiation_type": "cultural",
+        "impact": "high"
+      },
+      "context": "Gamification – rewarding individuals who produce high quality code",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+      "source_name": "Embedded Technical Leadership",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "target_name": "Agile Sprint Teams",
+      "rel_type": "distinguishes",
+      "description": "Embedded technical leadership distinguishes the Agile Sprint Teams offering through dedicated code owners and SMEs.",
+      "properties": {
+        "differentiation_type": "organizational",
+        "impact": "high"
+      },
+      "context": "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_003",
+      "source_name": "Bi-Weekly Deployment Cadence",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "target_name": "Agile Sprint Teams",
+      "rel_type": "distinguishes",
+      "description": "Bi-weekly deployment cadence distinguishes the Agile Sprint Teams offering by enabling rapid sign-offs.",
+      "properties": {
+        "differentiation_type": "process",
+        "impact": "high"
+      },
+      "context": "Streamlining post sprint go live signoffs to enable a deployment ever 2 weeks",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_004",
+      "source_name": "Strong Innovation Pipeline",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "target_name": "Agile Sprint Teams",
+      "rel_type": "distinguishes",
+      "description": "A strong innovation pipeline distinguishes the Agile Sprint Teams offering through continuous idea generation.",
+      "properties": {
+        "differentiation_type": "strategic",
+        "impact": "medium"
+      },
+      "context": "We have a good pipeline of ideas, many of which can be taken up during this hackathon.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_loc_001",
+      "source_name": "India",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "target_name": "Nationwide Building Society",
+      "rel_type": "is_market_for",
+      "description": "India serves as a key market for Nationwide Building Society's digital transformation initiatives.",
+      "properties": {
+        "market_type": "delivery_hub",
+        "strategic_importance": "high"
+      },
+      "context": "Visits to India to remove cultural, organisational and capability divides",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+      "source_name": "Hackathon 2025",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "target_name": "Nationwide Building Society",
+      "rel_type": "involves",
+      "description": "The Hackathon 2025 event involves Nationwide Building Society leadership in discovery and ideation.",
+      "properties": {
+        "involvement_type": "leadership",
+        "phase": "discovery"
+      },
+      "context": "Discovery – Nationwide + IBM Leadership to identify the theme for the teams to ideate.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+      "source_name": "Hackathon 2025",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+      "target_name": "IBM",
+      "rel_type": "involves",
+      "description": "The Hackathon 2025 event involves IBM leadership in discovery and ideation.",
+      "properties": {
+        "involvement_type": "leadership",
+        "phase": "discovery"
+      },
+      "context": "Discovery – Nationwide + IBM Leadership to identify the theme for the teams to ideate.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_004",
+      "target_name": "Figma",
+      "rel_type": "built_on",
+      "description": "The Agile Sprint Teams offering is built on Figma for design visibility and versioning.",
+      "properties": {
+        "build_type": "design_tool",
+        "version": "latest"
+      },
+      "context": "Enabling Figma Dev licences to improve visibility, versioning, and tracking",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+      "target_name": "Cultural and Organisational Divides",
+      "rel_type": "prioritising",
+      "description": "Nationwide Building Society is prioritising the resolution of cultural and organisational divides.",
+      "properties": {
+        "priority_level": "high",
+        "action": "cross-functional visits"
+      },
+      "context": "Visits to India to remove cultural, organisational and capability divides",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+      "source_name": "IBM",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "target_name": "Agile Sprint Teams",
+      "rel_type": "supplies",
+      "description": "IBM supplies the Agile Sprint Teams capability to Nationwide Building Society.",
+      "properties": {
+        "supply_model": "embedded",
+        "governance": "joint"
+      },
+      "context": "Agile “sprint” Teams... ensures that our sprint teams are well-equipped to deliver",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+      "source_name": "Trunk Based Development and Feature Toggling",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+      "target_name": "Optimal Resource and Time Utilization",
+      "rel_type": "delivers",
+      "description": "Trunk based development and feature toggling delivers optimal resource and time utilization.",
+      "properties": {
+        "delivery_mechanism": "process_efficiency",
+        "impact": "high"
+      },
+      "context": "Trunk based development and feature toggling... ensures optimal resource and time utilization",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+      "source_name": "Gamified Quality Incentives",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "target_name": "Automated Build and Deployment Process",
+      "rel_type": "based_on",
+      "description": "Gamified quality incentives are based on the automated build and deployment process to reward high-quality code.",
+      "properties": {
+        "foundation_type": "automation",
+        "impact": "cultural"
+      },
+      "context": "Gamification – rewarding individuals who produce high quality code",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+      "source_name": "Embedded Technical Leadership",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "target_name": "Automated Build and Deployment Process",
+      "rel_type": "based_on",
+      "description": "Embedded technical leadership is based on the automated build and deployment process to guide engineering standards.",
+      "properties": {
+        "foundation_type": "automation",
+        "impact": "governance"
+      },
+      "context": "Embedded technical leaders (IBM code owners, tech lead, SME’s)",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_org_001",
+      "source_name": "IBM",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_001",
+      "source_name": "Agile Sprint Teams",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_off_002",
+      "source_name": "Hackathon 2025",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_001",
+      "source_name": "Automated Build and Deployment Process",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_002",
+      "source_name": "Trunk Based Development and Feature Toggling",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_003",
+      "source_name": "GenAI Code Simplification and Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_004",
+      "source_name": "Environment Virtualisation Stubs",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cap_005",
+      "source_name": "Design Boards and Clear Solution Intent",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_001",
+      "source_name": "Digital Solutions Delivery",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_002",
+      "source_name": "Close Account Journey Modernisation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_use_003",
+      "source_name": "Order Certificate Journey Design",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_001",
+      "source_name": "High-Quality Predictable Delivery",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_002",
+      "source_name": "Optimal Resource and Time Utilization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_003",
+      "source_name": "Rapid and Reliable Deployment",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_004",
+      "source_name": "50% Reduction in Physical Environments",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_ben_005",
+      "source_name": "70% Test Automation Achievement",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_001",
+      "source_name": "Cultural and Organisational Divides",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_002",
+      "source_name": "Test Automation Debt",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_cha_003",
+      "source_name": "Physical Environment and Data Dependencies",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_001",
+      "source_name": "Launch Darkly",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_002",
+      "source_name": "React",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_003",
+      "source_name": "Native",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_tech_004",
+      "source_name": "Figma",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_001",
+      "source_name": "Gamified Quality Incentives",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_002",
+      "source_name": "Embedded Technical Leadership",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_003",
+      "source_name": "Bi-Weekly Deployment Cadence",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_dif_004",
+      "source_name": "Strong Innovation Pipeline",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_loc_001",
+      "source_name": "India",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_005_evt_001",
+      "source_name": "Hackathon 2025",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ]
+}

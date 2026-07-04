@@ -1,0 +1,1766 @@
+[
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_prc_001",
+    "name": "Customer Complaint Resolution Process",
+    "properties": {
+      "document_id": "COMPLAINT-GUIDE-001",
+      "owner": "Head of Customer Service",
+      "departments_involved": [
+        "Customer Service",
+        "Compliance"
+      ],
+      "scope": "Customer-Facing"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_001",
+    "name": "Head of Customer Service",
+    "properties": {
+      "role_type": "human",
+      "department": "Customer Service",
+      "authority_level": "Process Owner"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_002",
+    "name": "Customer Service Department",
+    "properties": {
+      "role_type": "department",
+      "department": "Customer Service"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_003",
+    "name": "Compliance Department",
+    "properties": {
+      "role_type": "department",
+      "department": "Compliance"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_rol_004",
+    "name": "Support Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Customer Service"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_001_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "subject of complaint resolution"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_001",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_002_prc_001",
+    "name": "Customer Complaint Resolution Process",
+    "properties": {
+      "purpose": "Help customers understand the complaint process and their rights, including how to raise complaints, what to expect, and how to escalate if unsatisfied"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_002",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_002_rol_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "Subject of the complaint process; initiator of the complaint"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_002",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_prc_001",
+    "name": "Complaint Resolution Process",
+    "properties": {
+      "purpose": "To address and respond to any expression of dissatisfaction regarding bank services, products, or actions",
+      "scope": [
+        "service complaints",
+        "product complaints",
+        "staff conduct",
+        "digital channel usability"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "process_role": "Subject of the complaint process",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_tra_001",
+    "name": "Failed Transfer Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "monitoring_trigger": "Customer report of failed transfer without refund"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_003_dd_001",
+    "name": "Unauthorized Direct Debit",
+    "properties": {
+      "transaction_type": "unauthorized",
+      "monitoring_trigger": "Customer report of Direct Debit taken without authorization"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_003",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_prc_001",
+    "name": "Complaint Resolution Process",
+    "properties": {
+      "timeline_sla": "8 calendar days",
+      "outcome_success": "Customer satisfaction with response",
+      "outcome_failure": "Escalation to Financial Ombudsman Service"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_stp_001",
+    "name": "Complaint Investigation",
+    "properties": {
+      "mandatory": "yes",
+      "output": "Clear explanation of findings"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_stp_002",
+    "name": "Complaint Response",
+    "properties": {
+      "timeline_sla": "8 calendar days",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_dec_001",
+    "name": "Response Satisfaction Check",
+    "properties": {
+      "decision_question": "Is the customer happy with the response?",
+      "path_yes": "Process closed",
+      "path_no": "Escalation to Financial Ombudsman Service"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_esc_001",
+    "name": "External Escalation — Financial Ombudsman Service",
+    "properties": {
+      "level_number": 1,
+      "authority": "Financial Ombudsman Service",
+      "escalation_trigger": "Customer unhappy with bank's response",
+      "examples": [
+        "Unresolved complaints"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_rol_001",
+    "name": "Financial Ombudsman Service",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Independent adjudication"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_004_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "process_role": "Subject of the complaint process",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_004",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_prc_001",
+    "name": "Complaint Raising Process",
+    "properties": {
+      "purpose": "To allow customers to raise complaints via telephone",
+      "channels": [
+        "phone"
+      ],
+      "scope": "General customer complaints",
+      "trigger": "Customer contacts the bank via phone to explain an issue"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_stp_001",
+    "name": "Telephone Complaint Initiation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "channel": "phone",
+      "input": "Clear explanation of the issue",
+      "tools_or_systems": "Phone (0800-555-2265)"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_rol_002",
+    "name": "Supervisor",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_005_dec_001",
+    "name": "Supervisor Escalation Trigger",
+    "properties": {
+      "decision_question": "Is a supervisor needed to resolve the issue?",
+      "decision_maker": "Customer",
+      "path_yes": "Customer asks to speak with a supervisor",
+      "path_no": "Issue is handled by the initial phone agent"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_005",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_prc_001",
+    "name": "Formal Complaint Lodgement Process (Email Channel)",
+    "properties": {
+      "channels": [
+        "email"
+      ],
+      "trigger": "Customer sends email to support@firstuk.bank with subject 'I want to lodge a formal complaint'",
+      "scope": "Formal complaints submitted via email",
+      "outcome_success": "Complaint successfully lodged with all required details provided"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "email"
+      ],
+      "process_role": "applicant"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_rol_002",
+    "name": "Bank Support Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Bank Support",
+      "channels": [
+        "email"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_stp_001",
+    "name": "Complaint Email Submission",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": [
+        "Customer name",
+        "Account number",
+        "Date of issue",
+        "Description of event",
+        "Analysis of error",
+        "Desired resolution"
+      ],
+      "channel": "email",
+      "mandatory": "yes",
+      "tools_or_systems": "Email client"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_006_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "data_collected": [
+        "account number"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_006",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_prc_001",
+    "name": "Branch-Based Complaint Resolution Process",
+    "properties": {
+      "scope": "In-branch complaints",
+      "channels": [
+        "branch"
+      ],
+      "trigger": "Customer visits a branch to lodge a complaint"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_stp_001",
+    "name": "Request Manager Consultation",
+    "properties": {
+      "actor": "Complaining Customer",
+      "channel": "branch",
+      "mandatory": "no"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_stp_002",
+    "name": "Complaint Form Submission",
+    "properties": {
+      "actor": "Complaining Customer",
+      "input": "complaint form",
+      "channel": "branch",
+      "mandatory": "no"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_rol_001",
+    "name": "Branch Manager",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_007_rol_002",
+    "name": "Complaining Customer",
+    "properties": {
+      "role_type": "human",
+      "customer_type": "existing",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_007",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_008_prc_001",
+    "name": "Online Complaint Submission Process",
+    "properties": {
+      "purpose": "Allow customers to submit complaints securely via the bank's website",
+      "channels": [
+        "online"
+      ],
+      "scope": "Customer complaints",
+      "trigger": "Customer decides to lodge a complaint via the website"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_008",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_008_stp_001",
+    "name": "Online Complaint Form Completion and Submission",
+    "properties": {
+      "actor": "Customer",
+      "channel": "online",
+      "tools_or_systems": "www.firstuk.bank/complaints",
+      "mandatory": "yes",
+      "output": "Submitted complaint form"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_008",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_008_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "online"
+      ],
+      "process_role": "applicant/complainant"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_008",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_prc_001",
+    "name": "Complaint Handling Process",
+    "properties": {
+      "purpose": "Manage and resolve customer complaints",
+      "timeline_sla": "Acknowledgment within 1 business day",
+      "outcome_success": "Resolution of complaint and provision of reference number"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_stp_001",
+    "name": "Complaint Acknowledgment Step",
+    "properties": {
+      "step_number": 1,
+      "estimated_duration": "1 business day",
+      "output": [
+        "Complaint Reference Number",
+        "Acknowledgment Email/Letter",
+        "Name of Investigator"
+      ],
+      "mandatory": "yes",
+      "channel": "email | postal"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_rol_001",
+    "name": "Complaint Investigator",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "email",
+        "letter"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_009_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "notification_required": "yes",
+      "data_collected": [
+        "Complaint Reference Number"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_009",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_stp_001",
+    "name": "Investigation Stage",
+    "properties": {
+      "step_number": 2,
+      "actor": "Investigation Team",
+      "estimated_duration": "Days 1–7",
+      "mandatory": "yes",
+      "output": "Determination of compensation eligibility",
+      "failure_path": "Escalation or request for additional information from customer"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_001",
+    "name": "Investigation Team",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Case review and compensation determination",
+      "channels": [
+        "system",
+        "phone",
+        "email"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_002",
+    "name": "Involved Staff",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Interviewee/Witness"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_003",
+    "name": "Third Parties",
+    "properties": {
+      "role_type": "external",
+      "examples": [
+        "merchant",
+        "other bank"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_rol_004",
+    "name": "Customer",
+    "properties": {
+      "customer_type": "existing",
+      "notification_required": "yes",
+      "process_role": "Information provider"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_010_dec_001",
+    "name": "Compensation Warranted Decision",
+    "properties": {
+      "decision_question": "Is compensation warranted based on the investigation findings?",
+      "criteria": "Assessment of what went wrong and review of records/interviews",
+      "decision_maker": "Investigation Team"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_010",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_prc_001",
+    "name": "Complaint Resolution Process",
+    "properties": {
+      "timeline_sla": "Decision by Day 8"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_stp_001",
+    "name": "Complaint Decision and Notification Step",
+    "properties": {
+      "step_number": 3,
+      "output": "Response letter",
+      "mandatory": "yes",
+      "timeline_sla": "By Day 8"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_dec_001",
+    "name": "Complaint Outcome Decision",
+    "properties": {
+      "decision_question": "Is the complaint upheld, partially upheld, or rejected?",
+      "criteria": "Findings from the investigation",
+      "outcome_paths": [
+        "Upheld",
+        "Partially Upheld",
+        "Rejected"
+      ],
+      "resolution_actions": [
+        "Refund",
+        "Explanation",
+        "Other resolution",
+        "Compensation"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_rol_001",
+    "name": "Complaint Handling Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Determines complaint outcome and awards compensation"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_011_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "process_role": "Subject of the complaint resolution",
+      "notification_required": "yes",
+      "notification_method": "Response letter"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_011",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_prc_001",
+    "name": "Complaint Resolution and Escalation Process",
+    "properties": {
+      "scope": "Complaint resolution and external escalation",
+      "outcome_success": "Complaint closed and refund processed",
+      "outcome_failure": "Escalation to Financial Ombudsman"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_stp_001",
+    "name": "Complaint Closure and Refund Processing",
+    "properties": {
+      "actor": "Bank",
+      "output": "Closed complaint and processed refund",
+      "mandatory": "yes",
+      "failure_path": "Customer disagrees with decision, leading to escalation"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_stp_002",
+    "name": "External Escalation to Financial Ombudsman",
+    "properties": {
+      "actor": "Customer",
+      "timeline_sla": "Within 6 months of decision",
+      "mandatory": "no",
+      "failure_path": "Exceeding 6-month window for escalation"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Can accept or reject bank decision and initiate external escalation"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_rol_002",
+    "name": "Financial Ombudsman",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "External dispute resolution"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_dec_001",
+    "name": "Decision Acceptance Gate",
+    "properties": {
+      "decision_question": "Does the customer accept the bank's decision?",
+      "decision_maker": "Customer",
+      "path_yes": "Complaint closed and refund processed",
+      "path_no": "Escalation to Financial Ombudsman"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_012_esc_001",
+    "name": "External Tier — Financial Ombudsman",
+    "properties": {
+      "level_number": "External",
+      "authority": "Financial Ombudsman",
+      "escalation_trigger": "Customer disagrees with bank decision",
+      "response_time": "Within 6 months of decision"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_012",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_prc_001",
+    "name": "Failed Transfer Complaint Resolution Process",
+    "properties": {
+      "purpose": "Resolve customer complaints regarding failed transfers where funds were debited but not received",
+      "scope": "Failed transfers not yet refunded",
+      "timeline_sla": "2–3 business days",
+      "trigger": "Customer complaint regarding a failed transfer where money was taken from the account",
+      "outcome_success": "Refund issued with interest (if system error) or clear explanation provided to customer"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_stp_001",
+    "name": "Transfer Status Investigation",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Customer complaint, transaction details",
+      "output": "Determination of transfer completion status and debit status",
+      "mandatory": "yes",
+      "investigation_points": [
+        "Did the transfer actually complete or fail?",
+        "If failed, was the money debited or not?",
+        "Why did it fail?"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_dec_001",
+    "name": "Transfer Failure Root Cause Decision",
+    "properties": {
+      "decision_question": "What was the root cause of the transfer failure?",
+      "criteria": "Analysis of system logs and account balance",
+      "path_yes": "If system error: No fee charged, refund + interest",
+      "path_no": "If insufficient funds: Explain failure, no refund",
+      "alternative_path": "If invalid recipient: Explain error, refund only if bank's fault"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "subject of the complaint",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_tra_001",
+    "name": "Failed Transfer Transaction",
+    "properties": {
+      "transaction_type": "failed",
+      "monitoring_trigger": "Customer report of funds debited without successful transfer",
+      "outcome_paths": [
+        "refund + interest",
+        "explanation of failure (no refund)"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_013_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "account_state_at_start": "existing",
+      "account_state_at_end": "active"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_013",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_prc_001",
+    "name": "Wrong Interest Charged Investigation Process",
+    "properties": {
+      "purpose": "Investigate and resolve customer disputes regarding incorrect interest rates charged",
+      "scope": "Interest rate discrepancies",
+      "timeline_sla": "3–5 business days",
+      "trigger": "Customer claim: 'I was charged the wrong interest rate'",
+      "outcome_success": "Interest recalculated and refunded, or policy clarified to customer satisfaction"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_001",
+    "name": "Interest Rate Discrepancy Investigation",
+    "properties": {
+      "step_number": 1,
+      "input": [
+        "Expected interest rate",
+        "Actual interest rate charged",
+        "Duration of discrepancy",
+        "Financial impact (benefit or harm)"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_dec_001",
+    "name": "Interest Error Root Cause Determination",
+    "properties": {
+      "decision_question": "What is the cause of the interest rate discrepancy?",
+      "criteria": "Comparison between expected rate, actual rate, and bank policy",
+      "path_yes": "Bank Error Remediation (if bank at fault)",
+      "path_no": "Policy Error Resolution or No Error Clarification"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_002",
+    "name": "Bank Error Remediation",
+    "properties": {
+      "step_number": 2,
+      "output": [
+        "Recalculated interest",
+        "Refund of difference",
+        "Additional interest for inconvenience"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_003",
+    "name": "Policy Error Resolution",
+    "properties": {
+      "step_number": 2,
+      "output": [
+        "Policy explanation",
+        "Refund (only if error caused loss)"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_stp_004",
+    "name": "No Error Clarification",
+    "properties": {
+      "step_number": 2,
+      "output": "Explanation of the rate and justification of why it is correct",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_014_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "subject of interest investigation",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_014",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_prc_001",
+    "name": "Unauthorized Direct Debit Investigation Process",
+    "properties": {
+      "purpose": "Investigate and resolve claims of unauthorized Direct Debit transactions",
+      "scope": "Direct Debit payments",
+      "timeline_sla": "5–10 business days",
+      "outcome_success": "Refund of unauthorized amount plus interest within 10 days",
+      "outcome_failure": "Explanation provided to customer if authorization is confirmed"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_stp_001",
+    "name": "Direct Debit Mandate and Authorization Investigation",
+    "properties": {
+      "actor": "Bank Investigator",
+      "input": "Disputed transaction details, customer claim",
+      "output": "Determination of mandate validity and authorization status",
+      "mandatory": "yes",
+      "investigation_criteria": [
+        "Existence of signed mandate",
+        "Verification of customer authorization",
+        "Authorization date",
+        "Amount accuracy relative to mandate"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_dec_001",
+    "name": "Direct Debit Authorization Outcome Decision",
+    "properties": {
+      "decision_question": "Was the Direct Debit transaction authorized and correct?",
+      "criteria": "Presence of signed mandate and verification of customer intent/amount",
+      "path_yes": "Provide explanation to customer; offer option to cancel future payments",
+      "path_no": "Refund full amount plus interest within 10 days per Direct Debit Guarantee",
+      "variant_path": "If amount error only, refund overage only"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_rol_001",
+    "name": "Bank Investigator",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Investigation and refund recommendation",
+      "response_time_sla": "5–10 business days"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "Claimant",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_tra_001",
+    "name": "Disputed Direct Debit Transaction",
+    "properties": {
+      "transaction_type": "suspicious",
+      "monitoring_trigger": "Customer complaint of unauthorized withdrawal",
+      "outcome_paths": [
+        "Refunded in full with interest",
+        "Refunded partially (overage only)",
+        "Cleared as authorized"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_015_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "mandate_validation": "Check for signed mandate and authorized amount",
+      "dispute_steps": "Verify if amount taken matches mandate terms"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_015",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_prc_001",
+    "name": "Poor Customer Service Complaint Process",
+    "properties": {
+      "purpose": "To investigate and resolve complaints regarding rude or poor staff behavior in branches",
+      "scope": "Branch customer service complaints",
+      "channels": [
+        "branch"
+      ],
+      "timeline_sla": "5–7 business days",
+      "trigger": "Customer report of rude staff member",
+      "outcome_success": "Resolution via apology, retraining, compensation, or clarification"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_001",
+    "name": "Complaint Investigation",
+    "properties": {
+      "step_number": 1,
+      "input": [
+        "Date of occurrence",
+        "Identity of staff member",
+        "Details of words/actions",
+        "Impact on customer"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_dec_001",
+    "name": "Complaint Outcome Determination",
+    "properties": {
+      "decision_question": "Was the complaint of poor customer service substantiated?",
+      "criteria": "Investigation findings regarding staff behavior and impact",
+      "path_yes": "Service Failure Resolution",
+      "path_no": "Misunderstanding Clarification or Unsubstantiated Finding Notification"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_002",
+    "name": "Service Failure Resolution",
+    "properties": {
+      "step_number": 2,
+      "output": [
+        "Apology",
+        "Staff retraining",
+        "Compensation (£20–£100)"
+      ],
+      "mandatory": "conditional"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_003",
+    "name": "Misunderstanding Clarification",
+    "properties": {
+      "step_number": 2,
+      "output": [
+        "Explanation of staff actions",
+        "Clarification"
+      ],
+      "mandatory": "conditional"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_stp_004",
+    "name": "Unsubstantiated Finding Notification",
+    "properties": {
+      "step_number": 2,
+      "output": [
+        "Explanation of findings"
+      ],
+      "mandatory": "conditional"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_rol_001",
+    "name": "Branch Staff Member",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "process_role": "Subject of investigation"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_016_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "Complainant",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_016",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_prc_001",
+    "name": "Account Restrictions Investigation Process",
+    "properties": {
+      "purpose": "Investigate the cause and justification of account freezes to determine if they should be maintained or lifted",
+      "scope": "Frozen accounts",
+      "timeline_sla": "3–5 business days",
+      "trigger": "Customer complaint regarding account freeze without explanation",
+      "outcome_success": "Account unfrozen (if unjustified) or reason explained with resolution timeline (if justified)",
+      "outcome_failure": "Process error identified requiring process improvement"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_stp_001",
+    "name": "Freeze Justification Investigation",
+    "properties": {
+      "actor": "Investigator",
+      "input": "Account freeze records",
+      "output": "Determination of freeze justification",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_dec_001",
+    "name": "Freeze Justification Decision",
+    "properties": {
+      "decision_question": "Was the account freeze justified?",
+      "criteria": "Regulatory reasons, fraud holds, or other valid banking justifications",
+      "path_yes": "Explain reason to customer and provide timeline for resolution",
+      "path_no": "Unfreeze account immediately, apologize, and provide compensation"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_cust_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "process_role": "Subject of the investigation",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "account_state_at_start": "frozen",
+      "account_state_at_end": "active (if unjustified) or frozen (if justified)"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_chk_001",
+    "name": "KYC Compliance Check",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Account remains frozen until compliance is met"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_017_fra_001",
+    "name": "Fraud Hold Investigation",
+    "properties": {
+      "alert_trigger": "Fraud hold placed on account",
+      "outcome_paths": [
+        "Justified: Maintain freeze and investigate",
+        "Unjustified: Unfreeze account"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_017",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_prc_001",
+    "name": "Escalation to Financial Ombudsman Service",
+    "properties": {
+      "purpose": "Provide a mechanism for customers to seek external resolution when unhappy with the bank's decision or response time",
+      "trigger": "Customer dissatisfaction with decision, lack of response within 8 days, or failure to acknowledge receipt",
+      "outcome_success": "External review and resolution by the Financial Ombudsman Service"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_dec_001",
+    "name": "Ombudsman Escalation Trigger Check",
+    "properties": {
+      "decision_question": "Is the customer eligible to escalate to the Financial Ombudsman Service?",
+      "criteria": [
+        "Customer is unhappy with the bank's decision",
+        "Bank failed to respond within 8 days",
+        "Bank failed to acknowledge receipt of the complaint"
+      ],
+      "path_yes": "Proceed to external escalation via Financial Ombudsman Service",
+      "path_no": "Continue internal complaint handling process"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_esc_001",
+    "name": "External Regulator — Financial Ombudsman Service",
+    "properties": {
+      "level_number": "External",
+      "authority": "Financial Ombudsman Service",
+      "examples": [
+        "Unresolved complaints",
+        "SLA breaches regarding response times"
+      ],
+      "escalation_trigger": "Failure of internal resolution or breach of 8-day response window"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_018_rol_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "The subject initiating the escalation due to dissatisfaction or service failure"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_018",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_prc_001",
+    "name": "Complaint Escalation to Financial Ombudsman Service",
+    "properties": {
+      "purpose": "Escalate a complaint to an external body when the bank's internal decision is unsatisfactory",
+      "channels": [
+        "phone",
+        "online",
+        "email",
+        "postal"
+      ],
+      "trigger": "Customer disagrees with the bank's decision letter",
+      "input": [
+        "FirstUK complaint reference number",
+        "Bank decision letter",
+        "Relevant correspondence",
+        "Explanation of disagreement"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_rol_001",
+    "name": "Financial Ombudsman Service",
+    "properties": {
+      "role_type": "external",
+      "channels": [
+        "phone",
+        "website",
+        "email",
+        "postal"
+      ],
+      "contact_details": {
+        "phone": "0800 023 4567",
+        "website": "www.financialombudsman.org.uk",
+        "email": "complaint@financialombudsman.org.uk",
+        "address": "Exchange Tower, London, E14 9SR"
+      }
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_esc_001",
+    "name": "External Escalation — Financial Ombudsman Service",
+    "properties": {
+      "level_number": "External",
+      "authority": "Financial Ombudsman Service",
+      "escalation_trigger": "Customer disagreement with FirstUK decision letter"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_019_rol_002",
+    "name": "Complaining Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "applicant/complainant",
+      "channels": [
+        "phone",
+        "online",
+        "email",
+        "postal"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_019",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_prc_001",
+    "name": "Financial Ombudsman Complaint Resolution Process",
+    "properties": {
+      "purpose": "Independent resolution of customer complaints",
+      "timeline_sla": "3–6 months",
+      "outcome_success": "Decision issuance and potential compensation award",
+      "channels": [
+        "external"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_rol_001",
+    "name": "Financial Ombudsman",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Binding decision maker for the bank",
+      "channels": [
+        "system",
+        "email"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_rol_002",
+    "name": "FirstUK Bank",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Subject to binding Ombudsman decisions"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_rol_003",
+    "name": "Complaining Customer",
+    "properties": {
+      "role_type": "external",
+      "process_role": "applicant",
+      "notification_required": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_001",
+    "name": "Independent Complaint Review",
+    "properties": {
+      "step_number": 1,
+      "actor": "Financial Ombudsman",
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_002",
+    "name": "Information Request from Bank",
+    "properties": {
+      "step_number": 2,
+      "actor": "Financial Ombudsman",
+      "input": "Additional information from FirstUK",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_003",
+    "name": "Decision Issuance",
+    "properties": {
+      "step_number": 3,
+      "actor": "Financial Ombudsman",
+      "output": "Binding decision for bank / Non-binding decision for customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_stp_004",
+    "name": "Compensation Award",
+    "properties": {
+      "step_number": 4,
+      "actor": "Financial Ombudsman",
+      "output": "Financial compensation",
+      "mandatory": "conditional"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_020_dec_001",
+    "name": "Ombudsman Agreement Gate",
+    "properties": {
+      "decision_question": "Does the Ombudsman agree with the customer's complaint?",
+      "decision_maker": "Financial Ombudsman",
+      "path_yes": "Make an award (compensation)",
+      "path_no": "Issue decision without award"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_020",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_prc_001",
+    "name": "Complaint Compensation Process",
+    "properties": {
+      "purpose": "To provide financial and non-financial remedies to customers following a complaint",
+      "scope": "Complaint resolution and compensation",
+      "outcome_success": "Provision of appropriate refund, interest, goodwill payment, or non-financial remedy"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_rol_001",
+    "name": "FirstUK Bank Compensation Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Authorized to provide financial compensation and non-financial remedies"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_cus_001",
+    "name": "Complaining Customer",
+    "properties": {
+      "process_role": "Recipient of compensation or remedies"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_stp_001",
+    "name": "Financial Compensation Provision",
+    "properties": {
+      "output": [
+        "Refunds for financial loss",
+        "Interest for delayed refunds",
+        "Goodwill payments (£20–£100+)"
+      ],
+      "mandatory": "no"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_021_stp_002",
+    "name": "Non-Financial Remedy Provision",
+    "properties": {
+      "output": [
+        "Apology",
+        "Explanation",
+        "Service improvements",
+        "Policy changes"
+      ],
+      "mandatory": "no"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_021",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_022_prc_001",
+    "name": "Customer Compensation Process",
+    "properties": {
+      "purpose": "Determine and issue compensation based on issue severity",
+      "scope": "Customer service failures and financial losses",
+      "outcome_success": "Compensation issued within defined ranges based on severity"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_022",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_022_dec_001",
+    "name": "Issue Severity Assessment",
+    "properties": {
+      "decision_question": "What is the severity level of the customer issue?",
+      "criteria": {
+        "Minor": "inconvenience, slow response",
+        "Moderate": "financial loss <£100, service failure",
+        "Significant": "financial loss £100–£500, multiple failures",
+        "Major": "financial loss >£500, serious service failure"
+      },
+      "path_yes": "Assign compensation range based on severity level",
+      "compensation_ranges": {
+        "Minor": "£20–£50",
+        "Moderate": "£50–£150",
+        "Significant": "£150–£300",
+        "Major": "£300+"
+      }
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_022",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_022_rol_001",
+    "name": "Financial Ombudsman Service",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Guidance provider for major compensation claims"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_022",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_prc_001",
+    "name": "Complaint Resolution Process",
+    "properties": {
+      "purpose": "To resolve customer complaints through investigation and potential compensation",
+      "timeline_sla": "8 calendar days",
+      "outcome_success": "Resolution of issue and customer satisfaction",
+      "outcome_failure": "Escalation to Financial Ombudsman"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_001",
+    "name": "Complaint Lodgement",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "mandatory": "yes",
+      "cost": "Free"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_002",
+    "name": "Full Investigation",
+    "properties": {
+      "step_number": 2,
+      "actor": "FirstUK Bank",
+      "output": "Thorough review of the issue"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_003",
+    "name": "Findings Explanation",
+    "properties": {
+      "step_number": 3,
+      "actor": "FirstUK Bank",
+      "output": "Detailed explanation of findings"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_stp_004",
+    "name": "Compensation Payment",
+    "properties": {
+      "step_number": 4,
+      "actor": "FirstUK Bank",
+      "trigger": "Bank found to be in error"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Right to lodge free complaints and appeal to Ombudsman"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_rol_002",
+    "name": "FirstUK Bank",
+    "properties": {
+      "role_type": "human",
+      "response_time_sla": "8 calendar days"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_rol_003",
+    "name": "Financial Ombudsman",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "External appeal resolution"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_dec_001",
+    "name": "Resolution Satisfaction Gate",
+    "properties": {
+      "decision_question": "Is the customer happy with the bank's resolution?",
+      "path_yes": "Process closed",
+      "path_no": "Escalation to Financial Ombudsman"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_023_esc_001",
+    "name": "External Escalation — Financial Ombudsman",
+    "properties": {
+      "level_number": 1,
+      "authority": "Financial Ombudsman",
+      "time_limit": "6 months from bank resolution",
+      "escalation_trigger": "Customer unhappy with bank's findings/resolution"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_023",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_prc_001",
+    "name": "Complaint Prevention Procedure",
+    "properties": {
+      "purpose": "To provide guidance and tips to customers to avoid issues that lead to complaints",
+      "scope": "General banking activities and account security",
+      "outcome_success": "Reduction in customer issues and formal complaints"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_001",
+    "name": "Transfer Detail Verification",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": [
+        "account number",
+        "sort code"
+      ],
+      "mandatory": "yes",
+      "channel": "manual"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_002",
+    "name": "Communication Record Keeping",
+    "properties": {
+      "step_number": 2,
+      "actor": "Customer",
+      "output": "Records of all communications",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_003",
+    "name": "Account Activity Monitoring",
+    "properties": {
+      "step_number": 3,
+      "actor": "Customer",
+      "trigger": "Regular intervals",
+      "output": "Detection of unauthorized activity",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_004",
+    "name": "Rapid Issue Reporting",
+    "properties": {
+      "step_number": 4,
+      "actor": "Customer",
+      "timeline_sla": "Immediate (do not wait weeks)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_005",
+    "name": "Security Credential Management",
+    "properties": {
+      "step_number": 5,
+      "actor": "Customer",
+      "tools_or_systems": [
+        "Secure passwords",
+        "2FA"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_stp_006",
+    "name": "Proactive Inquiry",
+    "properties": {
+      "step_number": 6,
+      "actor": "Customer",
+      "trigger": "Observation of something that seems wrong",
+      "mandatory": "yes"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_024_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Subject responsible for following prevention tips to avoid complaints"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_024",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_025_prc_001",
+    "name": "Complaint Process",
+    "properties": {
+      "channels": [
+        "phone",
+        "email",
+        "website"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_025",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_025_rol_001",
+    "name": "Financial Ombudsman",
+    "properties": {
+      "role_type": "external",
+      "channels": [
+        "phone",
+        "website"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_025",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_025_esc_001",
+    "name": "External Escalation — Financial Ombudsman",
+    "properties": {
+      "authority": "Financial Ombudsman",
+      "channels": [
+        "phone",
+        "website"
+      ]
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_025",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_027_prc_001",
+    "name": "Complaint Resolution Process",
+    "properties": {
+      "purpose": "To resolve customer complaints and use feedback to improve services",
+      "owner": "Head of Customer Service"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_027",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  },
+  {
+    "id": "1301d8a88ab0427aa6303430ad3096a6_027_rol_001",
+    "name": "Head of Customer Service",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Author of complaint resolution guide"
+    },
+    "chunk_id": "1301d8a88ab0427aa6303430ad3096a6_027",
+    "doc_id": "1301d8a88ab0427aa6303430ad3096a6"
+  }
+]

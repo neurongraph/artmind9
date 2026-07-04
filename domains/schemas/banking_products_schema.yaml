@@ -11,8 +11,8 @@ entities_prompt: |
   Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
 
   PRODUCT
-    A distinct banking product or sub-product offered by FirstUK Bank to customers. Each named product variant (SmartSaver Account, SmartSaver Plus, Current Account, Mortgage, Debit Card) is a separate entity. Include both the product name and its product_id code when stated.
-    example type values: savings_account | premium_savings | current_account | mortgage | debit_card | credit_card | joint_account
+    A distinct banking product or sub-product offered by FirstUK Bank to customers. Each named product variant (SmartSaver Account, SmartSaver Plus, Current Account, Mortgage) is a separate entity. Include both the product name and its product_id code when stated. Note: payment cards are extracted as CARD entities, not PRODUCT. Joint account arrangements are extracted as JOINT_ACCOUNT entities, not PRODUCT.
+    example type values: savings_account | premium_savings | current_account | mortgage | isa | business_account
 
   PRODUCT_FEATURE
     A specific capability, service, or entitlement included in a product — something that describes what the customer can do with or through the product. Capture features that differentiate products or are customer-facing benefits, not internal mechanics.
@@ -37,6 +37,34 @@ entities_prompt: |
   FAQ_ITEM
     A customer question and its official answer as a paired unit. Capture the question topic and key answer points together. Extract FAQ items that convey policy decisions, product rules, or useful customer guidance not otherwise captured in the above classes.
     example type values: account_basics | interest_query | fees_query | access_query | security_query | process_query | eligibility_query | dispute_query
+
+  CUSTOMER
+    A natural person who holds, applies for, or is referenced as an eligible applicant in the product document. Extract when the document specifies eligibility conditions, rights, or obligations that govern specific customer types.
+    example type values: individual_customer | joint_applicant | existing_customer | new_customer | eligible_customer
+
+  ACCOUNT
+    A customer account opened under or governed by the product. Extract when the document describes account mechanics, balance rules, dormancy thresholds, or closure conditions that apply to the account arrangement.
+    example type values: savings_account | current_account | joint_account | dormant_account | closed_account
+
+  TRANSACTION
+    A financial event on the account referenced in the product document — deposits, withdrawals, transfers, fee charges, or disputed payments. Extract when the document defines transaction rules, dispute windows, or the conditions under which fees are triggered.
+    example type values: deposit | withdrawal | transfer | fee_charge | disputed_transaction | standing_order_payment | direct_debit_payment
+
+  CARD
+    A payment card issued with or linked to the product or account. Extract when the document describes card issuance, daily limits, loss or theft procedures, or contactless rules.
+    example type values: debit_card | credit_card | prepaid | contactless | replacement_card
+
+  KYC_VERIFICATION
+    The identity and address verification process required as an eligibility gate before a customer can open or hold the product. Extract when the document references identity checks, acceptable documents, or the consequence of failing verification.
+    example type values: identity_check | address_verification | enhanced_due_diligence | document_verification
+
+  ACCOUNT_HOLDER
+    A person with legal rights and obligations over the account — primary, joint, or secondary. Extract when the document defines holder rights, withdrawal authority, liability allocation, or the process for adding or removing holders.
+    example type values: primary_holder | joint_holder | sole_holder | secondary_holder
+
+  JOINT_ACCOUNT
+    An account arrangement held jointly by two or more customers with shared rights and liabilities. Extract when the document defines joint account rules, consent requirements, or liability provisions unique to joint arrangements.
+    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -187,6 +215,53 @@ properties_prompt: |
     - customer_action (what the customer should do based on the answer)
     - urgency (routine | important | time_sensitive)
 
+  For CUSTOMER, consider:
+    - eligibility_criteria (age, residency, identity requirements stated in the document)
+    - customer_type (individual, joint applicant, existing customer)
+    - applicable_products (products this customer type can access)
+    - exclusion_conditions (circumstances that disqualify a customer)
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - balance_rules (minimum balance, maximum balance, available balance calculation)
+    - dormancy_threshold (period of inactivity that triggers dormant status)
+    - closure_conditions (how and when the account can be closed, notice period required)
+    - linked_product_id (which product governs this account)
+
+  For TRANSACTION, consider:
+    - transaction_types (which types are referenced in this document)
+    - dispute_window (time limit for disputing a transaction)
+    - fee_triggers (which transaction events incur charges)
+    - reversal_rules (conditions under which a transaction can be reversed)
+
+  For CARD, consider:
+    - card_type (debit, credit, prepaid)
+    - daily_limit (ATM or spending daily ceiling)
+    - contactless_limit (per-transaction contactless ceiling)
+    - replacement_fee (cost of replacing a lost or stolen card)
+    - loss_report_procedure (steps customer must take)
+
+  For KYC_VERIFICATION, consider:
+    - required_documents (acceptable identity documents listed)
+    - verification_method (document, biometric, database check)
+    - mandatory (yes — required before account opening)
+    - consequence_of_failure (application rejected, account suspended)
+    - refresh_requirement (whether periodic reverification is stated)
+
+  For ACCOUNT_HOLDER, consider:
+    - holder_type (primary, joint, secondary)
+    - withdrawal_authority (can act alone or requires co-signature)
+    - liability_scope (individual liability or joint and several)
+    - consent_requirements (decisions requiring all holders to agree)
+    - holder_change_process (how holders are added or removed)
+
+  For JOINT_ACCOUNT, consider:
+    - liability_type (joint_and_several or tenants_in_common)
+    - withdrawal_rights (whether either holder can withdraw full balance unilaterally)
+    - closure_consent_required (both holders must agree to close)
+    - aml_due_diligence (both holders subject to individual AML screening)
+    - dispute_resolution (process if holders disagree)
+
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "fee_amount" not "amt")
     2. Use arrays for multiple values
@@ -312,6 +387,75 @@ relationships_prompt: |
 
   FAQ_ITEM ↔ PRODUCT_FEATURE:
     explains, references
+
+  CUSTOMER ↔ PRODUCT:
+    applies_for, holds, eligible_for, excluded_from
+
+  CUSTOMER ↔ ELIGIBILITY_RULE:
+    subject_to, must_satisfy, governs_access_for
+
+  CUSTOMER ↔ KYC_VERIFICATION:
+    must_pass, required_to_complete, subject_to
+
+  CUSTOMER ↔ ACCOUNT:
+    holds, opens, closes, liable_for
+
+  CUSTOMER ↔ ACCOUNT_HOLDER:
+    designated_as, has_role_as
+
+  ACCOUNT ↔ PRODUCT:
+    opened_under, governed_by, linked_to
+
+  ACCOUNT ↔ TERMS_CLAUSE:
+    subject_to, governed_by
+
+  ACCOUNT ↔ TRANSACTION:
+    records, generates, has_associated
+
+  ACCOUNT ↔ ACCOUNT_HOLDER:
+    has_holder, held_by
+
+  ACCOUNT ↔ CARD:
+    linked_to, issues
+
+  ACCOUNT ↔ JOINT_ACCOUNT:
+    classified_as, structured_as
+
+  ACCOUNT ↔ INTEREST_RATE_TIER:
+    earns_at, subject_to
+
+  TRANSACTION ↔ FEE:
+    triggers, incurs, subject_to
+
+  TRANSACTION ↔ TERMS_CLAUSE:
+    governed_by, subject_to
+
+  CARD ↔ PRODUCT:
+    issued_with, linked_to
+
+  CARD ↔ FEE:
+    incurs_fee_for (replacement, foreign transaction)
+
+  CARD ↔ TERMS_CLAUSE:
+    governed_by
+
+  KYC_VERIFICATION ↔ ELIGIBILITY_RULE:
+    implements, required_by, satisfies
+
+  KYC_VERIFICATION ↔ PRODUCT:
+    required_for, gates_access_to
+
+  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
+    party_to, has_rights_in, liable_under
+
+  ACCOUNT_HOLDER ↔ TERMS_CLAUSE:
+    governed_by, subject_to
+
+  JOINT_ACCOUNT ↔ TERMS_CLAUSE:
+    governed_by, subject_to
+
+  JOINT_ACCOUNT ↔ ELIGIBILITY_RULE:
+    subject_to, both_holders_must_satisfy
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

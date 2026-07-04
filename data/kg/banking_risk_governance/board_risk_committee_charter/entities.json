@@ -1,0 +1,1267 @@
+[
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_001_dep_001",
+    "name": "Board Office",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "board_office",
+    "description": "The organisational department identified as the owner of the Board Risk Committee Charter.",
+    "context": [
+      "Department | Board Office"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_001_dep_002",
+    "name": "Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body of FirstUK Bank and the designated owner of the Board Risk Committee Charter.",
+    "context": [
+      "Owner | Board of Directors",
+      "Audience | Board, Executive, Risk Committee"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_002_dep_001",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk_committee",
+    "description": "A standing committee of the Board of Directors responsible for overseeing FirstUK Bank's enterprise risk management, capital adequacy, and internal controls.",
+    "context": [
+      "The Board Risk Committee (BRC) is a standing committee of the Board of Directors responsible for overseeing FirstUK Bank's enterprise risk management, capital adequacy, and internal controls."
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_002_dep_002",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body of FirstUK Bank, of which the Board Risk Committee is a standing committee.",
+    "context": [
+      "The Board Risk Committee (BRC) is a standing committee of the Board of Directors"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_dep_001",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body of FirstUK Bank responsible for appointing the Committee Secretary.",
+    "context": [
+      "Appointed by Board"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_001",
+    "name": "Independent Non-Executive Director (Chair)",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "non_executive_director",
+    "description": "The independent non-executive director serving as the Chair of the committee.",
+    "context": [
+      "Independent Non-Executive Director (Chair)",
+      "Chair must be independent"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_002",
+    "name": "Independent Non-Executive Directors",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "non_executive_director",
+    "description": "Two to three independent non-executive directors serving as members of the committee.",
+    "context": [
+      "2–3 Independent Non-Executive Directors"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_003",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "executive_officer",
+    "description": "Executive member of the committee who is non-voting in deliberations.",
+    "context": [
+      "Chief Risk Officer (executive, non-voting in deliberations)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_004",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "executive_officer",
+    "description": "Executive member of the committee who is non-voting in deliberations.",
+    "context": [
+      "Chief Financial Officer (executive, non-voting in deliberations)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_005",
+    "name": "Committee Secretary",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "administrative_support",
+    "description": "An individual appointed by the Board to provide administrative support and maintain records and meeting minutes.",
+    "context": [
+      "Committee Secretary:",
+      "Appointed by Board",
+      "Provides administrative support",
+      "Maintains records, meeting minutes"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_upd_001",
+    "name": "FCA/PRA Independence Definition",
+    "aliases": [],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "The regulatory definition provided by the FCA and PRA used to determine the independence of committee members.",
+    "context": [
+      "Majority of members must be independent (per FCA/PRA definition)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_001",
+    "name": "Enterprise Risk Management Framework",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The overarching framework for managing risk across the bank, subject to approval and strategic oversight.",
+    "context": [
+      "Approve enterprise risk management framework"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_002",
+    "name": "Risk Appetite Statement",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "risk_appetite_approval",
+    "description": "The formal statement defining the level of risk the bank is willing to accept to achieve its strategic objectives.",
+    "context": [
+      "Review and approve Risk Appetite Statement"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_met_001",
+    "name": "Pillar 1 Capital Ratio — Minimum >15%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "The minimum required capital ratio under Pillar 1 regulations, set at greater than 15%.",
+    "context": [
+      "Monitor capital ratios (Pillar 1 minimum >15%)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_003",
+    "name": "Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with loan portfolio quality, borrower concentration, and major lending decisions, specifically for mortgages exceeding £500k.",
+    "context": [
+      "Review credit strategy and risk limits",
+      "Monitor loan portfolio quality",
+      "Assess borrower concentration risk",
+      "Review major lending decisions (mortgages >£500k)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_004",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk arising from internal processes, people, and systems, monitored via KRIs and control environment assessments.",
+    "context": [
+      "Review operational risk incidents",
+      "Assess control environment",
+      "Monitor operational risk KRIs",
+      "Approve risk mitigation strategies"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_005",
+    "name": "Compliance and Regulatory Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk related to regulatory compliance, the management of regulatory relationships, and the remediation of audit findings.",
+    "context": [
+      "Monitor regulatory compliance",
+      "Review audit findings and remediation",
+      "Assess regulatory relationships",
+      "Approve regulatory responses"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_006",
+    "name": "Fraud and Financial Crime Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "Risk encompassing fraud incidents, AML/KYC effectiveness, and the filing of Suspicious Activity Reports (SARs).",
+    "context": [
+      "Review fraud incidents and investigations",
+      "Monitor AML/KYC effectiveness",
+      "Review SAR (Suspicious Activity Report) filings",
+      "Assess anti-fraud controls"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_007",
+    "name": "Cybersecurity and Technology Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "cyber_risk",
+    "description": "Risk related to cybersecurity threats, system availability, technology investments, and incident response.",
+    "context": [
+      "Review cybersecurity risks",
+      "Monitor system availability",
+      "Assess major technology investments",
+      "Review incident response procedures"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_prod_001",
+    "name": "Mortgages",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "Banking product subject to major lending decision reviews when the value exceeds £500k.",
+    "context": [
+      "Review major lending decisions (mortgages >£500k)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_aml_001",
+    "name": "AML/KYC Effectiveness",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "aml_gap",
+    "description": "The ongoing monitoring and assessment of Anti-Money Laundering and Know Your Customer control effectiveness.",
+    "context": [
+      "Monitor AML/KYC effectiveness"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_sar_001",
+    "name": "SAR Filings",
+    "aliases": [
+      "Suspicious Activity Report"
+    ],
+    "entity_class": "SAR",
+    "type": "sar_volume",
+    "description": "The review and monitoring of Suspicious Activity Report filings as part of financial crime oversight.",
+    "context": [
+      "Review SAR (Suspicious Activity Report) filings"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "name": "Full Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body of FirstUK Bank to which the Committee Chair reports key decisions and issues, and which holds ultimate accountability to regulators.",
+    "context": [
+      "Reports to: Full Board of Directors",
+      "Committee Chair accountable to Board",
+      "Board accountable to regulators (FCA, PRA)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_002",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The executive role responsible for providing risk management updates to the committee.",
+    "context": [
+      "Receives from: Chief Risk Officer (risk management updates)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_003",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "finance",
+    "description": "The executive role responsible for reporting on capital and financial risk.",
+    "context": [
+      "Receives from: Chief Financial Officer (capital, financial risk)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_004",
+    "name": "Compliance Head",
+    "aliases": [
+      "Head of Compliance"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "The executive role responsible for reporting on regulatory, AML, and KYC matters.",
+    "context": [
+      "Receives from: Compliance Head (regulatory, AML/KYC)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_005",
+    "name": "Head of Internal Audit",
+    "aliases": [
+      "HIA"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The executive role responsible for reporting audit findings to the committee.",
+    "context": [
+      "Receives from: Head of Internal Audit (audit findings)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_006",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "The executive role responsible for reporting on technology risk.",
+    "context": [
+      "Receives from: Chief Technology Officer (technology risk)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_upd_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "regulator",
+    "description": "A regulatory body to which the Board is accountable and which may meet with the committee directly.",
+    "context": [
+      "Board accountable to regulators (FCA, PRA)",
+      "Regulators may meet with committee directly"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_upd_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "regulator",
+    "description": "A regulatory body to which the Board is accountable and which may meet with the committee directly.",
+    "context": [
+      "Board accountable to regulators (FCA, PRA)",
+      "Regulators may meet with committee directly"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_001",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The office of the Chief Risk Officer, responsible for providing input into the agenda setting for committee meetings.",
+    "context": [
+      "Chair sets agenda (input from CRO, CFO, Compliance)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_002",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The office of the Chief Financial Officer, responsible for providing input into the agenda setting for committee meetings.",
+    "context": [
+      "Chair sets agenda (input from CRO, CFO, Compliance)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_003",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "The Compliance function, responsible for providing input into the agenda setting for committee meetings.",
+    "context": [
+      "Chair sets agenda (input from CRO, CFO, Compliance)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_004",
+    "name": "Internal Audit",
+    "aliases": [
+      "Internal auditors"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The internal audit function, which is invited to attend committee meetings at least quarterly.",
+    "context": [
+      "Internal auditors invited (at least quarterly)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_met_001",
+    "name": "Capital Ratios",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "Capital ratios are listed as a standing item for review during committee meetings.",
+    "context": [
+      "Standing items: Risk appetite, capital ratios, incidents, KRIs"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_met_002",
+    "name": "Key Risk Indicators (KRIs)",
+    "aliases": [
+      "KRIs"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "Key Risk Indicators are listed as a standing item for review during committee meetings.",
+    "context": [
+      "Standing items: Risk appetite, capital ratios, incidents, KRIs"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_rsk_001",
+    "name": "Risk Appetite",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The bank's risk appetite is a standing item for discussion and review during committee meetings.",
+    "context": [
+      "Standing items: Risk appetite, capital ratios, incidents, KRIs"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_001",
+    "name": "Annual Review of Risk Appetite Statement",
+    "aliases": [
+      "RAS Review"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "risk_appetite_approval",
+    "description": "The formal requirement to review the Risk Appetite Statement annually to ensure alignment with strategic objectives and the definition of capital, loss, and regulatory tolerances.",
+    "context": [
+      "Risk Appetite Statement: Review annually",
+      "Align with strategic objectives",
+      "Define tolerances (capital, losses, regulatory)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_002",
+    "name": "Annual Capital Plan Review",
+    "aliases": [
+      "Capital Planning"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "budget_decision",
+    "description": "The annual review of the bank's capital plan, including the assessment of stress testing scenarios such as recession, market shock, and fraud.",
+    "context": [
+      "Annual capital plan review",
+      "Stress testing scenarios (recession, market shock, fraud)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_met_001",
+    "name": "Quarterly Capital Ratio Monitoring",
+    "aliases": [
+      "Capital Ratio"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "A quantitative monitoring process for the bank's capital ratio conducted on a quarterly basis.",
+    "context": [
+      "Capital ratio monitoring (quarterly)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_003",
+    "name": "Dividend and Distribution Approval",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "budget_decision",
+    "description": "The governance process for approving dividends or other distributions if applicable.",
+    "context": [
+      "Dividend/distribution approval (if applicable)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_004",
+    "name": "Annual Internal Audit Plan Review and Approval",
+    "aliases": [
+      "Audit Plan Approval"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "audit_plan_approval",
+    "description": "The annual review and approval of the Internal Audit plan, alongside the approval of the Internal Audit budget.",
+    "context": [
+      "Review Internal Audit plan (annual)",
+      "Approve Internal Audit budget"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_001",
+    "name": "Audit Findings Remediation Monitoring",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "The ongoing task of monitoring audit findings and their subsequent remediation process.",
+    "context": [
+      "Monitor audit findings and remediation"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_005",
+    "name": "Internal Audit Independence Assessment",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The formal assessment of the independence of the Internal Audit function.",
+    "context": [
+      "Assess Internal Audit independence"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_006",
+    "name": "Regulatory Response Approval",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "regulatory_response",
+    "description": "The governance process for approving formal responses to the FCA and PRA following the receipt of feedback.",
+    "context": [
+      "Receive FCA/PRA feedback",
+      "Approve regulatory responses"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_002",
+    "name": "Regulatory Finding Remediation Planning",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "The process of planning remediation actions in response to regulatory concerns or orders.",
+    "context": [
+      "Discuss regulatory concerns/orders",
+      "Plan remediation for findings"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_003",
+    "name": "Annual Risk Management Training",
+    "aliases": [
+      "Board Education"
+    ],
+    "entity_class": "ACTION_ITEM",
+    "type": "training",
+    "description": "Mandatory annual risk management training provided to the Board.",
+    "context": [
+      "Annual risk management training"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_004",
+    "name": "Quarterly Market Risk Overview",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "A quarterly reporting and education requirement providing an overview of market risk to the Board.",
+    "context": [
+      "Market risk overview (quarterly)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_005",
+    "name": "Emerging Risk and Regulatory Change Briefings",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "communication",
+    "description": "The provision of briefings to the Board regarding emerging risks and updates on regulatory changes.",
+    "context": [
+      "Emerging risk briefings",
+      "Regulatory change updates"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_001",
+    "name": "Committee Approval of Risk Appetite Statement",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "risk_appetite_approval",
+    "description": "The Committee is granted the formal authority to approve the Risk Appetite Statement.",
+    "context": [
+      "Decisions Made by Committee:",
+      "Risk Appetite Statement (approval)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_002",
+    "name": "Committee Approval of Major Risk Policy Changes",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Committee is responsible for approving major changes to risk policies, specifically citing credit policy as an example.",
+    "context": [
+      "Major risk policy changes (e.g., credit policy)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_003",
+    "name": "Committee Approval of Risk Limits and KRIs",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Committee holds the authority to approve risk limits and Key Risk Indicators (KRIs).",
+    "context": [
+      "Risk limits and KRIs (approval)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_004",
+    "name": "Committee Approval of Risk Remediation Strategies >£500k",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Risk remediation strategies requiring a spend exceeding £500,000 must be approved by the Committee.",
+    "context": [
+      "Risk remediation strategies (approval if >£500k spend)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_005",
+    "name": "Committee Approval of Large Lending Decisions (Mortgages >£500k)",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Committee is the decision authority for large lending decisions, specifically mortgages exceeding £500,000.",
+    "context": [
+      "Large lending decisions (mortgages >£500k)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_006",
+    "name": "Committee Approval of Stress Testing Scenarios",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Committee is responsible for decisions regarding stress testing scenarios.",
+    "context": [
+      "Stress testing scenarios"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_007",
+    "name": "Board Approval of Capital Raising and Deployment",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "budget_decision",
+    "description": "Decisions regarding the raising or deployment of capital require formal Board approval.",
+    "context": [
+      "Decisions Requiring Board Approval:",
+      "Capital raising/deployment"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_008",
+    "name": "Board Approval of Regulatory Capital Requirements Compliance",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Compliance with regulatory capital requirements is a matter requiring Board-level approval.",
+    "context": [
+      "Regulatory capital requirements compliance"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_009",
+    "name": "Board Approval of Significant Strategic Risk Changes",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Any significant changes to the bank's strategic risk profile must be approved by the Board.",
+    "context": [
+      "Significant strategic risk changes"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_010",
+    "name": "Board Approval of Major Acquisitions",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Major acquisitions, where applicable, require formal approval from the Board.",
+    "context": [
+      "Major acquisitions (if applicable)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_011",
+    "name": "Board Approval of Large Financial Provisions and Write-offs",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Board is the decision authority for large financial provisions or write-offs.",
+    "context": [
+      "Large financial provisions/write-offs"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_001",
+    "name": "Operational Risk Incident Threshold — Executive Authority <£10k",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Executive authority is limited to operational risk incidents with a value of less than £10,000.",
+    "context": [
+      "Executive Authority (Within Risk Appetite):",
+      "Operational risk incidents <£10k"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_002",
+    "name": "Fraud Reimbursement Threshold — Executive Authority <£5,000",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Executive authority for fraud reimbursement is capped at £5,000.",
+    "context": [
+      "Fraud reimbursement <£5,000"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_003",
+    "name": "Technology Investment Threshold — Executive Authority <£100k",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Executive authority for technology investments is limited to amounts under £100,000.",
+    "context": [
+      "Technology investments <£100k"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_001",
+    "name": "Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Credit risk is managed through specific credit policies and lending decision thresholds, including Board and Committee oversight for large exposures.",
+    "context": [
+      "Major risk policy changes (e.g., credit policy)",
+      "Large lending decisions (mortgages >£500k)",
+      "Credit decisions within approved limits"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_002",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Operational risk is managed with a specific executive authority threshold for incidents under £10,000.",
+    "context": [
+      "Operational risk incidents <£10k"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_003",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "Fraud risk management includes defined executive authority for reimbursements up to £5,000.",
+    "context": [
+      "Fraud reimbursement <£5,000"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_004",
+    "name": "AML/KYC Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "aml_risk",
+    "description": "Standard AML/KYC approvals fall under Executive Authority.",
+    "context": [
+      "AML/KYC approvals (standard)"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_005",
+    "name": "Technology Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "Technology risk is managed through investment limits, with executive authority for spends under £100,000.",
+    "context": [
+      "Technology investments <£100k"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_dec_001",
+    "name": "Annual Committee Effectiveness and Self-Assessment Review",
+    "aliases": [
+      "Committee Self-Assessment"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "A formal annual review process to evaluate the effectiveness of the committee, including member skills, experience, and overall meeting processes. The assessment focuses on composition, information quality, and engagement with management.",
+    "context": [
+      "Committee effectiveness review",
+      "Member skills and experience assessment",
+      "Meetings and processes evaluation"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_001",
+    "name": "Reporting of Self-Assessment Results to the Board",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "A requirement to report the results of the committee's annual self-assessment and effectiveness review to the Board.",
+    "context": [
+      "Results reported to Board"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_002",
+    "name": "Provision of Identified Committee Training",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "training",
+    "description": "The identification and delivery of specific training for committee members based on the gaps found during the skills and experience assessment.",
+    "context": [
+      "Training identified and provided"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_003",
+    "name": "Implementation of Committee Process Improvements",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "The execution of improvements to committee processes arising from the evaluation of meeting effectiveness and information quality.",
+    "context": [
+      "Process improvements implemented"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_dept_001",
+    "name": "Risk Committee",
+    "aliases": [
+      "Committee"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The governance body responsible for risk oversight, maintaining regulatory correspondence, and ensuring committee composition and meeting frequency meet regulatory standards.",
+    "context": [
+      "Risk Committee Chair may meet with regulators directly",
+      "Committee updates sent to regulators",
+      "Regulatory feedback discussed in committee"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_upd_001",
+    "name": "FCA/PRA Regulatory Standards for Committee Governance",
+    "aliases": [
+      "Regulatory Requirements"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Regulatory requirements governing the composition, meeting frequency, and level of risk oversight detail required for the bank's committee documentation.",
+    "context": [
+      "Committee composition meets regulatory standards",
+      "Meeting frequency meets regulatory expectations",
+      "Risk oversight sufficiently detailed per regulations",
+      "Documentation complete and retained"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_011_dep_001",
+    "name": "Risk Department",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The organisational department responsible for risk management, referenced within the related policies and procedures section.",
+    "context": [
+      "[[departments]] — Risk Department"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_012_dec_001",
+    "name": "Board Approval of Committee Charter Review",
+    "aliases": [
+      "Charter Review"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "charter_amendment",
+    "description": "The Full Board of Directors approved changes to the Committee Charter during the annual review process. The decision was finalized on 2026-01-15 and is effective upon approval.",
+    "context": [
+      "Changes Approved By: Full Board of Directors",
+      "Last Review: 2026-01-15",
+      "Effective Implementation: Upon Board approval"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_012_dep_001",
+    "name": "Full Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The highest governing body of FirstUK Bank responsible for the approval of Committee Charter changes.",
+    "context": [
+      "Changes Approved By: Full Board of Directors"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_013_dec_001",
+    "name": "Board Approval of Initial Charter",
+    "aliases": [
+      "Version 1.0"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Board formally approved the initial version (1.0) of the charter on 2026-01-15.",
+    "context": [
+      "Version 1.0 | 2026-01-15 | Initial charter | Board"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_013_dep_001",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The highest governing body of FirstUK Bank responsible for the approval of the charter.",
+    "context": [
+      "Approved By | Board"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dec_001",
+    "name": "Board Adoption of Document",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Board of Directors formally adopted the document on 2026-01-15.",
+    "context": [
+      "Adopted by: Board of Directors — Date: 2026-01-15"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dec_002",
+    "name": "Risk Committee Chair Sign-Off",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Risk Committee Chair provided formal sign-off/adoption of the document on 2026-01-15.",
+    "context": [
+      "Risk Committee Chair — Date: 2026-01-15"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dep_001",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body of FirstUK Bank responsible for the adoption of the document.",
+    "context": [
+      "Adopted by: Board of Directors"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dep_002",
+    "name": "Risk Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The committee responsible for risk oversight, represented by the Chair in the sign-off process.",
+    "context": [
+      "Risk Committee Chair"
+    ],
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  }
+]

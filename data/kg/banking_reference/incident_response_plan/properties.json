@@ -1,0 +1,1966 @@
+[
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_inc_001",
+    "name": "Security Incident",
+    "properties": {
+      "category": "Security",
+      "subtypes": [
+        "cyberattacks",
+        "data breaches",
+        "unauthorized access",
+        "system failures"
+      ],
+      "typical_impact": "Operational disruption and data compromise",
+      "primary_response_team": "Security Incident Response Team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_res_001",
+    "name": "Security Incident Detection",
+    "properties": {
+      "action_phase": "detection",
+      "output_or_artifact": "Incident Alert"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_res_002",
+    "name": "Security Incident Investigation",
+    "properties": {
+      "action_phase": "investigation"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_res_003",
+    "name": "Security Incident Response",
+    "properties": {
+      "action_phase": "recovery",
+      "goal": "minimize impact and restore operations quickly"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_001",
+    "name": "Cybersecurity Incident",
+    "properties": {
+      "subtypes": [
+        "Malware infection",
+        "Ransomware attack",
+        "Unauthorized access",
+        "Data exfiltration",
+        "DDoS attack",
+        "Credential compromise"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_002",
+    "name": "Data Breach",
+    "properties": {
+      "subtypes": [
+        "Customer personal data exposed",
+        "Financial data accessed",
+        "System/operational data leaked",
+        "Regulatory data breached"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_003",
+    "name": "System Incident",
+    "properties": {
+      "subtypes": [
+        "System outage/unavailability",
+        "Data corruption",
+        "Performance degradation",
+        "Integration failure",
+        "Backup failure"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_004",
+    "name": "Physical Security Incident",
+    "properties": {
+      "subtypes": [
+        "Facility breach",
+        "Equipment theft",
+        "Fire/environmental damage",
+        "Access control failure"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_005",
+    "name": "Fraud/Misconduct",
+    "properties": {
+      "subtypes": [
+        "Unauthorized transactions",
+        "Employee fraud",
+        "Third-party fraud"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_001",
+    "name": "Severity 1 (Critical)",
+    "properties": {
+      "level_number": 1,
+      "severity_label": "Critical",
+      "financial_impact_threshold": ">£100,000",
+      "system_downtime_threshold": ">4 hours",
+      "customer_scope_threshold": ">1,000 customers",
+      "examples": [
+        "Major data breach (personal data exposed)",
+        "Ransomware affecting critical systems",
+        "System outage (>4 hours)",
+        "Customer data public exposure",
+        "Significant regulatory violation"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_002",
+    "name": "Severity 2 (High)",
+    "properties": {
+      "level_number": 2,
+      "severity_label": "High",
+      "financial_impact_threshold": "£10,000–£100,000",
+      "system_downtime_threshold": "1–4 hours",
+      "customer_scope_threshold": "<1,000 customers",
+      "examples": [
+        "Suspected data breach",
+        "Unauthorized access detected",
+        "System outage (1–4 hours)",
+        "Fraud incident (>£10,000)",
+        "Regulatory concern"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_003",
+    "name": "Severity 3 (Medium)",
+    "properties": {
+      "level_number": 3,
+      "severity_label": "Medium",
+      "financial_impact_threshold": "£1,000–£10,000",
+      "examples": [
+        "Suspected unauthorized access (not confirmed)",
+        "Malware detected (contained)",
+        "System performance issue",
+        "Fraud incident (<£10,000)",
+        "Policy violation"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_004",
+    "name": "Severity 4 (Low)",
+    "properties": {
+      "level_number": 4,
+      "severity_label": "Low",
+      "financial_impact_threshold": "<£1,000",
+      "examples": [
+        "Security alert (false positive)",
+        "Policy violation (minor)",
+        "System hiccup (minor impact)",
+        "Incident report (no immediate threat)"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_001",
+    "name": "Data Breach",
+    "properties": {
+      "typical_impact": "Personal data exposure",
+      "severity_mapping": {
+        "Critical": ">1,000 customers affected",
+        "High": "<1,000 customers affected"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_002",
+    "name": "Ransomware",
+    "properties": {
+      "typical_impact": "Critical systems affected",
+      "severity_mapping": {
+        "Critical": "Affecting critical systems"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_003",
+    "name": "System Outage",
+    "properties": {
+      "severity_mapping": {
+        "Critical": ">4 hours",
+        "High": "1–4 hours"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_004",
+    "name": "Unauthorized Access",
+    "properties": {
+      "severity_mapping": {
+        "High": "Detected",
+        "Medium": "Suspected (not confirmed)"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_005",
+    "name": "Fraud Incident",
+    "properties": {
+      "severity_mapping": {
+        "High": ">£10,000",
+        "Medium": "<£10,000"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_006",
+    "name": "Regulatory Violation",
+    "properties": {
+      "severity_mapping": {
+        "Critical": "Significant",
+        "High": "Regulatory concern"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_007",
+    "name": "Malware Detection",
+    "properties": {
+      "severity_mapping": {
+        "Medium": "Contained"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_008",
+    "name": "Policy Violation",
+    "properties": {
+      "severity_mapping": {
+        "Medium": "Standard violation",
+        "Low": "Minor violation"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_009",
+    "name": "System Performance Issue",
+    "properties": {
+      "severity_mapping": {
+        "Medium": "General performance issue",
+        "Low": "System hiccup (minor impact)"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_001",
+    "name": "Incident Commander (IC)",
+    "properties": {
+      "contact_name_or_role": "Incident Commander (IC)",
+      "trigger_condition": "Incident response activation",
+      "required_information": "Directs response and makes decisions"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_002",
+    "name": "Chief Information Security Officer",
+    "properties": {
+      "contact_name_or_role": "Chief Information Security Officer",
+      "trigger_condition": "Incident response activation",
+      "required_information": "Acts as Primary Incident Commander (IC)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_003",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "contact_name_or_role": "Chief Technology Officer",
+      "trigger_condition": "Incident response activation",
+      "required_information": "Acts as Backup Incident Commander (IC)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_004",
+    "name": "Technology Lead",
+    "properties": {
+      "contact_name_or_role": "Technology Lead",
+      "required_information": "Provides system expertise"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_005",
+    "name": "Security Lead",
+    "properties": {
+      "contact_name_or_role": "Security Lead",
+      "required_information": "Handles investigation"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_006",
+    "name": "Communications Lead",
+    "properties": {
+      "contact_name_or_role": "Communications Lead",
+      "required_information": "Manages internal and external messaging"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_007",
+    "name": "Operations Lead",
+    "properties": {
+      "contact_name_or_role": "Operations Lead",
+      "required_information": "Handles restoration"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_008",
+    "name": "Compliance/Legal",
+    "properties": {
+      "contact_name_or_role": "Compliance/Legal",
+      "required_information": "Manages regulatory obligations"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_001",
+    "name": "Severity 1 — Immediate escalation (within 1 hour)",
+    "properties": {
+      "level_number": 1,
+      "severity_label": "Critical",
+      "response_time_target": "within 1 hour"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_002",
+    "name": "Severity 2 — Escalation within 2 hours",
+    "properties": {
+      "level_number": 2,
+      "severity_label": "High",
+      "response_time_target": "within 2 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_003",
+    "name": "Severity 3 — Next business day escalation",
+    "properties": {
+      "level_number": 3,
+      "severity_label": "Medium",
+      "response_time_target": "Next business day"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_004",
+    "name": "Severity 4 — Logged, scheduled investigation",
+    "properties": {
+      "level_number": 4,
+      "severity_label": "Low",
+      "response_time_target": "Scheduled investigation"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_res_001",
+    "name": "Immediate Escalation",
+    "properties": {
+      "timeline": "within 1 hour",
+      "mandatory_for_severities": [
+        "Severity 1"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+    "name": "Detect & Alert Phase",
+    "properties": {
+      "action_phase": "detection",
+      "timeline": "0–15 Minutes",
+      "indicators": [
+        "Automated alerts (SIEM, IDS, monitoring)",
+        "Staff report",
+        "Regulatory notification",
+        "Third-party notification"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+    "name": "Report Action",
+    "properties": {
+      "action_phase": "detection",
+      "actor": "on-call incident commander",
+      "output_or_artifact": "Alert notification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+    "name": "Verify Action",
+    "properties": {
+      "action_phase": "detection",
+      "output_or_artifact": "Confirmation of incident validity"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+    "name": "Classify Action",
+    "properties": {
+      "action_phase": "detection",
+      "output_or_artifact": "Severity level assignment (1–4)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+    "name": "Notify Action",
+    "properties": {
+      "action_phase": "detection",
+      "tools_or_systems": "escalation matrix"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_006",
+    "name": "Activate Action",
+    "properties": {
+      "action_phase": "detection",
+      "output_or_artifact": "Convened incident response team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+    "name": "Severity 1 (Critical)",
+    "properties": {
+      "level_number": 1,
+      "severity_label": "Critical",
+      "escalation_required_to": [
+        "Executive team",
+        "Board"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+    "name": "Severity 2 (High)",
+    "properties": {
+      "level_number": 2,
+      "severity_label": "High",
+      "escalation_required_to": [
+        "Executive team",
+        "Chief Risk Officer (CRO)"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+    "name": "Severity 3 (Medium)",
+    "properties": {
+      "level_number": 3,
+      "severity_label": "Medium",
+      "escalation_required_to": [
+        "Department head"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+    "name": "Severity 4 (Low)",
+    "properties": {
+      "level_number": 4,
+      "severity_label": "Low",
+      "response_time_target": "routine"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_001",
+    "name": "Executive Team",
+    "properties": {
+      "contact_role": "Executive team",
+      "trigger_condition": "Severity 1 or Severity 2 incident",
+      "notification_timeframe": {
+        "Severity 1": "ASAP",
+        "Severity 2": "within 30 min"
+      }
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_002",
+    "name": "Board",
+    "properties": {
+      "contact_role": "Board",
+      "trigger_condition": "Severity 1 incident",
+      "notification_timeframe": "within 2 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_003",
+    "name": "Chief Risk Officer (CRO)",
+    "properties": {
+      "contact_role": "Chief Risk Officer (CRO)",
+      "trigger_condition": "Severity 2 incident",
+      "notification_timeframe": "within 1 hour"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_004",
+    "name": "Department Head",
+    "properties": {
+      "contact_role": "Department head",
+      "trigger_condition": "Severity 3 incident",
+      "notification_timeframe": "within 4 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_005",
+    "name": "Law Enforcement",
+    "properties": {
+      "contact_role": "Law enforcement",
+      "trigger_condition": "Regulatory notification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_006",
+    "name": "Regulator",
+    "properties": {
+      "contact_role": "Regulator",
+      "trigger_condition": "Regulatory notification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_007",
+    "name": "Third-party Vendor/Partner",
+    "properties": {
+      "contact_role": "Vendor, partner",
+      "trigger_condition": "Third-party notification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_001",
+    "name": "Containment Phase",
+    "properties": {
+      "action_phase": "containment",
+      "timeline": "15–60 Minutes",
+      "objectives": [
+        "Stop attack/prevent spread",
+        "Preserve evidence",
+        "Protect unaffected systems",
+        "Maintain business continuity"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_001",
+    "name": "Cyberattack (Malware/Ransomware)",
+    "properties": {
+      "category": "Cyberattack",
+      "subtypes": [
+        "Malware",
+        "Ransomware"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_002",
+    "name": "Isolate Affected System",
+    "properties": {
+      "action_phase": "containment",
+      "actor": "Technical Response Team",
+      "tools_or_systems": "Network",
+      "method": "disconnect from network"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_003",
+    "name": "Prevent Further Access",
+    "properties": {
+      "action_phase": "containment",
+      "method": [
+        "reset credentials",
+        "block IP"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_004",
+    "name": "Preserve Logs and Evidence",
+    "properties": {
+      "action_phase": "containment",
+      "method": "copy before shutdown",
+      "output_or_artifact": "logs/evidence"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_005",
+    "name": "Kill Processes",
+    "properties": {
+      "action_phase": "containment",
+      "constraint": "if possible without data loss"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_002",
+    "name": "Data Breach",
+    "properties": {
+      "category": "Data Security"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_006",
+    "name": "Identify Compromised Data Scope",
+    "properties": {
+      "action_phase": "containment",
+      "output_or_artifact": "compromised data scope"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_007",
+    "name": "Monitor for Misuse",
+    "properties": {
+      "action_phase": "containment",
+      "trigger_condition": "if PII is involved",
+      "method": "credit monitoring"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_003",
+    "name": "System Outage",
+    "properties": {
+      "category": "Availability"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_008",
+    "name": "Failover to Backup",
+    "properties": {
+      "action_phase": "containment",
+      "condition": "if available"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_009",
+    "name": "Isolate Failed Component",
+    "properties": {
+      "action_phase": "containment"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_004",
+    "name": "Fraud",
+    "properties": {
+      "category": "Financial Crime"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_010",
+    "name": "Freeze Compromised Account",
+    "properties": {
+      "action_phase": "containment"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_011",
+    "name": "Block Fraudulent Transactions",
+    "properties": {
+      "action_phase": "containment"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_009_res_001",
+    "name": "Investigation Phase",
+    "properties": {
+      "action_phase": "investigation",
+      "timeline": "1–24 Hours",
+      "investigative_steps": [
+        "Determine incident start and detection method",
+        "Assess scope of affected systems and customers",
+        "Identify root cause",
+        "Analyze accessed or exfiltrated data",
+        "Identify threat actor (external or internal)"
+      ],
+      "tools_or_systems": [
+        "EnCase",
+        "FTK",
+        "Splunk",
+        "ELK",
+        "Packet capture",
+        "Network flows",
+        "EDR telemetry"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_009",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_009_res_002",
+    "name": "Evidence Preservation",
+    "properties": {
+      "action_phase": "investigation",
+      "output_or_artifact": [
+        "Chain of custody",
+        "Protected logs",
+        "System snapshots",
+        "Established timeline"
+      ],
+      "mandatory_actions": [
+        "Maintain chain of custody",
+        "Collect and protect logs",
+        "Take system snapshots",
+        "Establish timeline"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_009",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_001",
+    "name": "Recovery & Restoration Phase",
+    "properties": {
+      "action_phase": "recovery",
+      "timeline": "1–48 Hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_002",
+    "name": "Backup Restore",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "System Recovery Team",
+      "output_or_artifact": "Clean backup restoration"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_003",
+    "name": "Security Patch Application",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "System Recovery Team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_004",
+    "name": "System Rebuild",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "System Recovery Team",
+      "tools_or_systems": "Clean media"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_005",
+    "name": "Functionality and Malware Verification",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "System Recovery Team",
+      "output_or_artifact": "Verification of no malware"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_006",
+    "name": "Re-infection Monitoring",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "System Recovery Team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_007",
+    "name": "Data Recovery Identification",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "Data Recovery Team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_008",
+    "name": "Data Backup Restoration",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "Data Recovery Team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_009",
+    "name": "Data Integrity Validation",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "Data Recovery Team",
+      "output_or_artifact": "Verified data integrity"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_010",
+    "name": "Customer Breach Notification",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "Data Recovery Team",
+      "escalation_trigger": "Data breach identified"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_011",
+    "name": "Phased Service Restoration",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "Service Restoration Team",
+      "priority": "Critical services first"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_012",
+    "name": "Pre-Restoration Verification",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "Service Restoration Team",
+      "timeline": "Before full restoration"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_013",
+    "name": "Capacity Validation",
+    "properties": {
+      "action_phase": "recovery",
+      "actor": "Service Restoration Team",
+      "output_or_artifact": "Confirmation systems handle normal load"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_014",
+    "name": "Post-Incident Enhanced Monitoring",
+    "properties": {
+      "action_phase": "post_incident",
+      "actor": "Service Restoration Team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_not_001",
+    "name": "Customers",
+    "properties": {
+      "trigger_condition": "Data breach identified during recovery",
+      "contact_method": "Not specified"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_011_res_001",
+    "name": "Notify & Report Phase",
+    "properties": {
+      "action_phase": "post_incident",
+      "timeline": "24–72 Hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_011",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_001",
+    "name": "Executive Team (CEO, CFO, CRO)",
+    "properties": {
+      "contact_name_or_role": "Executive Team (CEO, CFO, CRO)",
+      "trigger_condition": "Immediate internal notification requirement",
+      "notification_timeframe": "within 4 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_002",
+    "name": "Board of Directors",
+    "properties": {
+      "contact_name_or_role": "Board",
+      "trigger_condition": "Severity 1–2 incidents",
+      "notification_timeframe": "within 4 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_003",
+    "name": "Department Heads of Affected Areas",
+    "properties": {
+      "contact_name_or_role": "Department heads (affected areas)",
+      "trigger_condition": "Immediate internal notification requirement",
+      "notification_timeframe": "within 4 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_004",
+    "name": "All Staff",
+    "properties": {
+      "contact_name_or_role": "All staff",
+      "contact_method": [
+        "email",
+        "meeting"
+      ],
+      "notification_timeframe": "within 24 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_005",
+    "name": "Affected Customers",
+    "properties": {
+      "contact_name_or_role": "Customers",
+      "trigger_condition": "Data breach",
+      "notification_timeframe": "within 24 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_006",
+    "name": "Affected Partners and Vendors",
+    "properties": {
+      "contact_name_or_role": "Partners/vendors",
+      "trigger_condition": "If affected by incident",
+      "notification_timeframe": "within 24 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_res_001",
+    "name": "Immediate Internal Notification",
+    "properties": {
+      "action_phase": "detection",
+      "timeline": "within 4 hours",
+      "output_or_artifact": "Notification to Executive Team, Board (if Sev 1-2), and Department Heads"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_res_002",
+    "name": "Follow-up Internal and External Notification",
+    "properties": {
+      "action_phase": "containment",
+      "timeline": "within 24 hours",
+      "output_or_artifact": "Notification to All Staff, Customers (if data breach), and Partners/Vendors"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_inc_001",
+    "name": "Data Breach",
+    "properties": {
+      "customer_notification_required": "yes",
+      "notification_timeframe": "within 24 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_res_001",
+    "name": "Regulatory Notification",
+    "properties": {
+      "action_phase": "containment",
+      "output_or_artifact": "Regulatory report/notification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_001",
+    "name": "Information Commissioner's Office (ICO)",
+    "properties": {
+      "contact_role": "Regulator",
+      "trigger_condition": "Data Breach (Personal Data)",
+      "notification_timeframe": "within 72 hours",
+      "jurisdiction": "UK"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_002",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "contact_role": "Regulator",
+      "trigger_condition": "Security Breach (Suspected)",
+      "notification_timeframe": "within 24 hours",
+      "jurisdiction": "UK"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_003",
+    "name": "Law Enforcement",
+    "properties": {
+      "contact_role": "Police",
+      "trigger_condition": "Fraud/Crime",
+      "required_information": "Police report"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_004",
+    "name": "Office of Financial Sanctions Implementation (OFSI)",
+    "properties": {
+      "contact_role": "Regulator",
+      "trigger_condition": "Sanctions violation",
+      "jurisdiction": "UK"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_res_002",
+    "name": "Customer Notification",
+    "properties": {
+      "action_phase": "recovery",
+      "timeline": "72 hours",
+      "tools_or_systems": [
+        "Email",
+        "Letter"
+      ],
+      "required_information": [
+        "Incident description",
+        "Impact",
+        "Mitigation",
+        "Contact info"
+      ],
+      "output_or_artifact": "Credit monitoring offer"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_005",
+    "name": "Affected Customer",
+    "properties": {
+      "contact_method": [
+        "email",
+        "letter"
+      ],
+      "trigger_condition": "Data Breach",
+      "notification_timeframe": "72 hours"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_001",
+    "name": "Data Breach (Personal Data)",
+    "properties": {
+      "category": "Data/Privacy",
+      "regulatory_reporting_required": "Yes (ICO)",
+      "customer_notification_required": "Yes"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_002",
+    "name": "Security Breach (Suspected)",
+    "properties": {
+      "category": "Security",
+      "regulatory_reporting_required": "Yes (FCA)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_003",
+    "name": "Fraud/Crime",
+    "properties": {
+      "category": "Financial Crime",
+      "regulatory_reporting_required": "Yes (Law Enforcement)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_004",
+    "name": "Sanctions Breach",
+    "properties": {
+      "category": "Compliance",
+      "regulatory_reporting_required": "Yes (OFSI)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_res_001",
+    "name": "Incident Report Documentation",
+    "properties": {
+      "action_phase": "post_incident",
+      "output_or_artifact": "Incident Report",
+      "required_content": [
+        "Summary of incident",
+        "Timeline and progression",
+        "Root cause analysis",
+        "Impact assessment",
+        "Remediation steps",
+        "Prevention recommendations"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_001",
+    "name": "Executive Team",
+    "properties": {
+      "contact_role": "Executive Team",
+      "trigger_condition": "Completion of Incident Report",
+      "required_information": "Incident Report (Summary, Timeline, Root Cause, Impact, Remediation, Prevention)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_002",
+    "name": "Board Risk Committee",
+    "properties": {
+      "contact_role": "Board Risk Committee",
+      "trigger_condition": "Completion of Incident Report",
+      "required_information": "Incident Report (Summary, Timeline, Root Cause, Impact, Remediation, Prevention)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_003",
+    "name": "Internal Audit",
+    "properties": {
+      "contact_role": "Internal Audit",
+      "trigger_condition": "Completion of Incident Report",
+      "required_information": "Incident Report (Summary, Timeline, Root Cause, Impact, Remediation, Prevention)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_004",
+    "name": "Regulators",
+    "properties": {
+      "contact_role": "Regulators",
+      "trigger_condition": "If required by regulatory obligations",
+      "required_information": "Incident Report (Summary, Timeline, Root Cause, Impact, Remediation, Prevention)"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_001",
+    "name": "Post-Incident Review",
+    "properties": {
+      "action_phase": "post_incident",
+      "actor": [
+        "Incident Commander",
+        "Incident Response Team",
+        "Key Stakeholders"
+      ],
+      "timeline": "1–2 Weeks",
+      "output_or_artifact": [
+        "Documented lessons learned",
+        "Action plan"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_002",
+    "name": "Root Cause Analysis",
+    "properties": {
+      "action_phase": "post_incident",
+      "investigation_focus": [
+        "technical cause",
+        "process cause"
+      ],
+      "output_or_artifact": "Incident summary and root cause identification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_003",
+    "name": "Preventive and Corrective Action Planning",
+    "properties": {
+      "action_phase": "post_incident",
+      "output_or_artifact": "Action plan to prevent recurrence",
+      "required_details": [
+        "Assigned owner",
+        "Completion timeline"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_004",
+    "name": "Corrective Action Implementation and Verification",
+    "properties": {
+      "action_phase": "post_incident",
+      "timeline": "30–90 days",
+      "verification_method": [
+        "audit",
+        "re-test"
+      ],
+      "output_or_artifact": "Communication sent to team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_not_001",
+    "name": "Incident Commander",
+    "properties": {
+      "contact_role": "Incident Commander",
+      "trigger_condition": "Post-Incident Review phase",
+      "required_information": "Lead the review meeting and discuss lessons learned"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_not_002",
+    "name": "Incident Response Team",
+    "properties": {
+      "contact_role": "Incident Response Team",
+      "trigger_condition": "Post-Incident Review phase",
+      "required_information": "Attendance and contribution to lessons learned"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_not_003",
+    "name": "Key Stakeholders",
+    "properties": {
+      "contact_role": "Key Stakeholders",
+      "trigger_condition": "Post-Incident Review phase",
+      "required_information": "Attendance and contribution to lessons learned"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_001",
+    "name": "Severity 1 (Critical) — Hourly updates to executive team",
+    "properties": {
+      "level_number": 1,
+      "severity_label": "Critical",
+      "response_time_target": "Hourly updates"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_002",
+    "name": "Severity 2 (High) — 2-hourly updates",
+    "properties": {
+      "level_number": 2,
+      "severity_label": "High",
+      "response_time_target": "2-hourly updates"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_003",
+    "name": "Severity 3 (Medium) — Daily updates",
+    "properties": {
+      "level_number": 3,
+      "severity_label": "Medium",
+      "response_time_target": "Daily updates"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_004",
+    "name": "Severity 4 (Low) — Email summary",
+    "properties": {
+      "level_number": 4,
+      "severity_label": "Low",
+      "response_time_target": "Email summary"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_not_001",
+    "name": "Executive Team",
+    "properties": {
+      "contact_name_or_role": "Executive Team",
+      "trigger_condition": "Severity 1 incident",
+      "notification_timeframe": "Hourly"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_res_001",
+    "name": "Internal Communication",
+    "properties": {
+      "action_phase": "containment",
+      "output_or_artifact": "Communication Template (Time, Status, Impact, Actions, ETA, Next Update)",
+      "mandatory_for_severities": [
+        "Severity 1",
+        "Severity 2",
+        "Severity 3",
+        "Severity 4"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_inc_001",
+    "name": "Data Breach",
+    "properties": {
+      "category": "Security Incident",
+      "customer_notification_required": "yes"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_res_001",
+    "name": "Customer Communication for Data Breach",
+    "properties": {
+      "action_phase": "recovery",
+      "output_or_artifact": [
+        "Email",
+        "Letter"
+      ],
+      "required_information": [
+        "Incident description in plain language",
+        "Timeline of discovery and reporting",
+        "Type, scope, and number of customers affected",
+        "Containment mitigation steps",
+        "Required customer actions",
+        "Support options (credit monitoring, phone line)",
+        "Formal apology"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_not_001",
+    "name": "Affected Customers",
+    "properties": {
+      "contact_method": [
+        "email",
+        "in_person"
+      ],
+      "trigger_condition": "Occurrence of a Data Breach",
+      "required_information": "Incident details, affected data, and mitigation steps"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "customer_context": "incident-affected",
+      "notification_obligation": "Must be notified via email or letter regarding data breach details and required actions",
+      "affected_by": "Data Breach"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_inc_001",
+    "name": "Ransomware",
+    "properties": {
+      "category": "Cyber Security",
+      "indicators": [
+        "payment processing system outage",
+        "failed transactions",
+        "delayed customer funds"
+      ],
+      "typical_impact": "System outage and financial loss",
+      "primary_response_team": "Immediate Response Team"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_sev_001",
+    "name": "Severity 1 (Critical) — >£50,000 impact or 4-hour outage",
+    "properties": {
+      "level_number": 1,
+      "severity_label": "Critical",
+      "financial_impact_threshold": ">£50,000",
+      "system_downtime_threshold": ">4 hours",
+      "examples": [
+        "Ransomware affecting payment processing system"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_res_001",
+    "name": "Immediate Response",
+    "properties": {
+      "action_phase": "containment",
+      "mandatory_for_severities": [
+        "Severity 1"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_not_001",
+    "name": "The Board",
+    "properties": {
+      "contact_role": "The Board",
+      "notification_timeframe": "Within 2 hours",
+      "trigger_condition": "Severity 1 incident"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_not_002",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "contact_name_or_role": "Financial Conduct Authority (FCA)",
+      "notification_timeframe": "Within 24 hours",
+      "trigger_condition": "Severity 1 incident",
+      "jurisdiction": "UK"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_res_002",
+    "name": "Regulatory Notification",
+    "properties": {
+      "action_phase": "notification",
+      "actor": "Compliance/Regulatory Team",
+      "timeline": "Within 24 hours",
+      "mandatory_for_severities": [
+        "Severity 1"
+      ],
+      "output_or_artifact": "FCA Notification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_res_003",
+    "name": "Board Notification",
+    "properties": {
+      "action_phase": "notification",
+      "timeline": "Within 2 hours",
+      "mandatory_for_severities": [
+        "Severity 1"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_acc_001",
+    "name": "Payment Processing System",
+    "properties": {
+      "account_type": "System/Infrastructure",
+      "incident_impact": "4-hour outage leading to failed transactions and delayed funds"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_tra_001",
+    "name": "Failed Transactions",
+    "properties": {
+      "transaction_context": "Incident trigger",
+      "affected_in_incident": true,
+      "impact_threshold": "100+ failed transactions"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_sev_001",
+    "name": "Severity 2 — £10,000–£100,000 estimated investigation cost",
+    "properties": {
+      "level_number": 2,
+      "severity_label": "Medium",
+      "financial_impact_threshold": "£10,000–£100,000 estimated investigation cost",
+      "customer_scope_threshold": "50 customers",
+      "response_time_target": "Within 2 hours",
+      "escalation_required_to": [
+        "Executive team",
+        "Chief Risk Officer (CRO)"
+      ],
+      "regulatory_notification_required": "Under assessment"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_inc_001",
+    "name": "Unauthorized access to customer data",
+    "properties": {
+      "category": "Data Breach",
+      "indicators": [
+        "Personal data accessed"
+      ],
+      "typical_impact": "Customer personal data exposure",
+      "customer_notification_required": "Yes"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_res_001",
+    "name": "Incident Response (Severity 2)",
+    "properties": {
+      "action_phase": "containment",
+      "timeline": "Within 2 hours",
+      "mandatory_for_severities": [
+        "Severity 2"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_not_001",
+    "name": "Executive Team",
+    "properties": {
+      "contact_name_or_role": "Executive Team",
+      "trigger_condition": "Severity 2 incident occurrence"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_not_002",
+    "name": "Chief Risk Officer (CRO)",
+    "properties": {
+      "contact_name_or_role": "Chief Risk Officer (CRO)",
+      "trigger_condition": "Severity 2 incident occurrence"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_not_003",
+    "name": "Regulator",
+    "properties": {
+      "contact_name_or_role": "Regulator",
+      "trigger_condition": "Assessment of data breach severity",
+      "notification_timeframe": "Under assessment"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_cus_001",
+    "name": "Affected Customers",
+    "properties": {
+      "customer_context": "incident-affected",
+      "affected_by": "Unauthorized access to customer data",
+      "notification_obligation": "Required based on data access"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_inc_001",
+    "name": "Malware detected on staff laptop",
+    "properties": {
+      "category": "Malware",
+      "indicators": [
+        "User clicked phishing link"
+      ],
+      "typical_impact": "Single staff laptop",
+      "regulatory_reporting_required": "no",
+      "customer_notification_required": "no"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_sev_001",
+    "name": "Severity 3 — Routine incident",
+    "properties": {
+      "level_number": 3,
+      "severity_label": "Routine incident",
+      "response_time_target": "Next business day",
+      "regulatory_notification_required": "no",
+      "examples": [
+        "Malware detected on staff laptop"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_res_001",
+    "name": "Endpoint Isolation",
+    "properties": {
+      "action_phase": "containment",
+      "output_or_artifact": "Malware contained"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_not_001",
+    "name": "Department Head",
+    "properties": {
+      "contact_name_or_role": "Department Head",
+      "trigger_condition": "Severity 3 routine incident",
+      "jurisdiction": "Internal"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_res_001",
+    "name": "Detection",
+    "properties": {
+      "action_phase": "detection",
+      "tools_or_systems": [
+        "SIEM (Splunk)",
+        "IDS (Snort)",
+        "Antivirus (EDR)",
+        "Log aggregation (ELK)"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_res_002",
+    "name": "Investigation",
+    "properties": {
+      "action_phase": "investigation",
+      "tools_or_systems": [
+        "Forensic tools (EnCase)",
+        "Memory dumps (WinDbg)",
+        "Packet analysis (Wireshark)",
+        "Timeline tools (Autopsy)"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_res_003",
+    "name": "Communication",
+    "properties": {
+      "action_phase": "containment",
+      "tools_or_systems": [
+        "Incident Slack channel",
+        "War room",
+        "Email"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_not_001",
+    "name": "Incident Slack Channel",
+    "properties": {
+      "contact_method": "portal",
+      "trigger_condition": "real-time updates during incident"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_not_002",
+    "name": "War Room",
+    "properties": {
+      "contact_method": "video call",
+      "trigger_condition": "during major incidents"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_001",
+    "name": "Incident response procedures training",
+    "properties": {
+      "actor": "all IT staff",
+      "timeline": "Annual",
+      "action_phase": "post_incident"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_002",
+    "name": "Forensic investigation training",
+    "properties": {
+      "actor": "security team",
+      "timeline": "Annual",
+      "action_phase": "investigation"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_003",
+    "name": "Breach notification training",
+    "properties": {
+      "actor": "compliance team",
+      "timeline": "Annual",
+      "action_phase": "post_incident"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_004",
+    "name": "Annual Tabletop Exercise",
+    "properties": {
+      "timeline": "Annual",
+      "output_or_artifact": [
+        "Simulated incident scenario",
+        "Response team activation",
+        "Decision-making under pressure",
+        "Communication practice"
+      ]
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_not_001",
+    "name": "IT Staff",
+    "properties": {
+      "contact_role": "IT Staff",
+      "required_training": "Incident response procedures"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_not_002",
+    "name": "Security Team",
+    "properties": {
+      "contact_role": "Security Team",
+      "required_training": "Forensic investigation"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_not_003",
+    "name": "Compliance Team",
+    "properties": {
+      "contact_role": "Compliance Team",
+      "required_training": "Breach notification"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_001",
+    "name": "Chief Information Security Officer",
+    "properties": {
+      "contact_role": "Chief Information Security Officer",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_002",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "contact_role": "Chief Technology Officer",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_003",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "contact_role": "Chief Risk Officer",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_004",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "contact_role": "Chief Executive Officer",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+  }
+]

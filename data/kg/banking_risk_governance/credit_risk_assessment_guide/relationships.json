@@ -1,0 +1,3120 @@
+[
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001_dept_001",
+    "target_name": "Risk Department",
+    "rel_type": "owned_by",
+    "description": "Credit Risk is managed and owned by the Risk Department as per the document ownership metadata.",
+    "properties": {
+      "role": "Head of Risk"
+    },
+    "context": "Owner | Head of Risk | Department | Risk, Lending",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001_dept_002",
+    "target_name": "Lending Department",
+    "rel_type": "managed_by",
+    "description": "Credit Risk is managed within the Lending Department's operations.",
+    "properties": {
+      "scope": "Mortgage Underwriting"
+    },
+    "context": "Department | Risk, Lending",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001_prod_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "pertains_to_accounts",
+    "description": "The credit risk assessment specifically governs the mortgage product underwriting process.",
+    "properties": {
+      "application": "Underwriting"
+    },
+    "context": "FirstUK Bank — Credit Risk Assessment Guide (Mortgage Underwriting)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001_dept_002",
+    "target_name": "Lending Department",
+    "rel_type": "owned_by",
+    "description": "The Mortgage Product is managed and operated by the Lending Department.",
+    "properties": {},
+    "context": "Department | Risk, Lending",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_dept_001",
+    "source_name": "Risk Department",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_dept_002",
+    "source_name": "Lending Department",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_001_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_002_rsk_001",
+    "source_name": "Credit Risk — Residential Mortgage Applications",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_002_met_001",
+    "target_name": "Loss Ratio — Risk Appetite Threshold <0.5%",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for residential mortgage applications is quantified by the loss ratio appetite threshold.",
+    "properties": {
+      "threshold": "<0.5%"
+    },
+    "context": "ensuring consistent lending decisions aligned with FirstUK Bank's risk appetite (<0.5% loss ratio)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_002_rsk_001",
+    "source_name": "Credit Risk — Residential Mortgage Applications",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_002_prd_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "pertains_to_accounts",
+    "description": "The credit risk assessment specifically pertains to residential mortgage products.",
+    "properties": {},
+    "context": "assessing credit risk on residential mortgage applications",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_002_met_001",
+    "source_name": "Loss Ratio — Risk Appetite Threshold <0.5%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_002_rsk_001",
+    "target_name": "Credit Risk — Residential Mortgage Applications",
+    "rel_type": "measures_appetite_of",
+    "description": "The loss ratio metric measures the risk appetite for residential mortgage credit risk.",
+    "properties": {
+      "threshold": "<0.5%"
+    },
+    "context": "risk appetite (<0.5% loss ratio)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_002_rsk_001",
+    "source_name": "Credit Risk — Residential Mortgage Applications",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_002_met_001",
+    "source_name": "Loss Ratio — Risk Appetite Threshold <0.5%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_002_prd_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003_met_001",
+    "target_name": "Maximum Loss Ratio — Target 0.5% annually (max £2.5k loss per £500k portfolio)",
+    "rel_type": "quantified_by",
+    "description": "Mortgage Credit Risk is quantified by the Maximum Loss Ratio target of 0.5% annually.",
+    "properties": {
+      "threshold": "0.5%",
+      "max_loss": "£2.5k per £500k portfolio",
+      "period": "annually"
+    },
+    "context": "Maximum Loss Ratio: 0.5% annually (max £2.5k loss per £500k portfolio)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003_met_002",
+    "target_name": "Default Rate Target — <2%",
+    "rel_type": "quantified_by",
+    "description": "Mortgage Credit Risk is quantified by a Default Rate Target of less than 2%.",
+    "properties": {
+      "threshold": "<2%",
+      "condition": "max 2% of active mortgages in default at any time"
+    },
+    "context": "Default Rate Target: <2% (max 2% of active mortgages in default at any time)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003_met_003",
+    "target_name": "LTV Limit — Max 95%",
+    "rel_type": "quantified_by",
+    "description": "Mortgage Credit Risk is quantified by a Loan-to-Value (LTV) limit of 95%.",
+    "properties": {
+      "threshold": "Max 95%",
+      "constraint": "no negative equity scenarios"
+    },
+    "context": "LTV Limit: Max 95% (no negative equity scenarios)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003_met_004",
+    "target_name": "Debt-to-Income Limit — Max 45%",
+    "rel_type": "quantified_by",
+    "description": "Mortgage Credit Risk is quantified by a Debt-to-Income limit of 45%.",
+    "properties": {
+      "threshold": "Max 45%",
+      "constraint": "borrower income constraint"
+    },
+    "context": "Debt-to-Income Limit: Max 45% (borrower income constraint)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003_prd_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "pertains_to_product",
+    "description": "Mortgage Credit Risk specifically pertains to the Mortgage Product line.",
+    "properties": {},
+    "context": "FirstUK Bank Mortgage Credit Risk Target",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_met_001",
+    "source_name": "Maximum Loss Ratio — Target 0.5% annually (max £2.5k loss per £500k portfolio)",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_met_002",
+    "source_name": "Default Rate Target — <2%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_met_003",
+    "source_name": "LTV Limit — Max 95%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_met_004",
+    "source_name": "Debt-to-Income Limit — Max 45%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_003_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_001",
+    "source_name": "Loss Ratio — Target <0.5%, Actual 0.23%",
+    "target_id": "risk_credit_001",
+    "target_name": "Credit Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "Loss Ratio is used to measure the appetite for Credit Risk",
+    "properties": {
+      "threshold": "<0.5%",
+      "actual": "0.23%",
+      "period": "Q4 2025",
+      "status": "Within Appetite"
+    },
+    "context": "Loss Ratio | <0.5% | 0.23% | ✅ Within Appetite",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_002",
+    "source_name": "Default Rate — Target <2%, Actual 1.2%",
+    "target_id": "risk_credit_001",
+    "target_name": "Credit Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "Default Rate is used to measure the appetite for Credit Risk",
+    "properties": {
+      "threshold": "<2%",
+      "actual": "1.2%",
+      "period": "Q4 2025",
+      "status": "Within Appetite"
+    },
+    "context": "Default Rate | <2% | 1.2% | ✅ Within Appetite",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_003",
+    "source_name": "Average LTV — Target <80%, Actual 72%",
+    "target_id": "risk_credit_001",
+    "target_name": "Credit Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "Average LTV is used to measure the appetite for Credit Risk",
+    "properties": {
+      "threshold": "<80%",
+      "actual": "72%",
+      "period": "Q4 2025",
+      "status": "Conservative"
+    },
+    "context": "Average LTV | <80% | 72% | ✅ Conservative",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_004",
+    "source_name": "Debt-to-Income — Target <45%, Actual 38%",
+    "target_id": "risk_credit_001",
+    "target_name": "Credit Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "Debt-to-Income is used to measure the appetite for Credit Risk",
+    "properties": {
+      "threshold": "<45%",
+      "actual": "38%",
+      "period": "Q4 2025",
+      "status": "Conservative"
+    },
+    "context": "Debt-to-Income | <45% | 38% | ✅ Conservative",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_001",
+    "source_name": "Loss Ratio — Target <0.5%, Actual 0.23%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_002",
+    "source_name": "Default Rate — Target <2%, Actual 1.2%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_003",
+    "source_name": "Average LTV — Target <80%, Actual 72%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_004_met_004",
+    "source_name": "Debt-to-Income — Target <45%, Actual 38%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_005_cust_001",
+    "source_name": "Mortgage Borrower",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_005_prd_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "pertains_to_customers",
+    "description": "The Mortgage Borrower is the customer entity applying for and utilizing the Mortgage Product",
+    "properties": {
+      "application_stage": "Application Assessment",
+      "required_data": [
+        "Income",
+        "Credit history",
+        "Assets",
+        "Liabilities"
+      ]
+    },
+    "context": "For Each Mortgage Application: Borrower Information... Property Information... Mortgage amount requested",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_005",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_005_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_005",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_005",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_005_cust_001",
+    "source_name": "Mortgage Borrower",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_005",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_005",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_001",
+    "target_name": "Credit Score Range — 90–100 (Excellent/Very Low Risk)",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified as 'Very Low' when the credit score is between 90 and 100.",
+    "properties": {
+      "risk_level": "Very Low",
+      "rating": "Excellent",
+      "action": "Auto-Approve"
+    },
+    "context": "90–100 | Excellent | Very Low | Auto-Approve (if other criteria met)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_002",
+    "target_name": "Credit Score Range — 80–89 (Good/Low Risk)",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified as 'Low' when the credit score is between 80 and 89.",
+    "properties": {
+      "risk_level": "Low",
+      "rating": "Good",
+      "action": "Standard Underwriting"
+    },
+    "context": "80–89 | Good | Low | Standard Underwriting",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_003",
+    "target_name": "Credit Score Range — 70–79 (Fair/Medium Risk)",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified as 'Medium' when the credit score is between 70 and 79.",
+    "properties": {
+      "risk_level": "Medium",
+      "rating": "Fair",
+      "action": "Enhanced Review"
+    },
+    "context": "70–79 | Fair | Medium | Enhanced Review",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_004",
+    "target_name": "Credit Score Range — 60–69 (Poor/High Risk)",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified as 'High' when the credit score is between 60 and 69.",
+    "properties": {
+      "risk_level": "High",
+      "rating": "Poor",
+      "action": "Manager Review (may decline)"
+    },
+    "context": "60–69 | Poor | High | Manager Review (may decline)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_005",
+    "target_name": "Credit Score Range — <60 (Very Poor/Very High Risk)",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified as 'Very High' when the credit score is below 60.",
+    "properties": {
+      "risk_level": "Very High",
+      "rating": "Very Poor",
+      "action": "Decline"
+    },
+    "context": "<60 | Very Poor | Very High | Decline",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_prod_001",
+    "source_name": "Credit Scoring Product/Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_001",
+    "target_name": "Credit Score Range — 90–100 (Excellent/Very Low Risk)",
+    "rel_type": "generates",
+    "description": "The credit scoring process produces a score range of 90-100 for excellent borrowers.",
+    "properties": {},
+    "context": "Automated Credit Score (0–100): ... 90–100 | Excellent | Very Low",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_prod_001",
+    "source_name": "Credit Scoring Product/Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_002",
+    "target_name": "Credit Score Range — 80–89 (Good/Low Risk)",
+    "rel_type": "generates",
+    "description": "The credit scoring process produces a score range of 80-89 for good borrowers.",
+    "properties": {},
+    "context": "Automated Credit Score (0–100): ... 80–89 | Good | Low",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_prod_001",
+    "source_name": "Credit Scoring Product/Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_003",
+    "target_name": "Credit Score Range — 70–79 (Fair/Medium Risk)",
+    "rel_type": "generates",
+    "description": "The credit scoring process produces a score range of 70-79 for fair borrowers.",
+    "properties": {},
+    "context": "Automated Credit Score (0–100): ... 70–79 | Fair | Medium",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_prod_001",
+    "source_name": "Credit Scoring Product/Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_004",
+    "target_name": "Credit Score Range — 60–69 (Poor/High Risk)",
+    "rel_type": "generates",
+    "description": "The credit scoring process produces a score range of 60-69 for poor borrowers.",
+    "properties": {},
+    "context": "Automated Credit Score (0–100): ... 60–69 | Poor | High",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_prod_001",
+    "source_name": "Credit Scoring Product/Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006_met_005",
+    "target_name": "Credit Score Range — <60 (Very Poor/Very High Risk)",
+    "rel_type": "generates",
+    "description": "The credit scoring process produces a score range below 60 for very poor borrowers.",
+    "properties": {},
+    "context": "Automated Credit Score (0–100): ... <60 | Very Poor | Very High",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_met_001",
+    "source_name": "Credit Score Range — 90–100 (Excellent/Very Low Risk)",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_met_002",
+    "source_name": "Credit Score Range — 80–89 (Good/Low Risk)",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_met_003",
+    "source_name": "Credit Score Range — 70–79 (Fair/Medium Risk)",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_met_004",
+    "source_name": "Credit Score Range — 60–69 (Poor/High Risk)",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_met_005",
+    "source_name": "Credit Score Range — <60 (Very Poor/Very High Risk)",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_006_prod_001",
+    "source_name": "Credit Scoring Product/Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_001",
+    "target_name": "Permanent Employment Qualification Factor — 2+ years: 100% of stated salary",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by the 100% qualification factor for permanent employees with 2+ years tenure.",
+    "properties": {
+      "threshold": "100% of stated salary",
+      "condition": "Permanent employment, 2+ years"
+    },
+    "context": "Permanent, 2+ years | 100% of stated salary",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_002",
+    "target_name": "Permanent Employment Qualification Factor — <2 years: 75% of stated salary",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by the 75% qualification factor for permanent employees with less than 2 years tenure.",
+    "properties": {
+      "threshold": "75% of stated salary",
+      "condition": "Permanent employment, <2 years"
+    },
+    "context": "Permanent, <2 years | 75% of stated salary",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_003",
+    "target_name": "Contract Employment Qualification Factor — >1 year remaining: 75% of stated salary",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by the 75% qualification factor for contract employees with more than 1 year remaining.",
+    "properties": {
+      "threshold": "75% of stated salary",
+      "condition": "Contract employment, >1 year remaining"
+    },
+    "context": "Contract, >1 year remaining | 75% of stated salary",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_004",
+    "target_name": "Self-Employed Qualification Factor — 2+ years: 75% of average last 2 years",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by the 75% average of the last 2 years for self-employed individuals with 2+ years history.",
+    "properties": {
+      "threshold": "75% of average last 2 years",
+      "condition": "Self-employed, 2+ years"
+    },
+    "context": "Self-employed, 2+ years | 75% of average last 2 years",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_005",
+    "target_name": "Self-Employed Qualification Factor — <2 years: Not acceptable",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified as unacceptable for self-employed individuals with less than 2 years history.",
+    "properties": {
+      "threshold": "Not acceptable",
+      "condition": "Self-employed, <2 years"
+    },
+    "context": "Self-employed, <2 years | Not acceptable",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_006",
+    "target_name": "Bonus and Commission Qualification Factor: 50% of average last 2 years",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by a 50% qualification factor for bonus and commission income based on a 2-year average.",
+    "properties": {
+      "threshold": "50% of average last 2 years",
+      "condition": "Bonus/Commission"
+    },
+    "context": "Bonus/Commission | 50% of average last 2 years",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_007",
+    "target_name": "Rental Income Qualification Factor: 75%",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by a 75% qualification factor for rental income to account for vacancy.",
+    "properties": {
+      "threshold": "75%",
+      "condition": "Rental income"
+    },
+    "context": "Rental income: 75% (accounts for vacancy)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_008",
+    "target_name": "Dividend Income Qualification Factor: 100% (>2 years history)",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by a 100% qualification factor for sustainable dividend income with >2 years history.",
+    "properties": {
+      "threshold": "100%",
+      "condition": "Dividend income, >2 years history"
+    },
+    "context": "Dividend income: 100% (if sustainable, >2 years history)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007_met_009",
+    "target_name": "Pension and Benefits Qualification Factor: 100%",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for income stability is quantified by a 100% qualification factor for guaranteed and stable pension/benefits.",
+    "properties": {
+      "threshold": "100%",
+      "condition": "Pension/benefits, guaranteed/stable"
+    },
+    "context": "Pension/benefits: 100% (if guaranteed, stable)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_001",
+    "source_name": "Permanent Employment Qualification Factor — 2+ years: 100% of stated salary",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_002",
+    "source_name": "Permanent Employment Qualification Factor — <2 years: 75% of stated salary",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_003",
+    "source_name": "Contract Employment Qualification Factor — >1 year remaining: 75% of stated salary",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_004",
+    "source_name": "Self-Employed Qualification Factor — 2+ years: 75% of average last 2 years",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_005",
+    "source_name": "Self-Employed Qualification Factor — <2 years: Not acceptable",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_006",
+    "source_name": "Bonus and Commission Qualification Factor: 50% of average last 2 years",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_007",
+    "source_name": "Rental Income Qualification Factor: 75%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_008",
+    "source_name": "Dividend Income Qualification Factor: 100% (>2 years history)",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_met_009",
+    "source_name": "Pension and Benefits Qualification Factor: 100%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "source_name": "Credit Risk — Income Stability and Qualification",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_008_rsk_001",
+    "source_name": "Credit Risk — Debt Assessment",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_008_met_001",
+    "target_name": "Debt-to-Income Ratio — Actual 41.5%",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for debt assessment is quantified by the calculated Debt-to-Income ratio.",
+    "properties": {
+      "actual": "41.5%",
+      "calculation_basis": "Monthly Debt + Mortgage / Monthly Income"
+    },
+    "context": "Debt-to-Income Ratio = (Monthly Debt + Mortgage) / Monthly Income = (£500 other debt + £1,519 mortgage) / £4,875 gross income = 41.5%",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_008_met_001",
+    "source_name": "Debt-to-Income Ratio — Actual 41.5%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_008_prd_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "measures_performance_of",
+    "description": "The Debt-to-Income ratio is used to measure the risk performance and eligibility for the Mortgage Product.",
+    "properties": {
+      "mortgage_amount": "£300,000",
+      "monthly_payment": "£1,519"
+    },
+    "context": "Mortgage Amount: £300,000... Monthly Payment = £1,519... Debt-to-Income Ratio = 41.5%",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_008_rsk_001",
+    "source_name": "Credit Risk — Debt Assessment",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_008_prd_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "pertains_to_accounts",
+    "description": "The credit risk assessment for debt is specifically applied to the Mortgage Product application process.",
+    "properties": {},
+    "context": "Step 4: Debt Assessment... Proposed Mortgage: Yes",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_008_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_008_met_001",
+    "source_name": "Debt-to-Income Ratio — Actual 41.5%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_008_rsk_001",
+    "source_name": "Credit Risk — Debt Assessment",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_rsk_001",
+    "source_name": "Mortgage Loan-to-Value (LTV) Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009_prd_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "pertains_to_accounts",
+    "description": "LTV risk is a primary risk factor associated with the Mortgage Product portfolio",
+    "properties": {},
+    "context": "LTV Risk Assessment: ... FirstUK Bank LTV Limits by Credit Grade",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_rsk_001",
+    "source_name": "Mortgage Loan-to-Value (LTV) Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009_met_001",
+    "target_name": "Max LTV for Excellent Credit Grade — Limit 95%",
+    "rel_type": "quantified_by",
+    "description": "LTV risk for Excellent credit grade is quantified by a maximum limit of 95%",
+    "properties": {
+      "threshold": "95%",
+      "credit_grade": "Excellent (90+)"
+    },
+    "context": "Excellent (90+) | 95% | Standard rate",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_rsk_001",
+    "source_name": "Mortgage Loan-to-Value (LTV) Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009_met_002",
+    "target_name": "Max LTV for Good Credit Grade — Limit 90%",
+    "rel_type": "quantified_by",
+    "description": "LTV risk for Good credit grade is quantified by a maximum limit of 90%",
+    "properties": {
+      "threshold": "90%",
+      "credit_grade": "Good (80–89)"
+    },
+    "context": "Good (80–89) | 90% | +0.25% rate premium",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_rsk_001",
+    "source_name": "Mortgage Loan-to-Value (LTV) Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009_met_003",
+    "target_name": "Max LTV for Fair Credit Grade — Limit 85%",
+    "rel_type": "quantified_by",
+    "description": "LTV risk for Fair credit grade is quantified by a maximum limit of 85%",
+    "properties": {
+      "threshold": "85%",
+      "credit_grade": "Fair (70–79)"
+    },
+    "context": "Fair (70–79) | 85% | +0.50% rate premium",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_rsk_001",
+    "source_name": "Mortgage Loan-to-Value (LTV) Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009_met_004",
+    "target_name": "Max LTV for Poor Credit Grade — Limit 80%",
+    "rel_type": "quantified_by",
+    "description": "LTV risk for Poor credit grade is quantified by a maximum limit of 80%",
+    "properties": {
+      "threshold": "80%",
+      "credit_grade": "Poor (60–69)"
+    },
+    "context": "Poor (60–69) | 80% | May decline",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_rsk_001",
+    "source_name": "Mortgage Loan-to-Value (LTV) Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_met_001",
+    "source_name": "Max LTV for Excellent Credit Grade — Limit 95%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_met_002",
+    "source_name": "Max LTV for Good Credit Grade — Limit 90%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_met_003",
+    "source_name": "Max LTV for Fair Credit Grade — Limit 85%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_met_004",
+    "source_name": "Max LTV for Poor Credit Grade — Limit 80%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_009_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_001",
+    "target_name": "Property Location Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Mortgage Product is subject to risks associated with the location of the property, ranging from prime areas to declining areas.",
+    "properties": {
+      "risk_levels": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "context": "Property Value Assessment: Risk Factors: Location | Prime area, stable values | Growing suburban | Declining area",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_002",
+    "target_name": "Property Type Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Mortgage Product is subject to risks based on property type, such as listed buildings or unusual constructions.",
+    "properties": {
+      "risk_levels": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "context": "Property Value Assessment: Risk Factors: Property Type | House, flat | Newer construction | Listed building, unusual",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_003",
+    "target_name": "Property Condition Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Mortgage Product is subject to risks regarding the physical condition of the property, from modern to poor repair.",
+    "properties": {
+      "risk_levels": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "context": "Property Value Assessment: Risk Factors: Condition | Modern, good repair | Average condition | Poor, repairs needed",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_004",
+    "target_name": "Market Liquidity Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Mortgage Product is subject to market liquidity risks, specifically the ease of selling the property.",
+    "properties": {
+      "risk_levels": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "context": "Property Value Assessment: Risk Factors: Market Liquidity | Easy to sell, buyers | Moderate sales | Hard to sell, few buyers",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_001",
+    "source_name": "Property Location Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010_met_001",
+    "target_name": "Loan-to-Value (LTV) Ratio",
+    "rel_type": "quantified_by",
+    "description": "Location risk adjustments are applied to the valuation which in turn supports and determines the LTV ratio.",
+    "properties": {
+      "adjustment_type": "valuation_adjustment"
+    },
+    "context": "Apply location/condition adjustments; Confirm valuation supports LTV ratio",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_003",
+    "source_name": "Property Condition Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010_met_001",
+    "target_name": "Loan-to-Value (LTV) Ratio",
+    "rel_type": "quantified_by",
+    "description": "Condition risk adjustments are applied to the valuation which in turn supports and determines the LTV ratio.",
+    "properties": {
+      "adjustment_type": "valuation_adjustment"
+    },
+    "context": "Apply location/condition adjustments; Confirm valuation supports LTV ratio",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_met_001",
+    "source_name": "Loan-to-Value (LTV) Ratio",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010_prod_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "measures_appetite_of",
+    "description": "The LTV ratio is the primary metric used to measure the risk appetite and collateral adequacy for the Mortgage Product.",
+    "properties": {
+      "trigger": "Valuation < Purchase Price"
+    },
+    "context": "Confirm valuation supports LTV ratio; Reduction triggers higher LTV",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_001",
+    "source_name": "Property Location Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_002",
+    "source_name": "Property Type Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_003",
+    "source_name": "Property Condition Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_004",
+    "source_name": "Market Liquidity Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_met_001",
+    "source_name": "Loan-to-Value (LTV) Ratio",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_010_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_rsk_001",
+    "source_name": "Credit Risk Rating Framework",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011_met_001",
+    "target_name": "Composite Risk Score — Actual 81.1",
+    "rel_type": "quantified_by",
+    "description": "The Credit Risk Rating Framework is quantified by the Composite Risk Score.",
+    "properties": {
+      "actual_value": "81.1",
+      "rating": "Good",
+      "required_action": "Standard Approval (manager sign-off)"
+    },
+    "context": "Calculate Composite Risk Score (0–100): ... TOTAL SCORE 100% — 81.1",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_001",
+    "source_name": "Composite Risk Score — Actual 81.1",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011_met_002",
+    "target_name": "Credit Score — Actual 82",
+    "rel_type": "measured_by",
+    "description": "The Composite Risk Score is derived from the Credit Score component.",
+    "properties": {
+      "weight": "40%",
+      "contribution": "32.8"
+    },
+    "context": "Credit Score | 40% | 82 | 32.8",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_001",
+    "source_name": "Composite Risk Score — Actual 81.1",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011_met_003",
+    "target_name": "Income Stability — Actual 85",
+    "rel_type": "measured_by",
+    "description": "The Composite Risk Score is derived from the Income Stability component.",
+    "properties": {
+      "weight": "25%",
+      "contribution": "21.3"
+    },
+    "context": "Income Stability | 25% | 85 | 21.3",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_001",
+    "source_name": "Composite Risk Score — Actual 81.1",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011_met_004",
+    "target_name": "Debt-to-Income — Actual 75",
+    "rel_type": "measured_by",
+    "description": "The Composite Risk Score is derived from the Debt-to-Income component.",
+    "properties": {
+      "weight": "20%",
+      "contribution": "15.0"
+    },
+    "context": "Debt-to-Income | 20% | 75 | 15.0",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_001",
+    "source_name": "Composite Risk Score — Actual 81.1",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011_met_005",
+    "target_name": "LTV Ratio — Actual 80",
+    "rel_type": "measured_by",
+    "description": "The Composite Risk Score is derived from the LTV Ratio component.",
+    "properties": {
+      "weight": "15%",
+      "contribution": "12.0"
+    },
+    "context": "LTV Ratio | 15% | 80 | 12.0",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_001",
+    "source_name": "Composite Risk Score — Actual 81.1",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_002",
+    "source_name": "Credit Score — Actual 82",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_003",
+    "source_name": "Income Stability — Actual 85",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_004",
+    "source_name": "Debt-to-Income — Actual 75",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_met_005",
+    "source_name": "LTV Ratio — Actual 80",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_011_rsk_001",
+    "source_name": "Credit Risk Rating Framework",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_rsk_001",
+    "source_name": "Credit Risk — Underwriting Decision Matrix",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012_met_001",
+    "target_name": "Credit Score Thresholds for Lending Decisions",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified by specific credit score brackets (e.g., 90+, 80-89, 70-79, 60-69, <60) to determine loan eligibility.",
+    "properties": {
+      "thresholds": "90+, 80-89, 70-79, 60-69, <60"
+    },
+    "context": "Credit Score | Income DTI | LTV | Decision",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_rsk_001",
+    "source_name": "Credit Risk — Underwriting Decision Matrix",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012_met_002",
+    "target_name": "Income Debt-to-Income (DTI) Thresholds",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified by DTI percentages (e.g., <35%, 35-45%, <40%) to assess repayment capacity.",
+    "properties": {
+      "thresholds": "<35%, 35-45%, <40%"
+    },
+    "context": "Credit Score | Income DTI | LTV | Decision",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_rsk_001",
+    "source_name": "Credit Risk — Underwriting Decision Matrix",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012_met_003",
+    "target_name": "Loan-to-Value (LTV) Thresholds",
+    "rel_type": "quantified_by",
+    "description": "Credit risk is quantified by LTV ratios (e.g., <80%, <85%, <90%, <75%) to assess collateral adequacy.",
+    "properties": {
+      "thresholds": "<80%, <85%, <90%, <75%"
+    },
+    "context": "Credit Score | Income DTI | LTV | Decision",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_dec_001",
+    "source_name": "Underwriting Approval and Decline Logic",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012_met_001",
+    "target_name": "Credit Score Thresholds for Lending Decisions",
+    "rel_type": "approves_threshold_for",
+    "description": "The underwriting logic defines the credit score thresholds that trigger Approve, Conditional, or Decline decisions.",
+    "properties": {
+      "decision_outcome": "Approve/Conditional/Decline"
+    },
+    "context": "Use This Matrix to Make Lending Decisions: | Credit Score | ... | Decision",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_dec_001",
+    "source_name": "Underwriting Approval and Decline Logic",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012_met_002",
+    "target_name": "Income Debt-to-Income (DTI) Thresholds",
+    "rel_type": "approves_threshold_for",
+    "description": "The underwriting logic defines the DTI thresholds that trigger Approve, Conditional, or Decline decisions.",
+    "properties": {
+      "decision_outcome": "Approve/Conditional/Decline"
+    },
+    "context": "Use This Matrix to Make Lending Decisions: | ... | Income DTI | ... | Decision",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_dec_001",
+    "source_name": "Underwriting Approval and Decline Logic",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012_met_003",
+    "target_name": "Loan-to-Value (LTV) Thresholds",
+    "rel_type": "approves_threshold_for",
+    "description": "The underwriting logic defines the LTV thresholds that trigger Approve, Conditional, or Decline decisions.",
+    "properties": {
+      "decision_outcome": "Approve/Conditional/Decline"
+    },
+    "context": "Use This Matrix to Make Lending Decisions: | ... | ... | LTV | Decision",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_dec_001",
+    "source_name": "Underwriting Approval and Decline Logic",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012_rsk_001",
+    "target_name": "Credit Risk — Underwriting Decision Matrix",
+    "rel_type": "approves_appetite_for",
+    "description": "The decision matrix formalizes the bank's risk appetite for credit by mapping specific metrics to approval outcomes.",
+    "properties": {
+      "decision_outcome": "Risk-based approval matrix"
+    },
+    "context": "Use This Matrix to Make Lending Decisions",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_rsk_001",
+    "source_name": "Credit Risk — Underwriting Decision Matrix",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_met_001",
+    "source_name": "Credit Score Thresholds for Lending Decisions",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_met_002",
+    "source_name": "Income Debt-to-Income (DTI) Thresholds",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_met_003",
+    "source_name": "Loan-to-Value (LTV) Thresholds",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_012_dec_001",
+    "source_name": "Underwriting Approval and Decline Logic",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "source_name": "Mortgage Credit Risk — Conditional Approval Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_prod_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "pertains_to_product",
+    "description": "The conditional approval risk is specific to the Mortgage Product line",
+    "properties": {},
+    "context": "## PART 4: CONDITIONAL APPROVALS... Mortgage Credit Risk — Conditional Approval Process",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "source_name": "Mortgage Credit Risk — Conditional Approval Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_001",
+    "target_name": "Communicate conditions to borrower",
+    "rel_type": "addressed_by",
+    "description": "Risk of conditional approval failure is mitigated by communicating conditions to the borrower",
+    "properties": {
+      "priority": "High"
+    },
+    "context": "Condition Management: [ ] Communicate conditions to borrower",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "source_name": "Mortgage Credit Risk — Conditional Approval Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_002",
+    "target_name": "Set deadline for condition satisfaction",
+    "rel_type": "addressed_by",
+    "description": "Risk of conditional approval failure is mitigated by setting a satisfaction deadline",
+    "properties": {
+      "standard_deadline": "10 days"
+    },
+    "context": "Condition Management: [ ] Set deadline for condition satisfaction (typically 10 days)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "source_name": "Mortgage Credit Risk — Conditional Approval Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_003",
+    "target_name": "Track conditions in system",
+    "rel_type": "addressed_by",
+    "description": "Risk of conditional approval failure is mitigated by systematic tracking of conditions",
+    "properties": {},
+    "context": "Condition Management: [ ] Track conditions in system",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "source_name": "Mortgage Credit Risk — Conditional Approval Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_004",
+    "target_name": "Release funds only after all conditions met",
+    "rel_type": "addressed_by",
+    "description": "Risk of credit loss is mitigated by ensuring funds are only released upon full condition satisfaction",
+    "properties": {
+      "control_type": "Preventative"
+    },
+    "context": "Condition Management: [ ] Release funds only after all conditions met",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "source_name": "Mortgage Credit Risk — Conditional Approval Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_005",
+    "target_name": "Document condition satisfaction",
+    "rel_type": "addressed_by",
+    "description": "Risk of audit failure or credit loss is mitigated by documenting the satisfaction of conditions",
+    "properties": {},
+    "context": "Condition Management: [ ] Document condition satisfaction",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_001",
+    "source_name": "Communicate conditions to borrower",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_002",
+    "target_name": "Set deadline for condition satisfaction",
+    "rel_type": "preceded_by",
+    "description": "Communication of conditions typically precedes the setting of a deadline",
+    "properties": {},
+    "context": "Condition Management: [ ] Communicate conditions to borrower [ ] Set deadline for condition satisfaction",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_003",
+    "source_name": "Track conditions in system",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_004",
+    "target_name": "Release funds only after all conditions met",
+    "rel_type": "depends_on",
+    "description": "The ability to release funds only after conditions are met depends on the tracking of those conditions in the system",
+    "properties": {},
+    "context": "Condition Management: [ ] Track conditions in system [ ] Release funds only after all conditions met",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_004",
+    "source_name": "Release funds only after all conditions met",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013_act_005",
+    "target_name": "Document condition satisfaction",
+    "rel_type": "depends_on",
+    "description": "The release of funds requires the prior documentation of condition satisfaction",
+    "properties": {},
+    "context": "Condition Management: [ ] Release funds only after all conditions met [ ] Document condition satisfaction",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_001",
+    "source_name": "Communicate conditions to borrower",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_002",
+    "source_name": "Set deadline for condition satisfaction",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_003",
+    "source_name": "Track conditions in system",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_004",
+    "source_name": "Release funds only after all conditions met",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_act_005",
+    "source_name": "Document condition satisfaction",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "source_name": "Mortgage Credit Risk — Conditional Approval Process",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_013_prod_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "source_name": "Credit Default Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_met_001",
+    "target_name": "Minimum Credit Score Threshold — Mandatory Decline <60",
+    "rel_type": "quantified_by",
+    "description": "Credit default risk is quantified by a mandatory decline threshold for credit scores below 60.",
+    "properties": {
+      "threshold": "<60",
+      "outcome": "Mandatory Decline"
+    },
+    "context": "Credit score <60 (very high default risk)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "source_name": "Credit Default Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_met_002",
+    "target_name": "Debt-to-Income (DTI) Ratio Threshold — Mandatory Decline >45%",
+    "rel_type": "quantified_by",
+    "description": "Credit default risk is quantified by a mandatory decline threshold for DTI ratios exceeding 45%.",
+    "properties": {
+      "threshold": ">45%",
+      "outcome": "Mandatory Decline"
+    },
+    "context": "DTI >45% (unaffordable)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "source_name": "Credit Default Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_met_003",
+    "target_name": "Loan-to-Value (LTV) Ratio Threshold — Mandatory Decline >95%",
+    "rel_type": "quantified_by",
+    "description": "Credit default risk is quantified by a mandatory decline threshold for LTV ratios exceeding 95%.",
+    "properties": {
+      "threshold": ">95%",
+      "outcome": "Mandatory Decline"
+    },
+    "context": "LTV >95% (no equity cushion)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "source_name": "Credit Default Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_met_004",
+    "target_name": "Discretionary Credit Score Range — 60–69",
+    "rel_type": "quantified_by",
+    "description": "Credit default risk is managed via a discretionary review range for credit scores between 60 and 69.",
+    "properties": {
+      "threshold": "60-69",
+      "outcome": "Discretionary Decline"
+    },
+    "context": "Credit score 60–69 (requires exceptional other credentials)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "target_name": "Credit Default Risk",
+    "rel_type": "governs",
+    "description": "The Mortgage Product risk framework governs the assessment of Credit Default Risk.",
+    "properties": {},
+    "context": "We have reviewed your mortgage application... Decision: APPLICATION DECLINED",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_002",
+    "target_name": "Fraud and Misrepresentation Risk",
+    "rel_type": "governs",
+    "description": "The Mortgage Product risk framework governs the assessment of Fraud and Misrepresentation Risk.",
+    "properties": {},
+    "context": "MANDATORY DECLINE (No Review): ... Fraud/misrepresentation detected",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_003",
+    "target_name": "Criminal History Risk",
+    "rel_type": "governs",
+    "description": "The Mortgage Product risk framework governs the assessment of Criminal History Risk.",
+    "properties": {},
+    "context": "MANDATORY DECLINE (No Review): ... Adverse criminal history",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_004",
+    "target_name": "Bankruptcy Risk",
+    "rel_type": "governs",
+    "description": "The Mortgage Product risk framework governs the assessment of Bankruptcy Risk.",
+    "properties": {},
+    "context": "MANDATORY DECLINE (No Review): ... Recent bankruptcy (<2 years)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_005",
+    "target_name": "Employment Stability Risk",
+    "rel_type": "governs",
+    "description": "The Mortgage Product risk framework governs the assessment of Employment Stability Risk.",
+    "properties": {},
+    "context": "DISCRETIONARY DECLINE... Employment <1 year in unstable field",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_006",
+    "target_name": "Market Decline Risk",
+    "rel_type": "governs",
+    "description": "The Mortgage Product risk framework governs the assessment of Market Decline Risk.",
+    "properties": {},
+    "context": "DISCRETIONARY DECLINE... Property in high-risk declining market",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_007",
+    "target_name": "Self-Employment Data Risk",
+    "rel_type": "governs",
+    "description": "The Mortgage Product risk framework governs the assessment of Self-Employment Data Risk.",
+    "properties": {},
+    "context": "DISCRETIONARY DECLINE... Self-employed <2 years (marginal data)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_dep_001",
+    "source_name": "Lending Team",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "target_name": "Mortgage Product",
+    "rel_type": "managed_by",
+    "description": "The Mortgage Product application and decline process is managed by the Lending Team.",
+    "properties": {},
+    "context": "Best regards, Lending Team",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_dep_001",
+    "source_name": "Lending Team",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "target_name": "Credit Default Risk",
+    "rel_type": "managed_by",
+    "description": "The Lending Team manages the assessment and decisioning of Credit Default Risk.",
+    "properties": {},
+    "context": "Best regards, Lending Team",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "source_name": "Credit Default Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_met_001",
+    "source_name": "Minimum Credit Score Threshold — Mandatory Decline <60",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_met_002",
+    "source_name": "Debt-to-Income (DTI) Ratio Threshold — Mandatory Decline >45%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_met_003",
+    "source_name": "Loan-to-Value (LTV) Ratio Threshold — Mandatory Decline >95%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_002",
+    "source_name": "Fraud and Misrepresentation Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_003",
+    "source_name": "Criminal History Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_004",
+    "source_name": "Bankruptcy Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_met_004",
+    "source_name": "Discretionary Credit Score Range — 60–69",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_005",
+    "source_name": "Employment Stability Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_006",
+    "source_name": "Market Decline Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_007",
+    "source_name": "Self-Employment Data Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_014_dep_001",
+    "source_name": "Lending Team",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_001",
+    "target_name": "Final Walkthrough by Borrower and Appraiser",
+    "rel_type": "requires",
+    "description": "The Mortgage Product disbursement process requires a final walkthrough by the borrower and appraiser.",
+    "properties": {
+      "stage": "Pre-Disbursement",
+      "condition": "no major changes"
+    },
+    "context": "Before Releasing Funds: Final walkthrough by borrower and appraiser (no major changes)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_002",
+    "target_name": "Final Verification of Employment",
+    "rel_type": "requires",
+    "description": "The Mortgage Product disbursement process requires a final verification of employment.",
+    "properties": {
+      "stage": "Pre-Disbursement",
+      "timeline": "1–2 days before closing"
+    },
+    "context": "Before Releasing Funds: Final verification of employment (phone call 1–2 days before closing)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_003",
+    "target_name": "Final Credit Check",
+    "rel_type": "requires",
+    "description": "The Mortgage Product disbursement process requires a final credit check to ensure no new debt.",
+    "properties": {
+      "stage": "Pre-Disbursement",
+      "condition": "no new derogatory marks, new debt"
+    },
+    "context": "Before Releasing Funds: Final credit check (no new derogatory marks, new debt)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_004",
+    "target_name": "Title Search Confirmation",
+    "rel_type": "requires",
+    "description": "The Mortgage Product disbursement process requires confirmation of a clear title.",
+    "properties": {
+      "stage": "Pre-Disbursement",
+      "condition": "no liens, claims"
+    },
+    "context": "Before Releasing Funds: Title search confirms clear title (no liens, claims)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_005",
+    "target_name": "Insurance Policy Procurement",
+    "rel_type": "requires",
+    "description": "The Mortgage Product disbursement process requires an insurance policy to be obtained and paid.",
+    "properties": {
+      "stage": "Pre-Disbursement"
+    },
+    "context": "Before Releasing Funds: Insurance policy obtained and paid",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "target_name": "Satisfaction of All Conditions",
+    "rel_type": "requires",
+    "description": "The Mortgage Product disbursement process requires all conditions to be satisfied.",
+    "properties": {
+      "stage": "Pre-Disbursement"
+    },
+    "context": "Before Releasing Funds: All conditions satisfied",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_007",
+    "target_name": "Closing Disclosure Review and Signature",
+    "rel_type": "requires",
+    "description": "The Mortgage Product disbursement process requires the closing disclosure to be reviewed and signed.",
+    "properties": {
+      "stage": "Pre-Disbursement"
+    },
+    "context": "Before Releasing Funds: Closing disclosure reviewed and signed",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "source_name": "Satisfaction of All Conditions",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_001",
+    "target_name": "Final Walkthrough by Borrower and Appraiser",
+    "rel_type": "depends_on",
+    "description": "Satisfaction of all conditions depends on the completion of the final walkthrough.",
+    "properties": {
+      "dependency_type": "pre-requisite"
+    },
+    "context": "Before Releasing Funds: [List of checks including walkthrough and all conditions satisfied]",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "source_name": "Satisfaction of All Conditions",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_002",
+    "target_name": "Final Verification of Employment",
+    "rel_type": "depends_on",
+    "description": "Satisfaction of all conditions depends on the completion of the final verification of employment.",
+    "properties": {
+      "dependency_type": "pre-requisite"
+    },
+    "context": "Before Releasing Funds: [List of checks including employment verification and all conditions satisfied]",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "source_name": "Satisfaction of All Conditions",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_003",
+    "target_name": "Final Credit Check",
+    "rel_type": "depends_on",
+    "description": "Satisfaction of all conditions depends on the completion of the final credit check.",
+    "properties": {
+      "dependency_type": "pre-requisite"
+    },
+    "context": "Before Releasing Funds: [List of checks including credit check and all conditions satisfied]",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "source_name": "Satisfaction of All Conditions",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_004",
+    "target_name": "Title Search Confirmation",
+    "rel_type": "depends_on",
+    "description": "Satisfaction of all conditions depends on the completion of the title search confirmation.",
+    "properties": {
+      "dependency_type": "pre-requisite"
+    },
+    "context": "Before Releasing Funds: [List of checks including title search and all conditions satisfied]",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "source_name": "Satisfaction of All Conditions",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015_act_005",
+    "target_name": "Insurance Policy Procurement",
+    "rel_type": "depends_on",
+    "description": "Satisfaction of all conditions depends on the procurement of the insurance policy.",
+    "properties": {
+      "dependency_type": "pre-requisite"
+    },
+    "context": "Before Releasing Funds: [List of checks including insurance policy and all conditions satisfied]",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_001",
+    "source_name": "Final Walkthrough by Borrower and Appraiser",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_002",
+    "source_name": "Final Verification of Employment",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_003",
+    "source_name": "Final Credit Check",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_004",
+    "source_name": "Title Search Confirmation",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_005",
+    "source_name": "Insurance Policy Procurement",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "source_name": "Satisfaction of All Conditions",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_act_007",
+    "source_name": "Closing Disclosure Review and Signature",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016_rsk_001",
+    "target_name": "Mortgage Credit Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Mortgage Product is subject to Mortgage Credit Risk during its servicing lifecycle.",
+    "properties": {},
+    "context": "Mortgage Servicing",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016_met_001",
+    "target_name": "Property Valuation Frequency — Every 3 Years",
+    "rel_type": "quantified_by",
+    "description": "Mortgage Credit Risk is monitored via property value tracking every 3 years.",
+    "properties": {
+      "frequency": "Every 3 years",
+      "monitoring_type": "Property value tracking"
+    },
+    "context": "Property value tracking (valuation every 3 years)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016_met_002",
+    "target_name": "Credit Re-score Frequency — Annually",
+    "rel_type": "quantified_by",
+    "description": "Mortgage Credit Risk is monitored via annual credit re-scoring.",
+    "properties": {
+      "frequency": "Annually",
+      "monitoring_type": "Ongoing credit monitoring"
+    },
+    "context": "Ongoing credit monitoring (re-score annually)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016_act_001",
+    "target_name": "Default Early Warning Action",
+    "rel_type": "triggers_review_of",
+    "description": "A missed payment associated with Mortgage Credit Risk triggers a default early warning action.",
+    "properties": {
+      "trigger_event": "missed payment"
+    },
+    "context": "Default early warning (missed payment triggers action)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_prd_001",
+    "source_name": "Mortgage Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_rsk_001",
+    "source_name": "Mortgage Credit Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_met_001",
+    "source_name": "Property Valuation Frequency — Every 3 Years",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_met_002",
+    "source_name": "Credit Re-score Frequency — Annually",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_016_act_001",
+    "source_name": "Default Early Warning Action",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_017_rsk_001",
+    "source_name": "Credit Risk — Borrower Default",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_017_met_001",
+    "target_name": "Loss Calculation Metric — Loan Balance minus Sale Proceeds",
+    "rel_type": "quantified_by",
+    "description": "Credit risk resulting from borrower default is quantified by calculating the difference between the loan balance and the net sale proceeds.",
+    "properties": {
+      "formula": "Loan Balance - Sale Proceeds",
+      "trigger_event": "Sale Price < Loan Balance"
+    },
+    "context": "If Sale Price < Loan Balance: FirstUK Bank absorbs loss\nLoss = Loan Balance – Sale Proceeds",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_017_rsk_001",
+    "source_name": "Credit Risk — Borrower Default",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_017_prd_001",
+    "target_name": "Mortgage Loan Product",
+    "rel_type": "pertains_to_accounts",
+    "description": "The risk of borrower default specifically pertains to the mortgage loan product and its associated accounts.",
+    "properties": {
+      "risk_category": "Credit Risk"
+    },
+    "context": "If Borrower Enters Default... Foreclosure/sale begins... Loan Balance: £290,000 (remaining principal)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_017_met_001",
+    "source_name": "Loss Calculation Metric — Loan Balance minus Sale Proceeds",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_017_prd_001",
+    "target_name": "Mortgage Loan Product",
+    "rel_type": "measures_performance_of",
+    "description": "The loss calculation metric is used to measure the financial impact of defaults within the Mortgage Loan Product portfolio.",
+    "properties": {
+      "calculation_basis": "Net Proceeds vs Loan Balance"
+    },
+    "context": "Loss = Loan Balance – Sale Proceeds",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_017_rsk_001",
+    "source_name": "Credit Risk — Borrower Default",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_017_met_001",
+    "source_name": "Loss Calculation Metric — Loan Balance minus Sale Proceeds",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_017_prd_001",
+    "source_name": "Mortgage Loan Product",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_018_rsk_001",
+    "source_name": "Fair Lending Compliance Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_018_act_001",
+    "target_name": "Fair Lending Documentation Maintenance",
+    "rel_type": "addressed_by",
+    "description": "Fair Lending Compliance Risk is mitigated through the maintenance of records demonstrating decisions are based on credit criteria rather than protected characteristics.",
+    "properties": {
+      "mitigation_strategy": "documentation_of_credit_criteria"
+    },
+    "context": "Documentation: Keep records demonstrating decisions based on credit criteria, not protected characteristics.",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_018_act_001",
+    "source_name": "Fair Lending Documentation Maintenance",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_018_rsk_001",
+    "target_name": "Fair Lending Compliance Risk",
+    "rel_type": "targets_remediation_of",
+    "description": "The maintenance of fair lending documentation aims to remediate and prevent Fair Lending Compliance Risk.",
+    "properties": {
+      "objective": "demonstrate non-discriminatory decision making"
+    },
+    "context": "Documentation: Keep records demonstrating decisions based on credit criteria, not protected characteristics.",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_018_rsk_001",
+    "source_name": "Fair Lending Compliance Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_018_act_001",
+    "source_name": "Fair Lending Documentation Maintenance",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_019_fnd_001",
+    "source_name": "Failure to Weight Recent Payment History",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_019_rsk_001",
+    "target_name": "Default Risk related to Debt-to-Income (DTI) Ratio",
+    "rel_type": "evidence_of",
+    "description": "Failure to weight recent payment history serves as evidence of increased default risk",
+    "properties": {
+      "severity": "high",
+      "remediation_guidance": "Weight recent activity (last 24 months) more heavily"
+    },
+    "context": "Mistake 1: Overlook recent late payments (weight of recent payment history) ... Correct: Weight recent activity (last 24 months) more heavily",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_019_fnd_001",
+    "source_name": "Failure to Weight Recent Payment History",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_019_rsk_002",
+    "target_name": "Loan-to-Value (LTV) Risk",
+    "rel_type": "associated_with",
+    "description": "Payment history failures are associated with the overall risk profile including LTV considerations",
+    "properties": {
+      "correlation": "indirect"
+    },
+    "context": "Mistake 1: Overlook recent late payments (weight of recent payment history)",
+    "bidirectional": true,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_019_rsk_001",
+    "source_name": "Default Risk related to Debt-to-Income (DTI) Ratio",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_019_rsk_002",
+    "source_name": "Loan-to-Value (LTV) Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_019_fnd_001",
+    "source_name": "Failure to Weight Recent Payment History",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "source_name": "Credit Risk — Lending Approval Scenarios",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_met_001",
+    "target_name": "Standard Approval Credit Score Threshold — Score 75+",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for standard approvals is quantified by a minimum credit score of 75+",
+    "properties": {
+      "threshold": "75+",
+      "scenario": "Standard Approval"
+    },
+    "context": "Standard Approval (Score 75+, DTI <40%, LTV <85%)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "source_name": "Credit Risk — Lending Approval Scenarios",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_met_002",
+    "target_name": "Standard Approval Debt-to-Income (DTI) Threshold — DTI <40%",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for standard approvals is quantified by a DTI ratio of less than 40%",
+    "properties": {
+      "threshold": "<40%",
+      "scenario": "Standard Approval"
+    },
+    "context": "Standard Approval (Score 75+, DTI <40%, LTV <85%)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "source_name": "Credit Risk — Lending Approval Scenarios",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_met_003",
+    "target_name": "Standard Approval Loan-to-Value (LTV) Threshold — LTV <85%",
+    "rel_type": "quantified_by",
+    "description": "Credit risk for standard approvals is quantified by an LTV ratio of less than 85%",
+    "properties": {
+      "threshold": "<85%",
+      "scenario": "Standard Approval"
+    },
+    "context": "Standard Approval (Score 75+, DTI <40%, LTV <85%)",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_001",
+    "source_name": "Standard Approval Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_met_001",
+    "target_name": "Standard Approval Credit Score Threshold — Score 75+",
+    "rel_type": "approves_threshold_for",
+    "description": "The Standard Approval Authority decision approves the credit score threshold of 75+",
+    "properties": {
+      "approval_level": "CSR/Underwriter",
+      "timeline": "2-3 days"
+    },
+    "context": "Standard Approval (Score 75+, DTI <40%, LTV <85%) | CSR/Underwriter | 2–3 days",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_001",
+    "source_name": "Standard Approval Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_met_002",
+    "target_name": "Standard Approval Debt-to-Income (DTI) Threshold — DTI <40%",
+    "rel_type": "approves_threshold_for",
+    "description": "The Standard Approval Authority decision approves the DTI threshold of <40%",
+    "properties": {
+      "approval_level": "CSR/Underwriter",
+      "timeline": "2-3 days"
+    },
+    "context": "Standard Approval (Score 75+, DTI <40%, LTV <85%) | CSR/Underwriter | 2–3 days",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_001",
+    "source_name": "Standard Approval Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_met_003",
+    "target_name": "Standard Approval Loan-to-Value (LTV) Threshold — LTV <85%",
+    "rel_type": "approves_threshold_for",
+    "description": "The Standard Approval Authority decision approves the LTV threshold of <85%",
+    "properties": {
+      "approval_level": "CSR/Underwriter",
+      "timeline": "2-3 days"
+    },
+    "context": "Standard Approval (Score 75+, DTI <40%, LTV <85%) | CSR/Underwriter | 2–3 days",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_002",
+    "source_name": "Conditional Approval Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "target_name": "Credit Risk — Lending Approval Scenarios",
+    "rel_type": "approves_appetite_for",
+    "description": "Conditional Approval authority is granted for cases with minor conditions and good credit",
+    "properties": {
+      "approval_level": "Manager",
+      "timeline": "3-5 days",
+      "conditions": "Minor conditions, good credit"
+    },
+    "context": "Conditional Approval (Minor conditions, good credit) | Manager | 3–5 days",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_003",
+    "source_name": "Enhanced Review and Decline Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "target_name": "Credit Risk — Lending Approval Scenarios",
+    "rel_type": "elevates_concern_about",
+    "description": "Enhanced Review and Decline authority is triggered by fair credit or weak profiles",
+    "properties": {
+      "approval_level": "Risk Manager",
+      "timeline": "2-7 days",
+      "conditions": "Fair credit, edge cases, weak profile"
+    },
+    "context": "Enhanced Review (Fair credit, edge cases) | Risk Manager | 5–7 days \n Decline (Weak profile) | Risk Manager | 2–3 days",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_004",
+    "source_name": "Appeal Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "target_name": "Credit Risk — Lending Approval Scenarios",
+    "rel_type": "approves_appetite_for",
+    "description": "Appeal authority allows the Head of Lending to review disputed declines",
+    "properties": {
+      "approval_level": "Head of Lending",
+      "timeline": "10 days",
+      "conditions": "Borrower disputes decline"
+    },
+    "context": "Appeal (Borrower disputes decline) | Head of Lending | 10 days",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_met_001",
+    "source_name": "Standard Approval Credit Score Threshold — Score 75+",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_met_002",
+    "source_name": "Standard Approval Debt-to-Income (DTI) Threshold — DTI <40%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_met_003",
+    "source_name": "Standard Approval Loan-to-Value (LTV) Threshold — LTV <85%",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "source_name": "Credit Risk — Lending Approval Scenarios",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_001",
+    "source_name": "Standard Approval Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_002",
+    "source_name": "Conditional Approval Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_003",
+    "source_name": "Enhanced Review and Decline Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_020_dec_004",
+    "source_name": "Appeal Authority Decision",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_022_dept_001",
+    "source_name": "Risk Department",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_022",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_022",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_023_dec_001",
+    "source_name": "Approval of Document by Head of Risk, Chief Lending Officer, and Compliance Officer",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_023_emp_001",
+    "target_name": "Head of Risk",
+    "rel_type": "assigns_accountability_to",
+    "description": "The Head of Risk provided formal sign-off and approval for the document.",
+    "properties": {
+      "approval_date": "2026-01-15"
+    },
+    "context": "Approved by: Head of Risk — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_023_dec_001",
+    "source_name": "Approval of Document by Head of Risk, Chief Lending Officer, and Compliance Officer",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_023_emp_002",
+    "target_name": "Chief Lending Officer",
+    "rel_type": "assigns_accountability_to",
+    "description": "The Chief Lending Officer provided formal sign-off and approval for the document.",
+    "properties": {
+      "approval_date": "2026-01-15"
+    },
+    "context": "Approved by: Chief Lending Officer — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_023_dec_001",
+    "source_name": "Approval of Document by Head of Risk, Chief Lending Officer, and Compliance Officer",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_023_emp_003",
+    "target_name": "Compliance Officer",
+    "rel_type": "assigns_accountability_to",
+    "description": "The Compliance Officer provided formal sign-off and approval for the document.",
+    "properties": {
+      "approval_date": "2026-01-15"
+    },
+    "context": "Approved by: Compliance Officer — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_023_dec_001",
+    "source_name": "Approval of Document by Head of Risk, Chief Lending Officer, and Compliance Officer",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_023_emp_001",
+    "source_name": "Head of Risk",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_023_emp_002",
+    "source_name": "Chief Lending Officer",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "1fe36fdb8530477da41f1007dc227fae_023_emp_003",
+    "source_name": "Compliance Officer",
+    "target_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "target_name": "1fe36fdb8530477da41f1007dc227fae_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  }
+]

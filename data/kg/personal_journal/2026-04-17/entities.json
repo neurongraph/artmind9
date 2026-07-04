@@ -1,0 +1,305 @@
+[
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_001",
+    "name": "Self",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The diarist who is working on marketing strategies and reports. They are experiencing a sense of accomplishment at work and spending time with family and their pet.",
+    "context": [
+      "Finished the Spencer report ahead of schedule",
+      "My manager approved the new marketing strategy I proposed last week",
+      "Evening walk with Browny was refreshing"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_002",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "colleague",
+    "description": "The diarist's supervisor who approved the new marketing strategy proposed last week.",
+    "context": [
+      "My manager approved the new marketing strategy I proposed last week"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_003",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "The diarist's partner who manages the children's education and health, and prepared biryani for the family dinner.",
+    "context": [
+      "Preeti called in the afternoon",
+      "Preeti made him rest",
+      "Preeti made biryani for dinner"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_004",
+    "name": "Neetish",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the children who is currently attending tuition classes and performing well academically.",
+    "context": [
+      "discuss Neetish's tuition classes",
+      "Neetish has been performing well there"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_005",
+    "name": "Mohan",
+    "aliases": [
+      "he"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the children who is recovering from a fever and is eager to go back to the park to play with friends.",
+    "context": [
+      "Mohan seemed better today",
+      "No more fever",
+      "He wanted to go to the park"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_006",
+    "name": "Browny",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The diarist's pet who accompanied them on an evening walk.",
+    "context": [
+      "Evening walk with Browny was refreshing"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_per_007",
+    "name": "Neighbors",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "acquaintance",
+    "description": "People living nearby whom the diarist met at the park to discuss the community fair.",
+    "context": [
+      "Met some neighbors at the park",
+      "We discussed the upcoming community fair next month"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_001",
+    "name": "Workplace",
+    "aliases": [
+      "work"
+    ],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The location where the diarist completed the Spencer report and proposed a marketing strategy.",
+    "context": [
+      "Today was relatively calm at work"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_002",
+    "name": "Tuition Center",
+    "aliases": [
+      "center"
+    ],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The educational facility where Neetish studies and which is increasing its fees next month.",
+    "context": [
+      "The tuition center is increasing fees next month",
+      "continue with the same center or look for alternatives"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_003",
+    "name": "Park",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "park",
+    "description": "A local outdoor area where the diarist walked Browny and met with neighbors.",
+    "context": [
+      "He wanted to go to the park",
+      "Met some neighbors at the park"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_plc_004",
+    "name": "Indore",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "city",
+    "description": "The city where the diarist resides, noted for having pleasant weather currently.",
+    "context": [
+      "The weather in Indore is pleasant these days"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_001",
+    "name": "Spencer Report Completion",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "achievement",
+    "description": "The successful and early completion of a professional report.",
+    "context": [
+      "Finished the Spencer report ahead of schedule"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_002",
+    "name": "Marketing Strategy Approval",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "achievement",
+    "description": "The manager's acceptance of a new marketing strategy proposed by the diarist.",
+    "context": [
+      "My manager approved the new marketing strategy I proposed last week"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_003",
+    "name": "Family Movie Night",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "social_gathering",
+    "description": "A shared activity where the family watched a movie together before going to bed.",
+    "context": [
+      "Watched a movie together as a family before bed"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_evt_004",
+    "name": "Community Fair",
+    "aliases": [
+      "mela"
+    ],
+    "entity_class": "EVENT",
+    "type": "social_gathering",
+    "description": "An upcoming event planned by the residents' welfare association for next month.",
+    "context": [
+      "discussed the upcoming community fair next month",
+      "The residents' welfare association is planning a mela"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_act_001",
+    "name": "Work",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "work",
+    "description": "The diarist's professional duties, including reporting and strategy planning.",
+    "context": [
+      "Today was relatively calm at work"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_act_002",
+    "name": "Evening Walk",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "leisure",
+    "description": "A refreshing walk taken in the evening with the pet dog, Browny.",
+    "context": [
+      "Evening walk with Browny was refreshing"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_001",
+    "name": "Satisfaction",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "contentment",
+    "description": "A feeling of reward and positivity resulting from professional success.",
+    "context": [
+      "Feels good when the hard work pays off"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_emo_002",
+    "name": "Excitement",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "excitement",
+    "description": "The children's emotional reaction to having biryani for dinner.",
+    "context": [
+      "The kids were excited"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "b58db6a4bf3244609469bd018c6476d9_001_pla_001",
+    "name": "Tuition Decision",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "family",
+    "description": "The process of deciding whether to keep Neetish at the current tuition center despite the fee increase or find a new one.",
+    "context": [
+      "considering whether to continue with the same center or look for alternatives"
+    ],
+    "chunk_id": "b58db6a4bf3244609469bd018c6476d9_001",
+    "doc_id": "b58db6a4bf3244609469bd018c6476d9",
+    "domain": "personal_journal"
+  }
+]

@@ -1,0 +1,2403 @@
+[
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_001_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001-TC"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings product offered by FirstUK Bank governed by the Terms & Conditions document version 2.2. It is classified as a legal customer-facing document effective from 2026-01-15.",
+    "context": [
+      "FirstUK Bank — SmartSaver Account Terms & Conditions",
+      "Document ID | SAV-001-TC"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_001",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_002_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings product offered by FirstUK Bank PLC. The account is governed by a specific set of Terms & Conditions that form a binding contract between the bank and the customer.",
+    "context": [
+      "Read these terms carefully before opening a SmartSaver Account.",
+      "These Terms & Conditions form a binding contract between you and FirstUK Bank PLC."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_002",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_002_cls_001",
+    "name": "SmartSaver Binding Contract Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "A contractual provision establishing that the Terms & Conditions associated with the SmartSaver Account constitute a legally binding agreement between the customer and FirstUK Bank PLC.",
+    "context": [
+      "These Terms & Conditions form a binding contract between you and FirstUK Bank PLC."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_002",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver savings account"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings account product offered by FirstUK Bank PLC. It allows customers to earn variable interest on deposits.",
+    "context": [
+      "Your SmartSaver savings account held with FirstUK Bank"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_cust_001",
+    "name": "Customer",
+    "aliases": [
+      "You",
+      "Your"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The natural person opening the account and acting as the account holder.",
+    "context": [
+      "The customer opening the account (account holder)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_acc_001",
+    "name": "SmartSaver Account Arrangement",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The specific customer account instance governed by the SmartSaver product terms.",
+    "context": [
+      "\"Account\" = Your SmartSaver savings account held with FirstUK Bank"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_trn_001",
+    "name": "Deposit",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "deposit",
+    "description": "The financial event where a customer places money into their SmartSaver account.",
+    "context": [
+      "\"Deposit\" = Money you place into the account"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_trn_002",
+    "name": "Withdrawal",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "withdrawal",
+    "description": "The financial event where a customer removes money from their SmartSaver account.",
+    "context": [
+      "\"Withdrawal\" = Money you remove from the account"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_ftr_001",
+    "name": "Variable Interest Payment",
+    "aliases": [
+      "Interest"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "service_feature",
+    "description": "A feature of the account where FirstUK Bank pays the customer money based on their balance at a variable rate.",
+    "context": [
+      "\"Interest\" = Money we pay you based on your balance (variable rate)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_003_ah_001",
+    "name": "Account Holder",
+    "aliases": [],
+    "entity_class": "ACCOUNT_HOLDER",
+    "type": "sole_holder",
+    "description": "The person who opens the account and possesses the legal rights and obligations associated with it.",
+    "context": [
+      "The customer opening the account (account holder)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_003",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_001",
+    "name": "Minimum Age Requirement",
+    "aliases": [
+      "age requirement"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "age_requirement",
+    "description": "Applicants must be at least 18 years old to open an account.",
+    "context": [
+      "At least 18 years old"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_002",
+    "name": "UK Residency Requirement",
+    "aliases": [
+      "residency requirement"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "residency_requirement",
+    "description": "Applicants are required to be residents of the United Kingdom.",
+    "context": [
+      "A UK resident"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_003",
+    "name": "Identity Verification Requirement",
+    "aliases": [
+      "proof of identity"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "identity_requirement",
+    "description": "Applicants must be able to provide valid proof of identity, specifically a UK Passport or Driving License.",
+    "context": [
+      "Able to provide proof of identity (UK Passport or Driving License)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_elig_004",
+    "name": "Address Verification Requirement",
+    "aliases": [
+      "proof of address"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "address_requirement",
+    "description": "Applicants must be able to provide valid documentation serving as proof of address.",
+    "context": [
+      "Able to provide proof of address"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_kyc_001",
+    "name": "Account Opening Identity and Address Verification",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "document_verification",
+    "description": "The verification process for account opening involving the submission of identity documents (Passport or Driving License) and address proof.",
+    "context": [
+      "Able to provide proof of identity (UK Passport or Driving License)",
+      "Able to provide proof of address"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_004_cust_001",
+    "name": "Eligible Applicant",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "eligible_customer",
+    "description": "A natural person meeting the age, residency, and verification criteria necessary to open an account.",
+    "context": [
+      "You must be:",
+      "At least 18 years old",
+      "A UK resident"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_004",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_kyc_001",
+    "name": "Identity Verification (KYC)",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The identity verification process required during the application stage to ensure customer authenticity before account activation.",
+    "context": [
+      "Provide identity verification (KYC)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_elig_001",
+    "name": "AML Screening Requirement",
+    "aliases": [
+      "AML screening"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "identity_requirement",
+    "description": "A mandatory anti-money laundering screening process that applicants must pass as a condition of opening an account.",
+    "context": [
+      "Pass AML screening"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_cls_001",
+    "name": "Account Activation Timeline",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "The contractual timeframe for account activation following the successful completion of the application and verification process, specified as 1–2 business days.",
+    "context": [
+      "Account activated within 1–2 business days"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_005_ftr_001",
+    "name": "Omnichannel Application Access",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "channel_feature",
+    "description": "The capability for customers to submit their product application through multiple channels including online, in-branch, or via postal mail.",
+    "context": [
+      "Complete application form (online, branch, or postal)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_005",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings product offered by FirstUK Bank that can be held as a joint account by two customers.",
+    "context": [
+      "Two customers can hold one SmartSaver Account jointly."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_ja_001",
+    "name": "SmartSaver Joint Account Arrangement",
+    "aliases": [],
+    "entity_class": "JOINT_ACCOUNT",
+    "type": "joint_account_arrangement",
+    "description": "An account arrangement allowing two customers to hold a SmartSaver Account together with shared liability and equal withdrawal rights.",
+    "context": [
+      "Two customers can hold one SmartSaver Account jointly.",
+      "Agree to joint liability (both responsible for account)",
+      "Have equal withdrawal rights (either can withdraw full balance)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_elig_001",
+    "name": "Joint Identity Verification Requirement",
+    "aliases": [],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "identity_requirement",
+    "description": "A requirement for joint account applicants to each complete their own separate identity verification process.",
+    "context": [
+      "Complete separate identity verification"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_elig_002",
+    "name": "Separate AML Screening Requirement",
+    "aliases": [],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "identity_requirement",
+    "description": "A requirement for both joint account holders to pass Anti-Money Laundering (AML) screening independently.",
+    "context": [
+      "Pass AML screening separately"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_cls_001",
+    "name": "Joint Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "joint_account_provision",
+    "description": "A contractual provision stating that both joint account holders are equally responsible for the account and its liabilities.",
+    "context": [
+      "Agree to joint liability (both responsible for account)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_cls_002",
+    "name": "Equal Withdrawal Rights Provision",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "joint_account_provision",
+    "description": "A provision granting either joint account holder the authority to withdraw the full balance of the account independently.",
+    "context": [
+      "Have equal withdrawal rights (either can withdraw full balance)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_cust_001",
+    "name": "Joint Applicant",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "joint_applicant",
+    "description": "Customers who apply to hold a SmartSaver Account jointly and are subject to individual verification and shared liability.",
+    "context": [
+      "Two customers can hold one SmartSaver Account jointly."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_006_kyc_001",
+    "name": "Joint Identity and AML Verification",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The process of separate identity verification and AML screening required for each party opening a joint account.",
+    "context": [
+      "Complete separate identity verification",
+      "Pass AML screening separately"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_006",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_ftr_001",
+    "name": "Bank Transfer Deposit",
+    "aliases": [
+      "FPS",
+      "BACS"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "payment_feature",
+    "description": "Capability for customers to add funds to their account via Faster Payments Service (FPS) or BACS bank transfers.",
+    "context": [
+      "Bank transfer (FPS, BACS)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_ftr_002",
+    "name": "Cash Deposit",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "payment_feature",
+    "description": "Capability for customers to make deposits using physical cash at a bank branch.",
+    "context": [
+      "Cash deposit (at branch)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_ftr_003",
+    "name": "Check Deposit",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "payment_feature",
+    "description": "A planned future capability allowing customers to deposit checks into their accounts.",
+    "context": [
+      "Check deposit (future feature)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_elig_001",
+    "name": "Minimum Opening Balance Requirement — £1.00",
+    "aliases": [],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "balance_requirement",
+    "description": "The minimum initial deposit required to open the account is £1.00.",
+    "context": [
+      "Minimum Opening Balance: £1.00"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_cls_001",
+    "name": "Maximum Balance Limit",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "The account does not impose a maximum limit on the balance that can be held.",
+    "context": [
+      "Maximum Balance: Unlimited"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_007_cls_002",
+    "name": "Deposit Availability Policy",
+    "aliases": [
+      "No Waiting Periods"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "regulatory_protection",
+    "description": "Deposits made to the account are available for use immediately without any waiting or clearing periods.",
+    "context": [
+      "No Waiting Periods: Deposits available immediately"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_007",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_ftr_001",
+    "name": "ATM Withdrawal",
+    "aliases": [
+      "ATM withdrawal"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "access_feature",
+    "description": "A cash withdrawal service via Automated Teller Machines with a daily limit of £500. Processing is immediate.",
+    "context": [
+      "ATM withdrawal (cash, max £500/day)",
+      "ATM withdrawals: Immediate"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_ftr_002",
+    "name": "Bank Transfer",
+    "aliases": [
+      "Transfers out"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "payment_feature",
+    "description": "A feature allowing funds to be transferred to another account without a limit. Processing times vary by method: FPS is immediate and BACS is next day, generally taking 1–2 business days.",
+    "context": [
+      "Bank transfer (to another account, no limit)",
+      "Transfers out: 1–2 business days (FPS immediate, BACS next day)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_ftr_003",
+    "name": "Teller Withdrawal",
+    "aliases": [
+      "branch withdrawal"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "access_feature",
+    "description": "A branch-based withdrawal service with no limit on the amount. Processing is immediate, provided that cash is available at the branch.",
+    "context": [
+      "Teller withdrawal (branch, no limit)",
+      "Teller: Immediate (if cash available at branch)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_cls_001",
+    "name": "Withdrawal Restrictions Policy",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "A contractual provision stating that there are no restrictions on withdrawals, allowing the customer easy access to funds at any time.",
+    "context": [
+      "Restrictions: None. Easy access at any time."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_008_trn_001",
+    "name": "Withdrawal",
+    "aliases": [
+      "ATM withdrawal",
+      "Bank transfer",
+      "Teller withdrawal"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "withdrawal",
+    "description": "Financial events involving the removal of funds from the account via ATM, transfer, or teller, each governed by specific limits and processing times.",
+    "context": [
+      "ATM withdrawal (cash, max £500/day)",
+      "Bank transfer (to another account, no limit)",
+      "Teller withdrawal (branch, no limit)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_008",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_acc_001",
+    "name": "Dormant Account",
+    "aliases": [
+      "dormant"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "dormant_account",
+    "description": "An account state triggered by 12 months of inactivity and no customer contact. While marked as dormant, the account continues to accrue interest and remains accessible for deposits and withdrawals.",
+    "context": [
+      "Your account becomes \"dormant.\"",
+      "Mark account as dormant (no impact on you)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_cls_001",
+    "name": "Dormancy Policy",
+    "aliases": [
+      "Dormancy"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "dormancy_policy",
+    "description": "The contractual provision defining the conditions under which an account is classified as dormant and the resulting bank actions. It requires both a lack of transactions and a lack of customer contact for a period of 12 months.",
+    "context": [
+      "If your account has: - No activity (deposits or withdrawals) for 12 months, AND - No customer contact for 12 months Your account becomes \"dormant.\"",
+      "We will: 1. Send letter to last known address 2. Mark account as dormant (no impact on you) 3. Continue accruing interest 4. Maintain full access (deposit/withdrawal possible)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_elig_001",
+    "name": "Dormancy Trigger Requirement",
+    "aliases": [],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "balance_requirement",
+    "description": "The specific conditions of inactivity (no deposits, withdrawals, or contact for 12 months) that must be met for an account to be transitioned to dormant status.",
+    "context": [
+      "No activity (deposits or withdrawals) for 12 months",
+      "No customer contact for 12 months"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_ftr_001",
+    "name": "Dormant Account Access and Interest",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "service_feature",
+    "description": "The bank's commitment to maintain interest accrual and full transaction access for customers whose accounts have been marked as dormant.",
+    "context": [
+      "Continue accruing interest",
+      "Maintain full access (deposit/withdrawal possible)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_009_trn_001",
+    "name": "Dormancy Activity Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "withdrawal",
+    "description": "Deposits or withdrawals that serve as activity markers to prevent an account from becoming dormant.",
+    "context": [
+      "No activity (deposits or withdrawals) for 12 months"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_009",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_rat_001",
+    "name": "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "tiered_rate",
+    "description": "A variable interest rate of 4.50% AER applied to account balances between £0 and £10,000.",
+    "context": [
+      "Tier 1 | £0–£10,000 | 4.50% AER"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_rat_002",
+    "name": "SmartSaver Tier 2 Rate — 4.70% AER (£10,001–£50,000)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "tiered_rate",
+    "description": "A variable interest rate of 4.70% AER applied to account balances between £10,001 and £50,000.",
+    "context": [
+      "Tier 2 | £10,001–£50,000 | 4.70% AER"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_rat_003",
+    "name": "SmartSaver Tier 3 Rate — 4.80% AER (£50,001+)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "tiered_rate",
+    "description": "A variable interest rate of 4.80% AER applied to account balances exceeding £50,000.",
+    "context": [
+      "Tier 3 | £50,001+ | 4.80% AER"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_010_cls_001",
+    "name": "AER Definition Clause",
+    "aliases": [
+      "Annual Equivalent Rate"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "Defines AER as the Annual Equivalent Rate, which indicates the yearly interest earned on the account.",
+    "context": [
+      "AER = Annual Equivalent Rate (shows the yearly interest)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_010",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_011_cls_001",
+    "name": "Interest Calculation Rule",
+    "aliases": [
+      "Accrual",
+      "Payment Date"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "Defines the mechanism for calculating and paying interest. Interest is accrued daily and credited to the account on the last business day of each month.",
+    "context": [
+      "Accrual: Calculated daily, paid monthly",
+      "Payment Date: Last business day of each month"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_011",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_011_rat_001",
+    "name": "Tier 1 Interest Rate — 4.50%",
+    "aliases": [
+      "Tier 1"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "savings_rate",
+    "description": "An interest rate of 4.50% applicable to the first tier of the account balance. The rate is calculated based on a 365-day year.",
+    "context": [
+      "Tier 1: 4.50%",
+      "Interest accrual: £10,000 × 4.50% ÷ 365 days × 30 days = £36.99"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_011",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_011_ftr_001",
+    "name": "Tiered Interest Application",
+    "aliases": [
+      "Tiering"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "service_feature",
+    "description": "The product utilizes a tiered interest structure where the specific rate applied is determined by the account balance as of the payment date.",
+    "context": [
+      "Tiering: Tiered rates apply to balance as of payment date"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_011",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_cls_001",
+    "name": "Rate Change Review Policy",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "Governs the frequency and timing of interest rate reviews. Rates are reviewed on a monthly basis and changes become effective on the 1st of the following month.",
+    "context": [
+      "Review Frequency: Monthly",
+      "Effective: 1st of following month"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_rat_001",
+    "name": "Variable Rate — Bank of England Base Rate + 2.5% margin",
+    "aliases": [
+      "Basis"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "variable_mortgage_rate",
+    "description": "The interest rate is calculated based on the Bank of England Base Rate plus a fixed margin of 2.5%.",
+    "context": [
+      "Basis: Bank of England Base Rate + 2.5% margin (margin fixed)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_ftr_001",
+    "name": "Rate Change Notification Service",
+    "aliases": [
+      "Notice"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "service_feature",
+    "description": "A communication feature where the bank provides email notifications to the customer whenever a rate change occurs.",
+    "context": [
+      "Notice: Email notification when rate changes"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_012_cls_002",
+    "name": "Product Switching Right",
+    "aliases": [
+      "Your Choice"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "Provision allowing the customer to switch to a different banking product if they are dissatisfied with a rate change.",
+    "context": [
+      "Your Choice: Switch to different product if unhappy with rate"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_012",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_013_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings product offered by FirstUK Bank that is characterized by the absence of a monthly maintenance charge.",
+    "context": [
+      "Your SmartSaver Account has £0 monthly fee."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_013",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_013_fee_001",
+    "name": "Monthly Maintenance Fee — £0",
+    "aliases": [
+      "monthly fee"
+    ],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "A monthly fee applied to the SmartSaver Account, which is explicitly set at £0, meaning no charge is levied for account maintenance.",
+    "context": [
+      "No Monthly Maintenance Fee",
+      "Your SmartSaver Account has £0 monthly fee."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_013",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_001",
+    "name": "Domestic Transfer Fee — £0",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A charge of £0 applied to domestic transfers. This is explicitly listed as a free service.",
+    "context": [
+      "Domestic Transfer | £0"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_002",
+    "name": "ATM Withdrawal (UK) Fee — £0",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A charge of £0 for ATM withdrawals conducted within the UK. This is explicitly listed as a free service.",
+    "context": [
+      "ATM Withdrawal (UK) | £0"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_003",
+    "name": "ATM Withdrawal (International) Fee — £2.50",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee of £2.50 levied on the customer for performing an ATM withdrawal internationally.",
+    "context": [
+      "ATM Withdrawal (International) | £2.50"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_004",
+    "name": "International Transfer Fee — £5.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee of £5.00 charged to the customer for executing an international transfer.",
+    "context": [
+      "International Transfer | £5.00"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_005",
+    "name": "Standing Order Setup Fee — £0",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "A charge of £0 for the setup of a standing order. This is explicitly listed as a free service.",
+    "context": [
+      "Standing Order Setup | £0"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_014_fee_006",
+    "name": "Direct Debit Setup Fee — £0",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "A charge of £0 for the setup of a direct debit. This is explicitly listed as a free service.",
+    "context": [
+      "Direct Debit Setup | £0"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_014",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_fee_001",
+    "name": "Initial Debit Card Fee — £0",
+    "aliases": [
+      "Initial Debit Card"
+    ],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "The cost for the first debit card issued to the customer is explicitly stated as free of charge.",
+    "context": [
+      "Initial Debit Card: £0"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_fee_002",
+    "name": "Replacement Debit Card Fee — £15",
+    "aliases": [
+      "Replacement Debit Card"
+    ],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "A charge of £15 applied when a customer requires a replacement debit card.",
+    "context": [
+      "Replacement Debit Card: £15"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_fee_003",
+    "name": "Expedited Replacement Debit Card Fee — £25",
+    "aliases": [
+      "Expedited delivery"
+    ],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "A higher fee of £25 applied to replacement debit cards when the customer requests expedited delivery.",
+    "context": [
+      "£25 for expedited delivery"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_015_crd_001",
+    "name": "Debit Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "The payment card issued to customers, subject to initial and replacement fees.",
+    "context": [
+      "Initial Debit Card: £0",
+      "Replacement Debit Card: £15"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_015",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_trn_001",
+    "name": "Standing Order",
+    "aliases": [
+      "regular, fixed transfer"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "standing_order_payment",
+    "description": "A regular, fixed transfer of funds set up by the customer. It requires a specified payee, amount, and frequency, and executes on a scheduled date.",
+    "context": [
+      "A standing order is a regular, fixed transfer you set up.",
+      "Standing order executes on scheduled date"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_ftr_001",
+    "name": "Standing Order Setup",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "payment_feature",
+    "description": "The capability for customers to establish recurring fixed transfers. The setup requires specifying the payee, amount, frequency, and receiving account details.",
+    "context": [
+      "Specify payee, amount, frequency (weekly/monthly/etc.)",
+      "Provide receiving account details"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_cls_001",
+    "name": "Standing Order Cancellation Rule",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "The contractual provision allowing customers to cancel standing orders at any time without a notice period. Cancellations are effective immediately and block all future payments.",
+    "context": [
+      "Cancel at any time (no notice period required)",
+      "Cancellation effective immediately",
+      "Future payments blocked"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_016_trn_002",
+    "name": "Direct Debit",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "direct_debit_payment",
+    "description": "A payment method referenced in the documentation under the Standing Orders & Direct Debits section.",
+    "context": [
+      "6. STANDING ORDERS & DIRECT DEBITS"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_016",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_017_trs_001",
+    "name": "Direct Debit",
+    "aliases": [
+      "direct debit"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "direct_debit_payment",
+    "description": "A financial transaction where a customer authorizes a biller to withdraw money from their account. The process involves providing a mandate and specifying a maximum amount for the biller to initiate withdrawals.",
+    "context": [
+      "A direct debit is an authorization for a biller to withdraw money.",
+      "Biller initiates withdrawals"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_017",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_017_cls_001",
+    "name": "Direct Debit Guarantee",
+    "aliases": [
+      "Direct Debit Protection"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "direct_debit_guarantee",
+    "description": "A contractual protection mechanism ensuring customers receive a refund within 10 business days for any unauthorized direct debit withdrawals, provided no questions are asked.",
+    "context": [
+      "Protection (Direct Debit Guarantee):",
+      "Refund within 10 business days if unauthorized",
+      "No questions asked",
+      "Full protection under Direct Debit Guarantee"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_017",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_017_cls_002",
+    "name": "Direct Debit Cancellation Procedure",
+    "aliases": [
+      "Cancellation"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "The process for terminating a direct debit authorization, which can be done via a request to the bank (typically requiring 5 days notice) or by contacting the biller directly.",
+    "context": [
+      "Cancellation:",
+      "Request from bank (5 days notice usually)",
+      "Or contact biller directly"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_017",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_jnt_001",
+    "name": "Joint Account Arrangement",
+    "aliases": [
+      "joint accounts"
+    ],
+    "entity_class": "JOINT_ACCOUNT",
+    "type": "joint_account_arrangement",
+    "description": "A specific account structure where two or more individuals share ownership and liability. It governs how balances are withdrawn, how interest is distributed, and the requirements for closure.",
+    "context": [
+      "For joint accounts:",
+      "Joint Account Provisions"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_cls_001",
+    "name": "Joint & Several Liability Clause",
+    "aliases": [
+      "Both Signatories Liable"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "joint_account_provision",
+    "description": "A contractual provision stating that either account holder in a joint arrangement has the legal authority to withdraw the full balance of the account.",
+    "context": [
+      "Both Signatories Liable: Either account holder can withdraw full balance"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_cls_002",
+    "name": "Joint Interest Split Rule",
+    "aliases": [
+      "Interest Split"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "A provision specifying that interest earned on joint accounts is shared equally between holders, unless an alternative arrangement is specified by the customers.",
+    "context": [
+      "Interest Split: Shared equally (unless you specify otherwise)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_cls_003",
+    "name": "Joint Account Closure Dispute Clause",
+    "aliases": [
+      "Disputes"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "A rule requiring mutual agreement from all account holders before a joint account can be officially closed.",
+    "context": [
+      "Disputes: Both must agree to account closure"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_acc_001",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "joint_account",
+    "description": "The specific account instance held jointly by multiple customers, subject to shared liability and mutual agreement for closure.",
+    "context": [
+      "For joint accounts:",
+      "Both must agree to account closure"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_018_hol_001",
+    "name": "Joint Account Holder",
+    "aliases": [
+      "Signatories"
+    ],
+    "entity_class": "ACCOUNT_HOLDER",
+    "type": "joint_holder",
+    "description": "A person who is a signatory to a joint account and shares liability and withdrawal rights with other holders.",
+    "context": [
+      "Both Signatories Liable",
+      "Either account holder can withdraw full balance"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_018",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_acc_001",
+    "name": "Joint Account",
+    "aliases": [
+      "joint account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "joint_account",
+    "description": "A shared account arrangement where multiple holders have rights. The document specifies the transition of access and asset distribution upon the death of one holder.",
+    "context": [
+      "If one joint account holder dies",
+      "Surviving holder retains full account access"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_hld_001",
+    "name": "Joint Account Holder",
+    "aliases": [
+      "holder"
+    ],
+    "entity_class": "ACCOUNT_HOLDER",
+    "type": "joint_holder",
+    "description": "A person holding a joint account with shared rights. The document defines the status of the surviving holder and the deceased holder's estate.",
+    "context": [
+      "If one joint account holder dies",
+      "Surviving holder retains full account access"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_cls_001",
+    "name": "Joint Account Death Provision",
+    "aliases": [
+      "Death of Account Holder"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "joint_account_provision",
+    "description": "Contractual provision governing the rights of surviving holders and the estate of a deceased holder. It specifies that the surviving holder keeps access and the estate is entitled to a 50% share.",
+    "context": [
+      "If one joint account holder dies: Surviving holder retains full account access",
+      "Estate of deceased entitled to their share (50%)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_019_elig_001",
+    "name": "Death Notification Documentation Requirement",
+    "aliases": [
+      "documentation"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "identity_requirement",
+    "description": "Requirement for the bank to receive specific legal documentation, including a death certificate, to process the estate's entitlement and account status change.",
+    "context": [
+      "Bank requires death certificate and documentation"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_019",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_jnt_001",
+    "name": "Joint Account Separation Provisions",
+    "aliases": [
+      "Divorce/Separation",
+      "7.3"
+    ],
+    "entity_class": "JOINT_ACCOUNT",
+    "type": "joint_account_arrangement",
+    "description": "Provisions governing the management of joint accounts in the event of a divorce or separation, specifying that both holders retain legal rights to the full balance and the bank's neutrality regarding ownership disputes.",
+    "context": [
+      "If joint account holders separate:",
+      "Both retain legal rights to full account balance",
+      "Bank cannot determine who \"owns\" what (civil matter)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_cls_001",
+    "name": "Joint Account Balance Right Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "joint_account_provision",
+    "description": "A contractual provision stating that upon separation, both joint account holders maintain legal rights to the entirety of the account balance.",
+    "context": [
+      "Both retain legal rights to full account balance"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_cls_002",
+    "name": "Joint Account Freeze and Closure Rule",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "A rule allowing either joint account holder to freeze or close the account upon separation, noting that a court order may be required in some instances.",
+    "context": [
+      "Either can freeze/close account (may require court order)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_cls_003",
+    "name": "Bank Neutrality on Ownership Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A provision stating that the bank will not arbitrate or determine the ownership of funds between separated joint account holders, as this is considered a civil matter.",
+    "context": [
+      "Bank cannot determine who \"owns\" what (civil matter)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_020_ach_001",
+    "name": "Joint Account Holders",
+    "aliases": [],
+    "entity_class": "ACCOUNT_HOLDER",
+    "type": "joint_holder",
+    "description": "Individuals who hold a joint account and are subject to the specific rights and obligations during separation, including the right to freeze the account.",
+    "context": [
+      "If joint account holders separate:",
+      "Either can freeze/close account"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_020",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_021_cls_001",
+    "name": "Personal Data Collection and Usage Policy",
+    "aliases": [
+      "Privacy & Data Protection",
+      "Personal Data"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "A contractual provision detailing the purposes for which FirstUK Bank collects personal data, including account management, regulatory compliance, fraud prevention, and marketing.",
+    "context": [
+      "We collect personal data to: Open and manage your account",
+      "Comply with legal/regulatory requirements (KYC, AML)",
+      "Prevent fraud",
+      "Market products (if you consent)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_021",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_021_kyc_001",
+    "name": "KYC and AML Regulatory Compliance",
+    "aliases": [
+      "KYC",
+      "AML"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The legal and regulatory requirement to verify customer identity and perform anti-money laundering checks as part of the personal data collection process.",
+    "context": [
+      "Comply with legal/regulatory requirements (KYC, AML)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_021",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_001",
+    "name": "Right of Access",
+    "aliases": [
+      "Access right"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "A contractual and regulatory provision allowing the customer to request a copy of their personal data held by FirstUK Bank.",
+    "context": [
+      "Access: Request copy of your personal data"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_002",
+    "name": "Right of Correction",
+    "aliases": [
+      "Correction right"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "A provision that enables customers to correct inaccurate personal data stored by the bank.",
+    "context": [
+      "Correction: Correct inaccurate data"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_003",
+    "name": "Right of Erasure",
+    "aliases": [
+      "Right to be forgotten",
+      "Deletion request"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "The right for customers to request the deletion of their data, subject to specific exceptions for legal holds.",
+    "context": [
+      "Erasure: Request deletion (with exceptions for legal holds)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_004",
+    "name": "Right of Portability",
+    "aliases": [
+      "Data portability"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "The entitlement of the customer to receive their personal data in a portable format.",
+    "context": [
+      "Portability: Get your data in portable format"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cls_005",
+    "name": "GDPR Rights Clause",
+    "aliases": [
+      "Your Rights (GDPR)"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "The overarching section governing the data protection rights of the customer and the contact method for the Data Protection Officer (dpo@firstuk.bank).",
+    "context": [
+      "8.2 Your Rights (GDPR)",
+      "Contact: dpo@firstuk.bank (Data Protection Officer)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_022_cust_001",
+    "name": "Eligible Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The individual holding the account who is granted specific data protection rights under GDPR.",
+    "context": [
+      "You have the right to"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_022",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_023_cls_001",
+    "name": "Third-Party Data Sharing Provision",
+    "aliases": [
+      "Data Sharing",
+      "Section 8.3"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "A contractual provision outlining the specific categories of third parties with whom FirstUK Bank shares customer data, including credit agencies, regulators, and law enforcement. It explicitly prohibits the sale of customer data to marketers.",
+    "context": [
+      "We share data with: Credit reference agencies (for credit assessment, if applicable)",
+      "Regulatory authorities (FCA, PRA, if required)",
+      "Law enforcement (if court-ordered)",
+      "We do NOT sell your data to marketers."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_023",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_024_cls_001",
+    "name": "Customer-Initiated Account Closure Clause",
+    "aliases": [
+      "Section 9.1",
+      "Account Closure"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "Defines the process and methods by which a customer can voluntarily terminate their account. It specifies three approved communication channels for initiating the closure request.",
+    "context": [
+      "You can close your account at any time",
+      "Visiting a branch",
+      "Calling 0800-555-2265",
+      "Submitting online form"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_024",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_024_acc_001",
+    "name": "Closed Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "closed_account",
+    "description": "A customer account that is in the process of being closed or has been closed via customer request through branch, phone, or online channels.",
+    "context": [
+      "You can close your account at any time"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_024",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_024_cus_001",
+    "name": "Individual Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The account holder who possesses the right to initiate the closure of their banking product.",
+    "context": [
+      "You can close your account at any time"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_024",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_cls_001",
+    "name": "Account Closure Process",
+    "aliases": [
+      "Closure Process",
+      "Section 9.2"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "The formal procedure for closing an account, involving identity verification, final balance calculation including pending interest, immediate cancellation of standing orders and direct debits, and final payment delivery.",
+    "context": [
+      "Request Received: We verify your identity",
+      "Final Balance: Calculate balance including any pending interest",
+      "Standing Orders/DDs: Cancelled (effective immediately)",
+      "Final Payment: Transfer balance via bank transfer, check, or cash"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_kyc_001",
+    "name": "Closure Identity Verification",
+    "aliases": [
+      "Identity Verification"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The requirement for the bank to verify the customer's identity upon receipt of an account closure request.",
+    "context": [
+      "Request Received: We verify your identity"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_trn_001",
+    "name": "Final Balance Payment",
+    "aliases": [
+      "Final Payment"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "transfer",
+    "description": "The final financial event during account closure where the remaining balance is transferred to the customer via bank transfer, check, or cash.",
+    "context": [
+      "Final Payment: Transfer balance via bank transfer, check, or cash"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_cls_002",
+    "name": "Regulatory Record Retention Policy",
+    "aliases": [
+      "Records Archived"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "regulatory_protection",
+    "description": "A regulatory requirement stating that account documents must be archived and kept for a period of 6 years following account closure.",
+    "context": [
+      "Records Archived: Documents kept for 6 years (regulatory requirement)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_025_trn_002",
+    "name": "Standing Order and Direct Debit Cancellation",
+    "aliases": [
+      "Standing Orders/DDs"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "direct_debit_payment",
+    "description": "The automatic cancellation of all standing orders and direct debits effective immediately upon the start of the account closure process.",
+    "context": [
+      "Standing Orders/DDs: Cancelled (effective immediately)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_025",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "closed_account",
+    "description": "The customer's account subject to bank-initiated closure under specific breach or regulatory conditions.",
+    "context": [
+      "We may close your account if:"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_cls_001",
+    "name": "Bank-Initiated Closure Provision",
+    "aliases": [
+      "Closure Terms"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "A contractual provision allowing FirstUK Bank to terminate the account relationship due to T&C breaches, suspected fraud, regulatory orders, or AML failures.",
+    "context": [
+      "We may close your account if:",
+      "You breach these terms & conditions",
+      "We suspect fraud or unauthorized use",
+      "Regulatory order requires closure",
+      "You breach AML requirements"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_cls_002",
+    "name": "Account Closure Notice Period",
+    "aliases": [
+      "Closure Notice"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "closure_rule",
+    "description": "The requirement for the bank to provide a 30-day notice period before closing an account, except in emergency circumstances.",
+    "context": [
+      "Notice: We give 30 days notice (except emergencies)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_026_elig_001",
+    "name": "AML Compliance Requirement",
+    "aliases": [
+      "Anti-Money Laundering requirements"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "identity_requirement",
+    "description": "The requirement for customers to adhere to Anti-Money Laundering (AML) standards to maintain their account.",
+    "context": [
+      "You breach AML requirements"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_026",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_027_cls_001",
+    "name": "Complaint Procedure",
+    "aliases": [
+      "Complaint Process",
+      "Dispute Resolution"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "dispute_resolution",
+    "description": "The formal process for customers to lodge complaints regarding bank services. It outlines three specific stages: contacting the bank via phone, email, or mail, a response window of 8 days to 8 weeks, and a final resolution explanation.",
+    "context": [
+      "If you're unhappy with our service:",
+      "Contact Us: Phone 0800-555-2265, email support@firstuk.bank, or write",
+      "We Respond: Within 8 calendar days (or up to 8 weeks if complex)",
+      "Resolution: We'll explain decision and next steps"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_027",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_027_faq_001",
+    "name": "Complaint Procedure Inquiry",
+    "aliases": [
+      "How to complain"
+    ],
+    "entity_class": "FAQ_ITEM",
+    "type": "dispute_query",
+    "description": "Guidance for customers who are unhappy with the service provided by FirstUK Bank. The answer specifies the contact channels (phone, email, writing) and the expected response timelines (8 days to 8 weeks).",
+    "context": [
+      "If you're unhappy with our service:",
+      "Contact Us: Phone 0800-555-2265, email support@firstuk.bank, or write",
+      "We Respond: Within 8 calendar days (or up to 8 weeks if complex)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_027",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_028_cls_001",
+    "name": "Unresolved Complaints Escalation Process",
+    "aliases": [
+      "Complaint Escalation",
+      "FOS Escalation"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "regulatory_protection",
+    "description": "A contractual provision detailing the customer's right to escalate unresolved complaints to the Financial Ombudsman Service (FOS). It specifies that the FOS is a free and independent service capable of awarding compensation up to £385,000 if the bank is found to be at fault.",
+    "context": [
+      "If unhappy with our resolution, you can escalate to: Financial Ombudsman Service (FOS)",
+      "FOS can award compensation up to £385,000 (if we at fault)."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_028",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_028_faq_001",
+    "name": "Complaint Escalation to Financial Ombudsman Service",
+    "aliases": [
+      "FOS Query"
+    ],
+    "entity_class": "FAQ_ITEM",
+    "type": "dispute_query",
+    "description": "A guidance item addressing what a customer can do if they are unhappy with a complaint resolution. It provides the contact details for the Financial Ombudsman Service, including the phone number 0800 023 4567 and website www.financialombudsman.org.uk.",
+    "context": [
+      "If unhappy with our resolution, you can escalate to: Financial Ombudsman Service (FOS)",
+      "Phone: 0800 023 4567",
+      "Website: www.financialombudsman.org.uk"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_028",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_001",
+    "name": "Bank Liability Provisions",
+    "aliases": [
+      "11.1 What We're Liable For",
+      "Bank Liability"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A contractual provision defining the specific scenarios where FirstUK Bank accepts responsibility, including transaction processing errors, fraud, confidentiality breaches, and system outages.",
+    "context": [
+      "We're responsible for:",
+      "Failing to process transactions correctly",
+      "Unauthorized transactions (fraud)",
+      "Breach of confidentiality",
+      "System failures/outages"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_002",
+    "name": "Fraud Protection Liability",
+    "aliases": [
+      "Unauthorized transactions"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "fraud_protection",
+    "description": "A specific liability clause ensuring the bank is responsible for unauthorized transactions resulting from fraud.",
+    "context": [
+      "We're responsible for:",
+      "Unauthorized transactions (fraud)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_003",
+    "name": "Confidentiality Breach Liability",
+    "aliases": [
+      "Breach of confidentiality"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "data_protection_right",
+    "description": "A contractual obligation where the bank accepts liability for breaches of customer confidentiality.",
+    "context": [
+      "We're responsible for:",
+      "Breach of confidentiality"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_029_cls_004",
+    "name": "System Availability Liability",
+    "aliases": [
+      "System failures",
+      "outages"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A provision stating the bank's responsibility for technical system failures or service outages.",
+    "context": [
+      "We're responsible for:",
+      "System failures/outages"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_029",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_001",
+    "name": "External Systems Delay Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A provision stating that FirstUK Bank is not responsible for delays caused by external payment systems.",
+    "context": [
+      "We're not responsible for: - ❌ Delays in external systems (payment schemes)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_002",
+    "name": "PIN and Password Disclosure Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A clause exempting the bank from liability for customer losses occurring as a result of the customer disclosing their PIN or password.",
+    "context": [
+      "We're not responsible for: - ❌ Your loss if you disclose your PIN/password"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_003",
+    "name": "Customer Negligence Fraud Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "fraud_protection",
+    "description": "A provision specifying that the bank is not liable for fraud if the customer was negligent, such as leaving a card visible.",
+    "context": [
+      "We're not responsible for: - ❌ Fraud if you were negligent (left card visible)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_004",
+    "name": "Variable Interest Rate Change Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "A clause stating the bank is not responsible for changes to interest rates on variable products.",
+    "context": [
+      "We're not responsible for: - ❌ Interest rate changes (variable product)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_030_cls_005",
+    "name": "Authorized Third-Party Action Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A provision stating that the bank is not responsible for the actions of third parties that the customer has authorized.",
+    "context": [
+      "We're not responsible for: - ❌ Third-party actions (you authorize)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_030",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_031_cls_001",
+    "name": "Customer Security Responsibility Clause",
+    "aliases": [
+      "Your Responsibility",
+      "Section 12.1"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A contractual provision outlining the customer's obligations regarding the protection of security credentials and the reporting of suspicious activity to mitigate fraud risk.",
+    "context": [
+      "You must: Protect your PIN and password",
+      "Report fraud/suspicious activity immediately",
+      "Use ATMs in safe locations",
+      "Don't share security details"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_031",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_031_cust_001",
+    "name": "Account Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The natural person holding the account who is responsible for maintaining security protocols and reporting fraud as specified in the product terms.",
+    "context": [
+      "You must: Protect your PIN and password",
+      "Report fraud/suspicious activity immediately"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_031",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_031_txn_001",
+    "name": "Unauthorized Transaction",
+    "aliases": [
+      "fraud",
+      "suspicious activity"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "disputed_transaction",
+    "description": "Any financial event or activity on the account that is not authorized by the customer, including fraud, which must be reported immediately.",
+    "context": [
+      "Report fraud/suspicious activity immediately",
+      "FRAUD & UNAUTHORIZED TRANSACTIONS"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_031",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_cls_001",
+    "name": "Fraud Reimbursement Policy",
+    "aliases": [
+      "Fraud Reimbursement"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "fraud_protection",
+    "description": "The bank's policy for handling fraudulent activity, including reporting procedures and investigation timelines. It specifies the conditions for full refunds versus shared liability based on customer negligence.",
+    "context": [
+      "If fraud occurs: Report immediately: 0800-555-FRAUD",
+      "We investigate (typically 10 business days)",
+      "If unauthorized: Full refund within 10 days (no customer liability)",
+      "If customer negligent: We may share liability (case-by-case)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_cls_002",
+    "name": "Unauthorized Transaction Liability Rule",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A specific provision stating that for unauthorized transactions, the customer bears no liability and will receive a full refund within 10 days.",
+    "context": [
+      "If unauthorized: Full refund within 10 days (no customer liability)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_cls_003",
+    "name": "Customer Negligence Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "liability_clause",
+    "description": "A provision allowing the bank to share liability with the customer on a case-by-case basis if the fraud occurred due to customer negligence.",
+    "context": [
+      "If customer negligent: We may share liability (case-by-case)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_032_trn_001",
+    "name": "Disputed Fraudulent Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "disputed_transaction",
+    "description": "A transaction identified as fraudulent which triggers an investigation process typically lasting 10 business days.",
+    "context": [
+      "If fraud occurs",
+      "We investigate (typically 10 business days)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_032",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_033_cls_001",
+    "name": "Right to Change Terms Clause",
+    "aliases": [
+      "Change of Terms",
+      "Section 13.1"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "A contractual provision granting FirstUK Bank the right to modify product terms subject to specific conditions, including a 30-day notice period and alignment with legitimate interests or regulatory requirements.",
+    "context": [
+      "We can change these terms if:",
+      "We give 30 days written notice",
+      "Change is in our or your legitimate interest",
+      "Change reflects regulatory changes"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_033",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_cls_001",
+    "name": "Change of Terms Dispute Provision",
+    "aliases": [
+      "Your Right if Terms Change"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "Defines the customer's rights and options if they disagree with proposed changes to the account terms. It provides a 60-day window to exit the agreement without penalty.",
+    "context": [
+      "If you disagree with changes: You have 60 days to close your account"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_elig_001",
+    "name": "Account Closure Notice Period",
+    "aliases": [
+      "60 day window"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "account_type_requirement",
+    "description": "The timeframe granted to a customer to close their account upon disagreeing with term changes. The period is specified as 60 days.",
+    "context": [
+      "You have 60 days to close your account"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_fee_001",
+    "name": "Early Closure Fee — £0",
+    "aliases": [
+      "no penalties"
+    ],
+    "entity_class": "FEE",
+    "type": "closure_fee",
+    "description": "The bank explicitly waives penalties or early closure fees for customers who close their account due to a disagreement with term changes.",
+    "context": [
+      "No penalties or early closure fees"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_fee_002",
+    "name": "Final Balance Transfer Fee — £0",
+    "aliases": [
+      "transferred without charge"
+    ],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "The final balance transfer associated with closing an account after a term change dispute is performed without charge.",
+    "context": [
+      "Final balance transferred without charge"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The account held by the customer which is subject to closure procedures if terms are changed and the customer disagrees.",
+    "context": [
+      "You have 60 days to close your account"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_034_txn_001",
+    "name": "Final Balance Transfer",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transfer",
+    "description": "The final movement of funds out of the account upon closure following a term change dispute.",
+    "context": [
+      "Final balance transferred without charge"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_034",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_035_cls_001",
+    "name": "Entire Agreement Clause",
+    "aliases": [
+      "Entire Agreement",
+      "Complete Agreement"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "A contractual provision stating that the Terms & Conditions constitute the complete agreement between the bank and the customer, superseding all previous agreements or representations.",
+    "context": [
+      "These Terms & Conditions are the complete agreement between us.",
+      "They supersede any prior agreements or representations."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_035",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_036_cls_001",
+    "name": "Severability Clause",
+    "aliases": [
+      "Section 14.2"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "A contractual provision ensuring that if any specific term of the agreement is found to be invalid, the rest of the agreement remains legally binding and in effect.",
+    "context": [
+      "If any term is found invalid, the remaining terms remain in effect."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_036",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_037_cls_001",
+    "name": "Governing Law and Jurisdiction Clause",
+    "aliases": [
+      "Governing Law",
+      "Section 14.3"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "regulatory_protection",
+    "description": "A contractual provision specifying that the product terms are governed by English Law and that the courts of England & Wales have legal jurisdiction.",
+    "context": [
+      "These terms are governed by English Law.",
+      "Courts of England & Wales have jurisdiction."
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_037",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_038_ftr_001",
+    "name": "Customer Service Access",
+    "aliases": [
+      "Contact Information",
+      "Customer Service"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "channel_feature",
+    "description": "The customer support channels available for product assistance, including telephone support with specific operating hours, email correspondence, and physical branch visits.",
+    "context": [
+      "Phone: 0800-555-2265 (Mon–Fri 08:00–20:00, Sat 09:00–17:00)",
+      "Email: support@firstuk.bank",
+      "Branch: Visit any FirstUK Bank location"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_038",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_039_cls_001",
+    "name": "Financial Services Compensation Scheme (FSCS) Protection",
+    "aliases": [
+      "FSCS"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "regulatory_protection",
+    "description": "A regulatory protection clause ensuring that customer funds are protected up to a specific limit per customer.",
+    "context": [
+      "Financial Services Compensation Scheme (FSCS): Up to £85,000 per customer"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_039",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_039_cls_002",
+    "name": "Direct Debit Guarantee",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "direct_debit_guarantee",
+    "description": "A contractual provision providing a full refund to the customer if an unauthorized Direct Debit transaction occurs.",
+    "context": [
+      "Direct Debit Guarantee: Full refund if unauthorized"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_039",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_039_cls_003",
+    "name": "FCA Complaints Handling Procedure",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "regulatory_protection",
+    "description": "A regulatory requirement governing the timeframe for the bank to investigate customer complaints, set at 8 weeks.",
+    "context": [
+      "FCA Complaints Handling: 8-week investigation"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_039",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings product offered by FirstUK Bank governed by specific Terms & Conditions. It features a variable interest rate.",
+    "context": [
+      "Terms & Conditions for the SmartSaver Account",
+      "I understand the variable interest rate"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_elig_001",
+    "name": "Minimum Age Requirement (18+)",
+    "aliases": [],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "age_requirement",
+    "description": "Applicants for the SmartSaver Account must be 18 years of age or older to open the account.",
+    "context": [
+      "I am 18+ years old"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_cls_001",
+    "name": "Joint Account Liability Provision",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "joint_account_provision",
+    "description": "A contractual agreement where the customer accepts legal liability associated with holding a joint account.",
+    "context": [
+      "I accept liability for joint accounts (if applicable)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_cust_001",
+    "name": "Individual Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A natural person applying for or holding a SmartSaver Account who must provide accurate information and be at least 18 years old.",
+    "context": [
+      "Customer Name (Print)",
+      "Customer Signature"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_hld_001",
+    "name": "Joint Holder",
+    "aliases": [],
+    "entity_class": "ACCOUNT_HOLDER",
+    "type": "joint_holder",
+    "description": "A secondary person who shares legal rights and obligations over a joint account arrangement.",
+    "context": [
+      "Joint Holder Name (Print)",
+      "Joint Holder Signature"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  },
+  {
+    "id": "737d96fc352e46d8b8bd59445628332b_040_jnt_001",
+    "name": "Joint Account Arrangement",
+    "aliases": [
+      "Joint Accounts"
+    ],
+    "entity_class": "JOINT_ACCOUNT",
+    "type": "joint_account_arrangement",
+    "description": "An account structure allowing two or more individuals to hold the product, carrying shared liability.",
+    "context": [
+      "For Joint Accounts:",
+      "I accept liability for joint accounts (if applicable)"
+    ],
+    "chunk_id": "737d96fc352e46d8b8bd59445628332b_040",
+    "doc_id": "737d96fc352e46d8b8bd59445628332b",
+    "domain": "banking_products"
+  }
+]

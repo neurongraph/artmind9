@@ -1,0 +1,2969 @@
+[
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_prc_001",
+    "name": "Direct Debit Management Process",
+    "aliases": [
+      "DDEBIT-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The end-to-end operational procedure for managing direct debits at FirstUK Bank, overseen by the Head of Operations and applicable to Operations, Payments, and Branch staff.",
+    "context": [
+      "FirstUK Bank — Direct Debit Management SOP",
+      "Document ID | DDEBIT-SOP-001"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The owner of the Direct Debit Management SOP responsible for its oversight and maintenance.",
+    "context": [
+      "Owner | Head of Operations"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_002",
+    "name": "Operations Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Staff members within the Operations and Payments departments who are the primary audience and executors of the Direct Debit Management SOP.",
+    "context": [
+      "Department | Operations, Payments",
+      "Audience | Operations Staff, Branch Staff, Customer Service"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_003",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Front-office personnel who are part of the target audience for the Direct Debit Management procedures.",
+    "context": [
+      "Audience | Operations Staff, Branch Staff, Customer Service"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_001_rol_004",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "Support personnel who are the intended audience for the Direct Debit Management SOP.",
+    "context": [
+      "Audience | Operations Staff, Branch Staff, Customer Service"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_001",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_002_prc_001",
+    "name": "Direct Debit Management Process",
+    "aliases": [
+      "managing Direct Debits"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "An end-to-end operational procedure for the lifecycle management of Direct Debits. This includes mandate collection, processing, dispute handling, and cancellation, ensuring adherence to Direct Debit Scheme rules and customer protection standards.",
+    "context": [
+      "Establish procedures for managing Direct Debits, including mandate collection, processing, dispute handling, and cancellation",
+      "ensuring compliance with Direct Debit Scheme rules and customer protection"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_002",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_003_prc_001",
+    "name": "Direct Debit Lifecycle Management Process",
+    "aliases": [
+      "Direct Debit mandate collection and setup",
+      "Direct Debit processing and execution",
+      "Failed Direct Debit handling",
+      "Customer disputes and claims",
+      "Direct Debit cancellation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "An end-to-end operational workflow covering the entire lifecycle of Direct Debits, from initial mandate collection and setup through to processing, failure handling, dispute resolution, and final cancellation.",
+    "context": [
+      "Direct Debit mandate collection and setup",
+      "Direct Debit processing and execution",
+      "Failed Direct Debit handling",
+      "Customer disputes and claims",
+      "Direct Debit cancellation"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_003",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_prc_001",
+    "name": "Standing Order Management Process",
+    "aliases": [
+      "Standing Order"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "The operational workflow for managing fixed-amount payments initiated by the customer. The process is characterized by customer-led control and immediate cancellation capabilities.",
+    "context": [
+      "Initiator: You (customer)",
+      "Amount: Fixed, same each time",
+      "Control: You tell bank what to pay"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_prc_002",
+    "name": "Direct Debit Management Process",
+    "aliases": [
+      "Direct Debit"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for managing variable payments initiated by a biller or company. This process provides protection under the Direct Debit Guarantee and typically requires a 5-day notice for cancellation.",
+    "context": [
+      "Initiator: Biller/Company",
+      "Amount: Can vary (e.g., utility bill)",
+      "Protection: Full Direct Debit Guarantee"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank client who initiates standing orders and maintains control over what the bank pays for that specific product.",
+    "context": [
+      "Initiator: You (customer)",
+      "You tell bank what to pay"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_rol_002",
+    "name": "Biller/Company",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external entity that initiates a Direct Debit and sends payment instructions to the bank.",
+    "context": [
+      "Initiator: Biller/Company",
+      "Biller sends instructions"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_stp_001",
+    "name": "Standing Order Cancellation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "standing_order_cancellation",
+    "description": "The action of terminating a standing order, which can be performed at any time with immediate effect.",
+    "context": [
+      "Cancellation: Anytime, immediate"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_stp_002",
+    "name": "Direct Debit Cancellation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "dd_mandate_cancellation",
+    "description": "The action of terminating a Direct Debit mandate. While it can be done anytime, a 5-day notice period is typically required.",
+    "context": [
+      "Cancellation: Anytime, but 5-day notice typical"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_004_chk_001",
+    "name": "Direct Debit Guarantee Verification",
+    "aliases": [
+      "Protection"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "The mandatory protection layer applicable to Direct Debit processes, ensuring full compliance with the Direct Debit Guarantee.",
+    "context": [
+      "Protection: Full Direct Debit Guarantee"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_004",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_prc_001",
+    "name": "Direct Debit Setup and Payment Process",
+    "aliases": [
+      "Direct Debit Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "An end-to-end operational workflow covering the initiation of a Direct Debit by a biller, the customer authorization, system setup, and the subsequent automated payment processing and dispute handling.",
+    "context": [
+      "Biller Requests Authorization",
+      "Customer Signs DD Mandate",
+      "Mandate Setup in System",
+      "Payment Processed (Auto-debit)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_001",
+    "name": "Biller Authorization Request",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the process where the biller requests authorization to set up a direct debit from the customer.",
+    "context": [
+      "Biller Requests Authorization"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_rol_001",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external entity that initiates the authorization request and submits payment instructions to the bank.",
+    "context": [
+      "Biller Requests Authorization",
+      "Biller Submits Payment Instruction"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_002",
+    "name": "Customer Mandate Signing",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The stage where the customer provides formal consent by signing the Direct Debit mandate.",
+    "context": [
+      "Customer Signs DD Mandate"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_rol_002",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who authorizes the direct debit mandate and has the right to dispute or cancel the arrangement.",
+    "context": [
+      "Customer Signs DD Mandate",
+      "Customer Can Dispute/Cancel Anytime"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_003",
+    "name": "System Mandate Setup",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The operational step where the signed direct debit mandate is recorded and configured within the bank's systems.",
+    "context": [
+      "Mandate Setup in System"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_rol_003",
+    "name": "Bank System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated banking infrastructure responsible for recording mandates and processing auto-debit payments.",
+    "context": [
+      "Mandate Setup in System",
+      "Payment Processed (Auto-debit)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_004",
+    "name": "Payment Instruction Submission",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The step where the biller submits a formal instruction to trigger a payment from the customer's account.",
+    "context": [
+      "Biller Submits Payment Instruction"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_stp_005",
+    "name": "Auto-Debit Payment Processing",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The automated execution of the payment from the customer's account based on the existing mandate and biller instruction.",
+    "context": [
+      "Payment Processed (Auto-debit)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_005_dec_001",
+    "name": "Customer Dispute or Cancellation Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A point in the process where the customer may exercise their right to dispute a payment or cancel the mandate entirely.",
+    "context": [
+      "Customer Can Dispute/Cancel Anytime"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_005",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_prc_001",
+    "name": "Direct Debit Mandate Setup Process",
+    "aliases": [
+      "DD Mandate Collection"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational procedure for initiating and collecting a Direct Debit mandate when a customer agrees to allow a biller to take payments from their account. It involves the collection of account details, biller information, and customer authorization.",
+    "context": [
+      "Step 1: DD Mandate Collection",
+      "Customer agrees and signs mandate form"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_stp_001",
+    "name": "DD Mandate Initiation",
+    "aliases": [
+      "Mandate Initiation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "dd_mandate_setup",
+    "description": "The initial stage of the Direct Debit setup where the customer is asked by a biller for payment authorization and signs a mandate form containing account and biller details.",
+    "context": [
+      "Mandate Initiation",
+      "Biller asks: \"Can we take payment by Direct Debit?\"",
+      "Customer agrees and signs mandate form"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who signs up for a service and provides authorization for a biller to collect payments via Direct Debit.",
+    "context": [
+      "Customer signs up for utility bill, gym membership, insurance, etc.",
+      "Customer agrees and signs mandate form"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_rol_002",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_entity",
+    "description": "The entity (e.g., utility company, gym, insurance provider) that requests the Direct Debit mandate and provides their DDIC number.",
+    "context": [
+      "Biller asks: \"Can we take payment by Direct Debit?\"",
+      "Biller details (name, DDIC number)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_acc_001",
+    "name": "Bank Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer's account from which payments will be drawn, identified by the account number and sort code on the mandate form.",
+    "context": [
+      "Bank account details (account number, sort code)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_006_dd_001",
+    "name": "Direct Debit Mandate Form",
+    "aliases": [
+      "mandate form"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The authorization document containing bank account details, biller details, amount type (fixed or variable), and the customer's signature.",
+    "context": [
+      "Customer agrees and signs mandate form",
+      "Mandate Form Contains: Bank account details (account number, sort code), Biller details (name, DDIC number), Amount type (fixed or variable), Customer authorization (signature)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_006",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_prc_001",
+    "name": "Direct Debit Mandate Setup Process",
+    "aliases": [
+      "Mandate Reaches FirstUK"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for processing a Direct Debit mandate after it has been received by FirstUK from a biller or customer. The process involves verification, recording, and notification steps.",
+    "context": [
+      "When Mandate Reaches FirstUK:",
+      "FirstUK doesn't issue the mandate; customer signs it and biller sends it to us"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_001",
+    "name": "Mandate Receipt",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where the mandate is received by the bank, originating from either the biller or the customer.",
+    "context": [
+      "Mandate received from biller or customer"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_002",
+    "name": "Account Details Verification",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A verification step to ensure that the provided account details are in a valid format and that the account actually exists.",
+    "context": [
+      "Account details verified (valid format, exists)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_003",
+    "name": "Customer Identity Confirmation",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "The process of confirming the identity of the customer associated with the mandate.",
+    "context": [
+      "Customer identity confirmed"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_004",
+    "name": "Mandate System Recording",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The administrative action of recording the validated mandate into the bank's internal systems.",
+    "context": [
+      "Mandate recorded in system"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_005",
+    "name": "Biller Setup Notification",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The bank notifies the biller that the mandate setup is complete via an ARUDD message.",
+    "context": [
+      "Biller notified of setup (ARUDD message)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_stp_006",
+    "name": "Customer Confirmation Notification",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final step where the customer is informed that the mandate has been successfully set up.",
+    "context": [
+      "Customer receives confirmation"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "us"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The banking entity responsible for verifying account details, confirming identity, recording mandates, and sending notifications.",
+    "context": [
+      "FirstUK Bank's Role",
+      "biller sends it to us"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_rol_002",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external party that receives the signed mandate from the customer and transmits it to FirstUK Bank.",
+    "context": [
+      "Mandate received from biller",
+      "biller sends it to us",
+      "Biller notified of setup"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_rol_003",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder who signs the mandate and receives the final confirmation of setup.",
+    "context": [
+      "Mandate received from... customer",
+      "Customer identity confirmed",
+      "Customer receives confirmation",
+      "customer signs it"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_cus_001",
+    "name": "Mandate Applicant",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer whose identity is confirmed and whose account is used for the Direct Debit setup.",
+    "context": [
+      "Customer identity confirmed",
+      "customer signs it"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_007_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "mandate"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The authorization document signed by the customer and sent to the bank to enable direct debit payments.",
+    "context": [
+      "Mandate received from biller or customer",
+      "Mandate recorded in system",
+      "FirstUK doesn't issue the mandate; customer signs it"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_007",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_prc_001",
+    "name": "Direct Debit Mandate Setup Process",
+    "aliases": [
+      "Mandate Setup"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for establishing a Direct Debit mandate within the bank's systems, including the recording of specific mandate and biller details.",
+    "context": [
+      "Step 2: Mandate Setup in System"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_stp_001",
+    "name": "System Entry for Mandate Setup",
+    "aliases": [
+      "Step 2",
+      "System Entry"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The discrete action of recording mandate details into the banking system, capturing the Mandate Reference, Customer Account, Biller details, and status.",
+    "context": [
+      "Step 2: Mandate Setup in System",
+      "System Entry",
+      "Fields Recorded"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "ACC-00001"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The specific customer account associated with the Direct Debit mandate being set up in the system.",
+    "context": [
+      "Customer Account | ACC-00001"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_008_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "Mandate Reference"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The financial authorization being established, identified by a unique Mandate Reference and containing biller details, amount types, and start dates.",
+    "context": [
+      "Mandate Reference | 12345678-1",
+      "Biller Name | Electricity Co Ltd",
+      "Biller DDIC | 123456",
+      "Biller Reference | CUST-98765"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_008",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_prc_001",
+    "name": "Direct Debit Mandate Validation Process",
+    "aliases": [
+      "Mandate Validation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for validating Direct Debit mandates to ensure account activity, holder matching, biller legitimacy, and authorization before processing.",
+    "context": [
+      "Mandate Validation",
+      "If Validation Fails: Return mandate to sender"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_001",
+    "name": "Account Status and Holder Verification",
+    "aliases": [
+      "Checks Performed"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The initial verification stage where the system or actor confirms the account exists, is active, and the account holder matches the mandate details.",
+    "context": [
+      "Account exists and is active",
+      "Account holder matches mandate"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_002",
+    "name": "Biller DDIC Validation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A specific check to ensure the Biller Direct Debit Identifier Code (DDIC) is valid and represents a registered biller.",
+    "context": [
+      "Biller DDIC valid (registered biller)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_003",
+    "name": "Mandate Authorization Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The review of the mandate form to ensure it has been properly signed and authorized by the account holder.",
+    "context": [
+      "Mandate form properly signed/authorized"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_004",
+    "name": "Duplicate Mandate Check",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A verification step to ensure that no duplicate mandates for the same biller already exist for the account.",
+    "context": [
+      "No duplicate mandates for same biller"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_dec_001",
+    "name": "Mandate Validation Decision Gate",
+    "aliases": [
+      "If Validation Fails"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A branching point where the mandate is either processed (if all checks pass) or returned to the sender for correction (if any check fails).",
+    "context": [
+      "If Validation Fails:",
+      "Return mandate to sender",
+      "Do not process until corrected"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_stp_005",
+    "name": "Mandate Rejection and Request for Correction",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when validation fails, involving returning the mandate to the sender and requesting a corrected version.",
+    "context": [
+      "Return mandate to sender",
+      "Request corrected mandate"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_009_chk_001",
+    "name": "Direct Debit Mandate Compliance Gate",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "The mandatory control point ensuring the mandate meets all operational and regulatory requirements before it is allowed to be processed.",
+    "context": [
+      "Checks Performed",
+      "Do not process until corrected"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_009",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_prc_001",
+    "name": "Biller Submission Process",
+    "aliases": [
+      "Payment Processing",
+      "Biller Submits Payment Instruction"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for processing payment instructions submitted by billers via the Direct Debit scheme, encompassing validation, debiting, and notification.",
+    "context": [
+      "Biller Submission Process",
+      "Biller Submits Payment Instruction"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_001",
+    "name": "Payment Amount Determination",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where the biller calculates the specific amount due from the customer, such as a monthly utility charge.",
+    "context": [
+      "Biller determines amount due (e.g., £75 for monthly electricity)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_002",
+    "name": "Payment Instruction Submission",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of the biller sending the payment instruction to the bank through the established Direct Debit scheme.",
+    "context": [
+      "Submits instruction via Direct Debit scheme"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_003",
+    "name": "Payment Instruction Receipt",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The point at which FirstUK Bank receives the payment instruction submitted by the biller.",
+    "context": [
+      "FirstUK receives instruction"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_004",
+    "name": "Mandate Validation",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The verification process where FirstUK checks the instruction against the existing mandate to ensure the account is active and the amount is within agreed limits.",
+    "context": [
+      "FirstUK validates against mandate (amount within limits, account active)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_005",
+    "name": "Account Debit Execution",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The financial action of debiting the validated payment amount from the customer's account.",
+    "context": [
+      "Payment debited from account"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_stp_006",
+    "name": "Biller Success/Failure Notification",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final step where the biller is informed whether the payment instruction was successfully processed or failed.",
+    "context": [
+      "Biller notified of success/failure"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_rol_001",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external entity that determines the amount due, submits payment instructions, and receives notifications regarding the outcome of the debit.",
+    "context": [
+      "Biller determines amount due",
+      "Submits instruction via Direct Debit scheme",
+      "Biller notified of success/failure"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_rol_002",
+    "name": "FirstUK",
+    "aliases": [
+      "FirstUK Bank"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The bank responsible for receiving payment instructions, validating them against mandates, and executing the account debit.",
+    "context": [
+      "FirstUK receives instruction",
+      "FirstUK validates against mandate"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_dec_001",
+    "name": "Mandate Compliance Gate",
+    "aliases": [
+      "Validation"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision point where the payment is checked against the mandate limits and account status; success leads to debiting, failure leads to a failure notification.",
+    "context": [
+      "FirstUK validates against mandate (amount within limits, account active)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_chk_001",
+    "name": "Direct Debit Mandate Verification",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A mandatory check to ensure the payment instruction adheres to the terms of the Direct Debit mandate before funds are moved.",
+    "context": [
+      "FirstUK validates against mandate (amount within limits, account active)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_010_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The account from which funds are debited following successful mandate validation.",
+    "context": [
+      "account active",
+      "Payment debited from account"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_010",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_prc_001",
+    "name": "Direct Debit Processing Rules",
+    "aliases": [
+      "Processing Rules"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for validating and executing direct debit transactions. It ensures mandates are active and funds are available before a debit is processed.",
+    "context": [
+      "Processing Rules",
+      "Validation Before Debit"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_stp_001",
+    "name": "Pre-Debit Validation Step",
+    "aliases": [
+      "Validation Before Debit"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A discrete stage where the system or staff verifies the mandate status, amount limits, fund availability, and the timing of the instruction before allowing a debit.",
+    "context": [
+      "Validation Before Debit:",
+      "Mandate active (not canceled)",
+      "Amount doesn't exceed maximum (if set)",
+      "Account has sufficient funds",
+      "Instruction received in time window"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_dec_001",
+    "name": "Debit Validation Gate",
+    "aliases": [
+      "If Any Check Fails"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A branching point based on the outcome of the pre-debit validation checks. If all checks pass, the debit proceeds; if any fail, the debit is rejected and notifications are sent.",
+    "context": [
+      "If Any Check Fails:",
+      "Debit rejected",
+      "Biller notified (with reason)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_stp_002",
+    "name": "Debit Rejection and Notification Step",
+    "aliases": [
+      "Debit rejected"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The action taken when a validation check fails, involving the rejection of the debit and the notification of the biller with the reason for failure.",
+    "context": [
+      "Debit rejected",
+      "Biller notified (with reason)",
+      "Customer may be charged (varies by biller)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_rol_001",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external entity requesting the direct debit payment who must be notified if a transaction is rejected.",
+    "context": [
+      "Biller notified (with reason)",
+      "varies by biller"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_rol_002",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder whose funds are being validated for the direct debit and who may incur charges upon rejection.",
+    "context": [
+      "Customer may be charged (varies by biller)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_acc_001",
+    "name": "Debit Account",
+    "aliases": [
+      "Account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The customer account being checked for sufficient funds to cover the direct debit instruction.",
+    "context": [
+      "Account has sufficient funds"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "Mandate"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The authorization record checked to ensure it is active and not canceled before a debit is permitted.",
+    "context": [
+      "Mandate active (not canceled)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_011_tra_001",
+    "name": "Direct Debit Transaction",
+    "aliases": [
+      "Debit"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "The specific financial event being validated, which may be either processed or rejected based on the validation rules.",
+    "context": [
+      "Debit rejected",
+      "Amount doesn't exceed maximum"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_011",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_prc_001",
+    "name": "Biller Payment Processing",
+    "aliases": [
+      "Payment Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "standing_order_setup",
+    "description": "An operational workflow for processing biller payments via BACS. The process involves a submission window 3 days prior to payment, overnight processing, and settlement on the next business day.",
+    "context": [
+      "Billers submit 3 days before payment date",
+      "FirstUK processes overnight (BACS)",
+      "Funds reach biller next business day"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_stp_001",
+    "name": "Biller Payment Submission",
+    "aliases": [
+      "Submission Window"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of the payment process where billers submit payment requests. This must occur 3 days before the scheduled payment date.",
+    "context": [
+      "Billers submit 3 days before payment date"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_stp_002",
+    "name": "Overnight BACS Processing",
+    "aliases": [
+      "Processing"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The technical execution phase where FirstUK processes the submitted payments overnight using the BACS system.",
+    "context": [
+      "FirstUK processes overnight (BACS)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_stp_003",
+    "name": "Payment Settlement",
+    "aliases": [
+      "Settlement"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final stage of the workflow where funds are delivered to the biller. This occurs on the business day following the overnight processing.",
+    "context": [
+      "Funds reach biller next business day"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_rol_001",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The entity responsible for submitting payment requests within the defined three-day window and the recipient of the settled funds.",
+    "context": [
+      "Billers submit 3 days before payment date",
+      "Funds reach biller next business day"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_012_rol_002",
+    "name": "FirstUK",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The banking institution responsible for the overnight BACS processing of payments.",
+    "context": [
+      "FirstUK processes overnight (BACS)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_012",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_prc_001",
+    "name": "Failed Direct Debit Handling Process",
+    "aliases": [
+      "Step 4: Failed Direct Debit"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational procedure for managing and categorising direct debit failures. This process identifies specific failure scenarios such as closed accounts, insufficient funds, or cancelled mandates.",
+    "context": [
+      "Step 4: Failed Direct Debit",
+      "Failure Scenarios"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_stp_001",
+    "name": "Direct Debit Failure Scenario Identification",
+    "aliases": [
+      "Common Reasons"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The step of identifying the specific reason why a direct debit has failed. Common scenarios include closed accounts, insufficient funds, frozen accounts, or cancelled mandates.",
+    "context": [
+      "Common Reasons:",
+      "Account closed",
+      "Insufficient funds",
+      "Account frozen",
+      "Mandate canceled"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_acc_001",
+    "name": "Closed Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closing_account",
+    "description": "An account that has been closed, resulting in the failure of an attempted direct debit transaction.",
+    "context": [
+      "Account closed"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_acc_002",
+    "name": "Frozen Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "An account that is currently frozen, preventing the processing of direct debit payments.",
+    "context": [
+      "Account frozen"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_dd_001",
+    "name": "Canceled Direct Debit Mandate",
+    "aliases": [],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_cancellation",
+    "description": "A direct debit mandate that has been canceled by the customer, specifically in cases where the customer failed to inform the biller of the cancellation.",
+    "context": [
+      "Mandate canceled (customer didn't inform biller)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_013_trn_001",
+    "name": "Failed Direct Debit Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "failed_transaction",
+    "description": "A financial transaction involving a direct debit that failed to complete due to account status or mandate issues.",
+    "context": [
+      "Failed Direct Debit",
+      "Common Reasons"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_013",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_prc_001",
+    "name": "Direct Debit Failure Process",
+    "aliases": [
+      "Failure Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow triggered when a direct debit payment attempt fails. It manages the system blocking of payment, notification to both the biller and customer, and the subsequent resolution or retry options.",
+    "context": [
+      "Failure Process",
+      "System blocks payment (insufficient funds, closed account, etc.)",
+      "Biller may retry (usually within 3–5 days)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_001",
+    "name": "Debit Attempt Failure and Recording",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The initial stage where the system blocks a payment due to reasons such as insufficient funds or a closed account and records the failure with a specific reason.",
+    "context": [
+      "Step 1: Debit Attempt Fails",
+      "System blocks payment (insufficient funds, closed account, etc.)",
+      "Failure recorded with reason"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_002",
+    "name": "Biller Notification",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The process of sending an automated ARUDD rejection message to the biller, which includes the specific reason code for the payment failure.",
+    "context": [
+      "Step 2: Notify Biller",
+      "Automated message sent (ARUDD rejection)",
+      "Includes reason code (e.g., \"insufficient funds\")"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_003",
+    "name": "Customer Notification",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "An optional notification sent to the customer via Email or SMS if they have opted in, detailing the amount, the biller, and the reason for failure.",
+    "context": [
+      "Step 3: Notify Customer",
+      "Email/SMS alert (optional, if opted in)",
+      "Notification includes: Amount, biller, reason"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_004",
+    "name": "Customer Remediation Action",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The stage where the customer is required to resolve the failure by providing funds, contacting the biller for alternative payment, or cancelling the Direct Debit.",
+    "context": [
+      "Step 4: Customer Action",
+      "Customer must: Provide sufficient funds, OR Contact biller to arrange alternative payment, OR Cancel Direct Debit"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_stp_005",
+    "name": "Payment Retry",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "A stage where the biller may choose to retry the payment, typically within a 3–5 day window, provided funds have become available.",
+    "context": [
+      "Step 5: Retry (At Biller's Option)",
+      "Biller may retry (usually within 3–5 days)",
+      "Retry typically succeeds if funds now available"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_rol_001",
+    "name": "Automated Payment System",
+    "aliases": [
+      "System"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system responsible for blocking failed payments, recording the reason for failure, and sending automated ARUDD rejection messages.",
+    "context": [
+      "System blocks payment",
+      "Failure recorded with reason",
+      "Automated message sent (ARUDD rejection)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_rol_002",
+    "name": "Biller",
+    "aliases": [
+      "Recipient"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external party requesting payment who receives the failure notification and decides whether to retry the debit attempt.",
+    "context": [
+      "Notify Biller",
+      "Biller may retry (usually within 3–5 days)",
+      "Contact biller to arrange alternative payment"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_rol_003",
+    "name": "Customer",
+    "aliases": [
+      "Account Holder"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who is notified of the payment failure and must take corrective action to resolve the outstanding payment.",
+    "context": [
+      "Step 3: Notify Customer",
+      "Customer must: Provide sufficient funds",
+      "Cancel Direct Debit"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_dec_001",
+    "name": "Retry Decision Gate",
+    "aliases": [
+      "Biller's Option"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point where the biller determines whether to initiate a payment retry within the 3-5 day window following a failure.",
+    "context": [
+      "Step 5: Retry (At Biller's Option)",
+      "Biller may retry (usually within 3–5 days)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_014_dd_001",
+    "name": "Failed Direct Debit Mandate",
+    "aliases": [],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_dispute_handling",
+    "description": "A direct debit instruction that has failed to execute due to insufficient funds or account closure.",
+    "context": [
+      "System blocks payment (insufficient funds, closed account, etc.)",
+      "Cancel Direct Debit"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_014",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_prc_001",
+    "name": "Direct Debit Disputes and Claims Process",
+    "aliases": [
+      "Step 5",
+      "Direct Debit Disputes & Claims"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for handling customer claims regarding unauthorized direct debits under the Direct Debit Guarantee. It ensures full refunds are processed within a 10 business day timeline regardless of the specific error scenario.",
+    "context": [
+      "Step 5: Direct Debit Disputes & Claims",
+      "Customer Rights (Direct Debit Guarantee)",
+      "FirstUK refunds full amount within 10 business days"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_stp_001",
+    "name": "Customer Claim Filing",
+    "aliases": [
+      "Claim filing"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial action where a customer notifies FirstUK that a direct debit was unauthorized or incorrect.",
+    "context": [
+      "Customer files claim with FirstUK",
+      "Customer contacts bank: \"I didn't authorize this!\""
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_stp_002",
+    "name": "Direct Debit Refund Processing",
+    "aliases": [
+      "Refund full amount"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The execution of a full refund to the customer within 10 business days following an unauthorized debit claim.",
+    "context": [
+      "FirstUK refunds full amount within 10 business days",
+      "Bank refunds £500 within 10 days",
+      "Bank refunds £100 (overage) within 10 days",
+      "Bank refunds £75 within 10 days"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "Bank",
+      "FirstUK"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The banking entity responsible for receiving claims and issuing refunds under the Direct Debit Guarantee.",
+    "context": [
+      "Customer files claim with FirstUK",
+      "FirstUK refunds full amount within 10 business days",
+      "Bank refunds £500 within 10 days"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_rol_002",
+    "name": "Customer",
+    "aliases": [
+      "Claimant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder who identifies an unauthorized debit and initiates a claim for a refund.",
+    "context": [
+      "Customer files claim with FirstUK",
+      "Customer contacts bank: \"I didn't authorize this!\"",
+      "No liability to customer"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_rol_003",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The third-party entity that initiates the direct debit charge, which may be fraudulent, incorrect in amount, or processed after cancellation.",
+    "context": [
+      "Biller charged £150 instead of £50",
+      "Biller still deducted £75 (error)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_cus_001",
+    "name": "Claiming Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "complaining_customer",
+    "description": "The specific customer subject to the Direct Debit Guarantee who is seeking a refund for an unauthorized transaction.",
+    "context": [
+      "Customer files claim with FirstUK",
+      "Customer contacts bank"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_txn_001",
+    "name": "Unauthorized Direct Debit Transaction",
+    "aliases": [
+      "Fraudulent Debit",
+      "Wrong Amount Charged",
+      "Charged After Cancellation"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A financial event where funds are deducted from an account without proper authorization or in violation of the agreed amount/status.",
+    "context": [
+      "Unauthorized debit of £500 appears",
+      "Biller charged £150 instead of £50",
+      "Biller still deducted £75 (error)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_015_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "Direct Debit"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_dispute_handling",
+    "description": "The payment authorization being disputed or cancelled as part of the claims process.",
+    "context": [
+      "Customer canceled Direct Debit",
+      "Full protection under Direct Debit Guarantee"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_015",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_prc_001",
+    "name": "Claim Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "An operational workflow for handling customer claims, involving reportage via phone, email, or branch, followed by investigation, decisioning, and potential refund.",
+    "context": [
+      "Claim Process"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_stp_001",
+    "name": "Customer Issue Reporting",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage where the customer reports an issue through specified channels: phone (0800-555-2265), email (support@firstuk.bank), or in-person branch visits.",
+    "context": [
+      "Step 1: Customer Reports Issue",
+      "Phone: 0800-555-2265",
+      "Email: support@firstuk.bank",
+      "Branch: Visit in person"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The bank customer who initiates the claim process by reporting an issue.",
+    "context": [
+      "Customer Reports Issue",
+      "Explanation provided to customer",
+      "Confirmation sent to customer"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_stp_002",
+    "name": "Claim Investigation",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The internal review stage where FirstUK verifies Direct Debit details, confirms mandate status (active/canceled), contacts billers, and assesses claim validity.",
+    "context": [
+      "Step 2: FirstUK Investigates",
+      "Verify Direct Debit details",
+      "Confirm mandate status (active/canceled)",
+      "Contact biller if needed",
+      "Assess claim validity"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_rol_002",
+    "name": "FirstUK Bank Staff",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The bank personnel responsible for investigating claim details, contacting billers, and determining the outcome of the claim.",
+    "context": [
+      "Step 2: FirstUK Investigates"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_dec_001",
+    "name": "Claim Approval Decision",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point where the claim is either Approved, leading to a refund within 10 days, or Denied, requiring an explanation to the customer.",
+    "context": [
+      "Step 3: Decision",
+      "Approved: Refund processed (within 10 days)",
+      "Denied: Explanation provided to customer"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_stp_003",
+    "name": "Refund Execution",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final stage for approved claims where funds are credited to the customer's account and a confirmation is sent.",
+    "context": [
+      "Step 4: Refund",
+      "Funds credited to account",
+      "Confirmation sent to customer"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_dispute_handling",
+    "description": "The Direct Debit arrangement being investigated during the claim process to confirm if the mandate is active or canceled.",
+    "context": [
+      "Verify Direct Debit details",
+      "Confirm mandate status (active/canceled)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_016_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "active_account",
+    "description": "The account to which refund funds are credited upon a successful claim decision.",
+    "context": [
+      "Funds credited to account"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_016",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_prc_001",
+    "name": "Dispute Resolution Process",
+    "aliases": [
+      "Dispute Resolution"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "The operational workflow triggered when a customer disagrees with a bank outcome or is unhappy with a decision made by FirstUK. It outlines the path from internal escalation to external regulatory resolution.",
+    "context": [
+      "Dispute Resolution (if Customer Disagrees with Bank Outcome)",
+      "If customer unhappy with FirstUK's decision"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_stp_001",
+    "name": "Managerial Escalation Step",
+    "aliases": [
+      "Escalate to manager"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "escalation_procedure",
+    "description": "The initial internal action taken when a customer is unhappy with a decision, involving the movement of the dispute to a manager for review.",
+    "context": [
+      "Escalate to manager"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_stp_002",
+    "name": "Formal Complaint Process Initiation",
+    "aliases": [
+      "Formal complaint process",
+      "[[policy_complaints]]"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "complaint_resolution",
+    "description": "The formal procedure for handling customer grievances, governed by the specific complaints policy.",
+    "context": [
+      "Formal complaint process (see [[policy_complaints]])"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_stp_003",
+    "name": "External Ombudsman Referral",
+    "aliases": [
+      "Financial Ombudsman Service"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The final stage of the dispute process where the matter is referred to the Financial Ombudsman Service if the issue remains unresolved internally.",
+    "context": [
+      "Financial Ombudsman Service (if unresolved)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_rol_001",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "The internal bank employee responsible for reviewing escalated decisions when a customer expresses dissatisfaction.",
+    "context": [
+      "Escalate to manager"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_rol_002",
+    "name": "Financial Ombudsman Service",
+    "aliases": [
+      "Ombudsman"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulatory body that handles unresolved disputes between the customer and FirstUK Bank.",
+    "context": [
+      "Financial Ombudsman Service (if unresolved)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_rol_003",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "complaining_customer",
+    "description": "The bank client who is unhappy with a decision and initiates the dispute resolution process.",
+    "context": [
+      "if Customer Disagrees with Bank Outcome",
+      "If customer unhappy with FirstUK's decision"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_dec_001",
+    "name": "Internal Resolution Outcome Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point based on whether the dispute is resolved internally; if it remains unresolved, it triggers the referral to the Financial Ombudsman Service.",
+    "context": [
+      "Financial Ombudsman Service (if unresolved)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_esc_001",
+    "name": "Level 1 — Managerial Review",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The first tier of escalation where a decision is moved from a staff member to a manager.",
+    "context": [
+      "Escalate to manager"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_017_esc_002",
+    "name": "Level 2 — External Ombudsman Review",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "regulator",
+    "description": "The highest tier of escalation involving an external regulatory body after internal processes are exhausted.",
+    "context": [
+      "Financial Ombudsman Service (if unresolved)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_017",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_prc_001",
+    "name": "Direct Debit Mandate Cancellation Process",
+    "aliases": [
+      "Step 6: Mandate Cancellation",
+      "How to Cancel"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "The operational workflow for cancelling a Direct Debit mandate, providing multiple channels for the customer to initiate the request via the bank or the biller.",
+    "context": [
+      "Step 6: Mandate Cancellation",
+      "How to Cancel"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_stp_001",
+    "name": "Bank-Initiated Mandate Cancellation",
+    "aliases": [
+      "Option 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The process step where the customer contacts FirstUK Bank through phone, email, branch visit, or online form to request the cancellation of a mandate.",
+    "context": [
+      "Contact FirstUK Bank",
+      "Phone: 0800-555-2265",
+      "Email: support@firstuk.bank",
+      "Branch: Visit in person",
+      "Online: Submit cancellation form (if available)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_stp_002",
+    "name": "Biller-Initiated Mandate Cancellation",
+    "aliases": [
+      "Option 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The process step where the customer contacts the biller to cease collection, which may result in an automatic notification to FirstUK Bank.",
+    "context": [
+      "Contact Biller",
+      "Ask biller to cease collection",
+      "Biller may notify FirstUK automatically"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_rol_001",
+    "name": "FirstUK Bank Staff",
+    "aliases": [
+      "FirstUK Bank"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The bank personnel or systems responsible for receiving and processing mandate cancellation requests via phone, email, branch, or online channels.",
+    "context": [
+      "Contact FirstUK Bank"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_rol_002",
+    "name": "Biller",
+    "aliases": [
+      "The Biller"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The third-party entity receiving payments who can cease collections and potentially notify the bank automatically of a mandate cancellation.",
+    "context": [
+      "Contact Biller",
+      "Biller may notify FirstUK automatically"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_rol_003",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "existing_customer",
+    "description": "The account holder who initiates the mandate cancellation process by contacting either the bank or the biller.",
+    "context": [
+      "Contact FirstUK Bank",
+      "Contact Biller"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_018_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "Mandate"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_cancellation",
+    "description": "The specific payment authorization being cancelled through the described operational steps.",
+    "context": [
+      "Step 6: Mandate Cancellation",
+      "cease collection"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_018",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_prc_001",
+    "name": "FirstUK Cancellation Process",
+    "aliases": [
+      "Cancellation Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "An operational workflow for processing the cancellation of a mandate. The process takes effect immediately without a notice period and blocks future payments, including pending payments if cancelled before the settlement date.",
+    "context": [
+      "FirstUK Cancellation Process",
+      "Effective Date: Immediate (no notice period required)",
+      "Any Pending Payments: Blocked if cancellation before settlement date"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_001",
+    "name": "Verify Customer Identity",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "identity_check",
+    "description": "The initial action in the cancellation process to ensure the identity of the customer requesting the cancellation is authenticated.",
+    "context": [
+      "1. Verify customer identity"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_002",
+    "name": "Confirm Mandate Details",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "A step to validate and confirm the specific details of the mandate that is being requested for cancellation.",
+    "context": [
+      "2. Confirm mandate details"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_003",
+    "name": "Set Mandate Status to Canceled",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The administrative action of updating the mandate's status within the system to 'Canceled'.",
+    "context": [
+      "3. Set mandate status to \"Canceled\""
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_004",
+    "name": "Notify Biller via Automated ARUDD",
+    "aliases": [
+      "Step 4",
+      "ARUDD cancellation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "An automated step where the biller is notified of the cancellation through the Automated Request for Direct Debit (ARUDD) mechanism.",
+    "context": [
+      "4. Notify biller (automated ARUDD cancellation)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_005",
+    "name": "Send Confirmation to Customer",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final communication step to inform the customer that their cancellation request has been processed.",
+    "context": [
+      "5. Send confirmation to customer"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_stp_006",
+    "name": "Block Future Payments",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "An action to ensure that no further payments are processed against the cancelled mandate.",
+    "context": [
+      "6. Future payments blocked"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_rol_001",
+    "name": "Customer",
+    "aliases": [
+      "applicant"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The individual requesting the cancellation of their mandate and the recipient of the confirmation notification.",
+    "context": [
+      "Verify customer identity",
+      "Send confirmation to customer"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_rol_002",
+    "name": "Automated ARUDD System",
+    "aliases": [
+      "automated ARUDD cancellation"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system responsible for sending the cancellation notification to the biller.",
+    "context": [
+      "Notify biller (automated ARUDD cancellation)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_rol_003",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external entity (merchant/service provider) notified when a mandate is cancelled.",
+    "context": [
+      "Notify biller (automated ARUDD cancellation)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_019_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "mandate"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_cancellation",
+    "description": "The specific financial mandate being verified and moved to a 'Canceled' status during this procedure.",
+    "context": [
+      "Confirm mandate details",
+      "Set mandate status to \"Canceled\""
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_019",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_prc_001",
+    "name": "Biller Cancellation Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "direct_debit_setup",
+    "description": "An operational workflow triggered when a Biller requests the cancellation of a mandate, resulting in the update of the mandate status and the cessation of further debits.",
+    "context": [
+      "Biller Cancellation Process",
+      "If Biller Requests Cancellation"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_001",
+    "name": "Biller Cancellation Instruction Submission",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial action where the Biller submits a formal instruction to cancel the mandate.",
+    "context": [
+      "Biller submits cancellation instruction"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_002",
+    "name": "Cancellation Request Processing",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The internal action where FirstUK receives the cancellation instruction and processes it within their systems.",
+    "context": [
+      "FirstUK receives and processes"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_003",
+    "name": "Mandate Status Update",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The stage where the status of the direct debit mandate is updated to reflect the cancellation.",
+    "context": [
+      "Mandate status updated"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_stp_004",
+    "name": "Cessation of Debits",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The final outcome of the process ensuring that no further financial debits are processed against the cancelled mandate.",
+    "context": [
+      "No further debits processed"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_rol_001",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The external party responsible for initiating the cancellation by submitting an instruction.",
+    "context": [
+      "Biller submits cancellation instruction",
+      "If Biller Requests Cancellation"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_rol_002",
+    "name": "FirstUK",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The banking entity responsible for receiving and processing the cancellation request and updating the mandate status.",
+    "context": [
+      "FirstUK receives and processes"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_020_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "Mandate"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_cancellation",
+    "description": "The specific authorization agreement being cancelled during the Biller Cancellation Process.",
+    "context": [
+      "Mandate status updated"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_020",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_prc_001",
+    "name": "Account Management Process",
+    "aliases": [
+      "Step 7"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "Operational workflow governing the management of Direct Debit mandates during specific account changes, including address updates, account migration, and fraud-related freezes.",
+    "context": [
+      "Step 7: Account Management",
+      "Mandate During Account Changes"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_001",
+    "name": "Address Change Notification",
+    "aliases": [
+      "Biller notified automatically"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Automatic notification sent to the biller when a customer updates their address, ensuring the mandate remains active without payment interruption.",
+    "context": [
+      "If Customer Changes Address: Biller notified automatically",
+      "Mandate remains active",
+      "No interruption to payments"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_002",
+    "name": "Old Mandate Cancellation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_closure",
+    "description": "The cancellation of an existing direct debit mandate triggered by the closure of the associated bank account.",
+    "context": [
+      "If Customer Gets New Account: Old mandate canceled (if account closed)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_003",
+    "name": "New Mandate Authorization",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_verification",
+    "description": "The requirement for a customer to provide authorization for a new direct debit mandate when transitioning to a new account.",
+    "context": [
+      "Customer must authorize new mandate for new account"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_004",
+    "name": "Biller Account Detail Update",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The step ensuring the biller is provided with the updated account details necessary to process payments for a new account.",
+    "context": [
+      "Biller must have new account details"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_005",
+    "name": "Direct Debit Temporary Block",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The temporary suspension of all Direct Debit payments when an account is placed on a Fraud Hold.",
+    "context": [
+      "If Account Frozen (Fraud Hold): Direct Debits blocked temporarily"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_006",
+    "name": "Fraud Hold Biller Notification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The communication of a payment failure to the biller via a generic message when an account is frozen due to fraud.",
+    "context": [
+      "Biller notified (generic \"unable to process\" message)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_stp_007",
+    "name": "Customer Fraud Resolution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The mandatory resolution process the customer must undergo to lift a fraud hold before payment services can resume.",
+    "context": [
+      "Customer resolution required before payment resumes"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The account holder responsible for initiating address changes, authorizing new mandates, and resolving fraud holds.",
+    "context": [
+      "If Customer Changes Address",
+      "Customer must authorize new mandate",
+      "Customer resolution required"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_rol_002",
+    "name": "Biller",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external entity receiving automatic notifications and providing the account details required for mandate processing.",
+    "context": [
+      "Biller notified automatically",
+      "Biller must have new account details",
+      "Biller notified (generic \"unable to process\" message)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_dec_001",
+    "name": "Account Change Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point based on the type of account change (Address Change vs. New Account vs. Frozen Account) which determines the mandate handling logic.",
+    "context": [
+      "If Customer Changes Address",
+      "If Customer Gets New Account",
+      "If Account Frozen (Fraud Hold)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_cus_001",
+    "name": "Account Holder",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The subject of the account management steps whose address, account status, or mandate authorization is being processed.",
+    "context": [
+      "If Customer Changes Address",
+      "Customer must authorize new mandate"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_acc_001",
+    "name": "Frozen Account",
+    "aliases": [
+      "Fraud Hold"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "An account subjected to a fraud hold, resulting in the temporary blocking of Direct Debits.",
+    "context": [
+      "If Account Frozen (Fraud Hold)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_021_dd_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "Mandate"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The payment authorization that may remain active, be cancelled, or require new authorization based on account changes.",
+    "context": [
+      "Mandate remains active",
+      "Old mandate canceled",
+      "authorize new mandate"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_021",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_prc_001",
+    "name": "Weekly Quality Assurance Review",
+    "aliases": [
+      "Weekly Review"
+    ],
+    "entity_class": "PROCESS",
+    "type": "quality_check",
+    "description": "A weekly operational procedure designed to ensure the accuracy of Direct Debit processing and the resolution of failures and disputes.",
+    "context": [
+      "Quality Assurance",
+      "Weekly Review"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_rol_001",
+    "name": "Operations Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Staff members responsible for conducting the weekly checks on Direct Debit processing values, failed collections, and customer/biller complaints.",
+    "context": [
+      "Operations Staff Checks"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_stp_001",
+    "name": "Direct Debit Processing Metrics Check",
+    "aliases": [
+      "Operations Staff Checks"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A check performed by Operations Staff to monitor the total value of Direct Debits processed, the number of failed collections, and the volume of customer disputes and biller complaints.",
+    "context": [
+      "Total value of Direct Debits processed",
+      "Number of failed collections",
+      "Customer disputes received",
+      "Biller complaints"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_stp_002",
+    "name": "Direct Debit Reconciliation",
+    "aliases": [
+      "Reconciliation"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A verification process to ensure DD transactions align with biller instructions and that no duplicate payments have occurred.",
+    "context": [
+      "DD transactions match biller instructions",
+      "No duplicate payments"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_stp_003",
+    "name": "Failed Direct Debit Investigation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The process of investigating Direct Debits that failed to collect during the weekly review period.",
+    "context": [
+      "Failed DDs investigated"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_022_dir_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "DD"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_dispute_handling",
+    "description": "The financial arrangement and transaction mechanism being reviewed for processing errors, failures, and disputes.",
+    "context": [
+      "Total value of Direct Debits processed",
+      "Failed DDs investigated",
+      "DD transactions match biller instructions"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_022",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_prc_001",
+    "name": "Direct Debit Audit Trail and Record Retention Process",
+    "aliases": [
+      "Audit Trail"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "The operational procedure for maintaining system records of direct debit mandates, payments, and disputes, ensuring compliance with regulatory retention periods.",
+    "context": [
+      "Audit Trail",
+      "Retention: 6 years (per POCA regulations)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_rol_001",
+    "name": "System Records Engine",
+    "aliases": [
+      "System Records"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system responsible for capturing and storing mandates, payment instructions, debit outcomes, and customer communications.",
+    "context": [
+      "System Records:",
+      "All mandates (active and canceled)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_chk_001",
+    "name": "POCA Regulatory Retention Check",
+    "aliases": [
+      "Retention"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A mandatory regulatory gate requiring that all direct debit related records be retained for a minimum of 6 years as per POCA regulations.",
+    "context": [
+      "Retention: 6 years (per POCA regulations)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_001",
+    "name": "Mandate Record Maintenance",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of recording and maintaining all active and canceled direct debit mandates within the system.",
+    "context": [
+      "All mandates (active and canceled)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_002",
+    "name": "Payment Instruction Logging",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of logging all payment instructions received by the bank.",
+    "context": [
+      "All payment instructions received"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_003",
+    "name": "Debit Outcome Recording",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The recording of both successful and failed debit attempts for audit purposes.",
+    "context": [
+      "All successful and failed debits"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_004",
+    "name": "Dispute and Outcome Documentation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The process of documenting all customer disputes and the final outcomes associated with those disputes.",
+    "context": [
+      "All customer disputes and outcomes"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_stp_005",
+    "name": "Customer Communication Archiving",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of capturing and storing all communications exchanged with the customer.",
+    "context": [
+      "Customer communications"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_023_dir_001",
+    "name": "Direct Debit Mandate",
+    "aliases": [
+      "mandates"
+    ],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "dd_mandate_setup",
+    "description": "The authorization records, including both active and canceled statuses, subject to the 6-year retention rule.",
+    "context": [
+      "All mandates (active and canceled)"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_023",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_026_rol_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior operational authority responsible for the formal approval and sign-off of the procedure document.",
+    "context": [
+      "Approved by: Head of Operations"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_026",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "0b947fb6d0054a0c91fdb1b45342374f_026_rol_002",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The senior compliance authority responsible for ensuring the procedure meets regulatory requirements and providing formal sign-off.",
+    "context": [
+      "Approved by: Head of Compliance"
+    ],
+    "chunk_id": "0b947fb6d0054a0c91fdb1b45342374f_026",
+    "doc_id": "0b947fb6d0054a0c91fdb1b45342374f",
+    "domain": "banking_sop_guides"
+  }
+]

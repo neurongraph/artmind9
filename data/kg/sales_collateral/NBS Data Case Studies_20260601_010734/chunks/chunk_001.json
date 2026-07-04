@@ -1,0 +1,2093 @@
+{
+  "embedding": [
+    0.008894406,
+    0.07438469,
+    -0.18176658,
+    -0.07493156,
+    0.08304111,
+    -0.019297322,
+    0.034070298,
+    0.05512346,
+    -0.0012185072,
+    -0.016705578,
+    -0.031739753,
+    0.030793026,
+    0.12517421,
+    -0.030860627,
+    0.017151697,
+    0.03622121,
+    -0.03881603,
+    -0.003258572,
+    -0.045063242,
+    0.060999848,
+    0.002739987,
+    -0.025509791,
+    -0.0027390975,
+    -0.04005872,
+    0.02497559,
+    0.00623652,
+    0.008399977,
+    -0.012908238,
+    -0.0076670637,
+    0.012917669,
+    0.08100911,
+    -0.008894434,
+    -0.01893318,
+    -0.035882868,
+    -0.03805661,
+    -0.0023460772,
+    0.05257785,
+    -0.021424228,
+    0.03238442,
+    -0.040911455,
+    0.031101475,
+    -0.022030894,
+    0.00056401227,
+    -0.036142454,
+    0.074810155,
+    0.002738001,
+    0.043241292,
+    -0.022397328,
+    0.09621076,
+    -0.041088395,
+    -0.023081686,
+    0.009185126,
+    0.0023855316,
+    0.039602257,
+    0.010971363,
+    0.009913439,
+    -0.05860309,
+    0.0032644686,
+    -0.035576496,
+    -0.051205665,
+    0.105216235,
+    0.04421068,
+    0.0036429286,
+    0.08224929,
+    0.064875744,
+    -0.015508239,
+    -0.020590538,
+    0.026307933,
+    0.013511715,
+    -0.070712276,
+    0.05577099,
+    0.030723333,
+    -0.009879658,
+    0.011032719,
+    -0.010800145,
+    -0.038783044,
+    -0.009638365,
+    -0.06387159,
+    -0.02468555,
+    0.026569754,
+    0.045919128,
+    -0.051992442,
+    0.01987574,
+    0.0012656647,
+    0.021971188,
+    0.017504409,
+    0.013610227,
+    -0.031724136,
+    -0.03413703,
+    0.06411744,
+    0.017852565,
+    0.00059456896,
+    0.056615073,
+    0.016442979,
+    -0.06949189,
+    0.032313358,
+    0.0075454465,
+    -0.04131062,
+    -0.021479782,
+    0.00039013114,
+    -0.03636024,
+    -0.058785453,
+    -0.005152815,
+    -0.010073434,
+    0.02425017,
+    0.059869748,
+    0.016584694,
+    0.0021633273,
+    -0.034846902,
+    0.03974345,
+    -0.039004285,
+    0.03404855,
+    -0.028031653,
+    0.011149014,
+    0.0413245,
+    -0.020252923,
+    0.06384285,
+    -0.03501934,
+    -0.042731736,
+    -0.008736622,
+    0.020071587,
+    -0.065802276,
+    0.012408961,
+    -0.0016071433,
+    0.026689315,
+    -0.016156746,
+    -0.09485665,
+    -0.0063137924,
+    0.006557739,
+    -0.019781938,
+    -0.018135907,
+    -0.016047394,
+    -0.052811824,
+    -0.0045472505,
+    0.06157565,
+    0.04590511,
+    -0.051108528,
+    -0.05921574,
+    0.02453832,
+    0.007928609,
+    0.037538514,
+    0.026192244,
+    -0.022887513,
+    0.015677873,
+    0.015697662,
+    -0.0064965687,
+    0.025712771,
+    0.0081171,
+    -0.03044562,
+    0.029609414,
+    -0.022691857,
+    0.016602721,
+    -0.02285167,
+    0.024318514,
+    0.048000116,
+    -0.05580999,
+    -0.020086627,
+    -0.0027448058,
+    0.015993632,
+    0.034472015,
+    0.0069674514,
+    0.014561628,
+    -0.02636302,
+    0.04368016,
+    0.03969783,
+    -0.059175815,
+    -0.010743666,
+    0.046598617,
+    0.07509755,
+    0.0066519566,
+    -0.054754592,
+    0.025051696,
+    0.032206994,
+    -0.024516173,
+    0.04394733,
+    0.0053773853,
+    0.048808806,
+    -0.0075416667,
+    0.021103764,
+    -0.046658948,
+    0.0055738185,
+    -0.083993025,
+    0.03658438,
+    -0.0052508367,
+    -0.03811122,
+    -0.022629373,
+    -0.0163416,
+    -0.0060260873,
+    -0.0025040281,
+    -0.058977995,
+    0.014699978,
+    -0.011613178,
+    -0.025818612,
+    0.011330555,
+    -0.033567823,
+    -0.03126356,
+    0.05883796,
+    0.006925069,
+    0.061658114,
+    -0.087028176,
+    -0.021779245,
+    9.409424e-05,
+    -0.0028035792,
+    0.01485405,
+    -0.0030820807,
+    0.027550085,
+    0.009965002,
+    0.008756296,
+    -0.007243827,
+    0.01880866,
+    0.032840624,
+    -0.028754814,
+    -0.027786473,
+    -0.005514911,
+    0.017672084,
+    0.004364779,
+    -0.00043762187,
+    -0.04432251,
+    -0.019936476,
+    0.028169865,
+    -0.0013608783,
+    -0.022273147,
+    0.028625594,
+    -0.0054850155,
+    0.06344487,
+    -0.016806187,
+    -0.004156418,
+    -0.053136364,
+    -0.014531725,
+    -0.03347701,
+    0.007348602,
+    -0.06053469,
+    0.049759228,
+    0.00074455404,
+    0.03590868,
+    0.06744922,
+    -0.018572867,
+    0.046402093,
+    0.0069706123,
+    0.033490036,
+    0.0020139178,
+    0.04881014,
+    -0.030972825,
+    -0.025198665,
+    -0.010160001,
+    -0.010473305,
+    0.0045312797,
+    0.021622345,
+    0.020205796,
+    0.011917425,
+    0.02431482,
+    0.012713059,
+    0.0570725,
+    0.00821013,
+    0.020227266,
+    -0.07770665,
+    -0.035972398,
+    0.018625887,
+    -0.047860563,
+    0.008223872,
+    0.016434768,
+    -0.011694601,
+    0.02229185,
+    -0.026379645,
+    0.008659726,
+    -0.015784627,
+    -0.07082615,
+    -0.043282762,
+    0.019685812,
+    -0.005483955,
+    0.016123721,
+    0.010615199,
+    0.0021017927,
+    0.06655673,
+    0.016269084,
+    -0.009636387,
+    0.0038128227,
+    -0.0046925377,
+    -0.012725155,
+    0.024065578,
+    -0.049770527,
+    -0.06750886,
+    -0.050892703,
+    0.003410708,
+    -0.024835723,
+    0.046388563,
+    0.006409882,
+    0.029496694,
+    0.04897109,
+    0.03985599,
+    0.05182528,
+    0.023128748,
+    -0.0150242355,
+    -0.01361075,
+    0.0063154674,
+    0.0070363516,
+    0.040136203,
+    0.00435724,
+    0.017337,
+    -0.07311665,
+    0.02053208,
+    0.035248633,
+    0.056702286,
+    0.03170973,
+    -0.0063363677,
+    0.0052102497,
+    -0.011883151,
+    -0.012846088,
+    -0.046179608,
+    -0.029482167,
+    -0.006143755,
+    -0.056813754,
+    -0.041457836,
+    -0.0073862653,
+    -0.03398302,
+    0.01704051,
+    0.03631476,
+    -0.025385438,
+    0.04883974,
+    0.006526286,
+    -0.014276704,
+    -0.05451338,
+    -0.016338918,
+    -0.05221555,
+    0.0031947028,
+    0.05473256,
+    -0.0387749,
+    0.026567545,
+    -0.018281113,
+    0.02635814,
+    -0.01705227,
+    0.010997266,
+    0.020397902,
+    -0.05523634,
+    -0.07771183,
+    0.046608854,
+    -9.353653e-05,
+    0.040822778,
+    0.011748038,
+    0.061774805,
+    -0.009459834,
+    0.029716073,
+    -0.015958598,
+    -0.028855503,
+    -0.009569623,
+    -0.0023141764,
+    -0.040181194,
+    -0.02453184,
+    0.06261314,
+    0.005479826,
+    0.014160773,
+    -0.034391534,
+    0.017389614,
+    -0.048682213,
+    -0.008330257,
+    0.005579556,
+    -0.026530892,
+    0.05446233,
+    0.029433947,
+    -0.015430445,
+    0.020212876,
+    -0.009381941,
+    0.060558632,
+    0.011702712,
+    -0.017464174,
+    0.07154248,
+    0.067334235,
+    -0.010963255,
+    0.02562508,
+    0.027748426,
+    0.022212904,
+    -0.04895095,
+    -0.040622737,
+    0.015133223,
+    -0.0141747175,
+    0.036833294,
+    -0.07183424,
+    -0.020248095,
+    -0.016703114,
+    0.06406508,
+    0.031172529,
+    -0.022602223,
+    -0.026656233,
+    0.0038130197,
+    0.017234972,
+    -0.04232988,
+    -0.005387726,
+    -0.026481502,
+    -0.025834914,
+    0.036548838,
+    -0.0054220273,
+    -0.0006135852,
+    0.0054576634,
+    -0.019127069,
+    0.004063834,
+    -0.03157387,
+    -0.018579569,
+    0.030550407,
+    0.038441762,
+    0.06454111,
+    -0.083327346,
+    -0.0680041,
+    -0.007375617,
+    0.00078619906,
+    -0.015677279,
+    0.0053687305,
+    -0.044496827,
+    -0.052168105,
+    0.02884125,
+    -0.038618803,
+    0.017095264,
+    0.03919086,
+    0.0010406941,
+    -0.050686434,
+    0.06054168,
+    0.0082059,
+    0.07761097,
+    -0.033385564,
+    -0.024138784,
+    -0.011949491,
+    0.010344575,
+    -0.0047237366,
+    0.01678048,
+    -0.010410033,
+    0.048133276,
+    0.015834838,
+    0.045726016,
+    -0.010547427,
+    -0.012808452,
+    -0.039354082,
+    0.039415307,
+    0.029519292,
+    0.028112955,
+    -0.0062091537,
+    -0.015819015,
+    -0.0036373683,
+    0.048371155,
+    0.015318084,
+    0.0021458464,
+    0.04945156,
+    0.054211956,
+    -0.04305937,
+    0.0025511596,
+    -0.022268448,
+    -0.0078743985,
+    0.07953852,
+    0.033224028,
+    -0.045107827,
+    -0.005019723,
+    0.07771888,
+    0.044273827,
+    0.020420121,
+    0.023585066,
+    0.046565767,
+    0.0870082,
+    -0.027114397,
+    0.007481749,
+    -0.023072176,
+    -0.010315007,
+    0.010210711,
+    0.009020953,
+    0.0077205785,
+    -0.06217374,
+    0.0035077971,
+    -0.02411885,
+    -0.04451542,
+    -0.027428577,
+    -0.043868866,
+    0.039011136,
+    0.04186847,
+    -0.055226915,
+    0.015031389,
+    0.003400457,
+    -0.029725052,
+    -0.029708302,
+    0.011748166,
+    0.00089319126,
+    -0.030308686,
+    0.057582263,
+    0.066902086,
+    -0.006680597,
+    -0.03673068,
+    -0.013408235,
+    -0.057261996,
+    -0.024019442,
+    0.04022657,
+    0.029311724,
+    -0.06071807,
+    0.0021087336,
+    -0.027594043,
+    -0.006358316,
+    -0.022349577,
+    0.023916077,
+    -0.005437203,
+    -0.027173206,
+    0.02308379,
+    -0.04996904,
+    0.03859131,
+    0.027720258,
+    0.010879825,
+    0.055310436,
+    0.045416456,
+    -0.04088016,
+    0.027861075,
+    0.026537493,
+    0.0026346438,
+    0.0842751,
+    -0.042640008,
+    -0.017499212,
+    -0.027530523,
+    0.009044545,
+    0.0012937448,
+    -0.0028235817,
+    -0.004376416,
+    0.031917002,
+    -0.064902686,
+    0.008692538,
+    0.039867375,
+    -0.0077564027,
+    0.0109484205,
+    -0.043694854,
+    -0.010740275,
+    0.0075721256,
+    -0.02437087,
+    -0.07048503,
+    0.031506404,
+    0.00915438,
+    -0.04042294,
+    0.05289855,
+    -0.0038038008,
+    -0.0061929063,
+    0.072136104,
+    -0.028202929,
+    -0.029889539,
+    0.0034098595,
+    0.027909607,
+    -0.04719054,
+    0.0119163925,
+    0.06615154,
+    0.038990974,
+    -0.010502447,
+    -0.00256695,
+    -0.002824312,
+    -0.011238018,
+    0.0023103005,
+    -0.05848352,
+    0.009714439,
+    0.010279958,
+    0.008910359,
+    -0.025118444,
+    0.016706392,
+    -0.058189403,
+    0.03324874,
+    -0.07000268,
+    0.051355522,
+    -0.016951265,
+    0.04569653,
+    -0.009768004,
+    -0.05772555,
+    -0.023465438,
+    -0.018127555,
+    0.03360908,
+    0.072749056,
+    0.004006962,
+    0.018412923,
+    -0.017188402,
+    0.0046592327,
+    0.02926709,
+    -0.012084653,
+    0.008350383,
+    0.018656641,
+    -0.042188246,
+    -0.03763214,
+    -0.037045464,
+    0.011867874,
+    -0.005168004,
+    0.042558603,
+    -0.009020313,
+    -0.046061914,
+    -0.048557814,
+    0.0049542,
+    -0.06792287,
+    0.028271,
+    0.027405746,
+    -0.04402932,
+    -0.025899457,
+    -0.042162243,
+    -0.05207895,
+    0.036172405,
+    -0.06018903,
+    -0.04572423,
+    0.061083455,
+    0.02680265,
+    -0.044353027,
+    -0.006760266,
+    -0.0028566842,
+    -0.0045491224,
+    0.0047541643,
+    -0.018709283,
+    -0.049350336,
+    -0.031123858,
+    0.025710111,
+    0.030318186,
+    -0.05815649,
+    0.012829692,
+    0.01142294,
+    0.017830674,
+    -0.030687673,
+    -0.006250655,
+    -0.031240368,
+    0.06349628,
+    -0.0005652773,
+    -0.010953416,
+    -0.0024514396,
+    0.009220924,
+    -0.00024252986,
+    0.028694844,
+    -0.014516645,
+    0.017332833,
+    -0.023760624,
+    -0.016159857,
+    -0.048447665,
+    0.01469902,
+    -0.04240573,
+    0.0059339297,
+    0.0046403864,
+    -0.033481076,
+    -0.03530374,
+    -0.002374045,
+    0.055385485,
+    -0.02389942,
+    0.01694788,
+    -0.070666865,
+    -0.024877165,
+    -0.08953403,
+    0.03235917,
+    0.019541841,
+    0.0062959036,
+    -0.018629868,
+    -0.013508759,
+    0.032684904,
+    -0.01264688,
+    -0.065539576,
+    0.03648276,
+    0.050922617,
+    -0.025561986,
+    0.0159126,
+    0.021317191,
+    0.0406355,
+    0.00891678,
+    0.05816861,
+    0.07945978,
+    0.016781984,
+    -0.026446482,
+    -0.010645069,
+    -0.029447535,
+    0.005001859,
+    -0.009177683,
+    -0.055092383,
+    -0.029528987,
+    7.547227e-05,
+    -0.0060631176,
+    0.010118564,
+    0.01578609,
+    0.020439327,
+    0.02407272,
+    -0.01623696,
+    0.016282532,
+    -0.028809158,
+    -0.028989688,
+    0.009537058,
+    0.04558292,
+    -0.0069571156,
+    -0.021493083,
+    -0.009373134,
+    0.05380974,
+    0.044739146,
+    0.020447582,
+    -0.020191807,
+    0.028666358,
+    0.020220816,
+    -0.0026929288,
+    0.024183001,
+    -0.07048824,
+    -0.028065866,
+    -0.026143368,
+    0.02370898,
+    -0.0014108004,
+    0.008522715,
+    -0.019774226,
+    -0.025871983,
+    -0.0054014735,
+    -0.033009518,
+    0.00930993,
+    0.021842742,
+    0.0597734,
+    0.03119731,
+    -0.040339634,
+    -0.02164062,
+    0.044951804,
+    -0.038945783,
+    -0.02022991,
+    0.030465731,
+    0.06389006,
+    -0.005980362,
+    0.011172759,
+    0.0068376684,
+    -0.025248025,
+    -0.0026908256,
+    0.012785184,
+    0.00809743,
+    0.0065922714,
+    -0.010697367,
+    0.021438915,
+    0.028207112,
+    0.068895735,
+    -0.006702398,
+    -0.008251266,
+    -0.0024528638,
+    -0.0032320158,
+    0.017949738,
+    -0.011861399,
+    -0.08354192,
+    -0.03654109,
+    -0.03985706,
+    0.027753383,
+    0.00033594205,
+    -0.07904176,
+    -0.023388464,
+    -0.029221725,
+    -0.015686832,
+    -0.0131019335,
+    -0.075168245,
+    0.053606853,
+    -0.012665789,
+    0.020079391,
+    -0.068579264,
+    0.030396035,
+    -0.040063076,
+    -0.003909046,
+    -0.055749018,
+    0.03485843,
+    -0.03454272,
+    0.01879411,
+    0.007136825,
+    -0.0017190084,
+    -0.039276216,
+    0.058299042,
+    0.028370237,
+    -0.0016194298,
+    0.03995553,
+    -0.009197881,
+    -0.043822188,
+    0.012167154,
+    -0.01755795,
+    0.027777765,
+    0.040803764,
+    0.05826394,
+    0.06774591,
+    0.033915777,
+    0.031550135,
+    -0.05202676,
+    0.0691018,
+    0.022308355,
+    -0.04663066,
+    -0.06397457,
+    -0.043495134,
+    0.026222194
+  ],
+  "chunk_seq": 1,
+  "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+  "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+  "text": "# Large British  Building Society  \nMigrating customer data and FC/RC feeds to SAP, ending Unisys reliance  \nThe building society had embarked on a strategic digital transformation initiative focused on modernising legacy Customer Information Systems (CIS), originally hosted on Mainframe platforms, by transitioning to a scalable and efficient modern data lakehouse architecture. This migration is part of a broader effort to enhance data accessibility, improve operational efficiency, and support for various business units and data consumers. IBM Consulting was engaged to support the programme for:  \n1. Data Modeling and Transformation using DBT and SQL, Designing and developing modular, reusable, and version-controlled DBT (Data Build Tool) models.Ensuring data quality and consistency through rigorous testing, documentation, and data validation frameworks within DBT.\n2. Data Processing and Workflow Automation using DBT and Databricks, Implementing performance-optimized ETL jobs to process raw data into curated layers (bronze/L0, gold/L2) aligned with lakehouse architecture principles.\n3. Orchestration using Azure Data Factory (ADF) and Control-M\n4. Data Delivery and Consumer Integration - Generating standardized data extract files (CSV, TXT, etc.) tailored for different business consumers and external systems.  \nOutcome and Business Impact  \nThis project enables the decommissioning of legacy CIS systems, reducing infrastructure costs and technical debt. It provides a modern, cloud-native data lake house architecture that improves data accessibility, reliability, and capabilities across the organization. The migration also lays a strong foundation for advanced analytics, machine learning, and self-service BI initiatives in future.  \n© 2023 IBM Corporation - Confidential  \nIBM Consulting  \nKey Success Factors:  \n- Reduced Operational Costs: Decommissioning legacy mainframe systems significantly lowers infrastructure and maintenance costs, freeing up budget for innovation and modernization Embed the right capacity &amp; capability\n- Enhanced Data Accessibility &amp; Agility: Migrating to a modern lakehouse architecture enables faster, more flexible access to customer data across departments, improving decision-making and responsiveness.\n- Improved Data Quality &amp; Compliance: Centralized, well-governed data pipelines with built-in validation and auditing ensure higher data accuracy, consistency, and regulatory compliance.\n- Scalable Foundation for Advanced Analytics: The new architecture supports real-time processing and machine learning workloads, accelerating digital transformation and enabling future AI-driven initiatives.  \nThis is a detailed architectural diagram titled \"RC/Non-RC Architecture.\" The diagram outlines a data processing workflow across several components: Source, ETL, CIS - Lakehouse, Code, and Consumer.  \n**Source Section:**\nData originates from \"Inbound Files,\" which include \"Flat,\" \"Personl,\" and \"Mortgage\" data. These files are loaded via an \"Ingestion Job (Scheduled - Daily)\" into \"Azure ADLS / Blob.\"  \n**ETL Section:**\nThe data flows through \"Azure Data Factory.\"  \n**Code and Developer Section:**\nIn the bottom left, the \"Developer\" uses \"dbt\" (Data Build Tool) to create \"SQL Code\" and \"dbt Models.\" These are managed in a \"Code Repository\" using \"git.\"  \n**CIS - Lakehouse (Center):**\nThe core processing happens in the CIS - Lakehouse.\n*   **Orchestration:** The process is managed by \"Databricks Workflows / Jobs.\"\n*   **Layers:** The data moves through distinct layers:\n1.  **L0 Layer:** This is the first storage layer.\n2.  *Intermediate Tables are not Permanent Tables.*\n3.  **L2 Layer:** This is the second major storage layer.\n*   **Storage Note:** A note indicates that \"Azure Databricks Storage is underlying storage system for entire lakehouse.\"\n*   **Extraction:** The final processed data is moved to the \"Final Extract Store Azure ADLS / Blob.\"  \n**Supporting Platform Elements:**\nA dedicated \"Platform\" section lists supporting tools: \"Azure Entra ID,\" \"Azure Key-Vault,\" \"Azure Monitor,\" \"Azure DevOps,\" and \"Databricks Unity Catalog.\"  \n**Consumer Section:**\nThe final output is consumed via an \"API.\" A note specifies that \"Either API or ADF could send Final extract to Downstream Systems.\" The consumers connect through two instances labeled \"Connect System.\"  \n# Large British  Building Society  \nThis organisation needed to migrate data assets from Teradata vantage to Lakehouse (Databricks) by first quarter of FY 2026-27 (i.e. Jun-2026).  \nIBM Consulting was engaged to optimise and unify the data landscape across the organization by consolidating all data assets onto a strategic technology platform—Microsoft Azure. Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy and architecture, ensuring alignment with aggressive project timelines. A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework. IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone and L1-L2 deliverables ahead of schedule.  \nA key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT. IBM’s value proposition was focused on ICA-DMA assets, which is currently being deployed in the client’s environment. This significantly accelerated code development and testing, enabling faster project delivery and improved time-to-value.  \nThe data platform migration strategy necessitated the deployment of IBM assets within the client’s network, a process currently underway. POC was executed using a complex data mart codebase, demonstrating a significant acceleration in code development and testing. This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.  \n© 2023 IBM Corporation - Confidential  \n&gt;30% reduction in code build and test activities.  \nIncreased efficiency &amp; productivity which helped to fast track the project delivery and meet the stringent timelines.  \nIBM Consulting  \nKey Success Factors:  \n- Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)\n- Engage business users early and often\n- Embed the right capacity &amp; capability into the data access, extraction and preparation process\n- Priorities upfront architectural design with a view to the future",
+  "name": "Chunk 1/5",
+  "domain": "sales_collateral",
+  "next_chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Large British Building Society",
+      "aliases": [
+        "The building society",
+        "This organisation",
+        "client",
+        "client stakeholders"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK-based financial institution undergoing a strategic digital transformation to modernize legacy customer information systems and migrate data assets to a cloud-native lakehouse architecture on Microsoft Azure.",
+      "context": [
+        "Large British Building Society",
+        "The building society had embarked on a strategic digital transformation initiative",
+        "This organisation needed to migrate data assets from Teradata vantage to Lakehouse",
+        "bringing together client stakeholders and IBM SMEs"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "Acquire and Publish Framework",
+      "aliases": [
+        "Acquire and Publish framework"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "An IBM Consulting framework used to guide data platform migration strategy and architecture, enabling hands-on collaboration and direct access to data assets during stakeholder workshops.",
+      "context": [
+        "direct access to the Acquire and Publish framework",
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework."
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "Data Platform Migration Strategy",
+      "aliases": [
+        "data platform migration strategy",
+        "strategic technology platform",
+        "RC/Non-RC Architecture"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A comprehensive engagement to consolidate data assets onto Microsoft Azure, optimizing the data landscape and aligning architecture with aggressive project timelines through medallion architecture milestones.",
+      "context": [
+        "The data platform migration strategy necessitated the deployment of IBM assets within the client’s network",
+        "optimise and unify the data landscape across the organization by consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+        "This is a detailed architectural diagram titled RC/Non-RC Architecture."
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Data Modeling and Transformation",
+      "aliases": [
+        "Data Modeling",
+        "Transformation",
+        "DBT Model Development"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to design, develop, and version-control modular DBT models while ensuring data quality through rigorous testing, documentation, and validation frameworks.",
+      "context": [
+        "Data Modeling and Transformation using DBT and SQL, Designing and developing modular, reusable, and version-controlled DBT (Data Build Tool) models.",
+        "Ensuring data quality and consistency through rigorous testing, documentation, and data validation frameworks within DBT."
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Workflow Automation and Orchestration",
+      "aliases": [
+        "Data Processing and Workflow Automation",
+        "Orchestration",
+        "ETL Job Implementation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "Implementing performance-optimized ETL jobs and managing data workflows using Azure Data Factory, Control-M, and Databricks to process raw data into curated lakehouse layers.",
+      "context": [
+        "Data Processing and Workflow Automation using DBT and Databricks, Implementing performance-optimized ETL jobs to process raw data into curated layers",
+        "Orchestration using Azure Data Factory (ADF) and Control-M",
+        "The process is managed by Databricks Workflows / Jobs."
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Asset-Driven Development",
+      "aliases": [
+        "asset-driven approach",
+        "GenAI Asset Development",
+        "ICA-DMA Asset Deployment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "Leveraging pre-built IBM GenAI and ICA-DMA assets to accelerate code development, testing, and project delivery during the migration from legacy systems to modern platforms.",
+      "context": [
+        "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.",
+        "A key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT.",
+        "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Legacy System Modernization",
+      "aliases": [
+        "modernising legacy Customer Information Systems",
+        "decommissioning legacy CIS systems",
+        "Mainframe to Lakehouse Migration"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "Transitioning from mainframe-hosted Customer Information Systems to a scalable, cloud-native data lakehouse architecture to improve data accessibility and operational efficiency.",
+      "context": [
+        "focused on modernising legacy Customer Information Systems (CIS), originally hosted on Mainframe platforms",
+        "This project enables the decommissioning of legacy CIS systems, reducing infrastructure costs and technical debt.",
+        "ending Unisys reliance"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Advanced Analytics and Machine Learning Enablement",
+      "aliases": [
+        "advanced analytics",
+        "machine learning",
+        "self-service BI",
+        "real-time processing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "Establishing a scalable foundation to support real-time processing, machine learning workloads, and self-service business intelligence initiatives for future digital transformation.",
+      "context": [
+        "lays a strong foundation for advanced analytics, machine learning, and self-service BI initiatives in future.",
+        "The new architecture supports real-time processing and machine learning workloads, accelerating digital transformation and enabling future AI-driven initiatives."
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Operational Cost Reduction",
+      "aliases": [
+        "Reduced Operational Costs",
+        "infrastructure cost reduction",
+        "lower maintenance costs"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "Significant reduction in infrastructure and maintenance costs achieved through the decommissioning of legacy mainframe systems and Unisys reliance, freeing up budget for innovation.",
+      "context": [
+        "Reduced Operational Costs: Decommissioning legacy mainframe systems significantly lowers infrastructure and maintenance costs",
+        "reducing infrastructure costs and technical debt.",
+        "freeing up budget for innovation and modernization"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Enhanced Data Accessibility and Agility",
+      "aliases": [
+        "Enhanced Data Accessibility & Agility",
+        "faster data access",
+        "flexible data consumption"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Improved data accessibility, reliability, and responsiveness across departments, enabling faster decision-making and flexible data consumption through a modern lakehouse architecture.",
+      "context": [
+        "Enhanced Data Accessibility & Agility: Migrating to a modern lakehouse architecture enables faster, more flexible access to customer data across departments",
+        "improves data accessibility, reliability, and capabilities across the organization.",
+        "improving decision-making and responsiveness."
+      ]
+    },
+    {
+      "id": "ben_003",
+      "name": "Accelerated Project Delivery and Time-to-Value",
+      "aliases": [
+        "faster project delivery",
+        "improved time-to-value",
+        ">30% reduction in code build"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Significant acceleration in code development and testing activities (over 30% reduction), leading to faster project delivery and meeting stringent timelines through asset-driven approaches.",
+      "context": [
+        "This significantly accelerated code development and testing, enabling faster project delivery and improved time-to-value.",
+        ">30% reduction in code build and test activities.",
+        "Increased efficiency & productivity which helped to fast track the project delivery and meet the stringent timelines."
+      ]
+    },
+    {
+      "id": "ben_004",
+      "name": "Improved Data Quality and Compliance",
+      "aliases": [
+        "Improved Data Quality & Compliance",
+        "regulatory compliance",
+        "data accuracy and consistency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "compliance_achievement",
+      "description": "Centralized, well-governed data pipelines with built-in validation and auditing ensure higher data accuracy, consistency, and regulatory compliance across the organization.",
+      "context": [
+        "Improved Data Quality & Compliance: Centralized, well-governed data pipelines with built-in validation and auditing ensure higher data accuracy, consistency, and regulatory compliance.",
+        "Ensuring data quality and consistency through rigorous testing, documentation, and data validation frameworks within DBT."
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Legacy System Dependency and Technical Debt",
+      "aliases": [
+        "ending Unisys reliance",
+        "legacy Customer Information Systems",
+        "technical debt",
+        "mainframe reliance"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "Reliance on outdated mainframe-hosted CIS and Unisys infrastructure, creating technical debt and limiting scalability, data accessibility, and operational efficiency.",
+      "context": [
+        "ending Unisys reliance",
+        "originally hosted on Mainframe platforms",
+        "reducing infrastructure costs and technical debt.",
+        "legacy Customer Information Systems (CIS)"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Aggressive Project Timelines",
+      "aliases": [
+        "aggressive project timelines",
+        "stringent timelines",
+        "FY 2026-27 deadline"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "The need to complete complex data migration and platform consolidation by Q1 FY 2026-27 under strict deadlines, requiring rapid execution and optimized delivery methods.",
+      "context": [
+        "ensuring alignment with aggressive project timelines.",
+        "meet the stringent timelines.",
+        "by first quarter of FY 2026-27 (i.e. Jun-2026)."
+      ]
+    },
+    {
+      "id": "tec_001",
+      "name": "Databricks Lakehouse",
+      "aliases": [
+        "Lakehouse (Databricks)",
+        "Databricks Workflows / Jobs",
+        "Azure Databricks Storage",
+        "Databricks Unity Catalog"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A cloud-native data lakehouse architecture used for processing, storing, and serving curated data layers (L0, L2) with underlying storage and catalog management capabilities.",
+      "context": [
+        "Lakehouse (Databricks)",
+        "The core processing happens in the CIS - Lakehouse.",
+        "Azure Databricks Storage is underlying storage system for entire lakehouse.",
+        "Databricks Unity Catalog"
+      ]
+    },
+    {
+      "id": "tec_002",
+      "name": "Microsoft Azure Ecosystem",
+      "aliases": [
+        "Microsoft Azure",
+        "Azure Data Factory (ADF)",
+        "Azure ADLS / Blob",
+        "Azure Entra ID",
+        "Azure Key-Vault",
+        "Azure Monitor",
+        "Azure DevOps"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "The primary cloud infrastructure and suite of services used for data ingestion, orchestration, storage, security, monitoring, and development throughout the migration.",
+      "context": [
+        "consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+        "Orchestration using Azure Data Factory (ADF) and Control-M",
+        "loaded via an Ingestion Job... into Azure ADLS / Blob.",
+        "Azure Entra ID, Azure Key-Vault, Azure Monitor, Azure DevOps"
+      ]
+    },
+    {
+      "id": "tec_003",
+      "name": "DBT (Data Build Tool)",
+      "aliases": [
+        "DBT",
+        "dbt Models",
+        "SQL Code",
+        "git"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A modular, version-controlled data transformation tool used for SQL code development, model management, and ensuring data quality through testing frameworks.",
+      "context": [
+        "Data Modeling and Transformation using DBT and SQL",
+        "Developer uses dbt (Data Build Tool) to create SQL Code and dbt Models.",
+        "managed in a Code Repository using git."
+      ]
+    },
+    {
+      "id": "tec_004",
+      "name": "Teradata Vantage",
+      "aliases": [
+        "Teradata vantage",
+        "Teradata procedures",
+        "Teradata data mart codebase"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "The legacy data warehouse platform hosting data assets that required migration to the modern lakehouse architecture, including complex data mart codebases.",
+      "context": [
+        "migrate data assets from Teradata vantage to Lakehouse",
+        "conversion of Teradata procedures to DBT.",
+        "POC was executed using a complex data mart codebase"
+      ]
+    },
+    {
+      "id": "dif_001",
+      "name": "Proactive and Collaborative Delivery Model",
+      "aliases": [
+        "proactive approach",
+        "collaborative workshop",
+        "hands-on sessions",
+        "direct SME access"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "IBM's engagement style featuring proactive stakeholder collaboration, hands-on workshops, and direct access to SMEs to ensure alignment and accelerate delivery ahead of schedule.",
+      "context": [
+        "IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone and L1-L2 deliverables ahead of schedule.",
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework."
+      ]
+    },
+    {
+      "id": "dif_002",
+      "name": "Asset-Driven Acceleration",
+      "aliases": [
+        "asset-driven approach",
+        "ICA-DMA assets",
+        "GenAI assets",
+        "accelerated code development"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "Leveraging pre-built IBM GenAI and ICA-DMA assets to significantly accelerate code development, testing, and overall project delivery speed, validating the approach through POC.",
+      "context": [
+        "A key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT.",
+        "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.",
+        "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM Consulting",
+      "aliases": [
+        "IBM",
+        "IBM Consulting",
+        "Subject Matter Experts from IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The consulting and technology services firm engaged to lead the data platform migration, architecture design, and asset-driven development for the building society.",
+      "context": [
+        "IBM Consulting was engaged to support the programme for:",
+        "Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy",
+        "© 2023 IBM Corporation - Confidential"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "Unisys",
+      "aliases": [
+        "Unisys",
+        "Unisys infrastructure"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The legacy technology provider whose infrastructure and systems the client is migrating away from to reduce reliance and technical debt.",
+      "context": [
+        "ending Unisys reliance",
+        "Decommissioning legacy mainframe systems significantly lowers infrastructure and maintenance costs"
+      ]
+    },
+    {
+      "id": "loc_001",
+      "name": "Pune",
+      "aliases": [
+        "Pune"
+      ],
+      "entity_class": "LOCATION",
+      "type": "office",
+      "description": "The location where a collaborative workshop was conducted involving client stakeholders and IBM SMEs for hands-on data platform sessions and strategy alignment.",
+      "context": [
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Proof of Concept (POC)",
+      "aliases": [
+        "POC",
+        "POC execution"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A validation exercise executed using a complex data mart codebase to demonstrate the acceleration and effectiveness of the asset-driven migration approach.",
+      "context": [
+        "POC was executed using a complex data mart codebase, demonstrating a significant acceleration in code development and testing.",
+        "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value."
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "FY 2026-27 Migration Deadline",
+      "aliases": [
+        "first quarter of FY 2026-27",
+        "Jun-2026",
+        "Q1 FY 2026-27"
+      ],
+      "entity_class": "EVENT",
+      "type": "deadline",
+      "description": "The target completion date for migrating data assets from Teradata vantage to the Lakehouse architecture, driving the need for accelerated delivery methods.",
+      "context": [
+        "by first quarter of FY 2026-27 (i.e. Jun-2026).",
+        "ensuring alignment with aggressive project timelines.",
+        "meet the stringent timelines."
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_cli_001",
+    "off_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_001",
+    "off_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_002",
+    "cap_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_001",
+    "cap_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_002",
+    "cap_003": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_003",
+    "use_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_001",
+    "use_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_002",
+    "ben_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_001",
+    "ben_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_002",
+    "ben_003": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_003",
+    "ben_004": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_004",
+    "cha_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_001",
+    "cha_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_002",
+    "tec_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_001",
+    "tec_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_002",
+    "tec_003": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_003",
+    "tec_004": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_004",
+    "dif_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_001",
+    "dif_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_002",
+    "org_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_001",
+    "org_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_002",
+    "loc_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_loc_001",
+    "evt_001": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_001",
+    "evt_002": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_002"
+  },
+  "entities": [
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cli_001",
+      "name": "Large British Building Society",
+      "aliases": [
+        "The building society",
+        "This organisation",
+        "client",
+        "client stakeholders"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK-based financial institution undergoing a strategic digital transformation to modernize legacy customer information systems and migrate data assets to a cloud-native lakehouse architecture on Microsoft Azure.",
+      "context": [
+        "Large British Building Society",
+        "The building society had embarked on a strategic digital transformation initiative",
+        "This organisation needed to migrate data assets from Teradata vantage to Lakehouse",
+        "bringing together client stakeholders and IBM SMEs"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_001",
+      "name": "Acquire and Publish Framework",
+      "aliases": [
+        "Acquire and Publish framework"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "An IBM Consulting framework used to guide data platform migration strategy and architecture, enabling hands-on collaboration and direct access to data assets during stakeholder workshops.",
+      "context": [
+        "direct access to the Acquire and Publish framework",
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_002",
+      "name": "Data Platform Migration Strategy",
+      "aliases": [
+        "data platform migration strategy",
+        "strategic technology platform",
+        "RC/Non-RC Architecture"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A comprehensive engagement to consolidate data assets onto Microsoft Azure, optimizing the data landscape and aligning architecture with aggressive project timelines through medallion architecture milestones.",
+      "context": [
+        "The data platform migration strategy necessitated the deployment of IBM assets within the client’s network",
+        "optimise and unify the data landscape across the organization by consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+        "This is a detailed architectural diagram titled RC/Non-RC Architecture."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_001",
+      "name": "Data Modeling and Transformation",
+      "aliases": [
+        "Data Modeling",
+        "Transformation",
+        "DBT Model Development"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to design, develop, and version-control modular DBT models while ensuring data quality through rigorous testing, documentation, and validation frameworks.",
+      "context": [
+        "Data Modeling and Transformation using DBT and SQL, Designing and developing modular, reusable, and version-controlled DBT (Data Build Tool) models.",
+        "Ensuring data quality and consistency through rigorous testing, documentation, and data validation frameworks within DBT."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_002",
+      "name": "Workflow Automation and Orchestration",
+      "aliases": [
+        "Data Processing and Workflow Automation",
+        "Orchestration",
+        "ETL Job Implementation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "Implementing performance-optimized ETL jobs and managing data workflows using Azure Data Factory, Control-M, and Databricks to process raw data into curated lakehouse layers.",
+      "context": [
+        "Data Processing and Workflow Automation using DBT and Databricks, Implementing performance-optimized ETL jobs to process raw data into curated layers",
+        "Orchestration using Azure Data Factory (ADF) and Control-M",
+        "The process is managed by Databricks Workflows / Jobs."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_003",
+      "name": "Asset-Driven Development",
+      "aliases": [
+        "asset-driven approach",
+        "GenAI Asset Development",
+        "ICA-DMA Asset Deployment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "Leveraging pre-built IBM GenAI and ICA-DMA assets to accelerate code development, testing, and project delivery during the migration from legacy systems to modern platforms.",
+      "context": [
+        "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.",
+        "A key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT.",
+        "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_001",
+      "name": "Legacy System Modernization",
+      "aliases": [
+        "modernising legacy Customer Information Systems",
+        "decommissioning legacy CIS systems",
+        "Mainframe to Lakehouse Migration"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "Transitioning from mainframe-hosted Customer Information Systems to a scalable, cloud-native data lakehouse architecture to improve data accessibility and operational efficiency.",
+      "context": [
+        "focused on modernising legacy Customer Information Systems (CIS), originally hosted on Mainframe platforms",
+        "This project enables the decommissioning of legacy CIS systems, reducing infrastructure costs and technical debt.",
+        "ending Unisys reliance"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_002",
+      "name": "Advanced Analytics and Machine Learning Enablement",
+      "aliases": [
+        "advanced analytics",
+        "machine learning",
+        "self-service BI",
+        "real-time processing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "Establishing a scalable foundation to support real-time processing, machine learning workloads, and self-service business intelligence initiatives for future digital transformation.",
+      "context": [
+        "lays a strong foundation for advanced analytics, machine learning, and self-service BI initiatives in future.",
+        "The new architecture supports real-time processing and machine learning workloads, accelerating digital transformation and enabling future AI-driven initiatives."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_001",
+      "name": "Operational Cost Reduction",
+      "aliases": [
+        "Reduced Operational Costs",
+        "infrastructure cost reduction",
+        "lower maintenance costs"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "Significant reduction in infrastructure and maintenance costs achieved through the decommissioning of legacy mainframe systems and Unisys reliance, freeing up budget for innovation.",
+      "context": [
+        "Reduced Operational Costs: Decommissioning legacy mainframe systems significantly lowers infrastructure and maintenance costs",
+        "reducing infrastructure costs and technical debt.",
+        "freeing up budget for innovation and modernization"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_002",
+      "name": "Enhanced Data Accessibility and Agility",
+      "aliases": [
+        "Enhanced Data Accessibility & Agility",
+        "faster data access",
+        "flexible data consumption"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Improved data accessibility, reliability, and responsiveness across departments, enabling faster decision-making and flexible data consumption through a modern lakehouse architecture.",
+      "context": [
+        "Enhanced Data Accessibility & Agility: Migrating to a modern lakehouse architecture enables faster, more flexible access to customer data across departments",
+        "improves data accessibility, reliability, and capabilities across the organization.",
+        "improving decision-making and responsiveness."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_003",
+      "name": "Accelerated Project Delivery and Time-to-Value",
+      "aliases": [
+        "faster project delivery",
+        "improved time-to-value",
+        ">30% reduction in code build"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Significant acceleration in code development and testing activities (over 30% reduction), leading to faster project delivery and meeting stringent timelines through asset-driven approaches.",
+      "context": [
+        "This significantly accelerated code development and testing, enabling faster project delivery and improved time-to-value.",
+        ">30% reduction in code build and test activities.",
+        "Increased efficiency & productivity which helped to fast track the project delivery and meet the stringent timelines."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_004",
+      "name": "Improved Data Quality and Compliance",
+      "aliases": [
+        "Improved Data Quality & Compliance",
+        "regulatory compliance",
+        "data accuracy and consistency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "compliance_achievement",
+      "description": "Centralized, well-governed data pipelines with built-in validation and auditing ensure higher data accuracy, consistency, and regulatory compliance across the organization.",
+      "context": [
+        "Improved Data Quality & Compliance: Centralized, well-governed data pipelines with built-in validation and auditing ensure higher data accuracy, consistency, and regulatory compliance.",
+        "Ensuring data quality and consistency through rigorous testing, documentation, and data validation frameworks within DBT."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_001",
+      "name": "Legacy System Dependency and Technical Debt",
+      "aliases": [
+        "ending Unisys reliance",
+        "legacy Customer Information Systems",
+        "technical debt",
+        "mainframe reliance"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "Reliance on outdated mainframe-hosted CIS and Unisys infrastructure, creating technical debt and limiting scalability, data accessibility, and operational efficiency.",
+      "context": [
+        "ending Unisys reliance",
+        "originally hosted on Mainframe platforms",
+        "reducing infrastructure costs and technical debt.",
+        "legacy Customer Information Systems (CIS)"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_002",
+      "name": "Aggressive Project Timelines",
+      "aliases": [
+        "aggressive project timelines",
+        "stringent timelines",
+        "FY 2026-27 deadline"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "The need to complete complex data migration and platform consolidation by Q1 FY 2026-27 under strict deadlines, requiring rapid execution and optimized delivery methods.",
+      "context": [
+        "ensuring alignment with aggressive project timelines.",
+        "meet the stringent timelines.",
+        "by first quarter of FY 2026-27 (i.e. Jun-2026)."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_001",
+      "name": "Databricks Lakehouse",
+      "aliases": [
+        "Lakehouse (Databricks)",
+        "Databricks Workflows / Jobs",
+        "Azure Databricks Storage",
+        "Databricks Unity Catalog"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A cloud-native data lakehouse architecture used for processing, storing, and serving curated data layers (L0, L2) with underlying storage and catalog management capabilities.",
+      "context": [
+        "Lakehouse (Databricks)",
+        "The core processing happens in the CIS - Lakehouse.",
+        "Azure Databricks Storage is underlying storage system for entire lakehouse.",
+        "Databricks Unity Catalog"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_002",
+      "name": "Microsoft Azure Ecosystem",
+      "aliases": [
+        "Microsoft Azure",
+        "Azure Data Factory (ADF)",
+        "Azure ADLS / Blob",
+        "Azure Entra ID",
+        "Azure Key-Vault",
+        "Azure Monitor",
+        "Azure DevOps"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "The primary cloud infrastructure and suite of services used for data ingestion, orchestration, storage, security, monitoring, and development throughout the migration.",
+      "context": [
+        "consolidating all data assets onto a strategic technology platform—Microsoft Azure.",
+        "Orchestration using Azure Data Factory (ADF) and Control-M",
+        "loaded via an Ingestion Job... into Azure ADLS / Blob.",
+        "Azure Entra ID, Azure Key-Vault, Azure Monitor, Azure DevOps"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_003",
+      "name": "DBT (Data Build Tool)",
+      "aliases": [
+        "DBT",
+        "dbt Models",
+        "SQL Code",
+        "git"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A modular, version-controlled data transformation tool used for SQL code development, model management, and ensuring data quality through testing frameworks.",
+      "context": [
+        "Data Modeling and Transformation using DBT and SQL",
+        "Developer uses dbt (Data Build Tool) to create SQL Code and dbt Models.",
+        "managed in a Code Repository using git."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_004",
+      "name": "Teradata Vantage",
+      "aliases": [
+        "Teradata vantage",
+        "Teradata procedures",
+        "Teradata data mart codebase"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "The legacy data warehouse platform hosting data assets that required migration to the modern lakehouse architecture, including complex data mart codebases.",
+      "context": [
+        "migrate data assets from Teradata vantage to Lakehouse",
+        "conversion of Teradata procedures to DBT.",
+        "POC was executed using a complex data mart codebase"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_001",
+      "name": "Proactive and Collaborative Delivery Model",
+      "aliases": [
+        "proactive approach",
+        "collaborative workshop",
+        "hands-on sessions",
+        "direct SME access"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "IBM's engagement style featuring proactive stakeholder collaboration, hands-on workshops, and direct access to SMEs to ensure alignment and accelerate delivery ahead of schedule.",
+      "context": [
+        "IBM team was recognized for their proactive approach in delivering the Workstream Medallion Architecture Bronze milestone and L1-L2 deliverables ahead of schedule.",
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs for hands-on sessions and direct access to the Acquire and Publish framework."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_002",
+      "name": "Asset-Driven Acceleration",
+      "aliases": [
+        "asset-driven approach",
+        "ICA-DMA assets",
+        "GenAI assets",
+        "accelerated code development"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "proprietary_asset",
+      "description": "Leveraging pre-built IBM GenAI and ICA-DMA assets to significantly accelerate code development, testing, and overall project delivery speed, validating the approach through POC.",
+      "context": [
+        "A key advantage was the development of GenAI assets during the conversion of Teradata procedures to DBT.",
+        "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value.",
+        "Use of IBM GenAI assets DMA(anticipated post deployment of assets in client environment)"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_001",
+      "name": "IBM Consulting",
+      "aliases": [
+        "IBM",
+        "IBM Consulting",
+        "Subject Matter Experts from IBM"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The consulting and technology services firm engaged to lead the data platform migration, architecture design, and asset-driven development for the building society.",
+      "context": [
+        "IBM Consulting was engaged to support the programme for:",
+        "Subject Matter Experts from IBM were brought in to evaluate the data platform migration strategy",
+        "© 2023 IBM Corporation - Confidential"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_002",
+      "name": "Unisys",
+      "aliases": [
+        "Unisys",
+        "Unisys infrastructure"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The legacy technology provider whose infrastructure and systems the client is migrating away from to reduce reliance and technical debt.",
+      "context": [
+        "ending Unisys reliance",
+        "Decommissioning legacy mainframe systems significantly lowers infrastructure and maintenance costs"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_loc_001",
+      "name": "Pune",
+      "aliases": [
+        "Pune"
+      ],
+      "entity_class": "LOCATION",
+      "type": "office",
+      "description": "The location where a collaborative workshop was conducted involving client stakeholders and IBM SMEs for hands-on data platform sessions and strategy alignment.",
+      "context": [
+        "A collaborative workshop was conducted in Pune, bringing together client stakeholders and IBM SMEs"
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_001",
+      "name": "Proof of Concept (POC)",
+      "aliases": [
+        "POC",
+        "POC execution"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A validation exercise executed using a complex data mart codebase to demonstrate the acceleration and effectiveness of the asset-driven migration approach.",
+      "context": [
+        "POC was executed using a complex data mart codebase, demonstrating a significant acceleration in code development and testing.",
+        "This validated the asset-driven approach as a key enabler for faster project delivery and improved time-to-value."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_002",
+      "name": "FY 2026-27 Migration Deadline",
+      "aliases": [
+        "first quarter of FY 2026-27",
+        "Jun-2026",
+        "Q1 FY 2026-27"
+      ],
+      "entity_class": "EVENT",
+      "type": "deadline",
+      "description": "The target completion date for migrating data assets from Teradata vantage to the Lakehouse architecture, driving the need for accelerated delivery methods.",
+      "context": [
+        "by first quarter of FY 2026-27 (i.e. Jun-2026).",
+        "ensuring alignment with aggressive project timelines.",
+        "meet the stringent timelines."
+      ],
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cli_001",
+      "name": "Large British Building Society",
+      "properties": {
+        "industry": "banking",
+        "geography": "UK",
+        "size": "large",
+        "relationship_status": "active",
+        "named_or_anonymous": true,
+        "pain_points": [
+          "legacy system dependency and technical debt",
+          "aging mainframe Customer Information Systems (CIS)",
+          "reliance on Unisys and Teradata",
+          "aggressive project timelines"
+        ],
+        "engagement_type": "data platform migration and digital transformation"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_001",
+      "name": "Acquire and Publish Framework",
+      "properties": {
+        "offering_type": "framework",
+        "scope": "unifying data landscape and consolidating data assets onto Microsoft Azure",
+        "key_phases_or_components": [
+          "Acquire and Publish framework",
+          "ICA-DMA assets",
+          "Workstream Medallion Architecture Bronze milestone",
+          "L1-L2 deliverables"
+        ],
+        "target_client_profile": "large building societies undergoing data platform migration"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_off_002",
+      "name": "Data Platform Migration Strategy",
+      "properties": {
+        "offering_type": "strategy",
+        "scope": "evaluate and align data platform migration architecture with aggressive project timelines",
+        "duration": "targeted for completion by Q1 FY 2026-27",
+        "key_phases_or_components": [
+          "collaborative workshops",
+          "hands-on sessions",
+          "asset deployment",
+          "proof of concept (POC)"
+        ]
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_001",
+      "name": "Data Modeling and Transformation",
+      "properties": {
+        "what_it_does": "designing and developing modular, reusable, version-controlled data models and ensuring data quality through rigorous testing",
+        "technical_components": [
+          "DBT (Data Build Tool)",
+          "SQL",
+          "data validation frameworks"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "modular, reusable, and version-controlled design with built-in validation and auditing",
+        "industry_applicability": [
+          "banking",
+          "data-intensive enterprises"
+        ]
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_002",
+      "name": "Workflow Automation and Orchestration",
+      "properties": {
+        "what_it_does": "implementing performance-optimized ETL jobs and managing data processing workflows to generate standardized extracts",
+        "technical_components": [
+          "Databricks",
+          "Azure Data Factory (ADF)",
+          "Control-M",
+          "ETL jobs"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "performance-optimized workflows aligned with lakehouse architecture and automated consumer integration",
+        "industry_applicability": [
+          "banking",
+          "data platform modernization"
+        ]
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cap_003",
+      "name": "Asset-Driven Development",
+      "properties": {
+        "what_it_does": "accelerating code development and testing through pre-built, reusable assets to enable faster project delivery",
+        "technical_components": [
+          "GenAI assets",
+          "ICA-DMA assets",
+          "DBT conversion",
+          "git code repository"
+        ],
+        "delivery_maturity": "proven",
+        "differentiating_aspect": "validated via POC to deliver >30% reduction in code build and test activities",
+        "industry_applicability": [
+          "data platform migration",
+          "legacy system modernization"
+        ]
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_001",
+      "name": "Legacy System Modernization",
+      "properties": {
+        "problem_context": "migrating customer data and FC/RC feeds to SAP while ending reliance on legacy Unisys/mainframe Customer Information Systems",
+        "approach": "transitioning to a scalable cloud-native data lakehouse architecture on Azure and Databricks",
+        "industry": "banking",
+        "outcome_achieved": "decommissioning of legacy CIS systems, reduced infrastructure costs and technical debt, improved data accessibility and reliability",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_use_002",
+      "name": "Advanced Analytics and Machine Learning Enablement",
+      "properties": {
+        "problem_context": "enabling faster, flexible access to customer data across departments to support business units and data consumers",
+        "approach": "implementing a modern lakehouse architecture with real-time processing capabilities to support self-service BI and ML workloads",
+        "industry": "banking",
+        "outcome_achieved": "lays foundation for advanced analytics, machine learning, and self-service BI; accelerates digital transformation",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_001",
+      "name": "Operational Cost Reduction",
+      "properties": {
+        "quantified_value": "significant reduction in infrastructure and maintenance costs",
+        "beneficiary": "client",
+        "category": "cost",
+        "evidence_type": "claimed"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_002",
+      "name": "Enhanced Data Accessibility and Agility",
+      "properties": {
+        "quantified_value": "faster and more flexible access to customer data across departments",
+        "beneficiary": "business units and data consumers",
+        "category": "speed",
+        "evidence_type": "claimed"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_003",
+      "name": "Accelerated Project Delivery and Time-to-Value",
+      "properties": {
+        "quantified_value": ">30% reduction in code build and test activities",
+        "beneficiary": "client project team",
+        "category": "speed",
+        "evidence_type": "measured"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_ben_004",
+      "name": "Improved Data Quality and Compliance",
+      "properties": {
+        "quantified_value": "higher data accuracy, consistency, and regulatory compliance",
+        "beneficiary": "client and data consumers",
+        "category": "quality",
+        "evidence_type": "claimed"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_001",
+      "name": "Legacy System Dependency and Technical Debt",
+      "properties": {
+        "root_cause": "aging mainframe platforms and reliance on Unisys and Teradata Vantage",
+        "business_impact": "high infrastructure and maintenance costs, significant technical debt limiting agility",
+        "urgency": "high",
+        "who_faces_it": "large British building society",
+        "current_workaround": "legacy Customer Information Systems (CIS) and Teradata Vantage"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_cha_002",
+      "name": "Aggressive Project Timelines",
+      "properties": {
+        "root_cause": "strategic digital transformation mandate requiring migration completion by Q1 FY 2026-27",
+        "business_impact": "pressure on delivery teams to meet stringent deadlines without compromising quality",
+        "urgency": "critical",
+        "who_faces_it": "client and IBM Consulting delivery team",
+        "current_workaround": "asset-driven development and proactive collaborative delivery model"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_001",
+      "name": "Databricks Lakehouse",
+      "properties": {
+        "vendor": "Databricks",
+        "technology_category": "cloud data platform",
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": "underlying storage for lakehouse architecture, supports real-time processing and ML workloads"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_002",
+      "name": "Microsoft Azure Ecosystem",
+      "properties": {
+        "vendor": "Microsoft",
+        "technology_category": "cloud platform",
+        "role_in_solution": "target strategic platform",
+        "maturity": "modern",
+        "key_characteristics": "hosts ADLS/Blob, ADF, Entra ID, Key Vault, Monitor, DevOps; enables cloud-native data architecture"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_003",
+      "name": "DBT (Data Build Tool)",
+      "properties": {
+        "technology_category": "data modeling and transformation",
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": "enables modular, reusable, version-controlled SQL models; converts legacy Teradata procedures"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_tec_004",
+      "name": "Teradata Vantage",
+      "properties": {
+        "vendor": "Teradata",
+        "technology_category": "legacy data platform",
+        "role_in_solution": "replaced",
+        "maturity": "legacy",
+        "key_characteristics": "legacy data mart codebase and procedure source being migrated to lakehouse"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_001",
+      "name": "Proactive and Collaborative Delivery Model",
+      "properties": {
+        "competitive_advantage": "hands-on collaboration and proactive delivery enabling milestones to be completed ahead of schedule",
+        "evidence_or_proof_point": "IBM team delivered Workstream Medallion Architecture Bronze milestone and L1-L2 deliverables ahead of schedule",
+        "uniqueness": "collaborative and embedded",
+        "target_audience": "client stakeholders and delivery teams",
+        "relates_to_offering": "Acquire and Publish Framework"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_dif_002",
+      "name": "Asset-Driven Acceleration",
+      "properties": {
+        "competitive_advantage": "pre-built GenAI and ICA-DMA assets significantly accelerate code development and testing",
+        "evidence_or_proof_point": "POC validated >30% reduction in code build and test activities, fast-tracking project delivery",
+        "uniqueness": "accelerated and validated",
+        "target_audience": "data platform migration clients",
+        "relates_to_offering": "Data Platform Migration Strategy"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_001",
+      "name": "IBM Consulting",
+      "properties": {
+        "org_type": "service_provider",
+        "relationship_to_offering": "primary_delivery_partner",
+        "geographic_presence": "global"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_org_002",
+      "name": "Unisys",
+      "properties": {
+        "org_type": "legacy_vendor",
+        "relationship_to_offering": "replaced"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_loc_001",
+      "name": "Pune",
+      "properties": {
+        "market_type": "delivery_center",
+        "strategic_importance": "core",
+        "regulatory_environment": "india"
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_001",
+      "name": "Proof of Concept (POC)",
+      "properties": {
+        "event_type": "validation_pilot",
+        "date_or_period": "pre-migration phase",
+        "relevance_to_deal": "validated asset-driven approach and demonstrated >30% acceleration in code development",
+        "key_participants": [
+          "IBM team",
+          "client stakeholders"
+        ]
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    },
+    {
+      "id": "fb66b39b82704ca2826c9e19d2eab6f6_001_evt_002",
+      "name": "FY 2026-27 Migration Deadline",
+      "properties": {
+        "event_type": "milestone_deadline",
+        "date_or_period": "Q1 FY 2026-27 (Jun-2026)",
+        "relevance_to_deal": "critical target date for completing data platform migration",
+        "key_participants": [
+          "client",
+          "IBM Consulting"
+        ]
+      },
+      "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_001",
+      "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+    }
+  ],
+  "relationships": []
+}

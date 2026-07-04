@@ -1,0 +1,4758 @@
+[
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_pol_001",
+    "name": "FirstUK Bank Privacy Policy",
+    "aliases": [
+      "PRI-POL-004"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "The governing instrument for privacy and data protection at FirstUK Bank, version 2.1, effective from 2026-01-15. It is owned by the Data Protection Officer and applies to all staff and customers.",
+    "context": [
+      "FirstUK Bank — Privacy Policy",
+      "Document ID | PRI-POL-004"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR",
+      "EU 2016/679"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The European Union regulation (2016/679) that serves as a regulatory basis for the FirstUK Bank Privacy Policy.",
+    "context": [
+      "Regulatory Reference | GDPR (EU 2016/679)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_reg_002",
+    "name": "Data Protection Act 2018",
+    "aliases": [
+      "DPA 2018"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "The UK legislation that serves as a regulatory basis for the FirstUK Bank Privacy Policy.",
+    "context": [
+      "Regulatory Reference | GDPR (EU 2016/679), Data Protection Act 2018"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_rol_001",
+    "name": "Data Protection Officer",
+    "aliases": [
+      "DPO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_protection_officer",
+    "description": "The abstract role designated as the owner of the Privacy Policy, responsible for its governance and oversight.",
+    "context": [
+      "Owner | Data Protection Officer"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_rol_002",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are identified as the target audience and subject to the requirements of the Privacy Policy.",
+    "context": [
+      "Audience | All Staff, Customers"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_rol_003",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The bank's customers who are identified as the target audience and subjects of the privacy protections outlined in the policy.",
+    "context": [
+      "Audience | All Staff, Customers"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_pol_001",
+    "name": "FirstUK Bank Data Protection Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A formal policy establishing FirstUK Bank's commitment to protecting customer personal data and defining the procedures for its collection, processing, storage, and the management of customer rights.",
+    "context": [
+      "FirstUK Bank is committed to protecting customer personal data",
+      "This policy establishes procedures for data collection, processing, storage, and customer rights management."
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "A regulatory framework for data protection and privacy that FirstUK Bank must comply with regarding the handling of personal data.",
+    "context": [
+      "in compliance with GDPR"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_reg_002",
+    "name": "UK Data Protection Act 2018",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "The primary UK legislation governing the processing of personal data, which serves as a regulatory basis for the bank's data protection procedures.",
+    "context": [
+      "in compliance with... UK Data Protection Act 2018"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_rsk_001",
+    "name": "Personal Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk associated with the failure to protect customer personal data, which the policy is designed to mitigate through established procedures.",
+    "context": [
+      "committed to protecting customer personal data"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_cus_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The individual whose personal data is subject to protection and who possesses specific rights managed under this policy.",
+    "context": [
+      "protecting customer personal data",
+      "customer rights management"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_001",
+    "name": "Data Collection Procedure Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The requirement to adhere to established procedures when collecting personal data from customers.",
+    "context": [
+      "establishes procedures for data collection"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_002",
+    "name": "Data Processing Procedure Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The requirement to adhere to established procedures when processing customer personal data.",
+    "context": [
+      "establishes procedures for... processing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_003",
+    "name": "Data Storage Procedure Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The requirement to adhere to established procedures for the secure storage of customer personal data.",
+    "context": [
+      "establishes procedures for... storage"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_004",
+    "name": "Customer Rights Management Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The requirement to implement and follow procedures for managing the legal rights of customers regarding their personal data.",
+    "context": [
+      "establishes procedures for... customer rights management"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_pol_001",
+    "name": "Personal Data Protection Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A formal policy establishing procedures for the protection of personal data. It aims to ensure compliance with data protection laws, respect customer privacy, and secure data against unauthorized access.",
+    "context": [
+      "To establish procedures for personal data protection"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "An external regulation that the bank's personal data protection procedures must comply with.",
+    "context": [
+      "Comply with GDPR"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_reg_002",
+    "name": "UK Data Protection Act",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "National legislation governing data protection in the UK which the bank is mandated to follow.",
+    "context": [
+      "Comply with GDPR and UK Data Protection Act"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_rsk_001",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of personal data being accessed by individuals or systems without proper authorization.",
+    "context": [
+      "Secure personal data against unauthorized access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_001",
+    "name": "Compliance with Data Protection Legislation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all personal data protection procedures must be in compliance with the GDPR and the UK Data Protection Act.",
+    "context": [
+      "Comply with GDPR and UK Data Protection Act"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_002",
+    "name": "Respect for Customer Privacy Rights",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "An obligation to ensure that the bank's procedures respect the privacy rights of its customers.",
+    "context": [
+      "Respect customer privacy rights"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_003",
+    "name": "Securing Personal Data",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate to implement security measures that protect personal data from unauthorized access.",
+    "context": [
+      "Secure personal data against unauthorized access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_004",
+    "name": "Management of Subject Access Requests",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A requirement to establish and manage a process for handling customer subject access requests.",
+    "context": [
+      "Manage customer subject access requests"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_005",
+    "name": "Implementation of Data Subject Rights",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to implement the specific rights of data subjects, including the rights to access, erasure, and portability.",
+    "context": [
+      "Implement data subject rights (access, erasure, portability)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_rol_001",
+    "name": "Data Subject",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual to whom personal data relates, who possesses specific rights such as access, erasure, and portability.",
+    "context": [
+      "Implement data subject rights (access, erasure, portability)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Bank customers whose privacy rights must be respected and who may submit subject access requests.",
+    "context": [
+      "Respect customer privacy rights",
+      "Manage customer subject access requests"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_004_pol_001",
+    "name": "Data Privacy Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A governing policy document defining the scope of protection for customer personal data, applicable to all staff, contractors, and data processing activities across all systems and storage.",
+    "context": [
+      "Applies to: All customer personal data",
+      "All staff and contractors",
+      "All data processing activities",
+      "All systems and storage"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_004",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_004_rol_001",
+    "name": "All Staff and Contractors",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of employees and external contractors to whom the data privacy policy requirements apply.",
+    "context": [
+      "Applies to: All staff and contractors"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_004",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_004_rsk_001",
+    "name": "Customer Personal Data Exposure",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk associated with the handling and processing of customer personal data, which is the primary subject of the policy's scope.",
+    "context": [
+      "Applies to: All customer personal data"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_004",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_pol_001",
+    "name": "FirstUK Bank Data Processing Policy",
+    "aliases": [
+      "Policy Statement"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "The governing policy statement regarding the processing of customer personal data at FirstUK Bank. It establishes the bank's stance that data processing must be necessary for banking services and accompanied by safeguards and customer control.",
+    "context": [
+      "FirstUK Bank processes customer personal data only where necessary for banking services, with proper safeguards and customer control."
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_prv_001",
+    "name": "Necessity Requirement for Personal Data Processing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate requiring that the processing of customer personal data be limited strictly to instances where such processing is necessary for the provision of banking services.",
+    "context": [
+      "FirstUK Bank processes customer personal data only where necessary for banking services"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_prv_002",
+    "name": "Requirement for Data Safeguards and Customer Control",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all processing of customer personal data must be implemented with appropriate safeguards and ensure that customers maintain control over their data.",
+    "context": [
+      "with proper safeguards and customer control"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual whose personal data is processed by the bank and who is granted control over said data under the policy statement.",
+    "context": [
+      "processes customer personal data",
+      "customer control"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_ctl_001",
+    "name": "Data Safeguards",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The general operational safeguards required by the policy to protect customer personal data during processing.",
+    "context": [
+      "with proper safeguards"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_pol_001",
+    "name": "FirstUK Bank Data Privacy Policy",
+    "aliases": [
+      "Core Requirements"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A formal policy governing the lawful processing, security, and retention of data, as well as the management of customer privacy rights and consent.",
+    "context": [
+      "Core Requirements"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_001",
+    "name": "Lawful Basis for Data Processing",
+    "aliases": [
+      "Requirement 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate ensuring that data is processed exclusively for banking or regulatory purposes.",
+    "context": [
+      "Data processed only for banking/regulatory purposes"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_002",
+    "name": "Transparency and Privacy Notification",
+    "aliases": [
+      "Requirement 2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "An obligation to provide customers with clear and transparent privacy notices.",
+    "context": [
+      "Clear privacy notices provided to customers"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_003",
+    "name": "Data Security Standards",
+    "aliases": [
+      "Requirement 3"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to implement security measures, specifically encryption and access controls, to protect data.",
+    "context": [
+      "Data Security: Encryption and access controls"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_004",
+    "name": "Subject Access Request Response Timeframe",
+    "aliases": [
+      "Requirement 4"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "A mandatory requirement that customer subject access requests must be processed within a 30-day window.",
+    "context": [
+      "Subject access requests processed within 30 days"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_005",
+    "name": "Data Retention Limitation",
+    "aliases": [
+      "Requirement 5"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A rule stating that data must only be retained for the duration that it is deemed necessary.",
+    "context": [
+      "Data retained only as long as necessary"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_006",
+    "name": "Marketing Consent Management",
+    "aliases": [
+      "Requirement 6"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that explicit consent must be obtained before using data for marketing communications.",
+    "context": [
+      "Explicit consent for marketing communications"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_ctl_001",
+    "name": "Data Encryption",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "A technical safeguard used to ensure data security as mandated by the policy.",
+    "context": [
+      "Encryption and access controls"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_ctl_002",
+    "name": "Access Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Operational mechanisms used to restrict data access and ensure security.",
+    "context": [
+      "Encryption and access controls"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_rol_001",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individuals to whom privacy notices are provided and who hold the right to submit subject access requests.",
+    "context": [
+      "Clear privacy notices provided to customers",
+      "Subject access requests processed within 30 days"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_cus_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The subject of privacy protections, including the right to transparency and data access.",
+    "context": [
+      "Clear privacy notices provided to customers"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_pol_001",
+    "name": "FirstUK Bank Data Processing and Retention Policy",
+    "aliases": [
+      "Legal Basis for Processing"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the lawful bases for data processing and the specific retention periods for various banking activities at FirstUK Bank.",
+    "context": [
+      "Lawful Bases Used by FirstUK Bank"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_001",
+    "name": "Data Retention for Account Opening and Management",
+    "aliases": [
+      "Account tenure + 6 years"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that data processed for account opening and management under contractual necessity must be retained for the duration of the account tenure plus an additional 6 years.",
+    "context": [
+      "Account opening & management | Contractual necessity | Account tenure + 6 years"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_002",
+    "name": "Data Retention for KYC and AML Compliance",
+    "aliases": [
+      "5-6 years post-closure"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires that data processed for KYC/AML compliance under legal obligation be retained for a period of 5 to 6 years following the closure of the account.",
+    "context": [
+      "KYC/AML compliance | Legal obligation | 5-6 years post-closure"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_003",
+    "name": "Data Retention for Fraud Detection",
+    "aliases": [
+      "3 years"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Specifies that data processed for fraud detection based on legitimate interest must be retained for 3 years.",
+    "context": [
+      "Fraud detection | Legitimate interest | 3 years"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_004",
+    "name": "Data Retention for Marketing",
+    "aliases": [
+      "Until withdrawal"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "States that data processed for marketing purposes based on explicit consent is retained until such consent is withdrawn.",
+    "context": [
+      "Marketing (if consented) | Explicit consent | Until withdrawal"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_005",
+    "name": "Data Retention for Regulatory Reporting",
+    "aliases": [
+      "5-7 years"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that data for regulatory reporting be retained according to the specific regulation, typically between 5 and 7 years.",
+    "context": [
+      "Regulatory reporting | Legal obligation | Per regulation (5-7 years)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_006",
+    "name": "Complaint Handling Response and Retention Timeframe",
+    "aliases": [
+      "8 weeks"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Establishes a requirement for complaint handling based on contractual and legal obligations, citing an 8-week timeframe as per FCA requirements.",
+    "context": [
+      "Complaint handling | Contractual & legal | 8 weeks (FCA requirement)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_reg_001",
+    "name": "Financial Conduct Authority Requirements",
+    "aliases": [
+      "FCA requirement",
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "The regulatory standards set by the Financial Conduct Authority that dictate the timeframe for complaint handling.",
+    "context": [
+      "8 weeks (FCA requirement)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_rsk_001",
+    "name": "Money Laundering and Terrorist Financing",
+    "aliases": [
+      "AML"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "money_laundering",
+    "description": "Financial crime risks addressed through KYC/AML compliance and associated legal obligations for data retention.",
+    "context": [
+      "KYC/AML compliance"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_rsk_002",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity, mitigated through detection processes and a 3-year data retention period based on legitimate interest.",
+    "context": [
+      "Fraud detection | Legitimate interest | 3 years"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_ctl_001",
+    "name": "KYC/AML Compliance Monitoring",
+    "aliases": [
+      "KYC/AML"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of ensuring KYC/AML compliance, which includes the legal obligation to retain data for 5-6 years post-closure.",
+    "context": [
+      "KYC/AML compliance | Legal obligation | 5-6 years post-closure"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_ctl_002",
+    "name": "Fraud Detection System",
+    "aliases": [
+      "Fraud detection"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The mechanism used for fraud detection, supported by a specific data retention period of 3 years.",
+    "context": [
+      "Fraud detection | Legitimate interest | 3 years"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_pol_001",
+    "name": "FirstUK Bank Data Collection Policy",
+    "aliases": [
+      "Data Collection"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A formal policy governing the types of data FirstUK Bank collects from its customers, categorized into identity, financial, behavioral, and device data.",
+    "context": [
+      "## Data Collection",
+      "### What Data We Collect"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_001",
+    "name": "Collection of Identity Data",
+    "aliases": [
+      "Identity Data"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to collect specific identity-related information including full name, date of birth, nationality, contact details, and identification documents.",
+    "context": [
+      "Identity Data: Full name, date of birth, nationality",
+      "Contact details (email, phone, address)",
+      "Identification documents"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_002",
+    "name": "Collection of Financial Data",
+    "aliases": [
+      "Financial Data"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to collect financial information including account balances, transaction history, income/employment information, and credit information where applicable.",
+    "context": [
+      "Financial Data: Account balances, transaction history",
+      "Income/employment information",
+      "Credit information (if applicable)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_003",
+    "name": "Collection of Behavioral Data for Fraud Detection",
+    "aliases": [
+      "Behavioral Data"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to collect behavioral data, specifically transaction patterns for the purpose of fraud detection, as well as product usage and interaction data.",
+    "context": [
+      "Behavioral Data: Transaction patterns (for fraud detection)",
+      "Product usage",
+      "Customer service interactions",
+      "Website/app usage (cookies)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_004",
+    "name": "Collection of Device Data",
+    "aliases": [
+      "Device Data"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to collect technical device information including IP addresses, device types, location data for mobile app users, and device identifiers.",
+    "context": [
+      "Device Data: IP address, device type",
+      "Location (if mobile app used)",
+      "Device identifiers"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity which necessitates the collection and analysis of customer transaction patterns.",
+    "context": [
+      "Transaction patterns (for fraud detection)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_ctl_001",
+    "name": "Transaction Pattern Analysis",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The use of behavioral data and transaction patterns as a mechanism to detect and mitigate fraud.",
+    "context": [
+      "Transaction patterns (for fraud detection)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_id_001",
+    "name": "Identification Documents",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "document_collection",
+    "description": "Official documents collected as part of the identity data requirement to verify customer identity.",
+    "context": [
+      "Identification documents"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_cus_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The subject from whom identity, financial, behavioral, and device data is collected by the bank.",
+    "context": [
+      "What Data We Collect"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_ctl_001",
+    "name": "Customer Data Collection",
+    "aliases": [
+      "Collection Methods"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of gathering customer information through various channels including direct input, verification documents, third-party sources, and automated system tracking.",
+    "context": [
+      "Collection Methods",
+      "Direct from customer (account forms, online signup)",
+      "Verification documents (passport, utility bill)",
+      "Third parties (credit bureaus for mortgages)",
+      "Systems and transactions (automated records)",
+      "Cookies and analytics (website/app tracking)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_id_001",
+    "name": "Passport",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport",
+    "description": "An official identity document used as a verification document during the customer data collection process.",
+    "context": [
+      "Verification documents (passport, utility bill)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_id_002",
+    "name": "Utility Bill",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "utility_bill",
+    "description": "A document used for verification purposes, typically to confirm a customer's address during data collection.",
+    "context": [
+      "Verification documents (passport, utility bill)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual providing information directly via account forms or online signup processes.",
+    "context": [
+      "Direct from customer (account forms, online signup)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_rol_002",
+    "name": "Third Parties",
+    "aliases": [
+      "credit bureaus"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External entities, such as credit bureaus, from which the bank collects customer data specifically for mortgage applications.",
+    "context": [
+      "Third parties (credit bureaus for mortgages)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_prd_001",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "loan_product",
+    "description": "A banking product for which data is collected from third-party credit bureaus.",
+    "context": [
+      "Third parties (credit bureaus for mortgages)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_pol_001",
+    "name": "FirstUK Bank Privacy Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "The governing instrument defining the transparency requirements and the content of privacy notices provided to customers by FirstUK Bank.",
+    "context": [
+      "Transparency",
+      "Privacy Notice Provided At"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_001",
+    "name": "Mandatory Provision of Privacy Notice at Account Opening",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement that a privacy notice must be provided to the customer during the account opening process.",
+    "context": [
+      "Account opening (mandatory)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_002",
+    "name": "Provision of Privacy Notice via Digital Channels",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to provide the privacy notice during online or mobile app signup and via the public website.",
+    "context": [
+      "Online/mobile app signup",
+      "Website (public notice)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_003",
+    "name": "Provision of Privacy Notice Upon Request",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to provide the privacy notice to a customer whenever it is requested.",
+    "context": [
+      "On request"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_004",
+    "name": "Mandatory Privacy Notice Content Standards",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Specifies the mandatory information that must be included in the privacy notice, including controller identity, purposes, lawful basis, retention, rights, and contact details.",
+    "context": [
+      "Privacy Notice Contains:",
+      "Data controller identity (FirstUK Bank)",
+      "Processing purposes",
+      "Lawful basis",
+      "Data retention period",
+      "Customer rights",
+      "Contact for data queries"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The entity acting as the data controller responsible for the processing of data and the provision of the privacy notice.",
+    "context": [
+      "Data controller identity (FirstUK Bank)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_cus_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The subject of the privacy notice who is entitled to information regarding their data rights and the processing of their personal information.",
+    "context": [
+      "Customer rights"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_acc_001",
+    "name": "New Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "An account in the process of being opened, which triggers the mandatory provision of a privacy notice.",
+    "context": [
+      "Account opening (mandatory)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_ctl_001",
+    "name": "Privacy Notice Disclosure",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of providing a formal notice to ensure transparency regarding data processing activities.",
+    "context": [
+      "Privacy Notice Provided At",
+      "Privacy Notice Contains"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_pol_001",
+    "name": "Data Subject Rights Policy",
+    "aliases": [
+      "GDPR",
+      "Data Subject Rights (GDPR)"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the rights of data subjects under GDPR, specifically detailing the processes and obligations regarding the Right of Access to personal data.",
+    "context": [
+      "Data Subject Rights (GDPR)",
+      "Right of Access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_001",
+    "name": "Customer Right to Request Copy of Personal Data",
+    "aliases": [
+      "Right of Access"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate allowing customers to request a copy of the personal data held by FirstUK Bank.",
+    "context": [
+      "Customer Right: Request copy of personal data held"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_002",
+    "name": "Right of Access Request Submission Process",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that requests for personal data must be submitted as a written request to the designated privacy email address.",
+    "context": [
+      "Written request to privacy@firstuk.bank"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_003",
+    "name": "Identity Verification for Data Access",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligation to perform identity verification for security purposes before granting access to personal data.",
+    "context": [
+      "Identity verification (for security)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_004",
+    "name": "Data Access Response Timeframe",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory response window of 30 days for standard requests, extendable to 60 days for complex cases.",
+    "context": [
+      "Response within 30 days (or 60 days if complex)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_005",
+    "name": "Electronic Format Data Provision",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that the requested personal data must be provided to the customer in an electronic format.",
+    "context": [
+      "Data provided in electronic format"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_006",
+    "name": "Fee Waiver for Data Access Requests",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Provision stating that no fee is to be charged for data access requests, except in cases of excessive requests.",
+    "context": [
+      "No fee (unless excessive requests)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The overarching European regulation on data protection and privacy that governs the bank's data subject rights processes.",
+    "context": [
+      "Data Subject Rights (GDPR)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_ctl_001",
+    "name": "Identity Verification Control",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "An operational safeguard used to verify the identity of the requester to ensure security before releasing personal data.",
+    "context": [
+      "Identity verification (for security)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_rol_001",
+    "name": "Data Subject",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual (customer) who holds the right to request and receive a copy of their personal data.",
+    "context": [
+      "Customer Right: Request copy of personal data held"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_cus_001",
+    "name": "Bank Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The customer of FirstUK Bank who is the subject of the data access rights.",
+    "context": [
+      "Customer Right: Request copy of personal data held"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_pol_001",
+    "name": "Right to Erasure Policy",
+    "aliases": [
+      "Right to be Forgotten"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the 'Right to Erasure' (Right to be Forgotten), defining the conditions under which customer data must be deleted and the specific exceptions where data retention is mandated.",
+    "context": [
+      "Right to Erasure (\"Right to be Forgotten\")"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_prv_001",
+    "name": "Conditions for Data Erasure",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the erasure of data when it is no longer necessary for its original purpose, there is no legal obligation to retain it, no legitimate interest exists, or the customer withdraws consent.",
+    "context": [
+      "Data no longer necessary for purpose",
+      "No legal obligation to retain",
+      "No legitimate interest in retention",
+      "Customer withdraws consent (if basis)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_prv_002",
+    "name": "Exceptions to Right to Erasure",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "Prohibits the erasure of data, despite a request, in cases of legal/regulatory obligations, ongoing disputes, fraud investigations, pending financial claims, or active accounts.",
+    "context": [
+      "Exceptions (Data Retained Even if Requested)",
+      "Legal/regulatory obligation (AML, KYC records)",
+      "Ongoing disputes or complaints",
+      "Fraud investigation",
+      "Financial claim pending",
+      "Active account or product"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_reg_001",
+    "name": "Anti-Money Laundering Regulations",
+    "aliases": [
+      "AML"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Regulatory requirements regarding Anti-Money Laundering that create a legal obligation for the bank to retain records, overriding erasure requests.",
+    "context": [
+      "Legal/regulatory obligation (AML, KYC records)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_reg_002",
+    "name": "Know Your Customer Regulations",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Regulatory requirements regarding Know Your Customer records that necessitate data retention regardless of erasure requests.",
+    "context": [
+      "Legal/regulatory obligation (AML, KYC records)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity, the investigation of which serves as a valid exception to the right to erasure.",
+    "context": [
+      "Fraud investigation"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who holds the right to request the erasure of their data or withdraw consent for data processing.",
+    "context": [
+      "Customer withdraws consent (if basis)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who may exercise the Right to be Forgotten.",
+    "context": [
+      "Customer withdraws consent (if basis)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_acc_001",
+    "name": "Active Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "An account that is currently open and active, which serves as a condition for retaining customer data despite an erasure request.",
+    "context": [
+      "Active account or product"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_prd_001",
+    "name": "Active Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account_product",
+    "description": "A banking product currently held by a customer, which justifies the continued retention of associated data.",
+    "context": [
+      "Active account or product"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_pol_001",
+    "name": "Right to Rectification Policy",
+    "aliases": [
+      "Right to Rectification"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the process by which customers can correct inaccurate data held by FirstUK Bank, including verification and notification requirements.",
+    "context": [
+      "Right to Rectification"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who holds the right to request the correction of inaccurate data held by the bank.",
+    "context": [
+      "Customer Right: Correct inaccurate data"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_rol_002",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The entity responsible for verifying correction requests, updating systems, and notifying third parties.",
+    "context": [
+      "FirstUK Bank verifies requested change"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_001",
+    "name": "Customer Right to Correct Inaccurate Data",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A provision granting customers the right to request the correction of inaccurate data held by the bank.",
+    "context": [
+      "Customer Right: Correct inaccurate data"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_002",
+    "name": "Verification of Data Correction Requests",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "A requirement that FirstUK Bank must verify any requested change to customer data before it is implemented.",
+    "context": [
+      "FirstUK Bank verifies requested change"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_003",
+    "name": "Data Update Timeframe",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "A mandatory requirement to update bank systems within 30 days following a correction request.",
+    "context": [
+      "Update systems within 30 days"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_004",
+    "name": "Third Party Notification Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "An obligation to notify third parties of data corrections if the inaccurate data had previously been shared with them.",
+    "context": [
+      "Notify third parties if data shared"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_ctl_001",
+    "name": "Correction Request Submission Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism allowing customers to submit requests for data correction.",
+    "context": [
+      "Submit correction request"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_pol_001",
+    "name": "Right to Restrict Processing Policy",
+    "aliases": [
+      "Right to Restrict Processing"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the customer's right to limit the way their data is used without requiring full deletion. It defines the scenarios under which data processing is restricted and the conditions for limited processing.",
+    "context": [
+      "Right to Restrict Processing",
+      "Customer Right: Limit how data used (but not require deletion)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_prv_001",
+    "name": "Obligation to Limit Data Usage upon Customer Request",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to limit how customer data is used when a customer exercises their right to restrict processing, specifically noting that this does not necessitate the deletion of the data.",
+    "context": [
+      "Customer Right: Limit how data used (but not require deletion)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_prv_002",
+    "name": "Restriction of Processing During Accuracy Disputes",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate to restrict the processing of data in scenarios where a customer disputes the accuracy of the information.",
+    "context": [
+      "Customer disputes accuracy",
+      "Data processing while accuracy under dispute"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_prv_003",
+    "name": "Permitted Processing for Legal Obligations",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A provision stating that even when data is restricted, limited processing is permitted if it is required to meet legal obligations.",
+    "context": [
+      "Limited processing only for legal obligations"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_ctl_001",
+    "name": "Systemic Data Restriction Marking",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "An operational safeguard where data is explicitly marked as 'restricted' within the bank's systems to prevent unauthorized processing during a dispute.",
+    "context": [
+      "Data marked \"restricted\" in system"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who holds the right to request the restriction of their data processing and may dispute the accuracy of their records.",
+    "context": [
+      "Customer Right: Limit how data used",
+      "Customer disputes accuracy"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who is the subject of the data restriction rights.",
+    "context": [
+      "Customer Right: Limit how data used",
+      "Customer disputes accuracy"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_pol_001",
+    "name": "Right to Data Portability Policy",
+    "aliases": [
+      "Right to Data Portability"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the customer's right to obtain their personal data in a portable format for transfer to another service provider.",
+    "context": [
+      "Right to Data Portability"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_001",
+    "name": "Customer Right to Data Portability",
+    "aliases": [
+      "Customer Right"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that customers must be allowed to obtain their data in a portable format specifically for the purpose of transferring it to another provider.",
+    "context": [
+      "Customer Right: Obtain data in portable format for transfer to another provider"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_002",
+    "name": "Data Portability Request Process",
+    "aliases": [
+      "Process"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that the process for data portability be initiated via a written request from the customer that specifies the data required.",
+    "context": [
+      "Written request specifying data"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_003",
+    "name": "Data Portability Format Standard",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligates the bank to provide the requested data in a common electronic format, specifically citing CSV or JSON.",
+    "context": [
+      "Data provided in common electronic format (CSV, JSON)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_004",
+    "name": "Data Portability Response Timeframe",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Sets a mandatory deadline for the bank to respond to a data portability request within 30 days.",
+    "context": [
+      "Response within 30 days"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_005",
+    "name": "Scope of Portable Data",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Defines the scope of data subject to portability as data provided by the customer or data generated through the customer's use of the service.",
+    "context": [
+      "Applies to data provided by customer or generated through use"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_ctl_001",
+    "name": "Electronic Data Export",
+    "aliases": [
+      "CSV",
+      "JSON"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The technical mechanism of providing data in common electronic formats such as CSV and JSON to ensure portability.",
+    "context": [
+      "Data provided in common electronic format (CSV, JSON)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who holds the right to request their data in a portable format and is responsible for submitting a written request specifying the data.",
+    "context": [
+      "Customer Right: Obtain data in portable format",
+      "Written request specifying data",
+      "Applies to data provided by customer"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_cus_001",
+    "name": "Data Portability Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A bank customer exercising their right to data portability.",
+    "context": [
+      "Customer Right: Obtain data in portable format for transfer to another provider"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_pol_001",
+    "name": "Right to Object Policy",
+    "aliases": [
+      "Right to Object"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the rights of customers to object to the processing of their data, specifically regarding direct marketing, profiling, and legitimate interest processing.",
+    "context": [
+      "Right to Object",
+      "Customer Right: Object to processing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_001",
+    "name": "Mandatory Direct Marketing Opt-Out",
+    "aliases": [
+      "Direct marketing opt out"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement ensuring that customers have the right to opt out of direct marketing processing.",
+    "context": [
+      "Direct marketing: Can opt out (mandatory)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_002",
+    "name": "Right to Object to Profiling and Automated Decisions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A provision allowing customers to object to data processing used for profiling or automated decision-making.",
+    "context": [
+      "Profiling/automated decisions: Can object"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_003",
+    "name": "Right to Object to Legitimate Interest Processing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A provision allowing customers to object to processing based on legitimate interests, provided there is no compelling reason to continue.",
+    "context": [
+      "Legitimate interest processing: Can object if no compelling reason"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_004",
+    "name": "Immediate Recording of Marketing Preferences",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that customer marketing preferences must be recorded in the system immediately upon request.",
+    "context": [
+      "Recorded immediately in system"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_ctl_001",
+    "name": "Email Marketing Opt-Out Link",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "An operational mechanism requiring a preference link to be included in every marketing email to facilitate customer opt-outs.",
+    "context": [
+      "Email preference: link in every marketing email"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_ctl_002",
+    "name": "Phone Preference Support Request",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A process where customers can manage their phone marketing preferences by submitting a request to the support team.",
+    "context": [
+      "Phone preference: request to support team"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_ctl_003",
+    "name": "SMS STOP Keyword Mechanism",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A technical control allowing customers to opt out of SMS marketing by texting 'STOP' to a designated number.",
+    "context": [
+      "SMS preference: text \"STOP\" to number"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_rol_001",
+    "name": "Support Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The staff collective responsible for handling and processing customer requests regarding phone marketing preferences.",
+    "context": [
+      "Phone preference: request to support team"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The subject of the policy who holds the right to object to various forms of data processing and marketing.",
+    "context": [
+      "Customer Right: Object to processing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_pol_001",
+    "name": "Right to Not Be Subject to Automated Decisions Policy",
+    "aliases": [
+      "Automated Decisions Policy"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the protections afforded to customers regarding high-impact automated decisions, ensuring that such decisions are subject to human oversight and appeal processes.",
+    "context": [
+      "Right to Not Be Subject to Automated Decisions",
+      "Protection: High-impact automated decisions require human review"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_001",
+    "name": "Requirement for Human Review of High-Impact Automated Decisions",
+    "aliases": [
+      "Protection"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that any automated decision classified as high-impact must be subject to review by a human operator.",
+    "context": [
+      "High-impact automated decisions require human review"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_002",
+    "name": "Right to be Informed of Automated Decisions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Establishes the right of the subject to be notified when an automated decision has been made regarding them.",
+    "context": [
+      "Be informed of automated decision"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_003",
+    "name": "Right to Request Human Review",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Grants the subject the right to request that a human review the outcome of an automated decision.",
+    "context": [
+      "Request human review"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_004",
+    "name": "Right to Provide Perspective on Automated Decisions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Ensures the subject has the opportunity to provide their own perspective or additional information regarding an automated decision.",
+    "context": [
+      "Provide own perspective"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_005",
+    "name": "Right to Appeal Automated Decisions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Provides a formal mechanism for the subject to appeal a decision reached through automated processing.",
+    "context": [
+      "Appeal decision"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rsk_001",
+    "name": "Automated Lending Risk",
+    "aliases": [
+      "mortgage application rejection"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "credit_risk",
+    "description": "The risk associated with automated lending decisions, specifically the potential for unfair or incorrect mortgage application rejections.",
+    "context": [
+      "Automated lending decision (mortgage application rejection)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rsk_002",
+    "name": "Automated Fraud Detection Risk",
+    "aliases": [
+      "account freeze"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk associated with automated fraud detection systems resulting in erroneous account freezes.",
+    "context": [
+      "Automated fraud detection (account freeze)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rsk_003",
+    "name": "Automated Credit Scoring Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "credit_risk",
+    "description": "The risk associated with the use of automated systems to determine credit scores.",
+    "context": [
+      "Automated credit scoring"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_ctl_001",
+    "name": "Human Review Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "An operational safeguard requiring a human to review high-impact automated decisions to prevent errors or unfair outcomes.",
+    "context": [
+      "High-impact automated decisions require human review",
+      "Request human review"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rol_001",
+    "name": "Data Subject",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who is the subject of an automated decision and holds the rights to be informed, request review, provide perspective, and appeal.",
+    "context": [
+      "Be informed of automated decision",
+      "Request human review",
+      "Provide own perspective",
+      "Appeal decision"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_acc_001",
+    "name": "Frozen Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "An account that has been frozen as a result of an automated fraud detection decision.",
+    "context": [
+      "Automated fraud detection (account freeze)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_pol_001",
+    "name": "Data Security Policy",
+    "aliases": [
+      "Data Security"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the security of data within FirstUK Bank, specifically detailing the encryption standards for data both in transit and at rest.",
+    "context": [
+      "## Data Security"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_001",
+    "name": "Mandatory TLS 1.3 for Data Transmission",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all data transmission across web and mobile platforms must utilize TLS 1.3.",
+    "context": [
+      "TLS 1.3 for all data transmission (web, mobile)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_002",
+    "name": "Enforcement of HTTPS on Customer-Facing Systems",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandate that HTTPS must be enforced on all systems that are customer-facing.",
+    "context": [
+      "HTTPS enforced on all customer-facing systems"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_003",
+    "name": "Mandatory VPN for Staff Remote Access",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for staff to use a Virtual Private Network (VPN) when accessing bank systems remotely.",
+    "context": [
+      "VPN for staff remote access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_004",
+    "name": "Mandatory AES-256 Encryption for Databases",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all databases must be encrypted using the AES-256 standard.",
+    "context": [
+      "AES-256 encryption for databases"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_005",
+    "name": "Mandatory Encryption of Backups",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all backups, including those stored in S3 and off-site, must be encrypted.",
+    "context": [
+      "Encrypted backups (S3, off-site)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_006",
+    "name": "Mandatory Encryption of File Storage",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all file storage must be encrypted.",
+    "context": [
+      "Encrypted file storage"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_007",
+    "name": "Mandatory Encryption of Portable Devices",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all USB and portable devices must be encrypted.",
+    "context": [
+      "Encrypted USB/portable devices"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_001",
+    "name": "TLS 1.3",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "Technical encryption protocol used to secure data transmission for web and mobile channels.",
+    "context": [
+      "TLS 1.3 for all data transmission (web, mobile)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_002",
+    "name": "HTTPS",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "Secure communication protocol enforced on all customer-facing systems.",
+    "context": [
+      "HTTPS enforced on all customer-facing systems"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_003",
+    "name": "VPN",
+    "aliases": [
+      "Virtual Private Network"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Secure tunnel used to provide staff with remote access to the bank's internal network.",
+    "context": [
+      "VPN for staff remote access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_004",
+    "name": "AES-256",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "Advanced Encryption Standard with a 256-bit key used to secure databases at rest.",
+    "context": [
+      "AES-256 encryption for databases"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_rsk_001",
+    "name": "Information Security Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of unauthorized access or data breach, mitigated through the application of encryption standards for data in transit and at rest.",
+    "context": [
+      "## Data Security",
+      "Encryption"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_pol_001",
+    "name": "Access Control Policy",
+    "aliases": [
+      "Access Control"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy governing the management of data access within the bank, defining role-based access levels and authentication requirements to ensure data security and regulatory compliance.",
+    "context": [
+      "Access Control"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_001",
+    "name": "Role-Based Access Limitation for Customer-facing Staff",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that customer-facing staff must have their access limited strictly to the customer data necessary for providing service.",
+    "context": [
+      "Customer-facing staff: Limited to customer data needed for service"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_002",
+    "name": "Full Data Access for Compliance Staff",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Grants compliance staff full access to data for the purpose of meeting regulatory requirements.",
+    "context": [
+      "Compliance staff: Full data access for regulatory purposes"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_003",
+    "name": "Database Access and Audit Logging for Technology Staff",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Permits technology staff to have database access, provided that such access is subject to audit logging.",
+    "context": [
+      "Technology staff: Database access (with audit logging)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_004",
+    "name": "Aggregated Data Access Restriction for Executives",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "Restricts executives to aggregated data only, prohibiting access to individual personal details.",
+    "context": [
+      "Executives: Aggregated data only (no personal details)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_005",
+    "name": "Multi-factor Authentication for Privileged Access",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the use of multi-factor authentication (MFA) for all administrative and compliance-level access.",
+    "context": [
+      "Multi-factor authentication for admin/compliance access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_006",
+    "name": "Mandatory Audit Logging of All Access",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that all instances of system access be recorded via audit logging.",
+    "context": [
+      "Audit logging of all access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_ctl_001",
+    "name": "Multi-factor Authentication",
+    "aliases": [
+      "MFA"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A technical security control requiring multiple forms of verification, specifically username/password combined with a One-Time Password (OTP).",
+    "context": [
+      "Multi-factor authentication for admin/compliance access",
+      "Username/password + OTP"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_ctl_002",
+    "name": "Audit Logging",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "An operational mechanism used to track and record access to databases and general system access for accountability.",
+    "context": [
+      "Database access (with audit logging)",
+      "Audit logging of all access"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_001",
+    "name": "Customer-facing Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members interacting with customers whose data access is limited to service-essential information.",
+    "context": [
+      "Customer-facing staff: Limited to customer data needed for service"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_002",
+    "name": "Compliance Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff responsible for regulatory oversight who are granted full data access for compliance purposes.",
+    "context": [
+      "Compliance staff: Full data access for regulatory purposes"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_003",
+    "name": "Technology Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff managing the bank's technical infrastructure with authorized access to databases subject to logging.",
+    "context": [
+      "Technology staff: Database access (with audit logging)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_004",
+    "name": "Executives",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Senior leadership restricted to viewing aggregated data without access to personal details.",
+    "context": [
+      "Executives: Aggregated data only (no personal details)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_pol_001",
+    "name": "Data Breach Response Policy",
+    "aliases": [
+      "Data Breach Response"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A formal policy governing the bank's response to data breaches, including notification requirements for individuals and regulatory bodies, and internal escalation procedures.",
+    "context": [
+      "### Data Breach Response"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The overarching regulatory framework that mandates notification requirements when a data breach is likely to cause high risk to individuals.",
+    "context": [
+      "Notification Requirement (GDPR):"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_reg_002",
+    "name": "Information Commissioner's Office",
+    "aliases": [
+      "ICO"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory authority to which the bank must provide notification in the event of a data breach if required.",
+    "context": [
+      "Regulatory notification (if required to ICO)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_rsk_001",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized access or disclosure of data which may cause high risk to individuals and necessitate regulatory notification.",
+    "context": [
+      "If breach likely to cause high risk to individuals",
+      "Breach identified → Escalate to Data Protection Officer"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_rol_001",
+    "name": "Data Protection Officer",
+    "aliases": [
+      "DPO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_protection_officer",
+    "description": "The role responsible for receiving escalations of identified breaches and overseeing the subsequent investigation and notification decisions.",
+    "context": [
+      "Escalate to Data Protection Officer"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_prv_001",
+    "name": "Mandatory Individual Notification for High Risk Breaches",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Requirement to notify affected individuals within 72 hours if a breach is likely to cause high risk, including details on the event, data involved, mitigation, and contact info.",
+    "context": [
+      "If breach likely to cause high risk to individuals",
+      "Notify individuals within 72 hours",
+      "Notification includes: What happened, what data, mitigation steps, contact for questions"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_prv_002",
+    "name": "Internal Breach Escalation and Investigation Timeline",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandate that identified breaches must be escalated to the Data Protection Officer and an investigation must be initiated within 24 hours.",
+    "context": [
+      "Breach identified → Escalate to Data Protection Officer",
+      "Investigation within 24 hours"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_prv_003",
+    "name": "Breach Risk Assessment and Notification Decision",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to perform a risk level assessment following a breach to determine the necessity of notification decisions and regulatory reporting.",
+    "context": [
+      "Assessment of risk level",
+      "Notification decision",
+      "Regulatory notification (if required to ICO)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_ctl_001",
+    "name": "Internal Escalation Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The operational mechanism of escalating identified breaches to the Data Protection Officer to trigger the response workflow.",
+    "context": [
+      "Breach identified → Escalate to Data Protection Officer"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_pol_001",
+    "name": "Cookies & Web Tracking Policy",
+    "aliases": [
+      "Cookies & Web Tracking"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the use of cookies and web tracking technologies at FirstUK Bank, distinguishing between essential and optional cookies and their respective consent requirements.",
+    "context": [
+      "Cookies & Web Tracking"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_prv_001",
+    "name": "Consent Exemption for Essential Cookies",
+    "aliases": [
+      "Essential Cookies (No Consent Required)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A provision stating that essential cookies, including those for session management, security, and performance, do not require user consent for deployment.",
+    "context": [
+      "Essential Cookies (No Consent Required):",
+      "Session cookies (for login)",
+      "Security cookies (fraud prevention)",
+      "Performance cookies (error tracking)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_prv_002",
+    "name": "Mandatory Consent for Optional Cookies",
+    "aliases": [
+      "Optional Cookies (Consent Required)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A provision requiring explicit user consent before the deployment of optional cookies used for analytics and marketing purposes.",
+    "context": [
+      "Optional Cookies (Consent Required):",
+      "Analytics cookies (user behavior tracking)",
+      "Marketing cookies (personalized ads, retargeting)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_001",
+    "name": "Session Cookies",
+    "aliases": [
+      "login cookies%( readership"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "Technical cookies used to maintain user login sessions.",
+    "context": [
+      "Session cookies (for login)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_002",
+    "name": "Security Cookies",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "fraud_prevention",
+    "description": "Technical cookies implemented specifically for the purpose of fraud prevention.",
+    "context": [
+      "Security cookies (fraud prevention)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_003",
+    "name": "Performance Cookies",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "Technical cookies used for the tracking and logging of system errors.",
+    "context": [
+      "Performance cookies (error tracking)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_004",
+    "name": "Analytics Cookies",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "monitoring",
+    "description": "Optional cookies used to track and analyze user behavior on the bank's web platforms.",
+    "context": [
+      "Analytics cookies (user behavior tracking)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_005",
+    "name": "Marketing Cookies",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "monitoring",
+    "description": "Optional cookies used for the delivery of personalized advertisements and retargeting efforts.",
+    "context": [
+      "Marketing cookies (personalized ads, retargeting)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity which is mitigated through the use of security cookies.",
+    "context": [
+      "Security cookies (fraud prevention)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_pol_001",
+    "name": "Cookie Management Policy",
+    "aliases": [
+      "Cookie Management"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the management of cookies on the bank's website, focusing on customer choice, consent mechanisms, and the use of third-party analytics.",
+    "context": [
+      "Cookie Management",
+      "Customer Choice",
+      "Third-Party Analytics"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_001",
+    "name": "Provision of Cookie Consent Banner",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to provide a cookie banner on the website to facilitate customer choice regarding cookie usage.",
+    "context": [
+      "Cookie banner on website"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_002",
+    "name": "Option to Reject Non-Essential Cookies",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to provide customers with the explicit option to either accept or reject non-essential cookies.",
+    "context": [
+      "Option to accept/reject non-essential"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_003",
+    "name": "Provision of Cookie Preference Center",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to maintain a preference center for the ongoing management of cookie settings.",
+    "context": [
+      "Preference center for cookie management"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_004",
+    "name": "Right to Withdraw Cookie Consent",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Obligation to ensure customers have the ability to withdraw their previously given consent for cookies at any time.",
+    "context": [
+      "Ability to withdraw consent anytime"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_005",
+    "name": "Third-Party Analytics IP Anonymization",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that IP anonymization must be enabled within the privacy settings for third-party analytics tools.",
+    "context": [
+      "Privacy setting: IP anonymization enabled"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_006",
+    "name": "Analytics Data Retention Period",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandate that data collected via third-party analytics is retained for a period of 14 months.",
+    "context": [
+      "Retention: 14 months"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_ctl_001",
+    "name": "Cookie Preference Center",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A technical tool provided to customers to manage and modify their cookie preferences.",
+    "context": [
+      "Preference center for cookie management"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_ctl_002",
+    "name": "IP Anonymization",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_masking",
+    "description": "A technical privacy setting used to anonymize IP addresses for third-party analytics to protect user identity.",
+    "context": [
+      "Privacy setting: IP anonymization enabled"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual interacting with the website who holds the right to accept, reject, or withdraw consent for cookies.",
+    "context": [
+      "Customer Choice",
+      "Ability to withdraw consent anytime"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_ctl_003",
+    "name": "Google Analytics",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "An anonymized third-party analytics tool used by the bank to monitor website usage.",
+    "context": [
+      "Google Analytics (anonymized)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_pol_001",
+    "name": "Third-Party Data Processing Policy",
+    "aliases": [
+      "Third-Party Data Processing"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the engagement and management of third-party data processors who handle bank data on its behalf, ensuring compliance with data protection standards.",
+    "context": [
+      "Third-Party Data Processing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_prv_001",
+    "name": "Requirement for Data Processing Agreements with Processors",
+    "aliases": [
+      "DPA requirement"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement that a Data Processing Agreement (DPA) must be established with each third-party processor handling bank data.",
+    "context": [
+      "Data Processing Agreement (DPA) with each processor"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_prv_002",
+    "name": "Requirement for GDPR-Compliant Terms",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all terms governing data processing by third parties must be compliant with the General Data Protection Regulation (GDPR).",
+    "context": [
+      "GDPR-compliant terms"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_prv_003",
+    "name": "Subprocessor Notification Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "An obligation ensuring that notifications are managed or received regarding the use of subprocessors by third-party providers.",
+    "context": [
+      "Subprocessor notifications"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The primary European Union regulation on data protection and privacy that governs the terms of the bank's data processing agreements.",
+    "context": [
+      "GDPR-compliant terms"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_001",
+    "name": "Data Processor",
+    "aliases": [
+      "Processors"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External entities that handle data on behalf of FirstUK Bank, including email, analytics, cloud storage, and payment providers.",
+    "context": [
+      "Data Processors (Handle Data on Our Behalf)",
+      "Data Processing Agreement (DPA) with each processor"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_ctl_001",
+    "name": "Data Processing Agreement",
+    "aliases": [
+      "DPA"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "A legal contractual mechanism used to ensure that third-party processors adhere to the bank's data handling and privacy requirements.",
+    "context": [
+      "Data Processing Agreement (DPA) with each processor"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_002",
+    "name": "Email service provider",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "A specific third-party processor responsible for managing campaign communications.",
+    "context": [
+      "Email service provider (campaign communications)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_003",
+    "name": "Analytics provider",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "A specific third-party processor responsible for website tracking.",
+    "context": [
+      "Analytics provider (website tracking)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_004",
+    "name": "Cloud storage provider",
+    "aliases": [
+      "AWS"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "A specific third-party processor (Amazon Web Services) used for data backups.",
+    "context": [
+      "Cloud storage provider (AWS for backups)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_005",
+    "name": "Payment processor",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "A specific third-party processor responsible for the settlement of payments.",
+    "context": [
+      "Payment processor (settlement)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_pol_001",
+    "name": "FirstUK Bank Data Privacy Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "The governing policy document outlining the rules for the receipt, sharing, and restriction of customer data within FirstUK Bank.",
+    "context": [
+      "Data Controllers (Receive Data)",
+      "Recipients of Customer Data",
+      "Data Sharing Restrictions"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prv_001",
+    "name": "Lawful Basis Requirement for Data Sharing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement stating that customer data may only be shared in instances where a lawful basis for such sharing exists.",
+    "context": [
+      "Only shared where lawful basis exists"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prv_002",
+    "name": "Data Minimisation for Recipients",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement ensuring that customer data is shared exclusively with recipients who are deemed necessary.",
+    "context": [
+      "Shared only with necessary recipients"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prv_003",
+    "name": "International Data Transfer Restriction",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "A restriction limiting the international transfer of customer data to EEA countries only.",
+    "context": [
+      "International transfers (to EEA countries only, currently)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "A regulatory authority designated as a recipient of customer data.",
+    "context": [
+      "Regulatory authorities (FCA, PRA, NCA)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "A regulatory authority designated as a recipient of customer data.",
+    "context": [
+      "Regulatory authorities (FCA, PRA, NCA)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_003",
+    "name": "National Crime Agency",
+    "aliases": [
+      "NCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "A regulatory authority designated as a recipient of customer data.",
+    "context": [
+      "Regulatory authorities (FCA, PRA, NCA)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_004",
+    "name": "Law Enforcement",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "Entities authorized to receive customer data provided a court order is present.",
+    "context": [
+      "Law enforcement (if court order)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_005",
+    "name": "Credit Reference Agencies",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External agencies that receive customer data specifically when a credit product is involved.",
+    "context": [
+      "Credit reference agencies (if credit product)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_006",
+    "name": "Third-party Service Providers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External service providers authorized to receive data provided a Data Processing Agreement (DPA) is in place.",
+    "context": [
+      "Third-party service providers (with DPA)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_ctl_001",
+    "name": "Data Processing Agreement",
+    "aliases": [
+      "DPA"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "A contractual safeguard required before sharing data with third-party service providers.",
+    "context": [
+      "Third-party service providers (with DPA)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_ctl_002",
+    "name": "Court Order Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "A legal requirement/gate that must be met before data is released to law enforcement.",
+    "context": [
+      "Law enforcement (if court order)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The subject whose data is being controlled, shared, and restricted under the policy.",
+    "context": [
+      "Recipients of Customer Data",
+      "Data Sharing Restrictions"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prod_001",
+    "name": "Credit Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "credit_risk_product",
+    "description": "A specific type of banking product that triggers the sharing of data with credit reference agencies.",
+    "context": [
+      "Credit reference agencies (if credit product)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_pol_001",
+    "name": "Retention Policy",
+    "aliases": [
+      "policy_retention"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "The governing policy document that defines detailed retention periods by data type for FirstUK Bank.",
+    "context": [
+      "See [[policy_retention]] for detailed retention by data type."
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_001",
+    "name": "Customer Profile Retention Requirement",
+    "aliases": [
+      "Standard Retention Summary - Customer profile"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that customer profile data must be retained for the duration of the account tenure plus an additional 6 years, based on POCA and anti-fraud requirements.",
+    "context": [
+      "Customer profile | Account tenure + 6 years | POCA, anti-fraud"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_002",
+    "name": "Transaction Records Retention Requirement",
+    "aliases": [
+      "Standard Retention Summary - Transaction records"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires that transaction records be kept for a minimum period of 6 years for regulatory and dispute purposes.",
+    "context": [
+      "Transaction records | 6 years minimum | Regulatory, dispute"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_003",
+    "name": "KYC/AML Records Retention Requirement",
+    "aliases": [
+      "Standard Retention Summary - KYC/AML records"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates the retention of KYC and AML records for a period of 5 to 6 years following the closure of the account, in accordance with AML regulations.",
+    "context": [
+      "KYC/AML records | 5-6 years post-closure | AML regulations"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_004",
+    "name": "Complaint Records Retention Requirement",
+    "aliases": [
+      "Standard Retention Summary - Complaint records"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires that records of complaints be retained for a minimum of 6 years for regulatory compliance.",
+    "context": [
+      "Complaint records | 6 years minimum | Regulatory"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_005",
+    "name": "Marketing Consent Retention Requirement",
+    "aliases": [
+      "Standard Retention Summary - Marketing consent"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Specifies that marketing consent data must be retained until the consent is withdrawn, based on GDPR consent rules.",
+    "context": [
+      "Marketing consent | Until withdrawal | GDPR consent"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_006",
+    "name": "Website Cookies Retention Requirement",
+    "aliases": [
+      "Standard Retention Summary - Website cookies"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Defines the retention of website cookies as the session duration, with an extension to 14 months for analytics, based on cookie consent.",
+    "context": [
+      "Website cookies | Session (+ 14 months analytics) | Cookie consent"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_reg_001",
+    "name": "Proceeds of Crime Act",
+    "aliases": [
+      "POCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "Legislation serving as the legal basis for the retention of customer profile data.",
+    "context": [
+      "POCA, anti-fraud"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_reg_002",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework governing the retention of marketing consent data.",
+    "context": [
+      "GDPR consent"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_reg_003",
+    "name": "AML Regulations",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory requirements that mandate the retention of KYC and AML records post-account closure.",
+    "context": [
+      "AML regulations"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_rsk_001",
+    "name": "Fraud",
+    "aliases": [
+      "anti-fraud"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity, which serves as a basis for the extended retention of customer profile data.",
+    "context": [
+      "POCA, anti-fraud"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_ctl_001",
+    "name": "Record Keeping",
+    "aliases": [
+      "Retention Schedules"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of maintaining data retention schedules to ensure regulatory compliance across various data types.",
+    "context": [
+      "Retention Schedules",
+      "Standard Retention Summary"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_pol_001",
+    "name": "International Data Transfers Policy",
+    "aliases": [
+      "International Data Transfers"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the transfer of data across international borders, specifically defining the current scope of transfers and the requirements for future transfers to non-EEA jurisdictions.",
+    "context": [
+      "International Data Transfers"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_prv_001",
+    "name": "Requirement for Standard Contractual Clauses for Non-EEA Transfers",
+    "aliases": [
+      "SCC requirement"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that any future data transfers to jurisdictions outside the European Economic Area (Non-EEA) must utilize Standard Contractual Clauses (SCC).",
+    "context": [
+      "Require Standard Contractual Clauses (SCC)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_prv_002",
+    "name": "Requirement for UK Government Adequacy Decision",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that transfers to non-EEA jurisdictions be supported by an adequacy decision issued by the UK government.",
+    "context": [
+      "Adequacy decision from UK government"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_prv_003",
+    "name": "Requirement for Supplementary Safeguards Assessment",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligates the bank to assess supplementary safeguards when conducting data transfers to non-EEA jurisdictions.",
+    "context": [
+      "Supplementary safeguards assessed"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_reg_001",
+    "name": "Standard Contractual Clauses",
+    "aliases": [
+      "SCC"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "international_standard",
+    "description": "Standardized contractual terms used to ensure appropriate data protection safeguards for transfers of personal data to third countries.",
+    "context": [
+      "Require Standard Contractual Clauses (SCC)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_rol_001",
+    "name": "UK Government",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The governmental authority responsible for issuing adequacy decisions regarding the data protection standards of non-EEA countries.",
+    "context": [
+      "Adequacy decision from UK government"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_ctl_001",
+    "name": "Supplementary Safeguards Assessment",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of assessing additional security or legal safeguards to protect data during non-EEA transfers.",
+    "context": [
+      "Supplementary safeguards assessed"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_rol_001",
+    "name": "Data Protection Officer",
+    "aliases": [
+      "DPO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_protection_officer",
+    "description": "The individual responsible for the oversight of the privacy policy, monitoring GDPR compliance, and managing data breach investigations. This role also handles subject access requests, staff training, and serves as the primary liaison with regulatory bodies.",
+    "context": [
+      "Data Protection Officer (DPO)",
+      "Privacy policy oversight",
+      "GDPR compliance monitoring",
+      "Subject access request processing",
+      "Data breach investigation",
+      "Staff training",
+      "Regulatory liaison"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework for data protection and privacy that the bank must comply with, as monitored by the Data Protection Officer.",
+    "context": [
+      "GDPR compliance monitoring"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_pol_001",
+    "name": "Privacy Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "The formal governing instrument regarding data privacy, the oversight of which is assigned to the Data Protection Officer.",
+    "context": [
+      "Privacy policy oversight"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_rsk_001",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "A risk event involving the unauthorized access or disclosure of data, requiring investigation by the Data Protection Officer.",
+    "context": [
+      "Data breach investigation"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_prv_001",
+    "name": "Obligation to Process Subject Access Requests",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that subject access requests must be processed, with the responsibility assigned to the Data Protection Officer.",
+    "context": [
+      "Subject access request processing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_prv_002",
+    "name": "Obligation to Provide Staff Training on Data Protection",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandate for the delivery of staff training regarding data protection and privacy, managed by the Data Protection Officer.",
+    "context": [
+      "Staff training"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_ctl_001",
+    "name": "GDPR Compliance Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of monitoring the bank's adherence to GDPR requirements, performed by the Data Protection Officer.",
+    "context": [
+      "GDPR compliance monitoring"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_rol_001",
+    "name": "Data Processors (Staff)",
+    "aliases": [
+      "Staff"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members acting as data processors who are responsible for the secure handling of customer data, breach reporting, and adherence to security and privacy procedures.",
+    "context": [
+      "Data Processors (Staff)",
+      "Handle customer data securely",
+      "Report breaches immediately",
+      "Respect customer privacy",
+      "Follow security procedures",
+      "Complete training"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_001",
+    "name": "Secure Handling of Customer Data",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for Data Processors (Staff) to ensure that all customer data is handled securely.",
+    "context": [
+      "Handle customer data securely"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_002",
+    "name": "Immediate Breach Reporting",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "An obligation for Data Processors (Staff) to report data breaches immediately upon discovery.",
+    "context": [
+      "Report breaches immediately"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_003",
+    "name": "Respect for Customer Privacy",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A requirement for Data Processors (Staff) to respect the privacy of the bank's customers.",
+    "context": [
+      "Respect customer privacy"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_004",
+    "name": "Adherence to Security Procedures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate requiring Data Processors (Staff) to follow established security procedures.",
+    "context": [
+      "Follow security procedures"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_005",
+    "name": "Mandatory Security Training Completion",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A requirement for Data Processors (Staff) to complete necessary training.",
+    "context": [
+      "Complete training"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_ctl_001",
+    "name": "Security Procedures",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The defined security procedures that staff must follow to ensure the protection of data.",
+    "context": [
+      "Follow security procedures"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_ctl_002",
+    "name": "Staff Training",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The training program that staff are required to complete to ensure compliance with data handling and security policies.",
+    "context": [
+      "Complete training"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_rsk_001",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized access or disclosure of customer data, which triggers an immediate reporting obligation.",
+    "context": [
+      "Report breaches immediately"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_rol_001",
+    "name": "Data Controller",
+    "aliases": [
+      "FirstUK Bank"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The entity responsible for determining the purposes of data processing and ensuring the implementation of GDPR safeguards. This role is tasked with processing customer requests, maintaining privacy notices, and notifying authorities in the event of a data breach.",
+    "context": [
+      "Data Controller (FirstUK Bank)",
+      "Determine purposes of processing",
+      "Implement GDPR safeguards",
+      "Process customer requests",
+      "Maintain privacy notices",
+      "Notify authorities if breach"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework governing data protection and privacy, the safeguards of which must be implemented by the Data Controller.",
+    "context": [
+      "Implement GDPR safeguards"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_001",
+    "name": "Obligation to Determine Processing Purposes",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for the Data Controller to define and determine the specific purposes for which data is processed.",
+    "context": [
+      "Determine purposes of processing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_002",
+    "name": "Obligation to Implement GDPR Safeguards",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Data Controller to put in place the necessary safeguards as mandated by the GDPR.",
+    "context": [
+      "Implement GDPR safeguards"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_003",
+    "name": "Obligation to Process Customer Requests",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Data Controller to handle and process requests submitted by customers regarding their data.",
+    "context": [
+      "Process customer requests"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_004",
+    "name": "Obligation to Maintain Privacy Notices",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Data Controller to ensure that privacy notices are kept up to date and maintained.",
+    "context": [
+      "Maintain privacy notices"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_005",
+    "name": "Obligation to Notify Authorities of Data Breaches",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A mandatory requirement for the Data Controller to notify the relevant authorities if a data breach occurs.",
+    "context": [
+      "Notify authorities if breach"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_rsk_001",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized access or disclosure of data, which triggers a mandatory notification obligation to authorities.",
+    "context": [
+      "Notify authorities if breach"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_pol_001",
+    "name": "Subject Access Request (SAR) Process",
+    "aliases": [
+      "SAR Process"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A formal process governing how FirstUK Bank handles requests from customers to obtain copies of their personal data. It defines the submission channels, verification steps, compilation requirements, and response timelines.",
+    "context": [
+      "Subject Access Request (SAR) Process",
+      "Customer Right: Obtain copy of personal data"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_001",
+    "name": "Customer Right to Personal Data Access",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The bank must allow customers to obtain a copy of their personal data upon request.",
+    "context": [
+      "Customer Right: Obtain copy of personal data"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_002",
+    "name": "Customer Identity Verification for SAR",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "FirstUK Bank is required to verify the identity of the customer making a SAR and may request additional identification to ensure security and prevent fraud.",
+    "context": [
+      "FirstUK Bank verifies customer identity",
+      "May request additional identification",
+      "Security check (fraud prevention)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_003",
+    "name": "Data Compilation and Third-Party Redaction",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank must collect data from all systems and ensure that third-party personal data is removed or redacted before providing the information to the customer.",
+    "context": [
+      "Collect data from all systems",
+      "Remove third-party personal data (may redact)",
+      "Compile in accessible format"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_004",
+    "name": "SAR Response Timeframe",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Data must be provided to the customer within 30 days, with a possible extension of 2 months for requests deemed complex.",
+    "context": [
+      "Data provided within 30 days",
+      "May extend 2 months for complex requests"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_005",
+    "name": "Mandatory Redaction of Privileged and Confidential Information",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank must redact legal professional privilege, third-party confidential data, and trade secrets from the provided data.",
+    "context": [
+      "Legal professional privilege redacted",
+      "Third-party confidential data redacted",
+      "Trade secrets redacted"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent requests for personal data, mitigated by identity verification and security checks during the SAR process.",
+    "context": [
+      "Security check (fraud prevention)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_ctl_001",
+    "name": "Identity Verification Check",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "The operational process of verifying a customer's identity and requesting additional identification to prevent unauthorized data disclosure.",
+    "context": [
+      "FirstUK Bank verifies customer identity",
+      "May request additional identification"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_ctl_002",
+    "name": "Data Redaction",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_masking",
+    "description": "The process of removing or masking third-party data, legal privilege, and trade secrets from the compiled SAR response.",
+    "context": [
+      "Remove third-party personal data (may redact)",
+      "Legal professional privilege redacted",
+      "Third-party confidential data redacted",
+      "Trade secrets redacted"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who holds the right to request and obtain a copy of their personal data from the bank.",
+    "context": [
+      "Customer Right: Obtain copy of personal data",
+      "FirstUK Bank verifies customer identity"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_cust_001",
+    "name": "SAR Requesting Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A bank customer exercising their right to access personal data via email, phone, or in-person branch visits.",
+    "context": [
+      "Customer Right: Obtain copy of personal data",
+      "FirstUK Bank verifies customer identity"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_pol_001",
+    "name": "Staff Privacy Training Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the mandatory privacy training requirements for all bank staff to ensure compliance with data protection standards.",
+    "context": [
+      "Staff Privacy Training"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_prv_001",
+    "name": "Mandatory Annual GDPR Training for All Staff",
+    "aliases": [
+      "Mandatory Annual Training"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "All staff are required to complete a 1-hour GDPR training session on an annual basis. Completion must be evidenced by certification.",
+    "context": [
+      "All staff: 1-hour GDPR training",
+      "Certification required"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_prv_002",
+    "name": "Disciplinary Action for Training Non-Compliance",
+    "aliases": [
+      "Non-Compliance"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Failure by staff to complete the mandatory privacy training will result in disciplinary action.",
+    "context": [
+      "Non-Compliance: Failure to complete = disciplinary action"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework governing data protection and privacy that forms the basis of the mandatory staff training.",
+    "context": [
+      "1-hour GDPR training"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_rsk_001",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized access or disclosure of data, which is addressed through mandatory staff training on breach reporting.",
+    "context": [
+      "Topics: Privacy rights, data handling, breach reporting"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_ctl_001",
+    "name": "Staff Privacy Training and Certification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The operational mechanism of annual 1-hour training and subsequent certification to ensure staff are aware of privacy rights and data handling.",
+    "context": [
+      "All staff: 1-hour GDPR training",
+      "Certification required"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are held accountable for completing annual GDPR training and certification.",
+    "context": [
+      "All staff: 1-hour GDPR training"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_pol_001",
+    "name": "Data Protection Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "The governing policy framework managing the bank's data protection obligations, including audit requirements and compliance testing for GDPR.",
+    "context": [
+      "Audit & Compliance",
+      "Annual GDPR compliance testing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_001",
+    "name": "Annual GDPR Compliance Testing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement for the bank to conduct compliance testing against GDPR standards on an annual basis.",
+    "context": [
+      "Annual GDPR compliance testing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_002",
+    "name": "Data Protection Control Testing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform testing on the specific controls implemented to ensure data protection.",
+    "context": [
+      "Data protection control testing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_003",
+    "name": "Subject Access Request Sampling",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform sampling of Subject Access Requests to ensure they are handled according to policy and law.",
+    "context": [
+      "Subject access request sampling"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_004",
+    "name": "Breach Response Procedure Validation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to audit and test the procedures used to respond to data breaches.",
+    "context": [
+      "Breach response procedures"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The primary European data protection regulation that the bank's compliance testing is measured against.",
+    "context": [
+      "Annual GDPR compliance testing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_rol_001",
+    "name": "Information Commissioner's Office",
+    "aliases": [
+      "ICO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory body responsible for conducting examinations and inspections of the bank's data protection practices.",
+    "context": [
+      "ICO (Information Commissioner's Office) examination (if triggered)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_rsk_001",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized access or disclosure of protected data, necessitating specific response procedures.",
+    "context": [
+      "Breach response procedures"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_ctl_001",
+    "name": "Privacy by Design Assessments",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A protective mechanism used to ensure that privacy is integrated into the development of systems and processes, subject to regulatory assessment.",
+    "context": [
+      "Privacy by design assessments"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_ctl_002",
+    "name": "Data Protection Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The operational safeguards implemented by the bank to protect data, which are subject to internal audit testing.",
+    "context": [
+      "Data protection control testing"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rsk_001",
+    "name": "Regulatory Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk of failing to comply with regulatory requirements, leading to financial penalties, legal action, and loss of institutional standing.",
+    "context": [
+      "Regulatory Breaches"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rsk_002",
+    "name": "Reputational Damage",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "reputational_risk",
+    "description": "The risk of harm to the bank's public image and standing resulting from regulatory failures.",
+    "context": [
+      "Reputational damage"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rsk_003",
+    "name": "Customer Trust Loss",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "reputational_risk",
+    "description": "The risk of eroding customer confidence and loyalty due to regulatory breaches.",
+    "context": [
+      "Customer trust loss"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rol_001",
+    "name": "Information Commissioner's Office",
+    "aliases": [
+      "ICO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The regulatory body with the authority to issue fines for data protection or privacy breaches.",
+    "context": [
+      "ICO fine: Up to £20 million or 4% of annual turnover (whichever higher)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_reg_001",
+    "name": "ICO Regulatory Framework",
+    "aliases": [
+      "ICO"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory standards enforced by the ICO, which include significant financial penalties for non-compliance.",
+    "context": [
+      "ICO fine: Up to £20 million or 4% of annual turnover (whichever higher)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_prv_001",
+    "name": "Internal Disciplinary Action for Breaches",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that regulatory breaches result in internal disciplinary measures for the responsible parties.",
+    "context": [
+      "Internal disciplinary action"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_pol_001",
+    "name": "FirstUK Bank Privacy Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "The governing instrument managing the bank's privacy standards and data protection. It is subject to an annual review cycle or updates triggered by changes to GDPR.",
+    "context": [
+      "Policy Review & Updates",
+      "Review Frequency: Annual (or on GDPR change)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_prv_001",
+    "name": "Annual Privacy Policy Review Requirement",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement that the privacy policy must be reviewed on an annual basis to ensure continued compliance and relevance.",
+    "context": [
+      "Review Frequency: Annual (or on GDPR change)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_prv_002",
+    "name": "GDPR-Triggered Policy Update Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "An obligation to review and update the policy immediately upon any change to the General Data Protection Regulation (GDPR).",
+    "context": [
+      "Review Frequency: Annual (or on GDPR change)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The external regulatory framework that governs data protection and privacy, serving as a trigger for policy updates.",
+    "context": [
+      "Review Frequency: Annual (or on GDPR change)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_pol_001",
+    "name": "Data Retention Policy",
+    "aliases": [
+      "policy_retention"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A formal policy document governing the retention of data within FirstUK Bank.",
+    "context": [
+      "[[policy_retention]] — Data Retention Policy"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_pol_002",
+    "name": "Cookie Policy",
+    "aliases": [
+      "public cookie policy"
+    ],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A public-facing policy document detailing the bank's use of cookies.",
+    "context": [
+      "Cookie Policy (public)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_ctl_001",
+    "name": "Data Security Architecture",
+    "aliases": [
+      "systems"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The technical framework and systems architecture used to ensure data security.",
+    "context": [
+      "[[systems]] — Data security architecture"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_reg_001",
+    "name": "Data Processing Agreement",
+    "aliases": [
+      "DPA template"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "industry_code",
+    "description": "A standardized template for agreements governing the processing of data, used to ensure regulatory compliance between parties.",
+    "context": [
+      "Data Processing Agreement (DPA template)"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_036_rol_001",
+    "name": "Data Protection Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_protection_officer",
+    "description": "An abstract role responsible for the review and formal sign-off approval of the policy document.",
+    "context": [
+      "Approved by: Data Protection Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_036",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_036_rol_002",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "An abstract role responsible for the review and formal sign-off approval of the policy document.",
+    "context": [
+      "Approved by: Head of Compliance — Date: 2026-01-15"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_036",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_036_rol_003",
+    "name": "Chief Executive Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The executive role responsible for the final formal sign-off approval of the policy document.",
+    "context": [
+      "Approved by: Chief Executive Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_036",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9",
+    "domain": "banking_policy"
+  }
+]

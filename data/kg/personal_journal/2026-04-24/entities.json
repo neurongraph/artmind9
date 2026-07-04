@@ -1,0 +1,266 @@
+[
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_001",
+    "name": "Diarist",
+    "aliases": [
+      "me"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The author of the journal entry who received a promotion at work and spent the evening with family.",
+    "context": [
+      "received promotion approval",
+      "Stopped at 56 Dukes on the way home",
+      "Missed me, apparently"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_002",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "A family member who was feeling unwell but is recovering and cooked a special dinner of kadhi chawal.",
+    "context": [
+      "Preeti is much better today",
+      "The rest helped",
+      "Preeti cooked her special kadhi chawal for dinner"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_003",
+    "name": "Neetish",
+    "aliases": [
+      "her",
+      "the kids"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "A child who completed and submitted a history project online.",
+    "context": [
+      "Neetish finished her history project",
+      "Submitted it online"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_004",
+    "name": "Mohan",
+    "aliases": [
+      "the kids"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "A child who has a soccer match scheduled at school for the following day.",
+    "context": [
+      "Mohan has a soccer match at school tomorrow"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_005",
+    "name": "Browny",
+    "aliases": [],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The family pet who greeted the diarist at the door and fell asleep during the movie.",
+    "context": [
+      "Browny waited at the door",
+      "Browny fell asleep on the sofa"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_per_006",
+    "name": "Work Team",
+    "aliases": [
+      "the team"
+    ],
+    "entity_class": "PERSON",
+    "type": "colleague",
+    "description": "The diarist's colleagues who joined in celebrating the promotion approval.",
+    "context": [
+      "Celebrated with the team in the evening"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_001",
+    "name": "Office",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The diarist's place of employment where the promotion was approved.",
+    "context": [
+      "Office: received promotion approval"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_002",
+    "name": "56 Dukes",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "shop",
+    "description": "A shop the diarist visited on the way home to purchase pastries for the children.",
+    "context": [
+      "Stopped at 56 Dukes on the way home",
+      "Bought pastries for the kids"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_003",
+    "name": "Home",
+    "aliases": [
+      "the door",
+      "the sofa"
+    ],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The residence where the family gathered for dinner and a movie night.",
+    "context": [
+      "on the way home",
+      "waited at the door",
+      "fell asleep on the sofa"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plc_004",
+    "name": "School",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The location where Mohan's soccer match is scheduled to take place.",
+    "context": [
+      "soccer match at school tomorrow"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_evt_001",
+    "name": "Promotion Celebration",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "work_event",
+    "description": "An evening gathering with colleagues to celebrate the diarist's promotion approval.",
+    "context": [
+      "received promotion approval",
+      "Celebrated with the team in the evening"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_evt_002",
+    "name": "Family Movie Night",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "social_gathering",
+    "description": "A family activity where the children chose a cartoon to watch together.",
+    "context": [
+      "Family movie night",
+      "Kids chose a cartoon"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_act_001",
+    "name": "History Project",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "study",
+    "description": "The academic task completed and submitted online by Neetish.",
+    "context": [
+      "finished her history project",
+      "Submitted it online"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_act_002",
+    "name": "Cooking Dinner",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "domestic",
+    "description": "Preeti preparing a special meal of kadhi chawal for the family.",
+    "context": [
+      "Preeti cooked her special kadhi chawal for dinner"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_emo_001",
+    "name": "Excitement",
+    "aliases": [],
+    "entity_class": "EMOTION",
+    "type": "excitement",
+    "description": "The feeling experienced by the diarist upon receiving promotion approval.",
+    "context": [
+      "Feeling excited"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plan_001",
+    "name": "Mohan's Soccer Match",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "social",
+    "description": "A scheduled sporting event for Mohan taking place the next day.",
+    "context": [
+      "Mohan has a soccer match at school tomorrow"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "8416690c7f2e404b908adf531815150e_001_plan_002",
+    "name": "Weekend Plans",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "leisure",
+    "description": "The diarist's general anticipation and intention to enjoy the upcoming weekend.",
+    "context": [
+      "Looking forward to the weekend"
+    ],
+    "chunk_id": "8416690c7f2e404b908adf531815150e_001",
+    "doc_id": "8416690c7f2e404b908adf531815150e",
+    "domain": "personal_journal"
+  }
+]

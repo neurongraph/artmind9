@@ -1,0 +1,2103 @@
+[
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_prc_001",
+    "name": "AML Screening Process",
+    "properties": {
+      "document_id": "AML-SOP-001",
+      "owner": "Head of Financial Crime",
+      "departments_involved": [
+        "Financial Crime",
+        "Compliance",
+        "Branch"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_002",
+    "name": "Financial Crime Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_003",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_004",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_002_prc_001",
+    "name": "AML Screening Process",
+    "properties": {
+      "purpose": "Detect and prevent money laundering, terrorist financing, and sanctions violations through systematic screening of customers against regulatory lists"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_002",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_001",
+    "name": "New Customer Account Opening Process",
+    "properties": {
+      "scope": "All new customer account openings",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_002",
+    "name": "Periodic Re-screening Process",
+    "properties": {
+      "scope": [
+        "high-risk customers",
+        "standard customers"
+      ],
+      "timeline_sla": {
+        "high_risk": "quarterly",
+        "standard": "annually"
+      }
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_003",
+    "name": "Transaction Monitoring Process",
+    "properties": {
+      "scope": "ongoing",
+      "channels": [
+        "automated"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_004",
+    "name": "Suspicious Activity Assessment and Reporting Process",
+    "properties": {
+      "purpose": "assessment and reporting of suspicious activity"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_cus_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "refresh_frequency": "quarterly"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_cus_002",
+    "name": "Standard Customer",
+    "properties": {
+      "customer_type": "standard",
+      "refresh_frequency": "annually"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_rol_001",
+    "name": "Automated Monitoring System",
+    "properties": {
+      "role_type": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_prc_001",
+    "name": "AML Screening Process",
+    "properties": {
+      "purpose": "To identify potential matches against AML lists for customer applications",
+      "scope": "Customer Applications",
+      "timeline_sla": "<5 minutes (automated), 1–24 hours (manual review if hit)",
+      "trigger": "Customer Application Received",
+      "outcome_success": "AML Screening Complete"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_001",
+    "name": "Initiate Screening",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_002",
+    "name": "Screen Against Lists",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_003",
+    "name": "Assess Match",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "conditional"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_dec_001",
+    "name": "Match Found Decision Gate",
+    "properties": {
+      "decision_question": "Is a match found during screening?",
+      "path_yes": "Manual Review",
+      "path_no": "Proceed"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_004",
+    "name": "Record Results",
+    "properties": {
+      "step_number": 4,
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_005",
+    "name": "Hit Handling",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "conditional"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_chk_001",
+    "name": "AML Screening Completion Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "timing": "End of process"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_rol_001",
+    "name": "Automated Screening System",
+    "properties": {
+      "role_type": "system",
+      "response_time_sla": "<5 minutes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_rol_002",
+    "name": "Manual Reviewer",
+    "properties": {
+      "role_type": "human",
+      "response_time_sla": "1–24 hours"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_cus_001",
+    "name": "Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "subject of screening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_prc_001",
+    "name": "Customer Screening Process",
+    "properties": {
+      "purpose": "Verify customers against configured lists before account creation or during periodic reviews",
+      "scope": "New account openings, periodic re-screening, and manual compliance requests",
+      "trigger": "New account opening, risk-based schedule, or manual request due to unusual activity",
+      "departments_involved": [
+        "Compliance"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_stp_001",
+    "name": "Screening Initiation Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Compliance Staff",
+      "input": [
+        "Customer full legal name",
+        "Date of birth",
+        "Nationality",
+        "Country of residence",
+        "Business name"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_stp_002",
+    "name": "Screening System Data Entry",
+    "properties": {
+      "step_number": 2,
+      "actor": "Compliance Staff",
+      "tools_or_systems": "Screening System",
+      "output": "Screening query",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_rol_001",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_rol_002",
+    "name": "Screening System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Automated screening against configured lists"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_cus_001",
+    "name": "Customer",
+    "properties": {
+      "customer_type": "applicant",
+      "data_collected": [
+        "full legal name",
+        "date of birth",
+        "nationality",
+        "country of residence",
+        "business name"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_acc_001",
+    "name": "New Customer Account",
+    "properties": {
+      "account_state_at_start": "new",
+      "account_state_at_end": "active",
+      "process_dependency": "Screening must be completed before account creation"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_stp_001",
+    "name": "Screen Against Regulatory Lists",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes",
+      "output": "Screening results for Sanctions, PEP, and Adverse Media",
+      "tools_or_systems": "Regulatory list databases"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_001",
+    "name": "OFAC Sanctions Screening",
+    "properties": {
+      "regulatory_basis": "US Treasury Office of Foreign Assets Control",
+      "mandatory": "yes",
+      "evidence_required": "Specially Designated Nationals and Blocked Persons (SDN) match report",
+      "refresh_frequency": "Daily",
+      "failure_consequence": "Immediate escalation"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_002",
+    "name": "EU Consolidated Sanctions Screening",
+    "properties": {
+      "regulatory_basis": "European Commission",
+      "mandatory": "yes",
+      "evidence_required": "EU Common Foreign & Security Policy sanctions match report",
+      "refresh_frequency": "Daily",
+      "failure_consequence": "Immediate escalation"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_003",
+    "name": "HM Treasury Sanctions Screening",
+    "properties": {
+      "regulatory_basis": "UK Treasury (OFSI)",
+      "mandatory": "yes",
+      "evidence_required": "UK sanctions designations match report",
+      "refresh_frequency": "Daily",
+      "failure_consequence": "Immediate escalation"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_004",
+    "name": "UN Sanctions Screening",
+    "properties": {
+      "regulatory_basis": "UN Security Council",
+      "mandatory": "yes",
+      "evidence_required": "Consolidated UN sanctions match report",
+      "refresh_frequency": "Weekly",
+      "failure_consequence": "Immediate escalation"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_005",
+    "name": "PEP Database Screening",
+    "properties": {
+      "regulatory_basis": "Third-party data provider (World-Check, Dow Jones, etc.)",
+      "mandatory": "yes",
+      "evidence_required": "PEP match record",
+      "refresh_frequency": "Real-time",
+      "failure_consequence": "Enhanced due diligence"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_006",
+    "name": "Adverse Media Screening",
+    "properties": {
+      "regulatory_basis": "News database aggregator",
+      "mandatory": "yes",
+      "evidence_required": "Negative news mentions report",
+      "refresh_frequency": "Daily",
+      "failure_consequence": "Escalation for assessment"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_dec_001",
+    "name": "Sanctions Hit Escalation Gate",
+    "properties": {
+      "decision_question": "Does the customer match any Sanctions List (OFAC, EU, HM Treasury, UN)?",
+      "criteria": "Any match on regulatory sanctions lists",
+      "path_yes": "Immediate escalation",
+      "path_no": "Proceed to next screening/step"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_dec_002",
+    "name": "PEP Match Review Gate",
+    "properties": {
+      "decision_question": "Is the customer identified as a Politically Exposed Person?",
+      "criteria": "Match in PEP database (government officials, families, associates)",
+      "path_yes": "Trigger Enhanced Due Diligence (EDD)",
+      "path_no": "Proceed to next screening/step"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_dec_003",
+    "name": "Adverse Media Assessment Gate",
+    "properties": {
+      "decision_question": "Is there material adverse media associated with the customer?",
+      "criteria": "Criminal convictions, fraud allegations, or sanctions violations in news",
+      "path_yes": "Escalation for assessment",
+      "path_no": "Proceed to next screening/step"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_prc_001",
+    "name": "Screening Execution Process",
+    "properties": {
+      "purpose": "Automated screening of customer names against configured lists to identify matches",
+      "channels": [
+        "system"
+      ],
+      "timeline_sla": "<1 minute",
+      "trigger": "Customer name submission",
+      "outcome_success": "Screening results returned with match scores",
+      "scope": "Customer identity verification"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_rol_001",
+    "name": "Screening Engine",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "automated search execution",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_001",
+    "name": "Customer Name Submission",
+    "properties": {
+      "step_number": 1,
+      "actor": "System",
+      "input": "customer name",
+      "output": "name entry in screening engine",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_002",
+    "name": "List Search Execution",
+    "properties": {
+      "step_number": 2,
+      "actor": "Screening Engine",
+      "output": "list of potential matches",
+      "channel": "system",
+      "mandatory": "yes",
+      "tools_or_systems": [
+        "Screening Engine"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_003",
+    "name": "Match Validation Check",
+    "properties": {
+      "step_number": 3,
+      "actor": "System",
+      "input": "search results",
+      "output": "exact and close-match results",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_004",
+    "name": "Screening Results Retrieval",
+    "properties": {
+      "step_number": 4,
+      "actor": "System",
+      "output": "Matched name, list, match score",
+      "estimated_duration": "<1 minute",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_dec_001",
+    "name": "Match Threshold Determination",
+    "properties": {
+      "decision_question": "Does the name match meet the required threshold?",
+      "criteria": "Typically 80%+ match including name variations and typos",
+      "decision_maker": "System",
+      "path_yes": "Include in results as a match",
+      "path_no": "Exclude from results"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_cus_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "subject of the screening process",
+      "data_collected": [
+        "Name",
+        "DOB",
+        "nationality"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "scope": "New account applicants",
+      "outcome_success": "Account opening proceeded",
+      "departments_involved": [
+        "Compliance",
+        "Branch/Onboarding"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_stp_001",
+    "name": "Assess Screening Results",
+    "properties": {
+      "step_number": 3,
+      "actor": "Onboarding Officer/Compliance Analyst",
+      "input": "Sanctions/Watchlist/Adverse Media screening hits",
+      "estimated_duration": "Immediate",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_stp_002",
+    "name": "Record Screening Outcome",
+    "properties": {
+      "actor": "Onboarding Officer/Compliance Analyst",
+      "output": "System record of 'screening passed'",
+      "data_recorded": [
+        "screening status",
+        "screening date",
+        "system reference"
+      ],
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_stp_003",
+    "name": "AML Compliance Checklist Review",
+    "properties": {
+      "actor": "Onboarding Officer/Compliance Analyst",
+      "trigger": "Successful screening result recording",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_dec_001",
+    "name": "Screening Result Validation",
+    "properties": {
+      "decision_question": "Does screening show hits across sanctions, watchlists, or adverse media?",
+      "criteria": "No hits across all lists, no sanctions/watchlist presence, and no adverse media identified",
+      "path_yes": "Proceed with account opening and record 'screening passed'",
+      "path_no": "Escalation or rejection (not detailed in text)"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_chk_001",
+    "name": "Sanctions and Adverse Media Screening Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Sanctions list search result",
+        "Watchlist search result",
+        "Adverse media search report"
+      ],
+      "timing": "Step 3 of Account Opening",
+      "failure_consequence": "Unable to proceed with account opening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_cus_001",
+    "name": "Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "Subject of sanctions and adverse media screening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_prc_001",
+    "name": "Match Found Scenario Handling Process",
+    "properties": {
+      "purpose": "Handle and review potential AML hits during the account opening process",
+      "scope": "Account Opening",
+      "trigger": "Screening shows potential HIT (match found)",
+      "outcome_success": "Completion of manual review by Financial Crime team",
+      "outcome_failure": "Confirmed match leading to account opening rejection or SAR filing"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_001",
+    "name": "Screening Result Identification",
+    "properties": {
+      "step_number": 1,
+      "input": "Customer data",
+      "output": "Match score, matched name, and identified list",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_002",
+    "name": "Account Opening Suspension",
+    "properties": {
+      "step_number": 2,
+      "actor": "System/Branch Staff",
+      "action": "STOP account opening immediately",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_003",
+    "name": "Financial Crime Escalation",
+    "properties": {
+      "step_number": 3,
+      "actor": "Branch Staff/System",
+      "output": "Notification to Financial Crime team",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_004",
+    "name": "Match Detail Documentation",
+    "properties": {
+      "step_number": 4,
+      "output": "Match details recorded in system",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_005",
+    "name": "Manual Review Initiation",
+    "properties": {
+      "step_number": 5,
+      "actor": "Financial Crime Team",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime",
+      "authority_level": "Manual review and AML match adjudication"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_dec_001",
+    "name": "AML Screening Match Gate",
+    "properties": {
+      "decision_question": "Does the screening show a potential HIT?",
+      "criteria": "Match score and identification of matched name/list",
+      "path_yes": "Stop account opening and escalate to Financial Crime team",
+      "path_no": "Proceed with account opening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_chk_001",
+    "name": "AML Screening Compliance Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Match score",
+        "Matched name",
+        "Identified list"
+      ],
+      "performed_by": "Financial Crime Team",
+      "failure_consequence": "Immediate suspension of account opening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_prc_001",
+    "name": "Manual Review Process (Hit Assessment)",
+    "properties": {
+      "purpose": "Assess the accuracy of screening hits to distinguish between false positives and true positives",
+      "scope": "Screening hits for individuals and organizations",
+      "trigger": "Generation of a screening hit requiring manual review",
+      "outcome_success": "Clear False Positive (proceed) or Likely True Positive (escalate)",
+      "outcome_failure": "Uncertainty requiring deeper research"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_stp_001",
+    "name": "Preliminary Assessment Step",
+    "properties": {
+      "step_number": "4A",
+      "actor": "Financial Crime Staff",
+      "input": [
+        "Match Score",
+        "Name Variance",
+        "Date of Birth",
+        "Nationality",
+        "Business entity type"
+      ],
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_rol_001",
+    "name": "Financial Crime Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime",
+      "authority_level": "Preliminary assessment and hit classification"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_dec_001",
+    "name": "Hit Outcome Decision",
+    "properties": {
+      "decision_question": "Is the screening hit a false positive, true positive, or uncertain?",
+      "criteria": [
+        "Match score 80%+",
+        "DOB alignment",
+        "Nationality match",
+        "Name variance (typos/nicknames)"
+      ],
+      "decision_maker": "Financial Crime Staff",
+      "path_yes": "Clear to proceed (if False Positive)",
+      "path_no": "Escalate immediately (if True Positive) or perform deeper research (if Uncertain)"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_prc_001",
+    "name": "True Positive Investigation Process",
+    "properties": {
+      "purpose": "Investigate confirmed true positive matches to determine necessary remediation actions",
+      "scope": "Sanctions, PEP, and Adverse Media hits",
+      "outcome_success": "Correct remediation action applied and documented",
+      "outcome_failure": "Regulatory breach or failure to freeze sanctioned assets"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_stp_001",
+    "name": "Identify Match Reason",
+    "properties": {
+      "step_number": 1,
+      "input": "Confirmed True Positive match",
+      "output": "Designation type (Sanctions, PEP, or Adverse Media)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_stp_002",
+    "name": "Determine Remediation Action",
+    "properties": {
+      "step_number": 2,
+      "output": "Action plan (Freeze, EDD, or Monitoring)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_stp_003",
+    "name": "Document Investigation Findings",
+    "properties": {
+      "step_number": 3,
+      "input": "Match assessment notes, decision reason, evidence reviewed",
+      "output": "Completed investigation record with approver name and date",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_dec_001",
+    "name": "Hit Type Categorization Gate",
+    "properties": {
+      "decision_question": "What is the designation of the true positive hit?",
+      "criteria": "Match against Sanctions list, PEP list, or Adverse Media sources",
+      "path_yes": "If Sanctions: Automatic FREEZE and OFSI escalation; If PEP: EDD and Compliance Head escalation; If Adverse Media: Risk assessment/monitoring"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval of Enhanced Due Diligence (EDD) for PEP hits"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_rol_002",
+    "name": "OFSI (Office of Financial Sanctions Implementation)",
+    "properties": {
+      "role_type": "external",
+      "department": "Regulatory Body"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_esc_001",
+    "name": "External Regulatory Escalation — OFSI",
+    "properties": {
+      "level_number": 1,
+      "authority": "OFSI",
+      "escalation_trigger": "Confirmation of a Sanctions hit",
+      "examples": [
+        "Sanctions match confirmation"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_chk_001",
+    "name": "Sanctions Compliance Gate",
+    "properties": {
+      "regulatory_basis": "Sanctions Regulations",
+      "mandatory": "yes",
+      "failure_consequence": "Automatic FREEZE of account",
+      "evidence_required": [
+        "Sanctions list match details"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_chk_002",
+    "name": "PEP Compliance Gate",
+    "properties": {
+      "regulatory_basis": "Anti-Money Laundering (AML)",
+      "mandatory": "yes",
+      "evidence_required": [
+        "Enhanced Due Diligence (EDD) documentation"
+      ],
+      "performed_by": "Compliance Head"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "account_state_at_end": "frozen",
+      "trigger": "Sanctions hit confirmation"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_prc_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "outcome_success": "Proceed with account opening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_stp_001",
+    "name": "False Positive Resolution Step",
+    "properties": {
+      "step_number": "4C",
+      "output": [
+        "documented reasoning",
+        "system record",
+        "archived false positive assessment"
+      ],
+      "estimated_duration": "2–4 hours",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_dec_001",
+    "name": "False Positive Determination Gate",
+    "properties": {
+      "decision_question": "Is the screening match a false positive?",
+      "criteria": "Determination of different person due to specific distinguishing factors",
+      "path_yes": "Document reasoning, record in system, and proceed with account opening",
+      "path_no": "Not specified in provided text"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_rol_001",
+    "name": "Operational Reviewer",
+    "properties": {
+      "authority_level": "Authorized to document reasoning and clear false positives for account opening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_chk_001",
+    "name": "Screening Match Clearance Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "documented reasoning for different person",
+        "false positive assessment archive"
+      ],
+      "failure_consequence": "Account opening cannot proceed"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_stp_001",
+    "name": "Record Screening Results",
+    "properties": {
+      "actor": "System Approver",
+      "input": [
+        "Screening reference number",
+        "Customer ID",
+        "Screening date/time",
+        "Lists searched",
+        "Results (Pass/Hit)",
+        "Match score",
+        "Matched name",
+        "Decision",
+        "Approver",
+        "Resolution date"
+      ],
+      "output": "Updated customer record status (Cleared/Blocked/Under Review)",
+      "tools_or_systems": "Account Management System (AMS)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_rol_001",
+    "name": "System Approver",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Decision maker for screening hits",
+      "channels": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_dec_001",
+    "name": "Screening Outcome Decision",
+    "properties": {
+      "decision_question": "Is the screening hit a true match or a false positive?",
+      "criteria": "Match score and reviewed name accuracy",
+      "decision_maker": "System Approver",
+      "path_yes": "Status set to Blocked",
+      "path_no": "Status set to Cleared"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_rol_002",
+    "name": "Account Management System (AMS)",
+    "properties": {
+      "role_type": "system",
+      "department": "IT/Operations",
+      "channels": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_chk_001",
+    "name": "AML Data Retention Check",
+    "properties": {
+      "regulatory_basis": "AML regulations",
+      "mandatory": "yes",
+      "evidence_required": "Audit-accessible records of screening results",
+      "refresh_frequency": "5 years minimum retention",
+      "system_used": "Account Management System (AMS)"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_cus_001",
+    "name": "Screened Customer",
+    "properties": {
+      "process_role": "subject of the screening process",
+      "data_collected": [
+        "Customer ID",
+        "Screening reference number",
+        "Matched name"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_prc_001",
+    "name": "Sanctions Hit Handling Process",
+    "properties": {
+      "purpose": "Manage and resolve potential sanctions hits from OFAC/EU/HMT/UN",
+      "scope": "Accounts identified as sanctions hits",
+      "timeline_sla": "Immediate account freeze; regulatory notification within 24 hours",
+      "trigger": "Identification of a Sanctions Hit",
+      "outcome_success": "Hit confirmed as false positive, account unfrozen",
+      "outcome_failure": "Hit confirmed as true positive, account remains frozen and potentially closed"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_001",
+    "name": "Immediate Account Freeze",
+    "properties": {
+      "step_number": 1,
+      "output": "Frozen account (no transactions permitted)",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_002",
+    "name": "Compliance and Financial Crime Escalation",
+    "properties": {
+      "step_number": 2,
+      "actor": "Compliance Head, Head of Financial Crime",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_003",
+    "name": "OFSI Regulatory Notification",
+    "properties": {
+      "step_number": 3,
+      "actor": "OFSI (UK Treasury)",
+      "timeline_sla": "within 24 hours",
+      "mandatory": "yes",
+      "criteria": "UK sanctions hit"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_004",
+    "name": "SAR Filing with NCA",
+    "properties": {
+      "step_number": 4,
+      "actor": "NCA",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_005",
+    "name": "System Documentation of Hold",
+    "properties": {
+      "step_number": 5,
+      "output": "Hold reason recorded in system",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_006",
+    "name": "Anti-Tipping Off Communication Management",
+    "properties": {
+      "step_number": 6,
+      "mandatory": "yes",
+      "output": "Generic notification: 'Your account has been frozen pending review'",
+      "failure_path": "Escalate to manager if customer questions"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "High",
+      "department": "Compliance"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_002",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "High",
+      "department": "Financial Crime"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_003",
+    "name": "OFSI (UK Treasury)",
+    "properties": {
+      "role_type": "external",
+      "department": "Regulatory Body"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_004",
+    "name": "NCA",
+    "properties": {
+      "role_type": "external",
+      "department": "Law Enforcement"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_005",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Management",
+      "channels": "Customer escalation point"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_dec_001",
+    "name": "Sanctions Hit Confirmation Gate",
+    "properties": {
+      "decision_question": "Is the sanctions hit a true positive or a false positive?",
+      "path_yes": "Remain frozen, potential account closure",
+      "path_no": "Unfreeze, apologize, and proceed"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_chk_001",
+    "name": "Sanctions Screening Checkpoint",
+    "properties": {
+      "regulatory_basis": "OFAC/EU/HMT/UN",
+      "mandatory": "yes",
+      "failure_consequence": "Immediate account freeze and regulatory reporting"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "account_state_at_start": "Active/Existing",
+      "account_state_at_end": "Frozen",
+      "restrictions": "No transactions permitted"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_prc_001",
+    "name": "PEP Hit Handling Process",
+    "properties": {
+      "purpose": "Handle customers flagged as Politically Exposed Persons (PEPs) via Enhanced Due Diligence",
+      "scope": "PEP Hits (Type 2)",
+      "timeline_sla": "1–2 business days",
+      "trigger": "Detection of a PEP hit during screening",
+      "outcome_success": "Customer approved via EDD or application rejected",
+      "outcome_failure": "Non-compliance with PEP risk mitigation requirements"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_001",
+    "name": "PEP Status Flagging",
+    "properties": {
+      "step_number": 1,
+      "actor": "System/Operator",
+      "output": "Customer flagged as PEP",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_002",
+    "name": "Compliance Head Escalation",
+    "properties": {
+      "step_number": 2,
+      "actor": "rol_001",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval authority for PEP applications",
+      "department": "Compliance"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_003",
+    "name": "PEP Risk Assessment",
+    "properties": {
+      "step_number": 3,
+      "actor": "Compliance Head",
+      "input": "Customer profile and PEP hit details",
+      "criteria": [
+        "Family member status",
+        "Close associate status",
+        "Foreign PEP status"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_dec_001",
+    "name": "EDD Proceed or Reject Decision",
+    "properties": {
+      "decision_question": "Should the bank proceed with the application subject to Enhanced Due Diligence or reject it?",
+      "decision_maker": "Compliance Head",
+      "path_yes": "Proceed with Enhanced monitoring requirements",
+      "path_no": "Reject application"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_004",
+    "name": "EDD Monitoring Implementation",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "yes",
+      "output": "Enhanced monitoring requirements active"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_005",
+    "name": "Risk Assessment Documentation",
+    "properties": {
+      "step_number": 6,
+      "mandatory": "yes",
+      "output": "Documented risk assessment"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_chk_001",
+    "name": "Beneficial Ownership Verification Check",
+    "properties": {
+      "mandatory": "conditional",
+      "evidence_required": "Beneficial ownership documentation",
+      "timing": "During EDD process"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_chk_002",
+    "name": "Source of Funds Verification",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Source of funds documentation",
+      "timing": "During EDD process"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_006",
+    "name": "Quarterly Transaction Monitoring",
+    "properties": {
+      "actor": "Compliance/Monitoring Team",
+      "frequency": "Quarterly",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_007",
+    "name": "Annual PEP Review",
+    "properties": {
+      "actor": "Compliance Head/Officer",
+      "frequency": "Annual",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_cus_001",
+    "name": "PEP Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "process_role": "Subject of Enhanced Due Diligence"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_prc_001",
+    "name": "Adverse Media Hit Risk Assessment Process",
+    "properties": {
+      "purpose": "Risk assessment of adverse media hits to determine if an application should proceed or be rejected",
+      "timeline_sla": "1–2 business days",
+      "trigger": "Adverse media hit identified during screening",
+      "outcome_success": "Application proceeds with standard monitoring",
+      "outcome_failure": "Application rejected"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_001",
+    "name": "Review Adverse Media Details",
+    "properties": {
+      "step_number": 1,
+      "actor": "Compliance Analyst",
+      "input": "News/adverse media details",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_002",
+    "name": "Assess Materiality",
+    "properties": {
+      "step_number": 2,
+      "actor": "Compliance Analyst",
+      "criteria": "Relevance to banking relationship",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_003",
+    "name": "Escalate to Compliance Head",
+    "properties": {
+      "step_number": 3,
+      "actor": "Compliance Analyst",
+      "trigger": "Media hit is determined to be material",
+      "mandatory": "conditional"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_dec_001",
+    "name": "Application Proceed or Reject Decision",
+    "properties": {
+      "decision_question": "Should the application proceed based on the adverse media materiality?",
+      "criteria": "Recency and confirmation of the hit (e.g., confirmed sanctions violation vs old unconvicted accusation)",
+      "path_yes": "Proceed with standard monitoring",
+      "path_no": "Reject application",
+      "decision_maker": "Compliance Head"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_004",
+    "name": "Document Assessment",
+    "properties": {
+      "step_number": 5,
+      "actor": "Compliance Analyst",
+      "output": "Assessment record",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "authority_level": "Final decision maker for material adverse media hits"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_chk_001",
+    "name": "Adverse Media Materiality Check",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "News/adverse media details and materiality assessment notes",
+      "failure_consequence": "Rejection of application"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_cus_001",
+    "name": "Applicant",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "Subject of adverse media screening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_prc_001",
+    "name": "Ongoing Monitoring Process",
+    "properties": {
+      "purpose": "Post-screening monitoring of customers based on risk profile",
+      "scope": [
+        "High-Risk Customers",
+        "Standard-Risk Customers"
+      ],
+      "departments_involved": [
+        "Compliance"
+      ],
+      "trigger": "Post-screening phase"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_001",
+    "name": "High-Risk Customer Quarterly Re-screening",
+    "properties": {
+      "actor": "Automated Monitoring System",
+      "input": "Current Sanctions Lists",
+      "output": "Re-screening result",
+      "frequency": "Quarterly",
+      "mandatory": "yes",
+      "tools_or_systems": "Sanctions scanning system"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_002",
+    "name": "High-Risk Enhanced Transaction Monitoring",
+    "properties": {
+      "actor": "Automated Monitoring System",
+      "mandatory": "yes",
+      "scope": "High-Risk Customers"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_003",
+    "name": "Manual Review of Unusual Activity Alerts",
+    "properties": {
+      "actor": "Compliance Officer",
+      "channel": "manual",
+      "mandatory": "yes",
+      "input": "Unusual activity alerts"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_004",
+    "name": "High-Risk Annual Comprehensive Risk Review",
+    "properties": {
+      "frequency": "Annual",
+      "mandatory": "yes",
+      "scope": "High-Risk Customers"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_005",
+    "name": "Standard-Risk Customer Annual Re-screening",
+    "properties": {
+      "actor": "Automated Monitoring System",
+      "frequency": "Annual",
+      "mandatory": "yes",
+      "input": "Current Sanctions Lists"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_006",
+    "name": "Automated Transaction Monitoring",
+    "properties": {
+      "actor": "Automated Monitoring System",
+      "channel": "system",
+      "scope": "Standard-Risk Customers"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_007",
+    "name": "Automated Alert Review",
+    "properties": {
+      "actor": "Automated Monitoring System",
+      "channel": "system",
+      "criteria": "Automated rules"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_dec_001",
+    "name": "Customer Risk Classification Gate",
+    "properties": {
+      "decision_question": "Is the customer High-Risk or Standard-Risk?",
+      "path_yes": "Apply quarterly re-screening, enhanced monitoring, and manual alert review",
+      "path_no": "Apply annual re-screening and automated monitoring"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_dec_002",
+    "name": "Transaction Monitoring Trigger Check",
+    "properties": {
+      "decision_question": "Does the transaction meet monitoring trigger criteria?",
+      "criteria": [
+        "Amount > £50,000",
+        "Destination is high-risk jurisdiction",
+        "New beneficiary or payee",
+        "Rapid transaction velocity"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_rol_001",
+    "name": "Automated Monitoring System",
+    "properties": {
+      "role_type": "system",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_chk_001",
+    "name": "Sanctions List Re-screening Checkpoint",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Sanctions list scan logs",
+      "refresh_frequency": "Quarterly for High-Risk, Annually for Standard-Risk"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_cust_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "monitoring_requirements": [
+        "Quarterly re-screening",
+        "Enhanced transaction monitoring",
+        "Manual alert review",
+        "Annual comprehensive risk review"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_cust_002",
+    "name": "Standard-Risk Customer",
+    "properties": {
+      "customer_type": "standard_risk",
+      "monitoring_requirements": [
+        "Annual re-screening",
+        "Automated transaction monitoring",
+        "Automated alert review"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_txn_001",
+    "name": "Monitored Transaction",
+    "properties": {
+      "transaction_type": "monitored",
+      "monitoring_trigger": [
+        "Large transaction (>£50,000)",
+        "High-risk jurisdiction",
+        "New beneficiary",
+        "Rapid velocity"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_prc_001",
+    "name": "Screening System Down Troubleshooting Process",
+    "properties": {
+      "purpose": "Manage the workflow when the screening system is unavailable to ensure mandatory compliance checks are not bypassed",
+      "scope": "Account opening procedures",
+      "trigger": "Screening System Unavailable",
+      "outcome_success": "System restoration and completion of screening",
+      "outcome_failure": "Account opening remains suspended",
+      "departments_involved": [
+        "Branch/Onboarding",
+        "Technology Team"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_001",
+    "name": "Outage Documentation Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Onboarding Staff",
+      "output": "Outage time record",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_002",
+    "name": "Account Opening Suspension Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Onboarding Staff",
+      "mandatory": "yes",
+      "failure_path": "Compliance breach if account is opened without screening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_003",
+    "name": "Technology Team Escalation Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Onboarding Staff",
+      "tools_or_systems": "Internal communication/ticketing system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_004",
+    "name": "System Restoration Retry Step",
+    "properties": {
+      "step_number": 4,
+      "actor": "Onboarding Staff",
+      "trigger": "System restoration",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_005",
+    "name": "Account Opening Delay Finalization",
+    "properties": {
+      "step_number": 5,
+      "actor": "Onboarding Staff",
+      "outcome": "Account opening delayed until screening complete"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_rol_001",
+    "name": "Technology Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Technology",
+      "authority_level": "System restoration and technical resolution",
+      "response_time_sla": "Immediate"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_dec_001",
+    "name": "Screening System Availability Check",
+    "properties": {
+      "decision_question": "Is the Screening System available?",
+      "criteria": "System accessibility and functionality",
+      "path_yes": "Proceed with standard account opening",
+      "path_no": "Initiate Screening System Down Troubleshooting Process"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_chk_001",
+    "name": "Mandatory Screening Compliance Gate",
+    "properties": {
+      "mandatory": "yes",
+      "failure_consequence": "Account opening must not proceed",
+      "timing": "Prior to account opening completion"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_prc_001",
+    "name": "False Positive Screening Resolution Process",
+    "properties": {
+      "purpose": "To efficiently resolve recurring screening hits for customers previously identified as false positives",
+      "scope": "Customers who frequently trigger screening hits",
+      "trigger": "Customer frequently hit on screening",
+      "outcome_success": "Faster screening resolution and updated customer profile"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_001",
+    "name": "Document Previous False Positive Assessments",
+    "properties": {
+      "step_number": 1,
+      "actor": "Screening Analyst",
+      "mandatory": "yes",
+      "output": "Documentation of previous false positive assessments"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_002",
+    "name": "Update Customer Profile with Verified Flag",
+    "properties": {
+      "step_number": 2,
+      "actor": "Screening Analyst",
+      "output": "Customer profile updated with 'verified' flag",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_003",
+    "name": "Perform Rapid Re-screen Resolution",
+    "properties": {
+      "step_number": 3,
+      "actor": "Screening Analyst",
+      "trigger": "List updates causing a re-screen trigger",
+      "outcome_success": "Quick resolution of the hit"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_004",
+    "name": "Implement Alternative Name Variant",
+    "properties": {
+      "step_number": 4,
+      "actor": "Screening Analyst",
+      "purpose": "Faster screening",
+      "mandatory": "no"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_rol_001",
+    "name": "Screening Analyst",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Operational review and profile updating"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_cust_001",
+    "name": "Frequently Triggered Customer",
+    "properties": {
+      "customer_type": "high_risk_trigger",
+      "process_role": "Subject of recurring false positive screening hits"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_chk_001",
+    "name": "Screening Hit Verification Gate",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Previous false positive assessments",
+        "Verified flag in customer profile"
+      ],
+      "performed_by": "Screening Analyst"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_prc_001",
+    "name": "Screening Audit Process",
+    "properties": {
+      "purpose": "Quality assurance of screening decisions and process effectiveness",
+      "scope": "Screening decisions, hit escalations, false positive documentation, list coverage, and SAR filings",
+      "departments_involved": [
+        "Quality Assurance",
+        "Compliance"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_stp_001",
+    "name": "Monthly Screening Decision Review",
+    "properties": {
+      "step_number": 1,
+      "frequency": "Monthly",
+      "input": "Screening decisions",
+      "mandatory": "yes",
+      "review_criteria": [
+        "Review 10+ screening decisions",
+        "Verify hit escalation",
+        "Confirm false positive documentation",
+        "Assess decision timeliness"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_stp_002",
+    "name": "Annual Full Screening Process Review",
+    "properties": {
+      "step_number": 2,
+      "frequency": "Annual",
+      "mandatory": "yes",
+      "review_criteria": [
+        "Full screening process review",
+        "Verification that all screening lists are active",
+        "Hit resolution timeliness",
+        "Appropriateness of SAR filings"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_chk_001",
+    "name": "Screening Decision Compliance Gate",
+    "properties": {
+      "checkpoint_name": "Screening Decision Compliance Gate",
+      "mandatory": "yes",
+      "evidence_required": [
+        "Documented false positives",
+        "Escalation logs",
+        "SAR filing records",
+        "Active list coverage report"
+      ],
+      "timing": "Monthly and Annually"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_prc_001",
+    "name": "AML Screening Process",
+    "properties": {
+      "document_id": "sop_aml_screening",
+      "scope": "Account Opening",
+      "departments_involved": [
+        "Compliance"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_prc_002",
+    "name": "Account Opening Process",
+    "properties": {
+      "document_id": "sop_account_opening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_prc_003",
+    "name": "KYC Verification Process",
+    "properties": {
+      "document_id": "sop_kyc_verification",
+      "outcome_success": "Proceeds to AML screening"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_stp_001",
+    "name": "AML Screening Execution Step",
+    "properties": {
+      "step_number": 5,
+      "process_context": "Account Opening Process"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_022_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Authoritative/Policy Owner",
+      "responsibilities": [
+        "SOP Authoring",
+        "Defining hit handling procedures",
+        "Establishing ongoing monitoring guidelines"
+      ]
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_022",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_023_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Approval/Sign-off"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_023",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_023_rol_002",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Approval/Sign-off"
+    },
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_023",
+    "doc_id": "2b9919f108494b7897d3f93820601a32"
+  }
+]

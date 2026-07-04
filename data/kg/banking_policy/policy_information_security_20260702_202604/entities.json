@@ -1,0 +1,4930 @@
+[
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_pol_001",
+    "name": "FirstUK Bank — Information Security Policy",
+    "aliases": [
+      "SEC-POL-002"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "The formal governing instrument for information security at FirstUK Bank, version 2.0, effective from 2026-01-15. It is owned by the Chief Information Security Officer and managed by the Technology department.",
+    "context": [
+      "FirstUK Bank — Information Security Policy",
+      "Document ID | SEC-POL-002",
+      "Version | 2.0"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_reg_001",
+    "name": "FCA Conduct of Business Sourcebook Part 5",
+    "aliases": [
+      "FCA COBS Part 5"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "A regulatory reference from the Financial Conduct Authority (FCA) that informs the requirements of the Information Security Policy.",
+    "context": [
+      "Regulatory Reference | FCA COBS Part 5"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_reg_002",
+    "name": "PRA Operational Resilience",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "Regulatory guidance from the Prudential Regulation Authority (PRA) regarding operational resilience that the Information Security Policy must comply with.",
+    "context": [
+      "Regulatory Reference | PRA Operational Resilience"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_001",
+    "name": "Chief Information Security Officer",
+    "aliases": [
+      "CISO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The abstract role designated as the owner of the Information Security Policy, responsible for its governance and maintenance.",
+    "context": [
+      "Owner | Chief Information Security Officer"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_002",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of all bank employees who are within the target audience and subject to the mandates of the Information Security Policy.",
+    "context": [
+      "Audience | All Staff, Technology, Risk, Board"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_003",
+    "name": "Technology",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The technology-focused staff collective identified as a primary audience for the Information Security Policy.",
+    "context": [
+      "Audience | All Staff, Technology, Risk, Board"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_004",
+    "name": "Risk",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The risk-focused staff collective identified as a primary audience for the Information Security Policy.",
+    "context": [
+      "Audience | All Staff, Technology, Risk, Board"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_005",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The bank's governing board identified as a primary audience for the Information Security Policy.",
+    "context": [
+      "Audience | All Staff, Technology, Risk, Board"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_pol_001",
+    "name": "Information Security Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal governing instrument designed to protect the confidentiality, integrity, and availability of FirstUK Bank's customer data, systems, and intellectual property.",
+    "context": [
+      "FirstUK Bank maintains an Information Security Policy to protect confidentiality, integrity, and availability of customer data, systems, and intellectual property"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_rsk_001",
+    "name": "Cyberattacks",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "Threats involving malicious digital attacks against the bank's systems and data.",
+    "context": [
+      "protect confidentiality, integrity, and availability of customer data, systems, and intellectual property against threats (cyberattacks, unauthorized access, data breaches)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_rsk_002",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of individuals gaining access to systems or data without proper authorization.",
+    "context": [
+      "protect confidentiality, integrity, and availability of customer data, systems, and intellectual property against threats (cyberattacks, unauthorized access, data breaches)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_rsk_003",
+    "name": "Data Breaches",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized disclosure or loss of sensitive customer data and intellectual property.",
+    "context": [
+      "protect confidentiality, integrity, and availability of customer data, systems, and intellectual property against threats (cyberattacks, unauthorized access, data breaches)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_pol_001",
+    "name": "Information Security Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy establishing security procedures to prevent unauthorized access, protect customer data, ensure system reliability, and maintain regulatory compliance.",
+    "context": [
+      "To establish security procedures that:",
+      "Prevent unauthorized access to systems/data",
+      "Protect customer data against breaches"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_001",
+    "name": "Prevention of Unauthorized Access to Systems and Data",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to implement security procedures specifically designed to prevent unauthorized access to the bank's systems and data.",
+    "context": [
+      "Prevent unauthorized access to systems/data"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_002",
+    "name": "Protection of Customer Data Against Breaches",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate to establish procedures that protect customer data from security breaches.",
+    "context": [
+      "Protect customer data against breaches"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_003",
+    "name": "Ensuring System Availability and Reliability",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to maintain security procedures that guarantee the availability and reliability of bank systems.",
+    "context": [
+      "Ensure system availability and reliability"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_004",
+    "name": "Rapid Response to Security Incidents",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "An obligation to ensure the bank can respond rapidly to security incidents through established procedures.",
+    "context": [
+      "Respond rapidly to security incidents"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_005",
+    "name": "Compliance with Regulatory Security Standards",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to ensure that security procedures meet the standards set by the PRA and FCA.",
+    "context": [
+      "Meet regulatory security standards (PRA Operational Resilience, FCA)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_reg_001",
+    "name": "Prudential Regulation Authority Operational Resilience",
+    "aliases": [
+      "PRA Operational Resilience"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "Regulatory standards issued by the PRA regarding operational resilience that the bank's security procedures must meet.",
+    "context": [
+      "Meet regulatory security standards (PRA Operational Resilience, FCA)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_reg_002",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory body whose security standards must be met by the bank's security procedures.",
+    "context": [
+      "Meet regulatory security standards (PRA Operational Resilience, FCA)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_001",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of unauthorized individuals gaining access to the bank's systems or data.",
+    "context": [
+      "Prevent unauthorized access to systems/data"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_002",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of customer data being compromised or breached.",
+    "context": [
+      "Protect customer data against breaches"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_003",
+    "name": "System Unavailability",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk that systems may become unavailable or unreliable, impacting bank operations.",
+    "context": [
+      "Ensure system availability and reliability"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_004",
+    "name": "Security Incident",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "General security incidents that require a rapid response to mitigate impact.",
+    "context": [
+      "Respond rapidly to security incidents"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_pol_001",
+    "name": "Information Security Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A governing policy document defining the scope of security protections for the bank's data, systems, and personnel. It establishes the boundaries for all physical and digital assets across all geographic locations.",
+    "context": [
+      "Applies to: All customer data (personal, financial)",
+      "All systems and infrastructure",
+      "All staff, contractors, third parties",
+      "All physical and digital assets",
+      "All geographic locations"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of all bank employees who fall within the scope of the policy's security requirements.",
+    "context": [
+      "Applies to: All staff, contractors, third parties"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_rol_002",
+    "name": "Contractors",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External personnel providing services to the bank who are subject to the policy's security and data handling mandates.",
+    "context": [
+      "Applies to: All staff, contractors, third parties"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_rol_003",
+    "name": "Third Parties",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External entities or organizations that fall under the scope of the bank's security policy.",
+    "context": [
+      "Applies to: All staff, contractors, third parties"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_ctl_001",
+    "name": "Customer Data Protection",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational requirement to apply security controls to all personal and financial customer data.",
+    "context": [
+      "Applies to: All customer data (personal, financial)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_ctl_002",
+    "name": "Systems and Infrastructure Security",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The application of security measures across all of the bank's technical systems and underlying infrastructure.",
+    "context": [
+      "Applies to: All systems and infrastructure"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_pol_001",
+    "name": "FirstUK Bank Information Security Policy",
+    "aliases": [
+      "Policy Statement"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "The governing policy document establishing FirstUK Bank's commitment to protecting customer data and systems. It mandates a strategy based on defense-in-depth security controls, incident response, and continuous threat monitoring.",
+    "context": [
+      "FirstUK Bank protects customer data and systems through defense-in-depth security controls, incident response, and continuous threat monitoring."
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_prv_001",
+    "name": "Requirement for Defense-in-Depth Security Controls",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for the bank to implement a layered security approach (defense-in-depth) to protect customer data and systems.",
+    "context": [
+      "FirstUK Bank protects customer data and systems through defense-in-depth security controls"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_prv_002",
+    "name": "Requirement for Incident Response",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for the bank to maintain and execute incident response procedures to protect customer data and systems.",
+    "context": [
+      "FirstUK Bank protects customer data and systems through... incident response"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_prv_003",
+    "name": "Requirement for Continuous Threat Monitoring",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for the bank to perform ongoing monitoring of threats to ensure the protection of customer data and systems.",
+    "context": [
+      "FirstUK Bank protects customer data and systems through... continuous threat monitoring."
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_ctl_001",
+    "name": "Defense-in-Depth Security Controls",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The operational implementation of layered security safeguards used to protect the bank's systems and customer data.",
+    "context": [
+      "FirstUK Bank protects customer data and systems through defense-in-depth security controls"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_ctl_002",
+    "name": "Incident Response Mechanism",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The operational process and tools used to respond to security incidents to mitigate impact on customer data and systems.",
+    "context": [
+      "FirstUK Bank protects customer data and systems through... incident response"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_ctl_003",
+    "name": "Continuous Threat Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The technical mechanism used for the ongoing detection and monitoring of threats against the bank's infrastructure and data.",
+    "context": [
+      "FirstUK Bank protects customer data and systems through... continuous threat monitoring."
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_rsk_001",
+    "name": "Information Security Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of unauthorized access, loss, or compromise of customer data and bank systems which the policy aims to mitigate.",
+    "context": [
+      "FirstUK Bank protects customer data and systems"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_001",
+    "name": "Security Principles",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A governing set of security principles defining FirstUK Bank's stance on system and data protection. It establishes the foundational frameworks of Zero-Trust, Defense-in-Depth, and the CIA Triad.",
+    "context": [
+      "## Security Principles"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_002",
+    "name": "Zero-Trust Security Principle",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy-level principle stating that no implicit trust is granted to users, devices, or networks. It mandates continuous authentication and the proactive assumption of breach.",
+    "context": [
+      "Zero-Trust Security:",
+      "No implicit trust (users, devices, networks)",
+      "Continuous authentication and authorization",
+      "Verify every access request",
+      "Assume breach and defend proactively"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_003",
+    "name": "Defense-in-Depth Principle",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy-level principle requiring multiple layers of security controls to ensure there is no single point of failure. Protections must be layered across networks, systems, data, and processes.",
+    "context": [
+      "Defense-in-Depth:",
+      "Multiple layers of security controls",
+      "No single point of failure",
+      "Layered protections (network, system, data, process)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_004",
+    "name": "Confidentiality-Integrity-Availability (CIA Triad) Principle",
+    "aliases": [
+      "CIA Triad"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy-level principle ensuring data is encrypted and access-controlled (Confidentiality), cannot be modified without authorization (Integrity), and systems remain accessible when needed (Availability).",
+    "context": [
+      "Confidentiality-Integrity-Availability (CIA Triad):",
+      "Confidentiality: Data encrypted, access controlled",
+      "Integrity: Data cannot be modified without authorization",
+      "Availability: Systems accessible when needed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_prv_001",
+    "name": "Mandatory Verification of Every Access Request",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement under the Zero-Trust framework that every single access request must be verified without exception.",
+    "context": [
+      "Verify every access request"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_prv_002",
+    "name": "Requirement for Continuous Authentication and Authorization",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate requiring that authentication and authorization processes occur continuously rather than as a one-time event.",
+    "context": [
+      "Continuous authentication and authorization"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_prv_003",
+    "name": "Prohibition of Single Points of Failure in Security",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "A requirement that security architecture must be designed such that no single point of failure exists, necessitating multiple layers of control.",
+    "context": [
+      "No single point of failure"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_ctl_001",
+    "name": "Data Encryption",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "An operational safeguard used to ensure the confidentiality of data as part of the CIA Triad.",
+    "context": [
+      "Confidentiality: Data encrypted"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_ctl_002",
+    "name": "Access Control",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A mechanism used to restrict data access to authorized users to maintain confidentiality and integrity.",
+    "context": [
+      "access controlled",
+      "Data cannot be modified without authorization"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_rsk_001",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of users, devices, or networks gaining access to systems or data without proper authorization, addressed by Zero-Trust and CIA principles.",
+    "context": [
+      "No implicit trust (users, devices, networks)",
+      "Data cannot be modified without authorization"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_rsk_002",
+    "name": "System Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of a security compromise, which the policy mandates the bank must assume has already occurred to defend proactively.",
+    "context": [
+      "Assume breach and defend proactively"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_001",
+    "name": "Cyberattacks",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "A category of threats monitored by FirstUK Bank encompassing malicious digital attacks. This includes ransomware, malware, and phishing attempts.",
+    "context": [
+      "Cyberattacks: Ransomware, malware, phishing"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_002",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of unauthorized entry into bank systems or data. This is characterized by hacking, credential theft, and social engineering.",
+    "context": [
+      "Unauthorized Access: Hacking, credential theft, social engineering"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_003",
+    "name": "Data Breaches",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk involving the theft or exposure of sensitive bank or customer data.",
+    "context": [
+      "Data Breaches: Sensitive data theft, exposure"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_004",
+    "name": "Insider Threats",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks originating from within the organization, specifically from disgruntled staff or inadvertent disclosure of information.",
+    "context": [
+      "Insider Threats: Disgruntled staff, inadvertent disclosure"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_005",
+    "name": "Third-Party Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with external partners, specifically vendor compromise and supply chain attacks.",
+    "context": [
+      "Third-Party Risk: Vendor compromise, supply chain attacks"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_006",
+    "name": "Natural Disasters",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Environmental risks that may impact bank operations, including power outages, fire, and flooding.",
+    "context": [
+      "Natural Disasters: Power outages, fire, flooding"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_pol_001",
+    "name": "Access Control Policy",
+    "aliases": [
+      "Access Control"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the authentication requirements for both customers and staff to ensure secure access to bank systems and facilities.",
+    "context": [
+      "## Access Control"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_001",
+    "name": "Customer Online Banking Authentication Requirement",
+    "aliases": [
+      "Online Banking Authentication"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that customers accessing Online Banking must be authenticated using a combination of username, password, and a One-Time Password (OTP) delivered via email or SMS.",
+    "context": [
+      "Online Banking: Username/password + OTP (email/SMS)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_002",
+    "name": "Customer Mobile App Authentication Requirement",
+    "aliases": [
+      "Mobile App Authentication"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires customers using the Mobile App to authenticate via biometrics (fingerprint or face), with an optional PIN requirement.",
+    "context": [
+      "Mobile App: Biometric (fingerprint/face) + optional PIN"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_003",
+    "name": "Customer Branch Authentication Requirement",
+    "aliases": [
+      "Branch Authentication"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of photo ID verification for customers authenticating in person at a bank branch.",
+    "context": [
+      "Branch: Photo ID verification"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_004",
+    "name": "Staff General Authentication Requirement",
+    "aliases": [
+      "Staff Authentication"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires staff to authenticate using LDAP/Active Directory credentials consisting of a username and password.",
+    "context": [
+      "Staff Authentication:",
+      "LDAP/Active Directory (username/password)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_005",
+    "name": "Privileged Access MFA Requirement",
+    "aliases": [
+      "MFA for privileged access"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates Multi-Factor Authentication (MFA) for staff with privileged access, specifically those in admin and compliance roles.",
+    "context": [
+      "MFA for privileged access (admin, compliance)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_006",
+    "name": "Physical Facility Access Requirement",
+    "aliases": [
+      "Physical badges"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the use of physical badges to gain access to bank facilities.",
+    "context": [
+      "Physical badges for facility access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_007",
+    "name": "Remote Access VPN Requirement",
+    "aliases": [
+      "VPN requirement"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of a Virtual Private Network (VPN) for all staff accessing bank systems remotely.",
+    "context": [
+      "VPN required for remote access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_001",
+    "name": "Multi-Factor Authentication",
+    "aliases": [
+      "MFA",
+      "OTP"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "Technical control requiring multiple forms of verification, implemented as OTP for online banking and MFA for privileged staff access.",
+    "context": [
+      "Username/password + OTP (email/SMS)",
+      "MFA for privileged access (admin, compliance)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_002",
+    "name": "Biometric Authentication",
+    "aliases": [
+      "Biometric"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "Technical control using physical characteristics (fingerprint/face) to authenticate customers on the mobile application.",
+    "context": [
+      "Mobile App: Biometric (fingerprint/face)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_003",
+    "name": "LDAP/Active Directory",
+    "aliases": [
+      "AD"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "Centralized directory service used for managing and authenticating staff credentials.",
+    "context": [
+      "LDAP/Active Directory (username/password)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_004",
+    "name": "Virtual Private Network",
+    "aliases": [
+      "VPN"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Secure encrypted tunnel required for staff to establish remote connections to the bank's internal network.",
+    "context": [
+      "VPN required for remote access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "Individuals accessing bank services via online, mobile, or branch channels who must undergo specific authentication processes.",
+    "context": [
+      "Customer Authentication:"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_rol_002",
+    "name": "Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Bank employees required to authenticate via LDAP/AD and use physical badges for facility access.",
+    "context": [
+      "Staff Authentication:"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_rol_003",
+    "name": "Privileged Access Users",
+    "aliases": [
+      "admin",
+      "compliance"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members in administrative or compliance roles who are subject to stricter MFA authentication requirements.",
+    "context": [
+      "MFA for privileged access (admin, compliance)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_pol_001",
+    "name": "Authorization Policy",
+    "aliases": [
+      "Authorization (What You Can Access)"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy governing access control, segregation of duties, and logging requirements to ensure data security and operational integrity within FirstUK Bank.",
+    "context": [
+      "Authorization (What You Can Access)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_001",
+    "name": "Implementation of Role-Based Access Control",
+    "aliases": [
+      "RBAC"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that system and data access be restricted based on the specific role of the staff member, ensuring users only access data necessary for their function.",
+    "context": [
+      "Role-Based Access Control (RBAC):",
+      "Customer-facing staff: Limited customer data (own customers)",
+      "Compliance staff: Full data access + audit logging"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_002",
+    "name": "Segregation of Duties Requirements",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "Prohibits the same individual from performing conflicting functions, specifically separating initiation from approval and administration from development.",
+    "context": [
+      "Segregation of Duties:",
+      "Account opening != Account approval",
+      "Transaction initiation != Transaction approval",
+      "System administration != Application development"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_003",
+    "name": "Access Logging and Monitoring Mandate",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Requires that all system access be logged with specific metadata and that suspicious patterns be flagged for review.",
+    "context": [
+      "All access logged (who, what, when, where)",
+      "Suspicious access patterns flagged"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_004",
+    "name": "Audit Log Retention Period",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Specifies that audit logs must be retained for a minimum period of one year.",
+    "context": [
+      "Audit logs retained 1 year"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_005",
+    "name": "Quarterly Access Review Schedule",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Mandates that access reviews be conducted on a periodic, quarterly basis.",
+    "context": [
+      "Periodic access reviews (quarterly)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_ctl_001",
+    "name": "Role-Based Access Control (RBAC)",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A technical control mechanism used to restrict system access to authorized users based on their organizational role.",
+    "context": [
+      "Role-Based Access Control (RBAC):"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_ctl_002",
+    "name": "Audit Logging",
+    "aliases": [
+      "audit trail"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A monitoring mechanism that records the identity of the user, the action taken, the timestamp, and the location of access.",
+    "context": [
+      "Compliance staff: Full data access + audit logging",
+      "Technology staff: System access with audit trail",
+      "All access logged (who, what, when, where)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_001",
+    "name": "Customer-facing staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members who interact with customers and are restricted to accessing only the data of their own assigned customers.",
+    "context": [
+      "Customer-facing staff: Limited customer data (own customers)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_002",
+    "name": "Compliance staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff responsible for compliance who are granted full data access subject to audit logging.",
+    "context": [
+      "Compliance staff: Full data access + audit logging"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_003",
+    "name": "Technology staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff responsible for technical systems who have system access governed by an audit trail.",
+    "context": [
+      "Technology staff: System access with audit trail"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_004",
+    "name": "Executives",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "Senior leadership restricted to viewing aggregated reports rather than granular data.",
+    "context": [
+      "Executives: Aggregated reports only"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_005",
+    "name": "Developers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff responsible for software development, restricted to accessing pre-production environments only.",
+    "context": [
+      "Developers: Pre-production environments only"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_pol_001",
+    "name": "Data Encryption Policy",
+    "aliases": [
+      "Data Encryption"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the encryption of data both in transit and for remote access to ensure the security of bank communications.",
+    "context": [
+      "## Data Encryption"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_001",
+    "name": "Mandatory Encryption of Internet-Facing Connections",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all connections facing the internet must be encrypted using TLS 1.3.",
+    "context": [
+      "All internet-facing connections encrypted"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_002",
+    "name": "Enforcement of HTTPS and HTTP Redirection",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to enforce HTTPS for web traffic and ensure all HTTP requests are redirected to HTTPS.",
+    "context": [
+      "HTTPS enforced (HTTP redirects to HTTPS)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_003",
+    "name": "Mandatory mTLS for Internal Service Communication",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for mutual TLS (mTLS) to be used for all communication between internal services.",
+    "context": [
+      "mTLS for internal service-to-service communication"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_004",
+    "name": "Certificate Management Obligations",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Obligation to maintain certificates through automated renewal and continuous monitoring.",
+    "context": [
+      "Certificate management (auto-renewal, monitoring)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_005",
+    "name": "Mandatory VPN Usage for Remote Staff",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all staff working remotely must utilize a VPN for network access.",
+    "context": [
+      "Staff working remotely use VPN"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_006",
+    "name": "Encryption of Remote Access Traffic",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all traffic for remote access must be encrypted via a secure tunnel.",
+    "context": [
+      "All traffic encrypted through secure tunnel"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_007",
+    "name": "Multi-factor Authentication for VPN Access",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for multi-factor authentication to be implemented for VPN access.",
+    "context": [
+      "Multi-factor authentication required"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_001",
+    "name": "Transport Layer Security 1.3",
+    "aliases": [
+      "TLS 1.3"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "The technical standard used to encrypt internet-facing connections.",
+    "context": [
+      "TLS 1.3 (Transport Layer Security):"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_002",
+    "name": "Mutual TLS",
+    "aliases": [
+      "mTLS"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A security mechanism used for verifying the identity of both parties in internal service-to-service communication.",
+    "context": [
+      "mTLS for internal service-to-service communication"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_003",
+    "name": "Virtual Private Network",
+    "aliases": [
+      "VPN"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A secure tunnel mechanism used to encrypt traffic for staff accessing the network remotely.",
+    "context": [
+      "VPN for Remote Access:",
+      "Staff working remotely use VPN"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_004",
+    "name": "Multi-factor Authentication",
+    "aliases": [
+      "MFA"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "An authentication safeguard required for accessing the bank's network via VPN.",
+    "context": [
+      "Multi-factor authentication required"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_rol_001",
+    "name": "Remote Staff",
+    "aliases": [
+      "Staff working remotely"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Bank employees working from remote locations who are obligated to use VPNs and MFA.",
+    "context": [
+      "Staff working remotely use VPN"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_pol_001",
+    "name": "Information Security Policy - Data at Rest",
+    "aliases": [
+      "At Rest"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy governing the encryption and secure handling of data at rest, covering databases, backups, and file storage to ensure sensitive information is protected from unauthorized access.",
+    "context": [
+      "### At Rest"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_001",
+    "name": "Mandatory AES-256 Encryption for Sensitive Database Columns",
+    "aliases": [
+      "Database Encryption"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that sensitive columns within databases be encrypted using the AES-256 standard.",
+    "context": [
+      "AES-256 encryption for sensitive columns"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_002",
+    "name": "Separation of Encryption Keys from Data",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that encryption keys must be stored separately from the encrypted data, specifically utilizing a Hardware Security Module (HSM).",
+    "context": [
+      "Encryption keys stored separately (HSM)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_003",
+    "name": "Mandatory Encryption for Backups to S3",
+    "aliases": [
+      "Backup Encryption"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires all backups sent to S3 to be encrypted using the AES-256 encryption standard.",
+    "context": [
+      "Encrypted backups to S3",
+      "AES-256 encryption standard"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_004",
+    "name": "Secure Deletion of Files via DoD Standard",
+    "aliases": [
+      "Deletion"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that the deletion of files be performed via secure overwriting in accordance with the DoD standard.",
+    "context": [
+      "Deletion: Secure overwriting (DoD standard)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_reg_001",
+    "name": "Department of Defense (DoD) Data Sanitization Standard",
+    "aliases": [
+      "DoD standard"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "international_standard",
+    "description": "An external standard used to define the requirements for secure overwriting and deletion of data.",
+    "context": [
+      "Deletion: Secure overwriting (DoD standard)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_rsk_001",
+    "name": "Unauthorized Data Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of sensitive data being accessed by unauthorized parties, mitigated through encryption of databases, backups, and portable devices.",
+    "context": [
+      "Database Encryption",
+      "Backup Encryption",
+      "File Encryption"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_001",
+    "name": "AES-256 Encryption",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "The technical implementation of the Advanced Encryption Standard with a 256-bit key used for databases and backups.",
+    "context": [
+      "AES-256 encryption for sensitive columns",
+      "AES-256 encryption standard"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_002",
+    "name": "Hardware Security Module (HSM)",
+    "aliases": [
+      "HSM"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A physical device used to securely store and manage encryption keys separately from the data.",
+    "context": [
+      "Encryption keys stored separately (HSM)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_003",
+    "name": "AWS Key Management Service (KMS)",
+    "aliases": [
+      "AWS KMS"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A cloud-based service used for the management of encryption keys for S3 backups.",
+    "context": [
+      "Keys managed in AWS KMS"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_004",
+    "name": "Transparent Application-Level Encryption",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "Encryption implemented at the application layer to ensure data is encrypted transparently.",
+    "context": [
+      "Transparent encryption (application-level)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_005",
+    "name": "Secure Overwriting",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The process of overwriting data to ensure it cannot be recovered after deletion, following the DoD standard.",
+    "context": [
+      "Deletion: Secure overwriting (DoD standard)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_pol_001",
+    "name": "Network Security Policy",
+    "aliases": [
+      "Network Security"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the security of the bank's network infrastructure, specifically focusing on perimeter security, firewall configurations, and threat mitigation.",
+    "context": [
+      "## Network Security",
+      "### Perimeter Security"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_001",
+    "name": "Stateful Inspection Firewall Requirement",
+    "aliases": [
+      "Firewall"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of a stateful inspection firewall to manage network traffic flow.",
+    "context": [
+      "Firewall:",
+      "Stateful inspection firewall"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_002",
+    "name": "Public API Ingress Restriction",
+    "aliases": [
+      "Ingress"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "Restricts incoming network traffic for public APIs to Port 443 (HTTPS) only.",
+    "context": [
+      "Ingress: Port 443 (HTTPS) only for public APIs"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_003",
+    "name": "Whitelist-Based Egress Control",
+    "aliases": [
+      "Egress"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that outbound network traffic be restricted based on a predefined whitelist.",
+    "context": [
+      "Egress: Restricted outbound (whitelist-based)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_004",
+    "name": "Firewall Rule Logging and Monitoring",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Requires that all firewall rules are logged and continuously monitored for security purposes.",
+    "context": [
+      "Rules logged and monitored"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_005",
+    "name": "DDoS Protection Implementation",
+    "aliases": [
+      "DDoS Protection"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the implementation of managed DDoS protection and traffic management to prevent service disruption.",
+    "context": [
+      "DDoS Protection:",
+      "AWS Shield (managed DDoS protection)",
+      "Rate limiting on APIs",
+      "Anomalous traffic detection",
+      "Traffic rerouting if DDoS detected"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_006",
+    "name": "Intrusion Detection and Prevention Requirement",
+    "aliases": [
+      "Intrusion Detection/Prevention"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the deployment of both network-based and host-based intrusion detection systems with automated response capabilities.",
+    "context": [
+      "Intrusion Detection/Prevention:",
+      "Network-based IDS (Snort-like rules)",
+      "Host-based IDS on critical systems",
+      "Automated response (block malicious IPs)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_rsk_001",
+    "name": "Distributed Denial of Service (DDoS)",
+    "aliases": [
+      "DDoS"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of service unavailability caused by anomalous traffic volumes or targeted DDoS attacks.",
+    "context": [
+      "DDoS Protection:",
+      "Traffic rerouting if DDoS detected"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_rsk_002",
+    "name": "Network Intrusion",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of malicious actors gaining unauthorized access to the network or critical systems.",
+    "context": [
+      "Intrusion Detection/Prevention:",
+      "block malicious IPs"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_001",
+    "name": "Stateful Inspection Firewall",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A technical control used to monitor the state of active connections to determine which network packets to allow through.",
+    "context": [
+      "Stateful inspection firewall"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_002",
+    "name": "AWS Shield",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "A managed DDoS protection service used to safeguard the bank's network perimeter.",
+    "context": [
+      "AWS Shield (managed DDoS protection)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_003",
+    "name": "API Rate Limiting",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A mechanism to limit the number of requests to APIs to prevent abuse and DDoS attacks.",
+    "context": [
+      "Rate limiting on APIs"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_004",
+    "name": "Network-based IDS",
+    "aliases": [
+      "NIDS"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A system that monitors network traffic for malicious activity using Snort-like rules.",
+    "context": [
+      "Network-based IDS (Snort-like rules)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_005",
+    "name": "Host-based IDS",
+    "aliases": [
+      "HIDS"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A security system installed on critical servers to detect internal intrusions or unauthorized changes.",
+    "context": [
+      "Host-based IDS on critical systems"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_006",
+    "name": "Automated IP Blocking",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "An automated response mechanism that blocks malicious IP addresses upon detection of an intrusion.",
+    "context": [
+      "Automated response (block malicious IPs)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_pol_001",
+    "name": "Internal Network Segmentation Policy",
+    "aliases": [
+      "Network Segmentation"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the technical separation of network environments to protect sensitive data and restrict unauthorized access across different system tiers.",
+    "context": [
+      "Internal Network Segmentation"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_prv_001",
+    "name": "Mandatory Network Segregation of System Tiers",
+    "aliases": [
+      "Network Segregation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the bank to maintain separate subnets for customer-facing systems and internal staff systems, while ensuring the database tier is isolated with restricted access and development systems are separated from production.",
+    "context": [
+      "Customer-facing systems: Separate subnet",
+      "Internal staff systems: Separate subnet",
+      "Database tier: Isolated, restricted access",
+      "Development systems: Separated from production"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_prv_002",
+    "name": "Mandatory Remote Access Controls",
+    "aliases": [
+      "VPN & Bastion Hosts"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that all remote access must occur exclusively through a VPN and that administrative access must be routed through a bastion host.",
+    "context": [
+      "Remote access through VPN only",
+      "Bastion host for admin access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_prv_003",
+    "name": "Administrative Session Security Requirements",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the implementation of multi-hop authentication and the logging and timing out of administrative sessions.",
+    "context": [
+      "Multi-hop authentication",
+      "Session logging and timeout"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_rsk_001",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of unauthorized users gaining access to sensitive database tiers, production environments, or internal staff systems.",
+    "context": [
+      "Database tier: Isolated, restricted access",
+      "Development systems: Separated from production"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_001",
+    "name": "Network Subnetting",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The use of separate subnets to isolate customer-facing systems from internal staff systems.",
+    "context": [
+      "Customer-facing systems: Separate subnet",
+      "Internal staff systems: Separate subnet"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_002",
+    "name": "Virtual Private Network (VPN)",
+    "aliases": [
+      "VPN"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A secure tunnel used as the sole mechanism for remote access to the bank's internal network.",
+    "context": [
+      "Remote access through VPN only"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_003",
+    "name": "Bastion Host",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A specialized server used as a secure gateway to provide administrative access to internal systems.",
+    "context": [
+      "Bastion host for admin access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_004",
+    "name": "Multi-hop Authentication",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A security mechanism requiring multiple stages of authentication to reach a target system.",
+    "context": [
+      "Multi-hop authentication"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_005",
+    "name": "Session Logging and Timeout",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The recording of administrative session activity and the automatic termination of inactive sessions to prevent unauthorized use.",
+    "context": [
+      "Session logging and timeout"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_pol_001",
+    "name": "Endpoint Security Policy",
+    "aliases": [
+      "Endpoint Security"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the security requirements for laptops, desktops, and mobile devices. It defines the standards for malware protection, device management, and data encryption to protect bank and customer data.",
+    "context": [
+      "Endpoint Security",
+      "Laptops & Desktops"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_001",
+    "name": "Mandatory EDR Deployment and Real-time Scanning",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the deployment of an Endpoint Detection and Response (EDR) tool with real-time scanning enabled to protect endpoints.",
+    "context": [
+      "Endpoint detection and response (EDR) tool deployed",
+      "Real-time scanning enabled"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_002",
+    "name": "Daily Virus Definition Updates",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that virus definitions for endpoint security tools must be updated on a daily basis.",
+    "context": [
+      "Virus definitions updated daily"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_003",
+    "name": "Automatic Isolation of Suspicious Behavior",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that any behavior identified as suspicious by security tools must be isolated automatically.",
+    "context": [
+      "Suspicious behavior isolated automatically"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_004",
+    "name": "Mandatory Mobile Device Management",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the use of Mobile Device Management (MDM) for all phones and tablets used within the bank's environment.",
+    "context": [
+      "Mobile Device Management (MDM) for phones/tablets"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_005",
+    "name": "Universal Device Encryption",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that encryption must be enforced on all devices, specifically those with access to customer data.",
+    "context": [
+      "Encryption enforced on all devices",
+      "Mandatory for all devices with customer data access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_006",
+    "name": "Remote Wipe Capability for Lost Devices",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that all devices have the capability to be wiped remotely in the event they are lost.",
+    "context": [
+      "Lost device remote wipe capability"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_007",
+    "name": "OS Patching Timeframes",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Defines the mandatory window for applying OS patches: within 30 days for standard patches and within 7 days for critical patches.",
+    "context": [
+      "OS patches applied within 30 days (critical within 7)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_008",
+    "name": "Encryption Key Escrow",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that encryption keys for full-disk encryption be escrowed to ensure recovery is possible.",
+    "context": [
+      "Encryption keys escrowed (recovery)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_rsk_001",
+    "name": "Malware Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of malicious software infecting endpoints, addressed through EDR, real-time scanning, and daily updates.",
+    "context": [
+      "Antivirus/Anti-malware",
+      "Suspicious behavior isolated automatically"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_rsk_002",
+    "name": "Unauthorized Data Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of unauthorized parties accessing customer data via lost or stolen devices, mitigated by encryption and remote wipe capabilities.",
+    "context": [
+      "Lost device remote wipe capability",
+      "Mandatory for all devices with customer data access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_ctl_001",
+    "name": "Endpoint Detection and Response (EDR)",
+    "aliases": [
+      "EDR"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "A technical tool deployed to detect and respond to threats on laptops and desktops.",
+    "context": [
+      "Endpoint detection and response (EDR) tool deployed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_ctl_002",
+    "name": "Mobile Device Management (MDM)",
+    "aliases": [
+      "MDM"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A management system used to enforce security policies on mobile phones and tablets.",
+    "context": [
+      "Mobile Device Management (MDM) for phones/tablets"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_ctl_003",
+    "name": "Full-Disk Encryption",
+    "aliases": [
+      "BitLocker",
+      "FileVault"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "The use of BitLocker for Windows and FileVault for Mac to ensure data at rest is encrypted.",
+    "context": [
+      "Full-Disk Encryption",
+      "BitLocker (Windows), FileVault (Mac)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_pol_001",
+    "name": "Application Security Policy",
+    "aliases": [
+      "Application Security"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the security requirements for application development, testing, and deployment within FirstUK Bank. It focuses on the Secure Software Development Life Cycle (SDLC) to ensure code integrity and system resilience.",
+    "context": [
+      "## Application Security",
+      "### Development Security (Secure SDLC)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_001",
+    "name": "Mandatory Peer Code Review",
+    "aliases": [
+      "Code Review"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that all code undergo a peer review process prior to being deployed. This is a mandatory gate in the development lifecycle.",
+    "context": [
+      "Peer review required before deployment"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_002",
+    "name": "Security-Focused Code Review Standards",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of a security-focused checklist during code reviews, specifically targeting authorization controls and the prevention of SQL injection and XSS.",
+    "context": [
+      "Security-focused code review checklist",
+      "Authorization controls review",
+      "SQL injection/XSS prevention checks"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_003",
+    "name": "Multi-Stage Testing Requirement",
+    "aliases": [
+      "Testing"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligates the performance of unit testing by developers, integration testing by QA, and load testing prior to any production release.",
+    "context": [
+      "Unit testing (developers)",
+      "Integration testing (QA)",
+      "Load testing (before production release)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_004",
+    "name": "Security Testing Mandate",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the execution of security-specific testing, including penetration tests and vulnerability scans, as part of the SDLC.",
+    "context": [
+      "Security testing (penetration tests, vulnerability scans)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_005",
+    "name": "Automated Deployment Requirement",
+    "aliases": [
+      "Deployment"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "Mandates the use of automated deployment processes and explicitly prohibits manual changes to the production environment.",
+    "context": [
+      "Automated deployment (no manual prod changes)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_006",
+    "name": "Production Change Approval Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "Requires that all changes to the production environment be approved by the Change Advisory Board.",
+    "context": [
+      "Change advisory board approval (changes to prod)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_007",
+    "name": "Deployment Rollback and Monitoring Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Requires that a documented rollback plan be in place and that production monitoring be enabled for all deployments.",
+    "context": [
+      "Rollback plan documented",
+      "Production monitoring enabled"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rsk_001",
+    "name": "SQL Injection",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "A specific technical vulnerability where malicious SQL statements are inserted into entry fields for execution, which the policy seeks to prevent via code review.",
+    "context": [
+      "SQL injection/XSS prevention checks"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rsk_002",
+    "name": "Cross-Site Scripting (XSS)",
+    "aliases": [
+      "XSS"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "A security vulnerability involving the injection of malicious scripts into trusted websites, addressed through mandatory code review checks.",
+    "context": [
+      "SQL injection/XSS prevention checks"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_001",
+    "name": "Penetration Testing",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "penetration_testing",
+    "description": "An operational security safeguard used to identify vulnerabilities by simulating attacks against the application.",
+    "context": [
+      "Security testing (penetration tests, vulnerability scans)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_002",
+    "name": "Vulnerability Scanning",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "penetration_testing",
+    "description": "An automated tool used to detect known security weaknesses within the application environment.",
+    "context": [
+      "Security testing (penetration tests, vulnerability scans)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_003",
+    "name": "Change Advisory Board Approval",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "A governance gate requiring formal approval before any changes are promoted to the production environment.",
+    "context": [
+      "Change advisory board approval (changes to prod)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_004",
+    "name": "Production Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The implementation of monitoring tools to ensure the stability and security of the application after deployment.",
+    "context": [
+      "Production monitoring enabled"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rol_001",
+    "name": "Developers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff responsible for the creation of code and the execution of unit testing.",
+    "context": [
+      "Unit testing (developers)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rol_002",
+    "name": "Quality Assurance (QA)",
+    "aliases": [
+      "QA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff collective responsible for performing integration testing on the application.",
+    "context": [
+      "Integration testing (QA)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rol_003",
+    "name": "Change Advisory Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "A governing body with the authority to approve or reject changes to the production environment.",
+    "context": [
+      "Change advisory board approval (changes to prod)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_pol_001",
+    "name": "API Security Policy",
+    "aliases": [
+      "API Security"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal set of security standards governing the implementation and design of APIs at FirstUK Bank, focusing on gateway controls and secure design principles.",
+    "context": [
+      "### API Security"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_ctl_001",
+    "name": "Kong API Gateway",
+    "aliases": [
+      "API Gateway"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The primary technical gateway used to enforce authentication, rate limiting, and request validation for API traffic.",
+    "context": [
+      "API Gateway (Kong):"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_001",
+    "name": "Mandatory API Authentication",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that API access must be secured using a combination of API keys and JSON Web Tokens (JWT).",
+    "context": [
+      "Authentication (API key + JWT)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_002",
+    "name": "API Rate Limiting Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to implement rate limiting on the API Gateway to prevent system abuse.",
+    "context": [
+      "Rate limiting (prevent abuse)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_003",
+    "name": "API Request Validation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to validate incoming requests at the gateway level to prevent injection attacks.",
+    "context": [
+      "Request validation (prevent injection)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_004",
+    "name": "API Monitoring and Alerting",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Requirement to maintain monitoring and alerting capabilities for API Gateway activity.",
+    "context": [
+      "Monitoring and alerting"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_005",
+    "name": "API Input Sanitization",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Design requirement to sanitize all inputs to ensure secure API processing.",
+    "context": [
+      "Input validation (sanitize all inputs)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_006",
+    "name": "API Output Encoding",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Design requirement to encode outputs to prevent Cross-Site Scripting (XSS) vulnerabilities.",
+    "context": [
+      "Output encoding (prevent XSS)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_007",
+    "name": "Role-Based API Authorization",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to implement authorization checks based on user or system roles.",
+    "context": [
+      "Authorization checks (role-based)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_008",
+    "name": "API Call Audit Logging",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requirement to maintain audit logs of all API calls for security and compliance tracking.",
+    "context": [
+      "Audit logging of API calls"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_rsk_001",
+    "name": "API Abuse",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk of API resources being overwhelmed or misused, mitigated by rate limiting.",
+    "context": [
+      "Rate limiting (prevent abuse)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_rsk_002",
+    "name": "Injection Attack",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of malicious code being injected into API requests, mitigated by request validation.",
+    "context": [
+      "Request validation (prevent injection)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_rsk_003",
+    "name": "Cross-Site Scripting (XSS)",
+    "aliases": [
+      "XSS"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of malicious scripts being executed in a user's browser via API outputs, mitigated by output encoding.",
+    "context": [
+      "Output encoding (prevent XSS)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_ctl_002",
+    "name": "Audit Logging",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of recording API calls to provide a traceable history of system access.",
+    "context": [
+      "Audit logging of API calls"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_pol_001",
+    "name": "Vulnerability Management Policy",
+    "aliases": [
+      "Vulnerability Management"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the identification and management of security vulnerabilities across production systems, deployments, and third-party libraries.",
+    "context": [
+      "## Vulnerability Management"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_prv_001",
+    "name": "Weekly Production System Vulnerability Scanning",
+    "aliases": [
+      "Production systems: Weekly scans"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement stating that vulnerability scans must be performed on production systems on a weekly basis.",
+    "context": [
+      "Production systems: Weekly scans"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_prv_002",
+    "name": "Pre-deployment Vulnerability Scanning",
+    "aliases": [
+      "Pre-deployment: Every release"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement that vulnerability scanning must be conducted for every release prior to deployment.",
+    "context": [
+      "Pre-deployment: Every release"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_prv_003",
+    "name": "Continuous Third-party Library Scanning",
+    "aliases": [
+      "Third-party libraries: Continuous scanning"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement for the continuous scanning of third-party libraries to identify vulnerabilities.",
+    "context": [
+      "Third-party libraries: Continuous scanning"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_001",
+    "name": "Nessus Network Vulnerability Scanner",
+    "aliases": [
+      "Network vulnerability scanner"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The specific technical tool used for performing network-level vulnerability scanning.",
+    "context": [
+      "Network vulnerability scanner (Nessus)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_002",
+    "name": "Burp Suite Web Application Scanner",
+    "aliases": [
+      "Web application scanner"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The specific technical tool used for scanning web applications for vulnerabilities.",
+    "context": [
+      "Web application scanner (Burp Suite)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_003",
+    "name": "Trivy Container Image Scanner",
+    "aliases": [
+      "Container image scanner"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The specific technical tool used for scanning container images for security vulnerabilities.",
+    "context": [
+      "Container image scanner (Trivy)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_004",
+    "name": "Dependency Checker",
+    "aliases": [
+      "npm audit"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "Technical tools, such as npm audit, used to check software dependencies for known vulnerabilities.",
+    "context": [
+      "Dependency checker (npm audit, etc.)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_rsk_001",
+    "name": "Information Security Vulnerability",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of security weaknesses in production systems, web applications, container images, or third-party libraries being exploited.",
+    "context": [
+      "## Vulnerability Management",
+      "### Vulnerability Scanning"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_pol_001",
+    "name": "Patch Management Policy",
+    "aliases": [
+      "Patch Management"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the identification, testing, and deployment of software patches based on criticality timelines to ensure system security.",
+    "context": [
+      "### Patch Management"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_001",
+    "name": "Critical Patch Deployment Timeline",
+    "aliases": [
+      "Criticality Timeline - Critical"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to deploy patches identified as 'Critical' within a maximum timeframe of 7 days.",
+    "context": [
+      "Critical: Patch within 7 days"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_002",
+    "name": "High Patch Deployment Timeline",
+    "aliases": [
+      "Criticality Timeline - High"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to deploy patches identified as 'High' within a maximum timeframe of 30 days.",
+    "context": [
+      "High: Patch within 30 days"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_003",
+    "name": "Medium Patch Deployment Timeline",
+    "aliases": [
+      "Criticality Timeline - Medium"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to deploy patches identified as 'Medium' within a maximum timeframe of 60 days.",
+    "context": [
+      "Medium: Patch within 60 days"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_004",
+    "name": "Low Patch Deployment Timeline",
+    "aliases": [
+      "Criticality Timeline - Low"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to deploy patches identified as 'Low' within a maximum timeframe of 90 days.",
+    "context": [
+      "Low: Patch within 90 days"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_005",
+    "name": "Patch Deployment Process Sequence",
+    "aliases": [
+      "Process"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory five-step operational sequence for patch management: vulnerability identification, vendor release, non-production testing, production deployment, and final verification.",
+    "context": [
+      "1. Vulnerability identified",
+      "2. Patch released by vendor",
+      "3. Testing in non-prod",
+      "4. Production deployment per timeline",
+      "5. Verification and monitoring"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_rsk_001",
+    "name": "Vulnerability Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk associated with unpatched software vulnerabilities that could be exploited, categorized by criticality levels (Critical, High, Medium, Low).",
+    "context": [
+      "Vulnerability identified",
+      "Criticality Timeline"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_ctl_001",
+    "name": "Non-Production Testing",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "An operational safeguard requiring patches to be tested in a non-production environment prior to deployment in the production environment.",
+    "context": [
+      "3. Testing in non-prod"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_ctl_002",
+    "name": "Post-Deployment Verification and Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A monitoring mechanism to verify the successful application of a patch and monitor system stability following production deployment.",
+    "context": [
+      "5. Verification and monitoring"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_pol_001",
+    "name": "Third-Party Risk Policy",
+    "aliases": [
+      "Third-Party Risk"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing the management of risks associated with third-party vendors, specifically focusing on security assessments and ongoing monitoring requirements.",
+    "context": [
+      "Third-Party Risk",
+      "Vendor Security Assessment"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_001",
+    "name": "Mandatory Pre-Assessment Security Questionnaire",
+    "aliases": [
+      "Pre-Assessment"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that a security questionnaire must be completed as part of the pre-assessment process for third-party vendors.",
+    "context": [
+      "Security questionnaire completed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_002",
+    "name": "SOC 2 Type II Audit Review",
+    "aliases": [
+      "Pre-Assessment"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to review a vendor's SOC 2 Type II audit report during the pre-assessment phase, where such a report is available.",
+    "context": [
+      "SOC 2 Type II audit reviewed (if available)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_003",
+    "name": "Penetration Test Result Review",
+    "aliases": [
+      "Pre-Assessment"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to review penetration test results during the pre-assessment phase, if applicable to the vendor.",
+    "context": [
+      "Penetration test results (if applicable)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_004",
+    "name": "Vendor Reference Checks",
+    "aliases": [
+      "Pre-Assessment"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to conduct reference checks with other customers of the third-party vendor during pre-assessment.",
+    "context": [
+      "Reference checks (other customers)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_005",
+    "name": "Annual Vendor Re-assessment",
+    "aliases": [
+      "Ongoing"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Mandate for the bank to perform a security re-assessment of third-party vendors on an annual basis.",
+    "context": [
+      "Annual re-assessment"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_006",
+    "name": "Vendor Incident Notification Timeframe",
+    "aliases": [
+      "Ongoing",
+      "SLA"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Obligation for vendors to notify FirstUK Bank of security incidents within a 24-hour Service Level Agreement (SLA) window.",
+    "context": [
+      "Incident notification requirements (SLA: 24 hours)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_007",
+    "name": "Right to Audit Third-Party Vendors",
+    "aliases": [
+      "Ongoing"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Provision granting FirstUK Bank the explicit right to conduct audits of its third-party vendors.",
+    "context": [
+      "Audit rights (FirstUK Bank can audit vendor)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_008",
+    "name": "Security Service Level Agreement Requirement",
+    "aliases": [
+      "Ongoing",
+      "SLA"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for a formal Service Level Agreement (SLA) specifically covering security standards for third-party vendors.",
+    "context": [
+      "Service Level Agreement (SLA) for security"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_rsk_001",
+    "name": "Third-Party Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks arising from the use of external vendors, specifically regarding their security posture and ability to protect bank data.",
+    "context": [
+      "Third-Party Risk"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_ctl_001",
+    "name": "Vendor Security Questionnaire",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "An operational tool used to collect security data from vendors during the pre-assessment phase.",
+    "context": [
+      "Security questionnaire completed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_ctl_002",
+    "name": "SOC 2 Type II Audit Review",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The process of reviewing external audit reports to verify a vendor's internal controls.",
+    "context": [
+      "SOC 2 Type II audit reviewed (if available)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_ctl_003",
+    "name": "Penetration Testing Review",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "penetration_testing",
+    "description": "The review of technical security testing results to identify vulnerabilities in a vendor's environment.",
+    "context": [
+      "Penetration test results (if applicable)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_rol_001",
+    "name": "Third-Party Vendor",
+    "aliases": [
+      "vendor"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External entities providing services to FirstUK Bank, subject to security assessments, audit rights, and incident notification SLAs.",
+    "context": [
+      "FirstUK Bank can audit vendor",
+      "Incident notification requirements (SLA: 24 hours)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_rol_002",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The governing institution responsible for conducting vendor assessments and exercising audit rights.",
+    "context": [
+      "FirstUK Bank can audit vendor"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_pol_001",
+    "name": "Third-Party Access Policy",
+    "aliases": [
+      "Third-Party Access"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy governing the access granted to contractors and vendors to bank systems, ensuring access is limited, monitored, and secured.",
+    "context": [
+      "Third-Party Access",
+      "Contractor/Vendor Access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_001",
+    "name": "Principle of Least Privilege for Third Parties",
+    "aliases": [
+      "Limited to systems needed"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that contractor and vendor access must be restricted only to the specific systems required for their role.",
+    "context": [
+      "Limited to systems needed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_002",
+    "name": "Time-Bound Access and Auto-Revocation",
+    "aliases": [
+      "Time-bound (auto-revocation)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that third-party access be granted for a limited duration and automatically revoked upon expiry.",
+    "context": [
+      "Time-bound (auto-revocation)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_003",
+    "name": "Mandatory Activity Logging for Third Parties",
+    "aliases": [
+      "Monitored (all actions logged)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligates the bank to monitor and log all actions performed by contractors and vendors within the systems.",
+    "context": [
+      "Monitored (all actions logged)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_004",
+    "name": "Multi-Factor Authentication Requirement",
+    "aliases": [
+      "MFA required"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of Multi-Factor Authentication (MFA) for all third-party access to systems.",
+    "context": [
+      "MFA required"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_005",
+    "name": "Third-Party Legal and Security Agreement Obligation",
+    "aliases": [
+      "NDA and security agreement signed"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Requires that all contractors and vendors sign a Non-Disclosure Agreement (NDA) and a security agreement prior to gaining access.",
+    "context": [
+      "NDA and security agreement signed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_ctl_001",
+    "name": "Auto-Revocation Mechanism",
+    "aliases": [
+      "auto-revocation"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A technical control that automatically terminates third-party access once the predefined time limit is reached.",
+    "context": [
+      "Time-bound (auto-revocation)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_ctl_002",
+    "name": "Activity Logging",
+    "aliases": [
+      "all actions logged"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism used to record and monitor all actions taken by third parties on bank systems.",
+    "context": [
+      "Monitored (all actions logged)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_ctl_003",
+    "name": "Multi-Factor Authentication",
+    "aliases": [
+      "MFA"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A security tool requiring multiple forms of verification to authenticate third-party users.",
+    "context": [
+      "MFA required"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_rol_001",
+    "name": "Contractor/Vendor",
+    "aliases": [
+      "Third-Party"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External entities granted limited, monitored, and time-bound access to bank systems, subject to NDA and security agreements.",
+    "context": [
+      "Contractor/Vendor Access",
+      "NDA and security agreement signed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_pol_001",
+    "name": "Physical Security Policy",
+    "aliases": [
+      "Physical Security"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy governing the physical security requirements for bank facilities, specifically focusing on the protection and environmental stability of data centers.",
+    "context": [
+      "## Physical Security",
+      "### Data Centers"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_001",
+    "name": "Mandatory Badge and Biometric Access for Data Centers",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that access to data centers is restricted to badge access only, with a specific mandate for biometric verification at the main entrance.",
+    "context": [
+      "Badge access only (biometric at main entrance)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_002",
+    "name": "Visitor Logging and Escort Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligation to maintain a log of all visitors and ensure that any non-staff personnel are escorted while within the data center.",
+    "context": [
+      "Visitor log maintained",
+      "Escort required for non-staff"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_003",
+    "name": "Continuous CCTV Monitoring",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for 24/7 CCTV monitoring to be active within the data center environment.",
+    "context": [
+      "CCTV monitoring (24/7)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_004",
+    "name": "Environmental Safeguard Requirements",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandate to implement fire suppression, power backup, climate control, and water detection systems to protect data center infrastructure.",
+    "context": [
+      "Fire suppression (sprinkler system)",
+      "Power backup (generators, UPS)",
+      "Climate control (temperature/humidity)",
+      "Water detection (to prevent flooding)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_001",
+    "name": "Biometric Access Control",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Technical control utilizing biometric verification at the main entrance to restrict unauthorized physical entry.",
+    "context": [
+      "biometric at main entrance"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_002",
+    "name": "Visitor Log",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "Operational mechanism used to track and record the entry and exit of non-staff personnel.",
+    "context": [
+      "Visitor log maintained"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_003",
+    "name": "CCTV Surveillance",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "Continuous 24/7 video monitoring used to detect and record physical security breaches.",
+    "context": [
+      "CCTV monitoring (24/7)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_004",
+    "name": "Fire Suppression System",
+    "aliases": [
+      "sprinkler system"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "operational_risk",
+    "description": "Technical safeguard consisting of a sprinkler system to mitigate the risk of fire in data centers.",
+    "context": [
+      "Fire suppression (sprinkler system)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_005",
+    "name": "Power Backup Systems",
+    "aliases": [
+      "generators",
+      "UPS"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "operational_risk",
+    "description": "Redundant power mechanisms including generators and Uninterruptible Power Supplies (UPS) to ensure continuous operation.",
+    "context": [
+      "Power backup (generators, UPS)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_006",
+    "name": "Climate Control System",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "operational_risk",
+    "description": "Environmental control mechanism to regulate temperature and humidity within the data center.",
+    "context": [
+      "Climate control (temperature/humidity)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_007",
+    "name": "Water Detection System",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "operational_risk",
+    "description": "Monitoring tool designed to detect water ingress to prevent flooding of critical infrastructure.",
+    "context": [
+      "Water detection (to prevent flooding)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_rsk_001",
+    "name": "Unauthorized Physical Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of unauthorized individuals gaining entry to sensitive data center areas.",
+    "context": [
+      "Badge access only",
+      "Escort required for non-staff"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_rsk_002",
+    "name": "Environmental Hazard",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with fire, power failure, extreme temperature/humidity, or flooding within the data center.",
+    "context": [
+      "Fire suppression",
+      "Power backup",
+      "Climate control",
+      "Water detection (to prevent flooding)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_pol_001",
+    "name": "Offices & Branches Security Policy",
+    "aliases": [
+      "Offices & Branches"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy governing the physical security and screen privacy standards for FirstUK Bank offices and branches to prevent unauthorized access and data exposure.",
+    "context": [
+      "Offices & Branches"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_prv_001",
+    "name": "Physical Access Control Requirements",
+    "aliases": [
+      "Access Control"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the use of badge access for entry, locking of doors after hours, visitor registration, and the securing of conference rooms and document storage.",
+    "context": [
+      "Badge access (doors locked after hours)",
+      "Visitor sign-in",
+      "Conference rooms lockable",
+      "Secure document storage areas"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_prv_002",
+    "name": "Screen Privacy and Data Protection Standards",
+    "aliases": [
+      "Screen Privacy"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires specific measures to prevent visual hacking, including strategic desk positioning, the use of privacy filters in public, and automatic screen locking after 15 minutes.",
+    "context": [
+      "Desk positioning to prevent shoulder-surfing",
+      "Privacy filters on laptops (when public spaces)",
+      "Screens lock (screen saver after 15 min)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_rsk_001",
+    "name": "Unauthorized Physical Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of unauthorized individuals gaining entry to bank offices, branches, or secure storage areas.",
+    "context": [
+      "Badge access (doors locked after hours)",
+      "Visitor sign-in"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_rsk_002",
+    "name": "Shoulder-Surfing",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk of sensitive information being viewed by unauthorized persons by looking over a staff member's shoulder.",
+    "context": [
+      "Desk positioning to prevent shoulder-surfing"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_001",
+    "name": "Badge Access System",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "An electronic access control mechanism requiring a badge for entry and ensuring doors are locked after business hours.",
+    "context": [
+      "Badge access (doors locked after hours)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_002",
+    "name": "Visitor Sign-in Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A manual or electronic logging process to track and authorize visitors entering the premises.",
+    "context": [
+      "Visitor sign-in"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_003",
+    "name": "Secure Document Storage",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The use of designated secure areas to store physical documents to prevent unauthorized access.",
+    "context": [
+      "Secure document storage areas"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_004",
+    "name": "Laptop Privacy Filters",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "Physical screen overlays used on laptops in public spaces to restrict the viewing angle of the screen.",
+    "context": [
+      "Privacy filters on laptops (when public spaces)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_005",
+    "name": "Automatic Screen Lock",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A technical control that automatically activates a screen saver and locks the workstation after 15 minutes of inactivity.",
+    "context": [
+      "Screens lock (screen saver after 15 min)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_pol_001",
+    "name": "Incident Response Policy",
+    "aliases": [
+      "Incident Response"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the detection, reporting, and classification of security incidents within FirstUK Bank to ensure timely mitigation and escalation.",
+    "context": [
+      "## Incident Response"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_prv_001",
+    "name": "Mandatory Incident Reporting Workflow",
+    "aliases": [
+      "Immediate Actions"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory sequence of actions requiring the detection of an incident, reporting to the Information Security Officer, escalation to the CTO and CRO upon confirmation, and the activation of the incident response team.",
+    "context": [
+      "Detect incident (automated alerts or staff report)",
+      "Report to Information Security Officer",
+      "Escalate to CTO and CRO if confirmed",
+      "Activate incident response team"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_prv_002",
+    "name": "Incident Severity Classification Standard",
+    "aliases": [
+      "Classification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to classify security incidents into four severity levels (Critical, High, Medium, Low) based on the nature of the threat, such as data breaches or policy violations.",
+    "context": [
+      "Severity 1 (Critical): Data breach, ransomware, system unavailable",
+      "Severity 2 (High): Suspected breach, unauthorized access, significant compromise",
+      "Severity 3 (Medium): Malware detected, vulnerability found, access attempt",
+      "Severity 4 (Low): Policy violation, minor vulnerability, suspicious activity"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_001",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "A critical security risk involving the unauthorized release or access of sensitive data, classified as Severity 1.",
+    "context": [
+      "Severity 1 (Critical): Data breach"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_002",
+    "name": "Ransomware",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "A critical security risk involving malicious software that encrypts data for ransom, classified as Severity 1.",
+    "context": [
+      "Severity 1 (Critical): ... ransomware"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_003",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "A high-severity risk involving suspected or confirmed access to systems or data without proper authorization.",
+    "context": [
+      "Severity 2 (High): Suspected breach, unauthorized access"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_004",
+    "name": "Malware",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "A medium-severity risk involving the detection of malicious software within the bank's environment.",
+    "context": [
+      "Severity 3 (Medium): Malware detected"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_ctl_001",
+    "name": "Automated Incident Alerts",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A technical monitoring mechanism used to automatically detect security incidents as part of the immediate response workflow.",
+    "context": [
+      "Detect incident (automated alerts or staff report)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_001",
+    "name": "Information Security Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The primary role responsible for receiving initial incident reports from staff or automated systems.",
+    "context": [
+      "Report to Information Security Officer"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_002",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "An executive role that must be notified via escalation if a security incident is confirmed.",
+    "context": [
+      "Escalate to CTO and CRO if confirmed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_003",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "An executive role that must be notified via escalation if a security incident is confirmed.",
+    "context": [
+      "Escalate to CTO and CRO if confirmed"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_004",
+    "name": "Incident Response Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "A specialized collective activated to manage and remediate confirmed security incidents.",
+    "context": [
+      "Activate incident response team"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_pol_001",
+    "name": "Incident Investigation Policy",
+    "aliases": [
+      "Incident Investigation"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing the timeline and required elements for investigating security or operational incidents based on their severity levels.",
+    "context": [
+      "### Incident Investigation"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_001",
+    "name": "Severity 1 Investigation Timeline",
+    "aliases": [
+      "Severity 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement that investigations for Severity 1 incidents must be started immediately.",
+    "context": [
+      "Severity 1: Investigation started immediately"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_002",
+    "name": "Severity 2 Investigation Timeline",
+    "aliases": [
+      "Severity 2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement that investigations for Severity 2 incidents must commence within 2 hours.",
+    "context": [
+      "Severity 2: Investigation within 2 hours"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_003",
+    "name": "Severity 3 Investigation Timeline",
+    "aliases": [
+      "Severity 3"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement that investigations for Severity 3 incidents must commence within 24 hours.",
+    "context": [
+      "Severity 3: Investigation within 24 hours"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_004",
+    "name": "Severity 4 Investigation Timeline",
+    "aliases": [
+      "Severity 4"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement that investigations for Severity 4 incidents must commence within 1 week.",
+    "context": [
+      "Severity 4: Investigation within 1 week"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_005",
+    "name": "Mandatory Investigation Elements",
+    "aliases": [
+      "Investigation Elements"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to capture specific data points during an investigation, including the timeline, root cause, affected data, customer impact, and extent of compromise.",
+    "context": [
+      "Investigation Elements:",
+      "What happened (timeline)",
+      "How it happened (root cause)",
+      "What data was affected",
+      "How many customers impacted",
+      "Extent of compromise"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_rsk_001",
+    "name": "Operational Incident Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk associated with security or operational incidents that require investigation and mitigation based on severity.",
+    "context": [
+      "### Incident Investigation",
+      "Extent of compromise"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_ctl_001",
+    "name": "Incident Investigation Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The operational mechanism of conducting investigations with defined timelines and mandatory elements to ensure root cause analysis and impact assessment.",
+    "context": [
+      "Investigation Elements:",
+      "How it happened (root cause)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_cus_001",
+    "name": "Impacted Customers",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Customers who are identified as being impacted by a security or operational incident during the investigation process.",
+    "context": [
+      "How many customers impacted"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_pol_001",
+    "name": "Notification & Reporting Policy",
+    "aliases": [
+      "Notification & Reporting"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A policy governing the internal and external notification requirements following a security or data breach, specifying timelines and recipients based on severity and data type.",
+    "context": [
+      "Notification & Reporting"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_001",
+    "name": "Immediate Internal Notification for High Severity Incidents",
+    "aliases": [
+      "Internal Notification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Mandatory requirement to immediately notify the CTO, CRO, and CEO in the event of a Severity 1 or 2 incident.",
+    "context": [
+      "Immediately to CTO, CRO, CEO (Severity 1–2)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_002",
+    "name": "Board Notification Timeline for High Severity Incidents",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Requirement to notify the Board within 24 hours for incidents classified as Severity 1 or 2.",
+    "context": [
+      "To Board within 24 hours (Severity 1–2)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_003",
+    "name": "FCA Suspicious Breach Notification",
+    "aliases": [
+      "Regulatory Notification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Obligation to report a confirmed suspicious breach to the Financial Conduct Authority (FCA) within a 24-hour window.",
+    "context": [
+      "FCA: Suspicious breach within 24 hours (if confirmed)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_004",
+    "name": "ICO Personal Data Breach Reporting",
+    "aliases": [
+      "Regulatory Notification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Mandatory requirement to report personal data breaches to the Information Commissioner's Office (ICO) within 72 hours.",
+    "context": [
+      "ICO (UK): Data breach report within 72 hours (if personal data breach)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_005",
+    "name": "Customer Notification for Personal Data Breaches",
+    "aliases": [
+      "Customer Notification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Requirement to notify affected customers without undue delay in the event of a personal data breach, providing details and mitigation steps via email or letter.",
+    "context": [
+      "If personal data breach: Notify customers per GDPR (without undue delay)",
+      "Email/letter with details and mitigation steps"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The UK regulatory body to which suspicious breaches must be reported within 24 hours.",
+    "context": [
+      "FCA: Suspicious breach within 24 hours (if confirmed)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_reg_002",
+    "name": "Information Commissioner's Office",
+    "aliases": [
+      "ICO (UK)"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The UK supervisory authority for data protection to which personal data breaches must be reported within 72 hours.",
+    "context": [
+      "ICO (UK): Data breach report within 72 hours (if personal data breach)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_reg_003",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework governing the timing and manner of customer notifications following a personal data breach.",
+    "context": [
+      "Notify customers per GDPR (without undue delay)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rsk_001",
+    "name": "Data Breach",
+    "aliases": [
+      "personal data breach",
+      "suspicious breach"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized access or disclosure of data, categorized by severity (1-2) and type (personal vs suspicious), triggering specific reporting obligations.",
+    "context": [
+      "Suspicious breach within 24 hours",
+      "Data breach report within 72 hours (if personal data breach)",
+      "If personal data breach: Notify customers"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Executive role required to be notified immediately in the event of a Severity 1 or 2 incident.",
+    "context": [
+      "Immediately to CTO, CRO, CEO (Severity 1–2)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_002",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Executive role required to be notified immediately in the event of a Severity 1 or 2 incident.",
+    "context": [
+      "Immediately to CTO, CRO, CEO (Severity 1–2)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_003",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Executive role required to be notified immediately in the event of a Severity 1 or 2 incident.",
+    "context": [
+      "Immediately to CTO, CRO, CEO (Severity 1–2)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_004",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The governing body of the bank that must be notified within 24 hours of a Severity 1 or 2 incident.",
+    "context": [
+      "To Board within 24 hours (Severity 1–2)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_cus_001",
+    "name": "Affected Customers",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Bank customers whose personal data has been breached and who must be notified without undue delay.",
+    "context": [
+      "Notify customers per GDPR (without undue delay)",
+      "Email/letter with details and mitigation steps"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_pol_001",
+    "name": "Security Training Policy",
+    "aliases": [
+      "Security Training"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal policy governing the mandatory security training requirements for all bank staff, including training frequency, content, and consequences for non-compliance.",
+    "context": [
+      "Security Training",
+      "Mandatory Annual Training"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_001",
+    "name": "Mandatory Annual Security Awareness Training for All Staff",
+    "aliases": [
+      "1-hour security awareness training"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "All staff are required to undergo a 1-hour security awareness training session on an annual basis.",
+    "context": [
+      "All staff: 1-hour security awareness training"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_002",
+    "name": "Monthly Phishing Simulation Testing",
+    "aliases": [
+      "phishing simulation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must be subjected to monthly phishing simulation tests via email to evaluate security awareness.",
+    "context": [
+      "Phishing simulation (monthly test emails)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_003",
+    "name": "Training Certification via Quiz",
+    "aliases": [
+      "Certification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must complete a quiz to achieve certification following their security training.",
+    "context": [
+      "Certification: Staff complete quiz"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_004",
+    "name": "Mandatory Security Responsibility Training for Management",
+    "aliases": [
+      "2-hour security responsibility training"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "Management personnel are required to complete a more extensive 2-hour security responsibility training session.",
+    "context": [
+      "Management: 2-hour security responsibility training"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_005",
+    "name": "Disciplinary Action for Training Non-Compliance",
+    "aliases": [
+      "Non-Compliance"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Failure to complete the mandated security training will result in disciplinary action against the employee.",
+    "context": [
+      "Failure to complete training: Disciplinary action"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_006",
+    "name": "Termination for Repeated Policy Violations",
+    "aliases": [
+      "Non-Compliance"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "Repeated violations of the security policy may lead to the termination of employment.",
+    "context": [
+      "Repeated policy violations: Termination"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_001",
+    "name": "Phishing and Social Engineering",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "Risks associated with deceptive communications and psychological manipulation to gain unauthorized access or information.",
+    "context": [
+      "Phishing and social engineering"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_002",
+    "name": "Password Security Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "Risks pertaining to the compromise of user credentials and weak password management.",
+    "context": [
+      "Password security"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_003",
+    "name": "Data Protection Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "Risks related to the unauthorized disclosure or loss of sensitive bank or customer data.",
+    "context": [
+      "Data protection"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_004",
+    "name": "Physical Security Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "Risks associated with unauthorized physical access to bank premises or hardware.",
+    "context": [
+      "Physical security"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_ctl_001",
+    "name": "Security Awareness Training",
+    "aliases": [
+      "training"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The use of annual training sessions and quizzes to ensure staff are aware of security protocols.",
+    "context": [
+      "1-hour security awareness training",
+      "Staff complete quiz"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_ctl_002",
+    "name": "Phishing Simulations",
+    "aliases": [
+      "test emails"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "penetration_testing",
+    "description": "Monthly simulated phishing emails used to test and improve staff resilience against social engineering.",
+    "context": [
+      "Phishing simulation (monthly test emails)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rol_001",
+    "name": "All Staff",
+    "aliases": [
+      "staff"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are obligated to complete annual security awareness training and monthly phishing simulations.",
+    "context": [
+      "All staff: 1-hour security awareness training",
+      "Staff complete quiz"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rol_002",
+    "name": "Management",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Staff in management positions who have an increased training obligation consisting of a 2-hour security responsibility course.",
+    "context": [
+      "Management: 2-hour security responsibility training"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_001",
+    "name": "Annual Security Assessment",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A mandatory annual security assessment conducted as part of the internal audit process to ensure overall security posture.",
+    "context": [
+      "Annual security assessment"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_002",
+    "name": "Annual Penetration Testing",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "penetration_testing",
+    "description": "A requirement for penetration testing to be performed on an annual basis to identify and mitigate security vulnerabilities.",
+    "context": [
+      "Penetration testing (annual)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_003",
+    "name": "Quarterly Access Control Review",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A mandatory review of access controls conducted every quarter to ensure appropriate permissions and prevent unauthorized access.",
+    "context": [
+      "Access control review (quarterly)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_004",
+    "name": "Vulnerability Scanning Validation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "penetration_testing",
+    "description": "The process of validating vulnerability scans to ensure system weaknesses are identified and addressed.",
+    "context": [
+      "Vulnerability scanning validation"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_rol_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory body responsible for conducting periodic operational resilience reviews.",
+    "context": [
+      "FCA periodic operational resilience reviews"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_prv_001",
+    "name": "FCA Periodic Operational Resilience Review",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement for the bank to undergo periodic operational resilience reviews conducted by the FCA.",
+    "context": [
+      "FCA periodic operational resilience reviews"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_rol_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory body responsible for performing Operational Resilience assessments.",
+    "context": [
+      "PRA Operational Resilience assessment"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_prv_002",
+    "name": "PRA Operational Resilience Assessment",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement for the bank to undergo an Operational Resilience assessment conducted by the PRA.",
+    "context": [
+      "PRA Operational Resilience assessment"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_005",
+    "name": "Security Information and Event Management",
+    "aliases": [
+      "SIEM"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A technical tool used for continuous monitoring of security events and information across the bank's infrastructure.",
+    "context": [
+      "Security Information and Event Management (SIEM)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_006",
+    "name": "Real-time Threat Detection",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A continuous monitoring mechanism designed to detect security threats as they occur in real-time.",
+    "context": [
+      "Real-time threat detection"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_007",
+    "name": "Anomalous Behavior Alerts",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A monitoring control that generates alerts when behavior deviating from the norm is detected.",
+    "context": [
+      "Anomalous behavior alerts"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_008",
+    "name": "Suspicious Access Attempt Logging",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational requirement to log all attempts to gain unauthorized or suspicious access to systems.",
+    "context": [
+      "Suspicious access attempts logged"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_rsk_001",
+    "name": "Unauthorized Access",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "The risk of unauthorized individuals gaining access to bank systems, mitigated by access reviews and suspicious attempt logging.",
+    "context": [
+      "Suspicious access attempts logged",
+      "Access control review (quarterly)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_001",
+    "name": "FCA COBS Part 5 (Cybersecurity)",
+    "aliases": [
+      "COBS Part 5"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "A regulatory requirement from the Financial Conduct Authority (FCA) specifically addressing cybersecurity standards that the bank must adhere to.",
+    "context": [
+      "FCA COBS Part 5 (Cybersecurity)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_002",
+    "name": "PRA Operational Resilience",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Regulatory requirements issued by the Prudential Regulation Authority (PRA) regarding the bank's ability to maintain operational resilience.",
+    "context": [
+      "PRA Operational Resilience"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_003",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "The primary data protection legislation governing how the bank handles personal data.",
+    "context": [
+      "GDPR (data protection)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_004",
+    "name": "ISO 27001",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "international_standard",
+    "description": "An international standard for information security management systems that the bank uses as a benchmark for its security controls.",
+    "context": [
+      "ISO 27001 (information security standard)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_030_pol_001",
+    "name": "Policy Review & Updates",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing framework for the review and updating of bank policies, ensuring they remain current against threats and regulatory changes.",
+    "context": [
+      "Policy Review & Updates"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_030",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_030_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement that policies must be reviewed on an annual basis, or more frequently if there is a significant change in the threat landscape or regulatory environment.",
+    "context": [
+      "Review Frequency: Annual (or upon threat/regulatory change)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_030",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_001",
+    "name": "Technology architecture, security measures",
+    "aliases": [
+      "systems"
+    ],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A document governing the bank's technology architecture and the security measures implemented to protect its systems.",
+    "context": [
+      "[[systems]] — Technology architecture, security measures"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_002",
+    "name": "Operational risk management",
+    "aliases": [
+      "policy_operational_risk"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A formal policy document focused on the management and mitigation of operational risks within the bank.",
+    "context": [
+      "[[policy_operational_risk]] — Operational risk management"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_003",
+    "name": "Incident Response Plan",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "incident_reporting",
+    "description": "A governing document providing detailed procedures for responding to security or operational incidents.",
+    "context": [
+      "Incident Response Plan (detailed procedures)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_004",
+    "name": "Security Control Framework",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "information_security",
+    "description": "A formal framework detailing the specific security controls required to protect the bank's assets and data.",
+    "context": [
+      "Security Control Framework (detailed controls)"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_001",
+    "name": "Chief Information Security Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the approval and oversight of the information security policy framework.",
+    "context": [
+      "Approved by: Chief Information Security Officer"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_002",
+    "name": "Chief Technology Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the technical approval and implementation oversight of the policy.",
+    "context": [
+      "Approved by: Chief Technology Officer"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_003",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for ensuring the policy aligns with the bank's risk appetite and risk management framework.",
+    "context": [
+      "Approved by: Chief Risk Officer"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_004",
+    "name": "Chief Executive Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The highest-ranking executive providing final institutional approval for the policy document.",
+    "context": [
+      "Approved by: Chief Executive Officer"
+    ],
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd",
+    "domain": "banking_policy"
+  }
+]

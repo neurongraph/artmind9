@@ -1,0 +1,967 @@
+[
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_001_dep_001",
+    "name": "Board Office",
+    "properties": {
+      "ownership": "Governance Framework Overview",
+      "department_name": "Board Office"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_001",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_001",
+    "name": "Board",
+    "properties": {
+      "ownership": "Strategic direction and risk oversight"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_002",
+    "name": "Executive",
+    "properties": {
+      "accountability_finding": "Defined responsibilities at the executive level"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_003",
+    "name": "Managers",
+    "properties": {
+      "accountability_finding": "Defined responsibilities at the management level"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_004",
+    "name": "Risk Committee",
+    "properties": {
+      "ownership": "Independent assurance"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_005",
+    "name": "Audit Committee",
+    "properties": {
+      "ownership": "Independent assurance"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_upd_001",
+    "name": "FCA Regulatory Requirements",
+    "properties": {
+      "issuing_authority": "FCA",
+      "implementation_status": "completed",
+      "key_requirement": "Full compliance as part of governance principles"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_upd_002",
+    "name": "PRA Regulatory Requirements",
+    "properties": {
+      "issuing_authority": "PRA",
+      "implementation_status": "completed",
+      "key_requirement": "Full compliance as part of governance principles"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_004_met_001",
+    "name": "Board Composition — Target 5–7 Directors",
+    "properties": {
+      "metric_name": "Board Composition",
+      "target_threshold": "5–7 Directors",
+      "context": "Ensuring the board size aligns with regulatory guidance and governance requirements"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_004",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_004_upd_001",
+    "name": "FCA Guidance on Board Composition",
+    "properties": {
+      "issuing_authority": "FCA",
+      "key_requirement": "Board size should be between 5 and 7 directors",
+      "impact_assessment": "Determines the target number of directors for the FirstUK Bank Board"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_004",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_001",
+    "name": "Board Approval of Business Strategy",
+    "properties": {
+      "decision_topic": "Business Strategy",
+      "deciding_body": "Board of Directors",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_002",
+    "name": "Board Approval of Annual Budget and Capital Plan",
+    "properties": {
+      "decision_topic": "Annual Budget and Capital Plan",
+      "deciding_body": "Board of Directors",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_003",
+    "name": "Board Approval of Material Acquisitions and Disposals",
+    "properties": {
+      "decision_topic": "Material Acquisitions and Disposals",
+      "deciding_body": "Board of Directors",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_004",
+    "name": "Board Setting of Risk Appetite",
+    "properties": {
+      "decision_topic": "Risk Appetite",
+      "deciding_body": "Board of Directors"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_005",
+    "name": "Board Approval of Policies and Procedures",
+    "properties": {
+      "decision_topic": "Policies and Procedures",
+      "deciding_body": "Board of Directors",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_006",
+    "name": "Board Approval of Committee Charters",
+    "properties": {
+      "decision_topic": "Committee Charters",
+      "deciding_body": "Board of Directors",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_007",
+    "name": "Board Appointment of Executives",
+    "properties": {
+      "decision_topic": "Executive Appointments",
+      "deciding_body": "Board of Directors"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dept_001",
+    "name": "Board of Directors",
+    "properties": {
+      "department_name": "Board of Directors",
+      "ownership": [
+        "Business Strategy",
+        "Annual Budget",
+        "Capital Plan",
+        "Risk Appetite",
+        "Policies and Procedures",
+        "Committee Charters",
+        "Executive Appointments"
+      ],
+      "accountability_finding": "Responsible for strategic approval, governance oversight, risk management, and stakeholder relations"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_006_dec_001",
+    "name": "Board Meeting Minutes Approval Process",
+    "properties": {
+      "decision_topic": "Approval and retention of Board Meeting minutes",
+      "deciding_body": "Board of Directors",
+      "decision_outcome": "approved",
+      "rationale": "To ensure a permanent record of strategic, governance, risk, and financial matters",
+      "conditions": "Minutes must be approved and retained as a permanent record"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_006",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_007_dep_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "ownership": [
+        "Risk strategy and appetite",
+        "Capital adequacy",
+        "Audit findings",
+        "Regulatory compliance"
+      ],
+      "reporting_frequency": "Quarterly"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_007",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_008_dep_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "department_name": "Board Audit Committee",
+      "ownership": [
+        "Internal audit oversight",
+        "External audit coordination",
+        "Financial reporting",
+        "Control environment"
+      ],
+      "meeting_frequency": "Quarterly",
+      "composition": "Majority Independent NEDs"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_008",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_009_dep_001",
+    "name": "Board Remuneration Committee",
+    "properties": {
+      "ownership": [
+        "Executive compensation",
+        "Staff incentive schemes",
+        "Conflict of interest management"
+      ],
+      "meeting_frequency": "Quarterly",
+      "composition": "Majority Independent NEDs"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_009",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_010_emp_001",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "role_type": "executive",
+      "accountability": [
+        "Chief executive responsibility",
+        "Business performance",
+        "Regulatory interface",
+        "Crisis management"
+      ],
+      "reporting_obligations": [
+        {
+          "frequency": "Monthly",
+          "report": "Financial performance"
+        },
+        {
+          "frequency": "Quarterly",
+          "report": "Risk dashboard"
+        },
+        {
+          "frequency": "Annually",
+          "report": "Strategy review"
+        }
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_010",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_010_dep_001",
+    "name": "Board",
+    "properties": {
+      "ownership": "Executive oversight",
+      "accountability_finding": "Recipient of CEO reports on financial performance, risk, and strategy"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_010",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_011_dep_001",
+    "name": "Chief Financial Officer",
+    "properties": {
+      "department_name": "Chief Financial Officer (CFO)",
+      "ownership": [
+        "Financial management and reporting",
+        "Treasury and funding",
+        "Capital management",
+        "Investment decisions"
+      ],
+      "reporting_line": [
+        "CEO",
+        "Board"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_011",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_012_emp_001",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_type": "specialist",
+      "accountability": [
+        "Enterprise risk management",
+        "Capital and liquidity management",
+        "Risk policy approval",
+        "Regulatory compliance oversight"
+      ],
+      "reporting_line": {
+        "functional": "Board Risk Committee",
+        "administrative": "CEO"
+      },
+      "independence_status": "Separate from operational departments"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_012",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_012_dep_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "department_name": "Board Risk Committee",
+      "ownership": "Functional oversight of the Chief Risk Officer"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_012",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_013_emp_001",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "role_type": "manager",
+      "accountability": [
+        "Business operations",
+        "Process management",
+        "Operational efficiency",
+        "Customer service"
+      ],
+      "reports_to": "CEO"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_013",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_013_dep_001",
+    "name": "Business Operations",
+    "properties": {
+      "ownership": [
+        "Process management",
+        "Operational efficiency",
+        "Customer service"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_013",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_014_emp_001",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "role_type": "executive",
+      "accountability": [
+        "Technology strategy and infrastructure",
+        "System availability and security",
+        "Technology investment decisions",
+        "Cybersecurity"
+      ],
+      "reports_to": "CEO"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_014",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_014_dep_001",
+    "name": "Technology Department",
+    "properties": {
+      "ownership": [
+        "Technology strategy",
+        "Infrastructure",
+        "System availability",
+        "Security",
+        "Cybersecurity"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_014",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_015_emp_001",
+    "name": "Chief Information Security Officer",
+    "properties": {
+      "role_type": "specialist",
+      "accountability": [
+        "Information security policy and procedures",
+        "Cybersecurity incident response",
+        "Data protection and privacy",
+        "Security risk assessment"
+      ],
+      "reporting_line": {
+        "functional": "Chief Technology Officer",
+        "security_risk": "Board Risk Committee"
+      }
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_015",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_015_dep_001",
+    "name": "Board Risk Committee",
+    "properties": {
+      "department_name": "Board Risk Committee",
+      "ownership": "Security risk oversight"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_015",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_015_emp_002",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Functional oversight of the Chief Information Security Officer"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_015",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_001",
+    "name": "Business Units",
+    "properties": {
+      "ownership": "Day-to-day risk management",
+      "accountability_finding": "Responsible for their own controls, daily monitoring, and escalation"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_002",
+    "name": "Risk & Compliance",
+    "properties": {
+      "ownership": "Independent risk oversight",
+      "accountability_finding": "Responsible for compliance testing, control design review, and key control monitoring"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_003",
+    "name": "Internal Audit",
+    "properties": {
+      "ownership": "Independent assurance",
+      "accountability_finding": "Responsible for risk-based annual audit planning, finding identification, and follow-up"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_004",
+    "name": "Board Audit Committee",
+    "properties": {
+      "ownership": "Governance oversight of Internal Audit",
+      "accountability_finding": "Recipient of Internal Audit reports"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_017_dec_001",
+    "name": "Board Risk Committee Charter",
+    "properties": {
+      "decision_topic": "Governance of the Board Risk Committee"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_017",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_017_dec_002",
+    "name": "Internal Audit Charter",
+    "properties": {
+      "decision_topic": "Governance of the Internal Audit function"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_017",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_017_dec_003",
+    "name": "Corporate Organizational Model",
+    "properties": {
+      "decision_topic": "Organizational structure"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_017",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_018_rsk_001",
+    "name": "Operational Risk",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_018",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_018_rsk_002",
+    "name": "Risk Appetite Statement 2026",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_018",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_018_rsk_003",
+    "name": "Anti-Money Laundering Risk",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_018",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_019_upd_001",
+    "name": "Customer Identification (KYC) Policy",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_019",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_019_upd_002",
+    "name": "Privacy and Data Protection (GDPR) Policy",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_019",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_019_upd_003",
+    "name": "Complaint Handling Policy",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_019",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_020_dec_001",
+    "name": "Escalation Matrix Operational Procedures",
+    "properties": {
+      "decision_topic": "Escalation procedures"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_020",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_020_dec_002",
+    "name": "Incident Response Plan Operational Procedures",
+    "properties": {
+      "decision_topic": "Incident response procedures"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_020",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_021_rsk_001",
+    "name": "Information Security Risk",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_021",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_021_rsk_002",
+    "name": "Fraud Risk",
+    "properties": {},
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_021",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_001",
+    "name": "FCA Conduct of Business Sourcebook (COBS)",
+    "properties": {
+      "issuing_authority": "FCA"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_002",
+    "name": "FCA Systems and Controls Sourcebook (SYSC)",
+    "properties": {
+      "issuing_authority": "FCA"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_003",
+    "name": "FCA Dispute Resolution Sourcebook (DISP)",
+    "properties": {
+      "issuing_authority": "FCA"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_004",
+    "name": "FCA Supervision Sourcebook (SUP)",
+    "properties": {
+      "issuing_authority": "FCA"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_001",
+    "name": "Customer Identification and KYC Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "regulatory_drivers": [
+        "FCA Regulatory Handbook"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_002",
+    "name": "Anti-Money Laundering (AML) Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "regulatory_drivers": [
+        "FCA Regulatory Handbook"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_003",
+    "name": "Fair Treatment and Complaints Risk",
+    "properties": {
+      "risk_category": "conduct",
+      "regulatory_drivers": [
+        "FCA Regulatory Handbook"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_004",
+    "name": "Market Conduct Risk",
+    "properties": {
+      "risk_category": "conduct",
+      "regulatory_drivers": [
+        "FCA Regulatory Handbook"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_005",
+    "name": "Financial Crime Prevention Risk",
+    "properties": {
+      "risk_category": "fraud",
+      "regulatory_drivers": [
+        "FCA Regulatory Handbook"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_upd_001",
+    "name": "Prudential Regulation Authority (PRA) Rulebook",
+    "properties": {
+      "issuing_authority": "PRA",
+      "key_requirement": [
+        "Capital adequacy (Pillar 1)",
+        "Risk management (Pillar 2)",
+        "Operational resilience (Pillar 2)",
+        "Liquidity management"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_001",
+    "name": "Capital Adequacy Risk",
+    "properties": {
+      "risk_category": "Capital",
+      "regulatory_drivers": [
+        "PRA Rulebook Pillar 1"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_002",
+    "name": "Risk Management Governance Risk",
+    "properties": {
+      "risk_category": "Governance",
+      "regulatory_drivers": [
+        "PRA Rulebook Pillar 2"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_003",
+    "name": "Operational Resilience Risk",
+    "properties": {
+      "risk_category": "Operational",
+      "regulatory_drivers": [
+        "PRA Rulebook Pillar 2"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_004",
+    "name": "Liquidity Management Risk",
+    "properties": {
+      "risk_category": "Liquidity",
+      "regulatory_drivers": [
+        "PRA Rulebook"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_met_001",
+    "name": "Minimum Capital Ratios",
+    "properties": {
+      "metric_name": "Minimum Capital Ratios",
+      "context": "Compliance requirement under PRA Rulebook for capital adequacy"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_met_002",
+    "name": "System Availability (RTO/RPO)",
+    "properties": {
+      "metric_name": "System Availability (RTO/RPO)",
+      "context": "Compliance requirement under PRA Rulebook for operational resilience"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_dep_001",
+    "name": "Compliance Department",
+    "properties": {
+      "ownership": [
+        "Regulatory Engagement",
+        "Annual Compliance Data Reporting",
+        "Voluntary breach reporting"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_upd_001",
+    "name": "FCA/PRA Supervisory Engagement Framework",
+    "properties": {
+      "issuing_authority": [
+        "FCA",
+        "PRA"
+      ],
+      "key_requirement": "Designated supervisory contact and quarterly meetings with supervisory team"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_act_001",
+    "name": "Annual Compliance Data Reporting to FCA",
+    "properties": {
+      "action_description": "Submission of annual compliance data to the FCA",
+      "reporting_frequency": "Annual"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_act_002",
+    "name": "Voluntary Breach Reporting",
+    "properties": {
+      "action_description": "Self-disclosure of regulatory breaches"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_met_001",
+    "name": "Compliance Dashboard Key Metrics",
+    "properties": {
+      "reporting_frequency": "Monthly"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_dec_001",
+    "name": "Quarterly Risk Committee Review",
+    "properties": {
+      "deciding_body": "Risk Committee",
+      "reporting_frequency": "Quarterly"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_fnd_001",
+    "name": "Semi-Annual Control Testing Audit",
+    "properties": {
+      "affected_area": "Control Testing",
+      "reporting_frequency": "Semi-Annual"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_dec_002",
+    "name": "Annual Full Governance Review",
+    "properties": {
+      "decision_topic": "Full Governance Review",
+      "reporting_frequency": "Annual"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_026_dep_001",
+    "name": "Internal Audit",
+    "properties": {
+      "ownership": [
+        "Annual audit plan",
+        "Quarterly reporting"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_026",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_026_dep_002",
+    "name": "External Audit",
+    "properties": {
+      "ownership": [
+        "Annual financial audit"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_026",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_026_dep_003",
+    "name": "Regulatory Audit",
+    "properties": {
+      "ownership": [
+        "FCA/PRA periodic examinations"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_026",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_027_rsk_001",
+    "name": "Conflicts of Interest Risk",
+    "properties": {
+      "controls_in_place": [
+        "Mandatory declaration for all staff and directors",
+        "Annual minimum review cycle",
+        "Defined escalation procedure",
+        "Transaction restrictions where appropriate"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_027",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_027_emp_001",
+    "name": "All Staff and Directors",
+    "properties": {
+      "accountability": "Required to provide declarations of interest",
+      "training_gap": "Not stated"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_027",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_028_rsk_001",
+    "name": "Ethics Standards and Customer Interest Risk",
+    "properties": {
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Conflicts of interest overriding customer interests"
+      ],
+      "controls_in_place": [
+        "Decisions made in customer's best interest",
+        "Transparency in communications",
+        "Fair dealing with stakeholders"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_028",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_029_upd_001",
+    "name": "Regulatory Circulars",
+    "properties": {
+      "key_requirement": "Updates on regulatory changes",
+      "impact_assessment": "Used for external reporting and transparency regarding regulatory compliance"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_029",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_030_dept_001",
+    "name": "Board",
+    "properties": {
+      "reporting_frequency": "Quarterly",
+      "reporting_scope": [
+        "financial",
+        "risk",
+        "governance"
+      ]
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_030",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_033_dec_001",
+    "name": "Board Approval of Document Sign-Off",
+    "properties": {
+      "decision_outcome": "approved",
+      "deciding_body": "Board of Directors",
+      "decision_date": "2026-01-15",
+      "decision_topic": "Document Sign-Off"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_033",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_033_dep_001",
+    "name": "Board of Directors",
+    "properties": {
+      "department_name": "Board of Directors",
+      "ownership": "Document Approval"
+    },
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_033",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047"
+  }
+]

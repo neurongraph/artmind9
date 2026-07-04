@@ -14,7 +14,7 @@ from artmind.db import _get_db
 from artmind.ingest import ingest_file, ingest_to_kg
 from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
-from utils.functions import load_env
+from utils.functions import load_env, resolve_llm_model
 
 WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
 
@@ -67,9 +67,9 @@ def _final_file_statuses(job_id: str) -> list[str]:
         conn.close()
 
 
-def _process_job(job_id: str, domain: str, env: dict) -> None:
+def _process_job(job_id: str, domain: str, env: dict, force: bool = False) -> None:
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
-    text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     chunk_size = int(env.get("ARTMIND_KG_CHUNK_SIZE", "6000"))
 
@@ -85,7 +85,7 @@ def _process_job(job_id: str, domain: str, env: dict) -> None:
 
         try:
             result = ingest_file(
-                file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size
+                file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size, force=force
             )
             if result.get("status") == "ok":
                 _update_job_file_status(
@@ -141,14 +141,14 @@ def _worker_loop(env: dict) -> None:
         conn = _get_db()
         try:
             row = conn.execute(
-                "SELECT job_id, domain FROM ingestion_jobs"
+                "SELECT job_id, domain, force FROM ingestion_jobs"
                 " WHERE status = 'queued' ORDER BY queued_at ASC LIMIT 1"
             ).fetchone()
         finally:
             conn.close()
 
         if row:
-            _process_job(row[0], row[1] or "general", env)
+            _process_job(row[0], row[1] or "general", env, force=bool(row[2]))
         else:
             logger.info("Queue empty, worker exiting")
             return

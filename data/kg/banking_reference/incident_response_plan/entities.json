@@ -1,0 +1,2703 @@
+[
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_inc_001",
+    "name": "Security Incident",
+    "aliases": [
+      "cyberattacks",
+      "data breaches",
+      "unauthorized access",
+      "system failures"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "cybersecurity_incident",
+    "description": "A broad category of security events including cyberattacks, data breaches, unauthorized access, and system failures. The primary objective for these incidents is to minimize impact and restore operations quickly.",
+    "context": [
+      "procedures for detecting, investigating, and responding to security incidents (cyberattacks, data breaches, unauthorized access, system failures)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_res_001",
+    "name": "Security Incident Detection",
+    "aliases": [
+      "detecting"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "The initial phase of the security incident response process focused on identifying the occurrence of a security event.",
+    "context": [
+      "procedures for detecting, investigating, and responding to security incidents"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_res_002",
+    "name": "Security Incident Investigation",
+    "aliases": [
+      "investigating"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The process of analyzing a detected security incident to determine its scope, cause, and impact.",
+    "context": [
+      "procedures for detecting, investigating, and responding to security incidents"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_002_res_003",
+    "name": "Security Incident Response",
+    "aliases": [
+      "responding"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "The active phase of managing a security incident to minimize impact and restore operational stability.",
+    "context": [
+      "procedures for detecting, investigating, and responding to security incidents"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_002",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_001",
+    "name": "Cybersecurity Incident",
+    "aliases": [
+      "Malware infection",
+      "Ransomware attack",
+      "Unauthorized access",
+      "Data exfiltration",
+      "DDoS attack",
+      "Credential compromise"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "cybersecurity_incident",
+    "description": "A category of operational incidents involving digital security threats, including malware, ransomware, unauthorized access, data exfiltration, DDoS attacks, and credential compromise.",
+    "context": [
+      "1. Cybersecurity Incident",
+      "Malware infection",
+      "Ransomware attack",
+      "Unauthorized access",
+      "Data exfiltration",
+      "DDoS attack",
+      "Credential compromise"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_002",
+    "name": "Data Breach",
+    "aliases": [
+      "Customer personal data exposed",
+      "Financial data accessed",
+      "System/operational data leaked",
+      "Regulatory data breached"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "data_breach",
+    "description": "An incident where sensitive information is exposed or accessed without authorization, specifically covering customer personal data, financial data, system/operational data, or regulatory data.",
+    "context": [
+      "2. Data Breach",
+      "Customer personal data exposed",
+      "Financial data accessed",
+      "System/operational data leaked",
+      "Regulatory data breached"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_003",
+    "name": "System Incident",
+    "aliases": [
+      "System outage/unavailability",
+      "Data corruption",
+      "Performance degradation",
+      "Integration failure",
+      "Backup failure"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "system_outage",
+    "description": "Operational failures related to technical infrastructure, including total system outages, data corruption, performance degradation, integration failures, and backup failures.",
+    "context": [
+      "3. System Incident",
+      "System outage/unavailability",
+      "Data corruption",
+      "Performance degradation",
+      "Integration failure",
+      "Backup failure"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_004",
+    "name": "Physical Security Incident",
+    "aliases": [
+      "Facility breach",
+      "Equipment theft",
+      "Fire/environmental damage",
+      "Access control failure"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "physical_security",
+    "description": "Incidents involving the physical security of bank assets and facilities, such as facility breaches, equipment theft, environmental damage (fire), and access control failures.",
+    "context": [
+      "4. Physical Security Incident",
+      "Facility breach",
+      "Equipment theft",
+      "Fire/environmental damage",
+      "Access control failure"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_003_inc_005",
+    "name": "Fraud/Misconduct",
+    "aliases": [
+      "Unauthorized transactions",
+      "Employee fraud",
+      "Third-party fraud"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "operational_failure",
+    "description": "Incidents involving fraudulent activity or misconduct, encompassing unauthorized transactions as well as fraud perpetrated by employees or third parties.",
+    "context": [
+      "5. Fraud/Misconduct",
+      "Unauthorized transactions",
+      "Employee fraud",
+      "Third-party fraud"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_003",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_001",
+    "name": "Severity 1 (Critical) — >£100,000 impact or >4-hour system outage",
+    "aliases": [
+      "Critical"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "critical_p1",
+    "description": "The highest severity tier characterized by major data breaches affecting over 1,000 customers, ransomware on critical systems, or system outages exceeding 4 hours. It involves significant regulatory violations and an estimated financial impact greater than £100,000.",
+    "context": [
+      "Severity 1 (Critical)",
+      "Major data breach (personal data exposed, >1,000 customers)",
+      "System outage (>4 hours)",
+      "Estimated financial impact: >£100,000"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_002",
+    "name": "Severity 2 (High) — £10,000–£100,000 impact or 1–4 hour system outage",
+    "aliases": [
+      "High"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "high_p2",
+    "description": "A high severity tier involving suspected data breaches affecting fewer than 1,000 customers, unauthorized access, or system outages between 1 and 4 hours. Financial impact is estimated between £10,000 and £100,000, and may include fraud incidents over £10,000.",
+    "context": [
+      "Severity 2 (High)",
+      "Suspected data breach (<1,000 customers affected)",
+      "System outage (1–4 hours)",
+      "Estimated financial impact: £10,000–£100,000"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_003",
+    "name": "Severity 3 (Medium) — £1,000–£10,000 impact",
+    "aliases": [
+      "Medium"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "medium_p3",
+    "description": "A medium severity tier covering unconfirmed unauthorized access, contained malware, or system performance issues. It includes fraud incidents under £10,000 and policy violations, with an estimated financial impact between £1,000 and £10,000.",
+    "context": [
+      "Severity 3 (Medium)",
+      "Suspected unauthorized access (not confirmed)",
+      "Fraud incident (<£10,000)",
+      "Estimated financial impact: £1,000–£10,000"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_sev_004",
+    "name": "Severity 4 (Low) — <£1,000 impact",
+    "aliases": [
+      "Low"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "low_p4",
+    "description": "The lowest severity tier for minor incidents such as false positive security alerts, minor policy violations, or system hiccups with minimal impact. The estimated financial impact is less than £1,000.",
+    "context": [
+      "Severity 4 (Low)",
+      "Security alert (false positive)",
+      "System hiccup (minor impact)",
+      "Estimated financial impact: <£1,000"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_001",
+    "name": "Data Breach",
+    "aliases": [
+      "Major data breach",
+      "Suspected data breach"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "data_breach",
+    "description": "An incident involving the exposure of personal customer data. It is classified as Severity 1 if more than 1,000 customers are affected and Severity 2 if fewer than 1,000 are affected.",
+    "context": [
+      "Major data breach (personal data exposed, >1,000 customers)",
+      "Suspected data breach (<1,000 customers affected)",
+      "Customer data public exposure"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_002",
+    "name": "Ransomware",
+    "aliases": [],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "ransomware",
+    "description": "A cybersecurity incident where ransomware affects critical systems, automatically triggering a Severity 1 classification.",
+    "context": [
+      "Ransomware affecting critical systems"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_003",
+    "name": "System Outage",
+    "aliases": [
+      "System outage",
+      "System hiccup"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "system_outage",
+    "description": "A failure of system availability. Outages exceeding 4 hours are Severity 1, while those between 1 and 4 hours are Severity 2, and minor hiccups are Severity 4.",
+    "context": [
+      "System outage (>4 hours)",
+      "System outage (1–4 hours)",
+      "System hiccup (minor impact)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_004",
+    "name": "Unauthorized Access",
+    "aliases": [
+      "Suspected unauthorized access"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "credential_compromise",
+    "description": "Incidents involving unauthorized entry into systems. Confirmed detection is Severity 2, while suspected but unconfirmed access is Severity 3.",
+    "context": [
+      "Unauthorized access detected",
+      "Suspected unauthorized access (not confirmed)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_005",
+    "name": "Fraud Incident",
+    "aliases": [],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "operational_failure",
+    "description": "Fraud events categorized by financial impact: those over £10,000 are Severity 2, and those under £10,000 are Severity 3.",
+    "context": [
+      "Fraud incident (>£10,000)",
+      "Fraud incident (<£10,000)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_006",
+    "name": "Regulatory Violation",
+    "aliases": [
+      "Regulatory concern"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "operational_failure",
+    "description": "Incidents involving breaches of regulatory requirements. Significant violations are Severity 1, while general regulatory concerns are Severity 2.",
+    "context": [
+      "Regulatory violation (significant)",
+      "Regulatory concern"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_007",
+    "name": "Malware Detection",
+    "aliases": [
+      "Malware detected"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "cybersecurity_incident",
+    "description": "The detection of malicious software. When the malware is contained, it is classified as a Severity 3 incident.",
+    "context": [
+      "Malware detected (contained)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_008",
+    "name": "Policy Violation",
+    "aliases": [],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "operational_failure",
+    "description": "Breaches of internal bank policy. General violations are Severity 3, while minor violations are Severity 4.",
+    "context": [
+      "Policy violation",
+      "Policy violation (minor)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_004_inc_009",
+    "name": "System Performance Issue",
+    "aliases": [
+      "performance_degradation"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "performance_degradation",
+    "description": "Issues relating to the speed or efficiency of systems, classified as Severity 3.",
+    "context": [
+      "System performance issue"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_004",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_001",
+    "name": "Incident Commander (IC)",
+    "aliases": [
+      "IC"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The primary authority responsible for directing the incident response and making critical decisions. The role is primarily held by the Chief Information Security Officer, with the Chief Technology Officer serving as backup.",
+    "context": [
+      "Incident Commander (IC)",
+      "Authority: Directs response, makes decisions",
+      "Primary: Chief Information Security Officer",
+      "Backup: Chief Technology Officer"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_002",
+    "name": "Chief Information Security Officer",
+    "aliases": [
+      "CISO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The primary individual designated as the Incident Commander (IC) with authority to direct response and make decisions.",
+    "context": [
+      "Primary: Chief Information Security Officer"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_003",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The backup individual designated as the Incident Commander (IC) to direct response and make decisions.",
+    "context": [
+      "Backup: Chief Technology Officer"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_004",
+    "name": "Technology Lead",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "A member of the Response Team providing system expertise during an incident.",
+    "context": [
+      "Technology Lead (system expertise)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_005",
+    "name": "Security Lead",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "A member of the Response Team responsible for the investigation phase of an incident.",
+    "context": [
+      "Security Lead (investigation)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_006",
+    "name": "Communications Lead",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "A member of the Response Team responsible for managing both internal and external messaging.",
+    "context": [
+      "Communications Lead (internal/external messaging)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_007",
+    "name": "Operations Lead",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "A member of the Response Team focused on the restoration of services.",
+    "context": [
+      "Operations Lead (restoration)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_005_not_008",
+    "name": "Compliance/Legal",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "legal_counsel",
+    "description": "A member of the Response Team ensuring that regulatory obligations are met during an incident.",
+    "context": [
+      "Compliance/Legal (regulatory obligations)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_005",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_001",
+    "name": "Severity 1 — Immediate escalation (within 1 hour)",
+    "aliases": [
+      "Severity 1"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "critical_p1",
+    "description": "The highest severity level requiring immediate escalation to the on-call rotation within a 1-hour timeframe.",
+    "context": [
+      "Severity 1: Immediate escalation (within 1 hour)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_002",
+    "name": "Severity 2 — Escalation within 2 hours",
+    "aliases": [
+      "Severity 2"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "high_p2",
+    "description": "A high severity level requiring escalation to the on-call rotation within 2 hours.",
+    "context": [
+      "Severity 2: Within 2 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_003",
+    "name": "Severity 3 — Next business day escalation",
+    "aliases": [
+      "Severity 3"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "medium_p3",
+    "description": "A medium severity level where escalation to the on-call rotation is required by the next business day.",
+    "context": [
+      "Severity 3: Next business day"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_sev_004",
+    "name": "Severity 4 — Logged, scheduled investigation",
+    "aliases": [
+      "Severity 4"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "low_p4",
+    "description": "The lowest severity level where the event is logged and a scheduled investigation is performed.",
+    "context": [
+      "Severity 4: Logged, scheduled investigation"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_006_res_001",
+    "name": "Immediate Escalation",
+    "aliases": [
+      "escalation"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "escalation",
+    "description": "The process of escalating an incident to the on-call rotation based on the assigned severity level.",
+    "context": [
+      "Immediate escalation (within 1 hour)",
+      "Within 2 hours",
+      "Next business day"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+    "name": "Detect & Alert Phase",
+    "aliases": [
+      "Phase 1"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "The initial phase of the Incident Response Procedure occurring within 0–15 minutes. It encompasses detection methods, immediate verification, classification, and the activation of the response team.",
+    "context": [
+      "Phase 1: Detect & Alert (0–15 Minutes)",
+      "Detection Methods: Automated alerts (SIEM, IDS, monitoring), Staff report (customer, employee, system), Regulatory notification (law enforcement, regulator), Third-party notification (vendor, partner)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+    "name": "Report Action",
+    "aliases": [
+      "Report"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "escalation",
+    "description": "The immediate action where an alert reaches the on-call incident commander to initiate the response process.",
+    "context": [
+      "1. Report: Alert reaches on-call incident commander"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+    "name": "Verify Action",
+    "aliases": [
+      "Verify"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The process of confirming that a reported incident is a real event and not a false alarm.",
+    "context": [
+      "2. Verify: Confirm incident is real (not false alarm)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+    "name": "Classify Action",
+    "aliases": [
+      "Classify"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The step of assigning a severity level from 1 to 4 to the identified incident.",
+    "context": [
+      "3. Classify: Assign severity level (1–4)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+    "name": "Notify Action",
+    "aliases": [
+      "Notify"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "notification",
+    "description": "The action of escalating the incident according to the defined escalation matrix.",
+    "context": [
+      "4. Notify: Escalate per escalation matrix ([[escalation_matrix]])"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_006",
+    "name": "Activate Action",
+    "aliases": [
+      "Activate"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "escalation",
+    "description": "The final step of the detection phase involving the convening of the incident response team.",
+    "context": [
+      "5. Activate: Convene incident response team"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+    "name": "Severity 1 (Critical)",
+    "aliases": [
+      "Severity 1"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "critical_p1",
+    "description": "The highest severity level requiring immediate notification of the Executive team and notification of the Board within 2 hours.",
+    "context": [
+      "Severity 1: Executive team (ASAP), Board (within 2 hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+    "name": "Severity 2 (High)",
+    "aliases": [
+      "Severity 2"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "high_p2",
+    "description": "A high severity level requiring Executive team notification within 30 minutes and CRO notification within 1 hour.",
+    "context": [
+      "Severity 2: Executive team (within 30 min), CRO (within 1 hour)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+    "name": "Severity 3 (Medium)",
+    "aliases": [
+      "Severity 3"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "medium_p3",
+    "description": "A medium severity level requiring notification of the Department head within 4 hours.",
+    "context": [
+      "Severity 3: Department head (within 4 hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+    "name": "Severity 4 (Low)",
+    "aliases": [
+      "Severity 4"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "low_p4",
+    "description": "The lowest severity level where the required action is to log the incident as routine.",
+    "context": [
+      "Severity 4: Log incident (routine)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_001",
+    "name": "Executive Team",
+    "aliases": [
+      "Executive"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Internal leadership team to be notified ASAP for Severity 1 incidents and within 30 minutes for Severity 2 incidents.",
+    "context": [
+      "Severity 1: Executive team (ASAP)",
+      "Severity 2: Executive team (within 30 min)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_002",
+    "name": "Board",
+    "aliases": [
+      "The Board"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The governing board to be notified within 2 hours for Severity 1 incidents.",
+    "context": [
+      "Severity 1: ... Board (within 2 hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_003",
+    "name": "Chief Risk Officer (CRO)",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The CRO to be notified within 1 hour for Severity 2 incidents.",
+    "context": [
+      "Severity 2: ... CRO (within 1 hour)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_004",
+    "name": "Department Head",
+    "aliases": [
+      "Dept Head"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "The relevant department head to be notified within 4 hours for Severity 3 incidents.",
+    "context": [
+      "Severity 3: Department head (within 4 hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_005",
+    "name": "Law Enforcement",
+    "aliases": [
+      "Police"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "law_enforcement",
+    "description": "External regulatory body that may provide notifications to trigger the detection phase.",
+    "context": [
+      "Regulatory notification (law enforcement, regulator)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_006",
+    "name": "Regulator",
+    "aliases": [
+      "Regulatory Body"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "External regulatory body that may provide notifications to trigger the detection phase.",
+    "context": [
+      "Regulatory notification (law enforcement, regulator)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_007",
+    "name": "Third-party Vendor/Partner",
+    "aliases": [
+      "Vendor",
+      "Partner"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "external_partner",
+    "description": "External partners or vendors that may provide notifications to trigger the detection phase.",
+    "context": [
+      "Third-party notification (vendor, partner)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_001",
+    "name": "Containment Phase",
+    "aliases": [
+      "Phase 2"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "The second phase of incident response occurring between 15–60 minutes. The primary objectives are to stop the attack or prevent spread, preserve evidence, protect unaffected systems, and maintain business continuity.",
+    "context": [
+      "Phase 2: Containment (15–60 Minutes)",
+      "Objectives: Stop attack/prevent spread, Preserve evidence, Protect unaffected systems, Maintain business continuity"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_001",
+    "name": "Cyberattack (Malware/Ransomware)",
+    "aliases": [
+      "Malware",
+      "Ransomware"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "cybersecurity_incident",
+    "description": "A security incident involving malware or ransomware that requires immediate system isolation, credential resets, and IP blocking to prevent further spread.",
+    "context": [
+      "For Cyberattack (Malware/Ransomware):",
+      "Isolate affected system (disconnect from network)",
+      "Prevent further access (reset credentials, block IP)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_002",
+    "name": "Isolate Affected System",
+    "aliases": [
+      "disconnect from network"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "A containment action for cyberattacks involving the disconnection of the affected system from the network to stop the spread of malware or ransomware.",
+    "context": [
+      "Isolate affected system (disconnect from network)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_003",
+    "name": "Prevent Further Access",
+    "aliases": [
+      "reset credentials",
+      "block IP"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "access_revocation",
+    "description": "A containment action for cyberattacks involving the resetting of credentials and blocking of IP addresses to stop unauthorized access.",
+    "context": [
+      "Prevent further access (reset credentials, block IP)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_004",
+    "name": "Preserve Logs and Evidence",
+    "aliases": [
+      "copy before shutdown"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "forensics",
+    "description": "The process of copying logs and evidence before system shutdown to ensure a forensic trail is maintained during a cyberattack or data breach.",
+    "context": [
+      "Preserve logs/evidence (copy before shutdown)",
+      "Preserve evidence (logs, audit trail)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_005",
+    "name": "Kill Processes",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "An action to terminate active malicious processes, provided it can be done without causing data loss.",
+    "context": [
+      "Kill processes (if possible without data loss)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_002",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "data_breach",
+    "description": "An incident involving the compromise of data, requiring the identification of scope, revocation of credentials, and monitoring for misuse of PII.",
+    "context": [
+      "For Data Breach:",
+      "Identify compromised data (scope)",
+      "Contain access (revoke credentials)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_006",
+    "name": "Identify Compromised Data Scope",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The process of determining the specific scope and nature of the data compromised during a data breach.",
+    "context": [
+      "Identify compromised data (scope)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_007",
+    "name": "Monitor for Misuse",
+    "aliases": [
+      "credit monitoring"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "Ongoing monitoring for the misuse of Personally Identifiable Information (PII), which may include implementing credit monitoring.",
+    "context": [
+      "Monitor for misuse (credit monitoring if PII)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_003",
+    "name": "System Outage",
+    "aliases": [],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "system_outage",
+    "description": "An operational failure resulting in system unavailability, requiring failover to backups and isolation of failed components.",
+    "context": [
+      "For System Outage:",
+      "Failover to backup (if available)",
+      "Isolate failed component"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_008",
+    "name": "Failover to Backup",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "system_restore",
+    "description": "The action of switching operations to a backup system when the primary system suffers an outage.",
+    "context": [
+      "Failover to backup (if available)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_009",
+    "name": "Isolate Failed Component",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "The process of separating a malfunctioning system component to prevent the outage from escalating.",
+    "context": [
+      "Isolate failed component",
+      "Prevent escalation"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_inc_004",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "operational_failure",
+    "description": "An incident involving fraudulent activity that requires freezing compromised accounts and blocking unauthorized transactions.",
+    "context": [
+      "For Fraud:",
+      "Freeze compromised account",
+      "Block fraudulent transactions"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_010",
+    "name": "Freeze Compromised Account",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "An immediate action to lock a customer account suspected of being compromised to prevent further fraud.",
+    "context": [
+      "Freeze compromised account"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_008_res_011",
+    "name": "Block Fraudulent Transactions",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "The action of stopping specific unauthorized financial transactions from being processed.",
+    "context": [
+      "Block fraudulent transactions"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_009_res_001",
+    "name": "Investigation Phase",
+    "aliases": [
+      "Phase 3",
+      "Investigation"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The third phase of the incident response process occurring between 1 and 24 hours. It focuses on determining the incident timeline, scope, root cause, data impact, threat actor, and evidence collection.",
+    "context": [
+      "Phase 3: Investigation (1–24 Hours)",
+      "Investigative Steps:",
+      "Investigation Tools:"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_009",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_009_res_002",
+    "name": "Evidence Preservation",
+    "aliases": [
+      "Evidence Collection"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "forensics",
+    "description": "A critical operational step within the investigation phase to ensure the integrity of data. This includes maintaining the chain of custody, protecting collected logs, taking system snapshots, and establishing a timeline.",
+    "context": [
+      "Evidence Preservation:",
+      "Chain of custody maintained",
+      "Logs collected and protected",
+      "System snapshots taken"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_009",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_001",
+    "name": "Recovery & Restoration Phase",
+    "aliases": [
+      "Phase 4"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "recovery",
+    "description": "The fourth phase of the incident response process occurring between 1 and 48 hours. It encompasses system recovery, data recovery, and service restoration activities.",
+    "context": [
+      "Phase 4: Recovery & Restoration (1–48 Hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_002",
+    "name": "Backup Restore",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "system_restore",
+    "description": "A system recovery action requiring the restoration of systems from a clean backup to ensure a known good state.",
+    "context": [
+      "Backup Restore: Restore from clean backup"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_003",
+    "name": "Security Patch Application",
+    "aliases": [
+      "Patch"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "recovery",
+    "description": "The process of applying security patches during the system recovery phase to prevent re-infection or further vulnerability.",
+    "context": [
+      "Patch: Apply security patches"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_004",
+    "name": "System Rebuild",
+    "aliases": [
+      "Rebuild"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "system_restore",
+    "description": "The action of rebuilding systems from clean media if standard backup restoration is insufficient or unavailable.",
+    "context": [
+      "Rebuild: Rebuild from clean media (if needed)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_005",
+    "name": "Functionality and Malware Verification",
+    "aliases": [
+      "Test"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "A testing step to verify that system functionality is restored and that no malware remains in the environment.",
+    "context": [
+      "Test: Verify functionality, no malware"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_006",
+    "name": "Re-infection Monitoring",
+    "aliases": [
+      "Monitor"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "Continuous observation of systems following recovery to detect any signs of re-infection.",
+    "context": [
+      "Monitor: Watch for re-infection"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_007",
+    "name": "Data Recovery Identification",
+    "aliases": [
+      "Identify"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The initial step of data recovery focused on identifying exactly what data requires recovery.",
+    "context": [
+      "Identify: What data needs recovery"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_008",
+    "name": "Data Backup Restoration",
+    "aliases": [
+      "Restore"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "system_restore",
+    "description": "The process of restoring identified data from backups.",
+    "context": [
+      "Restore: Restore from backup"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_009",
+    "name": "Data Integrity Validation",
+    "aliases": [
+      "Validate"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The process of verifying that restored data is accurate and has maintained its integrity.",
+    "context": [
+      "Validate: Verify data integrity"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_010",
+    "name": "Customer Breach Notification",
+    "aliases": [
+      "Communicate"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "customer_notification",
+    "description": "The action of notifying customers specifically in the event that a data breach has occurred.",
+    "context": [
+      "Communicate: Notify customers (if breach)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_011",
+    "name": "Phased Service Restoration",
+    "aliases": [
+      "Phased"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "recovery",
+    "description": "A strategic approach to service restoration where critical services are brought back online first.",
+    "context": [
+      "Phased: Restore critical services first"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_012",
+    "name": "Pre-Restoration Verification",
+    "aliases": [
+      "Verify"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "Testing services to ensure they are stable before proceeding to full restoration.",
+    "context": [
+      "Verify: Test before full restoration"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_013",
+    "name": "Capacity Validation",
+    "aliases": [
+      "Capacity"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "recovery",
+    "description": "Ensuring that restored systems are capable of handling normal operational loads.",
+    "context": [
+      "Capacity: Ensure systems handle normal load"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_res_014",
+    "name": "Post-Incident Enhanced Monitoring",
+    "aliases": [
+      "Monitoring"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "The implementation of heightened monitoring levels immediately following the restoration of services.",
+    "context": [
+      "Monitoring: Enhanced monitoring post-incident"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_010_not_001",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "Bank customers who must be notified if a data breach is identified during the data recovery process.",
+    "context": [
+      "Communicate: Notify customers (if breach)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_010",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_011_res_001",
+    "name": "Notify & Report Phase",
+    "aliases": [
+      "Phase 5"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "notification",
+    "description": "The fifth phase of the incident response process, occurring between 24 and 72 hours post-incident, focused on notification and reporting requirements.",
+    "context": [
+      "Phase 5: Notify & Report (24–72 Hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_011",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_001",
+    "name": "Executive Team (CEO, CFO, CRO)",
+    "aliases": [
+      "Executive team"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The senior leadership team consisting of the CEO, CFO, and CRO who must be notified immediately within 4 hours of an event.",
+    "context": [
+      "Immediate (within 4 hours):",
+      "Executive team (CEO, CFO, CRO)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_002",
+    "name": "Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The governing Board, required to be notified immediately (within 4 hours) specifically for incidents classified as Severity 1 or 2.",
+    "context": [
+      "Immediate (within 4 hours):",
+      "Board (if Severity 1–2)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_003",
+    "name": "Department Heads of Affected Areas",
+    "aliases": [
+      "Department heads"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "Leaders of the specific business areas impacted by the incident, requiring immediate notification within 4 hours.",
+    "context": [
+      "Immediate (within 4 hours):",
+      "Department heads (affected areas)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_004",
+    "name": "All Staff",
+    "aliases": [
+      "staff"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "The general employee population to be notified via email and meeting within a 24-hour follow-up window.",
+    "context": [
+      "Follow-up (24 hours):",
+      "All staff (via email + meeting)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_005",
+    "name": "Affected Customers",
+    "aliases": [
+      "Customers"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "Bank customers who must be notified within 24 hours specifically in the event of a data breach.",
+    "context": [
+      "Follow-up (24 hours):",
+      "Customers (if data breach)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_not_006",
+    "name": "Affected Partners and Vendors",
+    "aliases": [
+      "Partners/vendors"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "external_partner",
+    "description": "External third-party partners or vendors who are impacted by the incident, requiring notification within 24 hours.",
+    "context": [
+      "Follow-up (24 hours):",
+      "Partners/vendors (if affected)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_res_001",
+    "name": "Immediate Internal Notification",
+    "aliases": [
+      "Immediate"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "notification",
+    "description": "The initial notification phase requiring communication to the Executive team, Board, and Department heads within a 4-hour window.",
+    "context": [
+      "Immediate (within 4 hours):",
+      "Executive team (CEO, CFO, CRO)",
+      "Board (if Severity 1–2)",
+      "Department heads (affected areas)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_res_002",
+    "name": "Follow-up Internal and External Notification",
+    "aliases": [
+      "Follow-up"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "notification",
+    "description": "The secondary notification phase occurring within 24 hours, targeting all staff, customers (in case of data breach), and affected partners.",
+    "context": [
+      "Follow-up (24 hours):",
+      "All staff (via email + meeting)",
+      "Customers (if data breach)",
+      "Partners/vendors (if affected)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_012_inc_001",
+    "name": "Data Breach",
+    "aliases": [
+      "data breach"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "data_breach",
+    "description": "A security event involving unauthorized access to data that triggers a mandatory customer notification within 24 hours.",
+    "context": [
+      "Customers (if data breach)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_012",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_res_001",
+    "name": "Regulatory Notification",
+    "aliases": [
+      "External Notification"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "regulatory_notification",
+    "description": "The process of notifying external regulatory bodies based on the nature of the breach or incident, with specific timeframes for the ICO and FCA.",
+    "context": [
+      "Regulatory Notification (If Required):",
+      "External Notification"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_001",
+    "name": "Information Commissioner's Office (ICO)",
+    "aliases": [
+      "ICO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "The regulatory body that must be notified within 72 hours in the event of a Data Breach involving personal data.",
+    "context": [
+      "Data Breach (Personal Data): ICO within 72 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_002",
+    "name": "Financial Conduct Authority (FCA)",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "The regulatory body that must be notified within 24 hours in the event of a suspected security breach.",
+    "context": [
+      "Security Breach (Suspected): FCA within 24 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_003",
+    "name": "Law Enforcement",
+    "aliases": [
+      "police report"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "law_enforcement",
+    "description": "The external party to be contacted via a police report in cases of fraud or crime.",
+    "context": [
+      "Fraud/Crime: Law enforcement (police report)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_004",
+    "name": "Office of Financial Sanctions Implementation (OFSI)",
+    "aliases": [
+      "OFSI"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "The regulatory body to be notified if a sanctions violation occurs.",
+    "context": [
+      "Sanctions Breach: OFSI (if sanctions violation)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_res_002",
+    "name": "Customer Notification",
+    "aliases": [
+      "Customer Notification (If Required)"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "customer_notification",
+    "description": "The procedure for notifying affected customers of a data breach via email or letter within 72 hours, including incident details and mitigation support.",
+    "context": [
+      "Customer Notification (If Required):",
+      "Data Breach: Email/letter (72 hours)",
+      "Content: Incident description, impact, mitigation, contact info"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_not_005",
+    "name": "Affected Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "The bank customer who must be notified within 72 hours of a data breach and may be offered credit monitoring.",
+    "context": [
+      "Customer Notification (If Required):",
+      "Data Breach: Email/letter (72 hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_001",
+    "name": "Data Breach (Personal Data)",
+    "aliases": [
+      "Data Breach"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "data_breach",
+    "description": "An incident involving the compromise of personal data requiring notification to the ICO and affected customers within 72 hours.",
+    "context": [
+      "Data Breach (Personal Data): ICO within 72 hours",
+      "Data Breach: Email/letter (72 hours)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_002",
+    "name": "Security Breach (Suspected)",
+    "aliases": [
+      "Security Breach"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "cybersecurity_incident",
+    "description": "A suspected security event that triggers a mandatory notification to the FCA within 24 hours.",
+    "context": [
+      "Security Breach (Suspected): FCA within 24 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_003",
+    "name": "Fraud/Crime",
+    "aliases": [
+      "Fraud"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "operational_failure",
+    "description": "Incidents categorized as fraud or crime that require the filing of a police report with law enforcement.",
+    "context": [
+      "Fraud/Crime: Law enforcement (police report)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_013_inc_004",
+    "name": "Sanctions Breach",
+    "aliases": [
+      "sanctions violation"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "operational_failure",
+    "description": "An incident involving a violation of sanctions requiring notification to OFSI.",
+    "context": [
+      "Sanctions Breach: OFSI (if sanctions violation)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_013",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_res_001",
+    "name": "Incident Report Documentation",
+    "aliases": [
+      "Incident Report"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "post_incident_review",
+    "description": "The formal process of documenting an incident, which must include a summary, timeline, root cause analysis, impact assessment, remediation steps, and prevention recommendations.",
+    "context": [
+      "Incident Report:",
+      "Summary of incident",
+      "Timeline and progression",
+      "Root cause analysis",
+      "Impact assessment",
+      "Remediation steps",
+      "Prevention recommendations"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_001",
+    "name": "Executive Team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Internal leadership group designated to receive the distribution of the Incident Report.",
+    "context": [
+      "Report Distribution:",
+      "Executive team"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_002",
+    "name": "Board Risk Committee",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "Governance body responsible for risk oversight that must be included in the Incident Report distribution.",
+    "context": [
+      "Report Distribution:",
+      "Board Risk Committee"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_003",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "Internal oversight function designated to receive the distribution of the Incident Report.",
+    "context": [
+      "Report Distribution:",
+      "Internal Audit"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_014_not_004",
+    "name": "Regulators",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "External regulatory bodies that must be notified and provided with the Incident Report if required by compliance or law.",
+    "context": [
+      "Report Distribution:",
+      "Regulators (if required)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_014",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_001",
+    "name": "Post-Incident Review",
+    "aliases": [
+      "Phase 6"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "post_incident_review",
+    "description": "A formal review phase occurring 1–2 weeks after an incident to discuss lessons learned, root causes, and preventive actions. It involves the incident commander, response team, and key stakeholders.",
+    "context": [
+      "Phase 6: Post-Incident Review (1–2 Weeks)",
+      "Incident commander leads review",
+      "Lessons learned discussed"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_002",
+    "name": "Root Cause Analysis",
+    "aliases": [
+      "Why Did It Happen?"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "A specific review topic focused on identifying the technical and process-related reasons why an incident occurred.",
+    "context": [
+      "Why Did It Happen? Root cause (technical and process)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_003",
+    "name": "Preventive and Corrective Action Planning",
+    "aliases": [
+      "What's Our Fix?"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "recovery",
+    "description": "The process of determining the necessary fixes to prevent recurrence, assigning owners, and establishing a completion timeline.",
+    "context": [
+      "What's Our Fix? Preventive and corrective actions",
+      "Action plan (prevent recurrence)",
+      "Owner assigned (implement fix)",
+      "Timeline (when fix complete)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_res_004",
+    "name": "Corrective Action Implementation and Verification",
+    "aliases": [
+      "Follow-Up"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "recovery",
+    "description": "The follow-up phase where assigned owners implement fixes within 30–90 days and effectiveness is verified via audit or re-testing.",
+    "context": [
+      "Owner implements corrective actions (30–90 days)",
+      "Effectiveness verified (audit or re-test)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_not_001",
+    "name": "Incident Commander",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "The individual responsible for leading the Post-Incident Review meeting.",
+    "context": [
+      "Incident commander leads review"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_not_002",
+    "name": "Incident Response Team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "The team required to attend the Post-Incident Review meeting.",
+    "context": [
+      "Incident response team attends"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_015_not_003",
+    "name": "Key Stakeholders",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Relevant internal parties included in the Post-Incident Review process.",
+    "context": [
+      "Key stakeholders included"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_015",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_001",
+    "name": "Severity 1 (Critical) — Hourly updates to executive team",
+    "aliases": [
+      "Severity 1"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "critical_p1",
+    "description": "The highest severity level requiring the most frequent internal communication cadence, specifically hourly updates to the executive team.",
+    "context": [
+      "Severity 1: Hourly updates to executive team"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_002",
+    "name": "Severity 2 (High) — 2-hourly updates",
+    "aliases": [
+      "Severity 2"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "high_p2",
+    "description": "A high severity level requiring internal communication updates every two hours.",
+    "context": [
+      "Severity 2: 2-hourly updates"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_003",
+    "name": "Severity 3 (Medium) — Daily updates",
+    "aliases": [
+      "Severity 3"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "medium_p3",
+    "description": "A medium severity level requiring internal communication updates on a daily basis.",
+    "context": [
+      "Severity 3: Daily updates"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_sev_004",
+    "name": "Severity 4 (Low) — Email summary",
+    "aliases": [
+      "Severity 4"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "low_p4",
+    "description": "The lowest severity level where internal communication is handled via an email summary.",
+    "context": [
+      "Severity 4: Email summary"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_not_001",
+    "name": "Executive Team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The internal leadership group that must receive hourly updates during Severity 1 incidents.",
+    "context": [
+      "Hourly updates to executive team"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_016_res_001",
+    "name": "Internal Communication",
+    "aliases": [],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "notification",
+    "description": "The process of providing status updates during an incident, utilizing a specific template including Time, Status, Impact, Actions, ETA, and Next Update.",
+    "context": [
+      "Internal Communication",
+      "Communication Template:",
+      "Time: [HH:MM]\nStatus: [Ongoing / Controlled / Resolved]\nImpact: [Description of customer/system impact]\nActions: [What we're doing]\nETA: [Estimated restoration time]\nNext Update: [When next communication]"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_016",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_inc_001",
+    "name": "Data Breach",
+    "aliases": [
+      "Data Breach"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "data_breach",
+    "description": "A specific category of operational incident involving the unauthorized access or disclosure of customer data, requiring a structured communication response including incident description and mitigation details.",
+    "context": [
+      "Customer Communication (If Data Breach)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_res_001",
+    "name": "Customer Communication for Data Breach",
+    "aliases": [
+      "Email/Letter Contents"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "customer_notification",
+    "description": "The process of notifying affected customers via email or letter following a data breach. The communication must include the incident description, timeline, affected data, mitigation steps, required customer actions, support options, and an apology.",
+    "context": [
+      "Customer Communication (If Data Breach)",
+      "Email/Letter Contents:",
+      "Incident description (plain language)",
+      "Timeline (when discovered, when reported)",
+      "Data affected (type, scope, number of customers)",
+      "Mitigation (what we did to contain)",
+      "Customer action (what they should do)",
+      "Support (credit monitoring, phone line for questions)",
+      "Apology (acknowledge impact)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_not_001",
+    "name": "Affected Customers",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "The recipients of breach notifications, specifically those whose data has been affected in terms of type, scope, and number.",
+    "context": [
+      "Data affected (type, scope, number of customers)",
+      "Customer action (what they should do)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_017_cus_001",
+    "name": "Affected Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "affected_customer",
+    "description": "Customers who have had their data compromised during a data breach and are the targets of mandatory communication and support efforts.",
+    "context": [
+      "Data affected (type, scope, number of customers)",
+      "Customer action (what they should do)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_017",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_inc_001",
+    "name": "Ransomware",
+    "aliases": [
+      "Ransomware attack"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "ransomware",
+    "description": "A cybersecurity incident involving ransomware that affects critical banking infrastructure, specifically the payment processing system, leading to transaction failures and delayed customer funds.",
+    "context": [
+      "Ransomware affects payment processing system"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_sev_001",
+    "name": "Severity 1 (Critical) — >£50,000 impact or 4-hour outage",
+    "aliases": [
+      "Severity 1"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "critical_p1",
+    "description": "The highest severity tier triggered by a 4-hour outage, 100+ failed transactions, delayed customer funds, or an estimated financial impact exceeding £50,000. Requires immediate response and strict notification timelines.",
+    "context": [
+      "Severity 1 Example",
+      "4-hour outage",
+      "100+ failed transactions",
+      "Customer funds delayed",
+      ">£50,000 estimated impact"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_res_001",
+    "name": "Immediate Response",
+    "aliases": [
+      "IMMEDIATE"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "The required response urgency for Severity 1 incidents, necessitating an immediate start to mitigation and recovery efforts.",
+    "context": [
+      "Response: IMMEDIATE"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_not_001",
+    "name": "The Board",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Internal executive body that must be notified within 2 hours of a Severity 1 incident occurring.",
+    "context": [
+      "Board notification: Within 2 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_not_002",
+    "name": "Financial Conduct Authority (FCA)",
+    "aliases": [
+      "FCA",
+      "Regulator"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "The external regulatory body that must be notified within 24 hours of a Severity 1 incident.",
+    "context": [
+      "Regulatory notification: Within 24 hours (FCA)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_res_002",
+    "name": "Regulatory Notification",
+    "aliases": [
+      "Regulatory notification"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "regulatory_notification",
+    "description": "The mandatory process of informing the FCA within a 24-hour window following a Severity 1 incident.",
+    "context": [
+      "Regulatory notification: Within 24 hours (FCA)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_res_003",
+    "name": "Board Notification",
+    "aliases": [
+      "Board notification"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "escalation",
+    "description": "The mandatory process of escalating a Severity 1 incident to the Board within 2 hours.",
+    "context": [
+      "Board notification: Within 2 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_acc_001",
+    "name": "Payment Processing System",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "affected_account",
+    "description": "The core banking system responsible for processing payments, identified as the affected system in the Severity 1 ransomware scenario.",
+    "context": [
+      "Ransomware affects payment processing system"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_018_tra_001",
+    "name": "Failed Transactions",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "Financial transactions that fail to process during a Severity 1 incident; a threshold of 100+ failed transactions defines this severity level.",
+    "context": [
+      "100+ failed transactions"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_018",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_sev_001",
+    "name": "Severity 2 — £10,000–£100,000 estimated investigation cost",
+    "aliases": [
+      "Severity 2"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "high_p2",
+    "description": "A severity tier characterized by unauthorized access to customer data affecting approximately 50 customers, with investigation costs estimated between £10,000 and £100,000. Requires a response within 2 hours.",
+    "context": [
+      "Severity 2 Example",
+      "£10,000–£100,000 estimated investigation cost",
+      "Response: Within 2 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_inc_001",
+    "name": "Unauthorized access to customer data",
+    "aliases": [
+      "Data Breach"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "data_breach",
+    "description": "An operational incident involving the unauthorized access of personal data belonging to customers, specifically exemplified by a scenario where 50 customers' data was accessed without evidence of exfiltration.",
+    "context": [
+      "Unauthorized access to customer data",
+      "50 customers' personal data accessed",
+      "No evidence of exfiltration"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_res_001",
+    "name": "Incident Response (Severity 2)",
+    "aliases": [
+      "Response"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "The required response action for a Severity 2 incident, which must be initiated within 2 hours of detection.",
+    "context": [
+      "Response: Within 2 hours"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_not_001",
+    "name": "Executive Team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Internal executive leadership required to be notified during a Severity 2 unauthorized data access incident.",
+    "context": [
+      "Notification: Executive team + CRO"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_not_002",
+    "name": "Chief Risk Officer (CRO)",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The Chief Risk Officer is a mandatory notification contact for Severity 2 incidents involving unauthorized customer data access.",
+    "context": [
+      "Notification: Executive team + CRO"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_not_003",
+    "name": "Regulator",
+    "aliases": [
+      "Regulatory"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "External regulatory body whose notification status is subject to assessment following a Severity 2 data access incident.",
+    "context": [
+      "Regulatory: Under assessment (may need notification)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_019_cus_001",
+    "name": "Affected Customers",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "affected_customer",
+    "description": "Customers whose personal data has been subject to unauthorized access, specifically 50 individuals in the provided example.",
+    "context": [
+      "50 customers' personal data accessed"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_019",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_inc_001",
+    "name": "Malware detected on staff laptop",
+    "aliases": [
+      "Malware"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "cybersecurity_incident",
+    "description": "A routine security incident involving malware detection on a staff laptop, typically triggered by a user clicking a phishing link, where the threat is contained to a single endpoint.",
+    "context": [
+      "Malware detected on staff laptop",
+      "User clicked phishing link",
+      "Routine incident"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_sev_001",
+    "name": "Severity 3 — Routine incident",
+    "aliases": [
+      "Severity 3"
+    ],
+    "entity_class": "SEVERITY_LEVEL",
+    "type": "medium_p3",
+    "description": "A medium-tier severity level for routine incidents where malware is contained to a single endpoint with no spread to other systems, requiring response by the next business day.",
+    "context": [
+      "Severity 3 Example",
+      "Routine incident",
+      "Response: Next business day"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_res_001",
+    "name": "Endpoint Isolation",
+    "aliases": [
+      "containment"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "The action of isolating the affected endpoint to ensure malware is contained and does not spread to other systems.",
+    "context": [
+      "Malware contained (endpoint isolated)",
+      "No spread to other systems"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_020_not_001",
+    "name": "Department Head",
+    "aliases": [
+      "Dept Head"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "The internal management contact required to be notified for Severity 3 routine malware incidents.",
+    "context": [
+      "Notification: Department head"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_020",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_res_001",
+    "name": "Detection",
+    "aliases": [
+      "Detection Tools"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "The initial phase of incident response utilizing a suite of monitoring tools including SIEM (Splunk), IDS (Snort), Antivirus (EDR), and Log aggregation (ELK) to identify security events.",
+    "context": [
+      "Detection Tools:",
+      "SIEM (Splunk)",
+      "IDS (Snort)",
+      "Antivirus (EDR)",
+      "Log aggregation (ELK)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_res_002",
+    "name": "Investigation",
+    "aliases": [
+      "Investigation Tools"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "The analytical phase of incident response employing forensic tools such as EnCase, WinDbg for memory dumps, Wireshark for packet analysis, and Autopsy for timeline reconstruction.",
+    "context": [
+      "Investigation Tools:",
+      "Forensic tools (EnCase)",
+      "Memory dumps (WinDbg)",
+      "Packet analysis (Wireshark)",
+      "Timeline tools (Autopsy)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_res_003",
+    "name": "Communication",
+    "aliases": [
+      "Communication"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "notification",
+    "description": "The process of disseminating information during an incident via a dedicated Incident Slack channel for real-time updates, a War room for major incidents, and email for external parties.",
+    "context": [
+      "Communication:",
+      "Incident Slack channel (real-time updates)",
+      "War room (video call, during major incidents)",
+      "Email for external communication"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_not_001",
+    "name": "Incident Slack Channel",
+    "aliases": [
+      "Slack"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "An internal communication channel used for providing real-time updates during the course of an incident.",
+    "context": [
+      "Incident Slack channel (real-time updates)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_021_not_002",
+    "name": "War Room",
+    "aliases": [
+      "Video Call"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "A video call environment convened specifically for the coordination and management of major incidents.",
+    "context": [
+      "War room (video call, during major incidents)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_021",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_001",
+    "name": "Incident response procedures training",
+    "aliases": [
+      "Annual Training"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "Annual training on incident response procedures mandatory for all IT staff to ensure operational readiness.",
+    "context": [
+      "Incident response procedures (all IT staff)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_002",
+    "name": "Forensic investigation training",
+    "aliases": [
+      "Annual Training"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "forensics",
+    "description": "Specialised annual training in forensic investigation specifically for the security team.",
+    "context": [
+      "Forensic investigation (security team)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_003",
+    "name": "Breach notification training",
+    "aliases": [
+      "Annual Training"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "regulatory_notification",
+    "description": "Annual training on breach notification requirements conducted for the compliance team.",
+    "context": [
+      "Breach notification (compliance team)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_res_004",
+    "name": "Annual Tabletop Exercise",
+    "aliases": [
+      "Simulated incident scenario"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "post_incident_review",
+    "description": "A yearly simulation exercise designed to test response team activation, decision-making under pressure, and communication practices using simulated incident scenarios.",
+    "context": [
+      "Annual Tabletop Exercise",
+      "Simulated incident scenario",
+      "Response team activation",
+      "Decision-making under pressure",
+      "Communication practice"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_not_001",
+    "name": "IT Staff",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "Internal technical personnel required to undergo annual incident response procedure training.",
+    "context": [
+      "Incident response procedures (all IT staff)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_not_002",
+    "name": "Security Team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "Internal security personnel responsible for forensic investigation training.",
+    "context": [
+      "Forensic investigation (security team)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_022_not_003",
+    "name": "Compliance Team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "Internal compliance personnel responsible for breach notification training.",
+    "context": [
+      "Breach notification (compliance team)"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_022",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_001",
+    "name": "Chief Information Security Officer",
+    "aliases": [
+      "CISO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Executive officer responsible for approving the operational reference document as of 2026-01-15.",
+    "context": [
+      "Approved by: Chief Information Security Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_002",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Executive officer responsible for approving the operational reference document as of 2026-01-15.",
+    "context": [
+      "Approved by: Chief Technology Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_003",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Executive officer responsible for approving the operational reference document as of 2026-01-15.",
+    "context": [
+      "Approved by: Chief Risk Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "fccb74c536ca47e6a5ef7a964c995b29_025_not_004",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "Executive officer responsible for approving the operational reference document as of 2026-01-15.",
+    "context": [
+      "Approved by: Chief Executive Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_025",
+    "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+    "domain": "banking_reference"
+  }
+]

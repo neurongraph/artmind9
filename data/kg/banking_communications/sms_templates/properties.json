@@ -1,0 +1,1474 @@
+[
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_001_tpl_001",
+    "name": "SMS Alert Template Suite",
+    "properties": {
+      "document_id": "SMS-TEMPLATE-001",
+      "channel": "sms",
+      "owner": "Head of Marketing",
+      "recipient": "Customers",
+      "department_responsibility": [
+        "Marketing",
+        "Customer Service"
+      ],
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "status": "Active",
+      "classification": "Internal"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_001",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_003_tpl_001",
+    "name": "Large Withdrawal Alert",
+    "properties": {
+      "document_id": "Template 1",
+      "trigger_event": "Withdrawal >£1,000 from mobile/ATM",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of large withdrawal amount",
+        "Account identification (last 4 digits)",
+        "Urgent call-to-action for fraud reporting",
+        "Reference code for tracking"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[last 4 digits]",
+        "[code]"
+      ],
+      "tone": "urgent",
+      "character_limit": 120
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_003_var_001",
+    "name": "Withdrawal Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Large Withdrawal Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_003_var_002",
+    "name": "Account Last Four Digits",
+    "properties": {
+      "variable_placeholder": "[last 4 digits]",
+      "data_type": "account_number",
+      "appears_in_templates": [
+        "Large Withdrawal Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_003_var_003",
+    "name": "Reference Code",
+    "properties": {
+      "variable_placeholder": "[code]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Large Withdrawal Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "name": "Template 2: Transfer Sent Confirmation",
+    "properties": {
+      "trigger_event": "Successful transfer completion",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Confirmation of transfer amount",
+        "Recipient name",
+        "Updated account balance",
+        "Customer support contact number"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[recipient name]",
+        "[new balance]"
+      ],
+      "tone": "formal",
+      "character_limit": 110
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_004_var_001",
+    "name": "Transfer Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 2: Transfer Sent Confirmation"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_004_var_002",
+    "name": "Recipient Name",
+    "properties": {
+      "variable_placeholder": "[recipient name]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 2: Transfer Sent Confirmation"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_004_var_003",
+    "name": "New Account Balance",
+    "properties": {
+      "variable_placeholder": "[new balance]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 2: Transfer Sent Confirmation"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_004_cust_001",
+    "name": "Transfer Recipient",
+    "properties": {
+      "communication_context": "Recipient of funds mentioned in transfer confirmation"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_004_acc_001",
+    "name": "Transferring Account",
+    "properties": {
+      "communication_context": "Account from which balance is updated following a transfer"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_004_txn_001",
+    "name": "Successful Transfer",
+    "properties": {
+      "transaction_context": "Triggers the Transfer Sent Confirmation communication"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "name": "Template 3: Failed Direct Debit Alert",
+    "properties": {
+      "trigger_event": "Direct Debit rejected (insufficient funds, etc.)",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of failed payment",
+        "Amount and biller details",
+        "Failure date",
+        "Reason for failure",
+        "Call to action to add funds",
+        "Contact phone number"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[biller]",
+        "[date]",
+        "[insufficient funds/other]"
+      ],
+      "tone": "urgent",
+      "character_limit": 125
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_005_var_001",
+    "name": "amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 3: Failed Direct Debit Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_005_var_002",
+    "name": "biller",
+    "properties": {
+      "variable_placeholder": "[biller]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 3: Failed Direct Debit Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_005_var_003",
+    "name": "date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "appears_in_templates": [
+        "Template 3: Failed Direct Debit Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_005_var_004",
+    "name": "insufficient funds/other",
+    "properties": {
+      "variable_placeholder": "[insufficient funds/other]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 3: Failed Direct Debit Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_005_txn_001",
+    "name": "Failed Direct Debit",
+    "properties": {
+      "transaction_context": "Payment rejection due to insufficient funds or other reasons",
+      "communication_trigger": "Template 3: Failed Direct Debit Alert"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_005_prd_001",
+    "name": "Direct Debit",
+    "properties": {
+      "communication_template": [
+        "Template 3: Failed Direct Debit Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "name": "Template 4: Card Payment Alert",
+    "properties": {
+      "trigger_event": "Contactless or online payment >£500",
+      "channel": "sms",
+      "recipient": "Cardholder",
+      "key_content": [
+        "Transaction amount",
+        "Merchant name",
+        "Date and time of transaction",
+        "Fraud line contact number"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[merchant]",
+        "[date]",
+        "[time]"
+      ],
+      "tone": "urgent",
+      "compliance_disclosures": [
+        "Call 0800-555-2265 fraud line immediately"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_var_001",
+    "name": "Transaction Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 4: Card Payment Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_var_002",
+    "name": "Merchant Name",
+    "properties": {
+      "variable_placeholder": "[merchant]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 4: Card Payment Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_var_003",
+    "name": "Transaction Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "appears_in_templates": [
+        "Template 4: Card Payment Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_var_004",
+    "name": "Transaction Time",
+    "properties": {
+      "variable_placeholder": "[time]",
+      "data_type": "time",
+      "appears_in_templates": [
+        "Template 4: Card Payment Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_cust_001",
+    "name": "Cardholder",
+    "properties": {
+      "communication_context": "Recipient of fraud alert for high value transactions"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_card_001",
+    "name": "Payment Card",
+    "properties": {
+      "card_event": "fraud alert",
+      "communication_trigger": "Contactless or online payment >£500"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_006_txn_001",
+    "name": "High Value Card Transaction",
+    "properties": {
+      "transaction_context": "Contactless or online payment",
+      "alert_threshold": ">£500"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_007_tpl_001",
+    "name": "Template 5: Suspicious Activity Alert",
+    "properties": {
+      "document_id": "Template 5",
+      "trigger_event": "Fraud detection rule triggered (moderate risk)",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of unusual activity",
+        "Call to action (Call 0800-555-2265)",
+        "Warning of potential transaction restriction",
+        "Instruction to reply CONFIRM"
+      ],
+      "tone": "urgent",
+      "character_limit": 145
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_007_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "Recipient of suspicious activity alert"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_007_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "communication_context": "Account subject to unusual activity detection and potential restriction"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_007_txn_001",
+    "name": "Unusual Activity Transactions",
+    "properties": {
+      "transaction_context": "Transactions that trigger a moderate risk fraud detection rule"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_007_frd_001",
+    "name": "Suspicious Activity Alert",
+    "properties": {
+      "template_context": "Template 5: Suspicious Activity Alert",
+      "customer_communication_trigger": "Fraud detection rule triggered (moderate risk)"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_008_tpl_001",
+    "name": "Template 6: Card Lost/Blocked Alert",
+    "properties": {
+      "document_id": "Template 6",
+      "trigger_event": "Card blocked due to fraud or loss",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of blocked card",
+        "Instruction to use online banking or visit branch",
+        "Replacement order instructions via phone or website"
+      ],
+      "variables_used": [
+        "[product]"
+      ],
+      "tone": "urgent",
+      "do_not_alter_sections": [
+        "Call 0800-555-2265",
+        "www.firstuk.bank"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_008_var_001",
+    "name": "Product Variable",
+    "properties": {
+      "variable_placeholder": "[product]",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 6: Card Lost/Blocked Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_008_prd_001",
+    "name": "Payment Card",
+    "properties": {
+      "communication_template": [
+        "Template 6: Card Lost/Blocked Alert"
+      ],
+      "customer_facing_messaging": "Urgent notification of block and replacement options"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_008_crd_001",
+    "name": "Blocked Card",
+    "properties": {
+      "card_event": "blocked",
+      "communication_trigger": "Template 6: Card Lost/Blocked Alert"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_009_tpl_001",
+    "name": "Template 7: Password Reset Initiated",
+    "properties": {
+      "document_id": "Template 7",
+      "trigger_event": "Password reset requested",
+      "channel": "sms",
+      "recipient": "Customer requesting password reset",
+      "key_content": [
+        "Notification of password reset request",
+        "Link to create new password",
+        "Expiration notice (24h)",
+        "Instruction to ignore if not requested"
+      ],
+      "variables_used": [
+        "[short URL]"
+      ],
+      "tone": "urgent",
+      "character_limit": 125
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_009_var_001",
+    "name": "Password Reset URL",
+    "properties": {
+      "variable_placeholder": "[short URL]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 7: Password Reset Initiated"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_009_cust_001",
+    "name": "Password Reset Recipient",
+    "properties": {
+      "communication_context": "Password reset notification",
+      "customer_type": "existing"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_010_tpl_001",
+    "name": "Template 8: 2FA Code (One-Time)",
+    "properties": {
+      "document_id": "Template 8",
+      "trigger_event": "Two-Factor Authentication required",
+      "channel": "sms",
+      "recipient": "2FA Recipient",
+      "key_content": [
+        "Security code delivery",
+        "Warning against sharing code",
+        "Expiration timeframe",
+        "Fraud reporting contact number"
+      ],
+      "variables_used": [
+        "[6-digit code]"
+      ],
+      "tone": "urgent",
+      "do_not_alter_sections": [
+        "Never share this",
+        "If you didn't request this, call 0800-555-2265"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_010_var_001",
+    "name": "6-digit code",
+    "properties": {
+      "variable_placeholder": "[6-digit code]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: 2FA Code (One-Time)"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_010_cust_001",
+    "name": "2FA Recipient",
+    "properties": {
+      "communication_context": "Receiving a one-time security code for authentication",
+      "customer_type": "existing"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_010_fra_001",
+    "name": "Unauthorized 2FA Request Alert",
+    "properties": {
+      "template_context": "Template 8: 2FA Code (One-Time)",
+      "customer_communication_trigger": "User receives a 2FA code they did not request",
+      "required_action": "Call 0800-555-2265"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_011_tpl_001",
+    "name": "Template 9: Account Opened Confirmation",
+    "properties": {
+      "document_id": "Template 9",
+      "trigger_event": "New account successfully created",
+      "channel": "sms",
+      "recipient": "New Account Customer",
+      "key_content": [
+        "Welcome message",
+        "Account opening confirmation",
+        "Account number display",
+        "Activation link",
+        "Support phone number"
+      ],
+      "variables_used": [
+        "[ACC-XXXXX]"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Activation link",
+        "Support phone number"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_011_var_001",
+    "name": "Account Number Placeholder",
+    "properties": {
+      "variable_placeholder": "[ACC-XXXXX]",
+      "data_type": "account_number",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 9: Account Opened Confirmation"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_011_prd_001",
+    "name": "SmartSaver account",
+    "properties": {
+      "communication_template": [
+        "Template 9: Account Opened Confirmation"
+      ],
+      "customer_facing_messaging": "Welcome and activation guidance"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_011_cust_001",
+    "name": "New Account Customer",
+    "properties": {
+      "communication_context": "Account opening confirmation",
+      "customer_type": "new"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_011_acc_001",
+    "name": "New SmartSaver Account",
+    "properties": {
+      "account_type": "savings",
+      "communication_context": "account confirmation"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_012_tpl_001",
+    "name": "Template 10: Interest Payment Notification",
+    "properties": {
+      "document_id": "Template 10",
+      "trigger_event": "Monthly interest credit",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Interest amount credited",
+        "New account balance",
+        "AER percentage",
+        "Customer service contact number"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[balance]"
+      ],
+      "tone": "formal",
+      "character_limit": 115
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_012_var_001",
+    "name": "Interest Amount Variable",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 10: Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_012_var_002",
+    "name": "Account Balance Variable",
+    "properties": {
+      "variable_placeholder": "[balance]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 10: Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_013_tpl_001",
+    "name": "Template 11: Standing Order Executed",
+    "properties": {
+      "document_id": "Template 11",
+      "trigger_event": "Recurring standing order payment processed",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Confirmation of standing order payment",
+        "Amount paid",
+        "Payee name",
+        "Date of processing",
+        "Remaining account balance",
+        "Customer support contact number"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[payee]",
+        "[date]",
+        "[balance]"
+      ],
+      "tone": "informational",
+      "character_limit": 130
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_013_var_001",
+    "name": "amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Standing Order Executed"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_013_var_002",
+    "name": "payee",
+    "properties": {
+      "variable_placeholder": "[payee]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Standing Order Executed"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_013_var_003",
+    "name": "date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Standing Order Executed"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_013_var_004",
+    "name": "balance",
+    "properties": {
+      "variable_placeholder": "[balance]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Standing Order Executed"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_014_tpl_001",
+    "name": "Template 12: Account Verification Needed",
+    "properties": {
+      "document_id": "Template 12",
+      "trigger_event": "KYC documents required",
+      "channel": "sms",
+      "recipient": "Customer requiring KYC verification",
+      "key_content": [
+        "Request for ID upload",
+        "Link to verification portal",
+        "Contact phone number",
+        "Deadline for completion",
+        "Warning of account restriction"
+      ],
+      "variables_used": [
+        "[date]"
+      ],
+      "tone": "urgent",
+      "do_not_alter_sections": [
+        "www.firstuk.bank/kyc",
+        "0800-555-2265"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_014_var_001",
+    "name": "Verification Deadline Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 12: Account Verification Needed"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_014_cust_001",
+    "name": "Customer requiring KYC verification",
+    "properties": {
+      "communication_context": "Account Verification Needed notification",
+      "customer_type": "at-risk"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_014_acc_001",
+    "name": "Customer Account subject to restriction",
+    "properties": {
+      "communication_context": "Account restriction warning due to missing KYC"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_014_kyc_001",
+    "name": "KYC Document Verification Process",
+    "properties": {
+      "verification_method": "Online upload via www.firstuk.bank/kyc or phone call"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_015_tpl_001",
+    "name": "Template 13: Rate Change Alert",
+    "properties": {
+      "document_id": "Template 13",
+      "trigger_event": "Interest rate updated (usually monthly)",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of new interest rate",
+        "Previous interest rate for comparison",
+        "Current Bank of England base rate",
+        "Effective date of new interest"
+      ],
+      "variables_used": [
+        "[new rate]",
+        "[old rate]",
+        "[new BoE rate]"
+      ],
+      "tone": "informative",
+      "character_limit": 145
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_015_var_001",
+    "name": "New Interest Rate",
+    "properties": {
+      "variable_placeholder": "[new rate]",
+      "data_type": "percentage",
+      "appears_in_templates": [
+        "Template 13: Rate Change Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_015_var_002",
+    "name": "Old Interest Rate",
+    "properties": {
+      "variable_placeholder": "[old rate]",
+      "data_type": "percentage",
+      "appears_in_templates": [
+        "Template 13: Rate Change Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_015_var_003",
+    "name": "Bank of England Base Rate",
+    "properties": {
+      "variable_placeholder": "[new BoE rate]",
+      "data_type": "percentage",
+      "appears_in_templates": [
+        "Template 13: Rate Change Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_016_tpl_001",
+    "name": "Template 14: Fraud Claim Resolved",
+    "properties": {
+      "document_id": "Template 14",
+      "trigger_event": "Disputed transaction investigated and resolved",
+      "channel": "sms",
+      "recipient": "Fraud Claim Recipient",
+      "key_content": [
+        "Notification of dispute claim resolution",
+        "Refund amount confirmation",
+        "Instruction to check email for details",
+        "Contact number for questions"
+      ],
+      "variables_used": [
+        "[EXC-XXXXX]",
+        "[amount]"
+      ],
+      "tone": "formal",
+      "character_limit": 150
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_016_var_001",
+    "name": "Claim Reference Number",
+    "properties": {
+      "variable_placeholder": "[EXC-XXXXX]",
+      "data_type": "string",
+      "example_value": "EXC-XXXXX",
+      "appears_in_templates": [
+        "Template 14: Fraud Claim Resolved"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_016_var_002",
+    "name": "Refund Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 14: Fraud Claim Resolved"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_016_cust_001",
+    "name": "Fraud Claim Recipient",
+    "properties": {
+      "communication_context": "Notification of fraud claim resolution and refund processing"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_016_txn_001",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_context": "Fraud claim investigation and resolution"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_017_tpl_001",
+    "name": "Template 15: Branch Appointment Reminder",
+    "properties": {
+      "document_id": "Template 15",
+      "trigger_event": "Scheduled branch meeting (24h before)",
+      "channel": "sms",
+      "recipient": "Appointment Customer",
+      "key_content": [
+        "Appointment location",
+        "Appointment date",
+        "Appointment time",
+        "Rescheduling contact number"
+      ],
+      "variables_used": [
+        "[branch name]",
+        "[date]",
+        "[time]"
+      ],
+      "tone": "friendly",
+      "character_limit": 140
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_017_var_001",
+    "name": "branch name",
+    "properties": {
+      "variable_placeholder": "[branch name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 15: Branch Appointment Reminder"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_017_var_002",
+    "name": "date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 15: Branch Appointment Reminder"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_017_var_003",
+    "name": "time",
+    "properties": {
+      "variable_placeholder": "[time]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 15: Branch Appointment Reminder"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_017_cust_001",
+    "name": "Appointment Customer",
+    "properties": {
+      "communication_context": "Branch Appointment Reminder"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_018_tpl_001",
+    "name": "Template 16: Account Closure Confirmation",
+    "properties": {
+      "document_id": "Template 16",
+      "trigger_event": "Account closure processed",
+      "channel": "sms",
+      "recipient": "Account Holder",
+      "key_content": [
+        "Confirmation of account closure",
+        "Account reference number",
+        "Final balance amount",
+        "Transfer method",
+        "Transfer timeframe (3-5 days)",
+        "Contact number for queries"
+      ],
+      "variables_used": [
+        "[ACC-XXXXX]",
+        "[amount]",
+        "[method]"
+      ],
+      "tone": "formal",
+      "character_limit": 150
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_018_var_001",
+    "name": "Account Reference Number",
+    "properties": {
+      "variable_placeholder": "[ACC-XXXXX]",
+      "data_type": "account_number",
+      "appears_in_templates": [
+        "Template 16: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_018_var_002",
+    "name": "Final Balance Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 16: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_018_var_003",
+    "name": "Transfer Method",
+    "properties": {
+      "variable_placeholder": "[method]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 16: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_018_cust_001",
+    "name": "Account Holder",
+    "properties": {
+      "communication_context": "Receives account closure confirmation"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_018_acc_001",
+    "name": "Closed Account",
+    "properties": {
+      "communication_context": "Account closure confirmation"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_019_tpl_001",
+    "name": "Template 17: Maintenance Notice",
+    "properties": {
+      "document_id": "Template 17",
+      "trigger_event": "Scheduled system maintenance",
+      "channel": "sms",
+      "recipient": "Customers",
+      "key_content": [
+        "Maintenance time window",
+        "Service unavailability (Online/mobile banking)",
+        "Apology for inconvenience"
+      ],
+      "variables_used": [
+        "[date]"
+      ],
+      "tone": "friendly",
+      "character_limit": 150
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_019",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_019_var_001",
+    "name": "Maintenance Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 17: Maintenance Notice"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_019",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_020_tpl_001",
+    "name": "Template 18: Survey Request (Optional)",
+    "properties": {
+      "document_id": "Template 18",
+      "trigger_event": "Post-transaction or post-support",
+      "channel": "sms",
+      "recipient": "Bank Customer",
+      "key_content": [
+        "Request for experience rating",
+        "Survey link (www.firstuk.bank/survey)",
+        "Estimated time to complete (1 minute)"
+      ],
+      "tone": "friendly",
+      "character_limit": 110
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_020_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "communication_context": "Recipient of optional post-transaction or post-support survey"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_020_tra_001",
+    "name": "Post-transaction Event",
+    "properties": {
+      "transaction_context": "Trigger for sending a customer experience survey"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_021_tpl_001",
+    "name": "Template 19: Unrecognized Login Alert",
+    "properties": {
+      "document_id": "Template 19",
+      "trigger_event": "Login from new device or location",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of login attempt",
+        "Date and time of attempt",
+        "Location and device used",
+        "Instruction to change password",
+        "Link to password reset page",
+        "Fraud line contact number"
+      ],
+      "variables_used": [
+        "[date]",
+        "[time]",
+        "[location/device]"
+      ],
+      "tone": "urgent",
+      "do_not_alter_sections": [
+        "www.firstuk.bank/reset",
+        "0800-555-2265 fraud line"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_021_var_001",
+    "name": "Login Date and Time",
+    "properties": {
+      "variable_placeholder": "[date] [time]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 19: Unrecognized Login Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_021_var_002",
+    "name": "Login Location and Device",
+    "properties": {
+      "variable_placeholder": "[location/device]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 19: Unrecognized Login Alert"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_021_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "Unrecognized Login Alert"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "name": "Template 20: Payment Reversal Notification",
+    "properties": {
+      "document_id": "Template 20",
+      "trigger_event": "Transaction reversed/refunded",
+      "channel": "sms",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of reversed transaction amount",
+        "Recipient of the original payment",
+        "Confirmation of refund credit",
+        "Reference number",
+        "Customer service contact number"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[recipient]",
+        "[EXC-XXXXX]"
+      ],
+      "tone": "formal",
+      "character_limit": 150
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_022_var_001",
+    "name": "amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 20: Payment Reversal Notification"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_022_var_002",
+    "name": "recipient",
+    "properties": {
+      "variable_placeholder": "[recipient]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 20: Payment Reversal Notification"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_022_var_003",
+    "name": "EXC-XXXXX",
+    "properties": {
+      "variable_placeholder": "[EXC-XXXXX]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 20: Payment Reversal Notification"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_022_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "Payment Reversal Notification"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_022_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "communication_context": "Refund credit notification"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_022_txn_001",
+    "name": "Reversed Transaction",
+    "properties": {
+      "transaction_context": "Transaction reversed/refunded"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_023_obl_001",
+    "name": "SMS Support Contact Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "description": "Always include phone number for support in SMS communications"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_023_obl_002",
+    "name": "SMS Sensitive Information Prohibition",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "all staff",
+      "prohibited_items": [
+        "PIN",
+        "full account number",
+        "passwords",
+        "detailed personal information"
+      ]
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_023_obl_003",
+    "name": "SMS Opt-Out Notification Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "description": "Include note that customers can opt out of non-critical alerts via online banking settings"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_023_var_001",
+    "name": "SMS Reference/Confirmation Code",
+    "properties": {
+      "variable_placeholder": "[Reference/Confirmation Code]",
+      "mandatory": "no",
+      "usage_guidance": "Include when possible"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "id": "129551a2f5234152887e52c93ef826eb_023_var_002",
+    "name": "Partial Account Number",
+    "properties": {
+      "variable_placeholder": "[Last 4 Digits of Account]",
+      "data_type": "account_number",
+      "mandatory": "yes",
+      "constraint": "Use last 4 digits only; full account numbers are prohibited"
+    },
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  }
+]

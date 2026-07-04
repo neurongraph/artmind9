@@ -1,0 +1,912 @@
+[
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_001",
+    "name": "Risk Department",
+    "properties": {
+      "ownership": "Risk Assessment Template & Guidance",
+      "department_name": "Risk"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_002",
+    "name": "Compliance Department",
+    "properties": {
+      "ownership": "Risk Assessment Template & Guidance",
+      "department_name": "Compliance"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_001",
+    "name": "Operational Risk",
+    "properties": {
+      "risk_category": "operational",
+      "risk_factors": [
+        "Data Entry Error (Incorrect customer name captured)",
+        "Mail Loss (Physical statement lost in post)"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_002",
+    "name": "Compliance Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "risk_factors": [
+        "Fraud (Forged document submitted)",
+        "False Positive (Legitimate customer matches sanctions list)"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_003",
+    "name": "Technology Risk",
+    "properties": {
+      "risk_category": "technology",
+      "risk_factors": [
+        "System Failure (AMS unavailable, account not created)"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_001",
+    "name": "Customer Service Department",
+    "properties": {
+      "department_name": "Customer Service",
+      "ownership": "Account opening process via online channel"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_002",
+    "name": "Compliance Department",
+    "properties": {
+      "department_name": "Compliance",
+      "ownership": "Account opening process via online channel"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_prod_001",
+    "name": "Online Account Opening Product",
+    "properties": {
+      "product_risk_level": "high",
+      "audit_scope_inclusion": true,
+      "process_description": "Customers complete application, provide KYC documents, undergo AML screening, and receive account within 2 business days",
+      "involved_systems": [
+        "IBP",
+        "AMS",
+        "FDE",
+        "DW"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_kyc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "gap_type": "Fraud",
+      "finding_context": "Forged document submitted during verification step"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_aml_001",
+    "name": "AML Screening Process",
+    "properties": {
+      "screening_gap": "False Positive",
+      "finding_context": "Legitimate customer matches sanctions list"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_001",
+    "name": "Credit Risk",
+    "properties": {
+      "risk_category": "credit",
+      "tolerance_thresholds": [
+        "<0.5% loss ratio"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_002",
+    "name": "Operational Risk",
+    "properties": {
+      "risk_category": "operational",
+      "tolerance_thresholds": [
+        "<£50k/year"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_003",
+    "name": "Compliance Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "tolerance_thresholds": [
+        "0 violations"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_004",
+    "name": "Technology Risk",
+    "properties": {
+      "risk_category": "technology",
+      "tolerance_thresholds": [
+        "99.9% uptime"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_005",
+    "name": "Fraud Risk",
+    "properties": {
+      "risk_category": "fraud",
+      "tolerance_thresholds": [
+        "<£100k/year"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_006",
+    "name": "Reputational Risk",
+    "properties": {
+      "risk_category": "reputational"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_007",
+    "name": "Liquidity Risk",
+    "properties": {
+      "risk_category": "liquidity"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_008",
+    "name": "Market Risk",
+    "properties": {
+      "risk_category": "market"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_001",
+    "name": "Credit Risk Loss Ratio — Threshold <0.5%",
+    "properties": {
+      "metric_name": "Credit Risk Loss Ratio",
+      "target_threshold": "<0.5%"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_002",
+    "name": "Operational Risk Annual Loss — Threshold <£50k/year",
+    "properties": {
+      "metric_name": "Operational Risk Annual Loss",
+      "target_threshold": "<£50k/year"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_003",
+    "name": "Compliance Violation Count — Threshold 0",
+    "properties": {
+      "metric_name": "Compliance Violation Count",
+      "target_threshold": "0"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_004",
+    "name": "Fraud Risk Annual Loss — Threshold <£100k/year",
+    "properties": {
+      "metric_name": "Fraud Risk Annual Loss",
+      "target_threshold": "<£100k/year"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_005",
+    "name": "Technology Uptime — Threshold 99.9%",
+    "properties": {
+      "metric_name": "Technology Uptime",
+      "target_threshold": "99.9%"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "name": "Customer Data Entry Error — Operational Risk",
+    "properties": {
+      "risk_category": "operational",
+      "risk_description": "Customer completes online account opening form with incorrect personal information; system accepts entry and creates account with bad data",
+      "likelihood": "3 (Medium)",
+      "impact_score": "3 (Moderate)",
+      "risk_score": 9,
+      "residual_risk": "4 (Low-Medium Risk)",
+      "current_exposure": "£20k/year",
+      "controls_in_place": [
+        "Online form validation (name field required, format check)",
+        "Manual review of application before account creation",
+        "Post-opening verification (confirmation call/email)",
+        "System test of data import"
+      ],
+      "trend": "stable",
+      "regulatory_drivers": [
+        "GDPR data accuracy requirement"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_met_001",
+    "name": "Operational Risk Target — Target <£50k/year, Current ~£20k/year",
+    "properties": {
+      "metric_name": "Operational Risk Target",
+      "target_threshold": "<£50k/year",
+      "actual_value": "~£20k/year",
+      "reporting_frequency": "Monthly",
+      "breach_threshold": "£50k/year",
+      "context": "Financial impact of rework and staff time due to data entry errors"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_001",
+    "name": "Implement client-side form validation (real-time)",
+    "properties": {
+      "action_description": "Implement client-side form validation (real-time) to catch 90% of errors pre-submission",
+      "owner": "Technology",
+      "deadline": "2026-02-28",
+      "triggered_by": "rsk_001",
+      "success_criteria": "Catch 90% of errors pre-submission"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_002",
+    "name": "Require confirmation of key fields (name, DOB)",
+    "properties": {
+      "action_description": "Require confirmation of key fields (name, DOB) to reduce entry errors by 50%",
+      "owner": "Technology",
+      "deadline": "2026-02-28",
+      "triggered_by": "rsk_001",
+      "success_criteria": "Reduce entry errors by 50%"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_003",
+    "name": "Automated post-opening verification call (IVR)",
+    "properties": {
+      "action_description": "Automated post-opening verification call (IVR) to catch 100% of remaining errors",
+      "owner": "Customer Service",
+      "deadline": "2026-03-31",
+      "triggered_by": "rsk_001",
+      "success_criteria": "Catch 100% of remaining errors"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_001",
+    "name": "Retail Banking",
+    "properties": {
+      "department_name": "Retail Banking",
+      "ownership": "Business Unit for Online Account Opening process"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_002",
+    "name": "Technology",
+    "properties": {
+      "department_name": "Technology",
+      "accountability_finding": "Responsible for implementing real-time validation and field confirmation"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_003",
+    "name": "Customer Service",
+    "properties": {
+      "department_name": "Customer Service",
+      "ownership": "Process Owner (Head of Customer Service)",
+      "accountability_finding": "Responsible for post-opening verification calls"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_prod_001",
+    "name": "Online Account Opening",
+    "properties": {
+      "product_risk_level": "Medium",
+      "audit_scope_inclusion": true,
+      "process_owner": "Head of Customer Service"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "name": "Risk Assessment Governance Framework",
+    "properties": {
+      "risk_category": "governance",
+      "controls_in_place": [
+        "Mandatory risk assessments for new processes, products, system changes, and regulatory updates",
+        "Annual risk assessments for critical processes",
+        "Recommended assessments for incidents, metric degradation, management requests, and audit findings"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_001",
+    "name": "Mandatory Risk Assessment for New Process Implementation",
+    "properties": {
+      "action_description": "Perform risk assessment upon implementation of a new process",
+      "priority": "critical",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_002",
+    "name": "Mandatory Risk Assessment for New Product Launch",
+    "properties": {
+      "action_description": "Perform risk assessment prior to the launch of a new product",
+      "priority": "critical",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_003",
+    "name": "Mandatory Risk Assessment for Major System Change",
+    "properties": {
+      "action_description": "Perform risk assessment when a major system change is introduced",
+      "priority": "critical",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_004",
+    "name": "Mandatory Risk Assessment for Regulatory Requirement Change",
+    "properties": {
+      "action_description": "Perform risk assessment following a change in regulatory requirements",
+      "priority": "critical",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_005",
+    "name": "Annual Risk Assessment for Critical Processes",
+    "properties": {
+      "action_description": "Conduct risk assessments for all critical processes on an annual basis",
+      "priority": "critical",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_006",
+    "name": "Recommended Risk Assessment After Significant Incident",
+    "properties": {
+      "action_description": "Perform risk assessment following a significant incident",
+      "priority": "medium",
+      "triggered_by": "significant incident",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_007",
+    "name": "Recommended Risk Assessment Upon Process Metric Degradation",
+    "properties": {
+      "action_description": "Perform risk assessment when process metrics show degradation",
+      "priority": "medium",
+      "triggered_by": "process metric degradation",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_008",
+    "name": "Recommended Risk Assessment Upon Management Request",
+    "properties": {
+      "action_description": "Perform risk assessment as requested by management",
+      "priority": "medium",
+      "triggered_by": "management request",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_009",
+    "name": "Recommended Risk Assessment After External Audit Finding",
+    "properties": {
+      "action_description": "Perform risk assessment following the identification of an external audit finding",
+      "priority": "medium",
+      "triggered_by": "external audit finding",
+      "status": "open"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_001",
+    "name": "Risk Score Threshold — Low (1–5)",
+    "properties": {
+      "target_threshold": "1–5",
+      "owner": "Department Head",
+      "reporting_frequency": "10 days"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_002",
+    "name": "Risk Score Threshold — Medium (6–12)",
+    "properties": {
+      "target_threshold": "6–12",
+      "owner": "Head of Risk",
+      "reporting_frequency": "5 days"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_003",
+    "name": "Risk Score Threshold — High (13–18)",
+    "properties": {
+      "target_threshold": "13–18",
+      "owner": "Risk Committee + Exec",
+      "reporting_frequency": "2 days"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_004",
+    "name": "Risk Score Threshold — Critical (19–25)",
+    "properties": {
+      "target_threshold": "19–25",
+      "owner": "Board + CEO",
+      "reporting_frequency": "24 hours"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_001",
+    "name": "Department Head",
+    "properties": {
+      "accountability_finding": "Approval authority for Low risk scores (1-5)",
+      "ownership": "Low risk escalation"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_002",
+    "name": "Head of Risk",
+    "properties": {
+      "accountability_finding": "Approval authority for Medium risk scores (6-12)",
+      "ownership": "Medium risk escalation"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_003",
+    "name": "Risk Committee",
+    "properties": {
+      "accountability_finding": "Joint approval authority with Exec for High risk scores (13-18)",
+      "ownership": "High risk escalation"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_004",
+    "name": "Board",
+    "properties": {
+      "accountability_finding": "Joint approval authority with CEO for Critical risk scores (19-25)",
+      "ownership": "Critical risk escalation"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_001",
+    "name": "Risk Reporting Distribution Frequency — Low Level: Quarterly",
+    "properties": {
+      "metric_name": "Risk Reporting Distribution Frequency",
+      "reporting_frequency": "Quarterly",
+      "context": "Reporting for Low level risks",
+      "owner": [
+        "Department Head",
+        "Risk Team"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_002",
+    "name": "Risk Reporting Distribution Frequency — Medium Level: Monthly",
+    "properties": {
+      "metric_name": "Risk Reporting Distribution Frequency",
+      "reporting_frequency": "Monthly",
+      "context": "Reporting for Medium level risks",
+      "owner": [
+        "Exec Committee"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_003",
+    "name": "Risk Reporting Distribution Frequency — High Level: Weekly",
+    "properties": {
+      "metric_name": "Risk Reporting Distribution Frequency",
+      "reporting_frequency": "Weekly",
+      "context": "Reporting for High level risks",
+      "owner": [
+        "Risk Committee"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_004",
+    "name": "Risk Reporting Distribution Frequency — Critical Level: Immediate",
+    "properties": {
+      "metric_name": "Risk Reporting Distribution Frequency",
+      "reporting_frequency": "Immediate",
+      "context": "Reporting for Critical level risks",
+      "owner": [
+        "Board"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_001",
+    "name": "Risk Team",
+    "properties": {
+      "department_name": "Risk Team",
+      "ownership": "Low level risk reporting distribution"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_002",
+    "name": "Exec Committee",
+    "properties": {
+      "department_name": "Exec Committee",
+      "ownership": "Medium level risk reporting distribution"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_003",
+    "name": "Risk Committee",
+    "properties": {
+      "department_name": "Risk Committee",
+      "ownership": "High level risk reporting distribution"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_004",
+    "name": "Board",
+    "properties": {
+      "department_name": "Board",
+      "ownership": "Critical level risk reporting distribution"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_001",
+    "name": "Likelihood Scale - Remote (1)",
+    "properties": {
+      "metric_name": "Likelihood Scale - Remote",
+      "actual_value": "1",
+      "context": "Unlikely in foreseeable future",
+      "target_threshold": "<1 event per 10 years",
+      "example": "Perfect security system never breached"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_002",
+    "name": "Likelihood Scale - Low (2)",
+    "properties": {
+      "metric_name": "Likelihood Scale - Low",
+      "actual_value": "2",
+      "context": "May occur in 3+ years",
+      "target_threshold": "1 event per 3–10 years",
+      "example": "1 fraud case per year"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_003",
+    "name": "Likelihood Scale - Medium (3)",
+    "properties": {
+      "metric_name": "Likelihood Scale - Medium",
+      "actual_value": "3",
+      "context": "May occur in 1–3 years",
+      "target_threshold": "1 event per 1–3 years",
+      "example": "2–5 data entry errors per month"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_004",
+    "name": "Likelihood Scale - High (4)",
+    "properties": {
+      "metric_name": "Likelihood Scale - High",
+      "actual_value": "4",
+      "context": "Likely in <1 year",
+      "target_threshold": "4+ events per year",
+      "example": "Regular system downtime (quarterly)"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_005",
+    "name": "Likelihood Scale - Very High (5)",
+    "properties": {
+      "metric_name": "Likelihood Scale - Very High",
+      "actual_value": "5",
+      "context": "Could occur multiple times per year",
+      "target_threshold": "Weekly or more",
+      "example": "Daily transaction processing issues"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_001",
+    "name": "Impact Scale Level 1 — Negligible",
+    "properties": {
+      "target_threshold": {
+        "financial": "<£10k",
+        "customers": "1–5",
+        "regulatory": "No impact"
+      },
+      "context": "Definition of negligible impact for risk assessment"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_002",
+    "name": "Impact Scale Level 2 — Minor",
+    "properties": {
+      "target_threshold": {
+        "financial": "£10k–£100k",
+        "customers": "5–25",
+        "regulatory": "No formal action"
+      },
+      "context": "Definition of minor impact for risk assessment"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_003",
+    "name": "Impact Scale Level 3 — Moderate",
+    "properties": {
+      "target_threshold": {
+        "financial": "£100k–£500k",
+        "customers": "25–100",
+        "regulatory": "Review, minor guidance"
+      },
+      "context": "Definition of moderate impact for risk assessment"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_004",
+    "name": "Impact Scale Level 4 — Major",
+    "properties": {
+      "target_threshold": {
+        "financial": "£500k–£1M",
+        "customers": "100–500",
+        "regulatory": "Fine, restrictions"
+      },
+      "context": "Definition of major impact for risk assessment"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_005",
+    "name": "Impact Scale Level 5 — Critical",
+    "properties": {
+      "target_threshold": {
+        "financial": ">£1M",
+        "customers": "500+",
+        "regulatory": "License suspension, criminal action"
+      },
+      "context": "Definition of critical impact for risk assessment"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_012_act_001",
+    "name": "Risk Assessment Documentation Filing Requirement",
+    "properties": {
+      "action_description": "Maintain a file for each risk assessment containing the signed original risk assessment form, supporting evidence (test results, incident logs), control evaluation documentation, mitigation action plan, approval signatures, and implementation tracking",
+      "success_criteria": "All six specified documentation components are kept on file for every risk assessment"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_012",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_013_rsk_001",
+    "name": "Risk Data Retention Policy",
+    "properties": {
+      "controls_in_place": [
+        "Secure risk repository",
+        "Encryption"
+      ],
+      "regulatory_drivers": [
+        "Audit trail requirements",
+        "Regulatory inquiries"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_013_met_001",
+    "name": "Data Retention Period — 7 Years",
+    "properties": {
+      "metric_name": "Data Retention Period",
+      "target_threshold": "7 years",
+      "context": "Supports audit trail and regulatory inquiries"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_013_dep_001",
+    "name": "Risk Team",
+    "properties": {
+      "ownership": "Secure risk repository access"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_rsk_001",
+    "name": "Residual Risk Calculation",
+    "properties": {
+      "risk_category": "operational",
+      "calculation_method": "risk after controls",
+      "recommended_inputs": [
+        "industry benchmarks",
+        "historical data",
+        "expert judgment"
+      ]
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_001",
+    "name": "Mitigation Action Assignment Standard",
+    "properties": {
+      "action_description": "Ensure each mitigation action is assigned a specific owner, target date, and expected impact",
+      "success_criteria": "Every action item contains owner, deadline, and impact assessment"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_002",
+    "name": "Quarterly Control Retesting and Risk Recalculation",
+    "properties": {
+      "action_description": "Retest controls and recalculate residual risk",
+      "reporting_frequency": "quarterly",
+      "triggered_by": "completion of mitigation actions"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dec_001",
+    "name": "Risk Assessment Centralisation Policy",
+    "properties": {
+      "decision_outcome": "approved",
+      "decision_topic": "Centralisation of risk assessments",
+      "rationale": "To provide a consolidated view of risk across the bank",
+      "conditions": "Risk assessments must be filed with the Risk team rather than kept solely with department owners"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dep_001",
+    "name": "Risk Team",
+    "properties": {
+      "department_name": "Risk Team",
+      "ownership": "Consolidated risk view",
+      "accountability_finding": "Responsible for maintaining the central repository of risk assessments"
+    },
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  }
+]

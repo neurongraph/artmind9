@@ -1,0 +1,2993 @@
+{
+  "embedding": [
+    0.022901403,
+    0.08914242,
+    -0.20042174,
+    -0.042597316,
+    -0.0010924417,
+    -0.055862155,
+    0.05536547,
+    0.03035324,
+    0.0040458348,
+    -0.033249393,
+    -0.03506332,
+    0.01734366,
+    0.088015065,
+    0.0026267362,
+    0.052936107,
+    -0.044188876,
+    -0.047022153,
+    -0.051094923,
+    -0.039442893,
+    0.04107639,
+    0.033252556,
+    -0.045683272,
+    -0.040519632,
+    -0.029599704,
+    0.012662838,
+    0.039364085,
+    0.03167407,
+    0.012893133,
+    0.0071969684,
+    -0.005741185,
+    0.062124718,
+    -0.004430217,
+    -0.027343072,
+    -0.027698591,
+    -0.0063175387,
+    -0.033212632,
+    0.040735293,
+    -0.01722451,
+    0.02296846,
+    -0.030831194,
+    0.0541937,
+    0.022714417,
+    0.002881478,
+    -0.016745409,
+    0.053372316,
+    -0.029807294,
+    -0.019388663,
+    -0.02039484,
+    0.08409304,
+    -0.011196754,
+    -0.0076289023,
+    0.02300158,
+    0.015704991,
+    0.0236676,
+    -0.007308397,
+    0.030150607,
+    -0.07568272,
+    0.00854288,
+    -0.013166504,
+    -0.029310044,
+    0.072410725,
+    0.068687364,
+    -0.0009256236,
+    0.048242245,
+    0.06367817,
+    -0.04645341,
+    -0.005775508,
+    0.007031045,
+    -0.01641727,
+    -0.03844748,
+    0.010118008,
+    -0.05665462,
+    0.01658561,
+    0.04651914,
+    0.007827578,
+    -0.015330785,
+    -0.03453508,
+    -0.03772421,
+    -0.03911772,
+    0.020206148,
+    0.05090514,
+    -0.004308359,
+    0.017829007,
+    0.02578344,
+    0.059153195,
+    -0.017998088,
+    -0.0110386945,
+    0.01828747,
+    -0.040178746,
+    0.11266789,
+    0.0061007002,
+    0.02600422,
+    -0.014402914,
+    0.027021684,
+    -0.03772824,
+    0.0014337266,
+    0.0069387094,
+    -0.0031353985,
+    0.0056006867,
+    -0.0036288034,
+    -0.011019268,
+    -0.017297475,
+    -0.012251871,
+    -0.0017702607,
+    -0.0057896194,
+    0.061685618,
+    -0.02518068,
+    -0.0068351696,
+    0.0056556147,
+    0.022080285,
+    -0.05096052,
+    0.015299225,
+    -0.014396989,
+    0.0017718463,
+    0.036857914,
+    0.022603003,
+    0.08059867,
+    -0.032957047,
+    0.009457102,
+    0.019769616,
+    -0.008248895,
+    -0.07255295,
+    -0.00970187,
+    0.015562738,
+    0.017174246,
+    0.002540596,
+    -0.031322215,
+    -0.027990624,
+    -0.007286934,
+    -0.020741127,
+    -0.0008546731,
+    0.0066355513,
+    -0.0063477145,
+    0.01324336,
+    0.052493807,
+    0.05878896,
+    -0.07430311,
+    -0.048117828,
+    0.042564858,
+    0.06285701,
+    0.05189698,
+    0.008352906,
+    0.02067027,
+    -0.019029519,
+    0.027753005,
+    -0.04603277,
+    0.027486328,
+    -0.0067642224,
+    -0.049406555,
+    0.01604623,
+    -0.00467751,
+    -0.013299241,
+    -0.0014393425,
+    0.01948746,
+    0.021838479,
+    -0.067510635,
+    -0.039665464,
+    0.02942641,
+    0.012108219,
+    0.040337786,
+    0.00039170505,
+    0.023248319,
+    -0.013025938,
+    0.052086376,
+    -0.0045650424,
+    -0.08525469,
+    0.013075507,
+    0.040815536,
+    0.00494566,
+    0.010476285,
+    -0.059932373,
+    -0.007394754,
+    0.014722622,
+    -0.006212777,
+    0.00536025,
+    -0.027720947,
+    0.023978418,
+    -0.005454723,
+    0.01671183,
+    -0.032999355,
+    0.019134058,
+    -0.055243965,
+    0.039930243,
+    0.03429336,
+    -0.05657112,
+    0.023006452,
+    0.011451759,
+    -0.01988514,
+    -0.030664308,
+    -0.03512211,
+    0.029082518,
+    0.03952477,
+    -0.04427555,
+    0.010339594,
+    -0.059946187,
+    -0.045710016,
+    0.04316462,
+    -0.023794385,
+    0.0014341642,
+    -0.07300076,
+    -0.03640112,
+    -0.006432824,
+    -0.027502812,
+    0.03260948,
+    -0.02516325,
+    0.028998083,
+    0.008174057,
+    0.040779755,
+    -0.02579477,
+    0.024039833,
+    0.029886542,
+    -0.011395193,
+    -0.041968,
+    0.007940261,
+    0.032860942,
+    0.009421245,
+    0.022815015,
+    -0.036035586,
+    -0.0010373502,
+    0.049107928,
+    0.038040083,
+    0.013896436,
+    0.01015203,
+    -0.03987184,
+    0.031114057,
+    -0.040778883,
+    -0.020838713,
+    -0.033510376,
+    -0.011997991,
+    0.03191534,
+    -0.015877463,
+    -0.08705666,
+    0.06798904,
+    0.008542354,
+    -0.026838714,
+    0.021534963,
+    -0.02886511,
+    0.030817099,
+    0.016738417,
+    0.03314494,
+    0.040100645,
+    0.026353028,
+    -0.03439541,
+    -0.015084485,
+    0.0005191138,
+    -0.03955061,
+    -0.0025311038,
+    -0.017094333,
+    -0.014416259,
+    0.08712795,
+    0.05185067,
+    -0.0017512101,
+    0.019423388,
+    0.013870399,
+    0.0075382097,
+    -0.037963588,
+    -0.023419028,
+    0.0023451606,
+    -0.013026095,
+    -0.024190286,
+    -0.0124054365,
+    -0.005114454,
+    0.068732195,
+    -0.043746427,
+    0.009809085,
+    0.0030277097,
+    -0.024245994,
+    -0.01830257,
+    0.036463972,
+    -0.025976148,
+    0.050715633,
+    0.051244643,
+    0.009009465,
+    0.07234445,
+    -0.027909944,
+    -0.0057349154,
+    0.0038440747,
+    0.0066570933,
+    -0.06410433,
+    0.05850141,
+    -0.019324388,
+    -0.08683052,
+    -0.04886751,
+    0.0077441684,
+    -0.012369119,
+    0.04720669,
+    0.015702805,
+    -0.005311624,
+    -0.0035905929,
+    0.026875261,
+    0.027129708,
+    -0.016758885,
+    0.0012938663,
+    -0.00030874615,
+    -0.023403034,
+    0.024201477,
+    0.027193662,
+    -0.038092453,
+    -0.0069788094,
+    -0.047800325,
+    0.038936157,
+    0.037367526,
+    0.020255823,
+    0.016098587,
+    0.019113889,
+    -0.0495401,
+    0.005985359,
+    0.0028897668,
+    -0.0068721916,
+    -0.04255446,
+    -0.00423112,
+    -0.047568604,
+    -0.021297205,
+    -0.016999608,
+    -0.05181851,
+    0.03870746,
+    0.038884576,
+    0.043293778,
+    0.030004073,
+    0.0020785425,
+    0.0046914797,
+    -0.044739746,
+    -0.0049797203,
+    -0.07377035,
+    -0.015091103,
+    0.050539255,
+    -0.020797646,
+    0.004570328,
+    0.00610428,
+    0.022718305,
+    -0.019394744,
+    0.016888646,
+    0.027558697,
+    -0.040658545,
+    0.016107295,
+    0.059766226,
+    0.021004416,
+    0.009683857,
+    0.02331459,
+    0.03942127,
+    0.060297817,
+    -0.0032183018,
+    0.008276713,
+    -0.04060224,
+    0.03604086,
+    -0.011588784,
+    0.0014419972,
+    -0.00885578,
+    0.019777521,
+    0.046839852,
+    0.020269934,
+    -0.013291075,
+    -0.03697389,
+    -0.0033219054,
+    0.023778884,
+    -0.0023841974,
+    -0.03292875,
+    0.06842629,
+    -0.00061397173,
+    -0.0298625,
+    0.03746151,
+    0.016385263,
+    0.0209284,
+    -0.008687228,
+    0.02856937,
+    0.0522659,
+    0.045847174,
+    -0.004580791,
+    0.018808967,
+    -0.013672524,
+    -0.05338404,
+    0.008330688,
+    -0.034365486,
+    0.027433675,
+    -0.008957965,
+    0.032415792,
+    -0.07323909,
+    -0.030970648,
+    0.0044376357,
+    0.046797935,
+    0.03666491,
+    -0.042303912,
+    -0.016555058,
+    0.016319241,
+    -0.0036047883,
+    -0.030971255,
+    0.013662166,
+    -0.05972949,
+    0.013630861,
+    0.032108765,
+    -0.044356298,
+    0.020869685,
+    0.030227594,
+    -0.025295395,
+    0.02655432,
+    -0.02888384,
+    -0.009130776,
+    0.00028803686,
+    -0.014735626,
+    0.04088522,
+    -0.072844215,
+    -0.074800976,
+    0.008052015,
+    0.03261064,
+    -0.0006575289,
+    0.028555878,
+    -0.007025955,
+    -0.021868838,
+    0.02957989,
+    0.007286697,
+    0.03413289,
+    0.031647444,
+    -0.013127424,
+    -0.063551866,
+    0.0722053,
+    -0.0012264935,
+    0.058778282,
+    -0.046731744,
+    -0.051618516,
+    0.03422492,
+    0.031180581,
+    0.055029668,
+    -0.011288342,
+    0.0030909996,
+    0.0548062,
+    0.009856098,
+    -0.0068919966,
+    0.021047413,
+    -0.004909789,
+    -0.055139594,
+    0.023030883,
+    0.030111814,
+    -0.016534256,
+    -0.04597358,
+    -5.417106e-05,
+    0.021491064,
+    0.042323243,
+    0.0068750656,
+    0.014408944,
+    -0.0092339,
+    0.058577906,
+    -0.043424916,
+    -0.025225943,
+    -0.037744187,
+    0.020607205,
+    0.06562912,
+    0.03820767,
+    -0.01922567,
+    -0.0045748344,
+    0.06401722,
+    -0.017939895,
+    0.05013493,
+    0.025217148,
+    0.05885077,
+    0.052722283,
+    -0.04880402,
+    -0.016917067,
+    -0.012033704,
+    -0.017479843,
+    0.053292744,
+    -0.028569711,
+    0.018799743,
+    -0.06587924,
+    -0.024825636,
+    -0.0071763345,
+    -0.014550872,
+    0.015381792,
+    -0.025688399,
+    0.05408165,
+    0.09305654,
+    -0.030399248,
+    -0.031270586,
+    0.013136684,
+    -0.024989588,
+    -0.03993927,
+    0.0012458432,
+    -0.018630002,
+    -0.034051485,
+    0.052348934,
+    0.048832852,
+    0.035151243,
+    -0.029456982,
+    -0.023369558,
+    -0.06890173,
+    -0.0046836287,
+    0.025973912,
+    0.03229672,
+    -0.07766553,
+    0.0059345677,
+    -0.003951304,
+    0.02106243,
+    0.010708433,
+    0.025109988,
+    -0.011656343,
+    -0.034969624,
+    -0.016238019,
+    -0.054211482,
+    -0.0012150756,
+    0.034217022,
+    0.023477232,
+    0.024819657,
+    0.03268104,
+    -0.025489243,
+    -0.010120892,
+    0.022054967,
+    -0.019691346,
+    0.017684627,
+    -0.021421522,
+    -0.04296025,
+    0.0019238183,
+    -0.021069221,
+    0.029910369,
+    0.04365105,
+    -0.018017396,
+    0.049351703,
+    -0.060818844,
+    0.035066206,
+    0.031196967,
+    -0.061419662,
+    0.015428752,
+    -0.009510354,
+    -0.03862612,
+    0.03938924,
+    -0.02648366,
+    -0.05044006,
+    0.08073409,
+    0.029036425,
+    -0.044112213,
+    0.07608155,
+    0.027784556,
+    0.011928415,
+    0.041244287,
+    -0.0146452645,
+    0.004378163,
+    0.006632924,
+    0.043294653,
+    -0.023583513,
+    -0.0061722095,
+    0.078795515,
+    -0.032479394,
+    -0.0018132724,
+    0.003533494,
+    -0.004755406,
+    -0.001951795,
+    -0.00067398645,
+    -0.02701116,
+    -0.006670091,
+    0.0067558107,
+    -0.001313422,
+    -0.075525776,
+    0.058992706,
+    -0.06747508,
+    0.025358837,
+    -0.0121304095,
+    0.026488304,
+    -0.020647574,
+    0.011298368,
+    -0.006208889,
+    -0.08395818,
+    -0.02402063,
+    0.011079177,
+    0.0052589085,
+    0.04307706,
+    0.007973233,
+    0.010560025,
+    -0.000934186,
+    0.0057981773,
+    -0.026084512,
+    -2.262915e-05,
+    0.028958704,
+    0.028776502,
+    -0.05008415,
+    -0.048629746,
+    -0.06264562,
+    -0.016269295,
+    0.015795195,
+    0.02433606,
+    0.027026733,
+    -0.060492545,
+    -0.060362164,
+    -0.0059649926,
+    -0.016807057,
+    0.0030793753,
+    0.06394146,
+    -0.005947903,
+    -0.011164413,
+    -0.03291162,
+    -0.051593658,
+    0.008605856,
+    -0.03097393,
+    -0.031844635,
+    0.0070787813,
+    0.037593305,
+    -0.02880695,
+    0.018925788,
+    0.008030587,
+    0.00124629,
+    -0.033333413,
+    -0.01128562,
+    -0.05306475,
+    -0.025430627,
+    0.015458652,
+    0.027601408,
+    -0.067801036,
+    -0.034362838,
+    0.01250686,
+    0.01975626,
+    -0.010974864,
+    -0.0096816225,
+    -0.05154647,
+    0.026960619,
+    0.0001277607,
+    0.010958731,
+    0.005219927,
+    0.044248287,
+    0.0084456485,
+    0.06542363,
+    0.028597867,
+    0.00041877467,
+    -0.037088163,
+    -0.016085077,
+    -0.04305542,
+    0.017551733,
+    -0.005724579,
+    -0.015970677,
+    0.044232603,
+    -0.014120649,
+    -0.06048908,
+    -0.031565264,
+    0.024493124,
+    -0.05042327,
+    0.024219314,
+    -0.050255787,
+    -0.030252855,
+    -0.07626908,
+    0.008899295,
+    -0.02846315,
+    -0.0104550645,
+    -0.009463613,
+    0.019472132,
+    0.060749393,
+    -0.042994235,
+    0.010618936,
+    0.05730003,
+    0.06856068,
+    -0.035025947,
+    0.021678165,
+    0.0034717452,
+    0.056810427,
+    0.0054282984,
+    0.044006802,
+    0.056418248,
+    -0.01996955,
+    0.007108305,
+    0.03541036,
+    -0.0057036094,
+    0.014530302,
+    -0.06445628,
+    -0.051984124,
+    -0.031584617,
+    -0.019083038,
+    0.033447955,
+    0.026445301,
+    0.01652797,
+    0.023809737,
+    0.04054493,
+    0.003557002,
+    0.026553946,
+    -0.06424127,
+    -0.029554607,
+    0.037913166,
+    0.06975603,
+    0.0111991,
+    -0.002299106,
+    -0.020028036,
+    0.075615495,
+    0.034917794,
+    0.046948604,
+    -0.04268085,
+    0.0058632055,
+    0.025238685,
+    0.040623993,
+    0.036325093,
+    -0.05034819,
+    0.008382841,
+    -0.025134092,
+    0.0035136493,
+    0.007661189,
+    0.021545675,
+    -0.039483484,
+    -0.013004265,
+    -0.042252693,
+    -0.040811684,
+    -0.0048359046,
+    0.010461803,
+    0.05130049,
+    -0.002864169,
+    -0.040407155,
+    -0.08450594,
+    0.051292695,
+    -0.04031151,
+    0.029568376,
+    -0.03605811,
+    0.028958159,
+    -0.01814494,
+    0.036139116,
+    -0.035921093,
+    -0.023449747,
+    -0.020358691,
+    -0.01059752,
+    -0.028257707,
+    0.0058975033,
+    0.024008455,
+    0.0018276145,
+    -0.014330108,
+    0.07314545,
+    -0.023519956,
+    -0.05000628,
+    -0.015943993,
+    0.010287398,
+    0.032412864,
+    -0.04000476,
+    -0.074251726,
+    -0.050859943,
+    -0.017991267,
+    0.046809677,
+    0.05876005,
+    -0.06631452,
+    0.007789492,
+    -0.034882247,
+    -0.008997332,
+    -0.015825596,
+    -0.0857969,
+    0.06348455,
+    -0.004601545,
+    -0.0010493541,
+    -0.026162194,
+    -0.003486275,
+    -0.031231487,
+    -0.05189733,
+    -0.078916155,
+    0.0140415495,
+    -0.019926213,
+    0.04599363,
+    0.021015538,
+    0.0068512396,
+    -0.028324455,
+    0.018110937,
+    0.021235257,
+    0.0033806062,
+    0.061072715,
+    0.02319797,
+    -0.039249197,
+    -0.01105987,
+    0.02002078,
+    0.022815429,
+    0.008719602,
+    0.03333593,
+    0.103815034,
+    0.005033971,
+    0.027003136,
+    -0.04659428,
+    0.03647383,
+    -0.03807925,
+    -0.003647591,
+    -0.04867589,
+    -0.074352905,
+    -0.0371015
+  ],
+  "chunk_seq": 1,
+  "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+  "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+  "text": "# 17+ years of Growing Partnership  \n1  \nlogo  \nIBM Consulting / © 2025 IBM Corporation /IBM &amp; Nationwide Confidential  \n2013  \n2019  \n2022  \n2012  \n2025  \nTeam grows to 300,\nDigital development\ncenter established  \nThe team Doubles in\nsize over 6 years - focusing on web, mobile, middleware &amp; testing  \nOffshoring\nBegins  \nLeadership changes  \n2007  \nTeam surges to 1200, on the back of Data, AI &amp; partnering in new areas while offshoring to 90%  \nSustained expansion  \nHypergrowth Phase  \nTest Practice\nAdded  \nThe team size decreases to 600.  \nMajor changes in Client Leadership  \nInitial team of 100\nstarts mortgage and\nintegration projects  \nTeam expands to\n400 - Digital and Test\ncapabilities grow  \nLaunch  \nThis image is a detailed business timeline. The timeline chronicles the progression of digital initiatives from 2007 to 2024, detailing specific projects and technological shifts year by year.  \n**Timeline Details:**  \n*   **2007:** Mortgage Origination\n*   **2008:** Business Integration\n*   **2009:** Internet Banking\n*   **2012:** Core Banking\n*   **2013:** Multi Channel Development Centre, Test Practice\n*   **2014:** New Mobile Bank\n*   **2015:** Nationwide Now Remote Mortgage Advice\n*   **2016:** App Store, Paym Mobile Payments\n*   **2017:** Apple Pay, Next Generation Banking App\n*   **2018:** API - MyNationwide Go Live\n*   **2019:** Open Banking Regulatory API Gateway Compliance, Resiliency Programme Strategy and Establishment\n*   **2020:** Tech Talent Design, CoVid Remote Working\n*   **2021:** SAMM Replaces, Microsoft Power Team Mobilized\n*   **2022:** PEGA Team Mobilized in BAW, BI ACE Migration\n*   **2023:** ALAS Replatforming, SAMM Replaces, Login Modernization, Card Controls\n*   **2024:** MCP Fully Rolled Out, FirstGen SaaS  \nThe timeline also includes additional milestones:\n*   **2007:** Mortgage Origination\n*   **2008:** Business Integration\n*   **2009:** Internet Banking\n*   **2012:** Core Banking\n*   **2013:** Multi Channel Development Centre, Test Practice\n*   **2014:** New Mobile Bank\n*   **2015:** Nationwide Now Remote Mortgage Advice\n*   **2016:** App Store, Paym Mobile Payments\n*   **2017:** Apple Pay, Next Generation Banking App\n*   **2018:** API - MyNationwide Go Live\n*   **2019:** Open Banking Regulatory API Gateway Compliance, Resiliency Programme Strategy and Establishment\n*   **2020:** Tech Talent Design, CoVid Remote Working\n*   **2021:** SAMM Replaces, Microsoft Power Team Mobilized\n*   **2022:** PEGA Team Mobilized in BAW, BI ACE Migration\n*   **2023:** ALAS Replatforming, SAMM Replaces, Login Modernization, Card Controls\n*   **2024:** MCP Fully Rolled Out, FirstGen SaaS",
+  "name": "Chunk 1/8",
+  "domain": "sales_collateral",
+  "next_chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_002",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide Building Society",
+        "Client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK financial services organization and long-term strategic partner of IBM Consulting. The entity is featured throughout a 17-year partnership timeline detailing extensive digital transformation, banking modernization, and technology scaling initiatives across mortgage, mobile, and core banking domains.",
+      "context": [
+        "IBM & Nationwide Confidential",
+        "MyNationwide Go Live",
+        "Nationwide Now Remote Mortgage Advice",
+        "FirstGen SaaS"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "Digital Development Centre",
+      "aliases": [
+        "Multi Channel Development Centre",
+        "Digital Hub"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "A dedicated offshore and onshore development hub established to support Nationwide's digital transformation. The centre scaled from an initial team of 100 to over 1,200 members, delivering web, mobile, middleware, and testing capabilities to drive banking modernization.",
+      "context": [
+        "Digital development center established",
+        "Multi Channel Development Centre, Test Practice",
+        "Team grows to 300",
+        "Team surges to 1200"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "Resiliency Programme",
+      "aliases": [
+        "Resiliency Strategy",
+        "System Resilience Initiative"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A strategic initiative established in 2019 focused on building system resilience and ensuring regulatory compliance. The programme addresses operational stability requirements and supports the broader open banking and API gateway modernization efforts.",
+      "context": [
+        "Resiliency Programme Strategy and Establishment",
+        "2019: Open Banking Regulatory API Gateway Compliance, Resiliency Programme Strategy and Establishment"
+      ]
+    },
+    {
+      "id": "off_003",
+      "name": "FirstGen SaaS",
+      "aliases": [
+        "First Generation SaaS Platform",
+        "Next-Gen SaaS"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A next-generation Software-as-a-Service platform fully rolled out in 2024. It represents the culmination of the partnership's modernization efforts, replacing legacy infrastructure with a scalable, cloud-native architecture.",
+      "context": [
+        "MCP Fully Rolled Out, FirstGen SaaS",
+        "2024: MCP Fully Rolled Out, FirstGen SaaS"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Mobile & Web Development",
+      "aliases": [
+        "Digital Engineering",
+        "Web/Mobile Capabilities"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "Core engineering capability focused on building and maintaining web and mobile banking applications. This capability enabled the delivery of the New Mobile Bank, Next Generation Banking App, and integrated app store distribution channels.",
+      "context": [
+        "focusing on web, mobile, middleware & testing",
+        "New Mobile Bank",
+        "Next Generation Banking App"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Data & AI Integration",
+      "aliases": [
+        "AI Capabilities",
+        "Data Processing"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "Advanced data processing and artificial intelligence capabilities leveraged to drive banking innovations and modernize legacy systems. This capability supported strategic partnerships and enabled scalable digital service delivery across the client's ecosystem.",
+      "context": [
+        "on the back of Data, AI & partnering in new areas",
+        "Data, AI & partnering in new areas"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Replatforming & Modernization",
+      "aliases": [
+        "Legacy Migration",
+        "System Replatforming"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "migration_capability",
+      "description": "Technical capability to migrate, replace, and modernize legacy banking infrastructure. This includes the ALAS replatforming, BI ACE migration, and login modernization initiatives designed to improve system performance and user experience.",
+      "context": [
+        "ALAS Replatforming",
+        "BI ACE Migration",
+        "Login Modernization"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Mortgage Origination & Advice",
+      "aliases": [
+        "Remote Mortgage Services",
+        "Digital Mortgage"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "Digital transformation use case focused on streamlining mortgage processes and enabling remote advisory services. The initiative leveraged digital channels to improve customer access and operational efficiency in mortgage lending.",
+      "context": [
+        "Initial team of 100 starts mortgage and integration projects",
+        "Nationwide Now Remote Mortgage Advice",
+        "Mortgage Origination"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Open Banking & Regulatory Compliance",
+      "aliases": [
+        "Open Banking API",
+        "Regulatory Gateway"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "Application of API gateways and regulatory frameworks to meet open banking standards and ensure secure data sharing. This use case addresses increasing regulatory requirements while enabling third-party integrations and secure customer data access.",
+      "context": [
+        "Open Banking Regulatory API Gateway Compliance",
+        "2019: Open Banking Regulatory API Gateway Compliance"
+      ]
+    },
+    {
+      "id": "use_003",
+      "name": "Mobile Payments & App Store Integration",
+      "aliases": [
+        "Paym Mobile Payments",
+        "Digital Wallet"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "revenue_generation",
+      "description": "Deployment of mobile payment solutions and app store distribution channels to enhance customer engagement and transaction capabilities. This use case enabled seamless digital payments and expanded the client's mobile banking footprint.",
+      "context": [
+        "App Store, Paym Mobile Payments",
+        "Apple Pay",
+        "Paym Mobile Payments"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Sustained Partnership Growth",
+      "aliases": [
+        "Long-term Collaboration",
+        "Strategic Expansion"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "scale_achievement",
+      "description": "Long-term strategic value demonstrated by a 17-year partnership with consistent team expansion and project delivery milestones. The sustained growth reflects high client satisfaction, successful delivery track records, and adaptive scaling across multiple technology generations.",
+      "context": [
+        "17+ years of Growing Partnership",
+        "Sustained expansion",
+        "Hypergrowth Phase"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Operational Efficiency via Offshoring",
+      "aliases": [
+        "Offshore Delivery Model",
+        "Cost-Optimized Scaling"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Significant cost and resource optimization achieved through a highly optimized 90% offshoring model. This delivery approach enabled rapid team scaling and accelerated digital transformation without compromising solution quality or compliance standards.",
+      "context": [
+        "Offshoring Begins",
+        "offshoring to 90%",
+        "Team Doubles in size over 6 years"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Regulatory Compliance Pressure",
+      "aliases": [
+        "Open Banking Regulations",
+        "Regulatory Burden"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "regulatory_burden",
+      "description": "Increasing regulatory requirements around open banking and data security necessitating robust API gateway compliance and resiliency strategies. The client faced mounting pressure to meet strict financial data standards while maintaining seamless customer experiences.",
+      "context": [
+        "Open Banking Regulatory API Gateway Compliance",
+        "Resiliency Programme Strategy and Establishment"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Legacy System Modernization",
+      "aliases": [
+        "Outdated Infrastructure",
+        "Legacy Constraints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "Need to replace and modernize outdated banking infrastructure to support digital transformation and improve customer experience. Legacy constraints drove the replatforming of ALAS, BI ACE migration, and login modernization initiatives.",
+      "context": [
+        "ALAS Replatforming",
+        "BI ACE Migration",
+        "Login Modernization"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "Microsoft Power Platform",
+      "aliases": [
+        "Microsoft Power",
+        "Power Apps/Flow"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "Low-code development platform mobilized in 2021 to accelerate digital solution delivery and streamline development workflows. The platform enabled faster iteration and reduced dependency on traditional coding for internal banking applications.",
+      "context": [
+        "Microsoft Power Team Mobilized",
+        "2021: SAMM Replaces, Microsoft Power Team Mobilized"
+      ]
+    },
+    {
+      "id": "tech_002",
+      "name": "PEGA BAW",
+      "aliases": [
+        "PEGA Business Automation Workflow",
+        "BAW Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "automation_tool",
+      "description": "Business Automation Workflow platform deployed in 2022 to streamline complex banking processes and improve operational efficiency. The tool enabled automated decisioning and standardized workflow execution across mortgage and core banking operations.",
+      "context": [
+        "PEGA Team Mobilized in BAW",
+        "2022: PEGA Team Mobilized in BAW"
+      ]
+    },
+    {
+      "id": "tech_003",
+      "name": "MyNationwide API Gateway",
+      "aliases": [
+        "MyNationwide API",
+        "Open Banking Gateway"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Secure API gateway launched in 2018 to enable seamless integration and data exchange for the MyNationwide digital banking ecosystem. The gateway facilitated third-party access, enhanced system interoperability, and supported open banking compliance.",
+      "context": [
+        "API - MyNationwide Go Live",
+        "2018: API - MyNationwide Go Live"
+      ]
+    },
+    {
+      "id": "tech_004",
+      "name": "SAMM Framework",
+      "aliases": [
+        "SAMM",
+        "Strategic Application Management Framework"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "Strategic application management and modernization framework used to replace legacy systems and standardize development practices. The framework provided a structured approach to digital transformation, replacing outdated processes with scalable governance models.",
+      "context": [
+        "SAMM Replaces",
+        "2021: SAMM Replaces, Microsoft Power Team Mobilized",
+        "2023: ALAS Replatforming, SAMM Replaces"
+      ]
+    },
+    {
+      "id": "diff_001",
+      "name": "17-Year Strategic Partnership Track Record",
+      "aliases": [
+        "Long-term Collaboration Model",
+        "Proven Partnership"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "track_record",
+      "description": "Proven long-term collaboration model demonstrating deep domain expertise, consistent delivery, and adaptive scaling across multiple technology generations. The extended partnership highlights IBM's ability to navigate leadership changes, regulatory shifts, and evolving client needs while maintaining high delivery standards.",
+      "context": [
+        "17+ years of Growing Partnership",
+        "Sustained expansion",
+        "Hypergrowth Phase",
+        "Leadership changes"
+      ]
+    },
+    {
+      "id": "diff_002",
+      "name": "Scalable Offshore Delivery Model",
+      "aliases": [
+        "Offshore Scaling Capability",
+        "90% Offshoring Model"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "Highly optimized offshoring capability that scaled the delivery team to over 1,200 members, enabling rapid solution deployment and cost-efficient digital transformation. This model differentiates the offering by combining scale, speed, and domain-specific banking expertise.",
+      "context": [
+        "Team surges to 1200",
+        "offshoring to 90%",
+        "Digital development center established"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM Consulting",
+      "aliases": [
+        "IBM Consulting Division",
+        "Consulting Practice"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary consulting and technology services division delivering digital transformation, AI, and modernization solutions to the client. IBM Consulting drives the strategic partnership, manages delivery teams, and implements banking-specific technology frameworks.",
+      "context": [
+        "IBM Consulting / © 2025 IBM Corporation",
+        "IBM & Nationwide Confidential"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "IBM Corporation",
+      "aliases": [
+        "IBM",
+        "Parent Organization"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The parent technology and consulting organization providing the underlying platform, AI capabilities, and strategic partnership framework. IBM Corporation oversees the long-term client relationship and ensures alignment with global technology standards.",
+      "context": [
+        "© 2025 IBM Corporation",
+        "IBM & Nationwide Confidential"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "MyNationwide Go Live",
+      "aliases": [
+        "MyNationwide Launch",
+        "API Gateway Launch"
+      ],
+      "entity_class": "EVENT",
+      "type": "product_launch",
+      "description": "Major digital milestone marking the successful launch and deployment of the MyNationwide API and associated banking services. The event represented a critical step in enabling open banking integrations and enhancing the client's digital ecosystem.",
+      "context": [
+        "API - MyNationwide Go Live",
+        "2018: API - MyNationwide Go Live"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "FirstGen SaaS Rollout",
+      "aliases": [
+        "FirstGen SaaS Launch",
+        "SaaS Platform Deployment"
+      ],
+      "entity_class": "EVENT",
+      "type": "product_launch",
+      "description": "Full deployment of the next-generation SaaS platform in 2024, representing a major modernization milestone for the client's technology stack. The rollout signified the completion of long-term replatforming efforts and the transition to cloud-native architecture.",
+      "context": [
+        "MCP Fully Rolled Out, FirstGen SaaS",
+        "2024: MCP Fully Rolled Out, FirstGen SaaS"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+    "off_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+    "off_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+    "off_003": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+    "cap_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+    "cap_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+    "cap_003": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+    "use_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+    "use_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+    "use_003": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+    "ben_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+    "ben_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+    "cha_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+    "cha_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+    "tech_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+    "tech_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+    "tech_003": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+    "tech_004": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_004",
+    "diff_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+    "diff_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+    "org_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+    "org_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_002",
+    "evt_001": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+    "evt_002": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002"
+  },
+  "entities": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "name": "Nationwide",
+      "aliases": [
+        "Nationwide Building Society",
+        "Client"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK financial services organization and long-term strategic partner of IBM Consulting. The entity is featured throughout a 17-year partnership timeline detailing extensive digital transformation, banking modernization, and technology scaling initiatives across mortgage, mobile, and core banking domains.",
+      "context": [
+        "IBM & Nationwide Confidential",
+        "MyNationwide Go Live",
+        "Nationwide Now Remote Mortgage Advice",
+        "FirstGen SaaS"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "name": "Digital Development Centre",
+      "aliases": [
+        "Multi Channel Development Centre",
+        "Digital Hub"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "platform",
+      "description": "A dedicated offshore and onshore development hub established to support Nationwide's digital transformation. The centre scaled from an initial team of 100 to over 1,200 members, delivering web, mobile, middleware, and testing capabilities to drive banking modernization.",
+      "context": [
+        "Digital development center established",
+        "Multi Channel Development Centre, Test Practice",
+        "Team grows to 300",
+        "Team surges to 1200"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "name": "Resiliency Programme",
+      "aliases": [
+        "Resiliency Strategy",
+        "System Resilience Initiative"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A strategic initiative established in 2019 focused on building system resilience and ensuring regulatory compliance. The programme addresses operational stability requirements and supports the broader open banking and API gateway modernization efforts.",
+      "context": [
+        "Resiliency Programme Strategy and Establishment",
+        "2019: Open Banking Regulatory API Gateway Compliance, Resiliency Programme Strategy and Establishment"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+      "name": "FirstGen SaaS",
+      "aliases": [
+        "First Generation SaaS Platform",
+        "Next-Gen SaaS"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A next-generation Software-as-a-Service platform fully rolled out in 2024. It represents the culmination of the partnership's modernization efforts, replacing legacy infrastructure with a scalable, cloud-native architecture.",
+      "context": [
+        "MCP Fully Rolled Out, FirstGen SaaS",
+        "2024: MCP Fully Rolled Out, FirstGen SaaS"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+      "name": "Mobile & Web Development",
+      "aliases": [
+        "Digital Engineering",
+        "Web/Mobile Capabilities"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "Core engineering capability focused on building and maintaining web and mobile banking applications. This capability enabled the delivery of the New Mobile Bank, Next Generation Banking App, and integrated app store distribution channels.",
+      "context": [
+        "focusing on web, mobile, middleware & testing",
+        "New Mobile Bank",
+        "Next Generation Banking App"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+      "name": "Data & AI Integration",
+      "aliases": [
+        "AI Capabilities",
+        "Data Processing"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "ai_capability",
+      "description": "Advanced data processing and artificial intelligence capabilities leveraged to drive banking innovations and modernize legacy systems. This capability supported strategic partnerships and enabled scalable digital service delivery across the client's ecosystem.",
+      "context": [
+        "on the back of Data, AI & partnering in new areas",
+        "Data, AI & partnering in new areas"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+      "name": "Replatforming & Modernization",
+      "aliases": [
+        "Legacy Migration",
+        "System Replatforming"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "migration_capability",
+      "description": "Technical capability to migrate, replace, and modernize legacy banking infrastructure. This includes the ALAS replatforming, BI ACE migration, and login modernization initiatives designed to improve system performance and user experience.",
+      "context": [
+        "ALAS Replatforming",
+        "BI ACE Migration",
+        "Login Modernization"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+      "name": "Mortgage Origination & Advice",
+      "aliases": [
+        "Remote Mortgage Services",
+        "Digital Mortgage"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "Digital transformation use case focused on streamlining mortgage processes and enabling remote advisory services. The initiative leveraged digital channels to improve customer access and operational efficiency in mortgage lending.",
+      "context": [
+        "Initial team of 100 starts mortgage and integration projects",
+        "Nationwide Now Remote Mortgage Advice",
+        "Mortgage Origination"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+      "name": "Open Banking & Regulatory Compliance",
+      "aliases": [
+        "Open Banking API",
+        "Regulatory Gateway"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "Application of API gateways and regulatory frameworks to meet open banking standards and ensure secure data sharing. This use case addresses increasing regulatory requirements while enabling third-party integrations and secure customer data access.",
+      "context": [
+        "Open Banking Regulatory API Gateway Compliance",
+        "2019: Open Banking Regulatory API Gateway Compliance"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+      "name": "Mobile Payments & App Store Integration",
+      "aliases": [
+        "Paym Mobile Payments",
+        "Digital Wallet"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "revenue_generation",
+      "description": "Deployment of mobile payment solutions and app store distribution channels to enhance customer engagement and transaction capabilities. This use case enabled seamless digital payments and expanded the client's mobile banking footprint.",
+      "context": [
+        "App Store, Paym Mobile Payments",
+        "Apple Pay",
+        "Paym Mobile Payments"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+      "name": "Sustained Partnership Growth",
+      "aliases": [
+        "Long-term Collaboration",
+        "Strategic Expansion"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "scale_achievement",
+      "description": "Long-term strategic value demonstrated by a 17-year partnership with consistent team expansion and project delivery milestones. The sustained growth reflects high client satisfaction, successful delivery track records, and adaptive scaling across multiple technology generations.",
+      "context": [
+        "17+ years of Growing Partnership",
+        "Sustained expansion",
+        "Hypergrowth Phase"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+      "name": "Operational Efficiency via Offshoring",
+      "aliases": [
+        "Offshore Delivery Model",
+        "Cost-Optimized Scaling"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Significant cost and resource optimization achieved through a highly optimized 90% offshoring model. This delivery approach enabled rapid team scaling and accelerated digital transformation without compromising solution quality or compliance standards.",
+      "context": [
+        "Offshoring Begins",
+        "offshoring to 90%",
+        "Team Doubles in size over 6 years"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+      "name": "Regulatory Compliance Pressure",
+      "aliases": [
+        "Open Banking Regulations",
+        "Regulatory Burden"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "regulatory_burden",
+      "description": "Increasing regulatory requirements around open banking and data security necessitating robust API gateway compliance and resiliency strategies. The client faced mounting pressure to meet strict financial data standards while maintaining seamless customer experiences.",
+      "context": [
+        "Open Banking Regulatory API Gateway Compliance",
+        "Resiliency Programme Strategy and Establishment"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+      "name": "Legacy System Modernization",
+      "aliases": [
+        "Outdated Infrastructure",
+        "Legacy Constraints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "Need to replace and modernize outdated banking infrastructure to support digital transformation and improve customer experience. Legacy constraints drove the replatforming of ALAS, BI ACE migration, and login modernization initiatives.",
+      "context": [
+        "ALAS Replatforming",
+        "BI ACE Migration",
+        "Login Modernization"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+      "name": "Microsoft Power Platform",
+      "aliases": [
+        "Microsoft Power",
+        "Power Apps/Flow"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "Low-code development platform mobilized in 2021 to accelerate digital solution delivery and streamline development workflows. The platform enabled faster iteration and reduced dependency on traditional coding for internal banking applications.",
+      "context": [
+        "Microsoft Power Team Mobilized",
+        "2021: SAMM Replaces, Microsoft Power Team Mobilized"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+      "name": "PEGA BAW",
+      "aliases": [
+        "PEGA Business Automation Workflow",
+        "BAW Platform"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "automation_tool",
+      "description": "Business Automation Workflow platform deployed in 2022 to streamline complex banking processes and improve operational efficiency. The tool enabled automated decisioning and standardized workflow execution across mortgage and core banking operations.",
+      "context": [
+        "PEGA Team Mobilized in BAW",
+        "2022: PEGA Team Mobilized in BAW"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+      "name": "MyNationwide API Gateway",
+      "aliases": [
+        "MyNationwide API",
+        "Open Banking Gateway"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Secure API gateway launched in 2018 to enable seamless integration and data exchange for the MyNationwide digital banking ecosystem. The gateway facilitated third-party access, enhanced system interoperability, and supported open banking compliance.",
+      "context": [
+        "API - MyNationwide Go Live",
+        "2018: API - MyNationwide Go Live"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_004",
+      "name": "SAMM Framework",
+      "aliases": [
+        "SAMM",
+        "Strategic Application Management Framework"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "Strategic application management and modernization framework used to replace legacy systems and standardize development practices. The framework provided a structured approach to digital transformation, replacing outdated processes with scalable governance models.",
+      "context": [
+        "SAMM Replaces",
+        "2021: SAMM Replaces, Microsoft Power Team Mobilized",
+        "2023: ALAS Replatforming, SAMM Replaces"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+      "name": "17-Year Strategic Partnership Track Record",
+      "aliases": [
+        "Long-term Collaboration Model",
+        "Proven Partnership"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "track_record",
+      "description": "Proven long-term collaboration model demonstrating deep domain expertise, consistent delivery, and adaptive scaling across multiple technology generations. The extended partnership highlights IBM's ability to navigate leadership changes, regulatory shifts, and evolving client needs while maintaining high delivery standards.",
+      "context": [
+        "17+ years of Growing Partnership",
+        "Sustained expansion",
+        "Hypergrowth Phase",
+        "Leadership changes"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+      "name": "Scalable Offshore Delivery Model",
+      "aliases": [
+        "Offshore Scaling Capability",
+        "90% Offshoring Model"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "Highly optimized offshoring capability that scaled the delivery team to over 1,200 members, enabling rapid solution deployment and cost-efficient digital transformation. This model differentiates the offering by combining scale, speed, and domain-specific banking expertise.",
+      "context": [
+        "Team surges to 1200",
+        "offshoring to 90%",
+        "Digital development center established"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+      "name": "IBM Consulting",
+      "aliases": [
+        "IBM Consulting Division",
+        "Consulting Practice"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary consulting and technology services division delivering digital transformation, AI, and modernization solutions to the client. IBM Consulting drives the strategic partnership, manages delivery teams, and implements banking-specific technology frameworks.",
+      "context": [
+        "IBM Consulting / © 2025 IBM Corporation",
+        "IBM & Nationwide Confidential"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_002",
+      "name": "IBM Corporation",
+      "aliases": [
+        "IBM",
+        "Parent Organization"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The parent technology and consulting organization providing the underlying platform, AI capabilities, and strategic partnership framework. IBM Corporation oversees the long-term client relationship and ensures alignment with global technology standards.",
+      "context": [
+        "© 2025 IBM Corporation",
+        "IBM & Nationwide Confidential"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+      "name": "MyNationwide Go Live",
+      "aliases": [
+        "MyNationwide Launch",
+        "API Gateway Launch"
+      ],
+      "entity_class": "EVENT",
+      "type": "product_launch",
+      "description": "Major digital milestone marking the successful launch and deployment of the MyNationwide API and associated banking services. The event represented a critical step in enabling open banking integrations and enhancing the client's digital ecosystem.",
+      "context": [
+        "API - MyNationwide Go Live",
+        "2018: API - MyNationwide Go Live"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002",
+      "name": "FirstGen SaaS Rollout",
+      "aliases": [
+        "FirstGen SaaS Launch",
+        "SaaS Platform Deployment"
+      ],
+      "entity_class": "EVENT",
+      "type": "product_launch",
+      "description": "Full deployment of the next-generation SaaS platform in 2024, representing a major modernization milestone for the client's technology stack. The rollout signified the completion of long-term replatforming efforts and the transition to cloud-native architecture.",
+      "context": [
+        "MCP Fully Rolled Out, FirstGen SaaS",
+        "2024: MCP Fully Rolled Out, FirstGen SaaS"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "name": "Nationwide",
+      "properties": {
+        "industry": "banking",
+        "geography": "UK",
+        "size": "enterprise",
+        "relationship_status": "active",
+        "named_or_anonymous": true,
+        "pain_points": [
+          "regulatory compliance pressure",
+          "legacy system modernization"
+        ],
+        "engagement_type": "long-term strategic partnership"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "name": "Digital Development Centre",
+      "properties": {
+        "offering_type": "development_centre",
+        "scope": [
+          "web development",
+          "mobile development",
+          "middleware",
+          "testing"
+        ],
+        "delivery_model": "hybrid",
+        "key_phases": [
+          "establishment",
+          "expansion"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "name": "Resiliency Programme",
+      "properties": {
+        "offering_type": "programme",
+        "scope": [
+          "regulatory compliance",
+          "API gateway integration",
+          "system resiliency"
+        ],
+        "key_phases": [
+          "strategy",
+          "establishment"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+      "name": "FirstGen SaaS",
+      "properties": {
+        "offering_type": "saas_solution",
+        "scope": [
+          "SaaS modernization",
+          "rollout"
+        ],
+        "named_assets_or_accelerators": [
+          "MCP"
+        ],
+        "status": "2024_rollout"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+      "name": "Mobile & Web Development",
+      "properties": {
+        "what_it_does": "builds and maintains web and mobile banking applications",
+        "technical_components": [
+          "web development",
+          "mobile banking apps",
+          "middleware",
+          "multi-channel delivery"
+        ],
+        "delivery_maturity": "proven",
+        "industry_applicability": [
+          "banking",
+          "financial_services"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+      "name": "Data & AI Integration",
+      "properties": {
+        "what_it_does": "integrates data and AI capabilities into client systems",
+        "technical_components": [
+          "data integration",
+          "AI solutions",
+          "tech talent design"
+        ],
+        "delivery_maturity": "proven",
+        "industry_applicability": [
+          "banking",
+          "financial_services"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+      "name": "Replatforming & Modernization",
+      "properties": {
+        "what_it_does": "modernizes legacy systems and replatforms core banking infrastructure",
+        "technical_components": [
+          "ALAS replatforming",
+          "login modernization",
+          "card controls",
+          "system replacement"
+        ],
+        "delivery_maturity": "proven",
+        "industry_applicability": [
+          "banking",
+          "financial_services"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+      "name": "Mortgage Origination & Advice",
+      "properties": {
+        "problem_context": "streamlining mortgage applications and providing remote advice",
+        "approach": "digital platform development and remote advisory tools",
+        "industry": "banking",
+        "outcome_achieved": "enabled remote mortgage advice and digital origination",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+      "name": "Open Banking & Regulatory Compliance",
+      "properties": {
+        "problem_context": "meeting open banking regulatory requirements and ensuring system compliance",
+        "approach": "API gateway implementation and regulatory compliance frameworks",
+        "industry": "banking",
+        "outcome_achieved": "achieved regulatory compliance and secure API integration",
+        "complexity_level": "highly_complex"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+      "name": "Mobile Payments & App Store Integration",
+      "properties": {
+        "problem_context": "enabling secure mobile payments and app store distribution",
+        "approach": "mobile app development and payment gateway integration",
+        "industry": "banking",
+        "outcome_achieved": "launched secure mobile payment solutions and app store presence",
+        "complexity_level": "complex"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+      "name": "Sustained Partnership Growth",
+      "properties": {
+        "quantified_value": [
+          "17+ years",
+          "team growth from 100 to 1200"
+        ],
+        "beneficiary": [
+          "IBM Consulting",
+          "Nationwide"
+        ],
+        "time_to_value": "long-term",
+        "category": [
+          "revenue",
+          "relationship"
+        ],
+        "evidence_type": "measured"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+      "name": "Operational Efficiency via Offshoring",
+      "properties": {
+        "quantified_value": [
+          "90% offshoring"
+        ],
+        "beneficiary": [
+          "IBM Consulting",
+          "Nationwide"
+        ],
+        "time_to_value": "medium",
+        "category": [
+          "cost",
+          "efficiency"
+        ],
+        "evidence_type": "measured"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+      "name": "Regulatory Compliance Pressure",
+      "properties": {
+        "root_cause": "evolving financial regulations and open banking mandates",
+        "business_impact": "risk of non-compliance and system bottlenecks",
+        "urgency": "high",
+        "who_faces_it": [
+          "banking sector",
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+      "name": "Legacy System Modernization",
+      "properties": {
+        "root_cause": "outdated core banking infrastructure and legacy applications",
+        "business_impact": "operational inefficiency and security risks",
+        "urgency": "critical",
+        "who_faces_it": [
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+      "name": "Microsoft Power Platform",
+      "properties": {
+        "vendor": "Microsoft",
+        "technology_category": [
+          "low-code",
+          "automation",
+          "development"
+        ],
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": [
+          "enables rapid development",
+          "replaces legacy systems"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+      "name": "PEGA BAW",
+      "properties": {
+        "vendor": "PEGA",
+        "technology_category": [
+          "BPM",
+          "low-code",
+          "automation"
+        ],
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": [
+          "supports BI ACE migration",
+          "business process automation"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+      "name": "MyNationwide API Gateway",
+      "properties": {
+        "vendor": "Nationwide",
+        "technology_category": [
+          "API management",
+          "integration",
+          "security"
+        ],
+        "role_in_solution": "core",
+        "maturity": "modern",
+        "key_characteristics": [
+          "enables secure open banking API access",
+          "regulatory compliance enabler"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_004",
+      "name": "SAMM Framework",
+      "properties": {
+        "vendor": "IBM",
+        "technology_category": [
+          "framework",
+          "modernization",
+          "compliance"
+        ],
+        "role_in_solution": "supporting",
+        "maturity": "modern",
+        "key_characteristics": [
+          "replaces legacy systems",
+          "ensures compliance"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+      "name": "17-Year Strategic Partnership Track Record",
+      "properties": {
+        "competitive_advantage": "proven long-term collaboration and trust",
+        "evidence_or_proof_point": [
+          "team growth from 100 to 1200",
+          "continuous delivery since 2007"
+        ],
+        "uniqueness": "scale-based",
+        "target_audience": [
+          "enterprise banking clients"
+        ],
+        "relates_to_offering": [
+          "Digital Development Centre",
+          "Resiliency Programme"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+      "name": "Scalable Offshore Delivery Model",
+      "properties": {
+        "competitive_advantage": "ability to rapidly scale delivery capacity offshore",
+        "evidence_or_proof_point": [
+          "90% offshoring rate",
+          "team size doubling and surging"
+        ],
+        "uniqueness": "scale-based",
+        "target_audience": [
+          "large enterprises"
+        ],
+        "relates_to_offering": [
+          "Digital Development Centre"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+      "name": "IBM Consulting",
+      "properties": {
+        "org_type": "service_provider",
+        "relationship_to_offering": "delivers",
+        "geographic_presence": "global"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_002",
+      "name": "IBM Corporation",
+      "properties": {
+        "org_type": "parent_company",
+        "relationship_to_offering": "owns",
+        "geographic_presence": "global"
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+      "name": "MyNationwide Go Live",
+      "properties": {
+        "event_type": "product_launch",
+        "date_or_period": "2018",
+        "relevance_to_deal": "milestone",
+        "key_participants": [
+          "IBM Consulting",
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002",
+      "name": "FirstGen SaaS Rollout",
+      "properties": {
+        "event_type": "rollout",
+        "date_or_period": "2024",
+        "relevance_to_deal": "modernization_milestone",
+        "key_participants": [
+          "IBM Consulting",
+          "Nationwide"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+      "target_name": "Regulatory Compliance Pressure",
+      "rel_type": "faces",
+      "description": "Nationwide faces ongoing regulatory compliance pressures in the banking sector.",
+      "properties": {
+        "severity": "high",
+        "domain": "financial_regulation"
+      },
+      "context": "2019: Open Banking Regulatory API Gateway Compliance",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+      "target_name": "Legacy System Modernization",
+      "rel_type": "impacted_by",
+      "description": "Nationwide is impacted by the need to modernize legacy systems and core banking infrastructure.",
+      "properties": {
+        "impact_area": "core_banking",
+        "urgency": "critical"
+      },
+      "context": "2012: Core Banking / 2023: ALAS Replatforming, Login Modernization",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "target_name": "Digital Development Centre",
+      "rel_type": "engaged_with",
+      "description": "Nationwide engaged with IBM's Digital Development Centre to drive digital transformation.",
+      "properties": {
+        "engagement_start": "2013",
+        "focus_areas": [
+          "web",
+          "mobile",
+          "middleware"
+        ]
+      },
+      "context": "2013: Multi Channel Development Centre, Test Practice",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "target_name": "Resiliency Programme",
+      "rel_type": "engaged_with",
+      "description": "Nationwide engaged with the Resiliency Programme to address regulatory and operational resilience.",
+      "properties": {
+        "engagement_start": "2019",
+        "objective": "regulatory_compliance"
+      },
+      "context": "2019: Open Banking Regulatory API Gateway Compliance, Resiliency Programme Strategy and Establishment",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+      "target_name": "FirstGen SaaS",
+      "rel_type": "engaged_with",
+      "description": "Nationwide engaged with FirstGen SaaS for modern software delivery and rollout.",
+      "properties": {
+        "engagement_start": "2024",
+        "delivery_model": "SaaS"
+      },
+      "context": "2024: MCP Fully Rolled Out, FirstGen SaaS",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+      "target_name": "Sustained Partnership Growth",
+      "rel_type": "achieved",
+      "description": "Nationwide achieved sustained partnership growth over a 17-year engagement.",
+      "properties": {
+        "metric": "partnership_duration",
+        "value": "17+ years",
+        "phase": "hypergrowth"
+      },
+      "context": "17+ years of Growing Partnership / Sustained expansion / Hypergrowth Phase",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+      "target_name": "Operational Efficiency via Offshoring",
+      "rel_type": "achieved",
+      "description": "Nationwide achieved operational efficiency through scalable offshore delivery models.",
+      "properties": {
+        "metric": "offshore_percentage",
+        "value": "90%",
+        "outcome": "cost_efficiency"
+      },
+      "context": "Offshoring Begins / offshoring to 90%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+      "target_name": "Mobile & Web Development",
+      "rel_type": "comprises",
+      "description": "The Digital Development Centre comprises Mobile & Web Development capabilities.",
+      "properties": {
+        "component_type": "development",
+        "scope": "client_facing"
+      },
+      "context": "focusing on web, mobile, middleware & testing",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+      "target_name": "Data & AI Integration",
+      "rel_type": "comprises",
+      "description": "The Digital Development Centre comprises Data & AI Integration capabilities.",
+      "properties": {
+        "component_type": "data_ai",
+        "scope": "backend_analytics"
+      },
+      "context": "on the back of Data, AI & partnering in new areas",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+      "target_name": "Replatforming & Modernization",
+      "rel_type": "comprises",
+      "description": "The Digital Development Centre comprises Replatforming & Modernization capabilities.",
+      "properties": {
+        "component_type": "modernization",
+        "scope": "legacy_migration"
+      },
+      "context": "2023: ALAS Replatforming, Login Modernization",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+      "target_name": "Mortgage Origination & Advice",
+      "rel_type": "addresses",
+      "description": "The Digital Development Centre addresses Mortgage Origination & Advice use cases.",
+      "properties": {
+        "application_area": "financial_advice",
+        "launch_year": "2007"
+      },
+      "context": "2007: Mortgage Origination / 2015: Nationwide Now Remote Mortgage Advice",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "source_name": "Resiliency Programme",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+      "target_name": "Open Banking & Regulatory Compliance",
+      "rel_type": "addresses",
+      "description": "The Resiliency Programme addresses Open Banking & Regulatory Compliance use cases.",
+      "properties": {
+        "application_area": "regulatory_api",
+        "launch_year": "2019"
+      },
+      "context": "2019: Open Banking Regulatory API Gateway Compliance",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+      "target_name": "Mobile Payments & App Store Integration",
+      "rel_type": "addresses",
+      "description": "The Digital Development Centre addresses Mobile Payments & App Store Integration use cases.",
+      "properties": {
+        "application_area": "mobile_payments",
+        "launch_year": "2016"
+      },
+      "context": "2016: App Store, Paym Mobile Payments / 2017: Apple Pay",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+      "target_name": "Legacy System Modernization",
+      "rel_type": "solves",
+      "description": "The Digital Development Centre solves Legacy System Modernization challenges through replatforming.",
+      "properties": {
+        "approach": "replatforming",
+        "completeness": "full"
+      },
+      "context": "2023: ALAS Replatforming, SAMM Replaces",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "source_name": "Resiliency Programme",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+      "target_name": "Regulatory Compliance Pressure",
+      "rel_type": "mitigates",
+      "description": "The Resiliency Programme mitigates Regulatory Compliance Pressure via API gateway strategies.",
+      "properties": {
+        "approach": "regulatory_api",
+        "completeness": "partial"
+      },
+      "context": "2019: Open Banking Regulatory API Gateway Compliance, Resiliency Programme Strategy",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+      "target_name": "Sustained Partnership Growth",
+      "rel_type": "produces",
+      "description": "The Digital Development Centre produces Sustained Partnership Growth through continuous delivery.",
+      "properties": {
+        "metric": "team_growth",
+        "value": "100 to 1200"
+      },
+      "context": "Team grows to 300... Doubles... surges to 1200",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "source_name": "Resiliency Programme",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+      "target_name": "Operational Efficiency via Offshoring",
+      "rel_type": "produces",
+      "description": "The Resiliency Programme produces Operational Efficiency via Offshoring delivery models.",
+      "properties": {
+        "metric": "offshore_capacity",
+        "value": "90%"
+      },
+      "context": "Offshoring Begins / offshoring to 90%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+      "target_name": "Microsoft Power Platform",
+      "rel_type": "uses",
+      "description": "The Digital Development Centre uses Microsoft Power Platform for development.",
+      "properties": {
+        "version": "modern",
+        "deployment_model": "cloud"
+      },
+      "context": "2021: SAMM Replaces, Microsoft Power Team Mobilized",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+      "target_name": "PEGA BAW",
+      "rel_type": "uses",
+      "description": "The Digital Development Centre uses PEGA BAW for business automation workflows.",
+      "properties": {
+        "version": "BAW",
+        "deployment_model": "on_prem/cloud"
+      },
+      "context": "2022: PEGA Team Mobilized in BAW",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+      "target_name": "MyNationwide API Gateway",
+      "rel_type": "integrates_with",
+      "description": "The Digital Development Centre integrates with the MyNationwide API Gateway.",
+      "properties": {
+        "integration_type": "api_gateway",
+        "status": "live"
+      },
+      "context": "2018: API - MyNationwide Go Live",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+      "source_name": "Mobile & Web Development",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+      "target_name": "Microsoft Power Platform",
+      "rel_type": "powered_by",
+      "description": "Mobile & Web Development capabilities are powered by Microsoft Power Platform.",
+      "properties": {
+        "version": "modern",
+        "deployment_model": "cloud"
+      },
+      "context": "2021: Microsoft Power Team Mobilized",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+      "source_name": "Data & AI Integration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+      "target_name": "PEGA BAW",
+      "rel_type": "powered_by",
+      "description": "Data & AI Integration capabilities are powered by PEGA BAW.",
+      "properties": {
+        "version": "BAW",
+        "deployment_model": "hybrid"
+      },
+      "context": "2022: PEGA Team Mobilized in BAW",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+      "source_name": "Replatforming & Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+      "target_name": "MyNationwide API Gateway",
+      "rel_type": "powered_by",
+      "description": "Replatforming & Modernization capabilities are powered by the MyNationwide API Gateway.",
+      "properties": {
+        "version": "v1",
+        "deployment_model": "cloud"
+      },
+      "context": "2018: API - MyNationwide Go Live / 2023: ALAS Replatforming",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+      "source_name": "Microsoft Power Platform",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_004",
+      "target_name": "SAMM Framework",
+      "rel_type": "replaces",
+      "description": "Microsoft Power Platform replaces the legacy SAMM Framework.",
+      "properties": {
+        "migration_type": "full_replacement",
+        "year": "2021"
+      },
+      "context": "2021: SAMM Replaces",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+      "source_name": "17-Year Strategic Partnership Track Record",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "target_name": "Digital Development Centre",
+      "rel_type": "distinguishes",
+      "description": "The 17-Year Strategic Partnership Track Record distinguishes the Digital Development Centre.",
+      "properties": {
+        "differentiation_type": "longevity",
+        "value": "17+ years"
+      },
+      "context": "17+ years of Growing Partnership",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+      "source_name": "Scalable Offshore Delivery Model",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "target_name": "Resiliency Programme",
+      "rel_type": "characterised_by",
+      "description": "The Resiliency Programme is characterised by a Scalable Offshore Delivery Model.",
+      "properties": {
+        "differentiation_type": "delivery_scale",
+        "value": "90% offshore"
+      },
+      "context": "Offshoring Begins / offshoring to 90%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+      "source_name": "17-Year Strategic Partnership Track Record",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "resonates_with",
+      "description": "The 17-Year Strategic Partnership Track Record resonates with Nationwide's long-term goals.",
+      "properties": {
+        "resonance_area": "strategic_continuity",
+        "value": "high"
+      },
+      "context": "17+ years of Growing Partnership / Sustained expansion",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+      "source_name": "Scalable Offshore Delivery Model",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "proven_for",
+      "description": "The Scalable Offshore Delivery Model is proven for Nationwide's operational needs.",
+      "properties": {
+        "proven_area": "cost_efficiency",
+        "value": "90% offshore"
+      },
+      "context": "Offshoring Begins / offshoring to 90%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+      "source_name": "IBM Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "target_name": "Digital Development Centre",
+      "rel_type": "distributes",
+      "description": "IBM Consulting distributes the Digital Development Centre offering.",
+      "properties": {
+        "distribution_type": "internal_delivery",
+        "status": "active"
+      },
+      "context": "IBM Consulting / © 2025 IBM Corporation",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+      "source_name": "IBM Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "target_name": "Resiliency Programme",
+      "rel_type": "distributes",
+      "description": "IBM Consulting distributes the Resiliency Programme offering.",
+      "properties": {
+        "distribution_type": "internal_delivery",
+        "status": "active"
+      },
+      "context": "IBM Consulting / © 2025 IBM Corporation",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+      "source_name": "IBM Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+      "target_name": "FirstGen SaaS",
+      "rel_type": "distributes",
+      "description": "IBM Consulting distributes the FirstGen SaaS offering.",
+      "properties": {
+        "distribution_type": "saas_delivery",
+        "status": "rolled_out"
+      },
+      "context": "2024: MCP Fully Rolled Out, FirstGen SaaS",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+      "source_name": "IBM Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "partners_with",
+      "description": "IBM Consulting partners with Nationwide on digital transformation initiatives.",
+      "properties": {
+        "partnership_type": "strategic",
+        "duration": "17+ years"
+      },
+      "context": "17+ years of Growing Partnership",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+      "source_name": "MyNationwide Go Live",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "target_name": "Digital Development Centre",
+      "rel_type": "launched_at",
+      "description": "The MyNationwide Go Live event was launched at the Digital Development Centre.",
+      "properties": {
+        "launch_year": "2018",
+        "event_type": "api_gateway"
+      },
+      "context": "2018: API - MyNationwide Go Live",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002",
+      "source_name": "FirstGen SaaS Rollout",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+      "target_name": "FirstGen SaaS",
+      "rel_type": "launched_at",
+      "description": "The FirstGen SaaS Rollout event was launched at the FirstGen SaaS offering.",
+      "properties": {
+        "launch_year": "2024",
+        "event_type": "saas_rollout"
+      },
+      "context": "2024: MCP Fully Rolled Out, FirstGen SaaS",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+      "source_name": "MyNationwide Go Live",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "involves",
+      "description": "The MyNationwide Go Live event involves Nationwide's core banking operations.",
+      "properties": {
+        "involvement_type": "client_adoption",
+        "status": "live"
+      },
+      "context": "2018: API - MyNationwide Go Live",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002",
+      "source_name": "FirstGen SaaS Rollout",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "target_name": "Nationwide",
+      "rel_type": "involves",
+      "description": "The FirstGen SaaS Rollout event involves Nationwide's modernization efforts.",
+      "properties": {
+        "involvement_type": "client_adoption",
+        "status": "rolled_out"
+      },
+      "context": "2024: MCP Fully Rolled Out, FirstGen SaaS",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+      "source_name": "Mortgage Origination & Advice",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+      "target_name": "Regulatory Compliance Pressure",
+      "rel_type": "addresses",
+      "description": "Mortgage Origination & Advice use cases address Regulatory Compliance Pressure.",
+      "properties": {
+        "addressing_method": "remote_advice",
+        "compliance_focus": "high"
+      },
+      "context": "2015: Nationwide Now Remote Mortgage Advice",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+      "source_name": "Open Banking & Regulatory Compliance",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+      "target_name": "Regulatory Compliance Pressure",
+      "rel_type": "addresses",
+      "description": "Open Banking & Regulatory Compliance use cases directly address Regulatory Compliance Pressure.",
+      "properties": {
+        "addressing_method": "api_gateway",
+        "compliance_focus": "critical"
+      },
+      "context": "2019: Open Banking Regulatory API Gateway Compliance",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+      "source_name": "Mobile Payments & App Store Integration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+      "target_name": "Legacy System Modernization",
+      "rel_type": "addresses",
+      "description": "Mobile Payments & App Store Integration use cases address Legacy System Modernization.",
+      "properties": {
+        "addressing_method": "mobile_replatform",
+        "modernization_focus": "high"
+      },
+      "context": "2016: App Store, Paym Mobile Payments / 2017: Apple Pay",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+      "source_name": "Mobile & Web Development",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+      "target_name": "Mobile Payments & App Store Integration",
+      "rel_type": "enables",
+      "description": "Mobile & Web Development capabilities enable Mobile Payments & App Store Integration.",
+      "properties": {
+        "enablement_type": "frontend_delivery",
+        "status": "active"
+      },
+      "context": "2016: App Store, Paym Mobile Payments",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+      "source_name": "Data & AI Integration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+      "target_name": "Mortgage Origination & Advice",
+      "rel_type": "enables",
+      "description": "Data & AI Integration capabilities enable Mortgage Origination & Advice.",
+      "properties": {
+        "enablement_type": "backend_analytics",
+        "status": "active"
+      },
+      "context": "2015: Nationwide Now Remote Mortgage Advice",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+      "source_name": "Replatforming & Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+      "target_name": "Open Banking & Regulatory Compliance",
+      "rel_type": "enables",
+      "description": "Replatforming & Modernization capabilities enable Open Banking & Regulatory Compliance.",
+      "properties": {
+        "enablement_type": "legacy_migration",
+        "status": "active"
+      },
+      "context": "2019: Open Banking Regulatory API Gateway Compliance",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cli_001",
+      "source_name": "Nationwide",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_001",
+      "source_name": "Digital Development Centre",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_002",
+      "source_name": "Resiliency Programme",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_off_003",
+      "source_name": "FirstGen SaaS",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_001",
+      "source_name": "Mobile & Web Development",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_002",
+      "source_name": "Data & AI Integration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cap_003",
+      "source_name": "Replatforming & Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_001",
+      "source_name": "Mortgage Origination & Advice",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_002",
+      "source_name": "Open Banking & Regulatory Compliance",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_use_003",
+      "source_name": "Mobile Payments & App Store Integration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_001",
+      "source_name": "Sustained Partnership Growth",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_ben_002",
+      "source_name": "Operational Efficiency via Offshoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_001",
+      "source_name": "Regulatory Compliance Pressure",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_cha_002",
+      "source_name": "Legacy System Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_001",
+      "source_name": "Microsoft Power Platform",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_002",
+      "source_name": "PEGA BAW",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_003",
+      "source_name": "MyNationwide API Gateway",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_tech_004",
+      "source_name": "SAMM Framework",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_001",
+      "source_name": "17-Year Strategic Partnership Track Record",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_diff_002",
+      "source_name": "Scalable Offshore Delivery Model",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_001",
+      "source_name": "IBM Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_org_002",
+      "source_name": "IBM Corporation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_001",
+      "source_name": "MyNationwide Go Live",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_001_evt_002",
+      "source_name": "FirstGen SaaS Rollout",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_001",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ]
+}

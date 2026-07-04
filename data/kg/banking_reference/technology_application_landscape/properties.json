@@ -1,0 +1,1134 @@
+[
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_004_not_001",
+    "name": "Head of Technology",
+    "properties": {
+      "contact_name_or_role": "Head of Technology",
+      "trigger_condition": "Ownership and accountability for Account Management System (AMS-001)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_004_not_002",
+    "name": "Database team",
+    "properties": {
+      "contact_name_or_role": "Database team",
+      "trigger_condition": "Support requirements for Account Management System (AMS-001)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_004_not_003",
+    "name": "Application team",
+    "properties": {
+      "contact_name_or_role": "Application team",
+      "trigger_condition": "Support requirements for Account Management System (AMS-001)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_005_acc_001",
+    "name": "Customer Accounts Repository",
+    "properties": {
+      "account_type": "Central repository",
+      "coverage": [
+        "customer accounts",
+        "balances",
+        "transaction ledger"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_005",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_001",
+    "name": "Account CRUD Operations",
+    "properties": {
+      "topic": "Account CRUD (create, read, update, delete)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_002",
+    "name": "Balance Calculation and Reconciliation",
+    "properties": {
+      "topic": "Balance calculation and reconciliation"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_003",
+    "name": "Transaction Ledger Management",
+    "properties": {
+      "topic": "Transaction ledger",
+      "key_points": [
+        "Immutable record"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_004",
+    "name": "Interest Calculation Process",
+    "properties": {
+      "topic": "Interest calculation"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_005",
+    "name": "Account Status Management",
+    "properties": {
+      "topic": "Account status management"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_001",
+    "name": "Customers",
+    "properties": {
+      "record_count": 500
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "name": "Accounts",
+    "properties": {
+      "record_count": 800
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_002",
+    "name": "Account Holders",
+    "properties": {
+      "customer_context": "joint account support"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_tra_001",
+    "name": "Transactions",
+    "properties": {
+      "monthly_volume": "2,000+"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_sto_001",
+    "name": "Standing Orders",
+    "properties": {
+      "active_count": "50+"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_did_001",
+    "name": "Direct Debits",
+    "properties": {
+      "active_count": "30+"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "name": "Integration Failure",
+    "properties": {
+      "typical_impact": [
+        "Internet Banking Platform",
+        "Mobile Banking App",
+        "Fraud Detection Engine",
+        "Payment Processing System",
+        "Data Warehouse"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_001",
+    "name": "Internet Banking Platform",
+    "properties": {
+      "integration_data": "account data"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_002",
+    "name": "Mobile Banking App",
+    "properties": {
+      "integration_data": "account queries"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_003",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "integration_data": "transaction data"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_004",
+    "name": "Payment Processing System",
+    "properties": {
+      "integration_data": "balance updates"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_005",
+    "name": "Data Warehouse",
+    "properties": {
+      "integration_data": "nightly batch",
+      "flow_direction": "outgoing"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_011_res_001",
+    "name": "Monthly Patching Procedure",
+    "properties": {
+      "action_phase": "recovery",
+      "timeline": "Monthly (Tuesday 2–4 AM)",
+      "actor": "IT Operations"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_011_res_002",
+    "name": "Daily Backup Procedure",
+    "properties": {
+      "action_phase": "containment",
+      "timeline": "Daily (midnight)",
+      "actor": "IT Operations"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_011_res_003",
+    "name": "Monthly Archiving Procedure",
+    "properties": {
+      "action_phase": "post_incident",
+      "timeline": "Monthly",
+      "output_or_artifact": "old data to cold storage"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_prod_001",
+    "name": "Internet Banking Platform (IBP)",
+    "properties": {
+      "product_id": "IBP-001",
+      "status": "Active (Production)",
+      "technology_stack": {
+        "frontend": "React.js",
+        "backend": "Node.js",
+        "framework": "Express"
+      },
+      "deployment": "AWS (ECS)",
+      "availability_sla": "99.8%"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_not_001",
+    "name": "Head of Technology",
+    "properties": {
+      "contact_name_or_role": "Head of Technology",
+      "role_in_system": "Owner of Internet Banking Platform (IBP)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_not_002",
+    "name": "Frontend team",
+    "properties": {
+      "contact_name_or_role": "Frontend team",
+      "role_in_system": "Support Team for Internet Banking Platform (IBP)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_not_003",
+    "name": "Backend team",
+    "properties": {
+      "contact_name_or_role": "Backend team",
+      "role_in_system": "Support Team for Internet Banking Platform (IBP)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "name": "Web-based customer portal for account access and self-service",
+    "properties": {
+      "topic": "Web-based customer portal",
+      "key_points": [
+        "Provides account access",
+        "Enables customer self-service"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_013",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_001",
+    "name": "Secure Login Guidance",
+    "properties": {
+      "topic": "Secure login",
+      "key_points": [
+        "Two-factor authentication (2FA) via One-Time Password (OTP)"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "name": "Account Dashboard Guidance",
+    "properties": {
+      "topic": "Account dashboard"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_003",
+    "name": "Transaction History Guidance",
+    "properties": {
+      "topic": "Transaction history"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_004",
+    "name": "Standing Order Management Guidance",
+    "properties": {
+      "topic": "Standing order management"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_005",
+    "name": "Direct Debit Authorization Guidance",
+    "properties": {
+      "topic": "Direct debit authorization"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_006",
+    "name": "Money Transfer Guidance",
+    "properties": {
+      "topic": "Money transfer"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_007",
+    "name": "E-statements Guidance",
+    "properties": {
+      "topic": "E-statements"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_008",
+    "name": "Profile Management Guidance",
+    "properties": {
+      "topic": "Profile management"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_016_inc_001",
+    "name": "Performance Degradation",
+    "properties": {
+      "indicators": [
+        "Response time (p95) >= 2 seconds"
+      ],
+      "typical_impact": "Increased latency for daily active users during peak traffic (10:00–12:00 GMT)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_016_tra_001",
+    "name": "Monthly Transaction Volume",
+    "properties": {
+      "transaction_context": "Performance monitoring",
+      "volume_threshold": "500+"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_017_cgi_001",
+    "name": "Security Specifications Guidance",
+    "properties": {
+      "topic": "Security",
+      "key_points": [
+        "TLS 1.3 encryption",
+        "Session timeout: 15 minutes idle",
+        "Rate limiting: 100 requests/minute per user",
+        "XSS/CSRF protection"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_inc_001",
+    "name": "Integration Failure",
+    "properties": {
+      "affected_systems": [
+        "AMS",
+        "FDE",
+        "PPS"
+      ],
+      "impacted_capabilities": [
+        "account queries",
+        "transaction initiation",
+        "fraud scoring for transfers",
+        "payment submission"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_001",
+    "name": "AMS (Account Management System)",
+    "properties": {
+      "functional_role": [
+        "account queries",
+        "transaction initiation"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_002",
+    "name": "FDE (Fraud Detection Engine)",
+    "properties": {
+      "functional_role": [
+        "fraud scoring for transfers"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_003",
+    "name": "PPS (Payment Processing System)",
+    "properties": {
+      "functional_role": [
+        "payment submission"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_prod_001",
+    "name": "Mobile Banking App (MBA)",
+    "properties": {
+      "product_id": "MBA-001",
+      "status": "Active (Production)",
+      "technology_stack": [
+        "React Native",
+        "Node.js backend"
+      ],
+      "deployment": "AWS + App Stores (iOS/Android)",
+      "availability_sla": "99.5%"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_not_001",
+    "name": "Head of Technology",
+    "properties": {
+      "contact_name_or_role": "Head of Technology",
+      "role_in_system": "Owner of Mobile Banking App (MBA)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_not_002",
+    "name": "Mobile team",
+    "properties": {
+      "contact_name_or_role": "Mobile team",
+      "role_in_system": "Support Team for Mobile Banking App (MBA)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_not_003",
+    "name": "Backend team",
+    "properties": {
+      "contact_name_or_role": "Backend team",
+      "role_in_system": "Support Team for Mobile Banking App (MBA)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_001",
+    "name": "Biometric Login Guidance",
+    "properties": {
+      "topic": "Biometric login",
+      "key_points": [
+        "fingerprint",
+        "face"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "name": "Account Dashboard Guidance",
+    "properties": {
+      "topic": "Account dashboard",
+      "key_points": [
+        "mobile-optimized"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_003",
+    "name": "Push Notifications Guidance",
+    "properties": {
+      "topic": "Push notifications"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_004",
+    "name": "Card Management Guidance",
+    "properties": {
+      "topic": "Card management",
+      "key_points": [
+        "lock/unlock"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_005",
+    "name": "Money Transfer Guidance",
+    "properties": {
+      "topic": "Money transfer"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_006",
+    "name": "Virtual Card Numbers Guidance",
+    "properties": {
+      "topic": "Virtual card numbers"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_024_cgi_001",
+    "name": "Platform Support Guidance",
+    "properties": {
+      "topic": "Platform Support",
+      "supported_platforms": [
+        {
+          "os": "iOS",
+          "minimum_version": "13+"
+        },
+        {
+          "os": "Android",
+          "minimum_version": "9+"
+        }
+      ],
+      "update_frequency": "Monthly"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_024",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_026_not_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "contact_name_or_role": "Head of Financial Crime",
+      "trigger_condition": "Ownership and accountability for Fraud Detection Engine (FDE-001)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_026_not_002",
+    "name": "Data science team",
+    "properties": {
+      "contact_name_or_role": "Data science team",
+      "trigger_condition": "Support for Fraud Detection Engine (FDE-001)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_026_not_003",
+    "name": "DevOps",
+    "properties": {
+      "contact_name_or_role": "DevOps",
+      "trigger_condition": "Support for Fraud Detection Engine (FDE-001)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_027_fra_001",
+    "name": "Real-time fraud detection and transaction risk scoring",
+    "properties": {
+      "incident_type": "Fraud Detection",
+      "purpose": "Real-time fraud detection and transaction risk scoring"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_027",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_001",
+    "name": "Transaction Risk Scoring",
+    "properties": {
+      "latency_threshold": "<100ms"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_002",
+    "name": "Rule-based Detection",
+    "properties": {
+      "rule_count": "20+"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_003",
+    "name": "Anomaly Detection ML Models",
+    "properties": {
+      "detection_method": "Machine Learning"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_004",
+    "name": "Velocity Checks",
+    "properties": {
+      "detection_type": "Frequency/Volume analysis"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_005",
+    "name": "Geographic Anomaly Detection",
+    "properties": {
+      "detection_type": "Location-based anomaly"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "name": "Auto-blocking for High-Risk Transactions",
+    "properties": {
+      "trigger_condition": "High-risk transaction score",
+      "action_type": "Automated blocking"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_001",
+    "name": "Real-time transactions from AMS/PPS",
+    "properties": {
+      "transaction_context": "Data Input",
+      "source_systems": [
+        "AMS",
+        "PPS"
+      ],
+      "processing_mode": "Real-time"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_029_cus_001",
+    "name": "Customer profile data",
+    "properties": {
+      "customer_context": "Data Input"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_002",
+    "name": "Historical transaction data",
+    "properties": {
+      "transaction_context": "Data Input",
+      "data_type": "Historical"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_001",
+    "name": "Transaction Risk Model",
+    "properties": {
+      "response_required": "Predicts fraud probability (0–100)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_002",
+    "name": "Anomaly Detection Model",
+    "properties": {
+      "response_required": "Detects unusual patterns"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_003",
+    "name": "Chargeback Prediction Model",
+    "properties": {
+      "response_required": "Predicts dispute likelihood"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_031_fra_001",
+    "name": "Fraud Detection Performance Metrics",
+    "properties": {
+      "detection_rate": "97%+",
+      "false_positive_rate": "<2%",
+      "average_monthly_fraud_prevented": "£47k–£80k"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_031",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_inc_001",
+    "name": "Integration Failure",
+    "properties": {
+      "indicators": [
+        "AMS transaction stream disruption",
+        "IBP real-time scoring failure",
+        "PPS transfer risk assessment timeout"
+      ],
+      "typical_impact": "Disruption to fraud detection and transaction scoring pipelines"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_not_001",
+    "name": "Account Monitoring System (AMS)",
+    "properties": {
+      "contact_role": "Transaction Stream Provider",
+      "trigger_condition": "Failure in transaction stream integration"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_not_002",
+    "name": "Instant Banking Platform (IBP)",
+    "properties": {
+      "contact_role": "Real-time Transaction Scoring Provider",
+      "trigger_condition": "Failure in real-time scoring integration"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_not_003",
+    "name": "Payment Processing Service (PPS)",
+    "properties": {
+      "contact_role": "Transfer Risk Assessment Provider",
+      "trigger_condition": "Failure in transfer risk assessment integration"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_fra_001",
+    "name": "Fraud Alert Database",
+    "properties": {
+      "purpose": "Storage of generated fraud alerts",
+      "data_source": "Integration pipeline outputs"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_033_prod_001",
+    "name": "Payment Processing System (PPS)",
+    "properties": {
+      "product_id": "PPS-001",
+      "status": "Active (Production)",
+      "technology_stack": [
+        "Java",
+        "RabbitMQ",
+        "Spring Boot"
+      ],
+      "deployment": "AWS (Kubernetes)",
+      "availability_sla": "99.95%"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_033_not_001",
+    "name": "Head of Technology",
+    "properties": {
+      "contact_name_or_role": "Head of Technology",
+      "trigger_condition": "System ownership and high-level oversight of PPS-001"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_033_not_002",
+    "name": "Payments team",
+    "properties": {
+      "contact_name_or_role": "Payments team",
+      "trigger_condition": "Support and operational maintenance of PPS-001"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_001",
+    "name": "Faster Payments (FPS) Guidance",
+    "properties": {
+      "topic": "Faster Payments (FPS)",
+      "key_points": [
+        "Real-time processing",
+        "Maximum limit of £1M"
+      ],
+      "relevant_channels": [
+        "Faster Payments (FPS)"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_002",
+    "name": "BACS Payment Guidance",
+    "properties": {
+      "topic": "BACS Payments",
+      "key_points": [
+        "Overnight processing",
+        "Suitable for high volume"
+      ],
+      "relevant_channels": [
+        "BACS"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_003",
+    "name": "CHAPS Payment Guidance",
+    "properties": {
+      "topic": "CHAPS Payments",
+      "key_points": [
+        "High-value transactions",
+        "Real-time processing"
+      ],
+      "relevant_channels": [
+        "CHAPS"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_004",
+    "name": "Internal Transfers Guidance",
+    "properties": {
+      "topic": "Internal Transfers",
+      "key_points": [
+        "Same-bank transfers"
+      ],
+      "relevant_channels": [
+        "Internal transfers"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_001",
+    "name": "Faster Payments Service (FPS) Settlement Guidance",
+    "properties": {
+      "topic": "FPS Settlement",
+      "key_points": [
+        "Immediate settlement"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_002",
+    "name": "BACS Settlement Guidance",
+    "properties": {
+      "topic": "BACS Settlement",
+      "key_points": [
+        "Submitted 20:00",
+        "Settled next day"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_003",
+    "name": "CHAPS Settlement Guidance",
+    "properties": {
+      "topic": "CHAPS Settlement",
+      "key_points": [
+        "Real-time settlement during business hours"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_037_inc_001",
+    "name": "Performance Degradation",
+    "properties": {
+      "indicators": [
+        "Transactions/day falling below 100",
+        "Success rate dropping below 99.95%",
+        "FPS processing latency exceeding 15 minutes"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_037_tra_001",
+    "name": "FPS Transaction",
+    "properties": {
+      "transaction_context": "Performance monitoring",
+      "processing_latency_threshold": "<15 minutes"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_not_001",
+    "name": "Bank of England",
+    "properties": {
+      "contact_role": "Settlement Authority",
+      "trigger_condition": "Settlement process"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_not_002",
+    "name": "External banks",
+    "properties": {
+      "contact_role": "Payment Delivery Partners",
+      "trigger_condition": "Payment delivery"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_res_001",
+    "name": "AMS Payment Instruction",
+    "properties": {
+      "tools_or_systems": "AMS",
+      "output_or_artifact": "Payment Instruction"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_res_002",
+    "name": "FDE Fraud Assessment",
+    "properties": {
+      "tools_or_systems": "FDE",
+      "output_or_artifact": "Fraud Assessment"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_039_not_001",
+    "name": "Head of Technology",
+    "properties": {
+      "contact_name_or_role": "Head of Technology",
+      "jurisdiction": "UK",
+      "system_ownership": "DW-001 (Data Warehouse)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_039_not_002",
+    "name": "Data engineering team",
+    "properties": {
+      "contact_name_or_role": "Data engineering team",
+      "contact_method": "internal support",
+      "system_support_role": "Support Team for DW-001 (Data Warehouse)"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_acc_001",
+    "name": "Account Mart",
+    "properties": {
+      "account_count": 800,
+      "tracked_data": [
+        "balances",
+        "product mix"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_cus_001",
+    "name": "Customer Mart",
+    "properties": {
+      "customer_count": 500,
+      "tracked_data": [
+        "demographics"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_tra_001",
+    "name": "Transaction Mart",
+    "properties": {
+      "monthly_transaction_volume": "2,000+"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_pro_001",
+    "name": "Product Mart",
+    "properties": {
+      "product_count": 5,
+      "tracked_data": [
+        "performance KPIs"
+      ]
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_001",
+    "name": "Executive Dashboard (KPIs)",
+    "properties": {
+      "action_phase": "investigation",
+      "tools_or_systems": "Executive Dashboard"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_002",
+    "name": "Product Performance Dashboard",
+    "properties": {
+      "action_phase": "investigation",
+      "tools_or_systems": "Product Performance Dashboard"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_003",
+    "name": "Fraud Detection Dashboard",
+    "properties": {
+      "action_phase": "detection",
+      "tools_or_systems": "Fraud Detection Dashboard"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_004",
+    "name": "Compliance & Risk Dashboard",
+    "properties": {
+      "action_phase": "investigation",
+      "tools_or_systems": "Compliance & Risk Dashboard"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_005",
+    "name": "Customer Analytics Dashboard",
+    "properties": {
+      "action_phase": "investigation",
+      "tools_or_systems": "Customer Analytics Dashboard"
+    },
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  }
+]

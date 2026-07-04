@@ -43,7 +43,7 @@ from paths import (
     WORKER_LOG,
     WORKER_PID_FILE,
 )
-from utils.functions import load_env
+from utils.functions import load_env, resolve_llm_model
 
 
 def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
@@ -270,12 +270,13 @@ def ingest():
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
-def ingest_sync(file_path: str, domain: str | None):
+@click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
+def ingest_sync(file_path: str, domain: str | None, force: bool):
     """Ingest a file or directory synchronously (blocking)."""
     _setup_logger()
     env = load_env()
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
-    text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     chunk_size = int(env.get("ARTMIND_KG_CHUNK_SIZE", "6000"))
 
@@ -302,7 +303,7 @@ def ingest_sync(file_path: str, domain: str | None):
     ok_count, fail_count = 0, 0
     for f in files:
         try:
-            result = ingest_file(f, image_model, domain, chunk_size=chunk_size)
+            result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
             if result.get("status") == "ok":
                 ok_count += 1
                 ingest_to_kg(result, domain, text_model, embed_model, chunk_size)
@@ -323,7 +324,8 @@ def ingest_sync(file_path: str, domain: str | None):
 @ingest.command("async")
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
-def ingest_async(file_path: str, domain: str | None):
+@click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
+def ingest_async(file_path: str, domain: str | None, force: bool):
     """Submit a file or directory for background ingestion; returns job_id immediately."""
     _setup_logger()
     if domain is None:
@@ -342,7 +344,7 @@ def ingest_async(file_path: str, domain: str | None):
         raise click.ClickException(f"No files found in {path}")
 
     batch_files = [str(f.resolve()) for f in files]
-    job_id = _create_job(batch_files, domain=domain)
+    job_id = _create_job(batch_files, domain=domain, force=force)
     _ensure_worker_running()
 
     _echo_json({
@@ -434,7 +436,7 @@ def ingest_extract_kg(document_name: str, domain: str) -> None:
     """
     _setup_logger()
     env = load_env()
-    text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    text_model = resolve_llm_model(env)
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
 
     file_result = _build_file_result_from_db(document_name, domain)
@@ -513,7 +515,19 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
         if d.is_dir() and (d / "document.json").exists()
     )
     if not doc_dirs:
-        raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
+        # Fall back to recursive search
+        doc_dirs = sorted(
+            p.parent for p in folder_path.rglob("document.json")
+        )
+        if not doc_dirs:
+            raise click.ClickException(f"No document sub-folders with document.json found in {folder_path}")
+
+        click.echo(f"\nNo document.json found in immediate sub-folders. Found {len(doc_dirs)} document(s) recursively:\n")
+        for d in doc_dirs:
+            click.echo(f"  {d.relative_to(folder_path)}")
+        click.echo()
+        if not click.confirm(f"Write all {len(doc_dirs)} document(s) to graph (domain={resolved_domain})?"):
+            raise click.Abort()
 
     logger.info(
         "write_to_graph (batch): {} document(s) in {} (domain={})",
@@ -630,7 +644,7 @@ def ingest_refine_graph(
     """
     _setup_logger()
     env = load_env()
-    resolved_model = model or env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    resolved_model = resolve_llm_model(env, model)
 
     out_path: Path | None = None
     if from_file is None:
@@ -976,6 +990,7 @@ def docs_clean(domain: str, document_name: str):
     click.echo(f"  markdowns: {result['markdowns']}")
     click.echo(f"  markdown artifacts: {result['markdown_artifacts']}")
     click.echo(f"  kg dirs: {result['kg_dirs']}")
+    click.echo(f"  chunk status rows: {result['chunk_status_rows']}")
     click.echo(f"  neo4j documents: {result['neo4j_documents']}")
     click.echo(f"  neo4j chunks: {result['neo4j_chunks']}")
     click.echo(f"  neo4j orphan entities: {result['neo4j_orphan_entities']}")

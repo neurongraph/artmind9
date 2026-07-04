@@ -1,0 +1,945 @@
+[
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cli_001",
+    "name": "Client / Customer / The Society",
+    "properties": {
+      "industry": "banking",
+      "geography": "UK",
+      "size": "enterprise",
+      "relationship_status": "active",
+      "pain_points": [
+        "legacy compliance gaps in customer data",
+        "limited digital engagement channels",
+        "high branch and telephony workload",
+        "data accuracy and up-to-date verification needs"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_001",
+    "name": "SKYC (Smart KYC) project",
+    "properties": {
+      "offering_type": "programme",
+      "scope": "strategic case management lifecycle for CDD and ID&V workflows",
+      "target_client_profile": "banking",
+      "key_phases_or_components": [
+        "strategic automation process",
+        "CDD and ID&V workflow management",
+        "EBM framework integration"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_002",
+    "name": "Customer Due Diligence (CDD) Remediation programme",
+    "properties": {
+      "offering_type": "programme",
+      "scope": "collecting missing CDD information and verifying existing data accuracy",
+      "delivery_model": "hybrid",
+      "key_phases_or_components": [
+        "CDD Cohort/FCCEP Remediation hub",
+        "member outreach via email/letter",
+        "DocuSign webform collection",
+        "data validation",
+        "RemOps data update in CIS"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_003",
+    "name": "ID&V solution",
+    "properties": {
+      "offering_type": "solution",
+      "scope": "automated upload of validated Customer ID cases to CIS with exception handling",
+      "key_phases_or_components": [
+        "Mitek Verified Identity Platform",
+        "Data Validations",
+        "ePaaS solution",
+        "SAMM application",
+        "Exception Workflow Tool"
+      ],
+      "named_assets_or_accelerators": [
+        "Mitek Verified Identity Platform",
+        "ePaaS",
+        "SAMM",
+        "EWT"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_004",
+    "name": "AML Remediation capability",
+    "properties": {
+      "offering_type": "capability",
+      "scope": "remediation of existing customer base for missing CDD and ID&V documentation",
+      "target_client_profile": "Business Savings customers",
+      "key_phases_or_components": [
+        "compliance with Financial Crime Minimum Control Standards",
+        "systematic legacy gap addressing"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_005",
+    "name": "Pega workflow management tool",
+    "properties": {
+      "offering_type": "product",
+      "scope": "handling CDD and ID&V workflows",
+      "key_phases_or_components": [
+        "workflow automation",
+        "Power BI status tracking"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_006",
+    "name": "DocuSign solution",
+    "properties": {
+      "offering_type": "solution",
+      "scope": "digital submission of CDD information via webform",
+      "key_phases_or_components": [
+        "webform collection",
+        "URN entry",
+        "CDD question answering",
+        "form submission"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_007",
+    "name": "ePaaS solution",
+    "properties": {
+      "offering_type": "solution",
+      "scope": "automated data processing and routing for ID&V workflows",
+      "delivery_model": "fully_automated_24x7"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_008",
+    "name": "SAMM application",
+    "properties": {
+      "offering_type": "application",
+      "scope": "managing exception workflows and failure notifications for RemOps",
+      "key_phases_or_components": [
+        "exception handling",
+        "failure notification routing",
+        "manual updates"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_off_009",
+    "name": "Exception Workflow Tool (EWT)",
+    "properties": {
+      "offering_type": "tool",
+      "scope": "routing and managing failed data validation cases for manual remediation",
+      "key_phases_or_components": [
+        "failure routing from BIP/DSA",
+        "RemOps manual handling",
+        "SAMM notification"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_001",
+    "name": "Strategic automation process",
+    "properties": {
+      "what_it_does": "regularly updates customer data to ensure regulatory compliance",
+      "delivery_maturity": "proven",
+      "differentiating_aspect": "enduring journey flexibility with EBM framework integration"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_002",
+    "name": "CDD and ID&V workflow management",
+    "properties": {
+      "what_it_does": "manages customer data collection, invocation controls, and revocation/reinvocation logic",
+      "technical_components": [
+        "CDD invoke",
+        "CDD controls",
+        "CDD Revoke and Reinvoke"
+      ],
+      "industry_applicability": [
+        "banking",
+        "financial_services"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_003",
+    "name": "Automated data upload and validation",
+    "properties": {
+      "what_it_does": "automates the upload of validated customer ID cases to core systems",
+      "technical_components": [
+        "Data Validations",
+        "ePaaS solution",
+        "CIS integration"
+      ],
+      "delivery_maturity": "proven"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cap_004",
+    "name": "Omni-channel customer engagement",
+    "properties": {
+      "what_it_does": "enables customer data submission across digital and mediated channels",
+      "industry_applicability": [
+        "banking",
+        "financial_services"
+      ],
+      "differentiating_aspect": "supports digitally inactive members without requiring app registration or branch visits"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_001",
+    "name": "Regulatory compliance and data refresh",
+    "properties": {
+      "problem_context": "need to regularly update customer data to meet Money Laundering Regulations",
+      "approach": "periodic risk-based refresh and behavior-triggered invoke refresh",
+      "industry": "banking",
+      "outcome_achieved": "continued regulatory compliance"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_002",
+    "name": "Customer Due Diligence (CDD) remediation",
+    "properties": {
+      "problem_context": "legacy compliance gaps and missing CDD information in customer records",
+      "approach": "systematic collection and verification of missing documentation via digital/mediated channels",
+      "industry": "banking",
+      "outcome_achieved": "improved regulatory compliance and data accuracy"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_003",
+    "name": "Identity Verification (ID&V) automation",
+    "properties": {
+      "problem_context": "manual or inefficient ID verification processes causing branch/telephony workload",
+      "approach": "automated upload of validated ID cases to CIS with exception handling via EWT/SAMM",
+      "industry": "banking",
+      "outcome_achieved": "reduced branch workload and increased convenience for overseas customers"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_use_004",
+    "name": "Event-Based Monitoring (EBM) integration",
+    "properties": {
+      "problem_context": "need to dynamically trigger customer data updates based on specific events or behaviors",
+      "approach": "embedding CDD/ID&V workflows within an EBM framework for behavior-triggered refreshes",
+      "industry": "banking",
+      "outcome_achieved": "streamlined operations and increased productivity"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_001",
+    "name": "Continued regulatory compliance",
+    "properties": {
+      "beneficiary": "client",
+      "category": "risk",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_002",
+    "name": "Enhanced customer experience and engagement",
+    "properties": {
+      "beneficiary": "customer",
+      "category": "satisfaction",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_003",
+    "name": "Reduced branch and telephony workload",
+    "properties": {
+      "beneficiary": "client",
+      "category": "cost",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_004",
+    "name": "Increased productivity and streamlined operations",
+    "properties": {
+      "beneficiary": "Remediation Operation team",
+      "category": "speed",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_ben_005",
+    "name": "Increased convenience for overseas customers",
+    "properties": {
+      "beneficiary": "overseas customers",
+      "category": "satisfaction",
+      "evidence_type": "claimed"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_001",
+    "name": "Money Laundering Regulations compliance obligations",
+    "properties": {
+      "root_cause": "regulatory requirements for customer data accuracy and verification",
+      "business_impact": "non-compliance risk and potential financial crime exposure",
+      "urgency": "critical",
+      "who_faces_it": "banking/financial services client"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_002",
+    "name": "Legacy compliance gaps in customer data",
+    "properties": {
+      "root_cause": "outdated or incomplete customer records in legacy systems",
+      "business_impact": "regulatory non-compliance and increased remediation workload",
+      "urgency": "high",
+      "who_faces_it": "client customer base"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_003",
+    "name": "Limited digital engagement channels",
+    "properties": {
+      "root_cause": "reliance on traditional branch and telephony channels",
+      "business_impact": "high operational costs and poor customer engagement/completion rates",
+      "urgency": "high",
+      "who_faces_it": "digitally inactive customers"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_cha_004",
+    "name": "Data accuracy and up-to-date verification needs",
+    "properties": {
+      "root_cause": "static customer data that requires periodic refresh based on risk rating or account behavior",
+      "business_impact": "inaccurate KYC/CDD records leading to compliance failures",
+      "urgency": "high",
+      "who_faces_it": "client compliance and operations teams"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_001",
+    "name": "Pega workflow management tool",
+    "properties": {
+      "vendor": "Pega",
+      "technology_category": "workflow_management",
+      "role_in_solution": "core",
+      "key_characteristics": "handles CDD and ID&V workflows, integrates with Power BI for status tracking"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_002",
+    "name": "DocuSign",
+    "properties": {
+      "vendor": "DocuSign",
+      "technology_category": "digital_signature_and_form_management",
+      "role_in_solution": "supporting",
+      "key_characteristics": "provides generic webform for CDD data collection without pre-populated fields"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_003",
+    "name": "Mitek Verified Identity Platform",
+    "properties": {
+      "vendor": "Mitek Systems",
+      "technology_category": "identity_verification",
+      "role_in_solution": "core",
+      "key_characteristics": "feeds customer ID cases into data validation process for automated upload"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_004",
+    "name": "ePaaS solution",
+    "properties": {
+      "vendor": "IBM",
+      "technology_category": "integration_platform_as_a_service",
+      "role_in_solution": "core",
+      "key_characteristics": "fully automated 24/7 processing, routes validated data to BIP/CIS or failures to EWT"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_005",
+    "name": "CIS (Customer Information System)",
+    "properties": {
+      "vendor": "Client (The Society)",
+      "technology_category": "customer_information_system",
+      "role_in_solution": "target",
+      "key_characteristics": "central repository for customer data updated via automated ID&V and RemOps processes"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_tec_006",
+    "name": "Digital and Mediated channels",
+    "properties": {
+      "technology_category": "customer_engagement_channels",
+      "role_in_solution": "supporting",
+      "key_characteristics": "enables data collection via internet banking, mobile app, branch, telephony, and email/letter"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_001",
+    "name": "Streamlined project planning and execution",
+    "properties": {
+      "competitive_advantage": "smooth coordination between business and technical stakeholders",
+      "evidence_or_proof_point": "successful delivery across multiple complex projects (SKYC, ID&V, CDD)",
+      "uniqueness": "best-in-class",
+      "target_audience": "client business and technical leadership"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_002",
+    "name": "Fully automated 24/7 processing capability",
+    "properties": {
+      "competitive_advantage": "continuous, hands-off processing reducing manual intervention",
+      "evidence_or_proof_point": "ePaaS solution running 24/7 with automated routing for pass/fail scenarios",
+      "uniqueness": "scale-based",
+      "target_audience": "operations and remediation teams"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_003",
+    "name": "Rigorous quality, security, and performance testing",
+    "properties": {
+      "competitive_advantage": "ensures smooth production rollout with high reliability",
+      "evidence_or_proof_point": "comprehensive SIT and Non-Functional testing across in-house and third-party components",
+      "uniqueness": "certified",
+      "target_audience": "client risk, compliance, and IT security teams"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_dif_004",
+    "name": "Frictionless omni-channel customer engagement",
+    "properties": {
+      "competitive_advantage": "enables data submission without requiring app registration or branch visits",
+      "evidence_or_proof_point": "successful deployment of DocuSign webform and digital ID&V channels",
+      "uniqueness": "best-in-class",
+      "target_audience": "digitally inactive and overseas customers"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": "service_provider",
+      "relationship_to_offering": "primary_delivery_partner",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_org_002",
+    "name": "Mitek Systems",
+    "properties": {
+      "org_type": "vendor",
+      "relationship_to_offering": "technology_provider",
+      "geographic_presence": "global"
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_001",
+    "name": "SKYC Project",
+    "properties": {
+      "event_type": "project",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "IBM Delivery team",
+        "IBM Business Analysts",
+        "SIT",
+        "Non-Functional teams"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_002",
+    "name": ".co.uk Project",
+    "properties": {
+      "event_type": "project",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "IBM",
+        "RemOps team",
+        "Business stakeholders"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_003",
+    "name": "ID&V Project",
+    "properties": {
+      "event_type": "project",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "IBM",
+        "Mitek Systems",
+        "RemOps team",
+        "Business Analysts",
+        "Development team"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_004",
+    "name": "CDD Project",
+    "properties": {
+      "event_type": "project",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "IBM Business Analysts",
+        "Data and Analytics team"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_001_eve_005",
+    "name": "Business Savings Project",
+    "properties": {
+      "event_type": "project",
+      "relevance_to_deal": "milestone",
+      "key_participants": [
+        "IBM",
+        "Client Business Savings team"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_org_001",
+    "name": "IBM",
+    "properties": {
+      "org_type": [
+        "vendor"
+      ],
+      "relationship_to_offering": [
+        "designer_and_deployer"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+    "name": "The Business",
+    "properties": {
+      "industry": [
+        "banking",
+        "financial_services"
+      ],
+      "relationship_status": [
+        "active"
+      ],
+      "named_or_anonymous": true,
+      "pain_points": [
+        "manual spreadsheet-based processes",
+        "lack of real-time tracking",
+        "operational control gaps"
+      ],
+      "engagement_type": [
+        "workflow_and_case_management_solution"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+    "name": "Business Savings portfolio",
+    "properties": {
+      "industry": [
+        "banking"
+      ],
+      "relationship_status": [
+        "active"
+      ],
+      "named_or_anonymous": true,
+      "pain_points": [
+        "manual processes",
+        "data integrity issues",
+        "suboptimal strategic decision-making"
+      ],
+      "engagement_type": [
+        "portfolio_optimization"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+    "name": "End-to-End Workflow and Case Management Solution",
+    "properties": {
+      "offering_type": [
+        "solution"
+      ],
+      "scope": [
+        "end-to-end workflow",
+        "case management",
+        "outreach and data enrichment channels"
+      ],
+      "target_client_profile": [
+        "financial_services",
+        "business_savings_portfolios"
+      ],
+      "key_phases_or_components": [
+        "design",
+        "deployment",
+        "real-time_tracking",
+        "operational_control",
+        "remediation_governance",
+        "data_enrichment"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+    "name": "Manual Spreadsheet-Based Processes",
+    "properties": {
+      "root_cause": [
+        "legacy_manual_workflows",
+        "spreadsheet_dependency"
+      ],
+      "business_impact": [
+        "increased_manual_errors",
+        "operational_inefficiency",
+        "lack_of_real-time_visibility",
+        "regulatory_exposure"
+      ],
+      "urgency": [
+        "high"
+      ],
+      "who_faces_it": [
+        "The_Business"
+      ],
+      "current_workaround": [
+        "manual_spreadsheets"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+    "name": "Real-Time Tracking",
+    "properties": {
+      "what_it_does": [
+        "provides_immediate_visibility_into_workflow_and_case_status"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "enables_timely_risk_informed_decisions"
+      ],
+      "industry_applicability": [
+        "financial_services"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+    "name": "Operational Control",
+    "properties": {
+      "what_it_does": [
+        "standardizes_and_manages_workflow_execution"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "replaces_fragmented_manual_processes_with_formalized_controls"
+      ],
+      "industry_applicability": [
+        "financial_services"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+    "name": "Governance of Remediation Activities",
+    "properties": {
+      "what_it_does": [
+        "oversees_and_manages_remediation_processes"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "ensures_compliance_and_reduces_financial_crime_exposure"
+      ],
+      "industry_applicability": [
+        "financial_services"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+    "name": "Data Enrichment",
+    "properties": {
+      "what_it_does": [
+        "enhances_customer_data_through_multiple_channels"
+      ],
+      "delivery_maturity": [
+        "proven"
+      ],
+      "differentiating_aspect": [
+        "integrates_third-party_services_and_relationship_managers"
+      ],
+      "industry_applicability": [
+        "financial_services"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+    "name": "Financial Crime Risk Profiling",
+    "properties": {
+      "problem_context": [
+        "managing_customer_financial_crime_risk"
+      ],
+      "approach": [
+        "risk_informed_decision_making_using_enriched_data_and_real_time_tracking"
+      ],
+      "industry": [
+        "financial_services"
+      ],
+      "outcome_achieved": [
+        "timely_decisions_to_retain_block_or_exit_customers",
+        "reduced_exposure_to_financial_crime"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_002",
+    "name": "Customer Lifecycle Management",
+    "properties": {
+      "problem_context": [
+        "managing_customer_relationships_and_portfolio_strategy"
+      ],
+      "approach": [
+        "workflow_driven_case_management_with_operational_control_and_data_enrichment"
+      ],
+      "industry": [
+        "financial_services"
+      ],
+      "outcome_achieved": [
+        "improved_operational_efficiency",
+        "enhanced_strategic_decision_making"
+      ],
+      "complexity_level": [
+        "complex"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+    "name": "Operational Efficiency",
+    "properties": {
+      "beneficiary": [
+        "The_Business"
+      ],
+      "category": [
+        "efficiency",
+        "cost"
+      ],
+      "evidence_type": [
+        "claimed"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+    "name": "Data Integrity",
+    "properties": {
+      "beneficiary": [
+        "The_Business"
+      ],
+      "category": [
+        "quality",
+        "risk"
+      ],
+      "evidence_type": [
+        "claimed"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+    "name": "Strategic Decision-Making",
+    "properties": {
+      "beneficiary": [
+        "The_Business",
+        "Business_Savings_Portfolio"
+      ],
+      "category": [
+        "strategy",
+        "revenue"
+      ],
+      "evidence_type": [
+        "claimed"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+    "name": "Enhanced Regulatory Compliance",
+    "properties": {
+      "beneficiary": [
+        "The_Business"
+      ],
+      "category": [
+        "risk",
+        "compliance"
+      ],
+      "evidence_type": [
+        "claimed"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+    "name": "Reduced Financial Crime Exposure",
+    "properties": {
+      "beneficiary": [
+        "The_Business"
+      ],
+      "category": [
+        "risk"
+      ],
+      "evidence_type": [
+        "claimed"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  },
+  {
+    "id": "edc0aa58c25a485a9c05c12750ec21aa_002_tech_001",
+    "name": "Third-Party Services",
+    "properties": {
+      "technology_category": [
+        "data_integration",
+        "outreach"
+      ],
+      "role_in_solution": [
+        "supporting",
+        "data_enrichment"
+      ],
+      "maturity": [
+        "modern"
+      ],
+      "key_characteristics": [
+        "enables_data_enrichment_and_outreach_channels"
+      ]
+    },
+    "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+    "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+  }
+]

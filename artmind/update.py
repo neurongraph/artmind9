@@ -30,7 +30,7 @@ from artmind.ingest import (
     embed_missing_entity_embeddings,
 )
 from paths import DOMAIN_SCHEMAS_DIR
-from utils.functions import load_env
+from utils.functions import load_env, resolve_llm_model
 
 
 def _classify_input(text: str) -> str:
@@ -50,7 +50,7 @@ def extract_facts(
     text: str, domain: str, schema: dict, text_model: str | None = None
 ) -> dict:
     env = load_env()
-    model = text_model or env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    model = resolve_llm_model(env, text_model)
 
     raw_entities, ok = extract_with_retry(
         "update_entities", model, build_entities_prompt(text, schema)

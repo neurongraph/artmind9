@@ -1,0 +1,3867 @@
+[
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_001_dep_001",
+    "source_name": "Internal Audit Department",
+    "target_id": "doc_audit_q4_2025",
+    "target_name": "Internal Audit Report Q4 2025",
+    "rel_type": "generates",
+    "description": "The Internal Audit Department produced the Q4 2025 Internal Audit Report.",
+    "properties": {
+      "report_period": "October 1 – December 31, 2025",
+      "issued_date": "2026-01-15",
+      "status": "Final"
+    },
+    "context": "Department | Internal Audit",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_001",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_001_dep_001",
+    "source_name": "Internal Audit Department",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_001",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_001",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_001",
+    "source_name": "Standing Order Management Validation Gaps",
+    "target_id": "standing_order_entity",
+    "target_name": "Standing Order",
+    "rel_type": "identifies_validation_gap_in",
+    "description": "Audit identified gaps in the validation process for standing order management",
+    "properties": {
+      "priority": "Medium",
+      "status": "Open"
+    },
+    "context": "Standing order management has gaps in validation",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_002",
+    "source_name": "Account Closure Documentation Deficiency",
+    "target_id": "account_entity",
+    "target_name": "Account",
+    "rel_type": "identifies_gap_in_account_controls",
+    "description": "Audit found that account closure procedures are missing required documentation",
+    "properties": {
+      "priority": "Medium",
+      "status": "Open"
+    },
+    "context": "Account closure procedures missing documentation",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_003",
+    "source_name": "AML Screening Control Effectiveness",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_001",
+    "target_name": "AML Compliance Rate — 100%",
+    "rel_type": "demonstrates",
+    "description": "The effectiveness of AML screening controls is demonstrated by a 100% compliance rate",
+    "properties": {
+      "value": "100%",
+      "assessment": "Satisfactory"
+    },
+    "context": "AML screening controls operating effectively (100% compliance)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_004",
+    "source_name": "KYC Verification Standard Compliance",
+    "target_id": "kyc_entity",
+    "target_name": "KYC Verification",
+    "rel_type": "measures_compliance_of",
+    "description": "Audit verified that KYC verification procedures meet the required FCA standards",
+    "properties": {
+      "standard": "FCA",
+      "status": "Compliant"
+    },
+    "context": "KYC verification procedures meet FCA standards",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_002",
+    "source_name": "Fraud Detection Rate — 97%+",
+    "target_id": "fraud_alert_entity",
+    "target_name": "Fraud Alert",
+    "rel_type": "measures_detection_rate_of",
+    "description": "Metric tracks the percentage of fraud successfully detected",
+    "properties": {
+      "value": "97%+",
+      "trend": "Improved"
+    },
+    "context": "Fraud detection rates improved (97%+ detection)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_003",
+    "source_name": "Technology Infrastructure Uptime — 99.8%",
+    "target_id": "tech_infra_entity",
+    "target_name": "Technology Infrastructure",
+    "rel_type": "tracks",
+    "description": "Metric tracks the resilience and uptime of the technology infrastructure",
+    "properties": {
+      "value": "99.8%",
+      "assessment": "Resilient"
+    },
+    "context": "Technology infrastructure resilient (99.8% uptime)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_001",
+    "source_name": "Standing Order Management Validation Gaps",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_002",
+    "source_name": "Account Closure Documentation Deficiency",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_003",
+    "source_name": "AML Screening Control Effectiveness",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_004",
+    "source_name": "KYC Verification Standard Compliance",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_001",
+    "source_name": "AML Compliance Rate — 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_002",
+    "source_name": "Fraud Detection Rate — 97%+",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_003",
+    "source_name": "Technology Infrastructure Uptime — 99.8%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "aud_001",
+    "source_name": "AML Controls Audit",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_001",
+    "target_name": "AML Controls Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The AML Controls audit was conducted to evaluate compliance with OFAC/EU/HMT screening, directly assessing AML Controls Risk.",
+    "properties": {
+      "scope": "OFAC/EU/HMT screening compliance",
+      "completion_date": "Dec 2, 2025"
+    },
+    "context": "AML Controls | OFAC/EU/HMT screening compliance | Dec 2, 2025 | ✅ Complete",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "aud_002",
+    "source_name": "KYC Verification Audit",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_002",
+    "target_name": "KYC Verification Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The KYC Verification audit focused on document verification procedures to identify gaps in KYC Verification Risk.",
+    "properties": {
+      "scope": "Document verification procedures",
+      "completion_date": "Dec 9, 2025"
+    },
+    "context": "KYC Verification | Document verification procedures | Dec 9, 2025 | ✅ Complete",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "aud_003",
+    "source_name": "Account Opening Audit",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_003",
+    "target_name": "Account Opening Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Account Opening audit reviewed the end-to-end onboarding process to assess Account Opening Risk.",
+    "properties": {
+      "scope": "End-to-end onboarding process",
+      "completion_date": "Dec 16, 2025"
+    },
+    "context": "Account Opening | End-to-end onboarding process | Dec 16, 2025 | ✅ Complete",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "aud_004",
+    "source_name": "Standing Orders Audit",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_004",
+    "target_name": "Standing Orders Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Standing Orders audit examined recurring payment controls to identify Standing Orders Risk.",
+    "properties": {
+      "scope": "Recurring payment controls",
+      "completion_date": "Dec 23, 2025"
+    },
+    "context": "Standing Orders | Recurring payment controls | Dec 23, 2025 | ✅ Complete",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "aud_005",
+    "source_name": "Account Closure Audit",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_005",
+    "target_name": "Account Closure Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Account Closure audit reviewed customer account termination processes to assess Account Closure Risk.",
+    "properties": {
+      "scope": "Customer account termination",
+      "completion_date": "Jan 6, 2026"
+    },
+    "context": "Account Closure | Customer account termination | Jan 6, 2026 | ✅ Complete",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "aud_006",
+    "source_name": "Fraud Detection Audit",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_006",
+    "target_name": "Fraud Detection Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The Fraud Detection audit evaluated FDE system effectiveness to identify Fraud Detection Risk.",
+    "properties": {
+      "scope": "FDE system effectiveness",
+      "completion_date": "Jan 13, 2026"
+    },
+    "context": "Fraud Detection | FDE system effectiveness | Jan 13, 2026 | ✅ Complete",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_001",
+    "source_name": "AML Controls Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_002",
+    "source_name": "KYC Verification Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_003",
+    "source_name": "Account Opening Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_004",
+    "source_name": "Standing Orders Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_005",
+    "source_name": "Account Closure Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_006",
+    "source_name": "Fraud Detection Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_001",
+    "source_name": "Payment processing delays — Resolved Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_001",
+    "target_name": "Payment processing delays — Resolved Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding regarding payment processing delays has been marked as resolved.",
+    "properties": {
+      "status": "RESOLVED",
+      "audit_period": "Q3 2025"
+    },
+    "context": "Payment processing delays (RESOLVED)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_002",
+    "source_name": "System backup procedures — Resolved Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_002",
+    "target_name": "System backup procedures — Resolved Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding regarding system backup procedures has been marked as resolved.",
+    "properties": {
+      "status": "RESOLVED",
+      "audit_period": "Q3 2025"
+    },
+    "context": "System backup procedures (RESOLVED)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_003",
+    "source_name": "Interest calculation accuracy — Partial Resolution Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_003",
+    "target_name": "Interest calculation accuracy — Partial Resolution Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding regarding interest calculation accuracy is only partially resolved.",
+    "properties": {
+      "status": "PARTIAL",
+      "audit_period": "Q3 2025"
+    },
+    "context": "Interest calculation accuracy (PARTIAL)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_004",
+    "source_name": "Staff compliance training — Partial Resolution Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_004",
+    "target_name": "Staff compliance training — Partial Resolution Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding regarding staff compliance training is only partially resolved.",
+    "properties": {
+      "status": "PARTIAL",
+      "audit_period": "Q3 2025"
+    },
+    "context": "Staff compliance training (PARTIAL)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_001",
+    "source_name": "Payment processing delays — Resolved Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_002",
+    "source_name": "System backup procedures — Resolved Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_003",
+    "source_name": "Interest calculation accuracy — Partial Resolution Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_004",
+    "source_name": "Staff compliance training — Partial Resolution Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_001",
+    "source_name": "AML Screening Controls — Satisfactory Overall Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "identifies_risk_in",
+    "description": "Overall audit finding assessing the effectiveness of AML Screening Controls",
+    "properties": {
+      "rating": "Satisfactory",
+      "period": "Sept 1 – Dec 31, 2025"
+    },
+    "context": "AML Screening Controls — ✅ SATISFACTORY",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_001",
+    "source_name": "AML Screening Controls — Satisfactory Overall Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_cus_001",
+    "target_name": "Customer Base",
+    "rel_type": "affects_customer_population",
+    "description": "Audit finding scope covers sanctions screening against the customer base",
+    "properties": {
+      "scope": "OFAC/EU/HMT/UN sanctions screening"
+    },
+    "context": "Scope: OFAC/EU/HMT/UN sanctions screening against customer base",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_001",
+    "source_name": "AML Screening Controls — Satisfactory Overall Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_acc_001",
+    "target_name": "New Customer Accounts",
+    "rel_type": "found_in_review_of",
+    "description": "Audit finding based on a sample of 500 new customer accounts",
+    "properties": {
+      "sample_size": "500"
+    },
+    "context": "Sample Size: 500 new customer accounts opened",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_002",
+    "source_name": "Pre-opening Customer Screening Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "identifies_weakness_in",
+    "description": "Identifies a strength in the pre-opening screening process of AML controls",
+    "properties": {
+      "status": "Strength"
+    },
+    "context": "All 500 new customers screened before account opening",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_002",
+    "source_name": "Pre-opening Customer Screening Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_001",
+    "target_name": "Compliance Rate — 100%",
+    "rel_type": "supports",
+    "description": "The fact that all customers were screened supports the 100% compliance rate",
+    "properties": {
+      "metric_value": "100%"
+    },
+    "context": "All 500 new customers screened before account opening",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_003",
+    "source_name": "Screening Processing Time Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "identifies_weakness_in",
+    "description": "Identifies a strength in the processing speed of AML screening",
+    "properties": {
+      "status": "Strength"
+    },
+    "context": "Screening times: <5 minutes (within SLA)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_003",
+    "source_name": "Screening Processing Time Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_004",
+    "target_name": "Processing Time — Avg 3.2 min (SLA: 5 min)",
+    "rel_type": "demonstrates",
+    "description": "Finding demonstrates that processing time is within the defined SLA",
+    "properties": {
+      "actual": "3.2 min",
+      "sla": "5 min"
+    },
+    "context": "Processing time: Avg 3.2 min (SLA: 5 min) ✅",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_004",
+    "source_name": "False Positive Management Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "identifies_weakness_in",
+    "description": "Identifies effective management of false positives within AML controls",
+    "properties": {
+      "status": "Strength"
+    },
+    "context": "False positive management effective (average 1.2% false positive rate)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_004",
+    "source_name": "False Positive Management Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_003",
+    "target_name": "False Positive Rate — Actual 1.2% (6 cases)",
+    "rel_type": "demonstrates",
+    "description": "Finding is evidenced by the actual false positive rate of 1.2%",
+    "properties": {
+      "rate": "1.2%",
+      "count": "6"
+    },
+    "context": "False positives: 6 (1.2%)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_005",
+    "source_name": "PEP Screening Implementation Improvement",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "identifies_weakness_in",
+    "description": "Identifies an improvement in the implementation of PEP screening",
+    "properties": {
+      "implementation_date": "Q4"
+    },
+    "context": "PEP screening added Q4 (improvement)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_006",
+    "source_name": "Sanctions Match Accuracy Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "identifies_weakness_in",
+    "description": "Identifies that no sanctions matches were missed",
+    "properties": {
+      "status": "Strength"
+    },
+    "context": "No sanctions matches missed",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_006",
+    "source_name": "Sanctions Match Accuracy Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_002",
+    "target_name": "Sanctions Matches — 0 (clean)",
+    "rel_type": "demonstrates",
+    "description": "Finding is supported by the metric showing zero missed sanctions matches",
+    "properties": {
+      "count": "0"
+    },
+    "context": "Sanctions matches: 0 (clean)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_001",
+    "source_name": "Compliance Rate — 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "measures_performance_of",
+    "description": "Measures the overall compliance rate of the AML screening process",
+    "properties": {
+      "value": "100%"
+    },
+    "context": "Compliance Rate: 100%",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_002",
+    "source_name": "Sanctions Matches — 0 (clean)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "measures_performance_of",
+    "description": "Tracks the number of sanctions matches identified",
+    "properties": {
+      "value": "0"
+    },
+    "context": "Sanctions matches: 0 (clean)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_003",
+    "source_name": "False Positive Rate — Actual 1.2% (6 cases)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "measures_performance_of",
+    "description": "Tracks the false positive rate of the AML screening system",
+    "properties": {
+      "value": "1.2%"
+    },
+    "context": "False positives: 6 (1.2%)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_004",
+    "source_name": "Processing Time — Avg 3.2 min (SLA: 5 min)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "target_name": "AML Screening Controls",
+    "rel_type": "measures_performance_of",
+    "description": "Measures the average processing time against the SLA",
+    "properties": {
+      "actual": "3.2 min",
+      "sla": "5 min"
+    },
+    "context": "Processing time: Avg 3.2 min (SLA: 5 min) ✅",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "source_name": "AML Screening Controls",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_001",
+    "source_name": "AML Screening Controls — Satisfactory Overall Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_002",
+    "source_name": "Pre-opening Customer Screening Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_003",
+    "source_name": "Screening Processing Time Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_004",
+    "source_name": "False Positive Management Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_005",
+    "source_name": "PEP Screening Implementation Improvement",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_006",
+    "source_name": "Sanctions Match Accuracy Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_001",
+    "source_name": "Compliance Rate — 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_002",
+    "source_name": "Sanctions Matches — 0 (clean)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_003",
+    "source_name": "False Positive Rate — Actual 1.2% (6 cases)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_004",
+    "source_name": "Processing Time — Avg 3.2 min (SLA: 5 min)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_acc_001",
+    "source_name": "New Customer Accounts",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_005_cus_001",
+    "source_name": "Customer Base",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_001",
+    "source_name": "KYC Document Verification — Satisfactory Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "identifies_weakness_in",
+    "description": "Audit finding evaluates the strength of the KYC verification process",
+    "properties": {
+      "rating": "Satisfactory"
+    },
+    "context": "KYC Verification — ✅ SATISFACTORY (Minor Observation) Scope: Know-Your-Customer document verification procedures",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_001",
+    "source_name": "KYC Document Verification — Satisfactory Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_acc_001",
+    "target_name": "Sampled Opened Accounts",
+    "rel_type": "found_in_review_of",
+    "description": "Finding derived from the review of 120 sampled opened accounts",
+    "properties": {
+      "sample_size": "120"
+    },
+    "context": "Accounts Tested: 120 random sample of opened accounts",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_001",
+    "source_name": "KYC Document Verification — Satisfactory Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_001",
+    "target_name": "KYC Compliance Rate — 95%",
+    "rel_type": "demonstrates",
+    "description": "The overall satisfactory strength is demonstrated by a 95% compliance rate",
+    "properties": {
+      "value": "95%"
+    },
+    "context": "Compliance Rate: 95%",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_002",
+    "source_name": "Missing Proof of Address — Low Priority Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "identifies_weakness_in",
+    "description": "Observation identifies a gap in the address verification component of the KYC process",
+    "properties": {
+      "priority": "Low",
+      "root_cause": "Process delay"
+    },
+    "context": "Observation (Low Priority): 6 of 120 accounts (5%) missing proof of address",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_002",
+    "source_name": "Missing Proof of Address — Low Priority Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_acc_001",
+    "target_name": "Sampled Opened Accounts",
+    "rel_type": "affects",
+    "description": "Observation affects 6 specific accounts within the sampled population",
+    "properties": {
+      "affected_count": "6",
+      "percentage": "5%"
+    },
+    "context": "6 of 120 accounts (5%) missing proof of address",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_002",
+    "source_name": "Missing Proof of Address — Low Priority Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_003",
+    "target_name": "Address Verification Rate — 114/120 (95%)",
+    "rel_type": "supports",
+    "description": "The observation of 6 missing documents supports the 95% address verification rate",
+    "properties": {
+      "gap": "6 documents"
+    },
+    "context": "Address verification 95% compliant... 6 of 120 accounts (5%) missing proof of address",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_001",
+    "source_name": "KYC Compliance Rate — 95%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "tracks_compliance_of",
+    "description": "Metric tracks the overall compliance of the KYC verification process",
+    "properties": {
+      "current_value": "95%"
+    },
+    "context": "Compliance Rate: 95%",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_002",
+    "source_name": "ID Verification Rate — 120/120 (100%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "measures_performance_of",
+    "description": "Metric measures the success rate of ID verification within the KYC process",
+    "properties": {
+      "success_rate": "100%"
+    },
+    "context": "ID verification: 120/120 (100%)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_003",
+    "source_name": "Address Verification Rate — 114/120 (95%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "measures_performance_of",
+    "description": "Metric measures the success rate of address verification within the KYC process",
+    "properties": {
+      "success_rate": "95%"
+    },
+    "context": "Address verification: 114/120 (95%)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_004",
+    "source_name": "Fraudulent Document Detection Rate — 0 (0%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "measures_performance_of",
+    "description": "Metric tracks the detection of fraudulent documents during KYC verification",
+    "properties": {
+      "detection_count": "0"
+    },
+    "context": "Fraudulent documents: 0 (0%)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_001",
+    "source_name": "KYC Compliance Rate — 95%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_001",
+    "source_name": "KYC Document Verification — Satisfactory Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_002",
+    "source_name": "Missing Proof of Address — Low Priority Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_002",
+    "source_name": "ID Verification Rate — 120/120 (100%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_003",
+    "source_name": "Address Verification Rate — 114/120 (95%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_004",
+    "source_name": "Fraudulent Document Detection Rate — 0 (0%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "source_name": "KYC Verification Process",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_006_acc_001",
+    "source_name": "Sampled Opened Accounts",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_001",
+    "source_name": "Account Opening Process Adherence — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_prd_001",
+    "target_name": "Account Opening Product",
+    "rel_type": "relates_to_product",
+    "description": "Audit finding confirms adherence to procedures for the account opening product",
+    "properties": {
+      "status": "Satisfactory",
+      "sample_size": "89 accounts"
+    },
+    "context": "All 89 accounts followed [[sop_account_opening]] procedures",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_002",
+    "source_name": "Account Opening Decision Timeliness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_prd_001",
+    "target_name": "Account Opening Product",
+    "rel_type": "relates_to_product",
+    "description": "Audit finding confirms decision timeliness for the account opening product",
+    "properties": {
+      "status": "Satisfactory"
+    },
+    "context": "Decision times within SLA",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_002",
+    "source_name": "Account Opening Decision Timeliness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_001",
+    "target_name": "Online Account Opening Time — Avg 1.5 days, SLA 2 days",
+    "rel_type": "supports",
+    "description": "The strength finding is supported by the online account opening timeliness metric",
+    "properties": {
+      "metric_status": "Pass"
+    },
+    "context": "Online avg 1.5 days | Branch avg same-day | Postal avg 6 days",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_002",
+    "source_name": "Account Opening Decision Timeliness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_002",
+    "target_name": "Branch Account Opening Time — Avg 4 hours, SLA Same-day",
+    "rel_type": "supports",
+    "description": "The strength finding is supported by the branch account opening timeliness metric",
+    "properties": {
+      "metric_status": "Pass"
+    },
+    "context": "Online avg 1.5 days | Branch avg same-day | Postal avg 6 days",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_002",
+    "source_name": "Account Opening Decision Timeliness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_003",
+    "target_name": "Postal Account Opening Time — Avg 6 days, SLA 7 days",
+    "rel_type": "supports",
+    "description": "The strength finding is supported by the postal account opening timeliness metric",
+    "properties": {
+      "metric_status": "Pass"
+    },
+    "context": "Online avg 1.5 days | Branch avg same-day | Postal avg 6 days",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_001",
+    "source_name": "Online Account Opening Time — Avg 1.5 days, SLA 2 days",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_prd_001",
+    "target_name": "Account Opening Product",
+    "rel_type": "measures_performance_of",
+    "description": "Tracks the timeliness of the online channel for account opening",
+    "properties": {
+      "avg_time": "1.5 days",
+      "sla": "2 days"
+    },
+    "context": "Online | 45 | 1.5 days | 2 days | ✅",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_002",
+    "source_name": "Branch Account Opening Time — Avg 4 hours, SLA Same-day",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_prd_001",
+    "target_name": "Account Opening Product",
+    "rel_type": "measures_performance_of",
+    "description": "Tracks the timeliness of the branch channel for account opening",
+    "properties": {
+      "avg_time": "4 hours",
+      "sla": "Same-day"
+    },
+    "context": "Branch | 32 | 4 hours | Same-day | ✅",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_003",
+    "source_name": "Postal Account Opening Time — Avg 6 days, SLA 7 days",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007_prd_001",
+    "target_name": "Account Opening Product",
+    "rel_type": "measures_performance_of",
+    "description": "Tracks the timeliness of the postal channel for account opening",
+    "properties": {
+      "avg_time": "6 days",
+      "sla": "7 days"
+    },
+    "context": "Postal | 12 | 6 days | 7 days | ✅",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_001",
+    "source_name": "Account Opening Process Adherence — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_002",
+    "source_name": "Account Opening Decision Timeliness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_001",
+    "source_name": "Online Account Opening Time — Avg 1.5 days, SLA 2 days",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_002",
+    "source_name": "Branch Account Opening Time — Avg 4 hours, SLA Same-day",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_003",
+    "source_name": "Postal Account Opening Time — Avg 6 days, SLA 7 days",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_007_prd_001",
+    "source_name": "Account Opening Product",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_001",
+    "source_name": "Standing Order Execution Timing Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_prod_001",
+    "target_name": "Standing Orders",
+    "rel_type": "relates_to_product",
+    "description": "Audit strength identified within the Standing Orders product scope",
+    "properties": {},
+    "context": "Standing Orders Management — ⚠️ SATISFACTORY (Observation) ... Execution timing correct (95% on due date)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_001",
+    "source_name": "Standing Order Execution Timing Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_002",
+    "target_name": "Standing Orders Timely Execution — 44/47 (95%)",
+    "rel_type": "supports",
+    "description": "The strength finding is supported by the timely execution metric",
+    "properties": {
+      "value": "95%"
+    },
+    "context": "Execution timing correct (95% on due date)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_002",
+    "source_name": "Missing Modification Documentation — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_prod_001",
+    "target_name": "Standing Orders",
+    "rel_type": "identifies_risk_in",
+    "description": "Finding identifies a documentation gap in Standing Orders modifications",
+    "properties": {
+      "priority": "Medium"
+    },
+    "context": "Finding 1: Missing Modification Documentation - 3 of 20 orders (15%) had modifications without audit trail",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_002",
+    "source_name": "Missing Modification Documentation — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_004",
+    "target_name": "Missing Standing Order Documentation — 3/47 (6%)",
+    "rel_type": "demonstrates",
+    "description": "The finding is quantified by the missing documentation metric",
+    "properties": {
+      "sample_error_rate": "15%",
+      "population_error_rate": "6%"
+    },
+    "context": "Finding 1: Missing Modification Documentation - 3 of 20 orders (15%) had modifications without audit trail ... Missing documentation: 3/47 (6%) ⚠️",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_002",
+    "source_name": "Missing Modification Documentation — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_001",
+    "target_name": "Document all modifications for audit trail",
+    "rel_type": "generates",
+    "description": "Finding regarding missing documentation requires a remediation action to document all modifications",
+    "properties": {
+      "priority": "Medium"
+    },
+    "context": "Finding 1: Missing Modification Documentation ... Remediation Required: 1. Document all modifications (audit trail)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_001",
+    "source_name": "Document all modifications for audit trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_002",
+    "target_name": "Missing Modification Documentation — Medium Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The documentation action item resolves the missing modification documentation finding",
+    "properties": {},
+    "context": "Remediation Required: 1. Document all modifications (audit trail)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_003",
+    "source_name": "Cancellation Delay — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_prod_001",
+    "target_name": "Standing Orders",
+    "rel_type": "identifies_risk_in",
+    "description": "Finding identifies a delay in the cancellation process for Standing Orders",
+    "properties": {
+      "priority": "Medium"
+    },
+    "context": "Finding 2: Cancellation Delay - 2 of 20 orders (10%) took >1 day to cancel",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_003",
+    "source_name": "Cancellation Delay — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_003",
+    "target_name": "Proper Standing Order Cancellations — 45/47 (96%)",
+    "rel_type": "demonstrates",
+    "description": "The cancellation delay finding is reflected in the proper cancellations metric",
+    "properties": {
+      "sample_error_rate": "10%"
+    },
+    "context": "Finding 2: Cancellation Delay - 2 of 20 orders (10%) took >1 day to cancel ... Proper cancellations: 45/47 (96%) ✅",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_003",
+    "source_name": "Cancellation Delay — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_002",
+    "target_name": "Implement automated cancellation",
+    "rel_type": "generates",
+    "description": "Finding regarding cancellation delays generates a requirement for automated cancellation",
+    "properties": {
+      "priority": "Medium",
+      "timeline": "effective immediately"
+    },
+    "context": "Finding 2: Cancellation Delay ... Remediation Required: 2. Implement automated cancellation (effective immediately)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_002",
+    "source_name": "Implement automated cancellation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_003",
+    "target_name": "Cancellation Delay — Medium Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "Automated cancellation resolves the cancellation delay finding",
+    "properties": {},
+    "context": "Remediation Required: 2. Implement automated cancellation (effective immediately)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_002",
+    "source_name": "Missing Modification Documentation — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_003",
+    "target_name": "Retest Standing Orders Management Q1 2026",
+    "rel_type": "requires",
+    "description": "Finding requires a retest of the management process in Q1 2026",
+    "properties": {
+      "deadline": "Q1 2026"
+    },
+    "context": "Remediation Required: ... 3. Retest Q1 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_003",
+    "source_name": "Cancellation Delay — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_003",
+    "target_name": "Retest Standing Orders Management Q1 2026",
+    "rel_type": "requires",
+    "description": "Finding requires a retest of the management process in Q1 2026",
+    "properties": {
+      "deadline": "Q1 2026"
+    },
+    "context": "Remediation Required: ... 3. Retest Q1 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_prod_001",
+    "source_name": "Standing Orders",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_001",
+    "target_name": "Standing Orders Compliance Rate — 85%",
+    "rel_type": "quantified_by",
+    "description": "The overall compliance of Standing Orders is quantified by the compliance rate metric",
+    "properties": {
+      "value": "85%"
+    },
+    "context": "Standing Orders Management ... Compliance Rate: 85%",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_001",
+    "source_name": "Standing Orders Compliance Rate — 85%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_001",
+    "source_name": "Standing Order Execution Timing Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_002",
+    "source_name": "Missing Modification Documentation — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_003",
+    "source_name": "Cancellation Delay — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_001",
+    "source_name": "Document all modifications for audit trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_002",
+    "source_name": "Implement automated cancellation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_003",
+    "source_name": "Retest Standing Orders Management Q1 2026",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_002",
+    "source_name": "Standing Orders Timely Execution — 44/47 (95%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_003",
+    "source_name": "Proper Standing Order Cancellations — 45/47 (96%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_004",
+    "source_name": "Missing Standing Order Documentation — 3/47 (6%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_008_prod_001",
+    "source_name": "Standing Orders",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_001",
+    "source_name": "Account Closure Process — Needs Improvement",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_001",
+    "target_name": "Account Closure Compliance Rate — Actual 80%",
+    "rel_type": "measured_against",
+    "description": "The overall account closure process finding is measured by the 80% compliance rate.",
+    "properties": {
+      "actual_value": "80%",
+      "sample_size": "15"
+    },
+    "context": "Account Closure — ⚠️ NEEDS IMPROVEMENT (Observation)... Compliance Rate: 80%",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_002",
+    "source_name": "Account Closure Process Strengths",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_002",
+    "target_name": "Customer-Initiated Closures Compliance — Actual 100%",
+    "rel_type": "supports",
+    "description": "The strengths of the process are evidenced by 100% compliance in customer-initiated closures.",
+    "properties": {
+      "actual_value": "100%",
+      "sample_size": "12"
+    },
+    "context": "✅ Strengths... Customer-initiated closures: 12/12 (100%) ✅",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_rsk_001",
+    "target_name": "Regulatory Risk — Account Closure Justification",
+    "rel_type": "identifies_risk_in",
+    "description": "Missing documentation on bank-initiated closures creates a regulatory risk regarding closure justification.",
+    "properties": {
+      "priority": "High",
+      "regulatory_body": "FCA"
+    },
+    "context": "Missing Documentation on Bank-Initiated Closures... Impact: Regulatory risk (FCA may query closure justification)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_003",
+    "target_name": "Bank-Initiated Closures Notice Compliance — Actual 33%",
+    "rel_type": "demonstrates",
+    "description": "The finding is demonstrated by the low compliance rate of notice letters for bank-initiated closures.",
+    "properties": {
+      "actual_value": "33%",
+      "gap": "2 out of 3 missing"
+    },
+    "context": "Only 1 of 3 had proper 30-day notice letter on file... With proper notice: 1/3 (33%) ⚠️",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_004",
+    "target_name": "Bank-Initiated Closures Reason Documentation Compliance — Actual 67%",
+    "rel_type": "demonstrates",
+    "description": "The finding is demonstrated by the lack of documented reasons for bank-initiated closures.",
+    "properties": {
+      "actual_value": "67%",
+      "gap": "1 out of 3 missing"
+    },
+    "context": "Only 2 of 3 had documented reason (fraud, policy, regulatory)... With documented reason: 2/3 (67%) ⚠️",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_001",
+    "target_name": "Implement Mandatory Closure Letter Procedure",
+    "rel_type": "generates",
+    "description": "The finding requires the implementation of a mandatory closure letter procedure.",
+    "properties": {
+      "priority": "High"
+    },
+    "context": "Remediation Required: 1. Implement mandatory closure letter procedure",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_002",
+    "target_name": "Document Closure Reason Implementation",
+    "rel_type": "generates",
+    "description": "The finding requires the implementation of documented closure reasons via dropdown.",
+    "properties": {
+      "priority": "High",
+      "details": "dropdown: regulatory, fraud, policy, other"
+    },
+    "context": "Remediation Required: 2. Document closure reason (dropdown: regulatory, fraud, policy, other)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_003",
+    "target_name": "Enforce Mandatory 30-Day Notice for Bank-Initiated Closures",
+    "rel_type": "generates",
+    "description": "The finding requires enforcement of a 30-day notice period for bank-initiated closures.",
+    "properties": {
+      "priority": "High"
+    },
+    "context": "Remediation Required: 3. Mandatory 30-day notice for bank-initiated closures",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_004",
+    "target_name": "Establish Audit Trail for All Closures",
+    "rel_type": "generates",
+    "description": "The finding requires the establishment of an audit trail for all account closures.",
+    "properties": {
+      "priority": "High"
+    },
+    "context": "Remediation Required: 4. Audit trail for all closures",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_005",
+    "target_name": "Account Closure Process Retest Q1 2026",
+    "rel_type": "generates",
+    "description": "The finding requires a retest of the account closure process in Q1 2026.",
+    "properties": {
+      "deadline": "Q1 2026"
+    },
+    "context": "Remediation Required: 5. Retest Q1 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_acc_001",
+    "target_name": "Bank-Initiated Account Closures",
+    "rel_type": "identifies_gap_in_account_controls",
+    "description": "The finding identifies control gaps specifically within bank-initiated account closures.",
+    "properties": {},
+    "context": "Missing Documentation on Bank-Initiated Closures... 3 of 15 closures (20%) were bank-initiated",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_001",
+    "source_name": "Implement Mandatory Closure Letter Procedure",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "target_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding is resolved by implementing the mandatory closure letter procedure.",
+    "properties": {},
+    "context": "Remediation Required: 1. Implement mandatory closure letter procedure",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_002",
+    "source_name": "Document Closure Reason Implementation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "target_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding is resolved by implementing documented closure reasons.",
+    "properties": {},
+    "context": "Remediation Required: 2. Document closure reason",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_003",
+    "source_name": "Enforce Mandatory 30-Day Notice for Bank-Initiated Closures",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "target_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding is resolved by enforcing the 30-day notice period.",
+    "properties": {},
+    "context": "Remediation Required: 3. Mandatory 30-day notice for bank-initiated closures",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_004",
+    "source_name": "Establish Audit Trail for All Closures",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "target_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The finding is resolved by establishing a comprehensive audit trail.",
+    "properties": {},
+    "context": "Remediation Required: 4. Audit trail for all closures",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_rsk_001",
+    "source_name": "Regulatory Risk — Account Closure Justification",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_002",
+    "target_name": "Document Closure Reason Implementation",
+    "rel_type": "addressed_by",
+    "description": "The regulatory risk regarding closure justification is addressed by implementing documented closure reasons.",
+    "properties": {},
+    "context": "Impact: Regulatory risk (FCA may query closure justification)... Remediation Required: 2. Document closure reason",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_001",
+    "source_name": "Account Closure Process — Needs Improvement",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_002",
+    "source_name": "Account Closure Process Strengths",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "source_name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_rsk_001",
+    "source_name": "Regulatory Risk — Account Closure Justification",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_001",
+    "source_name": "Implement Mandatory Closure Letter Procedure",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_002",
+    "source_name": "Document Closure Reason Implementation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_003",
+    "source_name": "Enforce Mandatory 30-Day Notice for Bank-Initiated Closures",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_004",
+    "source_name": "Establish Audit Trail for All Closures",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_005",
+    "source_name": "Account Closure Process Retest Q1 2026",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_001",
+    "source_name": "Account Closure Compliance Rate — Actual 80%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_002",
+    "source_name": "Customer-Initiated Closures Compliance — Actual 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_003",
+    "source_name": "Bank-Initiated Closures Notice Compliance — Actual 33%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_004",
+    "source_name": "Bank-Initiated Closures Reason Documentation Compliance — Actual 67%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_009_acc_001",
+    "source_name": "Bank-Initiated Account Closures",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_prd_001",
+    "target_name": "Fraud Detection Engine (FDE)",
+    "rel_type": "scoped_to",
+    "description": "The audit finding evaluates the effectiveness of the Fraud Detection Engine.",
+    "properties": {},
+    "context": "Scope: Fraud Detection Engine (FDE) effectiveness",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_001",
+    "target_name": "Fraud Detection Rate — Q4 2025 Actual 97.9% (Q3 96%)",
+    "rel_type": "demonstrates",
+    "description": "The strength of the fraud detection engine is demonstrated by a 97.9% detection rate.",
+    "properties": {
+      "improvement": "+1.9%",
+      "status": "excellent"
+    },
+    "context": "Detection rate: 97.9% (47 of 48 frauds caught; 1 missed)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_002",
+    "target_name": "False Positive Rate — Q4 2025 Actual 44% (Q3 48%)",
+    "rel_type": "demonstrates",
+    "description": "The strength of the fraud detection engine is demonstrated by a reduction in false positives to 44%.",
+    "properties": {
+      "improvement": "-4%",
+      "status": "excellent"
+    },
+    "context": "False Positives: 39 transactions (44%)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_003",
+    "target_name": "Average Response Time — Q4 2025 Actual 2.3 hrs (Q3 2.8 hrs)",
+    "rel_type": "demonstrates",
+    "description": "The strength of the fraud detection engine is demonstrated by an average response time of 2.3 hours.",
+    "properties": {
+      "improvement": "-0.5 hrs",
+      "status": "excellent"
+    },
+    "context": "Average response time: 2.3 hours (excellent)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_004",
+    "target_name": "Frauds Prevented Value — Q4 2025 Actual £47k (Q3 £34k)",
+    "rel_type": "demonstrates",
+    "description": "The strength of the fraud detection engine is demonstrated by the value of frauds prevented (£47k).",
+    "properties": {
+      "improvement": "+39%",
+      "status": "excellent"
+    },
+    "context": "Frauds Prevented | £34k | £47k | ↑ +39% ✅",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_001",
+    "target_name": "Card-not-present Transaction — Blocked",
+    "rel_type": "evidence_from",
+    "description": "The effectiveness of the engine is evidenced by the blocking of a card-not-present transaction.",
+    "properties": {
+      "value": "£2,500",
+      "outcome": "BLOCKED"
+    },
+    "context": "Card-not-present transaction, unusual merchant, £2,500 charge → BLOCKED",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_002",
+    "target_name": "Rapid International Transfers — Flagged",
+    "rel_type": "evidence_from",
+    "description": "The effectiveness of the engine is evidenced by the flagging of rapid international transfers.",
+    "properties": {
+      "outcome": "FLAGGED"
+    },
+    "context": "Multiple rapid international transfers → FLAGGED (investigation revealed fraudster)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_003",
+    "target_name": "Account Takeover Attempt — Caught",
+    "rel_type": "evidence_from",
+    "description": "The effectiveness of the engine is evidenced by the detection of an account takeover attempt.",
+    "properties": {
+      "detection_speed": "15 minutes",
+      "outcome": "CAUGHT"
+    },
+    "context": "Account takeover attempt → CAUGHT within 15 minutes",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_001",
+    "target_name": "Fraud Detection Rate — Q4 2025 Actual 97.9% (Q3 96%)",
+    "rel_type": "quantified_by",
+    "description": "Fraud risk is quantified by the detection rate of the FDE.",
+    "properties": {
+      "actual": "97.9%",
+      "period": "Q4 2025"
+    },
+    "context": "Detection Rate | 96% | 97.9% | ↑ +1.9% ✅",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_002",
+    "target_name": "False Positive Rate — Q4 2025 Actual 44% (Q3 48%)",
+    "rel_type": "quantified_by",
+    "description": "Fraud risk (operational efficiency) is quantified by the false positive rate.",
+    "properties": {
+      "actual": "44%",
+      "period": "Q4 2025"
+    },
+    "context": "False Positives | 48% | 44% | ↓ -4% ✅",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_004",
+    "target_name": "Frauds Prevented Value — Q4 2025 Actual £47k (Q3 £34k)",
+    "rel_type": "quantified_by",
+    "description": "The financial impact of fraud risk is quantified by the value of frauds prevented.",
+    "properties": {
+      "actual": "£47k",
+      "period": "Q4 2025"
+    },
+    "context": "Frauds Prevented | £34k | £47k | ↑ +39% ✅",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_prd_001",
+    "source_name": "Fraud Detection Engine (FDE)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010_rsk_001",
+    "target_name": "Fraud Risk",
+    "rel_type": "mitigates",
+    "description": "The Fraud Detection Engine is the primary control used to mitigate Fraud Risk.",
+    "properties": {},
+    "context": "Fraud Detection Engine (FDE) effectiveness",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "source_name": "Fraud Detection Engine Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_001",
+    "source_name": "Fraud Detection Rate — Q4 2025 Actual 97.9% (Q3 96%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_002",
+    "source_name": "False Positive Rate — Q4 2025 Actual 44% (Q3 48%)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_003",
+    "source_name": "Average Response Time — Q4 2025 Actual 2.3 hrs (Q3 2.8 hrs)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_004",
+    "source_name": "Frauds Prevented Value — Q4 2025 Actual £47k (Q3 £34k)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_001",
+    "source_name": "Card-not-present Transaction — Blocked",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_002",
+    "source_name": "Rapid International Transfers — Flagged",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_003",
+    "source_name": "Account Takeover Attempt — Caught",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_010_prd_001",
+    "source_name": "Fraud Detection Engine (FDE)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_011_rsk_001",
+    "source_name": "Technology & Infrastructure Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_011_met_001",
+    "target_name": "System Availability — Target SLA 99.5%, Actual Q4 99.87%",
+    "rel_type": "quantified_by",
+    "description": "Technology & Infrastructure Risk is quantified by the System Availability metric",
+    "properties": {
+      "threshold": "99.5%",
+      "actual": "99.87%",
+      "period": "Q4"
+    },
+    "context": "## 3. TECHNOLOGY & INFRASTRUCTURE\n### System Availability (✅ Exceeds Target)\nTarget SLA: 99.5% uptime\nActual Q4: 99.87% uptime",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_011_rsk_001",
+    "source_name": "Technology & Infrastructure Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_011_dep_001",
+    "target_name": "Technology Department",
+    "rel_type": "owned_by",
+    "description": "Technology & Infrastructure Risk is owned and managed by the Technology Department",
+    "properties": {},
+    "context": "## 3. TECHNOLOGY & INFRASTRUCTURE",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_011_met_001",
+    "source_name": "System Availability — Target SLA 99.5%, Actual Q4 99.87%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_011_rsk_001",
+    "target_name": "Technology & Infrastructure Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "System Availability metric measures the risk appetite for Technology & Infrastructure Risk",
+    "properties": {
+      "status": "Exceeds Target"
+    },
+    "context": "### System Availability (✅ Exceeds Target)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_011_met_001",
+    "source_name": "System Availability — Target SLA 99.5%, Actual Q4 99.87%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_011_rsk_001",
+    "source_name": "Technology & Infrastructure Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_011_dep_001",
+    "source_name": "Technology Department",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_rsk_001",
+    "source_name": "Technology Risk — Backup & Disaster Recovery",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_001",
+    "target_name": "Recovery Time Objective (RTO) — 2 hours",
+    "rel_type": "quantified_by",
+    "description": "Technology Risk for Backup & Disaster Recovery is quantified by the Recovery Time Objective (RTO).",
+    "properties": {
+      "threshold": "2 hours",
+      "status": "confirmed"
+    },
+    "context": "RTO: 2 hours (tested, confirmed)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_rsk_001",
+    "source_name": "Technology Risk — Backup & Disaster Recovery",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_002",
+    "target_name": "Recovery Point Objective (RPO) — 15 minutes",
+    "rel_type": "quantified_by",
+    "description": "Technology Risk for Backup & Disaster Recovery is quantified by the Recovery Point Objective (RPO).",
+    "properties": {
+      "threshold": "15 minutes",
+      "status": "confirmed"
+    },
+    "context": "RPO: 15 minutes (tested, confirmed)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_fnd_001",
+    "source_name": "Backup and Disaster Recovery Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012_rsk_001",
+    "target_name": "Technology Risk — Backup & Disaster Recovery",
+    "rel_type": "identifies_risk_in",
+    "description": "The audit finding regarding Backup and Disaster Recovery Effectiveness assesses the associated Technology Risk.",
+    "properties": {
+      "assessment_outcome": "Strength"
+    },
+    "context": "Backup & Disaster Recovery (✅ Operational)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_fnd_001",
+    "source_name": "Backup and Disaster Recovery Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_001",
+    "target_name": "Recovery Time Objective (RTO) — 2 hours",
+    "rel_type": "demonstrates",
+    "description": "The strength of the Backup and Disaster Recovery effectiveness is demonstrated by the successful RTO testing.",
+    "properties": {
+      "test_result": "successful"
+    },
+    "context": "RTO: 2 hours (tested, confirmed)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_fnd_001",
+    "source_name": "Backup and Disaster Recovery Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_002",
+    "target_name": "Recovery Point Objective (RPO) — 15 minutes",
+    "rel_type": "demonstrates",
+    "description": "The strength of the Backup and Disaster Recovery effectiveness is demonstrated by the successful RPO testing.",
+    "properties": {
+      "test_result": "successful"
+    },
+    "context": "RPO: 15 minutes (tested, confirmed)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_001",
+    "source_name": "Recovery Time Objective (RTO) — 2 hours",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_002",
+    "source_name": "Recovery Point Objective (RPO) — 15 minutes",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_fnd_001",
+    "source_name": "Backup and Disaster Recovery Effectiveness — Strength",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_012_rsk_001",
+    "source_name": "Technology Risk — Backup & Disaster Recovery",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_003",
+    "source_name": "Anti-Money Laundering and Countering the Financing of Terrorism (AML/CFT)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_001",
+    "target_name": "AML Screening Rate — Actual 100%",
+    "rel_type": "regulates",
+    "description": "The AML/CFT framework regulates the required screening rates for the bank.",
+    "properties": {
+      "compliance_status": "Compliant"
+    },
+    "context": "AML/CFT | ✅ Compliant | Screening 100%, KYC 95%",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_003",
+    "source_name": "Anti-Money Laundering and Countering the Financing of Terrorism (AML/CFT)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_002",
+    "target_name": "KYC Completion Rate — Actual 95%",
+    "rel_type": "regulates",
+    "description": "The AML/CFT framework regulates the required KYC completion rates for the bank.",
+    "properties": {
+      "compliance_status": "Compliant"
+    },
+    "context": "AML/CFT | ✅ Compliant | Screening 100%, KYC 95%",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_001",
+    "source_name": "AML Screening Rate — Actual 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_003",
+    "target_name": "Anti-Money Laundering and Countering the Financing of Terrorism (AML/CFT)",
+    "rel_type": "tracks_compliance_of",
+    "description": "The AML Screening Rate is used to track compliance with AML/CFT regulations.",
+    "properties": {
+      "actual_value": "100%"
+    },
+    "context": "AML/CFT | ✅ Compliant | Screening 100%, KYC 95%",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_002",
+    "source_name": "KYC Completion Rate — Actual 95%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_003",
+    "target_name": "Anti-Money Laundering and Countering the Financing of Terrorism (AML/CFT)",
+    "rel_type": "tracks_compliance_of",
+    "description": "The KYC Completion Rate is used to track compliance with AML/CFT regulations.",
+    "properties": {
+      "actual_value": "95%"
+    },
+    "context": "AML/CFT | ✅ Compliant | Screening 100%, KYC 95%",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_001",
+    "source_name": "Conduct of Business Sourcebook (COBS)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_002",
+    "source_name": "General Data Protection Regulation (GDPR)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_003",
+    "source_name": "Anti-Money Laundering and Countering the Financing of Terrorism (AML/CFT)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_004",
+    "source_name": "Operational Resilience Framework",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_005",
+    "source_name": "Proceeds of Crime Act (POCA)",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_001",
+    "source_name": "AML Screening Rate — Actual 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_002",
+    "source_name": "KYC Completion Rate — Actual 95%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_fnd_001",
+    "source_name": "Staff Compliance Training Completion Gap — Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014_met_001",
+    "target_name": "Mandatory Compliance Training Completion — Target 100%, Actual Q4 94%",
+    "rel_type": "demonstrates",
+    "description": "The audit finding is evidenced by the training completion metric falling below the 100% target.",
+    "properties": {
+      "variance": "-6%",
+      "actual_value": "94%"
+    },
+    "context": "Mandatory Compliance Training Completion: Target: 100% annually Actual Q4: 94% (47 of 50 staff)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_fnd_001",
+    "source_name": "Staff Compliance Training Completion Gap — Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014_act_001",
+    "target_name": "Completion of Compliance Training for New Hires",
+    "rel_type": "generates",
+    "description": "The observation regarding outstanding training for new hires requires their completion by the scheduled date.",
+    "properties": {
+      "priority": "Medium",
+      "deadline": "2026-01-31"
+    },
+    "context": "3 staff members outstanding (new hires, onboarding in progress) All 3 had compliance training scheduled by Jan 31, 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_act_001",
+    "source_name": "Completion of Compliance Training for New Hires",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014_emp_001",
+    "target_name": "Bank Staff",
+    "rel_type": "assigned_to",
+    "description": "The action item to complete training is assigned to the outstanding new hire staff members.",
+    "properties": {
+      "count": "3 staff members"
+    },
+    "context": "3 staff members outstanding (new hires, onboarding in progress)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_act_001",
+    "source_name": "Completion of Compliance Training for New Hires",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014_met_001",
+    "target_name": "Mandatory Compliance Training Completion — Target 100%, Actual Q4 94%",
+    "rel_type": "aims_to_improve",
+    "description": "Completing the training for new hires will bring the actual completion rate closer to the 100% target.",
+    "properties": {
+      "target_improvement": "6%"
+    },
+    "context": "Actual Q4: 94% (47 of 50 staff) ... All 3 had compliance training scheduled by Jan 31, 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_fnd_001",
+    "source_name": "Staff Compliance Training Completion Gap — Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014_emp_001",
+    "target_name": "Bank Staff",
+    "rel_type": "identifies_training_gap_for",
+    "description": "The audit finding identifies a gap in the mandatory training completion for a subset of bank staff.",
+    "properties": {
+      "gap_type": "Compliance Training"
+    },
+    "context": "3 staff members outstanding (new hires, onboarding in progress)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_fnd_001",
+    "source_name": "Staff Compliance Training Completion Gap — Observation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_met_001",
+    "source_name": "Mandatory Compliance Training Completion — Target 100%, Actual Q4 94%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_act_001",
+    "source_name": "Completion of Compliance Training for New Hires",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_014_emp_001",
+    "source_name": "Bank Staff",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_001",
+    "source_name": "Account Closure Documentation — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_001",
+    "target_name": "Remediation of Account Closure Documentation",
+    "rel_type": "generates",
+    "description": "Audit finding regarding account closure documentation generates a remediation action item.",
+    "properties": {
+      "priority": "High",
+      "deadline": "Feb 2026"
+    },
+    "context": "Account Closure Documentation (HIGH) - Implement mandatory closure letter procedure - Document closure reason in system - Expected completion: Feb 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_001",
+    "source_name": "Remediation of Account Closure Documentation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_001",
+    "target_name": "Account Closure Documentation — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The account closure documentation finding is resolved by the remediation action item.",
+    "properties": {},
+    "context": "Account Closure Documentation (HIGH) - Implement mandatory closure letter procedure",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_001",
+    "source_name": "Remediation of Account Closure Documentation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_dep_001",
+    "target_name": "Operations Department",
+    "rel_type": "assigned_to",
+    "description": "Remediation of account closure documentation is assigned to the Head of Operations.",
+    "properties": {
+      "role": "Head of Operations"
+    },
+    "context": "Owner: Head of Operations",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_001",
+    "source_name": "Account Closure Documentation — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_acc_001",
+    "target_name": "Account Closure Process",
+    "rel_type": "identifies_gap_in_account_controls",
+    "description": "Audit finding identifies a documentation gap within the account closure process.",
+    "properties": {},
+    "context": "Account Closure Documentation (HIGH)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_002",
+    "source_name": "Standing Order Audit Trail — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_002",
+    "target_name": "Remediation of Standing Order Audit Trail",
+    "rel_type": "generates",
+    "description": "Audit finding regarding standing order audit trails generates a remediation action item.",
+    "properties": {
+      "priority": "High",
+      "deadline": "March 2026"
+    },
+    "context": "Standing Order Audit Trail (HIGH) - Log all modifications with timestamp/user - System enhancement required - Expected completion: March 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_002",
+    "source_name": "Remediation of Standing Order Audit Trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_002",
+    "target_name": "Standing Order Audit Trail — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The standing order audit trail finding is resolved by the remediation action item.",
+    "properties": {},
+    "context": "Standing Order Audit Trail (HIGH) - Log all modifications with timestamp/user",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_002",
+    "source_name": "Remediation of Standing Order Audit Trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_dep_002",
+    "target_name": "Technology Department",
+    "rel_type": "assigned_to",
+    "description": "Remediation of standing order audit trail is assigned to the CTO.",
+    "properties": {
+      "role": "CTO"
+    },
+    "context": "Owner: CTO",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_002",
+    "source_name": "Standing Order Audit Trail — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015_sto_001",
+    "target_name": "Standing Order Modification Process",
+    "rel_type": "identifies_validation_gap_in",
+    "description": "Audit finding identifies a gap in the audit trail for standing order modifications.",
+    "properties": {},
+    "context": "Standing Order Audit Trail (HIGH) - Log all modifications with timestamp/user",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_001",
+    "source_name": "Account Closure Documentation — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_001",
+    "source_name": "Remediation of Account Closure Documentation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_002",
+    "source_name": "Standing Order Audit Trail — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_002",
+    "source_name": "Remediation of Standing Order Audit Trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_dep_001",
+    "source_name": "Operations Department",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_dep_002",
+    "source_name": "Technology Department",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_acc_001",
+    "source_name": "Account Closure Process",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_015_sto_001",
+    "source_name": "Standing Order Modification Process",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_fnd_001",
+    "source_name": "Interest Calculation Verification — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016_act_001",
+    "target_name": "Remediation of Interest Calculation Verification",
+    "rel_type": "generates",
+    "description": "The audit finding regarding interest calculation verification requires a remediation action item.",
+    "properties": {
+      "priority": "Medium",
+      "deadline": "Q2 2026"
+    },
+    "context": "Medium Priority (Address by Q2 2026) 3. Interest Calculation Verification (from Q3 follow-up)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_act_001",
+    "source_name": "Remediation of Interest Calculation Verification",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016_fnd_001",
+    "target_name": "Interest Calculation Verification — Medium Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The remediation action item is designed to resolve the interest calculation verification finding.",
+    "properties": {},
+    "context": "3. Interest Calculation Verification (from Q3 follow-up) ... Owner: Risk team",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_act_001",
+    "source_name": "Remediation of Interest Calculation Verification",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016_dep_001",
+    "target_name": "Risk Team",
+    "rel_type": "owned_by",
+    "description": "The Risk Team is the designated owner for the remediation of interest calculation verification.",
+    "properties": {
+      "role": "Owner"
+    },
+    "context": "3. Interest Calculation Verification (from Q3 follow-up) ... Owner: Risk team",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_fnd_002",
+    "source_name": "Customer Communication Clarity — Minor Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016_dep_001",
+    "target_name": "Risk Team",
+    "rel_type": "assigns_remediation_to",
+    "description": "The minor finding regarding customer communication clarity is assigned to the Risk Team for remediation based on the document structure.",
+    "properties": {
+      "priority": "Minor"
+    },
+    "context": "4. Customer Communication Clarity (Minor) - Simplify terms & conditions language - Improve rate change notification timing",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_fnd_001",
+    "source_name": "Interest Calculation Verification — Medium Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_act_001",
+    "source_name": "Remediation of Interest Calculation Verification",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_fnd_002",
+    "source_name": "Customer Communication Clarity — Minor Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_016_dep_001",
+    "source_name": "Risk Team",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_001",
+    "source_name": "Standing Order Audit Trail Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_001",
+    "target_name": "Implement Standing Order Audit Trail",
+    "rel_type": "generates",
+    "description": "The gap in the standing order audit trail requires the implementation of a proper audit trail.",
+    "properties": {
+      "deadline": "March 2026",
+      "timeline": "60 days"
+    },
+    "context": "Standing order audit trail — Will implement by March 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_002",
+    "source_name": "Account Closure Documentation Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_002",
+    "target_name": "Improve Account Closure Documentation",
+    "rel_type": "generates",
+    "description": "The gap in account closure documentation requires improvements to the documentation process.",
+    "properties": {
+      "deadline": "Feb 2026",
+      "timeline": "30 days"
+    },
+    "context": "Account closure documentation — Will implement by Feb 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_003",
+    "source_name": "Standing Order Cancellation Delays",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_003",
+    "target_name": "Automate Standing Order Cancellations",
+    "rel_type": "generates",
+    "description": "Delays in standing order cancellations require the automation of the cancellation process.",
+    "properties": {
+      "deadline": "Feb 2026"
+    },
+    "context": "Standing order cancellation delays — Will automate by Feb 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_001",
+    "source_name": "Standing Order Audit Trail Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_001",
+    "target_name": "Implement Standing Order Audit Trail",
+    "rel_type": "resolved_by",
+    "description": "The Standing Order Audit Trail Gap is resolved by implementing the audit trail.",
+    "properties": {},
+    "context": "Standing order audit trail — Will implement by March 2026",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_002",
+    "source_name": "Account Closure Documentation Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_002",
+    "target_name": "Improve Account Closure Documentation",
+    "rel_type": "resolved_by",
+    "description": "The Account Closure Documentation Gap is resolved by improving the documentation.",
+    "properties": {},
+    "context": "Account closure documentation — Will implement by Feb 2026",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_003",
+    "source_name": "Standing Order Cancellation Delays",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_003",
+    "target_name": "Automate Standing Order Cancellations",
+    "rel_type": "resolved_by",
+    "description": "The Standing Order Cancellation Delays are resolved by automating the process.",
+    "properties": {},
+    "context": "Standing order cancellation delays — Will automate by Feb 2026",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_001",
+    "source_name": "Implement Standing Order Audit Trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_emp_001",
+    "target_name": "Head of Operations",
+    "rel_type": "assigned_to",
+    "description": "The implementation of the standing order audit trail is assigned to the Head of Operations.",
+    "properties": {},
+    "context": "Prepared by: Head of Operations ... Standing order audit trail — Will implement by March 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_002",
+    "source_name": "Improve Account Closure Documentation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_emp_001",
+    "target_name": "Head of Operations",
+    "rel_type": "assigned_to",
+    "description": "The improvement of account closure documentation is assigned to the Head of Operations.",
+    "properties": {},
+    "context": "Prepared by: Head of Operations ... Account closure documentation — Will implement by Feb 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_003",
+    "source_name": "Automate Standing Order Cancellations",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_emp_001",
+    "target_name": "Head of Operations",
+    "rel_type": "assigned_to",
+    "description": "The automation of standing order cancellations is assigned to the Head of Operations.",
+    "properties": {},
+    "context": "Prepared by: Head of Operations ... Standing order cancellation delays — Will automate by Feb 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_004",
+    "source_name": "Interest Calculation Review",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_emp_001",
+    "target_name": "Head of Operations",
+    "rel_type": "assigned_to",
+    "description": "The ongoing interest calculation review is assigned to the Head of Operations.",
+    "properties": {
+      "frequency": "monthly",
+      "start_date": "Jan 2026"
+    },
+    "context": "Prepared by: Head of Operations ... Interest calculation review: Ongoing (monthly spot checks start Jan 2026)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_001",
+    "source_name": "Implement Standing Order Audit Trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_dep_001",
+    "target_name": "Operations Department",
+    "rel_type": "owned_by",
+    "description": "The action to implement the standing order audit trail is owned by the Operations Department.",
+    "properties": {},
+    "context": "Prepared by: Head of Operations",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_002",
+    "source_name": "Improve Account Closure Documentation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_dep_001",
+    "target_name": "Operations Department",
+    "rel_type": "owned_by",
+    "description": "The action to improve account closure documentation is owned by the Operations Department.",
+    "properties": {},
+    "context": "Prepared by: Head of Operations",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_003",
+    "source_name": "Automate Standing Order Cancellations",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_dep_001",
+    "target_name": "Operations Department",
+    "rel_type": "owned_by",
+    "description": "The action to automate standing order cancellations is owned by the Operations Department.",
+    "properties": {},
+    "context": "Prepared by: Head of Operations",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_004",
+    "source_name": "Interest Calculation Review",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017_dep_001",
+    "target_name": "Operations Department",
+    "rel_type": "owned_by",
+    "description": "The interest calculation review is owned by the Operations Department.",
+    "properties": {},
+    "context": "Prepared by: Head of Operations",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_001",
+    "source_name": "Standing Order Audit Trail Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_002",
+    "source_name": "Account Closure Documentation Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_003",
+    "source_name": "Standing Order Cancellation Delays",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_001",
+    "source_name": "Implement Standing Order Audit Trail",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_002",
+    "source_name": "Improve Account Closure Documentation",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_003",
+    "source_name": "Automate Standing Order Cancellations",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_004",
+    "source_name": "Interest Calculation Review",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_emp_001",
+    "source_name": "Head of Operations",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_017_dep_001",
+    "source_name": "Operations Department",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_003",
+    "source_name": "Interest Calculation Accuracy",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_001",
+    "target_name": "Remediation of Interest Calculation Accuracy",
+    "rel_type": "generates",
+    "description": "The audit finding regarding interest calculation accuracy requires a specific remediation action item.",
+    "properties": {
+      "status": "In Progress",
+      "deadline": "Q1 2026"
+    },
+    "context": "Interest Calc Accuracy | ⚠️ In Progress | Q1 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_001",
+    "source_name": "Remediation of Interest Calculation Accuracy",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_003",
+    "target_name": "Interest Calculation Accuracy",
+    "rel_type": "resolved_by",
+    "description": "The interest calculation accuracy finding is being resolved by the associated remediation action item.",
+    "properties": {
+      "status": "In Progress",
+      "deadline": "Q1 2026"
+    },
+    "context": "Interest Calc Accuracy | ⚠️ In Progress | Q1 2026",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_004",
+    "source_name": "Staff Training Completion",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_002",
+    "target_name": "Completion of Staff Training",
+    "rel_type": "generates",
+    "description": "The audit finding regarding staff training completion requires the completion of training as an action item.",
+    "properties": {
+      "status": "In Progress",
+      "deadline": "Jan 31, 2026"
+    },
+    "context": "Staff Training Completion | ⚠️ In Progress | Jan 31, 2026",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_002",
+    "source_name": "Completion of Staff Training",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_004",
+    "target_name": "Staff Training Completion",
+    "rel_type": "resolved_by",
+    "description": "The staff training completion finding is being resolved by the associated action item.",
+    "properties": {
+      "status": "In Progress",
+      "deadline": "Jan 31, 2026"
+    },
+    "context": "Staff Training Completion | ⚠️ In Progress | Jan 31, 2026",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_001",
+    "source_name": "Payment Processing Delays",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_002",
+    "source_name": "System Backup Procedures",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_003",
+    "source_name": "Interest Calculation Accuracy",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_004",
+    "source_name": "Staff Training Completion",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_001",
+    "source_name": "Remediation of Interest Calculation Accuracy",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_002",
+    "source_name": "Completion of Staff Training",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_001",
+    "source_name": "Account Closure Documentation Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "target_name": "Regulatory Risk",
+    "rel_type": "identifies_risk_in",
+    "description": "The gap in account closure documentation is explicitly identified as a regulatory risk.",
+    "properties": {
+      "gap_type": "documentation",
+      "severity": "minor"
+    },
+    "context": "Account closure documentation (regulatory risk)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_002",
+    "source_name": "Standing Order Audit Trail Compliance Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "target_name": "Regulatory Risk",
+    "rel_type": "associated_with",
+    "description": "The compliance gap in the standing order audit trail is associated with the bank's overall regulatory risk profile.",
+    "properties": {
+      "gap_type": "audit trail",
+      "severity": "minor"
+    },
+    "context": "Standing order audit trail (compliance gap)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_003",
+    "source_name": "Staff Training Completion Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "target_name": "Regulatory Risk",
+    "rel_type": "associated_with",
+    "description": "The gap in staff training completion relative to compliance targets is associated with regulatory risk.",
+    "properties": {
+      "gap_type": "training",
+      "severity": "minor"
+    },
+    "context": "Staff training completion (compliance target)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_001",
+    "source_name": "AML Compliance Rate — 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "target_name": "Regulatory Risk",
+    "rel_type": "tracks",
+    "description": "The AML Compliance Rate tracks the bank's adherence to regulatory requirements.",
+    "properties": {
+      "actual": "100%",
+      "status": "exceptional"
+    },
+    "context": "AML compliance exceptional (100%)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_002",
+    "source_name": "Fraud Detection Rate — 97.9%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "target_name": "Regulatory Risk",
+    "rel_type": "tracks",
+    "description": "Fraud detection performance is tracked as a key control contributing to regulatory compliance.",
+    "properties": {
+      "actual": "97.9%",
+      "status": "leading"
+    },
+    "context": "Fraud detection leading performance (97.9% detection)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_003",
+    "source_name": "System Uptime — 99.87%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "target_name": "Regulatory Risk",
+    "rel_type": "tracks",
+    "description": "System uptime is tracked as part of operational resilience, which is a component of regulatory risk.",
+    "properties": {
+      "actual": "99.87%",
+      "status": "excellent"
+    },
+    "context": "System uptime excellent (99.87%)",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_001",
+    "source_name": "Account Closure Documentation Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_002",
+    "source_name": "Standing Order Audit Trail Compliance Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_003",
+    "source_name": "Staff Training Completion Gap",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_001",
+    "source_name": "AML Compliance Rate — 100%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_002",
+    "source_name": "Fraud Detection Rate — 97.9%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_003",
+    "source_name": "System Uptime — 99.87%",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "source_name": "Regulatory Risk",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_001",
+    "source_name": "Account Closure Documentation — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_020_act_001",
+    "target_name": "Remediation of Account Closure and Standing Order Findings",
+    "rel_type": "generates",
+    "description": "The finding regarding account closure documentation requires the execution of the remediation action item.",
+    "properties": {
+      "priority": "High",
+      "deadline": "Q1 2026"
+    },
+    "context": "Management should address the two high-priority findings (account closure documentation and standing order audit trail) by Q1 2026.",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_002",
+    "source_name": "Standing Order Audit Trail — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_020_act_001",
+    "target_name": "Remediation of Account Closure and Standing Order Findings",
+    "rel_type": "generates",
+    "description": "The finding regarding the standing order audit trail requires the execution of the remediation action item.",
+    "properties": {
+      "priority": "High",
+      "deadline": "Q1 2026"
+    },
+    "context": "Management should address the two high-priority findings (account closure documentation and standing order audit trail) by Q1 2026.",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_020_act_001",
+    "source_name": "Remediation of Account Closure and Standing Order Findings",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_001",
+    "target_name": "Account Closure Documentation — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The account closure documentation finding is resolved through the completion of the remediation action item.",
+    "properties": {
+      "deadline": "Q1 2026"
+    },
+    "context": "Management should address the two high-priority findings (account closure documentation and standing order audit trail) by Q1 2026.",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_020_act_001",
+    "source_name": "Remediation of Account Closure and Standing Order Findings",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_002",
+    "target_name": "Standing Order Audit Trail — High Priority Finding",
+    "rel_type": "resolved_by",
+    "description": "The standing order audit trail finding is resolved through the completion of the remediation action item.",
+    "properties": {
+      "deadline": "Q1 2026"
+    },
+    "context": "Management should address the two high-priority findings (account closure documentation and standing order audit trail) by Q1 2026.",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_001",
+    "source_name": "Account Closure Documentation — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_002",
+    "source_name": "Standing Order Audit Trail — High Priority Finding",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_020_act_001",
+    "source_name": "Remediation of Account Closure and Standing Order Findings",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_002",
+    "source_name": "Internal Audit Function",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021_emp_001",
+    "target_name": "Sarah Mitchell",
+    "rel_type": "managed_by",
+    "description": "Sarah Mitchell serves as the Internal Audit Manager within the Internal Audit Function",
+    "properties": {
+      "role": "Internal Audit Manager"
+    },
+    "context": "Prepared by: Sarah Mitchell, Internal Audit Manager",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_002",
+    "source_name": "Internal Audit Function",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021_emp_002",
+    "target_name": "James Wilson",
+    "rel_type": "managed_by",
+    "description": "James Wilson serves as the Head of Internal Audit",
+    "properties": {
+      "role": "Head of Internal Audit"
+    },
+    "context": "Reviewed by: James Wilson, Head of Internal Audit",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dec_001",
+    "source_name": "Board Audit Committee Approval of Q4 2025 Internal Audit Report",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_001",
+    "target_name": "Board Audit Committee",
+    "rel_type": "owned_by",
+    "description": "The approval decision was made and owned by the Board Audit Committee",
+    "properties": {
+      "approval_date": "Jan 15, 2026"
+    },
+    "context": "Approved by: Board Audit Committee (approved Jan 15, 2026)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_001",
+    "source_name": "Board Audit Committee",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dec_001",
+    "target_name": "Board Audit Committee Approval of Q4 2025 Internal Audit Report",
+    "rel_type": "generates",
+    "description": "The Board Audit Committee generated the approval decision for the Q4 2025 report",
+    "properties": {
+      "approval_date": "Jan 15, 2026"
+    },
+    "context": "Approved by: Board Audit Committee (approved Jan 15, 2026)",
+    "bidirectional": true,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dec_001",
+    "source_name": "Board Audit Committee Approval of Q4 2025 Internal Audit Report",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_002",
+    "target_name": "Internal Audit Function",
+    "rel_type": "reviews",
+    "description": "The governance decision represents the formal review and approval of the work produced by the Internal Audit Function",
+    "properties": {
+      "report_period": "Q4 2025"
+    },
+    "context": "This report reflects the independent assessment of FirstUK Bank's internal audit function... Approved by: Board Audit Committee",
+    "bidirectional": false,
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dec_001",
+    "source_name": "Board Audit Committee Approval of Q4 2025 Internal Audit Report",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_emp_001",
+    "source_name": "Sarah Mitchell",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_emp_002",
+    "source_name": "James Wilson",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_001",
+    "source_name": "Board Audit Committee",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_002",
+    "source_name": "Internal Audit Function",
+    "target_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "target_name": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  }
+]

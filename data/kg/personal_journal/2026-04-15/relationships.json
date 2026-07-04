@@ -1,0 +1,562 @@
+[
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_002",
+    "target_name": "Preeti",
+    "rel_type": "related_to",
+    "description": "Diarist and Preeti are partners/spouses living together",
+    "properties": {
+      "nature": "family",
+      "bond_strength": "close"
+    },
+    "context": "Preeti had already packed the kids' lunch by the time I got to the kitchen.",
+    "bidirectional": true,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "target_name": "Neetish",
+    "rel_type": "parent_of",
+    "description": "Diarist is the parent of Neetish",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "Preeti had already packed the kids' lunch by the time I got to the kitchen. Neetish had a math test scheduled for today",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "target_name": "Mohan",
+    "rel_type": "parent_of",
+    "description": "Diarist is the parent of Mohan",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "Mohan, as usual, was busy playing with Browny in the living room.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_005",
+    "target_name": "Browny",
+    "rel_type": "cares_for",
+    "description": "Diarist looks after the dog, Browny",
+    "properties": {
+      "nature": "pet_owner"
+    },
+    "context": "Took him to the nearby park.",
+    "bidirectional": true,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_002",
+    "target_name": "Office",
+    "rel_type": "works_at",
+    "description": "Diarist is employed at the office",
+    "properties": {},
+    "context": "Office was busy with the quarterly reviews.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_001",
+    "target_name": "Quarterly Reviews",
+    "rel_type": "participates_in",
+    "description": "Diarist attended back-to-back meetings for quarterly reviews",
+    "properties": {
+      "role": "participant",
+      "outcome": "exhaustion"
+    },
+    "context": "Office was busy with the quarterly reviews. Had back-to-back meetings from 9 AM to 4 PM.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_002",
+    "target_name": "Exhaustion",
+    "rel_type": "experiences",
+    "description": "Diarist felt exhausted by the evening",
+    "properties": {
+      "cause": "workload"
+    },
+    "context": "By evening, I was exhausted.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_pla_001",
+    "target_name": "Talk to Mohan",
+    "rel_type": "has_plan",
+    "description": "Diarist intends to discuss the conflict with Mohan",
+    "properties": {
+      "urgency": "medium",
+      "reason": "conflict with friend"
+    },
+    "context": "Need to talk to him about it.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_002",
+    "target_name": "Dog Walking",
+    "rel_type": "performs",
+    "description": "Diarist took Browny for a walk",
+    "properties": {},
+    "context": "Took him to the nearby park.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "target_name": "Neetish",
+    "rel_type": "parent_of",
+    "description": "Preeti is the parent of Neetish",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "Preeti had already packed the kids' lunch",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "target_name": "Mohan",
+    "rel_type": "parent_of",
+    "description": "Preeti is the parent of Mohan",
+    "properties": {
+      "nature": "family"
+    },
+    "context": "Preeti had already packed the kids' lunch",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_003",
+    "target_name": "School",
+    "rel_type": "visits",
+    "description": "Preeti went to the school to pick up the children",
+    "properties": {
+      "purpose": "pickup"
+    },
+    "context": "Preeti picked up the kids from school.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_002",
+    "target_name": "Neetish's Math Test",
+    "rel_type": "participates_in",
+    "description": "Neetish had a math test",
+    "properties": {
+      "role": "subject"
+    },
+    "context": "Neetish had a math test scheduled for today",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_001",
+    "target_name": "Nervousness",
+    "rel_type": "experiences",
+    "description": "Neetish felt nervous about the test",
+    "properties": {
+      "reason": "math test"
+    },
+    "context": "so she was nervous.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_003",
+    "target_name": "Science Project Presentation",
+    "rel_type": "participates_in",
+    "description": "Neetish performed well in her science presentation",
+    "properties": {
+      "role": "subject",
+      "outcome": "success"
+    },
+    "context": "Neetish did well in her science project presentation.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_005",
+    "target_name": "Browny",
+    "rel_type": "spends_time_with",
+    "description": "Mohan was playing with Browny",
+    "properties": {
+      "activity": "playing"
+    },
+    "context": "Mohan, as usual, was busy playing with Browny in the living room.",
+    "bidirectional": true,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_006",
+    "target_name": "Mohan's friend",
+    "rel_type": "conflicts_with",
+    "description": "Mohan has been fighting with his friend from school",
+    "properties": {
+      "duration": "ongoing",
+      "location": "school"
+    },
+    "context": "Mohan has been fighting with his friend from school.",
+    "bidirectional": true,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_004",
+    "target_name": "Mohan's Conflict",
+    "rel_type": "participates_in",
+    "description": "Mohan is involved in a conflict with a friend",
+    "properties": {
+      "role": "subject"
+    },
+    "context": "Mohan has been fighting with his friend from school.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_005",
+    "source_name": "Browny",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_004",
+    "target_name": "Nearby Park",
+    "rel_type": "visits",
+    "description": "Browny was taken to the park",
+    "properties": {},
+    "context": "Took him to the nearby park.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_002",
+    "source_name": "Dog Walking",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_004",
+    "target_name": "Nearby Park",
+    "rel_type": "takes_place_at",
+    "description": "The dog walking activity occurred at the nearby park",
+    "properties": {},
+    "context": "Took him to the nearby park.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_pla_001",
+    "source_name": "Talk to Mohan",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "target_name": "Mohan",
+    "rel_type": "involves",
+    "description": "The plan is to have a conversation with Mohan",
+    "properties": {},
+    "context": "Need to talk to him about it.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_001",
+    "target_name": "Home",
+    "rel_type": "lives_at",
+    "description": "Diarist lives at home",
+    "properties": {},
+    "context": "Woke up late today.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_001",
+    "source_name": "Work",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_002",
+    "target_name": "Office",
+    "rel_type": "associated_with",
+    "description": "Work activities are associated with the office",
+    "properties": {},
+    "context": "Office was busy with the quarterly reviews.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_001",
+    "target_name": "Work",
+    "rel_type": "performs",
+    "description": "Diarist performed work duties",
+    "properties": {
+      "duration": "9 AM to 4 PM"
+    },
+    "context": "Had back-to-back meetings from 9 AM to 4 PM.",
+    "bidirectional": false,
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "source_name": "Diarist",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_002",
+    "source_name": "Preeti",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "source_name": "Neetish",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "source_name": "Mohan",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_005",
+    "source_name": "Browny",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_006",
+    "source_name": "Mohan's friend",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_001",
+    "source_name": "Home",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_002",
+    "source_name": "Office",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_003",
+    "source_name": "School",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_004",
+    "source_name": "Nearby Park",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_001",
+    "source_name": "Quarterly Reviews",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_002",
+    "source_name": "Neetish's Math Test",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_003",
+    "source_name": "Science Project Presentation",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_004",
+    "source_name": "Mohan's Conflict",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_001",
+    "source_name": "Work",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_002",
+    "source_name": "Dog Walking",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_001",
+    "source_name": "Nervousness",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_002",
+    "source_name": "Exhaustion",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "source_id": "3ffacfd90d2642a9a2c21b4000b52e59_001_pla_001",
+    "source_name": "Talk to Mohan",
+    "target_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "target_name": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  }
+]

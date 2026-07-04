@@ -11,6 +11,7 @@ wheels/
 
 # OS
 .DS_Store
+worker.pid
 
 # Local config & secrets
 .env
@@ -23,7 +24,8 @@ data/refine
 data/documents
 data/graph_snapshot
 # Keep data.kg in github, but exclude sensitive/private domains
-data/kg/sales_collateral/
+data/kg/sales_collateral
+data/kg/project_governance
 logs/
 package.json
 package-lock.json

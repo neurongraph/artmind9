@@ -1,0 +1,2549 @@
+[
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_prc_001",
+    "name": "Fraud Investigation Procedure",
+    "properties": {
+      "document_id": "FRAUD-INVEST-SOP-001",
+      "owner": "Head of Financial Crime",
+      "departments_involved": [
+        "Financial Crime",
+        "Risk",
+        "Legal"
+      ],
+      "status": "Active",
+      "classification": "Confidential",
+      "related_documents": [
+        "policy_fraud",
+        "incident_response_plan",
+        "escalation_matrix",
+        "sop_exception_handling",
+        "policy_aml"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime",
+      "authority_level": "Process Owner"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_002",
+    "name": "Financial Crime Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_003",
+    "name": "Risk Department",
+    "properties": {
+      "role_type": "human",
+      "department": "Risk"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_004",
+    "name": "Compliance Department",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_001_rol_005",
+    "name": "Legal Department",
+    "properties": {
+      "role_type": "human",
+      "department": "Legal"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_001",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_002_prc_001",
+    "name": "Suspected Fraud Investigation Process",
+    "properties": {
+      "purpose": "Establish standardized procedures for investigating suspected fraud cases, ensuring thorough documentation, appropriate escalation, and coordinated response with law enforcement."
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_002",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_prc_001",
+    "name": "Fraud Investigation Framework",
+    "properties": {
+      "purpose": "Categorize and manage fraud types and associated losses within FirstUK Bank",
+      "scope": [
+        "Account Takeover",
+        "Unauthorized Transaction",
+        "Check Fraud",
+        "Card Fraud",
+        "Impersonation",
+        "Internal Collusion",
+        "AML/Sanctions Evasion"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_txn_001",
+    "name": "Account Takeover Fraud",
+    "properties": {
+      "transaction_type": "monitored",
+      "monitoring_trigger": "Fraudster gains access to customer account and transfers funds",
+      "typical_loss": "£500–£5,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_txn_002",
+    "name": "Unauthorized Transaction Fraud",
+    "properties": {
+      "transaction_type": "monitored",
+      "monitoring_trigger": "Customer claims transaction not authorized",
+      "typical_loss": "£200–£10,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_txn_003",
+    "name": "Check Fraud",
+    "properties": {
+      "transaction_type": "monitored",
+      "monitoring_trigger": "Stolen or forged check deposited",
+      "typical_loss": "£1,000–£50,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_crd_001",
+    "name": "Card Fraud",
+    "properties": {
+      "block_trigger": "Card number stolen and used for online/retail transactions",
+      "typical_loss": "£100–£5,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_prc_002",
+    "name": "Impersonation Fraud",
+    "properties": {
+      "trigger": "Fraudster opens account using false identity",
+      "typical_loss": "£1,000–£20,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_rol_001",
+    "name": "Internal Collusion Actor",
+    "properties": {
+      "role_type": "human",
+      "department": "Internal/Employee",
+      "authority_level": "Facilitates fraud via internal access",
+      "typical_loss_impact": "£5,000–£500,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_003_chk_001",
+    "name": "AML and Sanctions Evasion Check",
+    "properties": {
+      "checkpoint_name": "AML/Sanctions Evasion Screening",
+      "failure_consequence": "Potential for high financial loss and regulatory breach",
+      "typical_loss_impact": "£1,000–£1M+",
+      "trigger": "Customer deliberately evades screening"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_003",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_prc_001",
+    "name": "Fraud Detection & Intake Process",
+    "properties": {
+      "purpose": "Identification and intake of fraudulent activity via multiple discovery channels",
+      "scope": "All bank transactions and accounts",
+      "trigger": "Detection of suspicious activity or external reports of fraud",
+      "outcome_success": "Fraudulent activity identified and flagged for investigation"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_001",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Automated flagging",
+      "detection_rate": "97%+"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_001",
+    "name": "Automated Transaction Flagging",
+    "properties": {
+      "step_number": 1,
+      "actor": "Fraud Detection Engine",
+      "output": "System alert",
+      "channel": "system",
+      "tools_or_systems": "Fraud Detection Engine (FDE)",
+      "example_trigger": "Multiple rapid international transfers"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_002",
+    "name": "Customer Fraud Reporting",
+    "properties": {
+      "step_number": 2,
+      "actor": "Customer",
+      "input": "Unauthorized account activity or disputed statement charges",
+      "channel": "phone"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_003",
+    "name": "Internal Bank Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch / Back-office"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_003",
+    "name": "Internal Suspicious Activity Detection",
+    "properties": {
+      "step_number": 3,
+      "actor": "Internal Bank Staff",
+      "input": "Unusual transaction requests or reconciliation discrepancies",
+      "channel": "manual"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_rol_004",
+    "name": "Law Enforcement Agency",
+    "properties": {
+      "role_type": "external",
+      "examples": [
+        "Police",
+        "FBI",
+        "OFAC"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_stp_004",
+    "name": "External Authority Notification",
+    "properties": {
+      "step_number": 4,
+      "actor": "Law Enforcement Agency",
+      "input": "Police reports or agency investigations",
+      "channel": "external"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_004_tra_001",
+    "name": "Suspicious Transaction",
+    "properties": {
+      "transaction_type": "suspicious",
+      "monitoring_trigger": "Rapid international transfers or unauthorized activity patterns"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_004",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_prc_001",
+    "name": "Fraud Allegation Intake Process",
+    "properties": {
+      "purpose": "To intake, triage, and secure accounts following a fraud allegation",
+      "trigger": "Receipt of fraud allegation",
+      "outcome_success": "Account secured and investigation initiated",
+      "departments_involved": [
+        "Financial Crime"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_stp_001",
+    "name": "Initial Report Generation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Reporter",
+      "input": "Fraud details (Customer Name, Account, Transactions, Fraud Type, Loss Amount)",
+      "output": "Completed Fraud Report Form (FRAUD-[DATE]-[001-999])",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_stp_002",
+    "name": "Initial Triage Assessment",
+    "properties": {
+      "step_number": 2,
+      "actor": "Triage Officer",
+      "decision_point": "dec_001",
+      "timeline_sla": "Within 1 hour for urgent; within 24 hours for standard"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_dec_001",
+    "name": "Urgency Determination Gate",
+    "properties": {
+      "decision_question": "Is This Urgent?",
+      "criteria": [
+        "Account takeover in progress",
+        "Large amount in immediate danger",
+        "Law enforcement/critical incident"
+      ],
+      "path_yes": "Immediate action required (stp_003)",
+      "path_no": "Standard investigation"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_stp_003",
+    "name": "Immediate Account Security Actions",
+    "properties": {
+      "step_number": 3,
+      "estimated_duration": "First 5 Minutes",
+      "mandatory": "yes",
+      "channel": "system",
+      "output": "Frozen account, blocked cards, reset password, logged out sessions",
+      "failure_path": "Potential further fraud loss"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_rol_001",
+    "name": "Reporter",
+    "properties": {
+      "role_type": "human | system | external",
+      "categories": [
+        "Customer",
+        "Staff",
+        "System",
+        "Law Enforcement"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_rol_002",
+    "name": "Financial Crime Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "High",
+      "approval_limit": ">£5,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_esc_001",
+    "name": "High Value Escalation — Financial Crime Head",
+    "properties": {
+      "level_number": 1,
+      "authority": "Financial Crime Head",
+      "approval_limit": ">£5,000",
+      "escalation_trigger": "Alleged loss amount exceeds £5,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_cus_001",
+    "name": "Fraud Allegation Subject",
+    "properties": {
+      "process_role": "Subject of fraud report",
+      "notification_required": "By phone if urgent"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_acc_001",
+    "name": "Alleged Fraudulent Account",
+    "properties": {
+      "account_state_at_start": "active",
+      "account_state_at_end": "frozen"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_trn_001",
+    "name": "Questioned Transaction",
+    "properties": {
+      "transaction_type": "suspicious",
+      "data_captured": [
+        "date",
+        "amount"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_005_crd_001",
+    "name": "Customer Debit/Credit Cards",
+    "properties": {
+      "card_state": "blocked",
+      "block_trigger": "Urgency Determination Gate = YES"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_005",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_prc_001",
+    "name": "Investigation Procedures",
+    "properties": {
+      "purpose": "Preservation and securing of evidence related to fraudulent activity",
+      "scope": "Fraud investigations",
+      "owner": "Investigation Team",
+      "departments_involved": [
+        "Investigation Team"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_stp_001",
+    "name": "Evidence Preservation Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Investigation Team",
+      "input": [
+        "Original transaction records",
+        "Account statements",
+        "Customer communications",
+        "System logs",
+        "Device information",
+        "Geo-location data",
+        "Written statements"
+      ],
+      "output": "Secured locked physical file or encrypted digital file",
+      "mandatory": "yes",
+      "channel": "system",
+      "failure_path": "Evidence may be deleted, edited, or altered, compromising the investigation"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_rol_001",
+    "name": "Investigation Team",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Exclusive access to investigation evidence files"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_txn_001",
+    "name": "Fraudulent Transaction Records",
+    "properties": {
+      "transaction_type": "suspicious",
+      "investigation_steps": [
+        "Capture screenshots",
+        "Extract system data",
+        "Collect geo-location data",
+        "Analyze timestamps"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_006_acc_001",
+    "name": "Investigated Customer Account",
+    "properties": {
+      "account_state_at_start": "under investigation",
+      "data_collected": [
+        "Account statements from 30 days prior to fraud date"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_006",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_prc_001",
+    "name": "Disputed and Flagged Transaction Analysis Process",
+    "properties": {
+      "scope": "Disputed or Flagged Transactions",
+      "trigger": "Receipt of a disputed or flagged transaction",
+      "outcome_success": "Determination of transaction legitimacy and identification of red flags"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_stp_001",
+    "name": "Transaction Analysis Step",
+    "properties": {
+      "step_number": 2,
+      "input": [
+        "Transaction ID",
+        "Timestamp",
+        "Amount",
+        "Transaction Type",
+        "Merchant/Recipient Name and ID",
+        "Merchant Category",
+        "Device Used",
+        "IP Address",
+        "Geo-location"
+      ],
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_dec_001",
+    "name": "Transaction Legitimacy Assessment",
+    "properties": {
+      "decision_question": "Is the transaction legitimate based on customer history and patterns?",
+      "criteria": [
+        "Amount typicality",
+        "Merchant typicality",
+        "Timing consistency",
+        "Device familiarity",
+        "Geo-location consistency"
+      ],
+      "path_yes": "Transaction considered legitimate",
+      "path_no": "Transaction flagged as unusual or impossible"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_dec_002",
+    "name": "Red Flag Identification",
+    "properties": {
+      "decision_question": "Does the transaction exhibit high-risk indicators?",
+      "criteria": [
+        "Velocity (multiple transactions in short time)",
+        "Unusual timing (e.g., 3 AM)",
+        "High-risk merchant categories (casinos, money transfer)",
+        "Geo-impossibility",
+        "Deviation from habitual patterns"
+      ],
+      "path_yes": "Transaction marked with Red Flag",
+      "path_no": "No high-risk indicators identified"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_007_txn_001",
+    "name": "Disputed or Flagged Transaction",
+    "properties": {
+      "transaction_type": "monitored",
+      "monitoring_trigger": "Dispute raised or system flag generated",
+      "investigation_steps": [
+        "Review of transaction metadata (ID, Amount, Type, Merchant)",
+        "Analysis of digital footprint (IP, Device, Geo-location)",
+        "Legitimacy assessment against customer profile",
+        "Red flag screening"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_007",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_prc_001",
+    "name": "Customer Interview Procedure",
+    "properties": {
+      "purpose": "Understanding customer's legitimate activities vs. fraudulent",
+      "scope": "Fraud investigation / Customer activity analysis",
+      "timeline_sla": "Within 24 hours of report",
+      "trigger": "Fraud report",
+      "outcome_success": "Customer statement taken and facts confirmed or disputed"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_001",
+    "name": "Authentication and Authorization Review",
+    "properties": {
+      "step_number": 1,
+      "actor": "Interviewing Officer",
+      "input": "Transaction amount, date, and recipient details",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_002",
+    "name": "Account Access Assessment",
+    "properties": {
+      "step_number": 2,
+      "actor": "Interviewing Officer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_003",
+    "name": "Device Security Evaluation",
+    "properties": {
+      "step_number": 3,
+      "actor": "Interviewing Officer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_004",
+    "name": "Communication Channel Analysis",
+    "properties": {
+      "step_number": 4,
+      "actor": "Interviewing Officer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_005",
+    "name": "Merchant and Recipient Verification",
+    "properties": {
+      "step_number": 5,
+      "actor": "Interviewing Officer",
+      "input": "Merchant name",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_006",
+    "name": "Timeline Reconstruction",
+    "properties": {
+      "step_number": 6,
+      "actor": "Interviewing Officer",
+      "input": "Transaction date",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_stp_007",
+    "name": "Interview Documentation",
+    "properties": {
+      "step_number": 7,
+      "actor": "Interviewing Officer",
+      "output": "Customer statement (audio recorded if possible)",
+      "channels": [
+        "Phone",
+        "In-person",
+        "Email"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_rol_001",
+    "name": "Interviewing Officer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone",
+        "branch",
+        "email"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_rol_002",
+    "name": "Law Enforcement",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Can request delay of interview procedure"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_cust_001",
+    "name": "Interviewee Customer",
+    "properties": {
+      "process_role": "Subject of fraud investigation",
+      "data_collected": [
+        "authorization status",
+        "relationship with recipient",
+        "card storage location",
+        "password change history",
+        "device usage",
+        "app downloads",
+        "communication history",
+        "daily timeline"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_dec_001",
+    "name": "Fact Confirmation Gate",
+    "properties": {
+      "decision_question": "Does the customer confirm or dispute the facts of the transaction?",
+      "decision_maker": "Interviewee Customer",
+      "path_yes": "Facts confirmed for investigation",
+      "path_no": "Facts disputed for further investigation"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_008_trn_001",
+    "name": "Investigated Transaction",
+    "properties": {
+      "transaction_type": "suspicious",
+      "investigation_steps": [
+        "Verify authorization",
+        "Check relationship with recipient",
+        "Reconstruct timeline of occurrence"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_008",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_prc_001",
+    "name": "Fraud Evidence Evaluation Process",
+    "properties": {
+      "purpose": "Assess fraud likelihood and determine the outcome of disputed transactions based on a weighted scoring system",
+      "scope": "Disputed transactions across banking channels",
+      "trigger": "Customer disputes a transaction",
+      "outcome_success": "Fraud confirmation and appropriate remediation (refund/investigation)",
+      "outcome_failure": "Denial of fraud claim and customer education"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_stp_001",
+    "name": "Evidence Scoring Stage",
+    "properties": {
+      "step_number": 4,
+      "actor": "Fraud Analyst",
+      "input": [
+        "Customer dispute claim",
+        "Geolocation data",
+        "Device fingerprints",
+        "Merchant risk profiles",
+        "Transaction velocity logs",
+        "Customer historical behavior"
+      ],
+      "output": "Fraud Score (0–12)",
+      "mandatory": "yes",
+      "tools_or_systems": "Fraud Scoring Matrix"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_dec_001",
+    "name": "Fraud Score Outcome Decision",
+    "properties": {
+      "decision_question": "Does the cumulative fraud score indicate confirmed, likely, possible, or unlikely fraud?",
+      "criteria": "Sum of points from evidence categories (0 to 12)",
+      "path_yes": "If score 7-12: Refund and initiate investigation",
+      "path_no": "If score 0-3: Deny fraud claim and educate customer",
+      "decision_maker": "Fraud Analyst"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_stp_002",
+    "name": "Fraud Confirmation and Remediation",
+    "properties": {
+      "actor": "Fraud Analyst / Payments Team",
+      "output": "Refund processed and investigation opened",
+      "mandatory": "yes",
+      "failure_path": "Escalation to internal investigation if refund is blocked"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_stp_003",
+    "name": "Customer Education and Claim Denial",
+    "properties": {
+      "actor": "Customer Service / Fraud Analyst",
+      "output": "Claim denial notification and educational guidance",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_cus_001",
+    "name": "Claiming Customer",
+    "properties": {
+      "customer_type": "applicant",
+      "process_role": "Subject of the fraud claim",
+      "notification_required": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_009_trn_001",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_type": "suspicious",
+      "monitoring_trigger": "Customer dispute report",
+      "investigation_steps": [
+        "Geo-impossibility check",
+        "Device mismatch analysis",
+        "Merchant risk assessment",
+        "Velocity check",
+        "Historical behavior review"
+      ],
+      "outcome_paths": [
+        "Refunded (Fraud Confirmed/Likely)",
+        "Pending (Fraud Possible)",
+        "Denied (Fraud Unlikely/Not Likely)"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_009",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_prc_001",
+    "name": "Merchant and Third-Party Fraud Investigation Process",
+    "properties": {
+      "purpose": "Investigate fraud involving external merchants or recipients to recover funds or trace transactions",
+      "scope": [
+        "Card Transactions",
+        "External Account Transfers"
+      ],
+      "trigger": "Fraud involving external merchant or recipient",
+      "outcome_success": "Recovery of funds or identification of fraudster location"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_001",
+    "name": "Card Transaction Merchant Evidence Collection",
+    "properties": {
+      "actor": "Fraud Investigator",
+      "input": "Card transaction details",
+      "output": [
+        "Transaction proof",
+        "Presence proof",
+        "Merchant records",
+        "Chargeback history"
+      ],
+      "tools_or_systems": "Merchant contact channels",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_002",
+    "name": "External Account Transfer Investigation",
+    "properties": {
+      "actor": "Fraud Investigator",
+      "input": "External transfer details",
+      "output": [
+        "Recipient bank identity",
+        "Account name match status",
+        "Sanctions check result",
+        "Fund availability status"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_dec_001",
+    "name": "Fund Availability Decision Gate",
+    "properties": {
+      "decision_question": "Are funds still available in the recipient account?",
+      "criteria": "Verification of current balance in the recipient account",
+      "path_yes": "Attempt urgent fund recovery",
+      "path_no": "Initiate law enforcement withdrawal tracing"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_003",
+    "name": "Urgent Fund Recovery Action",
+    "properties": {
+      "actor": "Fraud Investigator / Recipient Bank",
+      "input": "Confirmation of funds availability",
+      "output": "Recovered funds",
+      "mandatory": "yes",
+      "failure_path": "Escalate to Law Enforcement withdrawal tracing"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_stp_004",
+    "name": "Law Enforcement Withdrawal Tracing",
+    "properties": {
+      "actor": "Law Enforcement",
+      "input": "Confirmation that funds have been withdrawn",
+      "output": "Withdrawal location/identity of fraudster",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_rol_001",
+    "name": "Law Enforcement",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Legal tracing and apprehension",
+      "channels": [
+        "System",
+        "Official request"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_chk_001",
+    "name": "Recipient Sanctions Screening",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Recipient account details",
+      "performed_by": "Fraud Investigator",
+      "timing": "During external account transfer investigation",
+      "failure_consequence": "Immediate escalation and potential reporting"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_tra_001",
+    "name": "Fraudulent Card Transaction",
+    "properties": {
+      "transaction_type": "suspicious",
+      "investigation_steps": [
+        "Contact merchant for proof",
+        "Request presence proof",
+        "Review merchant chargeback history"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_010_tra_002",
+    "name": "Fraudulent External Transfer",
+    "properties": {
+      "transaction_type": "suspicious",
+      "investigation_steps": [
+        "Identify recipient bank",
+        "Verify name match",
+        "Check sanctions list",
+        "Check fund availability"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_010",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_prc_001",
+    "name": "Forensic Investigation Process",
+    "properties": {
+      "purpose": "Investigate high-loss fraud or suspected cybercrime to identify fraudsters, patterns, and entry points",
+      "scope": [
+        "High-Loss Fraud",
+        "Suspected Cybercrime"
+      ],
+      "timeline_sla": "2–4 weeks",
+      "outcome_success": "Identification of fraudster, fraud pattern, entry point, and prevention recommendations"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_stp_001",
+    "name": "Forensic Analysis Execution",
+    "properties": {
+      "actor": "Forensics Team",
+      "tools_or_systems": [
+        "Email header analysis",
+        "Device forensics",
+        "Network forensics (IP logs, ISP subpoena)",
+        "Financial forensics",
+        "Database queries"
+      ],
+      "output": [
+        "Identity of fraudster",
+        "Fraud pattern",
+        "Entry point",
+        "Prevention recommendations"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_stp_002",
+    "name": "Forensic Investigator Engagement",
+    "properties": {
+      "actor": "Head of Financial Crime",
+      "input": "Case file",
+      "output": "Engagement of external/internal forensics team",
+      "estimated_duration": "2–4 weeks",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approves requests for forensic investigator engagement"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_rol_002",
+    "name": "Forensics Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Forensics (Internal/External)",
+      "authority_level": "Conducts technical and financial forensic analysis"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_011_dec_001",
+    "name": "Forensic Investigation Trigger",
+    "properties": {
+      "decision_question": "Is the fraud high-loss or suspected cybercrime?",
+      "criteria": "Case severity (Serious/Complex)",
+      "path_yes": "Initiate Forensic Investigation Process",
+      "path_no": "Proceed with standard investigation/closure"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_011",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_prc_001",
+    "name": "Fraud Investigation Decision and Resolution Process",
+    "properties": {
+      "purpose": "Determine the outcome of a fraud investigation and resolve the disputed transaction",
+      "scope": "Fraud investigations and disputed transactions",
+      "outcome_success": "A formal determination of fraud or authorization status"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_stp_001",
+    "name": "Investigation Conclusion Step",
+    "properties": {
+      "step_number": 1,
+      "input": "All gathered evidence",
+      "output": "Determination category",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_dec_001",
+    "name": "Fraud Determination Gate",
+    "properties": {
+      "decision_question": "What is the determination of the investigation based on the evidence?",
+      "criteria": "Balance of evidence regarding authorization and system performance",
+      "path_yes": "Confirmed Fraud (unauthorized transaction)",
+      "path_no": [
+        "Disputed Transaction (ambiguous/favors customer)",
+        "Authorized (customer regrets)",
+        "Customer Error (misunderstanding)",
+        "Incomplete (insufficient evidence)"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_012_trn_001",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_type": "disputed",
+      "outcome_paths": [
+        "Confirmed Fraud",
+        "Disputed Transaction",
+        "Authorized",
+        "Customer Error",
+        "Incomplete"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_012",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_prc_001",
+    "name": "Fraud Resolution and Prevention Process",
+    "properties": {
+      "scope": "Confirmed Fraud, Disputed Transactions, Authorized Transactions, and Customer Errors",
+      "timeline_sla": "10 business days for refunds (Direct Debit Guarantee)",
+      "outcome_success": "Full or partial refund issued and preventative measures implemented",
+      "outcome_failure": "No refund issued (Authorized or Customer Error cases)"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_dec_001",
+    "name": "Fraud Type Determination",
+    "properties": {
+      "decision_question": "What is the nature of the transaction/claim?",
+      "criteria": "Analysis of transaction authorization and system performance",
+      "path_yes": "Confirmed Fraud (proceed to Refund and Prevention)",
+      "path_no": "Categorize as Disputed Transaction, Authorized, or Customer Error"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_dec_002",
+    "name": "Disputed Transaction Evidence Review",
+    "properties": {
+      "decision_question": "Does the balance of evidence favor the customer?",
+      "criteria": "Review of available evidence for disputed transactions",
+      "path_yes": "Issue full refund and treat as potential fraud for prevention",
+      "path_no": "Offer partial refund (e.g., 50%), request additional verification, and follow up in 30 days"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_001",
+    "name": "Fraud Refund Execution",
+    "properties": {
+      "actor": "Fraud Investigator",
+      "output": "Full refund including interest (daily rate x days delayed)",
+      "mandatory": "yes",
+      "timeline_sla": "within 10 business days",
+      "failure_path": "Non-compliance with Direct Debit Guarantee"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_002",
+    "name": "Fraud Prevention Implementation",
+    "properties": {
+      "actor": "Fraud Investigator",
+      "tools_or_systems": "Online Banking System, Card Management System",
+      "mandatory": "yes",
+      "output": [
+        "New card issued",
+        "Online banking password reset",
+        "2FA enabled",
+        "Enhanced monitoring flag",
+        "Identity theft protection offer"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_003",
+    "name": "Customer Fraud Education",
+    "properties": {
+      "actor": "Fraud Investigator",
+      "mandatory": "yes",
+      "input": "Analysis of how fraud occurred",
+      "output": "Customer educated on prevention and causes of fraud/error"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_stp_004",
+    "name": "Compromised Mandate Review",
+    "properties": {
+      "actor": "Fraud Investigator",
+      "input": "Existing Standing Orders and Direct Debits",
+      "output": "Assessment of whether mandates have been compromised"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_rol_001",
+    "name": "Fraud Investigator",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Determines fraud type, calculates interest, and executes refunds",
+      "channels": "system"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_cus_001",
+    "name": "Fraud Claiming Customer",
+    "properties": {
+      "process_role": "subject of the claim",
+      "notification_required": "must be notified in writing of refund decisions"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_acc_001",
+    "name": "Impacted Customer Account",
+    "properties": {
+      "account_state_at_end": "active (with enhanced monitoring flag if fraud confirmed)"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_crd_001",
+    "name": "Compromised Payment Card",
+    "properties": {
+      "card_state": "blocked/replacement",
+      "issuance_steps": "Issue new card to replace old compromised card"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_013_tra_001",
+    "name": "Fraudulent Transaction",
+    "properties": {
+      "transaction_type": "monitored/suspicious",
+      "outcome_paths": [
+        "Refunded (Confirmed Fraud)",
+        "Partially Refunded (Inconclusive Dispute)",
+        "No Refund (Authorized/Customer Error)"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_013",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_prc_001",
+    "name": "Fraud Classification & Reporting Process",
+    "properties": {
+      "purpose": "Classify fraud cases and execute internal and regulatory reporting requirements",
+      "scope": "Account Takeover, Card Fraud, Check Fraud, Impersonation",
+      "departments_involved": [
+        "Financial Crime"
+      ],
+      "outcome_success": "Accurate classification of fraud and timely submission of internal and regulatory reports"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_001",
+    "name": "Fraud Classification Step",
+    "properties": {
+      "step_number": 1,
+      "input": "Fraud case details",
+      "output": "Classified fraud report containing type, amount, confirmation status, recovery amount, and status",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_002",
+    "name": "Internal Financial Crime Reporting",
+    "properties": {
+      "step_number": 2,
+      "actor": "Financial Crime Team",
+      "output": "Monthly summary of fraud cases, trends, and prevention effectiveness",
+      "timeline_sla": "Monthly",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_003",
+    "name": "SAR Filing Procedure",
+    "properties": {
+      "step_number": 3,
+      "actor": "Financial Crime Team",
+      "timeline_sla": "Within 30 days",
+      "tools_or_systems": "FCA reporting system",
+      "mandatory": "conditional"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_stp_004",
+    "name": "Data Breach Reporting Procedure",
+    "properties": {
+      "step_number": 4,
+      "actor": "Financial Crime Team",
+      "timeline_sla": "72 hours (FCA), Immediately (Customer)",
+      "mandatory": "conditional"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime",
+      "authority_level": "Recipient of internal monthly financial crime reports"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_rol_002",
+    "name": "Financial Conduct Authority (FCA)",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Regulatory body",
+      "channels": [
+        "system"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_rol_003",
+    "name": "Customer",
+    "properties": {
+      "role_type": "external",
+      "notification_required": "Immediate notification if data is compromised"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_dec_001",
+    "name": "SAR Filing Trigger",
+    "properties": {
+      "decision_question": "Is fraud suspected involving money laundering or sanctions evasion?",
+      "criteria": "Suspicion of money laundering or sanctions evasion (e.g., funds transferred to sanctions country)",
+      "path_yes": "File SAR with FCA within 30 days",
+      "path_no": "No SAR filing required"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_dec_002",
+    "name": "Data Breach Notification Trigger",
+    "properties": {
+      "decision_question": "Has customer data been compromised?",
+      "criteria": "Compromise of customer data",
+      "path_yes": "Notify FCA within 72 hours and notify customer immediately",
+      "path_no": "No data breach reporting required"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_014_chk_001",
+    "name": "Regulatory Reporting Compliance Gate",
+    "properties": {
+      "mandatory": "yes",
+      "applies_to_channels": [
+        "all"
+      ],
+      "evidence_required": [
+        "SAR filing record",
+        "Data breach notification log",
+        "Monthly internal report"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_014",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_prc_001",
+    "name": "Law Enforcement Coordination Process",
+    "properties": {
+      "purpose": "Determining and executing reports to law enforcement based on fraud characteristics",
+      "scope": "Confirmed and suspected fraud cases",
+      "departments_involved": [
+        "Bank Systems Team"
+      ],
+      "trigger": "Detection of fraud meeting specific monetary or qualitative criteria"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_dec_001",
+    "name": "Police Reporting Trigger Decision",
+    "properties": {
+      "decision_question": "Is a police report mandatory or optional based on the fraud type and value?",
+      "criteria": {
+        "mandatory": [
+          "Confirmed fraud >£10,000",
+          "Serial fraud",
+          "Organized fraud ring",
+          "Impersonation/identity theft",
+          "Check fraud",
+          "Customer request"
+        ],
+        "optional": [
+          "Fraud >£5,000",
+          "Repeated fraudster pattern"
+        ],
+        "always_report": [
+          "Suspected insider fraud"
+        ]
+      },
+      "path_yes": "Execute Mandatory Police Reporting Action",
+      "path_no": "Assess for Optional Police Reporting Action"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_stp_001",
+    "name": "Mandatory Police Reporting Action",
+    "properties": {
+      "mandatory": "yes",
+      "trigger": "Confirmed fraud >£10k, serial/organized fraud, ID theft, check fraud, or customer request"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_stp_002",
+    "name": "Optional Police Reporting Action",
+    "properties": {
+      "mandatory": "no",
+      "trigger": "Fraud >£5,000 or repeated fraudster patterns"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_rol_001",
+    "name": "Bank Systems Team",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Coordination for check fraud reporting"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_rol_002",
+    "name": "Police",
+    "properties": {
+      "role_type": "external"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_rol_003",
+    "name": "Customer",
+    "properties": {
+      "process_role": "Requesting party for police report"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_015_trn_001",
+    "name": "Fraudulent Transaction",
+    "properties": {
+      "monitoring_trigger": "Value >£5,000 or >£10,000; patterns of serial/organized fraud",
+      "outcome_paths": [
+        "Mandatory Police Report",
+        "Optional Police Report"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_015",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_prc_001",
+    "name": "Police Report Process",
+    "properties": {
+      "purpose": "To formalize the reporting of fraud cases to law enforcement and manage the subsequent evidence and communication flow",
+      "scope": "Fraud investigations requiring police intervention",
+      "outcome_success": "Police reference number obtained and evidence successfully preserved/shared",
+      "trigger": "Decision to report a fraud case to the police"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_001",
+    "name": "Internal Notification Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Case Handler",
+      "output": "Documented decision to report",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_002",
+    "name": "Police Report Filing Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Case Handler",
+      "input": "Case details, evidence",
+      "output": "Police reference number",
+      "channel": "phone (101)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_003",
+    "name": "Evidence Management Step",
+    "properties": {
+      "step_number": 3,
+      "actor": "Case Handler",
+      "tools_or_systems": "Case file",
+      "mandatory": "yes",
+      "failure_path": "Risk of disturbing police monitoring or evidence contamination"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_stp_004",
+    "name": "Police Follow-Up Step",
+    "properties": {
+      "step_number": 4,
+      "actor": "Case Handler",
+      "output": "Updated case status and documentation of communications",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime",
+      "authority_level": "Internal notification recipient/approver"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_rol_002",
+    "name": "Head of Legal",
+    "properties": {
+      "role_type": "human",
+      "department": "Legal",
+      "authority_level": "Internal notification recipient/approver"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_rol_003",
+    "name": "Local Police",
+    "properties": {
+      "role_type": "external",
+      "channels": [
+        "phone (101)"
+      ],
+      "authority_level": "Investigative body"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_dec_001",
+    "name": "Decision to Report Gate",
+    "properties": {
+      "decision_question": "Should the case be reported to the police?",
+      "decision_maker": "Internal stakeholders (Head of Financial Crime / Head of Legal)",
+      "path_yes": "Proceed to Step 2: File Police Report",
+      "path_no": "Case remains internal or is closed"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_016_acc_001",
+    "name": "Suspected Fraudster's Account",
+    "properties": {
+      "account_state_at_start": "under investigation",
+      "handling_instruction": "Do not disturb to allow for potential police monitoring"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_016",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_prc_001",
+    "name": "Fraud Investigation Case Documentation and Closure Process",
+    "properties": {
+      "purpose": "Ensure comprehensive documentation and formal closure of fraud investigation cases",
+      "scope": "Fraud Investigation Case Files",
+      "outcome_success": "Complete case file with all required evidence and sign-off",
+      "owner": "Manager or Head of Crime"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_001",
+    "name": "Case File Compilation",
+    "properties": {
+      "step_number": 1,
+      "input": [
+        "Original fraud report",
+        "Customer interview notes",
+        "Transaction documentation",
+        "Evidence (communications, system logs)",
+        "Analysis & findings"
+      ],
+      "output": "Compiled case file",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_002",
+    "name": "Investigation Conclusion and Determination",
+    "properties": {
+      "step_number": 2,
+      "output": "Investigation conclusion & determination record",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_003",
+    "name": "Refund Decision Determination",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "conditional",
+      "output": "Refund decision"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_stp_004",
+    "name": "Case Closure Recording",
+    "properties": {
+      "step_number": 4,
+      "actor": "Manager or Head of Crime",
+      "output": [
+        "Manager/Head of Crime sign-off",
+        "Date case closed",
+        "Timeline of investigation"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_rol_001",
+    "name": "Manager or Head of Crime",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Final Approver",
+      "responsibility": "Case file sign-off and formal closure"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_dec_001",
+    "name": "Refund Applicability Check",
+    "properties": {
+      "decision_question": "Is a refund applicable to the fraud case?",
+      "path_yes": "Document refund decision in case file",
+      "path_no": "Proceed to closure without refund documentation"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_dec_002",
+    "name": "Police Report Necessity Check",
+    "properties": {
+      "decision_question": "Is a police report required for this case?",
+      "path_yes": "Include police report reference in case file",
+      "path_no": "Proceed to closure without police reference"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_017_tra_001",
+    "name": "Investigated Transactions",
+    "properties": {
+      "evidence_required": [
+        "Screenshots",
+        "Statements"
+      ],
+      "recording_obligation": "Must be included in the Complete Fraud Investigation Case File"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_017",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_prc_001",
+    "name": "Case Closure Process",
+    "properties": {
+      "purpose": "Finalize fraud investigation, execute remedies, and notify the customer",
+      "outcome_success": "Case documented and closed with manager approval",
+      "owner": "FirstUK Bank Financial Crime Team",
+      "departments_involved": [
+        "Financial Crime Team"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_001",
+    "name": "Evidence Gathering and Analysis",
+    "properties": {
+      "step_number": 1,
+      "actor": "FirstUK Bank Financial Crime Team",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_002",
+    "name": "Fraud Determination",
+    "properties": {
+      "step_number": 2,
+      "actor": "FirstUK Bank Financial Crime Team",
+      "output": "Determination (fraud/not fraud/inconclusive)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_003",
+    "name": "Customer Refund Execution",
+    "properties": {
+      "step_number": 3,
+      "actor": "FirstUK Bank Financial Crime Team",
+      "mandatory": "conditional",
+      "timeline_sla": "1–2 business days for refund to appear"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_004",
+    "name": "Implementation of Prevention Actions",
+    "properties": {
+      "step_number": 4,
+      "actor": "FirstUK Bank Financial Crime Team",
+      "mandatory": "yes",
+      "output": [
+        "New card issued",
+        "Old card cancelled",
+        "Online banking password reset",
+        "Extra security features enabled"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_005",
+    "name": "Police Report Filing",
+    "properties": {
+      "step_number": 5,
+      "actor": "FirstUK Bank Financial Crime Team",
+      "mandatory": "conditional",
+      "output": "Police reference number"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_006",
+    "name": "Case Documentation",
+    "properties": {
+      "step_number": 6,
+      "actor": "FirstUK Bank Financial Crime Team",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_007",
+    "name": "Manager Approval for Closure",
+    "properties": {
+      "step_number": 7,
+      "actor": "Manager",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_stp_008",
+    "name": "Customer Closure Notification",
+    "properties": {
+      "step_number": 8,
+      "actor": "FirstUK Bank Financial Crime Team",
+      "mandatory": "yes",
+      "channel": "postal/letter"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_rol_001",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Closure Approval"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_rol_002",
+    "name": "FirstUK Bank Financial Crime Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_dec_001",
+    "name": "Fraud Determination Decision",
+    "properties": {
+      "decision_question": "Is the transaction fraudulent?",
+      "criteria": "Based on gathered evidence and analysis",
+      "path_yes": "Execute refund and prevention actions",
+      "path_no": "Case closure without refund"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_cus_001",
+    "name": "Disputing Customer",
+    "properties": {
+      "process_role": "Subject of fraud investigation",
+      "notification_required": "Yes, via closure letter detailing findings and actions"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "account_state_at_end": "Active (with refund applied and security updated)"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_tra_001",
+    "name": "Disputed Transaction",
+    "properties": {
+      "transaction_type": "suspicious",
+      "outcome_paths": [
+        "Fraud Confirmed",
+        "Not Fraud",
+        "Inconclusive"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_018_crd_001",
+    "name": "Payment Card Replacement",
+    "properties": {
+      "card_state": "replacement",
+      "issuance_steps": [
+        "Cancel old card",
+        "Issue new card"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_018",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_prc_001",
+    "name": "Fraud Prevention Measures Process",
+    "properties": {
+      "purpose": "Prevention of account takeover, card fraud, impersonation, and check fraud",
+      "scope": "All accounts, card products, and check processing",
+      "departments_involved": [
+        "Fraud Prevention",
+        "Compliance",
+        "Customer Service"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_001",
+    "name": "Password Complexity Enforcement",
+    "properties": {
+      "actor": "System",
+      "channel": "online",
+      "mandatory": "yes",
+      "purpose": "Account Takeover Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_002",
+    "name": "Two-Factor Authentication Implementation",
+    "properties": {
+      "actor": "System",
+      "channel": "online",
+      "mandatory": "yes",
+      "scope": "all accounts",
+      "purpose": "Account Takeover Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_003",
+    "name": "Login Anomaly Monitoring",
+    "properties": {
+      "actor": "System",
+      "channel": "system",
+      "purpose": "Account Takeover Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_004",
+    "name": "Customer Phishing Education",
+    "properties": {
+      "actor": "Customer Service",
+      "channel": "online",
+      "purpose": "Account Takeover Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_005",
+    "name": "Chip and Contactless Card Issuance",
+    "properties": {
+      "actor": "Card Operations",
+      "channel": "branch",
+      "mandatory": "yes",
+      "purpose": "Card Fraud Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_006",
+    "name": "Transaction Card Alert Setup",
+    "properties": {
+      "actor": "System",
+      "channel": "system",
+      "output": "SMS alerts",
+      "trigger": "transactions > £X",
+      "purpose": "Card Fraud Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_007",
+    "name": "Transaction Velocity Checking",
+    "properties": {
+      "actor": "System",
+      "channel": "system",
+      "criteria": "max transactions per day",
+      "purpose": "Card Fraud Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_008",
+    "name": "High-Value Transaction Authentication",
+    "properties": {
+      "actor": "Customer",
+      "channel": "system",
+      "mandatory": "yes",
+      "purpose": "Card Fraud Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_009",
+    "name": "Enhanced KYC Verification",
+    "properties": {
+      "actor": "Compliance Officer",
+      "channel": "branch",
+      "purpose": "Impersonation Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_010",
+    "name": "Original ID Document Verification",
+    "properties": {
+      "actor": "Compliance Officer",
+      "channel": "branch",
+      "mandatory": "yes",
+      "input": "original ID documents",
+      "purpose": "Impersonation Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_011",
+    "name": "Duplicate ID Monitoring",
+    "properties": {
+      "actor": "System",
+      "channel": "system",
+      "purpose": "Impersonation Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_012",
+    "name": "Suspicious Pattern Flagging",
+    "properties": {
+      "actor": "System",
+      "channel": "system",
+      "purpose": "Impersonation Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_013",
+    "name": "Positive Pay Implementation",
+    "properties": {
+      "actor": "Customer",
+      "input": "issued checks specifications",
+      "purpose": "Check Fraud Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_014",
+    "name": "Large Check Additional Verification",
+    "properties": {
+      "actor": "Branch Manager",
+      "mandatory": "yes",
+      "purpose": "Check Fraud Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_stp_015",
+    "name": "Check Clearing Time Monitoring",
+    "properties": {
+      "actor": "System",
+      "channel": "system",
+      "trigger": "unusual delays",
+      "purpose": "Check Fraud Prevention"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "online",
+        "branch"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_dec_001",
+    "name": "High-Value Transaction Authentication Gate",
+    "properties": {
+      "decision_question": "Does the transaction value require additional authentication?",
+      "criteria": "transaction value exceeds high-value threshold",
+      "decision_maker": "System",
+      "path_yes": "Require customer authentication",
+      "path_no": "Process transaction normally"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_019_dec_002",
+    "name": "Check Clearing Delay Red Flag",
+    "properties": {
+      "decision_question": "Is the check clearing time unusual?",
+      "criteria": "unusual delays in clearing process",
+      "decision_maker": "System",
+      "path_yes": "Flag as red flag for fraud review",
+      "path_no": "Continue normal clearing"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_019",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_prc_001",
+    "name": "Fraud Investigation and Resolution Process",
+    "properties": {
+      "purpose": "To investigate fraudulent activity, determine refund eligibility, and implement prevention measures",
+      "outcome_success": "Confirmed fraud resolved with refund and prevention measures implemented",
+      "outcome_failure": "Incorrect refund issuance or failure to protect account"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_001",
+    "name": "Fraud Investigation Step",
+    "properties": {
+      "mandatory": "yes",
+      "output": "Confirmation of fraud or likelihood of fraud",
+      "failure_path": "Refund processed without thorough investigation"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_002",
+    "name": "Fraud Case File Retention",
+    "properties": {
+      "mandatory": "yes",
+      "timeline_sla": "7 years minimum",
+      "purpose": "Supports audit trail"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_003",
+    "name": "Customer Fraud Notification",
+    "properties": {
+      "timeline_sla": "Within 24 hours",
+      "purpose": "Allow customer to take protective action",
+      "mandatory": "yes"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_stp_004",
+    "name": "Fraud Prevention Implementation",
+    "properties": {
+      "mandatory": "yes",
+      "output": [
+        "new card",
+        "password reset",
+        "2FA implementation"
+      ]
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_dec_001",
+    "name": "Refund Eligibility Decision",
+    "properties": {
+      "decision_question": "Is the customer eligible for a refund?",
+      "criteria": "Confirmed or likely fraud following thorough investigation",
+      "path_yes": "Process refund",
+      "path_no": "Refund denied"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_dec_002",
+    "name": "Fraud Confirmation Gate",
+    "properties": {
+      "decision_question": "Has the fraud been confirmed?",
+      "criteria": "Investigation results",
+      "path_yes": "Report customer as fraudster / Notify customer",
+      "path_no": "Keep investigation confidential"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_rol_001",
+    "name": "Customer",
+    "properties": {
+      "notification_required": "Yes, within 24 hours of fraud detection"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_020_crd_001",
+    "name": "Replacement Card Issuance",
+    "properties": {
+      "issuance_steps": "Issued as part of fraud prevention implementation",
+      "card_state": "issuance"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_020",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_prc_001",
+    "name": "Fraud Investigation and Approval Process",
+    "properties": {
+      "purpose": "Investigate and approve fraud claims based on amount and pattern",
+      "scope": "Fraudulent transactions",
+      "timeline_sla": "2 to 14+ days depending on escalation level"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_001",
+    "name": "Level 1 — Routine Investigation (CSR)",
+    "properties": {
+      "level_number": 1,
+      "authority": "Customer Service Representative (CSR)",
+      "approval_limit": "<£500",
+      "response_time": "2–3 days",
+      "escalation_trigger": "Fraud amount ≥ £500"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_002",
+    "name": "Level 2 — Standard Investigation (Manager)",
+    "properties": {
+      "level_number": 2,
+      "authority": "Manager",
+      "approval_limit": "£500–£5,000",
+      "response_time": "3–5 days",
+      "escalation_trigger": "Fraud amount > £5,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_003",
+    "name": "Level 3 — Enhanced Investigation (Risk Manager)",
+    "properties": {
+      "level_number": 3,
+      "authority": "Risk Manager",
+      "approval_limit": "£5,000–£50,000",
+      "response_time": "5–7 days",
+      "escalation_trigger": "Fraud amount > £50,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_004",
+    "name": "Level 4 — Complex Investigation (Head of Crime + Legal)",
+    "properties": {
+      "level_number": 4,
+      "authority": "Head of Crime + Legal",
+      "approval_limit": ">£50,000",
+      "response_time": "7–14 days",
+      "escalation_trigger": "Identification of Serial/Pattern fraud"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_esc_005",
+    "name": "Level 5 — Specialized Investigation (Head of Crime + Police)",
+    "properties": {
+      "level_number": 5,
+      "authority": "Head of Crime + Police",
+      "examples": [
+        "Serial fraud",
+        "Pattern fraud"
+      ],
+      "response_time": "10+ days"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_001",
+    "name": "Customer Service Representative",
+    "properties": {
+      "role_type": "human",
+      "approval_limit": "<£500"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_002",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "approval_limit": "£500–£5,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_003",
+    "name": "Risk Manager",
+    "properties": {
+      "role_type": "human",
+      "approval_limit": "£5,000–£50,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_004",
+    "name": "Head of Crime",
+    "properties": {
+      "role_type": "human",
+      "approval_limit": ">£50,000"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_005",
+    "name": "Legal Department",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Complex Investigation approval"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_rol_006",
+    "name": "Police",
+    "properties": {
+      "role_type": "external",
+      "authority_level": "Specialized Investigation approval"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_021_dec_001",
+    "name": "Fraud Amount and Pattern Assessment",
+    "properties": {
+      "decision_question": "What is the fraud amount or pattern?",
+      "criteria": "Amount (<£500, £500-£5k, £5k-£50k, >£50k) or existence of Serial/Pattern",
+      "path_yes": "Route to corresponding escalation level (Routine through Specialized)",
+      "decision_maker": "System/Initiating Officer"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_021",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_001",
+    "name": "Fraud Prevention Policy",
+    "properties": {},
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_002",
+    "name": "Incident Response Procedures",
+    "properties": {},
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_003",
+    "name": "Decision Authority Matrix",
+    "properties": {},
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_004",
+    "name": "Exception Handling Process",
+    "properties": {
+      "scope": "overlaps with fraud"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_022_prc_005",
+    "name": "AML and Sanctions Fraud Detection Policy",
+    "properties": {},
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_022",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_023_prc_001",
+    "name": "Fraud Investigation SOP",
+    "properties": {
+      "document_id": "Fraud Investigation SOP",
+      "owner": "Head of Financial Crime"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_023",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_023_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_023",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approver/Sign-off"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_rol_002",
+    "name": "Head of Legal",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approver/Sign-off"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_rol_003",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approver/Sign-off"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  },
+  {
+    "id": "5cb82b0b30f24b408b191db6b0ab8d9d_024_prc_001",
+    "name": "Financial Crime Investigation Procedures",
+    "properties": {
+      "scope": "Financial Crime Distribution Only",
+      "confidentiality_status": "Confidential/Sensitive"
+    },
+    "chunk_id": "5cb82b0b30f24b408b191db6b0ab8d9d_024",
+    "doc_id": "5cb82b0b30f24b408b191db6b0ab8d9d"
+  }
+]

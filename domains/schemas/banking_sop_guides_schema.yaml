@@ -31,8 +31,68 @@ entities_prompt: |
     example type values: frontline | supervisor | department_head | executive | board | regulator | financial_ombudsman | law_enforcement
 
   COMPLIANCE_CHECKPOINT
-    A mandatory regulatory or policy control that must be satisfied during a process — a requirement that has external legal or regulatory force. These span multiple processes (KYC appears in account opening, re-verification, joint account setup). Capture the checkpoint name, the regulation it satisfies, and the evidence or system required.
-    example type values: kyc_check | aml_screening | pep_screening | sanctions_check | risk_classification | data_protection_check | fraud_check | sar_filing | regulatory_reporting | document_retention
+    A mandatory regulatory or policy gate that must be formally passed before a process can proceed — the control point in a workflow where compliance is verified and the outcome recorded. Use this entity for the gate itself (was this obligation satisfied? what was the outcome?), not the underlying entity being checked. KYC_VERIFICATION, AML_SCREENING, SAR, and FRAUD_ALERT are first-class entities that capture what is being executed; COMPLIANCE_CHECKPOINT captures the process gate that verifies their completion before the workflow advances.
+    example type values: pep_screening | sanctions_check | risk_classification | data_protection_check | regulatory_reporting | document_retention | gdpr_check | beneficial_owner_check | credit_check
+
+  CUSTOMER
+    A bank customer as the primary subject of a process or SOP — the person whose application is being processed, account being opened, identity being verified, or complaint being resolved. Extract when the customer is the direct subject of process steps.
+    example type values: applicant | existing_customer | joint_applicant | high_risk_customer | complaining_customer
+
+  ACCOUNT
+    A customer account being created, modified, or closed by the process. Extract when the SOP describes steps that act directly on an account — opening, activating, freezing, closing, or updating account records.
+    example type values: new_account | active_account | dormant_account | frozen_account | closing_account | joint_account
+
+  TRANSACTION
+    A financial event being processed, investigated, or monitored as part of a procedure. Extract when the SOP includes steps for authorising, flagging, reversing, or investigating transactions.
+    example type values: monitored_transaction | suspicious_transaction | failed_transaction | reversed_transaction | investigated_transaction
+
+  PRODUCT
+    A banking product referenced as the context or outcome of a process — the product type that defines which account is being opened or which rules apply throughout the SOP.
+    example type values: smartsaver_account | current_account | joint_account | mortgage | card_product
+
+  CARD
+    A payment card being issued, blocked, or replaced as part of a process. Extract when the SOP includes steps for card issuance, activation, cancellation, or replacement.
+    example type values: card_issuance | card_activation | card_block | card_replacement | card_cancellation
+
+  KYC_VERIFICATION
+    The KYC process as executed within a procedure — the specific verification steps, documents collected, system records updated, and outcomes (passed/failed/escalated). Extract when the SOP defines KYC execution steps distinct from the compliance checkpoint gate.
+    example type values: identity_verification_step | address_verification_step | document_collection | kyc_system_recording | kyc_outcome | periodic_refresh
+
+  AML_SCREENING
+    AML screening as executed within a procedure — the specific lists checked, match review steps, escalation triggers, and system records. Extract when the SOP defines AML screening execution steps.
+    example type values: sanctions_screening_step | pep_screening_step | match_review | escalation_trigger | screening_outcome | ongoing_monitoring_setup
+
+  SAR
+    A Suspicious Activity Report as filed within a procedure — the steps for identifying, documenting, and submitting a SAR to the NCA. Extract when the SOP defines the SAR filing process as a sequence of actions.
+    example type values: sar_preparation | sar_submission | internal_disclosure | nca_filing | sar_confidentiality | post_filing_monitoring
+
+  FRAUD_ALERT
+    A fraud alert being generated, reviewed, or actioned as part of a procedure. Extract when the SOP defines steps for handling, investigating, or escalating fraud alerts.
+    example type values: alert_generation | alert_review | alert_escalation | fraud_investigation_step | customer_notification | alert_closure
+
+  IDENTIFICATION_DOCUMENT
+    An official identity document collected and verified during a process — the document types accepted, the validation checks required, and the recording obligations. Extract when the SOP specifies document collection or verification steps.
+    example type values: passport_verification | driving_licence_check | national_id_check | proof_of_address | document_recording | expiry_check
+
+  ADDRESS
+    A customer address collected, verified, or updated during a process — address verification steps, acceptable proof of address documents, or change of address procedures.
+    example type values: address_verification_step | proof_of_address | address_update | address_recording | change_of_address
+
+  ACCOUNT_HOLDER
+    A person being added, verified, or updated as an account holder during a process — primary holder onboarding, joint holder addition, or holder removal steps.
+    example type values: primary_holder_setup | joint_holder_addition | holder_verification | holder_removal | signatory_update
+
+  JOINT_ACCOUNT
+    A joint account arrangement being established or modified during a process — the specific steps for verifying both holders, obtaining dual consents, and recording joint account status.
+    example type values: joint_account_opening | dual_kyc_step | joint_holder_consent | joint_account_closure | interest_split_setup
+
+  STANDING_ORDER
+    A standing order being created, amended, or cancelled during a process. Extract when the SOP defines steps for setting up, modifying, validating, or cancelling standing orders.
+    example type values: standing_order_creation | standing_order_amendment | standing_order_cancellation | beneficiary_validation | payment_failure_handling
+
+  DIRECT_DEBIT
+    A direct debit mandate being set up, amended, or cancelled during a process. Extract when the SOP defines steps for processing direct debit authorisations, amendments, or cancellations under the Direct Debit Guarantee.
+    example type values: dd_mandate_setup | dd_mandate_cancellation | dd_dispute_handling | indemnity_claim | dd_reinstatement
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -174,6 +234,107 @@ properties_prompt: |
     - failure_consequence (what happens if checkpoint fails)
     - system_used (which system records the checkpoint)
 
+  For CUSTOMER, consider:
+    - customer_type (applicant | existing | joint | high_risk)
+    - process_role (the subject of the SOP — whose application is being processed)
+    - data_collected (personal data fields captured during this process)
+    - notification_required (whether and when the customer must be informed of outcomes)
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - account_state_at_start (new | existing | dormant | frozen)
+    - account_state_at_end (active | closed | frozen | suspended)
+    - system_recorded_in (which system holds the account record)
+
+  For TRANSACTION, consider:
+    - transaction_type (monitored | suspicious | failed | reversed)
+    - monitoring_trigger (what pattern or threshold triggers review)
+    - investigation_steps (how the transaction is investigated in the SOP)
+    - outcome_paths (what happens on completion — cleared, flagged, reversed)
+
+  For PRODUCT, consider:
+    - product_id (e.g., SAV-001)
+    - product_type (savings | current | joint | mortgage | card)
+    - determines_process_variant (whether the product type changes which steps apply)
+
+  For CARD, consider:
+    - card_state (issuance | activation | blocked | replacement)
+    - issuance_steps (steps for issuing and activating the card)
+    - block_trigger (what event causes the SOP to block a card)
+    - system_used (which system manages card status)
+
+  For KYC_VERIFICATION, consider:
+    - verification_steps (specific actions in the KYC execution — collect, verify, record)
+    - documents_required (which identity documents are collected)
+    - system_used (which system records the KYC outcome)
+    - pass_criteria (what constitutes a passed KYC)
+    - failure_path (what happens if KYC cannot be completed)
+    - refresh_trigger (what event initiates a KYC refresh)
+
+  For AML_SCREENING, consider:
+    - screening_steps (specific actions — which lists checked, how matches are reviewed)
+    - escalation_trigger (what match score or indicator triggers escalation)
+    - system_used (which AML system performs the screening)
+    - pass_criteria (what constitutes a passed AML screen)
+    - failure_path (what happens if a match is confirmed)
+
+  For SAR, consider:
+    - preparation_steps (how the SAR is documented before submission)
+    - submission_method (how the SAR is filed — internal MLRO, then NCA)
+    - confidentiality_obligation (tipping-off prohibition steps)
+    - post_filing_steps (what happens after SAR is submitted)
+    - deadline (time from suspicion to internal filing)
+
+  For FRAUD_ALERT, consider:
+    - alert_trigger (what generates the fraud alert in the SOP)
+    - review_steps (how the alert is reviewed and categorised)
+    - escalation_path (when and to whom the alert is escalated)
+    - customer_contact_steps (whether and how the customer is notified)
+    - closure_criteria (what constitutes a resolved alert)
+
+  For IDENTIFICATION_DOCUMENT, consider:
+    - accepted_types (which document types are acceptable in this SOP)
+    - collection_steps (how documents are obtained from the customer)
+    - verification_steps (how authenticity is checked)
+    - recording_obligation (where and how the document is recorded in the system)
+    - expiry_check (whether expiry date must be validated)
+
+  For ADDRESS, consider:
+    - collection_steps (how the address is captured)
+    - verification_steps (how the address is verified — utility bill, credit bureau)
+    - acceptable_proof (what documents are accepted as proof of address)
+    - recording_system (where the address is recorded)
+    - update_process (steps for processing a change of address)
+
+  For ACCOUNT_HOLDER, consider:
+    - holder_type (primary | joint | secondary)
+    - onboarding_steps (steps for verifying and adding a holder)
+    - kyc_requirement (whether this holder type requires individual KYC)
+    - authority_recorded (what authorisations are set up in the system)
+    - removal_process (steps for removing a holder if applicable)
+
+  For JOINT_ACCOUNT, consider:
+    - dual_verification_steps (steps for verifying both holders independently)
+    - consent_capture (how joint consent is obtained and recorded)
+    - interest_split_setup (how interest allocation is configured)
+    - closure_steps (steps for closing a joint account with dual consent)
+
+  For STANDING_ORDER, consider:
+    - creation_steps (steps for setting up a standing order)
+    - beneficiary_validation (how the beneficiary account is validated)
+    - amendment_steps (steps for modifying an existing standing order)
+    - cancellation_steps (steps for cancelling a standing order)
+    - failure_handling (steps when a standing order payment fails)
+    - system_used (which system manages standing orders)
+
+  For DIRECT_DEBIT, consider:
+    - mandate_setup_steps (steps for processing a direct debit mandate)
+    - mandate_validation (how the mandate is verified)
+    - cancellation_steps (steps for cancelling under the Direct Debit Guarantee)
+    - dispute_steps (steps for handling an incorrect direct debit payment)
+    - indemnity_process (steps for reclaiming an incorrect payment)
+    - system_used (which system manages direct debit mandates)
+
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "regulatory_basis" not "reg_b")
     2. Use arrays for multiple values
@@ -297,6 +458,150 @@ relationships_prompt: |
 
   COMPLIANCE_CHECKPOINT ↔ DECISION_POINT:
     determines_outcome_of, gates, triggers
+
+  PROCESS ↔ CUSTOMER:
+    processes_application_of, operates_on, serves
+
+  PROCESS ↔ ACCOUNT:
+    opens, closes, modifies, freezes, activates
+
+  PROCESS ↔ PRODUCT:
+    creates_account_under, governs_setup_of
+
+  PROCESS ↔ KYC_VERIFICATION:
+    executes, requires, includes_step_for
+
+  PROCESS ↔ AML_SCREENING:
+    executes, requires, includes_step_for
+
+  PROCESS ↔ SAR:
+    may_result_in_filing_of, includes_step_for
+
+  PROCESS ↔ STANDING_ORDER:
+    sets_up, amends, cancels
+
+  PROCESS ↔ DIRECT_DEBIT:
+    sets_up, processes_mandate_for, cancels
+
+  PROCESS ↔ JOINT_ACCOUNT:
+    opens, modifies, closes
+
+  PROCESS_STEP ↔ CUSTOMER:
+    collects_data_from, notifies, verifies_identity_of
+
+  PROCESS_STEP ↔ ACCOUNT:
+    creates, activates, updates, closes, freezes
+
+  PROCESS_STEP ↔ CARD:
+    issues, activates, blocks, replaces
+
+  PROCESS_STEP ↔ KYC_VERIFICATION:
+    executes, records_outcome_of, triggers
+
+  PROCESS_STEP ↔ AML_SCREENING:
+    executes, reviews_result_of, escalates_based_on
+
+  PROCESS_STEP ↔ SAR:
+    prepares, submits, records
+
+  PROCESS_STEP ↔ FRAUD_ALERT:
+    generates, reviews, escalates, closes
+
+  PROCESS_STEP ↔ IDENTIFICATION_DOCUMENT:
+    collects, verifies, records
+
+  PROCESS_STEP ↔ ADDRESS:
+    collects, verifies, records, updates
+
+  PROCESS_STEP ↔ ACCOUNT_HOLDER:
+    adds, verifies, removes, records
+
+  PROCESS_STEP ↔ STANDING_ORDER:
+    creates, validates, amends, cancels
+
+  PROCESS_STEP ↔ DIRECT_DEBIT:
+    sets_up_mandate_for, cancels, processes_dispute_for
+
+  DECISION_POINT ↔ KYC_VERIFICATION:
+    gated_by, outcome_determined_by
+
+  DECISION_POINT ↔ AML_SCREENING:
+    gated_by, outcome_determined_by
+
+  DECISION_POINT ↔ CUSTOMER:
+    classifies, routes_based_on_risk_of
+
+  COMPLIANCE_CHECKPOINT ↔ KYC_VERIFICATION:
+    verifies_completion_of, gates_on_result_of
+
+  COMPLIANCE_CHECKPOINT ↔ AML_SCREENING:
+    verifies_completion_of, gates_on_result_of
+
+  COMPLIANCE_CHECKPOINT ↔ IDENTIFICATION_DOCUMENT:
+    requires_collection_of, validates_sufficiency_of
+
+  KYC_VERIFICATION ↔ CUSTOMER:
+    verifies, applied_to
+
+  KYC_VERIFICATION ↔ IDENTIFICATION_DOCUMENT:
+    requires, verified_using
+
+  KYC_VERIFICATION ↔ ADDRESS:
+    verifies, requires_proof_from
+
+  KYC_VERIFICATION ↔ ACCOUNT:
+    gate_for_opening, required_before_activating
+
+  AML_SCREENING ↔ CUSTOMER:
+    screens, applied_to
+
+  AML_SCREENING ↔ TRANSACTION:
+    monitors_for_patterns_in, flags
+
+  AML_SCREENING ↔ SAR:
+    may_trigger_filing_of, leads_to
+
+  SAR ↔ CUSTOMER:
+    filed_about, concerns
+
+  SAR ↔ TRANSACTION:
+    triggered_by, based_on_evidence_from
+
+  FRAUD_ALERT ↔ TRANSACTION:
+    triggered_by, raised_against
+
+  FRAUD_ALERT ↔ ACCOUNT:
+    raised_on, results_in_freeze_of
+
+  FRAUD_ALERT ↔ CARD:
+    raised_for, results_in_block_of
+
+  STANDING_ORDER ↔ ACCOUNT:
+    set_up_on, deducts_from
+
+  STANDING_ORDER ↔ CUSTOMER:
+    initiated_by, belongs_to
+
+  DIRECT_DEBIT ↔ ACCOUNT:
+    set_up_on, deducts_from
+
+  DIRECT_DEBIT ↔ CUSTOMER:
+    authorised_by, belongs_to
+
+  JOINT_ACCOUNT ↔ ACCOUNT_HOLDER:
+    held_by, requires_dual_verification_of
+
+  JOINT_ACCOUNT ↔ CUSTOMER:
+    held_jointly_by, requires_consent_of_both
+
+  IDENTIFICATION_DOCUMENT ↔ CUSTOMER:
+    proves_identity_of, belongs_to
+
+  ADDRESS ↔ CUSTOMER:
+    registered_to, belongs_to
+
+  ACCOUNT_HOLDER ↔ ACCOUNT:
+    holds, liable_for
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

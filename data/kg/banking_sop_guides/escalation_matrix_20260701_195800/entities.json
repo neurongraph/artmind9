@@ -1,0 +1,2841 @@
+[
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_001_prc_001",
+    "name": "FirstUK Bank Escalation Matrix",
+    "aliases": [
+      "ESC-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "The overarching operational framework for escalating issues within FirstUK Bank, managed by the Chief Operating Officer and the Operations department. It serves as a guide for all staff, management, and executives to handle operational risks and complaints.",
+    "context": [
+      "FirstUK Bank — Escalation Matrix",
+      "Document ID | ESC-001",
+      "Owner | Chief Operating Officer",
+      "Department | Operations"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_001",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_001_rol_001",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The executive owner of the Escalation Matrix document, responsible for the overall governance of the escalation process.",
+    "context": [
+      "Owner | Chief Operating Officer"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_001",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_001_rol_002",
+    "name": "Operations Department",
+    "aliases": [
+      "Operations"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The department responsible for the maintenance and execution of the escalation matrix procedures.",
+    "context": [
+      "Department | Operations"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_001",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_002_prc_001",
+    "name": "Escalation Matrix Process",
+    "aliases": [
+      "Escalation Matrix"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A defined operational workflow that establishes clear paths for escalating issues, incidents, and decisions. The process is triggered based on severity, type, and financial impact to ensure rapid resolution and transparent accountability.",
+    "context": [
+      "The Escalation Matrix defines clear escalation paths for issues, incidents, and decisions based on severity, type, and financial impact.",
+      "Ensures rapid resolution, appropriate authority, and transparent accountability."
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_002",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_prc_001",
+    "name": "Escalation and Approvals Procedure",
+    "aliases": [
+      "Escalation Levels & Approvals"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A workflow defining the tiers of authority, approval limits, and response times for resolving customer issues and requests within FirstUK Bank.",
+    "context": [
+      "Escalation Levels & Approvals"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_esc_001",
+    "name": "Level 1 — Frontline Resolution",
+    "aliases": [
+      "Level 1"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "frontline",
+    "description": "The first tier of resolution with an approval limit of less than £500 and a required response time of the same day (within 24 hours). It handles standard inquiries, simple fee reversals, and basic account maintenance.",
+    "context": [
+      "Level 1: Frontline Resolution",
+      "Approval Limit: <£500",
+      "Response Time: Same day (within 24 hours)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_rol_001",
+    "name": "Customer Service Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "Frontline personnel authorized to handle Level 1 resolutions, including account inquiries and password resets.",
+    "context": [
+      "Authority: Customer Service Staff"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_rol_002",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Frontline personnel authorized to handle Level 1 resolutions, including card replacements and fee reversals.",
+    "context": [
+      "Authority: Branch Staff"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_rol_003",
+    "name": "Account Managers",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "Frontline personnel authorized to handle Level 1 resolutions and standard product inquiries.",
+    "context": [
+      "Authority: Account Managers"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_001",
+    "name": "Account Inquiry Resolution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The action of resolving a customer's inquiry regarding their account at the frontline level.",
+    "context": [
+      "Account inquiry resolution"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_002",
+    "name": "Simple Fee Reversal Request",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "The process of requesting and approving the reversal of a bank fee, provided it is within the <£500 limit.",
+    "context": [
+      "Simple fee reversal request"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_003",
+    "name": "Standard Product Inquiry",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Providing information to a customer regarding standard banking products.",
+    "context": [
+      "Standard product inquiry"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_004",
+    "name": "Lost Card Replacement",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "card_issuance",
+    "description": "The process of replacing a lost payment card, involving a $15 fee.",
+    "context": [
+      "Lost card replacement ($15 fee)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_stp_005",
+    "name": "Password Reset",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of resetting a customer's account password at the frontline level.",
+    "context": [
+      "Password reset"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_003_dec_001",
+    "name": "Level 2 Escalation Trigger",
+    "aliases": [
+      "Escalation Condition"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision gate where a case is moved from Level 1 to Level 2 if the customer remains unhappy or the issue is deemed too complex for frontline staff.",
+    "context": [
+      "Escalation Condition: If customer unhappy or issue complex → Escalate to Level 2"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_003",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_esc_001",
+    "name": "Level 2 — Supervisor/Manager Resolution",
+    "aliases": [
+      "Level 2"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "A second-tier escalation level with an approval limit of £500–£5,000 and a target response time of 1–3 business days. It handles complaint investigations, non-standard fee reversals, and account exception handling.",
+    "context": [
+      "Level 2: Supervisor/Manager Resolution",
+      "Approval Limit: £500–£5,000",
+      "Response Time: 1–3 business days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_rol_001",
+    "name": "Supervisor",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "supervisor",
+    "description": "An actor with authority to resolve issues at Level 2, including complaint investigations and fee reversals within the £500–£5,000 limit.",
+    "context": [
+      "Authority: Supervisor, Branch Manager, Complaints Handler"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_rol_002",
+    "name": "Branch Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "An actor with authority to resolve issues at Level 2, including complaint investigations and fee reversals within the £500–£5,000 limit.",
+    "context": [
+      "Authority: Supervisor, Branch Manager, Complaints Handler"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_rol_003",
+    "name": "Complaints Handler",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "An actor with authority to resolve issues at Level 2, including complaint investigations and fee reversals within the £500–£5,000 limit.",
+    "context": [
+      "Authority: Supervisor, Branch Manager, Complaints Handler"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_dec_001",
+    "name": "Level 2 Escalation Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision gate to determine if a case remains at Level 2 or is escalated to Level 3 based on whether the issue is unresolved or has a financial impact exceeding £5,000.",
+    "context": [
+      "Escalation Condition: If unresolved or >£5k impact → Escalate to Level 3"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_001",
+    "name": "Complaint Investigation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A discrete action performed at Level 2 involving the investigation of a customer complaint.",
+    "context": [
+      "Complaint investigation"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_002",
+    "name": "Non-standard Fee Reversal",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "An action performed at Level 2 to reverse fees that do not fall under standard automated processes, subject to a £5,000 limit.",
+    "context": [
+      "Non-standard fee reversal"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_003",
+    "name": "Account Exception Handling",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "exception_handling",
+    "description": "A process step at Level 2 where account-related exceptions are managed by a supervisor or manager.",
+    "context": [
+      "Account exception handling"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_004",
+    "name": "Customer Retention Offer",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "An action performed at Level 2 to provide offers to customers to prevent them from leaving the bank.",
+    "context": [
+      "Customer retention offer"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_004_stp_005",
+    "name": "Process Waiver Request",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "approval_decision",
+    "description": "A request handled at Level 2 to waive a standard operational process requirement.",
+    "context": [
+      "Process waiver requests"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_004",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_esc_001",
+    "name": "Level 3 — Department Head Resolution",
+    "aliases": [
+      "Level 3"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The third tier of the escalation matrix handled by the Department Head. This level manages high-value fraud investigations, regulatory exceptions, and high-risk AML/KYC decisions with an approval limit between £5,000 and £50,000 and a response time of 3–5 business days.",
+    "context": [
+      "Level 3: Department Head Resolution",
+      "Approval Limit: £5,000–£50,000",
+      "Response Time: 3–5 business days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_rol_001",
+    "name": "Department Head",
+    "aliases": [
+      "Head of Retail Banking",
+      "Head of Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The authoritative role responsible for resolving Level 3 escalations, including substantial refunds, regulatory exceptions, and high-risk customer decisions.",
+    "context": [
+      "Authority: Department Head (e.g., Head of Retail Banking, Head of Compliance)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_dec_001",
+    "name": "Level 3 Escalation Condition Gate",
+    "aliases": [
+      "Escalation Condition"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point to determine if a matter can be resolved at Level 3 or must be moved to Level 4 based on whether the issue remains unresolved or the financial impact exceeds £50,000.",
+    "context": [
+      "Escalation Condition: If unresolved or >£50k impact → Escalate to Level 4"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_esc_002",
+    "name": "Level 4 Escalation Tier",
+    "aliases": [
+      "Level 4"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The subsequent escalation tier reached when Level 3 cannot resolve the issue or when the financial impact is greater than £50,000.",
+    "context": [
+      "Escalate to Level 4"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_005_chk_001",
+    "name": "High-Risk Customer AML/KYC Decision Gate",
+    "aliases": [
+      "AML/KYC escalation"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A formal compliance gate where the Department Head makes a final determination on high-risk customer onboarding or maintenance following an AML/KYC escalation.",
+    "context": [
+      "AML/KYC escalation (high-risk customer decision)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_005",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_esc_001",
+    "name": "Level 4 — Executive Committee Resolution",
+    "aliases": [
+      "Level 4"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The fourth tier of the escalation matrix managed by the Executive Committee. It handles high-impact issues ranging from £50,000 to £500,000 with a required response time of 24–48 hours.",
+    "context": [
+      "Level 4: Executive Committee Resolution",
+      "Approval Limit: £50,000–£500,000",
+      "Response Time: 24–48 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_rol_001",
+    "name": "Executive Committee",
+    "aliases": [
+      "CEO",
+      "CFO",
+      "CRO",
+      "COO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive_committee",
+    "description": "The governing body consisting of the CEO, CFO, CRO, and COO responsible for resolving major financial losses, regulatory breaches, and strategic exceptions.",
+    "context": [
+      "Authority: CEO, CFO, CRO, COO (Executive Committee)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_dec_001",
+    "name": "Level 4 Resolution Outcome Gate",
+    "aliases": [
+      "Escalation Condition"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point to determine if the issue is resolved at the Executive Committee level or requires further escalation to the Board based on resolution status or a financial impact exceeding £500k.",
+    "context": [
+      "Escalation Condition: If unresolved or >£500k impact → Escalate to Level 5 (Board)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_006_esc_002",
+    "name": "Level 5 — Board Resolution",
+    "aliases": [
+      "Level 5",
+      "Board"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "board",
+    "description": "The final tier of escalation referred to when issues are unresolved by the Executive Committee or exceed a financial impact of £500,000.",
+    "context": [
+      "Escalate to Level 5 (Board)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_006",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_007_esc_001",
+    "name": "Level 5 — Board Resolution",
+    "aliases": [
+      "Level 5"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "board",
+    "description": "The highest tier of the escalation matrix, handled by the Board of Directors. It is triggered by major financial losses exceeding £500,000, critical regulatory breaches, or systemic operational failures, with a response time of 24–72 hours.",
+    "context": [
+      "Level 5: Board Resolution",
+      "Authority: Board of Directors",
+      "Approval Limit: >£500,000",
+      "Response Time: 24–72 hours (emergency meeting if urgent)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_007",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_007_rol_001",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "board",
+    "description": "The governing body with the authority to resolve Level 5 escalations and approve financial limits exceeding £500,000.",
+    "context": [
+      "Authority: Board of Directors"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_007",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_007_dec_001",
+    "name": "Level 5 Escalation Trigger",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision gate that determines if an issue must be escalated to the Board of Directors based on financial loss (>£500k), regulatory, reputational, or systemic risk.",
+    "context": [
+      "Major financial loss (>£500k)",
+      "Critical regulatory breach",
+      "Reputational crisis",
+      "Legal liability",
+      "Strategic decisions",
+      "License/charter risk",
+      "Systemic operational failure"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_007",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_prc_001",
+    "name": "Customer Complaints Escalation Process",
+    "aliases": [
+      "Issue-Specific Escalation Paths",
+      "Customer Complaints"
+    ],
+    "entity_class": "PROCESS",
+    "type": "complaint_resolution",
+    "description": "A structured escalation workflow for handling customer complaints based on severity levels (Low, High, Critical), defining handlers, timelines, and regulatory notification requirements.",
+    "context": [
+      "Issue-Specific Escalation Paths",
+      "Customer Complaints"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_001",
+    "name": "Customer Service Staff",
+    "aliases": [
+      "Initial Handler"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer_service",
+    "description": "The initial handler responsible for managing low-severity customer complaints within a 24-hour timeline.",
+    "context": [
+      "Initial Handler: Customer Service Staff"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_002",
+    "name": "Complaints Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "An actor who serves as the escalation point for unresolved low-severity issues and the initial handler for high-severity complaints.",
+    "context": [
+      "Escalate to Complaints Manager (Level 3)",
+      "Initial Handler: Complaints Manager"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_003",
+    "name": "Head of Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior leader who acts as an initial handler for critical complaints involving regulatory or reputational breaches.",
+    "context": [
+      "Initial Handler: Head of Customer Service + Compliance Head"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_004",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "A senior officer who manages critical complaints and ensures regulatory notifications are handled.",
+    "context": [
+      "Initial Handler: Head of Customer Service + Compliance Head"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_005",
+    "name": "Compliance Team",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The body notified when a high-severity complaint has regulatory implications.",
+    "context": [
+      "Regulatory implication: Notify Compliance"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_006",
+    "name": "Bank Board",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "board",
+    "description": "The highest level of internal authority, notified of high-severity complaints exceeding £100k or critical breaches.",
+    "context": [
+      "If >£100k: Board notification",
+      "Board: Immediate notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_rol_007",
+    "name": "Financial Conduct Authority (FCA)",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulator that must be notified within 24 hours in the event of a critical regulatory or reputational breach.",
+    "context": [
+      "FCA notification: Within 24 hours (if required)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_001",
+    "name": "Level 1–2 — Frontline Resolution",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "frontline",
+    "description": "The initial tier of complaint handling managed by Customer Service Staff with a 24-hour resolution timeline.",
+    "context": [
+      "Level: 1–2",
+      "Timeline: 24 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_002",
+    "name": "Level 3 — Complaints Manager Resolution",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The escalation tier for unresolved low-severity issues and the starting tier for high-severity issues.",
+    "context": [
+      "Escalate to Complaints Manager (Level 3)",
+      "Level: 3–4"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_003",
+    "name": "Level 4 — Management Resolution",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "A high-level resolution tier involved in significant financial losses and critical breaches.",
+    "context": [
+      "Level: 3–4",
+      "Level: 4–5"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_esc_004",
+    "name": "Level 5 — Executive/Board Resolution",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The highest escalation tier for critical regulatory or reputational breaches involving the Board and Compliance Head.",
+    "context": [
+      "Level: 4–5",
+      "Board: Immediate notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_dec_001",
+    "name": "Complaint Severity Assessment",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "The initial branching point where a complaint is categorized as Low, High, or Critical, determining the handler, timeline, and escalation path.",
+    "context": [
+      "Severity: Low (Minor service issue)",
+      "Severity: High (Significant financial loss)",
+      "Severity: Critical (Regulatory/reputational breach)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_dec_002",
+    "name": "Low Severity Resolution Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point for low-severity complaints; if unresolved within 24 hours, the issue is escalated to Level 3.",
+    "context": [
+      "If unresolved: Escalate to Complaints Manager (Level 3)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_008_dec_003",
+    "name": "Financial Loss Threshold Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A gate for high-severity complaints; if the financial loss exceeds £100k, the Board must be notified.",
+    "context": [
+      "If >£100k: Board notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_008",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_prc_001",
+    "name": "Fraud Incident Handling Process",
+    "aliases": [
+      "Fraud Incidents"
+    ],
+    "entity_class": "PROCESS",
+    "type": "fraud_investigation",
+    "description": "An operational workflow for managing fraud incidents based on the monetary value of the fraud. The process defines different handlers, escalation levels, timelines, and mandatory actions depending on whether the amount is under £1,000, between £1,000–£10,000, or exceeds £10,000.",
+    "context": [
+      "Fraud Incidents",
+      "Fraud Amount: <£1,000",
+      "Fraud Amount: £1,000–£10,000",
+      "Fraud Amount: >£10,000"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_dec_001",
+    "name": "Fraud Amount Threshold Decision",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A branching condition where the fraud incident path is determined by the financial value of the loss. The paths are split into three tiers: <£1,000, £1,000–£10,000, and >£10,000.",
+    "context": [
+      "Fraud Amount: <£1,000",
+      "Fraud Amount: £1,000–£10,000",
+      "Fraud Amount: >£10,000"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_001",
+    "name": "Financial Crime Team",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The primary handler responsible for investigating fraud incidents under £10,000. For incidents between £1,000 and £10,000, they work in conjunction with the CRO.",
+    "context": [
+      "Handler: Financial Crime Team",
+      "Handler: Financial Crime Team + CRO"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_002",
+    "name": "Chief Risk Officer (CRO)",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior actor involved in handling fraud incidents starting from £1,000. For incidents over £10,000, they act as a primary handler alongside the CEO.",
+    "context": [
+      "Handler: Financial Crime Team + CRO",
+      "Handler: CRO + CEO"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_003",
+    "name": "Chief Executive Officer (CEO)",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "The highest level of management involved in the handling and investigation of high-value fraud incidents exceeding £10,000.",
+    "context": [
+      "Handler: CRO + CEO"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_004",
+    "name": "The Board",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "board",
+    "description": "The governing body that must be updated when fraud incidents exceed £10,000.",
+    "context": [
+      "Board update"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_rol_005",
+    "name": "Law Enforcement",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "law_enforcement",
+    "description": "External authorities contacted or notified for fraud incidents exceeding £1,000.",
+    "context": [
+      "law enforcement contact (if warranted)",
+      "law enforcement notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_esc_001",
+    "name": "Level 2 — Financial Crime Team Resolution",
+    "aliases": [
+      "Level: 2"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The escalation tier for fraud incidents under £1,000, with a required resolution/action timeline of 24 hours.",
+    "context": [
+      "Level: 2",
+      "Timeline: 24 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_esc_002",
+    "name": "Level 3 — Financial Crime Team and CRO Resolution",
+    "aliases": [
+      "Level: 3"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The escalation tier for fraud incidents between £1,000 and £10,000, requiring a 24-hour action timeline.",
+    "context": [
+      "Level: 3",
+      "Timeline: 24 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_esc_003",
+    "name": "Level 4–5 — Executive Management Resolution",
+    "aliases": [
+      "Level: 4–5"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The highest escalation tier for fraud incidents exceeding £10,000, requiring an accelerated action timeline of 4 hours.",
+    "context": [
+      "Level: 4–5",
+      "Timeline: 4 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_001",
+    "name": "Fraud Investigation",
+    "aliases": [
+      "Investigate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The core action of examining the fraud incident to determine the cause and extent, required across all fraud amount tiers.",
+    "context": [
+      "Action: Investigate",
+      "Action: Investigation + law enforcement contact",
+      "Action: Investigation, law enforcement notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_002",
+    "name": "Account Block",
+    "aliases": [
+      "block"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The action of freezing or blocking an account to prevent further loss if the fraud is identified as ongoing, specifically for incidents under £1,000.",
+    "context": [
+      "block if ongoing"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_003",
+    "name": "Customer Reimbursement",
+    "aliases": [
+      "reimburse"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The process of returning funds to the customer. For amounts over £1,000, this must be completed within 10 days.",
+    "context": [
+      "reimburse if customer fraud",
+      "Reimbursement: Within 10 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_004",
+    "name": "Law Enforcement Notification",
+    "aliases": [
+      "contact"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of informing police or regulatory law enforcement agencies, warranted for incidents over £1,000.",
+    "context": [
+      "law enforcement contact (if warranted)",
+      "law enforcement notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_stp_005",
+    "name": "Board Update",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The formal communication of high-value fraud incidents (over £10,000) to the Bank's Board.",
+    "context": [
+      "Board update"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_009_chk_001",
+    "name": "SAR Filing Compliance Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A regulatory gate for incidents over £10,000 where it must be determined if a Suspicious Activity Report (SAR) is required for filing or notification.",
+    "context": [
+      "Regulatory: May require SAR filing/notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_009",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_prc_001",
+    "name": "Operational Incidents/System Outages Management Process",
+    "aliases": [
+      "Operational Incidents/System Outages"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A workflow for managing system outages and operational incidents based on duration and customer impact. It defines specific handlers, escalation levels, and reporting requirements across three time-based tiers.",
+    "context": [
+      "Operational Incidents/System Outages",
+      "Duration: <1 hour",
+      "Duration: 1–4 hours",
+      "Duration: >4 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_001",
+    "name": "IT Operations",
+    "aliases": [
+      "Handler"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The primary technical handler responsible for resolving incidents with a duration of less than 4 hours.",
+    "context": [
+      "Handler: IT Operations"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_002",
+    "name": "Chief Technology Officer (CTO)",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior actor involved in handling incidents lasting between 1 and 4 hours, and the primary handler for incidents exceeding 4 hours.",
+    "context": [
+      "Handler: IT Operations + CTO",
+      "Handler: CTO + CEO"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "An executive role that must be notified via escalation if an incident exceeds a 2-hour duration.",
+    "context": [
+      "Escalate to CRO + COO after 2 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_004",
+    "name": "Chief Operating Officer (COO)",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "An executive role that must be notified via escalation if an incident exceeds a 2-hour duration.",
+    "context": [
+      "Escalate to CRO + COO after 2 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_005",
+    "name": "Chief Executive Officer (CEO)",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "The highest-level handler responsible for critical incidents lasting more than 4 hours.",
+    "context": [
+      "Handler: CTO + CEO"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_006",
+    "name": "Executive Committee",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive_committee",
+    "description": "The governing body that meets to review incidents that exceed a 4-hour duration.",
+    "context": [
+      "Executive committee meeting (if >4 hours)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_007",
+    "name": "Financial Conduct Authority (FCA)",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulatory body that may require notification for critical incidents lasting more than 4 hours.",
+    "context": [
+      "May require FCA notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_rol_008",
+    "name": "The Board",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "board",
+    "description": "The bank's board of directors, who must be updated if an incident duration exceeds 8 hours.",
+    "context": [
+      "Board: Update (if >8 hours)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_esc_001",
+    "name": "Level 1–2 — Initial IT Operations Resolution",
+    "aliases": [
+      "Level: 1–2"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "frontline",
+    "description": "The lowest escalation tier for minimal impact incidents lasting under 1 hour, handled by IT Operations.",
+    "context": [
+      "Level: 1–2",
+      "Duration: <1 hour"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_esc_002",
+    "name": "Level 2–3 — IT Operations and CTO Resolution",
+    "aliases": [
+      "Level: 2–3"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The intermediate escalation tier for significant impact incidents lasting between 1 and 4 hours.",
+    "context": [
+      "Level: 2–3",
+      "Duration: 1–4 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_esc_003",
+    "name": "Level 4–5 — Executive Management Resolution",
+    "aliases": [
+      "Level: 4–5"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The highest escalation tier for critical impact incidents lasting more than 4 hours, involving the CTO and CEO.",
+    "context": [
+      "Level: 4–5",
+      "Duration: >4 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_dec_001",
+    "name": "Incident Duration Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point based on the time elapsed since the incident start, determining the handler, escalation level, and reporting requirements (<1hr, 1-4hrs, >4hrs).",
+    "context": [
+      "Duration: <1 hour",
+      "Duration: 1–4 hours",
+      "Duration: >4 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_dec_002",
+    "name": "Executive Escalation Trigger (2 Hour Mark)",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A trigger where the process escalates to the CRO and COO and initiates customer communication if the incident exceeds 2 hours.",
+    "context": [
+      "Escalate to CRO + COO after 2 hours",
+      "Update customers if >2 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_stp_001",
+    "name": "Incident Logging",
+    "aliases": [
+      "Log incident"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The act of recording the incident in the system, required for all incidents including those under 1 hour.",
+    "context": [
+      "Log incident, no escalation if <1 hour"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_stp_002",
+    "name": "Customer Communication Update",
+    "aliases": [
+      "Update customers"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The process of providing updates to customers when an incident exceeds 2 hours, or providing hourly updates for critical incidents over 4 hours.",
+    "context": [
+      "Update customers if >2 hours",
+      "hourly updates"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_010_stp_003",
+    "name": "Regulatory Notification Filing",
+    "aliases": [
+      "FCA notification"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The step of notifying the Financial Conduct Authority (FCA) for critical incidents lasting more than 4 hours.",
+    "context": [
+      "May require FCA notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_010",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_prc_001",
+    "name": "Compliance Violation Handling Process",
+    "aliases": [
+      "Compliance Violations"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A structured workflow for managing and remediating compliance violations based on severity levels. It defines specific handlers, timelines for corrective action, and reporting requirements ranging from internal counseling to regulatory notification.",
+    "context": [
+      "Compliance Violations",
+      "Handler: Compliance + Department Manager",
+      "Action: Immediate escalation, regulatory contact"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_esc_001",
+    "name": "Level 2 — Department Manager Resolution",
+    "aliases": [
+      "Level 2"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The second tier of escalation for Policy Violations. It involves counseling and a corrective action plan to be implemented within 30 days.",
+    "context": [
+      "Severity: Policy Violation",
+      "Level: 2",
+      "Action: Counseling, corrective action plan",
+      "Timeline: Corrective action within 30 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_esc_002",
+    "name": "Level 3 — CRO Remediation",
+    "aliases": [
+      "Level 3"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The third tier of escalation for Low Impact Regulatory Rule Breaches. It requires immediate remediation within 5 days and internal notification.",
+    "context": [
+      "Severity: Regulatory Rule Breach (Low Impact)",
+      "Level: 3",
+      "Action: Immediate remediation, internal notification",
+      "Timeline: Remediate within 5 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_esc_003",
+    "name": "Level 4–5 — Executive and Board Resolution",
+    "aliases": [
+      "Level 4–5"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The highest tiers of escalation for Significant Regulatory Breaches. Requires immediate escalation and regulatory contact within 24 hours, including notification to the Board.",
+    "context": [
+      "Severity: Significant Regulatory Breach",
+      "Level: 4–5",
+      "Action: Immediate escalation, regulatory contact",
+      "Timeline: 24 hours",
+      "Board: Immediate notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_001",
+    "name": "Compliance Team",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Responsible for handling Policy Violations and Low Impact Regulatory Rule Breaches in coordination with management.",
+    "context": [
+      "Handler: Compliance + Department Manager",
+      "Handler: Compliance + CRO"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_002",
+    "name": "Department Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "Jointly responsible with Compliance for handling Policy Violations and implementing corrective action plans.",
+    "context": [
+      "Handler: Compliance + Department Manager"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_003",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "Responsible for handling Low Impact Regulatory Rule Breaches and Significant Regulatory Breaches.",
+    "context": [
+      "Handler: Compliance + CRO",
+      "Handler: CRO + CEO + Legal"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_004",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "Responsible for the handling and escalation of Significant Regulatory Breaches.",
+    "context": [
+      "Handler: CRO + CEO + Legal"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_005",
+    "name": "Legal Department",
+    "aliases": [
+      "Legal"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Responsible for the handling of Significant Regulatory Breaches, particularly regarding regulatory contact and reporting.",
+    "context": [
+      "Handler: CRO + CEO + Legal"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_006",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "board",
+    "description": "The governing body that must be immediately notified in the event of a Significant Regulatory Breach.",
+    "context": [
+      "Board: Immediate notification"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_rol_007",
+    "name": "External Regulator",
+    "aliases": [
+      "FCA",
+      "PRA"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external authority (FCA/PRA) to be notified in the event of a Significant Regulatory Breach.",
+    "context": [
+      "regulatory contact",
+      "Reporting: FCA/PRA notification (per rules)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_dec_001",
+    "name": "Violation Severity Assessment",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A decision point where a violation is categorized as either a Policy Violation, a Low Impact Regulatory Rule Breach, or a Significant Regulatory Breach to determine the handler and timeline.",
+    "context": [
+      "Severity: Policy Violation",
+      "Severity: Regulatory Rule Breach (Low Impact)",
+      "Severity: Significant Regulatory Breach"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_001",
+    "name": "Corrective Action Execution",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The process of delivering counseling and implementing a corrective action plan within 30 days for policy violations.",
+    "context": [
+      "Action: Counseling, corrective action plan",
+      "Timeline: Corrective action within 30 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_002",
+    "name": "Regulatory Remediation and Notification",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "Immediate remediation within 5 days for low impact breaches, including internal notification and documentation of the remediation.",
+    "context": [
+      "Action: Immediate remediation, internal notification",
+      "Timeline: Remediate within 5 days",
+      "Reporting: Document remediation"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_003",
+    "name": "Critical Regulatory Escalation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "High-priority action for significant breaches involving regulatory contact within 24 hours and notification to the FCA/PRA.",
+    "context": [
+      "Action: Immediate escalation, regulatory contact",
+      "Timeline: 24 hours",
+      "Reporting: FCA/PRA notification (per rules)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_011_stp_004",
+    "name": "Root Cause Analysis and Prevention Planning",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "A mandatory remediation step following a Significant Regulatory Breach to identify the cause and prevent recurrence.",
+    "context": [
+      "Remediation: Root cause analysis + prevention plan"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_011",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_prc_001",
+    "name": "AML/KYC Issues Handling Process",
+    "aliases": [
+      "AML/KYC Issues"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow for managing compliance failures and risks including missed KYC documentation, PEP/Sanctions hits, and suspicious transaction patterns. It defines handlers, escalation levels, and strict timelines for remediation and reporting.",
+    "context": [
+      "AML/KYC Issues",
+      "Issue: Missed KYC Documentation",
+      "Issue: PEP/Sanctions Hit",
+      "Issue: Suspicious Transaction Pattern"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_001",
+    "name": "Obtain Missing KYC Documentation",
+    "aliases": [
+      "Action: Obtain documentation immediately"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "document_collection",
+    "description": "The action of retrieving missing KYC documents, which must be completed on the same day and prior to account processing.",
+    "context": [
+      "Action: Obtain documentation immediately",
+      "Timeline: Same day (before processing account)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_002",
+    "name": "Immediate Account Freeze",
+    "aliases": [
+      "Action: Account freeze immediately"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The immediate freezing of an account following a PEP or Sanctions hit, required to be executed within a 4-hour window.",
+    "context": [
+      "Action: Account freeze immediately",
+      "Timeline: Within 4 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_003",
+    "name": "NCA Notification",
+    "aliases": [
+      "Reporting: NCA notification"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "regulatory_reporting",
+    "description": "The process of notifying the Office of Financial Sanctions Implementation (OFSI) via the NCA following a PEP/Sanctions hit.",
+    "context": [
+      "Reporting: NCA notification (Office of Financial Sanctions Implementation)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_004",
+    "name": "Enhanced Transaction Monitoring",
+    "aliases": [
+      "Action: Enhanced monitoring"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The application of heightened monitoring to accounts exhibiting suspicious transaction patterns, with an investigation timeline of 5 days.",
+    "context": [
+      "Action: Enhanced monitoring, potential SAR",
+      "Timeline: Investigate within 5 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_stp_005",
+    "name": "SAR Filing",
+    "aliases": [
+      "SAR Filing"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sar_submission",
+    "description": "The submission of a Suspicious Activity Report (SAR) if warranted by the investigation, to be completed within 30 days.",
+    "context": [
+      "SAR Filing: Within 30 days (if warranted)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_rol_001",
+    "name": "Compliance Team",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The department responsible for handling missed KYC documentation and collaborating on Sanctions hits and suspicious patterns.",
+    "context": [
+      "Handler: Compliance",
+      "Handler: Compliance + Financial Crime",
+      "Handler: Financial Crime + Compliance"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_rol_002",
+    "name": "Financial Crime Team",
+    "aliases": [
+      "Financial Crime"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The specialized unit responsible for managing PEP/Sanctions hits and investigating suspicious transaction patterns.",
+    "context": [
+      "Handler: Compliance + Financial Crime",
+      "Handler: Financial Crime + Compliance"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_esc_001",
+    "name": "Level 2 Escalation",
+    "aliases": [
+      "Level: 2"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The escalation tier assigned to missed KYC documentation and the lower end of suspicious transaction pattern handling.",
+    "context": [
+      "Level: 2",
+      "Level: 2–3"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_esc_002",
+    "name": "Level 3 Escalation",
+    "aliases": [
+      "Level: 3"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The escalation tier assigned to PEP/Sanctions hits and higher-risk suspicious transaction patterns.",
+    "context": [
+      "Level: 3–4",
+      "Level: 2–3"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_esc_003",
+    "name": "Level 4 Escalation",
+    "aliases": [
+      "Level: 4"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The highest escalation tier cited, specifically for handling critical PEP or Sanctions hits.",
+    "context": [
+      "Level: 3–4"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_chk_001",
+    "name": "KYC Documentation Check",
+    "aliases": [
+      "Missed KYC Documentation"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A control gate to ensure all required KYC documentation is obtained before account processing can proceed.",
+    "context": [
+      "Issue: Missed KYC Documentation",
+      "Timeline: Same day (before processing account)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_012_chk_002",
+    "name": "PEP and Sanctions Screening Gate",
+    "aliases": [
+      "PEP/Sanctions Hit"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory screening gate that triggers immediate account freezes and regulatory reporting upon a positive hit.",
+    "context": [
+      "Issue: PEP/Sanctions Hit",
+      "Action: Account freeze immediately"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_012",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_prc_001",
+    "name": "Decision Authority Matrix Process",
+    "aliases": [
+      "Decision Authority Matrix"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "A governance framework defining the financial limits and authority levels for approving various banking exceptions, reimbursements, and expenditures. It specifies the primary authority and the required escalation path based on monetary thresholds or risk factors.",
+    "context": [
+      "Decision Authority Matrix"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_001",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "An authority role responsible for approving fee reversals up to £1,000 and complaint resolutions up to £5,000.",
+    "context": [
+      "Fee Reversal | Manager | £1,000",
+      "Complaint Resolution | Manager | £5,000"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_002",
+    "name": "Director",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The escalation authority for fee reversals exceeding the £1,000 manager limit.",
+    "context": [
+      "Director if >£1k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior executive authority who handles escalations for complaint resolutions over £5,000, KYC exceptions involving PEPs or sanctions, and lending policy violations.",
+    "context": [
+      "CRO if >£5k",
+      "CRO if PEP/sanctions",
+      "CRO if policy violation"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_004",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The functional role responsible for approving fraud reimbursements up to £10,000.",
+    "context": [
+      "Fraud Reimbursement | Compliance | £10,000"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_005",
+    "name": "Chief Executive Officer (CEO)",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "The highest level of authority for fraud reimbursements exceeding £10,000 and vendor contracts exceeding £100,000.",
+    "context": [
+      "CEO if >£10k",
+      "CEO if >£100k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_006",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The primary authority responsible for approving KYC Exceptions of any value.",
+    "context": [
+      "KYC Exception | Compliance Head | Any"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_007",
+    "name": "Product Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The authority responsible for approving product exceptions up to £50,000.",
+    "context": [
+      "Product Exception | Product Manager | £50,000"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_008",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "board",
+    "description": "The governing body that provides approval for product exceptions exceeding £50,000.",
+    "context": [
+      "Board if >£50k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_009",
+    "name": "Underwriter",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The role responsible for lending exceptions provided they adhere to the credit policy.",
+    "context": [
+      "Lending Exception | Underwriter | Credit policy"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_010",
+    "name": "Chief Technology Officer (CTO)",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The authority responsible for approving system expenditure up to £50,000.",
+    "context": [
+      "System Expenditure | CTO | £50,000"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_011",
+    "name": "Chief Financial Officer (CFO)",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "The escalation authority for system expenditures exceeding £50,000.",
+    "context": [
+      "CFO if >£50k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_rol_012",
+    "name": "Department Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The authority responsible for signing vendor contracts up to £100,000.",
+    "context": [
+      "Vendor Contract | Department Head | £100,000"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_001",
+    "name": "Fee Reversal Authority Limit Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate to determine if a fee reversal can be approved by a Manager (£1,000 limit) or must be escalated to a Director.",
+    "context": [
+      "Fee Reversal | Manager | £1,000 | Director if >£1k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_002",
+    "name": "Complaint Resolution Authority Limit Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate to determine if a complaint resolution can be approved by a Manager (£5,000 limit) or must be escalated to the CRO.",
+    "context": [
+      "Complaint Resolution | Manager | £5,000 | CRO if >£5k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_003",
+    "name": "Fraud Reimbursement Authority Limit Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate to determine if fraud reimbursement is within Compliance limits (£10,000) or requires CEO escalation.",
+    "context": [
+      "Fraud Reimbursement | Compliance | £10,000 | CEO if >£10k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_004",
+    "name": "KYC Exception Risk Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A decision gate where the Compliance Head approves standard exceptions, but PEP or sanctions-related exceptions are escalated to the CRO.",
+    "context": [
+      "KYC Exception | Compliance Head | Any | CRO if PEP/sanctions"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_005",
+    "name": "Product Exception Authority Limit Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate determining if a product exception is within the Product Manager's £50,000 limit or requires Board approval.",
+    "context": [
+      "Product Exception | Product Manager | £50,000 | Board if >£50k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_006",
+    "name": "Lending Policy Compliance Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "compliance_gate",
+    "description": "A check to see if a lending exception adheres to credit policy (approved by Underwriter) or violates it (escalated to CRO).",
+    "context": [
+      "Lending Exception | Underwriter | Credit policy | CRO if policy violation"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_007",
+    "name": "System Expenditure Authority Limit Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate to check if system spend is within CTO limits (£50,000) or requires CFO escalation.",
+    "context": [
+      "System Expenditure | CTO | £50,000 | CFO if >£50k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_013_dec_008",
+    "name": "Vendor Contract Authority Limit Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate to check if a vendor contract is within Department Head limits (£100,000) or requires CEO escalation.",
+    "context": [
+      "Vendor Contract | Department Head | £100,000 | CEO if >£100k"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_013",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_014_prc_001",
+    "name": "Escalation Procedure",
+    "aliases": [
+      "Escalation Best Practices"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "An operational workflow defining the criteria and triggers for escalating issues within the bank. It specifies conditions related to financial impact, regulatory risk, and timeframes that necessitate moving an issue to a higher authority.",
+    "context": [
+      "Escalation Best Practices",
+      "When to Escalate",
+      "Escalate Immediately If"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_014",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_014_dec_001",
+    "name": "Escalation Trigger Determination",
+    "aliases": [
+      "When to Escalate"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point where a staff member determines if an issue meets the criteria for immediate escalation. Triggers include exceeding approval limits, regulatory implications, reputational risk, or an issue remaining unresolved for 24 hours.",
+    "context": [
+      "Escalate Immediately If:",
+      "Financial impact exceeds your approval limit",
+      "Regulatory/compliance implication",
+      "Reputational risk",
+      "Customer relationship at risk",
+      "You lack authority/expertise",
+      "Issue is unclear/complex",
+      "Unresolved after 24 hours"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_014",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_014_rol_001",
+    "name": "Frontline Staff",
+    "aliases": [
+      "you"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "The initial actor responsible for assessing whether an issue exceeds their specific approval limit or expertise, necessitating an escalation.",
+    "context": [
+      "Financial impact exceeds your approval limit",
+      "You lack authority/expertise"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_014",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_prc_001",
+    "name": "Issue Escalation Process",
+    "aliases": [
+      "How to Escalate"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A standardized operational workflow for documenting and escalating issues to the appropriate authority. It encompasses documentation, communication, decision implementation, and stakeholder notification.",
+    "context": [
+      "How to Escalate"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_001",
+    "name": "Issue Documentation Step",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial stage of escalation where the issue is formalized. It requires a summary, a timeline, an assessment of financial impact, and a record of efforts made so far.",
+    "context": [
+      "Document Issue: Summary, timeline, financial impact, efforts so far"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_002",
+    "name": "Contact Escalation Authority Step",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The active communication phase where the actor contacts the escalation authority using both email and phone call without delay.",
+    "context": [
+      "Contact Escalation Authority: Email + phone call (don't wait)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_rol_001",
+    "name": "Escalation Authority",
+    "aliases": [
+      "Authority"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The individual or role responsible for reviewing escalated issues, asking clarifying questions, and providing a final decision for execution.",
+    "context": [
+      "Contact Escalation Authority",
+      "Authority may ask questions",
+      "Once authority decides"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_003",
+    "name": "Provide Context Step",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The phase where detailed background information is provided, including options that have been considered and a specific recommendation.",
+    "context": [
+      "Provide Context: Background, options considered, recommendation"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_004",
+    "name": "Response Awaiting Step",
+    "aliases": [
+      "4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A waiting period where the actor must be prepared to respond promptly to any questions raised by the Escalation Authority.",
+    "context": [
+      "Wait for Response: Authority may ask questions (respond promptly)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_dec_001",
+    "name": "Authority Decision Point",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "The critical juncture where the Escalation Authority makes a determination on the issue, which then triggers immediate execution.",
+    "context": [
+      "Once authority decides, execute immediately"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_005",
+    "name": "Decision Implementation Step",
+    "aliases": [
+      "5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The execution phase where the decision rendered by the authority is put into immediate effect.",
+    "context": [
+      "Implement Decision: Once authority decides, execute immediately"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_stp_006",
+    "name": "Stakeholder Update Step",
+    "aliases": [
+      "6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The final stage of the process involving the notification of the customer, the internal team, and the manager regarding the outcome.",
+    "context": [
+      "Update Stakeholders: Inform customer, team, manager"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_rol_002",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "customer",
+    "description": "The bank customer who must be informed of the outcome following the decision and implementation of an escalated issue.",
+    "context": [
+      "Inform customer, team, manager"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_015_rol_003",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_manager",
+    "description": "Internal leadership role that is notified once an escalated issue has been decided and implemented.",
+    "context": [
+      "Inform customer, team, manager"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_015",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_prc_001",
+    "name": "Escalation Procedure",
+    "aliases": [
+      "Escalation Etiquette"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A set of guidelines governing the etiquette and requirements for escalating operational issues to higher authorities. It focuses on the quality of context, the necessity of recommendations, and the adherence to decisions made by escalation authority.",
+    "context": [
+      "Escalation Etiquette",
+      "provide complete context (don't make escalation authority investigate)",
+      "DON'T escalate until you've tried resolution at your level"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_rol_001",
+    "name": "Escalation Authority",
+    "aliases": [
+      "authority"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The individual or body responsible for reviewing escalated issues, answering questions, and making final decisions. They require complete context and recommendations from the initiating staff.",
+    "context": [
+      "don't make escalation authority investigate",
+      "answer authority questions quickly",
+      "follow decision (implement without second-guessing)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_rol_002",
+    "name": "Initiating Staff",
+    "aliases": [
+      "you"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The staff member responsible for attempting initial resolution and managing the escalation process. They must ensure they have exhausted their own authority limits before escalating.",
+    "context": [
+      "DON'T escalate until you've tried resolution at your level",
+      "know your authority limit",
+      "include recommendation (show you've thought it through)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_dec_001",
+    "name": "Authority Limit Check",
+    "aliases": [
+      "trivial issues check"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "authority_limit_check",
+    "description": "A decision gate used by staff to determine if an issue is trivial or within their own authority limit, thereby deciding whether an escalation is necessary.",
+    "context": [
+      "DON'T escalate trivial issues (know your authority limit)",
+      "DON'T escalate until you've tried resolution at your level"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_dec_002",
+    "name": "Re-escalation Validity Check",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A check to determine if an issue that has already been decided upon can be escalated again, triggered only if circumstances have changed.",
+    "context": [
+      "DON'T escalate again if already decided (only if circumstances change)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_stp_001",
+    "name": "Context and Recommendation Preparation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of assembling complete context and a reasoned recommendation before initiating an escalation to ensure the authority does not have to investigate from scratch.",
+    "context": [
+      "provide complete context (don't make escalation authority investigate)",
+      "include recommendation (show you've thought it through)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_016_stp_002",
+    "name": "Decision Implementation",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final step in the escalation workflow where the initiating staff implements the decision provided by the escalation authority without second-guessing.",
+    "context": [
+      "follow decision (implement without second-guessing)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_016",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_prc_001",
+    "name": "Emergency Escalation Process",
+    "aliases": [
+      "Emergency Escalation (24/7)",
+      "On-Call Escalation"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "A 24/7 emergency escalation workflow used to resolve critical system, security, regulatory, or customer crises via on-call contacts. The process relies on a maintained On-Call List updated monthly by Operations.",
+    "context": [
+      "Emergency Escalation (24/7)",
+      "For On-Call Escalation",
+      "On-Call List: Maintained by Operations, updated monthly"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_001",
+    "name": "IT On-Call",
+    "aliases": [
+      "0800-888-TECH"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The technical support actor responsible for responding to system outage escalations via the emergency phone line.",
+    "context": [
+      "System outage: Call IT On-Call (0800-888-TECH)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_002",
+    "name": "Security On-Call",
+    "aliases": [
+      "0800-888-SECU"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The security response actor responsible for handling security incident escalations via the emergency phone line.",
+    "context": [
+      "Security incident: Call Security On-Call (0800-888-SECU)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_003",
+    "name": "Chief Risk Officer (CRO)",
+    "aliases": [
+      "CRO Mobile"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The executive actor responsible for handling regulatory issues, contacted via a mobile number registered with the operations team.",
+    "context": [
+      "Regulatory issue: Call CRO Mobile (registered with ops team)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_004",
+    "name": "CEO/COO",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "The highest level executive actors responsible for managing customer crises, contacted via numbers registered with the operations team.",
+    "context": [
+      "Customer crisis: Call CEO/COO (registered with ops team)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_rol_005",
+    "name": "Operations Team",
+    "aliases": [
+      "Operations"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The team responsible for maintaining and updating the On-Call List on a monthly basis.",
+    "context": [
+      "On-Call List: Maintained by Operations, updated monthly",
+      "(registered with ops team)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_dec_001",
+    "name": "Emergency Type Classification",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A branching point where the nature of the emergency (System, Security, Regulatory, or Customer) determines which on-call actor must be contacted.",
+    "context": [
+      "System outage: Call IT On-Call",
+      "Security incident: Call Security On-Call",
+      "Regulatory issue: Call CRO Mobile",
+      "Customer crisis: Call CEO/COO"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_017_stp_001",
+    "name": "On-Call List Maintenance",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The recurring monthly action of updating the On-Call List to ensure current contact details for emergency responders are available.",
+    "context": [
+      "On-Call List: Maintained by Operations, updated monthly"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_017",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_001",
+    "name": "Level 1 Escalation",
+    "aliases": [
+      "Level 1"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "frontline",
+    "description": "The first tier of the escalation matrix with the tightest turnaround times, requiring acknowledgment within 1 hour and same-day decisions.",
+    "context": [
+      "Level 1 | 1 hour | 24 hours | Same day"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_002",
+    "name": "Level 2 Escalation",
+    "aliases": [
+      "Level 2"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "supervisor",
+    "description": "The second tier of escalation requiring acknowledgment within 2 hours, a 2-day investigation period, and a decision within 3 days.",
+    "context": [
+      "Level 2 | 2 hours | 2 days | 3 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_003",
+    "name": "Level 3 Escalation",
+    "aliases": [
+      "Level 3"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "department_head",
+    "description": "The third tier of escalation with a 4-hour acknowledgment window, a 3-day investigation period, and a 5-day decision timeline.",
+    "context": [
+      "Level 3 | 4 hours | 3 days | 5 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_004",
+    "name": "Level 4 Escalation",
+    "aliases": [
+      "Level 4"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "executive",
+    "description": "The fourth tier of escalation requiring acknowledgment within 2 hours, a 1-day investigation, and a decision within 2 days.",
+    "context": [
+      "Level 4 | 2 hours | 1 day | 2 days"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_018_esc_005",
+    "name": "Level 5 Escalation",
+    "aliases": [
+      "Level 5"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "board",
+    "description": "The fifth and highest tier of escalation requiring 1-hour acknowledgment and 24-hour investigation, with decisions typically taking 3 days unless critical, in which case they are immediate.",
+    "context": [
+      "Level 5 | 1 hour | 24 hours | 3 days (or immediate if critical)"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_018",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_prc_001",
+    "name": "Escalation Reporting Process",
+    "aliases": [
+      "Escalation Reporting"
+    ],
+    "entity_class": "PROCESS",
+    "type": "escalation_procedure",
+    "description": "The operational workflow for reporting and reviewing escalations on a monthly and quarterly basis. It includes tracking metrics such as resolution time and systemic issues, and notifying governance committees of high-level or regulatory escalations.",
+    "context": [
+      "Escalation Reporting",
+      "Monthly Escalation Report",
+      "Quarterly Review"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_stp_001",
+    "name": "Monthly Escalation Report Generation",
+    "aliases": [
+      "Monthly Report"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The monthly action of compiling escalation data, including total counts by level, average resolution times, common reasons, and trend analysis to identify systemic issues.",
+    "context": [
+      "Monthly Escalation Report",
+      "Total escalations by level",
+      "Average resolution time",
+      "Common escalation reasons",
+      "Systemic issues identified",
+      "Trend analysis"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_stp_002",
+    "name": "Quarterly Escalation Review",
+    "aliases": [
+      "Quarterly Review"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A quarterly governance activity where high-level escalations are reported to committees, trends are discussed, and process improvements are considered.",
+    "context": [
+      "Quarterly Review",
+      "Trends discussed, process improvements considered"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_rol_001",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive_committee",
+    "description": "The governance body responsible for being notified of Level 5 escalations during the quarterly review process.",
+    "context": [
+      "Board Risk Committee notified of Level 5 escalations"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_rol_002",
+    "name": "Audit Committee",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive_committee",
+    "description": "The oversight body responsible for being notified of regulatory escalations during the quarterly review process.",
+    "context": [
+      "Audit committee notified of regulatory escalations"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_esc_001",
+    "name": "Level 5 Escalation",
+    "aliases": [
+      "L5"
+    ],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "board",
+    "description": "The highest tier of escalation requiring notification to the Board Risk Committee during the quarterly review.",
+    "context": [
+      "Board Risk Committee notified of Level 5 escalations"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_019_chk_001",
+    "name": "Regulatory Escalation Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A compliance gate ensuring that all escalations of a regulatory nature are identified and reported to the Audit Committee quarterly.",
+    "context": [
+      "Audit committee notified of regulatory escalations"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_019",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_022_rol_001",
+    "name": "Chief Operating Officer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "Executive authority responsible for the formal approval and sign-off of the operational procedure document.",
+    "context": [
+      "Approved by: Chief Operating Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_022",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "87caa5a80d99442ba778b80130b66716_022_rol_002",
+    "name": "Chief Executive Officer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "executive",
+    "description": "Executive authority responsible for the final formal approval and sign-off of the operational procedure document.",
+    "context": [
+      "Chief Executive Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "87caa5a80d99442ba778b80130b66716_022",
+    "doc_id": "87caa5a80d99442ba778b80130b66716",
+    "domain": "banking_sop_guides"
+  }
+]

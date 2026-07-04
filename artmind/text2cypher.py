@@ -9,7 +9,7 @@ from artmind.graph_query import (
     graph_metadata,
     strip_embeddings,
 )
-from utils.functions import load_env
+from utils.functions import load_env, resolve_llm_model
 
 
 _WRITE_KEYWORDS_RE = re.compile(
@@ -139,7 +139,7 @@ def generate_cypher(
     Returns a dict with keys: cypher, parameters.
     """
     env = load_env()
-    resolved_model = model or env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
+    resolved_model = resolve_llm_model(env, model)
 
     metadata = graph_metadata(domain)
     listing = entity_listing(domain)

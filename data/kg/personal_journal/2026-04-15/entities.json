@@ -1,0 +1,310 @@
+[
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_001",
+    "name": "Diarist",
+    "aliases": [
+      "I"
+    ],
+    "entity_class": "PERSON",
+    "type": "self",
+    "description": "The author of the journal entry who experienced a busy day of quarterly reviews at work and handled the evening routine with the family and pet.",
+    "context": [
+      "Woke up late today",
+      "By evening, I was exhausted",
+      "Took him to the nearby park"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_002",
+    "name": "Preeti",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "spouse",
+    "description": "The diarist's partner who managed the children's lunches, picked them up from school, and prepared dinner.",
+    "context": [
+      "Preeti had already packed the kids' lunch",
+      "Preeti picked up the kids from school",
+      "Preeti made paneer for dinner"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_003",
+    "name": "Neetish",
+    "aliases": [
+      "she"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the children who had a math test and a successful science project presentation.",
+    "context": [
+      "Neetish had a math test scheduled for today so she was nervous",
+      "Neetish did well in her science project presentation"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_004",
+    "name": "Mohan",
+    "aliases": [
+      "him"
+    ],
+    "entity_class": "PERSON",
+    "type": "child",
+    "description": "One of the children who spent time playing with the dog and has been experiencing conflict with a school friend.",
+    "context": [
+      "Mohan, as usual, was busy playing with Browny",
+      "Mohan has been fighting with his friend from school"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_005",
+    "name": "Browny",
+    "aliases": [
+      "him",
+      "He"
+    ],
+    "entity_class": "PERSON",
+    "type": "pet",
+    "description": "The family dog who is becoming stubborn with age and reacted aggressively to a stray dog during a walk.",
+    "context": [
+      "Mohan, as usual, was busy playing with Browny",
+      "Browny needed his evening walk",
+      "He's getting stubborn with age"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_per_006",
+    "name": "Mohan's friend",
+    "aliases": [
+      "his friend from school"
+    ],
+    "entity_class": "PERSON",
+    "type": "acquaintance",
+    "description": "A peer of Mohan's from school with whom Mohan has been fighting.",
+    "context": [
+      "Mohan has been fighting with his friend from school"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_001",
+    "name": "Home",
+    "aliases": [
+      "kitchen",
+      "living room"
+    ],
+    "entity_class": "PLACE",
+    "type": "home",
+    "description": "The residence where the diarist's family lives and where the morning and evening routines take place.",
+    "context": [
+      "by the time I got to the kitchen",
+      "busy playing with Browny in the living room"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_002",
+    "name": "Office",
+    "aliases": [
+      "work"
+    ],
+    "entity_class": "PLACE",
+    "type": "workplace",
+    "description": "The diarist's place of employment where quarterly reviews and meetings were held.",
+    "context": [
+      "Office was busy with the quarterly reviews"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_003",
+    "name": "School",
+    "aliases": [],
+    "entity_class": "PLACE",
+    "type": "school",
+    "description": "The educational institution attended by Neetish and Mohan.",
+    "context": [
+      "Preeti picked up the kids from school",
+      "his friend from school"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_plc_004",
+    "name": "Nearby Park",
+    "aliases": [
+      "the nearby park"
+    ],
+    "entity_class": "PLACE",
+    "type": "park",
+    "description": "The local outdoor area where the diarist took Browny for his evening walk.",
+    "context": [
+      "Took him to the nearby park"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_001",
+    "name": "Quarterly Reviews",
+    "aliases": [
+      "back-to-back meetings"
+    ],
+    "entity_class": "EVENT",
+    "type": "work_event",
+    "description": "A series of intensive professional evaluations and meetings lasting from 9 AM to 4 PM.",
+    "context": [
+      "Office was busy with the quarterly reviews",
+      "Had back-to-back meetings from 9 AM to 4 PM"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_002",
+    "name": "Neetish's Math Test",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "appointment",
+    "description": "A scheduled academic assessment that caused Neetish to feel nervous.",
+    "context": [
+      "Neetish had a math test scheduled for today"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_003",
+    "name": "Science Project Presentation",
+    "aliases": [],
+    "entity_class": "EVENT",
+    "type": "achievement",
+    "description": "A school presentation delivered by Neetish which was reported as successful.",
+    "context": [
+      "Neetish did well in her science project presentation"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_evt_004",
+    "name": "Mohan's Conflict",
+    "aliases": [
+      "fighting"
+    ],
+    "entity_class": "EVENT",
+    "type": "conflict",
+    "description": "An ongoing dispute between Mohan and a friend from his school.",
+    "context": [
+      "Mohan has been fighting with his friend from school"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_001",
+    "name": "Work",
+    "aliases": [],
+    "entity_class": "ACTIVITY",
+    "type": "work",
+    "description": "The diarist's professional duties, currently focused on meeting an approaching project deadline.",
+    "context": [
+      "The project deadline is approaching and the team is working hard to meet it"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_act_002",
+    "name": "Dog Walking",
+    "aliases": [
+      "evening walk"
+    ],
+    "entity_class": "ACTIVITY",
+    "type": "care",
+    "description": "The routine task of taking Browny for a walk in the evening.",
+    "context": [
+      "Browny needed his evening walk",
+      "Took him to the nearby park"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_001",
+    "name": "Nervousness",
+    "aliases": [
+      "nervous"
+    ],
+    "entity_class": "EMOTION",
+    "type": "anxiety",
+    "description": "The feeling of anxiety experienced by Neetish regarding her math test.",
+    "context": [
+      "she was nervous"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_emo_002",
+    "name": "Exhaustion",
+    "aliases": [
+      "exhausted"
+    ],
+    "entity_class": "EMOTION",
+    "type": "exhaustion",
+    "description": "The state of physical and mental fatigue felt by the diarist after a long day of meetings.",
+    "context": [
+      "By evening, I was exhausted"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  },
+  {
+    "id": "3ffacfd90d2642a9a2c21b4000b52e59_001_pla_001",
+    "name": "Talk to Mohan",
+    "aliases": [],
+    "entity_class": "PLAN",
+    "type": "family",
+    "description": "The diarist's intention to address the fighting between Mohan and his school friend.",
+    "context": [
+      "Need to talk to him about it"
+    ],
+    "chunk_id": "3ffacfd90d2642a9a2c21b4000b52e59_001",
+    "doc_id": "3ffacfd90d2642a9a2c21b4000b52e59",
+    "domain": "personal_journal"
+  }
+]

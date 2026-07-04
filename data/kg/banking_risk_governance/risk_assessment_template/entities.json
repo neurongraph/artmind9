@@ -1,0 +1,1192 @@
+[
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_001",
+    "name": "Risk Department",
+    "aliases": [
+      "Risk"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The department responsible for the ownership and management of the Risk Assessment Template & Guidance.",
+    "context": [
+      "Owner | Head of Risk",
+      "Department | Risk, Compliance"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_002",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "The department co-responsible for the Risk Assessment Template & Guidance.",
+    "context": [
+      "Department | Risk, Compliance"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [
+      "Operational"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A risk category encompassing failures in internal processes, such as data entry errors during application forms and physical mail loss during statement delivery.",
+    "context": [
+      "Application Form | Data Entry Error | Incorrect customer name captured | Operational",
+      "Statement Delivery | Mail Loss | Physical statement lost in post | Operational"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_002",
+    "name": "Compliance Risk",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "A risk category covering regulatory and legal failures, specifically including fraud via forged documents during KYC and false positives during AML screening.",
+    "context": [
+      "KYC Verification | Fraud | Forged document submitted | Compliance",
+      "AML Screening | False Positive | Legitimate customer matches sanctions list | Compliance"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_003",
+    "name": "Technology Risk",
+    "aliases": [
+      "Technology"
+    ],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "A risk category relating to system availability and failures, such as the AMS system being unavailable during account creation.",
+    "context": [
+      "Account Creation | System Failure | AMS unavailable, account not created | Technology"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_001",
+    "name": "Customer Service Department",
+    "aliases": [
+      "Customer Service"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "retail_banking",
+    "description": "One of the two staff departments involved in the online account opening process.",
+    "context": [
+      "Process involves 4 systems (IBP, AMS, FDE, DW) and 2 staff departments (Customer Service, Compliance)."
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_002",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "One of the two staff departments involved in the online account opening process, responsible for oversight and verification.",
+    "context": [
+      "Process involves 4 systems (IBP, AMS, FDE, DW) and 2 staff departments (Customer Service, Compliance)."
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_prod_001",
+    "name": "Online Account Opening Product",
+    "aliases": [
+      "Account opening process via online channel"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account_product",
+    "description": "The banking product/process where customers apply online, provide KYC, undergo AML screening, and receive an account within 2 business days.",
+    "context": [
+      "Account opening process via online channel. Customers complete application, provide KYC documents, undergo AML screening, and receive account within 2 business days."
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_kyc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "KYC Verification"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "kyc_gap",
+    "description": "The verification step in the account opening process, identified as a point of risk for fraud via forged documents.",
+    "context": [
+      "KYC Verification | Fraud | Forged document submitted | Compliance"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_004_aml_001",
+    "name": "AML Screening Process",
+    "aliases": [
+      "AML Screening"
+    ],
+    "entity_class": "AML_SCREENING",
+    "type": "aml_gap",
+    "description": "The screening step in the account opening process, identified as a point of risk for false positives against sanctions lists.",
+    "context": [
+      "AML Screening | False Positive | Legitimate customer matches sanctions list | Compliance"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_001",
+    "name": "Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "A risk category concerning loan defaults and credit losses, with a defined risk appetite tolerance of a loss ratio of less than 0.5%.",
+    "context": [
+      "Credit Risk (loan defaults, credit losses)",
+      "Credit Risk: <0.5% loss ratio"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_002",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A risk category covering process failures, errors, and fraud, with a risk appetite tolerance of less than £50k per year.",
+    "context": [
+      "Operational Risk (process failures, errors, fraud)",
+      "Operational Risk: <£50k/year"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_003",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "A risk category involving regulatory violations and policy breaches, with a zero-tolerance risk appetite (0 violations).",
+    "context": [
+      "Compliance Risk (regulatory violation, policy breach)",
+      "Compliance Risk: 0 violations"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_004",
+    "name": "Technology Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "A risk category encompassing system failures and cyber attacks, with a risk appetite target of 99.9% uptime.",
+    "context": [
+      "Technology Risk (system failure, cyber attack)",
+      "Technology Risk: 99.9% uptime"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_005",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "A risk category covering theft, money laundering, and impersonation, with a risk appetite tolerance of less than £100k per year.",
+    "context": [
+      "Fraud Risk (theft, money laundering, impersonation)",
+      "Fraud Risk: <£100k/year"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_006",
+    "name": "Reputational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "reputational_risk",
+    "description": "A risk category related to brand damage and customer loss.",
+    "context": [
+      "Reputational Risk (brand damage, customer loss)"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_007",
+    "name": "Liquidity Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "liquidity_risk",
+    "description": "A risk category concerning cash flow constraints.",
+    "context": [
+      "Liquidity Risk (cash flow constraints)"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_008",
+    "name": "Market Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "market_risk",
+    "description": "A risk category involving interest rate and currency fluctuations.",
+    "context": [
+      "Market Risk (interest rate, currency)"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_001",
+    "name": "Credit Risk Loss Ratio — Threshold <0.5%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "loss_ratio",
+    "description": "The risk appetite threshold for Credit Risk, specified as a loss ratio of less than 0.5%.",
+    "context": [
+      "Credit Risk: <0.5% loss ratio"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_002",
+    "name": "Operational Risk Annual Loss — Threshold <£50k/year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "The risk appetite threshold for Operational Risk, limited to less than £50,000 per year.",
+    "context": [
+      "Operational Risk: <£50k/year"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_003",
+    "name": "Compliance Violation Count — Threshold 0",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The risk appetite threshold for Compliance Risk, requiring zero violations.",
+    "context": [
+      "Compliance Risk: 0 violations"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_004",
+    "name": "Fraud Risk Annual Loss — Threshold <£100k/year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "The risk appetite threshold for Fraud Risk, limited to less than £100,000 per year.",
+    "context": [
+      "Fraud Risk: <£100k/year"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_005",
+    "name": "Technology Uptime — Threshold 99.9%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The risk appetite threshold for Technology Risk, requiring 99.9% system uptime.",
+    "context": [
+      "Technology Risk: 99.9% uptime"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "name": "Customer Data Entry Error — Operational Risk",
+    "aliases": [
+      "RISK-2026-001"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk where customers provide incorrect personal information during online account opening, which is accepted by the system and later found to be discrepant during regulatory verification. It is currently scored as a Medium Risk with a risk score of 9.",
+    "context": [
+      "Customer completes online account opening form with incorrect personal information (wrong name spelling, incorrect DOB, incorrect address).",
+      "System accepts entry and creates account with bad data. Later regulatory verification finds discrepancies.",
+      "Risk Score = 3 × 3 = 9 (Medium Risk)"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_met_001",
+    "name": "Operational Risk Target — Target <£50k/year, Current ~£20k/year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The quantitative appetite threshold for operational risk associated with data entry errors, currently operating within tolerance.",
+    "context": [
+      "Operational Risk Target: <£50k/year",
+      "Current Impact: ~£20k/year ✅ (Within tolerance)"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_001",
+    "name": "Implement client-side form validation (real-time)",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Technical implementation of real-time validation on the online form to catch 90% of errors before submission, assigned to the Technology department with a deadline of 2026-02-28.",
+    "context": [
+      "Implement client-side form validation (real-time) | Technology | 2026-02-28 | Catch 90% of errors pre-submission"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_002",
+    "name": "Require confirmation of key fields (name, DOB)",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Requirement for customers to confirm key identity fields to reduce entry errors by 50%, assigned to the Technology department with a deadline of 2026-02-28.",
+    "context": [
+      "Require confirmation of key fields (name, DOB) | Technology | 2026-02-28 | Reduce entry errors by 50%"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_003",
+    "name": "Automated post-opening verification call (IVR)",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Implementation of an automated IVR call for post-opening verification to catch 100% of remaining errors, assigned to Customer Service with a deadline of 2026-03-31.",
+    "context": [
+      "Automated post-opening verification call (IVR) | Customer Service | 2026-03-31 | Catch 100% of remaining errors"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_001",
+    "name": "Retail Banking",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "retail_banking",
+    "description": "The business unit responsible for the Online Account Opening process.",
+    "context": [
+      "Business Unit: Retail Banking"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_002",
+    "name": "Technology",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "Department responsible for form validation controls and the implementation of real-time validation and field confirmation actions.",
+    "context": [
+      "Online form validation (name field required, format check) | Technology",
+      "Implement client-side form validation (real-time) | Technology"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_003",
+    "name": "Customer Service",
+    "aliases": [
+      "CSR"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "operations",
+    "description": "Department responsible for manual application review, post-opening verification, and the implementation of the IVR verification call.",
+    "context": [
+      "Manual review of application before account creation | CSR",
+      "Automated post-opening verification call (IVR) | Customer Service"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_006_prod_001",
+    "name": "Online Account Opening",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account_product",
+    "description": "The digital process and product offering for opening new bank accounts, currently under risk assessment for data quality.",
+    "context": [
+      "Process Name: Online Account Opening"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "name": "Risk Assessment Governance Framework",
+    "aliases": [
+      "Risk Assessment Governance"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The governance framework defining the mandatory and recommended triggers for performing risk assessments within the bank. It ensures risk evaluations are conducted during new implementations, product launches, system changes, and regulatory updates.",
+    "context": [
+      "PART 3: RISK ASSESSMENT GOVERNANCE",
+      "When to Perform Risk Assessment"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_001",
+    "name": "Mandatory Risk Assessment for New Process Implementation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "A mandatory requirement to perform a risk assessment whenever a new process is implemented.",
+    "context": [
+      "Mandatory:",
+      "New process implementation"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_002",
+    "name": "Mandatory Risk Assessment for New Product Launch",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "A mandatory requirement to perform a risk assessment upon the launch of a new product.",
+    "context": [
+      "Mandatory:",
+      "New product launch"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_003",
+    "name": "Mandatory Risk Assessment for Major System Change",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "A mandatory requirement to perform a risk assessment following a major system change.",
+    "context": [
+      "Mandatory:",
+      "Major system change"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_004",
+    "name": "Mandatory Risk Assessment for Regulatory Requirement Change",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "policy_update",
+    "description": "A mandatory requirement to perform a risk assessment when there is a change in regulatory requirements.",
+    "context": [
+      "Mandatory:",
+      "Regulatory requirement change"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_005",
+    "name": "Annual Risk Assessment for Critical Processes",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A mandatory annual requirement to conduct risk assessments for all processes designated as critical.",
+    "context": [
+      "Mandatory:",
+      "Annually for all critical processes"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_006",
+    "name": "Recommended Risk Assessment After Significant Incident",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "investigation",
+    "description": "A recommended action to perform a risk assessment following the occurrence of a significant incident.",
+    "context": [
+      "Recommended:",
+      "After significant incident"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_007",
+    "name": "Recommended Risk Assessment Upon Process Metric Degradation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A recommended action to perform a risk assessment when process metrics show degradation.",
+    "context": [
+      "Recommended:",
+      "When process metrics degrade"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_008",
+    "name": "Recommended Risk Assessment Upon Management Request",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "follow_up",
+    "description": "A recommended action to perform a risk assessment when specifically requested by management.",
+    "context": [
+      "Recommended:",
+      "Upon management request"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_009",
+    "name": "Recommended Risk Assessment After External Audit Finding",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "A recommended action to perform a risk assessment following the identification of a finding by an external audit.",
+    "context": [
+      "Recommended:",
+      "After external audit finding"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_001",
+    "name": "Risk Score Threshold — Low (1–5)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Quantitative risk score range defined as Low, requiring approval from the Department Head within a 10-day timeline.",
+    "context": [
+      "1–5 (Low)",
+      "Risk Score | Approval Required | Timeline"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_002",
+    "name": "Risk Score Threshold — Medium (6–12)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Quantitative risk score range defined as Medium, requiring approval from the Head of Risk within a 5-day timeline.",
+    "context": [
+      "6–12 (Medium)",
+      "Risk Score | Approval Required | Timeline"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_003",
+    "name": "Risk Score Threshold — High (13–18)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Quantitative risk score range defined as High, requiring approval from the Risk Committee and Executive within a 2-day timeline.",
+    "context": [
+      "13–18 (High)",
+      "Risk Score | Approval Required | Timeline"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_004",
+    "name": "Risk Score Threshold — Critical (19–25)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Quantitative risk score range defined as Critical, requiring approval from the Board and CEO within a 24-hour timeline.",
+    "context": [
+      "19–25 (Critical)",
+      "Risk Score | Approval Required | Timeline"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_001",
+    "name": "Department Head",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "department_head",
+    "description": "The organizational role responsible for approving risks scored between 1 and 5.",
+    "context": [
+      "Department Head"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_002",
+    "name": "Head of Risk",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The organizational role responsible for approving risks scored between 6 and 12.",
+    "context": [
+      "Head of Risk"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_003",
+    "name": "Risk Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The governance body responsible for approving high-level risks scored between 13 and 18.",
+    "context": [
+      "Risk Committee + Exec"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_004",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance",
+    "description": "The highest governance body responsible for approving critical risks scored between 19 and 25.",
+    "context": [
+      "Board + CEO"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_001",
+    "name": "Risk Reporting Distribution Frequency — Low Level: Quarterly",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The defined reporting frequency for Low risk level events, which are distributed to the Department Head and Risk Team on a quarterly basis.",
+    "context": [
+      "Low | Department Head, Risk Team | Quarterly"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_002",
+    "name": "Risk Reporting Distribution Frequency — Medium Level: Monthly",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The defined reporting frequency for Medium risk level events, which are distributed to the Exec Committee on a monthly basis.",
+    "context": [
+      "Medium | Exec Committee | Monthly"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_003",
+    "name": "Risk Reporting Distribution Frequency — High Level: Weekly",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The defined reporting frequency for High risk level events, which are distributed to the Risk Committee on a weekly basis.",
+    "context": [
+      "High | Risk Committee | Weekly"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_004",
+    "name": "Risk Reporting Distribution Frequency — Critical Level: Immediate",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The defined reporting frequency for Critical risk level events, which are distributed to the Board immediately.",
+    "context": [
+      "Critical | Board | Immediate"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_001",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The internal department responsible for receiving quarterly reports on Low risk level events.",
+    "context": [
+      "Low | Department Head, Risk Team | Quarterly"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_002",
+    "name": "Exec Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The executive governance body responsible for receiving monthly reports on Medium risk level events.",
+    "context": [
+      "Medium | Exec Committee | Monthly"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_003",
+    "name": "Risk Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The governance committee responsible for receiving weekly reports on High risk level events.",
+    "context": [
+      "High | Risk Committee | Weekly"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_004",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The highest governing body of the bank, responsible for receiving immediate reports on Critical risk level events.",
+    "context": [
+      "Critical | Board | Immediate"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_001",
+    "name": "Likelihood Scale - Remote (1)",
+    "aliases": [
+      "1",
+      "Remote"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A risk likelihood metric defined as 'Remote', indicating an event is unlikely in the foreseeable future with a frequency of less than one event per 10 years.",
+    "context": [
+      "1 = Remote (Unlikely in foreseeable future)",
+      "Frequency: <1 event per 10 years"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_002",
+    "name": "Likelihood Scale - Low (2)",
+    "aliases": [
+      "2",
+      "Low"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A risk likelihood metric defined as 'Low', indicating an event may occur in 3+ years with a frequency of 1 event per 3–10 years.",
+    "context": [
+      "2 = Low (May occur in 3+ years)",
+      "Frequency: 1 event per 3–10 years"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_003",
+    "name": "Likelihood Scale - Medium (3)",
+    "aliases": [
+      "3",
+      "Medium"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A risk likelihood metric defined as 'Medium', indicating an event may occur in 1–3 years with a frequency of 1 event per 1–3 years.",
+    "context": [
+      "3 = Medium (May occur in 1–3 years)",
+      "Frequency: 1 event per 1–3 years"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_004",
+    "name": "Likelihood Scale - High (4)",
+    "aliases": [
+      "4",
+      "High"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A risk likelihood metric defined as 'High', indicating an event is likely in less than 1 year with a frequency of 4 or more events per year.",
+    "context": [
+      "4 = High (Likely in <1 year)",
+      "Frequency: 4+ events per year"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_005",
+    "name": "Likelihood Scale - Very High (5)",
+    "aliases": [
+      "5",
+      "Very High"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A risk likelihood metric defined as 'Very High', indicating an event could occur multiple times per year with a frequency of weekly or more.",
+    "context": [
+      "5 = Very High (Could occur multiple times per year)",
+      "Frequency: Weekly or more"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_001",
+    "name": "Impact Scale Level 1 — Negligible",
+    "aliases": [
+      "Level 1"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The lowest tier of the impact scale, defined as Negligible. It applies when financial impact is less than £10k, affecting 1–5 customers, with no regulatory impact.",
+    "context": [
+      "1 = Negligible",
+      "Financial: <£10k",
+      "Customers: 1–5",
+      "Regulatory: No impact"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_002",
+    "name": "Impact Scale Level 2 — Minor",
+    "aliases": [
+      "Level 2"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The second tier of the impact scale, defined as Minor. It applies when financial impact is between £10k and £100k, affecting 5–25 customers, with no formal regulatory action.",
+    "context": [
+      "2 = Minor",
+      "Financial: £10k–£100k",
+      "Customers: 5–25",
+      "Regulatory: No formal action"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_003",
+    "name": "Impact Scale Level 3 — Moderate",
+    "aliases": [
+      "Level 3"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The middle tier of the impact scale, defined as Moderate. It applies when financial impact is between £100k and £500k, affecting 25–100 customers, resulting in regulatory review or minor guidance.",
+    "context": [
+      "3 = Moderate",
+      "Financial: £100k–£500k",
+      "Customers: 25–100",
+      "Regulatory: Review, minor guidance"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_004",
+    "name": "Impact Scale Level 4 — Major",
+    "aliases": [
+      "Level 4"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The fourth tier of the impact scale, defined as Major. It applies when financial impact is between £500k and £1M, affecting 100–500 customers, and resulting in regulatory fines or restrictions.",
+    "context": [
+      "4 = Major",
+      "Financial: £500k–£1M",
+      "Customers: 100–500",
+      "Regulatory: Fine, restrictions"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_005",
+    "name": "Impact Scale Level 5 — Critical",
+    "aliases": [
+      "Level 5"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The highest tier of the impact scale, defined as Critical. It applies when financial impact exceeds £1M, affecting over 500 customers, and resulting in license suspension or criminal action.",
+    "context": [
+      "5 = Critical",
+      "Financial: >£1M",
+      "Customers: 500+",
+      "Regulatory: License suspension, criminal action"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_012_act_001",
+    "name": "Risk Assessment Documentation Filing Requirement",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "A requirement to maintain a comprehensive file for each risk assessment, including signed forms, evidence, control evaluations, mitigation plans, approval signatures, and implementation tracking.",
+    "context": [
+      "For each risk assessment, keep on file:",
+      "Original risk assessment form (signed)",
+      "Supporting evidence (test results, incident logs)",
+      "Control evaluation documentation",
+      "Mitigation action plan",
+      "Approval signatures",
+      "Implementation tracking"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_012",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_013_rsk_001",
+    "name": "Risk Data Retention Policy",
+    "aliases": [
+      "Retention"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The bank maintains a risk data retention requirement of 7 years to support audit trails and regulatory inquiries. Data is stored in an encrypted secure risk repository with access restricted to the Risk team and process owners.",
+    "context": [
+      "Keep: 7 years (supports audit trail, regulatory inquiries)",
+      "Location: Secure risk repository (encrypted)",
+      "Access: Risk team + process owner only"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_013_met_001",
+    "name": "Data Retention Period — 7 Years",
+    "aliases": [
+      "Retention period"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The quantitative requirement for the duration that risk-related data must be kept to ensure regulatory compliance and auditability.",
+    "context": [
+      "Keep: 7 years (supports audit trail, regulatory inquiries)"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_013_dep_001",
+    "name": "Risk Team",
+    "aliases": [
+      "Risk"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The department granted authorized access to the encrypted secure risk repository.",
+    "context": [
+      "Access: Risk team + process owner only"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_rsk_001",
+    "name": "Residual Risk Calculation",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The requirement to calculate risk after considering existing controls rather than scoring risk in isolation.",
+    "context": [
+      "Calculate residual risk (risk after controls)"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_001",
+    "name": "Mitigation Action Assignment Standard",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "A governance requirement that every mitigation action must be assigned a specific owner, a target date, and a defined expected impact.",
+    "context": [
+      "Each action must have owner, target date, expected impact"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_002",
+    "name": "Quarterly Control Retesting and Risk Recalculation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A mandatory recurring task to retest controls and recalculate residual risk on a quarterly basis following mitigation.",
+    "context": [
+      "Retest controls and recalculate residual risk quarterly"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dec_001",
+    "name": "Risk Assessment Centralisation Policy",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "A governance requirement that risk assessments must not be kept solely by department owners but must be filed with the Risk team for a consolidated view.",
+    "context": [
+      "File with Risk team for consolidated view"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dep_001",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The central department responsible for maintaining the consolidated view of risk assessments across the bank.",
+    "context": [
+      "File with Risk team for consolidated view"
+    ],
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  }
+]

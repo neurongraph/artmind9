@@ -1,0 +1,2143 @@
+{
+  "embedding": [
+    0.07215685,
+    0.026177695,
+    -0.16817056,
+    0.017857268,
+    0.08096121,
+    -0.049518906,
+    0.06320559,
+    0.021748364,
+    0.043297574,
+    0.018067272,
+    -0.046569373,
+    0.05084737,
+    0.05870888,
+    0.0025533843,
+    0.010190994,
+    -0.03448826,
+    0.03418184,
+    -0.068400584,
+    -0.0617304,
+    -0.010490427,
+    -0.019029599,
+    -0.024235658,
+    -0.04534394,
+    0.010197392,
+    0.013766975,
+    0.048152287,
+    0.0120459115,
+    -0.00943299,
+    -0.05083511,
+    0.005305167,
+    0.04799429,
+    0.021258999,
+    -0.029626852,
+    -0.064433895,
+    -0.045472696,
+    -0.058215164,
+    0.05468267,
+    0.041739676,
+    -0.046221986,
+    -0.050336074,
+    0.020209827,
+    0.06596692,
+    0.021078024,
+    -0.06628107,
+    0.03127959,
+    0.010321891,
+    0.08771598,
+    0.010518921,
+    0.04608282,
+    -0.019135134,
+    0.029528163,
+    0.012872326,
+    -0.0017866322,
+    0.005245789,
+    0.041188903,
+    0.040366925,
+    -0.0032810005,
+    0.035986762,
+    -0.011414784,
+    -0.055626582,
+    0.100927085,
+    0.04332524,
+    -0.017105829,
+    0.012043131,
+    0.031554863,
+    -0.03828388,
+    -0.008376521,
+    0.053658593,
+    0.056935254,
+    -0.0092976075,
+    0.008166649,
+    -0.005040072,
+    0.0142192645,
+    -0.0048472877,
+    0.042763013,
+    -0.019280463,
+    -0.06168022,
+    -0.00170657,
+    -0.030650029,
+    0.026293246,
+    0.05336887,
+    0.008079613,
+    0.043630566,
+    -0.007916107,
+    -0.019834708,
+    -0.037364718,
+    -0.052219134,
+    -0.0069881235,
+    -0.025966316,
+    0.046033595,
+    0.00025286732,
+    0.02351174,
+    0.022646364,
+    0.06019124,
+    -0.038506486,
+    0.07460569,
+    0.009066066,
+    -0.0027258561,
+    -0.06519233,
+    -0.044455726,
+    -0.0082283635,
+    -0.055900324,
+    0.04264675,
+    -0.058207773,
+    0.009160472,
+    0.03650663,
+    0.023213813,
+    0.0095075695,
+    0.030197645,
+    0.015109316,
+    -0.046567287,
+    0.054744583,
+    -0.012243549,
+    -0.028467039,
+    0.015851598,
+    0.048563246,
+    0.048854027,
+    0.020140877,
+    -0.0001831857,
+    0.049242936,
+    -0.023361381,
+    0.0048797103,
+    -0.0002277987,
+    0.0451467,
+    0.003734894,
+    -0.01749073,
+    -0.06259361,
+    0.019273102,
+    0.024134092,
+    -0.048863422,
+    0.016613381,
+    -0.0005823691,
+    -0.0095997425,
+    0.0056714662,
+    0.0060247476,
+    0.03552866,
+    0.006684849,
+    -0.039659,
+    -0.0045477417,
+    -0.021238988,
+    0.021247836,
+    0.005669847,
+    0.0015582795,
+    0.020539366,
+    0.01224266,
+    -0.030172406,
+    0.007469574,
+    -0.040772013,
+    -0.029456591,
+    0.006190897,
+    -0.038681842,
+    0.041815646,
+    -0.0015938466,
+    -0.02326425,
+    0.041708898,
+    -0.032203957,
+    0.0028186734,
+    0.015235071,
+    0.049863543,
+    0.079322785,
+    0.11909889,
+    -0.031385485,
+    -0.011952424,
+    0.06635045,
+    -0.0589452,
+    -0.048386626,
+    -0.007707377,
+    0.062491633,
+    0.062793985,
+    0.019841172,
+    -0.029624425,
+    -0.021137461,
+    0.014379626,
+    -0.020767327,
+    0.0044240137,
+    0.026404435,
+    0.02934923,
+    -0.046762455,
+    0.017506015,
+    -0.06623805,
+    -0.004689909,
+    -0.06782277,
+    0.09061656,
+    0.06926837,
+    0.012874698,
+    -0.0366872,
+    0.029668272,
+    0.0031103033,
+    0.045183234,
+    -0.025682492,
+    0.012887522,
+    0.01571743,
+    -0.053542268,
+    -0.0049170638,
+    -0.021830158,
+    -0.009459611,
+    0.025415083,
+    -0.036362063,
+    0.0061765998,
+    -0.0985285,
+    -0.037854604,
+    -0.006122181,
+    -0.028406339,
+    -0.011639665,
+    -0.023191364,
+    0.05722106,
+    0.034564603,
+    0.016707787,
+    -0.009017704,
+    0.028639346,
+    0.016350169,
+    -0.03375581,
+    -0.010929738,
+    -0.0050227297,
+    0.045175876,
+    0.023935225,
+    0.04536822,
+    -0.020856628,
+    -0.05028181,
+    0.012248435,
+    0.021516489,
+    -0.019944211,
+    -0.0017578283,
+    -0.07073505,
+    0.016143175,
+    0.011510006,
+    -0.020078676,
+    -0.023627352,
+    0.003827967,
+    -0.0165754,
+    -0.013217273,
+    -0.028505363,
+    0.026349504,
+    0.013461979,
+    -0.028756624,
+    0.017456695,
+    -0.034781933,
+    0.04036148,
+    0.01749314,
+    -0.0033883303,
+    -0.028166862,
+    0.030507313,
+    -0.04697169,
+    0.026194913,
+    -0.045261804,
+    -0.015341702,
+    0.011177573,
+    -0.009267113,
+    -0.0045253276,
+    0.027843703,
+    -0.0025135933,
+    0.04167242,
+    0.03916817,
+    0.020603552,
+    0.04061793,
+    -0.024826406,
+    -0.033405397,
+    0.0382697,
+    0.058546588,
+    0.0190987,
+    0.023016142,
+    0.017304456,
+    0.058935814,
+    -0.026840463,
+    -0.019142998,
+    -0.051857106,
+    -0.053889517,
+    -0.057129335,
+    0.038772907,
+    -0.012241379,
+    0.0031724863,
+    0.045215283,
+    0.037837267,
+    0.057622716,
+    0.025989493,
+    0.003962923,
+    -0.02240292,
+    -0.044421628,
+    -0.034823056,
+    0.026078675,
+    -0.041665386,
+    -0.03132259,
+    0.012150338,
+    -0.034067176,
+    0.0047741127,
+    0.07735043,
+    0.061800882,
+    -0.015639806,
+    -0.036756374,
+    -0.0068529323,
+    0.07064626,
+    -0.01868177,
+    -0.028020637,
+    0.03099754,
+    -0.053387415,
+    0.011797816,
+    0.07105127,
+    -0.023165451,
+    0.01886163,
+    -0.023778858,
+    0.00689076,
+    0.0389869,
+    0.023620222,
+    0.037859887,
+    -0.015273129,
+    -0.0381785,
+    -0.009752311,
+    0.0011990821,
+    0.007776033,
+    -0.037215058,
+    -0.08201928,
+    -0.019232763,
+    -0.033638418,
+    0.01206759,
+    -0.042844716,
+    0.031541474,
+    0.056041755,
+    0.07707768,
+    0.046410564,
+    -0.002412664,
+    -0.0034563714,
+    0.024732072,
+    -0.015136538,
+    -0.02749068,
+    0.004099901,
+    0.007963813,
+    -0.0020087534,
+    0.038358722,
+    -0.038429487,
+    -0.04465132,
+    0.044517003,
+    0.024446124,
+    0.033314228,
+    -0.07298951,
+    -0.020177659,
+    0.035093848,
+    0.009020297,
+    -0.03818349,
+    0.020929875,
+    -0.0024447008,
+    0.08962487,
+    -0.049845647,
+    -0.0013859526,
+    -0.0836599,
+    -0.0014603627,
+    -0.018079966,
+    -9.725208e-05,
+    0.012156364,
+    0.024877213,
+    -0.0012165023,
+    -0.045811817,
+    -0.014513518,
+    -0.020706933,
+    -0.059828483,
+    0.042128686,
+    -0.027544782,
+    0.02547346,
+    0.016462276,
+    0.007527834,
+    -0.024183301,
+    0.06345684,
+    -0.016545864,
+    -0.006162428,
+    0.020648725,
+    -0.015614008,
+    0.041966118,
+    0.08510939,
+    -0.064635314,
+    0.029549235,
+    -0.0012074072,
+    -0.038891297,
+    -0.05148532,
+    0.0008765879,
+    -0.006531592,
+    0.0527636,
+    0.039625835,
+    -0.08363868,
+    -0.041358497,
+    6.8580666e-05,
+    0.019105645,
+    -0.0028810443,
+    -0.046473738,
+    -0.010851228,
+    -0.016223593,
+    0.0014073194,
+    -0.0065807593,
+    -0.020948932,
+    -0.046480753,
+    -0.029932916,
+    0.0094066225,
+    -0.015666632,
+    -0.002079347,
+    -0.0179459,
+    0.022053719,
+    0.06136688,
+    -0.032977313,
+    0.04459809,
+    0.027677175,
+    -0.022004068,
+    0.027540844,
+    -0.021416841,
+    -0.06808521,
+    0.019222027,
+    -0.010002311,
+    -0.009985089,
+    0.018605288,
+    -0.059191972,
+    -0.023027154,
+    0.056522828,
+    0.023347506,
+    0.030396717,
+    0.01439687,
+    -0.008845641,
+    -0.0062180148,
+    0.028208727,
+    0.0046552243,
+    0.04762404,
+    0.015796581,
+    -0.026460025,
+    -0.022574877,
+    0.029664434,
+    -0.00059432164,
+    0.0115488265,
+    0.011204781,
+    0.0026716215,
+    0.02862361,
+    0.048217643,
+    0.032143276,
+    0.001588387,
+    -0.017601755,
+    0.041272305,
+    0.0212042,
+    0.05110426,
+    0.0023875318,
+    0.01950544,
+    0.030397236,
+    0.029442368,
+    0.0006802283,
+    0.03231024,
+    0.053571932,
+    0.020467296,
+    -0.023155862,
+    -0.03934458,
+    -0.026337778,
+    0.049121607,
+    0.06627026,
+    0.039636236,
+    0.00053431786,
+    -0.019805877,
+    0.015491603,
+    -0.0025965695,
+    0.03286863,
+    0.01755758,
+    0.036462087,
+    0.033947933,
+    -0.02897016,
+    0.050202973,
+    0.01203231,
+    -0.0030854337,
+    0.049920782,
+    0.062676966,
+    0.07909773,
+    -0.03510452,
+    -0.0058746636,
+    0.025202801,
+    -0.0035624402,
+    0.06329958,
+    -0.0013518826,
+    0.038883038,
+    0.082203366,
+    -0.058600027,
+    -0.05352355,
+    0.03118659,
+    -0.07400461,
+    0.001445478,
+    -0.019778661,
+    -0.04721668,
+    0.016944783,
+    0.0020670926,
+    0.050655268,
+    0.034976676,
+    0.020467335,
+    0.0021778857,
+    -0.03207889,
+    0.022371085,
+    0.021053337,
+    0.019971881,
+    -0.023750903,
+    0.024933686,
+    0.026241822,
+    0.0063970364,
+    0.049981527,
+    0.0005323667,
+    0.0035045235,
+    0.008010495,
+    -0.016843433,
+    -0.0035938406,
+    0.030527372,
+    -0.011955953,
+    -0.0035370651,
+    0.05466867,
+    0.01801553,
+    0.0008034208,
+    -0.023969108,
+    0.029720167,
+    -0.027297663,
+    0.006015771,
+    -0.0640231,
+    -0.038235072,
+    -0.014966139,
+    -0.04994149,
+    0.021475624,
+    0.062912844,
+    0.008378129,
+    -0.0028197286,
+    -0.011615611,
+    0.020862583,
+    0.00081683625,
+    -0.044302918,
+    0.0041563115,
+    -0.032452565,
+    -0.011439394,
+    -0.049889475,
+    -0.00815658,
+    -0.05115102,
+    -0.01364058,
+    -0.011794477,
+    -0.023754394,
+    0.04893539,
+    -0.05700558,
+    -0.012661417,
+    0.0420401,
+    -0.033891045,
+    -0.008798138,
+    0.066652425,
+    -0.04138728,
+    0.0020286886,
+    -0.00030428765,
+    0.022223657,
+    0.03556069,
+    -0.03180202,
+    0.03541447,
+    -0.023419749,
+    -0.00016478077,
+    -0.014494238,
+    -0.037498564,
+    0.022607043,
+    0.033465773,
+    -0.030879134,
+    -0.06139551,
+    0.005292957,
+    -0.095720105,
+    0.013905777,
+    -0.04882271,
+    0.04729015,
+    -0.009364685,
+    0.03315777,
+    -0.014003193,
+    -0.0546955,
+    -0.01330006,
+    -0.001874167,
+    -0.027531203,
+    0.03684391,
+    -0.006451185,
+    0.026568962,
+    -0.016862484,
+    -0.02047868,
+    -0.0041330317,
+    0.014180386,
+    -0.008954877,
+    0.02650807,
+    -0.024959376,
+    -0.041254368,
+    -0.0578713,
+    -0.055968475,
+    0.002283603,
+    -0.020768147,
+    0.02658278,
+    0.0018947629,
+    -0.048777744,
+    0.009056321,
+    0.0049207336,
+    0.011820622,
+    0.053669676,
+    -0.0055325027,
+    0.015391765,
+    -0.049253043,
+    -0.059888836,
+    0.035692688,
+    -0.050528895,
+    -0.02002242,
+    -0.0586178,
+    0.0038128349,
+    -0.01143424,
+    0.011764456,
+    -0.006612255,
+    0.007719795,
+    -0.04919943,
+    -0.031224607,
+    -0.024584936,
+    -0.013821344,
+    0.009012195,
+    -0.004133464,
+    -0.06680652,
+    -0.028116496,
+    0.012684133,
+    0.016956681,
+    -0.005353377,
+    0.004475214,
+    -0.014008676,
+    0.027864166,
+    -0.054033455,
+    -0.0018001287,
+    -0.0015965448,
+    0.029176785,
+    -0.04009849,
+    0.05787118,
+    -0.020121984,
+    0.010306164,
+    -0.0015281367,
+    -0.06426853,
+    -0.053749006,
+    0.07015773,
+    -0.037594706,
+    0.04057615,
+    -0.009792114,
+    0.016349364,
+    -0.04403437,
+    -0.015617417,
+    0.049106535,
+    -0.047653724,
+    0.031430345,
+    -0.058182985,
+    -0.025289988,
+    -0.048305776,
+    0.025841411,
+    0.010354189,
+    0.014754476,
+    -0.021450246,
+    -0.00255344,
+    0.05494711,
+    0.0077719684,
+    -0.048711106,
+    0.009602955,
+    0.03237726,
+    -0.007252602,
+    0.0043640723,
+    0.053466827,
+    0.05587936,
+    -0.009900942,
+    0.077041045,
+    0.052784536,
+    0.006118275,
+    -0.021623923,
+    -0.017633894,
+    0.002181092,
+    0.0035838224,
+    -0.036620125,
+    -0.01940193,
+    -0.04430552,
+    0.026012119,
+    -0.0010581925,
+    -0.021037463,
+    -0.029601812,
+    0.017016994,
+    -0.020935483,
+    -0.008572293,
+    -0.031346884,
+    -0.020234913,
+    -0.074074656,
+    0.039596222,
+    0.00026965406,
+    0.02698137,
+    -0.007349982,
+    -0.002683122,
+    0.011971078,
+    0.0547419,
+    -0.018334454,
+    -0.0077921664,
+    -0.0027125927,
+    -0.03404836,
+    0.020201521,
+    0.045894,
+    -0.030499665,
+    0.0061326334,
+    -0.004607473,
+    0.010757885,
+    0.021039119,
+    -0.023806484,
+    0.023196029,
+    -0.043145597,
+    -0.05141565,
+    0.003909216,
+    -0.020864556,
+    0.020342384,
+    0.013413712,
+    0.007987457,
+    -0.051619906,
+    -0.048065353,
+    0.016091816,
+    -0.047707524,
+    0.040085677,
+    -0.006596132,
+    0.018554157,
+    -0.0060647465,
+    -0.031519476,
+    0.018056238,
+    -0.049860936,
+    0.011764971,
+    0.02544808,
+    0.0030143966,
+    0.030999262,
+    -0.019233042,
+    0.030705972,
+    0.0057292487,
+    0.0013860462,
+    -0.021159982,
+    -0.0265889,
+    0.010129714,
+    -0.006201591,
+    0.04561971,
+    -0.014877258,
+    -0.051537745,
+    -0.012515462,
+    0.01789364,
+    -0.008035347,
+    0.04147265,
+    0.03642493,
+    0.0028087657,
+    -0.07432604,
+    -0.048858058,
+    -0.0464794,
+    -0.059443034,
+    0.043319773,
+    -0.027295845,
+    -0.014041847,
+    -0.080726,
+    -0.022153769,
+    -0.08434341,
+    -0.04307709,
+    -0.05189001,
+    0.01349592,
+    -0.05609882,
+    -0.030689579,
+    0.026638566,
+    -0.048017297,
+    0.018982071,
+    0.04245956,
+    0.0072926264,
+    -0.023073569,
+    0.055725213,
+    -0.022053225,
+    -0.048371024,
+    0.03352621,
+    -0.0047206706,
+    0.055742458,
+    -0.015651217,
+    -0.0036796015,
+    0.07601187,
+    0.0027148991,
+    0.035732128,
+    -0.032168496,
+    0.031872317,
+    0.03944289,
+    -0.026475055,
+    -0.091223024,
+    -0.013455095,
+    -0.0075683957
+  ],
+  "chunk_seq": 8,
+  "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+  "doc_id": "cf9236bc18814de694f221d28b5fd515",
+  "text": "### Screening Process  \n**Step 1: Initial Screening (Account Opening)**\n- Customer name screened against all mandatory lists\n- Immediate family screened (if available)\n- Close associates screened (if identified)\n- Results documented in system  \n**Step 2: Match Review**\n- Potential matches escalated to Financial Crime team\n- False positive assessment (name similarity vs. true match)\n- If true positive: Account blocked, escalation to Compliance Head  \n**Step 3: Hit Escalation**\n- **Sanctions Hit:** Immediate account freeze + NCA notification\n- **PEP Flag:** Enhanced due diligence mandatory\n- **Adverse Media:** Risk assessment + possible rejection  \n**Step 4: Ongoing Monitoring**\n- Periodic re-screening (high-risk customers: quarterly; standard: annually)\n- New sanctions lists checked regularly\n- Transaction monitoring (see below)  \n---",
+  "name": "Chunk 8/35",
+  "domain": "banking_policy",
+  "prev_chunk_id": "cf9236bc18814de694f221d28b5fd515_007",
+  "next_chunk_id": "cf9236bc18814de694f221d28b5fd515_009",
+  "raw_entities": [
+    {
+      "id": "pol_001",
+      "name": "Screening Process Policy",
+      "aliases": [
+        "Screening Process"
+      ],
+      "entity_class": "POLICY",
+      "type": "aml_policy",
+      "description": "The governing framework for the bank's screening procedures, covering initial account opening, match review, hit escalation, and ongoing monitoring requirements.",
+      "context": [
+        "Screening Process"
+      ]
+    },
+    {
+      "id": "prv_001",
+      "name": "Initial Customer and Associate Screening",
+      "aliases": [
+        "Step 1"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Mandatory requirement to screen customer names, immediate family, and close associates against all mandatory lists during account opening, with results documented in the system.",
+      "context": [
+        "Customer name screened against all mandatory lists",
+        "Immediate family screened (if available)",
+        "Close associates screened (if identified)",
+        "Results documented in system"
+      ]
+    },
+    {
+      "id": "prv_002",
+      "name": "Match Review and False Positive Assessment",
+      "aliases": [
+        "Step 2"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "approval_requirement",
+      "description": "Requirement for the Financial Crime team to review potential matches and perform false positive assessments. True positives must result in an account block and escalation to the Compliance Head.",
+      "context": [
+        "Potential matches escalated to Financial Crime team",
+        "False positive assessment (name similarity vs. true match)",
+        "If true positive: Account blocked, escalation to Compliance Head"
+      ]
+    },
+    {
+      "id": "prv_003",
+      "name": "Sanctions Hit Response",
+      "aliases": [
+        "Step 3 - Sanctions Hit"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "reporting_obligation",
+      "description": "Obligation to immediately freeze an account and notify the National Crime Agency (NCA) upon a confirmed sanctions hit.",
+      "context": [
+        "Sanctions Hit: Immediate account freeze + NCA notification"
+      ]
+    },
+    {
+      "id": "prv_004",
+      "name": "PEP Flag Handling",
+      "aliases": [
+        "Step 3 - PEP Flag"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Requirement that enhanced due diligence must be performed whenever a Politically Exposed Person (PEP) flag is raised.",
+      "context": [
+        "PEP Flag: Enhanced due diligence mandatory"
+      ]
+    },
+    {
+      "id": "prv_005",
+      "name": "Adverse Media Risk Response",
+      "aliases": [
+        "Step 3 - Adverse Media"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Requirement to perform a risk assessment following an adverse media hit, which may lead to the rejection of the customer.",
+      "context": [
+        "Adverse Media: Risk assessment + possible rejection"
+      ]
+    },
+    {
+      "id": "prv_006",
+      "name": "Periodic Re-screening Schedule",
+      "aliases": [
+        "Step 4"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "review_schedule",
+      "description": "Mandatory periodic re-screening of customers: quarterly for high-risk customers and annually for standard customers.",
+      "context": [
+        "Periodic re-screening (high-risk customers: quarterly; standard: annually)"
+      ]
+    },
+    {
+      "id": "reg_001",
+      "name": "National Crime Agency",
+      "aliases": [
+        "NCA"
+      ],
+      "entity_class": "REGULATORY_REFERENCE",
+      "type": "external_regulator",
+      "description": "The UK regulatory body that must be notified immediately in the event of a sanctions hit.",
+      "context": [
+        "NCA notification"
+      ]
+    },
+    {
+      "id": "rsk_001",
+      "name": "Sanctions Violation",
+      "aliases": [
+        "Sanctions Hit"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "sanctions_violation",
+      "description": "The risk of engaging with sanctioned individuals or entities, requiring immediate account freezes and regulatory notification.",
+      "context": [
+        "Sanctions Hit: Immediate account freeze + NCA notification"
+      ]
+    },
+    {
+      "id": "rsk_002",
+      "name": "Politically Exposed Person Risk",
+      "aliases": [
+        "PEP"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "compliance_risk",
+      "description": "Risk associated with customers who hold prominent public positions, requiring enhanced due diligence.",
+      "context": [
+        "PEP Flag: Enhanced due diligence mandatory"
+      ]
+    },
+    {
+      "id": "rsk_003",
+      "name": "Adverse Media Risk",
+      "aliases": [
+        "Adverse Media"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "reputational_risk",
+      "description": "Risk identified through negative public information about a customer, requiring formal risk assessment.",
+      "context": [
+        "Adverse Media: Risk assessment + possible rejection"
+      ]
+    },
+    {
+      "id": "ctl_001",
+      "name": "Mandatory List Screening",
+      "aliases": [
+        "Initial Screening"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "sanctions_screening",
+      "description": "The operational process of checking customer names and associates against sanctioned and mandatory lists during onboarding.",
+      "context": [
+        "Customer name screened against all mandatory lists"
+      ]
+    },
+    {
+      "id": "ctl_002",
+      "name": "Transaction Monitoring",
+      "aliases": [],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "transaction_monitoring",
+      "description": "Ongoing monitoring of financial activities to detect suspicious patterns, integrated as part of the ongoing monitoring process.",
+      "context": [
+        "Transaction monitoring (see below)"
+      ]
+    },
+    {
+      "id": "ctl_003",
+      "name": "Account Freezing",
+      "aliases": [
+        "Account Block"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "access_control",
+      "description": "Operational safeguard to block or freeze accounts when true positive matches or sanctions hits are identified.",
+      "context": [
+        "If true positive: Account blocked",
+        "Immediate account freeze + NCA notification"
+      ]
+    },
+    {
+      "id": "rol_001",
+      "name": "Financial Crime Team",
+      "aliases": [],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "risk_committee",
+      "description": "The team responsible for reviewing potential screening matches and performing false positive assessments.",
+      "context": [
+        "Potential matches escalated to Financial Crime team"
+      ]
+    },
+    {
+      "id": "rol_002",
+      "name": "Compliance Head",
+      "aliases": [],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "policy_owner",
+      "description": "The senior official to whom true positive screening matches must be escalated.",
+      "context": [
+        "escalation to Compliance Head"
+      ]
+    },
+    {
+      "id": "cus_001",
+      "name": "High-Risk Customer",
+      "aliases": [],
+      "entity_class": "CUSTOMER",
+      "type": "high_risk_customer",
+      "description": "Customers categorized as high-risk who are subject to more frequent (quarterly) periodic re-screening.",
+      "context": [
+        "high-risk customers: quarterly"
+      ]
+    },
+    {
+      "id": "cus_002",
+      "name": "Standard Customer",
+      "aliases": [],
+      "entity_class": "CUSTOMER",
+      "type": "individual_customer",
+      "description": "Customers categorized as standard risk who are subject to annual periodic re-screening.",
+      "context": [
+        "standard: annually"
+      ]
+    },
+    {
+      "id": "aml_001",
+      "name": "Sanctions and PEP Screening",
+      "aliases": [],
+      "entity_class": "AML_SCREENING",
+      "type": "sanctions_screening",
+      "description": "The combined process of screening against mandatory lists, PEP flags, and adverse media to mitigate financial crime risk.",
+      "context": [
+        "Customer name screened against all mandatory lists",
+        "PEP Flag: Enhanced due diligence mandatory",
+        "Adverse Media: Risk assessment + possible rejection"
+      ]
+    },
+    {
+      "id": "kyc_001",
+      "name": "Enhanced Due Diligence",
+      "aliases": [
+        "EDD"
+      ],
+      "entity_class": "KYC_VERIFICATION",
+      "type": "enhanced_due_diligence",
+      "description": "Mandatory heightened verification process triggered by a PEP flag.",
+      "context": [
+        "PEP Flag: Enhanced due diligence mandatory"
+      ]
+    }
+  ],
+  "id_map": {
+    "pol_001": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+    "prv_001": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+    "prv_002": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+    "prv_003": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+    "prv_004": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+    "prv_005": "cf9236bc18814de694f221d28b5fd515_008_prv_005",
+    "prv_006": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+    "reg_001": "cf9236bc18814de694f221d28b5fd515_008_reg_001",
+    "rsk_001": "cf9236bc18814de694f221d28b5fd515_008_rsk_001",
+    "rsk_002": "cf9236bc18814de694f221d28b5fd515_008_rsk_002",
+    "rsk_003": "cf9236bc18814de694f221d28b5fd515_008_rsk_003",
+    "ctl_001": "cf9236bc18814de694f221d28b5fd515_008_ctl_001",
+    "ctl_002": "cf9236bc18814de694f221d28b5fd515_008_ctl_002",
+    "ctl_003": "cf9236bc18814de694f221d28b5fd515_008_ctl_003",
+    "rol_001": "cf9236bc18814de694f221d28b5fd515_008_rol_001",
+    "rol_002": "cf9236bc18814de694f221d28b5fd515_008_rol_002",
+    "cus_001": "cf9236bc18814de694f221d28b5fd515_008_cus_001",
+    "cus_002": "cf9236bc18814de694f221d28b5fd515_008_cus_002",
+    "aml_001": "cf9236bc18814de694f221d28b5fd515_008_aml_001",
+    "kyc_001": "cf9236bc18814de694f221d28b5fd515_008_kyc_001"
+  },
+  "entities": [
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "name": "Screening Process Policy",
+      "aliases": [
+        "Screening Process"
+      ],
+      "entity_class": "POLICY",
+      "type": "aml_policy",
+      "description": "The governing framework for the bank's screening procedures, covering initial account opening, match review, hit escalation, and ongoing monitoring requirements.",
+      "context": [
+        "Screening Process"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+      "name": "Initial Customer and Associate Screening",
+      "aliases": [
+        "Step 1"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Mandatory requirement to screen customer names, immediate family, and close associates against all mandatory lists during account opening, with results documented in the system.",
+      "context": [
+        "Customer name screened against all mandatory lists",
+        "Immediate family screened (if available)",
+        "Close associates screened (if identified)",
+        "Results documented in system"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+      "name": "Match Review and False Positive Assessment",
+      "aliases": [
+        "Step 2"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "approval_requirement",
+      "description": "Requirement for the Financial Crime team to review potential matches and perform false positive assessments. True positives must result in an account block and escalation to the Compliance Head.",
+      "context": [
+        "Potential matches escalated to Financial Crime team",
+        "False positive assessment (name similarity vs. true match)",
+        "If true positive: Account blocked, escalation to Compliance Head"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+      "name": "Sanctions Hit Response",
+      "aliases": [
+        "Step 3 - Sanctions Hit"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "reporting_obligation",
+      "description": "Obligation to immediately freeze an account and notify the National Crime Agency (NCA) upon a confirmed sanctions hit.",
+      "context": [
+        "Sanctions Hit: Immediate account freeze + NCA notification"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+      "name": "PEP Flag Handling",
+      "aliases": [
+        "Step 3 - PEP Flag"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Requirement that enhanced due diligence must be performed whenever a Politically Exposed Person (PEP) flag is raised.",
+      "context": [
+        "PEP Flag: Enhanced due diligence mandatory"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_005",
+      "name": "Adverse Media Risk Response",
+      "aliases": [
+        "Step 3 - Adverse Media"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "mandatory_requirement",
+      "description": "Requirement to perform a risk assessment following an adverse media hit, which may lead to the rejection of the customer.",
+      "context": [
+        "Adverse Media: Risk assessment + possible rejection"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+      "name": "Periodic Re-screening Schedule",
+      "aliases": [
+        "Step 4"
+      ],
+      "entity_class": "POLICY_PROVISION",
+      "type": "review_schedule",
+      "description": "Mandatory periodic re-screening of customers: quarterly for high-risk customers and annually for standard customers.",
+      "context": [
+        "Periodic re-screening (high-risk customers: quarterly; standard: annually)"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_reg_001",
+      "name": "National Crime Agency",
+      "aliases": [
+        "NCA"
+      ],
+      "entity_class": "REGULATORY_REFERENCE",
+      "type": "external_regulator",
+      "description": "The UK regulatory body that must be notified immediately in the event of a sanctions hit.",
+      "context": [
+        "NCA notification"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_001",
+      "name": "Sanctions Violation",
+      "aliases": [
+        "Sanctions Hit"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "sanctions_violation",
+      "description": "The risk of engaging with sanctioned individuals or entities, requiring immediate account freezes and regulatory notification.",
+      "context": [
+        "Sanctions Hit: Immediate account freeze + NCA notification"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_002",
+      "name": "Politically Exposed Person Risk",
+      "aliases": [
+        "PEP"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "compliance_risk",
+      "description": "Risk associated with customers who hold prominent public positions, requiring enhanced due diligence.",
+      "context": [
+        "PEP Flag: Enhanced due diligence mandatory"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_003",
+      "name": "Adverse Media Risk",
+      "aliases": [
+        "Adverse Media"
+      ],
+      "entity_class": "RISK_CATEGORY",
+      "type": "reputational_risk",
+      "description": "Risk identified through negative public information about a customer, requiring formal risk assessment.",
+      "context": [
+        "Adverse Media: Risk assessment + possible rejection"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_001",
+      "name": "Mandatory List Screening",
+      "aliases": [
+        "Initial Screening"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "sanctions_screening",
+      "description": "The operational process of checking customer names and associates against sanctioned and mandatory lists during onboarding.",
+      "context": [
+        "Customer name screened against all mandatory lists"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_002",
+      "name": "Transaction Monitoring",
+      "aliases": [],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "transaction_monitoring",
+      "description": "Ongoing monitoring of financial activities to detect suspicious patterns, integrated as part of the ongoing monitoring process.",
+      "context": [
+        "Transaction monitoring (see below)"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_003",
+      "name": "Account Freezing",
+      "aliases": [
+        "Account Block"
+      ],
+      "entity_class": "CONTROL_MEASURE",
+      "type": "access_control",
+      "description": "Operational safeguard to block or freeze accounts when true positive matches or sanctions hits are identified.",
+      "context": [
+        "If true positive: Account blocked",
+        "Immediate account freeze + NCA notification"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rol_001",
+      "name": "Financial Crime Team",
+      "aliases": [],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "risk_committee",
+      "description": "The team responsible for reviewing potential screening matches and performing false positive assessments.",
+      "context": [
+        "Potential matches escalated to Financial Crime team"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rol_002",
+      "name": "Compliance Head",
+      "aliases": [],
+      "entity_class": "ROLE_RESPONSIBILITY",
+      "type": "policy_owner",
+      "description": "The senior official to whom true positive screening matches must be escalated.",
+      "context": [
+        "escalation to Compliance Head"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_cus_001",
+      "name": "High-Risk Customer",
+      "aliases": [],
+      "entity_class": "CUSTOMER",
+      "type": "high_risk_customer",
+      "description": "Customers categorized as high-risk who are subject to more frequent (quarterly) periodic re-screening.",
+      "context": [
+        "high-risk customers: quarterly"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_cus_002",
+      "name": "Standard Customer",
+      "aliases": [],
+      "entity_class": "CUSTOMER",
+      "type": "individual_customer",
+      "description": "Customers categorized as standard risk who are subject to annual periodic re-screening.",
+      "context": [
+        "standard: annually"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_aml_001",
+      "name": "Sanctions and PEP Screening",
+      "aliases": [],
+      "entity_class": "AML_SCREENING",
+      "type": "sanctions_screening",
+      "description": "The combined process of screening against mandatory lists, PEP flags, and adverse media to mitigate financial crime risk.",
+      "context": [
+        "Customer name screened against all mandatory lists",
+        "PEP Flag: Enhanced due diligence mandatory",
+        "Adverse Media: Risk assessment + possible rejection"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_kyc_001",
+      "name": "Enhanced Due Diligence",
+      "aliases": [
+        "EDD"
+      ],
+      "entity_class": "KYC_VERIFICATION",
+      "type": "enhanced_due_diligence",
+      "description": "Mandatory heightened verification process triggered by a PEP flag.",
+      "context": [
+        "PEP Flag: Enhanced due diligence mandatory"
+      ],
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    }
+  ],
+  "properties": [
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "name": "Screening Process Policy",
+      "properties": {
+        "core_policy_statement": "Establishing a structured multi-step process for initial and ongoing screening of customers, associates, and family members to mitigate financial crime risks.",
+        "scope_summary": "Applies to account opening and periodic monitoring of all customers, including high-risk and standard segments."
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+      "name": "Initial Customer and Associate Screening",
+      "properties": {
+        "provision_type": "mandatory",
+        "applies_to": [
+          "Prospective Customers",
+          "Immediate Family",
+          "Close Associates"
+        ],
+        "verification_method": "Screening against all mandatory lists",
+        "timeframe": "At account opening"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+      "name": "Match Review and False Positive Assessment",
+      "properties": {
+        "provision_type": "conditional",
+        "applies_to": [
+          "Potential matches"
+        ],
+        "verification_method": "Comparison of name similarity vs. true match",
+        "consequence_of_breach": "Account blocked if true positive identified",
+        "escalation_path": "Financial Crime team to Compliance Head"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+      "name": "Sanctions Hit Response",
+      "properties": {
+        "provision_type": "mandatory",
+        "applies_to": [
+          "Sanctions True Positives"
+        ],
+        "consequence_of_breach": "Immediate account freeze",
+        "required_response": [
+          "Account freeze",
+          "NCA notification"
+        ]
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+      "name": "PEP Flag Handling",
+      "properties": {
+        "provision_type": "mandatory",
+        "applies_to": [
+          "Politically Exposed Persons"
+        ],
+        "required_response": "Enhanced Due Diligence (EDD)"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_005",
+      "name": "Adverse Media Risk Response",
+      "properties": {
+        "provision_type": "conditional",
+        "applies_to": [
+          "Customers with adverse media hits"
+        ],
+        "required_response": [
+          "Risk assessment",
+          "Possible rejection"
+        ]
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+      "name": "Periodic Re-screening Schedule",
+      "properties": {
+        "provision_type": "periodic",
+        "applies_to": [
+          "High-Risk Customers",
+          "Standard Customers"
+        ],
+        "timeframe": {
+          "high_risk": "Quarterly",
+          "standard": "Annually"
+        }
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_reg_001",
+      "name": "National Crime Agency",
+      "properties": {
+        "issuing_authority": "NCA",
+        "jurisdiction": "UK",
+        "key_obligation": "Notification of sanctions hits"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_001",
+      "name": "Sanctions Violation",
+      "properties": {
+        "risk_level": "critical",
+        "required_response": "Immediate account freeze and regulatory notification",
+        "detection_mechanism": "Mandatory list screening"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_002",
+      "name": "Politically Exposed Person Risk",
+      "properties": {
+        "risk_level": "high",
+        "required_response": "Mandatory Enhanced Due Diligence (EDD)"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rsk_003",
+      "name": "Adverse Media Risk",
+      "properties": {
+        "risk_level": "medium",
+        "required_response": "Risk assessment and potential onboarding rejection"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_001",
+      "name": "Mandatory List Screening",
+      "properties": {
+        "control_type": "preventive",
+        "mandatory": "yes",
+        "frequency": "at_onboarding",
+        "evidence_required": "Results documented in system"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_002",
+      "name": "Transaction Monitoring",
+      "properties": {
+        "control_type": "detective",
+        "frequency": "ongoing",
+        "mandatory": "yes"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_ctl_003",
+      "name": "Account Freezing",
+      "properties": {
+        "control_type": "corrective",
+        "mandatory": "yes",
+        "applies_to": "Sanctions true positives"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rol_001",
+      "name": "Financial Crime Team",
+      "properties": {
+        "specific_obligations": [
+          "Perform false positive assessments",
+          "Review potential matches"
+        ],
+        "accountability_for": "Initial match validation"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_rol_002",
+      "name": "Compliance Head",
+      "properties": {
+        "authority": "Final decision on true positive escalations",
+        "reporting_to": "Executive Management"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_cus_001",
+      "name": "High-Risk Customer",
+      "properties": {
+        "risk_treatment": "Quarterly periodic re-screening"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_cus_002",
+      "name": "Standard Customer",
+      "properties": {
+        "risk_treatment": "Annual periodic re-screening"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_aml_001",
+      "name": "Sanctions and PEP Screening",
+      "properties": {
+        "mandatory": "yes",
+        "screening_lists": [
+          "All mandatory lists"
+        ],
+        "ongoing_monitoring": "yes",
+        "hit_response": "Escalation to Financial Crime team"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "id": "cf9236bc18814de694f221d28b5fd515_008_kyc_001",
+      "name": "Enhanced Due Diligence",
+      "properties": {
+        "mandatory": "yes",
+        "edd_trigger": "PEP Flag"
+      },
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+      "target_name": "Initial Customer and Associate Screening",
+      "rel_type": "contains",
+      "description": "The policy contains the requirements for initial screening of customers and associates.",
+      "properties": {},
+      "context": "Step 1: Initial Screening (Account Opening)",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+      "target_name": "Match Review and False Positive Assessment",
+      "rel_type": "contains",
+      "description": "The policy contains the requirements for reviewing matches and assessing false positives.",
+      "properties": {},
+      "context": "Step 2: Match Review",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+      "target_name": "Sanctions Hit Response",
+      "rel_type": "contains",
+      "description": "The policy contains the procedures for responding to sanctions hits.",
+      "properties": {},
+      "context": "Step 3: Hit Escalation - Sanctions Hit",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+      "target_name": "PEP Flag Handling",
+      "rel_type": "contains",
+      "description": "The policy contains the procedures for handling PEP flags.",
+      "properties": {},
+      "context": "Step 3: Hit Escalation - PEP Flag",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_prv_005",
+      "target_name": "Adverse Media Risk Response",
+      "rel_type": "contains",
+      "description": "The policy contains the procedures for responding to adverse media hits.",
+      "properties": {},
+      "context": "Step 3: Hit Escalation - Adverse Media",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+      "target_name": "Periodic Re-screening Schedule",
+      "rel_type": "contains",
+      "description": "The policy contains the schedule for periodic re-screening.",
+      "properties": {},
+      "context": "Step 4: Ongoing Monitoring",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+      "source_name": "Initial Customer and Associate Screening",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_ctl_001",
+      "target_name": "Mandatory List Screening",
+      "rel_type": "implemented_by",
+      "description": "Initial screening is implemented via mandatory list screening.",
+      "properties": {
+        "scope": "Customer, immediate family, and close associates"
+      },
+      "context": "Customer name screened against all mandatory lists",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+      "source_name": "Initial Customer and Associate Screening",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_aml_001",
+      "target_name": "Sanctions and PEP Screening",
+      "rel_type": "implements",
+      "description": "Initial screening implements the Sanctions and PEP screening process.",
+      "properties": {},
+      "context": "Step 1: Initial Screening (Account Opening)",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+      "source_name": "Match Review and False Positive Assessment",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_rol_001",
+      "target_name": "Financial Crime Team",
+      "rel_type": "enforced_by",
+      "description": "Potential matches are escalated to the Financial Crime team for review.",
+      "properties": {
+        "action": "Review and False Positive Assessment"
+      },
+      "context": "Potential matches escalated to Financial Crime team",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+      "source_name": "Match Review and False Positive Assessment",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_rol_002",
+      "target_name": "Compliance Head",
+      "rel_type": "reported_to",
+      "description": "True positives are escalated to the Compliance Head.",
+      "properties": {
+        "trigger": "True positive match"
+      },
+      "context": "If true positive: Account blocked, escalation to Compliance Head",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+      "source_name": "Sanctions Hit Response",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_ctl_003",
+      "target_name": "Account Freezing",
+      "rel_type": "requires",
+      "description": "A sanctions hit requires an immediate account freeze.",
+      "properties": {
+        "timeframe": "Immediate"
+      },
+      "context": "Sanctions Hit: Immediate account freeze",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+      "source_name": "Sanctions Hit Response",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_reg_001",
+      "target_name": "National Crime Agency",
+      "rel_type": "implements",
+      "description": "Sanctions hits trigger a notification to the National Crime Agency.",
+      "properties": {
+        "obligation_type": "Regulatory Notification"
+      },
+      "context": "Sanctions Hit: Immediate account freeze + NCA notification",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+      "source_name": "Sanctions Hit Response",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_rsk_001",
+      "target_name": "Sanctions Violation",
+      "rel_type": "addresses",
+      "description": "The sanctions hit response addresses the risk of sanctions violation.",
+      "properties": {},
+      "context": "Sanctions Hit: Immediate account freeze + NCA notification",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+      "source_name": "PEP Flag Handling",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_kyc_001",
+      "target_name": "Enhanced Due Diligence",
+      "rel_type": "mandates",
+      "description": "PEP flags mandate the application of Enhanced Due Diligence.",
+      "properties": {
+        "requirement_level": "Mandatory"
+      },
+      "context": "PEP Flag: Enhanced due diligence mandatory",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+      "source_name": "PEP Flag Handling",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_rsk_002",
+      "target_name": "Politically Exposed Person Risk",
+      "rel_type": "addresses",
+      "description": "The PEP flag handling process addresses Politically Exposed Person risk.",
+      "properties": {},
+      "context": "PEP Flag: Enhanced due diligence mandatory",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_005",
+      "source_name": "Adverse Media Risk Response",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_rsk_003",
+      "target_name": "Adverse Media Risk",
+      "rel_type": "addresses",
+      "description": "The response to adverse media addresses the associated risk category.",
+      "properties": {
+        "action": "Risk assessment/rejection"
+      },
+      "context": "Adverse Media: Risk assessment + possible rejection",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+      "source_name": "Periodic Re-screening Schedule",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_cus_001",
+      "target_name": "High-Risk Customer",
+      "rel_type": "applies_to",
+      "description": "High-risk customers are subject to quarterly re-screening.",
+      "properties": {
+        "frequency": "Quarterly"
+      },
+      "context": "Periodic re-screening (high-risk customers: quarterly",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+      "source_name": "Periodic Re-screening Schedule",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_cus_002",
+      "target_name": "Standard Customer",
+      "rel_type": "applies_to",
+      "description": "Standard customers are subject to annual re-screening.",
+      "properties": {
+        "frequency": "Annually"
+      },
+      "context": "standard: annually)",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_ctl_002",
+      "target_name": "Transaction Monitoring",
+      "rel_type": "requires",
+      "description": "The policy requires transaction monitoring as part of ongoing monitoring.",
+      "properties": {},
+      "context": "Transaction monitoring (see below)",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_ctl_001",
+      "source_name": "Mandatory List Screening",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_rsk_001",
+      "target_name": "Sanctions Violation",
+      "rel_type": "mitigated_by",
+      "description": "Sanctions violations are mitigated by mandatory list screening.",
+      "properties": {
+        "mitigation_strength": "primary",
+        "mandatory": true
+      },
+      "context": "Customer name screened against all mandatory lists",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_rol_001",
+      "source_name": "Financial Crime Team",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008_rol_002",
+      "target_name": "Compliance Head",
+      "rel_type": "reports_to",
+      "description": "Financial Crime team escalates true positive matches to the Compliance Head.",
+      "properties": {
+        "trigger": "True positive confirmation"
+      },
+      "context": "If true positive: Account blocked, escalation to Compliance Head",
+      "bidirectional": false,
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_pol_001",
+      "source_name": "Screening Process Policy",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_001",
+      "source_name": "Initial Customer and Associate Screening",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_002",
+      "source_name": "Match Review and False Positive Assessment",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_003",
+      "source_name": "Sanctions Hit Response",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_004",
+      "source_name": "PEP Flag Handling",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_005",
+      "source_name": "Adverse Media Risk Response",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_prv_006",
+      "source_name": "Periodic Re-screening Schedule",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_reg_001",
+      "source_name": "National Crime Agency",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_rsk_001",
+      "source_name": "Sanctions Violation",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_rsk_002",
+      "source_name": "Politically Exposed Person Risk",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_rsk_003",
+      "source_name": "Adverse Media Risk",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_ctl_001",
+      "source_name": "Mandatory List Screening",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_ctl_002",
+      "source_name": "Transaction Monitoring",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_ctl_003",
+      "source_name": "Account Freezing",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_rol_001",
+      "source_name": "Financial Crime Team",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_rol_002",
+      "source_name": "Compliance Head",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_cus_001",
+      "source_name": "High-Risk Customer",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_cus_002",
+      "source_name": "Standard Customer",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_aml_001",
+      "source_name": "Sanctions and PEP Screening",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    },
+    {
+      "source_id": "cf9236bc18814de694f221d28b5fd515_008_kyc_001",
+      "source_name": "Enhanced Due Diligence",
+      "target_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "target_name": "cf9236bc18814de694f221d28b5fd515_008",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "cf9236bc18814de694f221d28b5fd515_008",
+      "doc_id": "cf9236bc18814de694f221d28b5fd515",
+      "domain": "banking_policy"
+    }
+  ]
+}

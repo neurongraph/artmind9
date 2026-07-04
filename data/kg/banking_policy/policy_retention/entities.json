@@ -1,0 +1,3331 @@
+[
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_pol_001",
+    "name": "FirstUK Bank Document Retention Policy",
+    "aliases": [
+      "RET-POL-005"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "The formal governing instrument for document retention at FirstUK Bank, version 1.2, effective from 2026-01-15. It is owned by the Head of Compliance and applies to all staff, compliance, legal, and audit functions.",
+    "context": [
+      "FirstUK Bank — Document Retention Policy",
+      "Document ID | RET-POL-005",
+      "Version | 1.2",
+      "Effective Date | 2026-01-15"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_001",
+    "name": "Proceeds of Crime Act 2002",
+    "aliases": [
+      "POCA 2002"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "A primary piece of legislation that serves as a regulatory reference for the bank's document retention requirements.",
+    "context": [
+      "Regulatory Reference | POCA 2002"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_002",
+    "name": "Anti-Money Laundering Regulations",
+    "aliases": [
+      "AML Regulations"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Regulatory requirements concerning anti-money laundering that inform the retention periods and standards of the policy.",
+    "context": [
+      "Regulatory Reference | AML Regulations"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_003",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The data protection and privacy regulation that governs how the bank retains and manages personal data.",
+    "context": [
+      "Regulatory Reference | GDPR"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_004",
+    "name": "FCA Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA COBS"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "rulebook",
+    "description": "The Financial Conduct Authority's rulebook regarding the conduct of business, providing the regulatory basis for specific record-keeping obligations.",
+    "context": [
+      "Regulatory Reference | FCA COBS"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The abstract role designated as the owner of the Document Retention Policy, responsible for its maintenance and oversight.",
+    "context": [
+      "Owner | Head of Compliance"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_002",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of bank employees to whom the Document Retention Policy is addressed and applies.",
+    "context": [
+      "Audience | All Staff, Compliance, Legal, Audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_003",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The compliance function identified as a primary audience and stakeholder for the retention policy.",
+    "context": [
+      "Audience | All Staff, Compliance, Legal, Audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_004",
+    "name": "Legal",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The legal function identified as a primary audience and stakeholder for the retention policy.",
+    "context": [
+      "Audience | All Staff, Compliance, Legal, Audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_005",
+    "name": "Audit",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The audit function identified as a primary audience and stakeholder for the retention policy.",
+    "context": [
+      "Audience | All Staff, Compliance, Legal, Audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_pol_001",
+    "name": "FirstUK Bank Data Retention Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A formal policy governing the retention and secure destruction of customer and operational documents at FirstUK Bank. It aims to balance legal mandates and business needs against the risks of data breaches and compliance burdens.",
+    "context": [
+      "FirstUK Bank retains customer and operational documents for periods mandated by law and business need, then destroys records securely to minimize data breach risk and compliance burden."
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_prv_001",
+    "name": "Mandatory Retention of Documents",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement that customer and operational documents must be retained for specific periods as dictated by legal requirements and the operational needs of the business.",
+    "context": [
+      "FirstUK Bank retains customer and operational documents for periods mandated by law and business need"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_prv_002",
+    "name": "Secure Destruction of Records",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate that once retention periods have expired, records must be destroyed securely to mitigate risk and reduce the compliance burden.",
+    "context": [
+      "then destroys records securely to minimize data breach risk and compliance burden."
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_rsk_001",
+    "name": "Data Breach Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of unauthorized access or disclosure of sensitive information, which the bank seeks to minimize through the secure destruction of expired records.",
+    "context": [
+      "destroys records securely to minimize data breach risk"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_rsk_002",
+    "name": "Compliance Burden",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The operational and regulatory overhead associated with maintaining excessive amounts of data, which is mitigated by secure record destruction.",
+    "context": [
+      "destroys records securely to minimize data breach risk and compliance burden."
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_ctl_001",
+    "name": "Secure Record Destruction",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of securely destroying documents after their mandated retention period to prevent data breaches.",
+    "context": [
+      "destroys records securely to minimize data breach risk"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_pol_001",
+    "name": "Data Retention Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A formal policy governing the establishment of retention schedules to ensure legal compliance, support audits, and minimize data retention risk through secure destruction and data minimization.",
+    "context": [
+      "To establish retention schedules that:",
+      "Comply with legal and regulatory obligations",
+      "Minimize data retention risk (GDPR: data minimization)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_001",
+    "name": "Compliance with Legal and Regulatory Obligations",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that retention schedules must be established to comply with all applicable legal and regulatory obligations.",
+    "context": [
+      "establish retention schedules that: Comply with legal and regulatory obligations"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_002",
+    "name": "Support for Dispute Resolution and Audits",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that retention schedules must be designed to support the bank's ability to resolve disputes and undergo audits.",
+    "context": [
+      "establish retention schedules that: Support dispute resolution and audits"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_003",
+    "name": "Data Minimization and Risk Reduction",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to minimize data retention risk in accordance with GDPR data minimization principles.",
+    "context": [
+      "establish retention schedules that: Minimize data retention risk (GDPR: data minimization)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_004",
+    "name": "Secure Destruction of Data",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to ensure that data is destroyed securely at the end of its retention period.",
+    "context": [
+      "establish retention schedules that: Ensure secure destruction"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_005",
+    "name": "Maintenance of Audit Trail",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to maintain an audit trail regarding the retention and destruction of data.",
+    "context": [
+      "establish retention schedules that: Maintain audit trail"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The overarching data protection regulation that mandates data minimization principles for the bank's retention schedules.",
+    "context": [
+      "Minimize data retention risk (GDPR: data minimization)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_rsk_001",
+    "name": "Data Retention Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk associated with retaining data longer than necessary or failing to comply with data minimization principles, specifically referenced in the context of GDPR.",
+    "context": [
+      "Minimize data retention risk (GDPR: data minimization)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_ctl_001",
+    "name": "Retention Schedules",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism used to define how long data is kept and when it must be destroyed to meet legal and regulatory requirements.",
+    "context": [
+      "To establish retention schedules that:"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_ctl_002",
+    "name": "Secure Destruction",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The process of ensuring that data is permanently and securely deleted to prevent unauthorized recovery.",
+    "context": [
+      "Ensure secure destruction"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_ctl_003",
+    "name": "Audit Trail",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The mechanism for recording data retention and destruction activities to provide evidence of compliance.",
+    "context": [
+      "Maintain audit trail"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_pol_001",
+    "name": "Data Retention Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A governing instrument defining the scope of records that must be retained by the bank, covering customer, transaction, policy, and audit documentation across both physical and digital formats.",
+    "context": [
+      "Applies to: All customer documents",
+      "All transaction records",
+      "All policy/procedure documentation",
+      "All audit and compliance files",
+      "All physical and digital records"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_001",
+    "name": "Mandatory Retention of Customer Documentation",
+    "aliases": [
+      "Scope"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement that all customer-related documents must fall within the scope of the bank's retention policies.",
+    "context": [
+      "Applies to: All customer documents"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_002",
+    "name": "Mandatory Retention of Transaction Records",
+    "aliases": [
+      "Scope"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement that all records pertaining to financial transactions must be retained according to policy.",
+    "context": [
+      "Applies to: All transaction records"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_003",
+    "name": "Mandatory Retention of Policy and Procedure Documentation",
+    "aliases": [
+      "Scope"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement that all formal policy and procedure documents must be retained.",
+    "context": [
+      "Applies to: All policy/procedure documentation"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_004",
+    "name": "Mandatory Retention of Audit and Compliance Files",
+    "aliases": [
+      "Scope"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement that all files related to audit activities and compliance monitoring must be retained.",
+    "context": [
+      "Applies to: All audit and compliance files"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_005",
+    "name": "Mandatory Retention of Physical and Digital Records",
+    "aliases": [
+      "Scope"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement that the retention obligations apply regardless of the medium, encompassing both physical and digital records.",
+    "context": [
+      "Applies to: All physical and digital records"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_ctl_001",
+    "name": "Record Keeping",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of maintaining customer, transaction, and compliance records in both physical and digital formats to ensure policy adherence.",
+    "context": [
+      "All customer documents",
+      "All transaction records",
+      "All physical and digital records"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_pol_001",
+    "name": "FirstUK Bank Data Retention Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "The governing policy defining the bank's stance on the duration of document retention and the requirement for secure destruction.",
+    "context": [
+      "FirstUK Bank retains documents only as long as legally required or business-justified, then destroys them securely."
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_prv_001",
+    "name": "Limited Document Retention Period",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A mandatory requirement that documents must only be kept for the duration that is legally required or justified by business needs.",
+    "context": [
+      "FirstUK Bank retains documents only as long as legally required or business-justified"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_prv_002",
+    "name": "Secure Document Destruction",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "An obligation to ensure that documents are destroyed securely once the retention period has expired.",
+    "context": [
+      "then destroys them securely"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_ctl_001",
+    "name": "Secure Destruction Mechanism",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational safeguard used to ensure that documents are destroyed in a secure manner to prevent unauthorized access.",
+    "context": [
+      "destroys them securely"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_pol_001",
+    "name": "Retention Schedule by Document Type",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A formal governing instrument defining the mandatory retention periods and destruction methods for various customer and account documents based on legal and regulatory requirements.",
+    "context": [
+      "Retention Schedule by Document Type"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_reg_001",
+    "name": "Proceeds of Crime Act",
+    "aliases": [
+      "POCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "A legal basis cited for the retention of customer profiles, identification documents, and transaction records.",
+    "context": [
+      "POCA, AML, dispute",
+      "POCA, anti-fraud",
+      "POCA, audit, disputes"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_reg_002",
+    "name": "Money Laundering Regulations 2017",
+    "aliases": [
+      "Money Laundering Regs 2017"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory basis requiring the retention of KYC/CDD records for 5 years post-closure.",
+    "context": [
+      "Money Laundering Regs 2017"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_reg_003",
+    "name": "Direct Debit Scheme Rules",
+    "aliases": [
+      "DD scheme rules"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "industry_code",
+    "description": "The industry rules governing the retention of Direct Debit Mandates for 6 years post-cancellation.",
+    "context": [
+      "DD scheme rules"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_rsk_001",
+    "name": "Money Laundering",
+    "aliases": [
+      "AML"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "money_laundering",
+    "description": "A financial crime risk category used as a legal basis for the retention of customer profiles.",
+    "context": [
+      "POCA, AML, dispute"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_rsk_002",
+    "name": "Fraud",
+    "aliases": [
+      "anti-fraud"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A risk category used as a legal basis for the retention of identification documents.",
+    "context": [
+      "POCA, anti-fraud"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_ctl_001",
+    "name": "Secure Document Destruction",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism for disposing of records, specifically through shredding or deletion.",
+    "context": [
+      "Shred/delete",
+      "Delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_001",
+    "name": "Customer Profile Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain Customer Profiles for the duration of the account tenure plus an additional 6 years.",
+    "context": [
+      "Customer Profile | Account tenure + 6 years | POCA, AML, dispute | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_002",
+    "name": "KYC/CDD Records Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain KYC/CDD records for 5 years following the closure of the account.",
+    "context": [
+      "KYC/CDD Records | 5 years post-closure | Money Laundering Regs 2017 | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_003",
+    "name": "Identification Documents Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain identification documents for 6 years post-closure.",
+    "context": [
+      "Identification Docs | 6 years post-closure | POCA, anti-fraud | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_004",
+    "name": "Address Verification Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain address verification documents for 6 years post-closure.",
+    "context": [
+      "Address Verification | 6 years post-closure | KYC requirements | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_005",
+    "name": "Account Opening Forms Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain account opening forms for 6 years post-closure as evidence of contract.",
+    "context": [
+      "Account Opening Forms | 6 years post-closure | Contract evidence | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_006",
+    "name": "Statements Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain statements for the duration of the account tenure plus 6 years.",
+    "context": [
+      "Statements | Account tenure + 6 years | Customer service, disputes | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_007",
+    "name": "Transaction Records Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain transaction records for a minimum of 6 years.",
+    "context": [
+      "Transaction Records | 6 years minimum | POCA, audit, disputes | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_008",
+    "name": "Standing Orders Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain standing orders for the duration of the account tenure plus 2 years.",
+    "context": [
+      "Standing Orders | Account tenure + 2 years | Contract evidence | Delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_009",
+    "name": "Direct Debit Mandates Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain Direct Debit Mandates for 6 years following cancellation.",
+    "context": [
+      "Direct Debit Mandates | 6 years post-cancellation | DD scheme rules | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_id_001",
+    "name": "Identification Documents",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "document_retention",
+    "description": "Official documents used to verify customer identity, subject to a 6-year post-closure retention rule.",
+    "context": [
+      "Identification Docs | 6 years post-closure | POCA, anti-fraud | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_id_002",
+    "name": "Address Verification",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "Documents used to verify a customer's address, subject to a 6-year post-closure retention rule.",
+    "context": [
+      "Address Verification | 6 years post-closure | KYC requirements | Shred/delete"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_pol_001",
+    "name": "Compliance & Regulatory Documents Retention Policy",
+    "aliases": [
+      "Compliance & Regulatory Documents"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A governing instrument defining the mandatory retention periods and legal bases for various compliance and regulatory records within FirstUK Bank.",
+    "context": [
+      "Compliance & Regulatory Documents"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_001",
+    "name": "Complaint Files Retention Requirement",
+    "aliases": [
+      "Complaint Files"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that complaint files must be retained for a period of 6 years starting from the date of resolution.",
+    "context": [
+      "Complaint Files | 6 years from resolution"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_001",
+    "name": "FCA Conduct of Business Sourcebook Part 2",
+    "aliases": [
+      "FCA COBS Part 2"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory basis for the retention of complaint files.",
+    "context": [
+      "FCA COBS Part 2"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_002",
+    "name": "Regulatory Reports Retention Requirement",
+    "aliases": [
+      "Regulatory Reports"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that regulatory reports must be retained for a period of 5 years.",
+    "context": [
+      "Regulatory Reports | 5 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_002",
+    "name": "PRA Rulebook",
+    "aliases": [
+      "PRA Rulebook"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "rulebook",
+    "description": "The regulatory basis for the retention of regulatory reports.",
+    "context": [
+      "PRA Rulebook"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_003",
+    "name": "AML Screening Results Retention Requirement",
+    "aliases": [
+      "AML Screening Results"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that AML screening results must be retained for 5 years following the closure of the account.",
+    "context": [
+      "AML Screening Results | 5 years post-closure"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_003",
+    "name": "Money Laundering Regulations",
+    "aliases": [
+      "Money Laundering Regs"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The legal basis for the retention of AML screening results.",
+    "context": [
+      "Money Laundering Regs"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_004",
+    "name": "SAR Retention Requirement",
+    "aliases": [
+      "SAR (Suspicious Activity)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that Suspicious Activity Reports (SAR) must be retained for a period of 5 years.",
+    "context": [
+      "SAR (Suspicious Activity) | 5 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_004",
+    "name": "Proceeds of Crime Act",
+    "aliases": [
+      "POCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "The legal basis for the retention of Suspicious Activity Reports.",
+    "context": [
+      "Proceeds of Crime Act"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_005",
+    "name": "Audit Reports Retention Requirement",
+    "aliases": [
+      "Audit Reports"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that audit reports must be retained for a period of 7 years.",
+    "context": [
+      "Audit Reports | 7 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_005",
+    "name": "Statutory Audit Requirements",
+    "aliases": [
+      "Statutory audit"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The legal basis for the retention of audit reports.",
+    "context": [
+      "Statutory audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_006",
+    "name": "Board and Committee Minutes Permanent Retention",
+    "aliases": [
+      "Board/Committee Minutes"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that minutes from Board and Committee meetings be retained permanently.",
+    "context": [
+      "Board/Committee Minutes | Permanent"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_006",
+    "name": "Corporate Governance Standards",
+    "aliases": [
+      "Corporate governance"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "industry_code",
+    "description": "The basis for the permanent retention of board and committee minutes.",
+    "context": [
+      "Corporate governance"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_007",
+    "name": "Compliance Bulletins Retention Requirement",
+    "aliases": [
+      "Compliance Bulletins"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that compliance bulletins be retained for a period of 3 years.",
+    "context": [
+      "Compliance Bulletins | 3 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_007",
+    "name": "Regulatory Reference Standards",
+    "aliases": [
+      "Regulatory reference"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "The basis for the retention of compliance bulletins.",
+    "context": [
+      "Regulatory reference"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_008",
+    "name": "Regulatory Circulars Retention Requirement",
+    "aliases": [
+      "Regulatory Circulars"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that regulatory circulars be retained for a period between 3 and 5 years.",
+    "context": [
+      "Regulatory Circulars | 3–5 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_008",
+    "name": "Regulatory Guidance",
+    "aliases": [
+      "Regulatory guidance"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "The basis for the retention of regulatory circulars.",
+    "context": [
+      "Regulatory guidance"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_ctl_001",
+    "name": "Compliance Record Keeping",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of maintaining a structured retention schedule for regulatory and compliance documentation to ensure legal and regulatory adherence.",
+    "context": [
+      "Retention Period",
+      "Legal Basis"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_pol_001",
+    "name": "Operational & Support Documents Retention Policy",
+    "aliases": [
+      "Operational & Support Documents"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the retention periods and legal/governance bases for various operational and support documents within FirstUK Bank.",
+    "context": [
+      "Operational & Support Documents"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_001",
+    "name": "SOP and Procedure Version Retention",
+    "aliases": [
+      "SOPs & Procedures"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that Standard Operating Procedures (SOPs) and Procedures must be retained for the current version plus the two prior versions to ensure governance and an audit trail.",
+    "context": [
+      "SOPs & Procedures | Current + 2 prior versions | Governance, audit trail"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_002",
+    "name": "Permanent Policy Document Retention",
+    "aliases": [
+      "Policy Documents"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires that all versions of Policy Documents be retained permanently for governance and legal purposes.",
+    "context": [
+      "Policy Documents | Permanent (all versions) | Governance, legal"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_003",
+    "name": "Compliance Training Record Retention",
+    "aliases": [
+      "Training Records"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates a 3-year retention period for training records to facilitate compliance training verification.",
+    "context": [
+      "Training Records | 3 years | Compliance training verification"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_004",
+    "name": "Staff Disciplinary Record Retention",
+    "aliases": [
+      "Staff Disciplinary"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires staff disciplinary records to be kept for 6 years from the date of the action, based on employment law.",
+    "context": [
+      "Staff Disciplinary | 6 years from action | Employment law"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_005",
+    "name": "System Access Log Retention",
+    "aliases": [
+      "System Access Logs"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that system access logs be retained for 1 year for security and audit purposes.",
+    "context": [
+      "System Access Logs | 1 year | Security, audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_006",
+    "name": "Backup Tape Rotation Retention",
+    "aliases": [
+      "Backup Tapes"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Specifies a 30-day rotating retention period for backup tapes to support disaster recovery.",
+    "context": [
+      "Backup Tapes | 30 days (rotating) | Disaster recovery"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_007",
+    "name": "General Email Retention",
+    "aliases": [
+      "Email (general)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Sets a retention period of 1 to 3 years for general business emails to maintain business efficiency.",
+    "context": [
+      "Email (general) | 1–3 years | Business efficiency"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_008",
+    "name": "Legal and Compliance Email Retention",
+    "aliases": [
+      "Email (legal/compliance)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates a 7-year retention period for emails related to legal or compliance matters under a legal hold.",
+    "context": [
+      "Email (legal/compliance) | 7 years | Legal hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_reg_001",
+    "name": "Employment Law",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "The legal framework governing the retention of staff disciplinary records.",
+    "context": [
+      "Staff Disciplinary | 6 years from action | Employment law"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_ctl_001",
+    "name": "Audit Trail Maintenance",
+    "aliases": [
+      "audit trail"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The practice of maintaining SOP versions and system logs to provide a verifiable history of actions and governance.",
+    "context": [
+      "Governance, audit trail",
+      "Security, audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_ctl_002",
+    "name": "Disaster Recovery Backups",
+    "aliases": [
+      "Backup Tapes"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The use of rotating backup tapes to ensure data availability during disaster recovery scenarios.",
+    "context": [
+      "Backup Tapes | 30 days (rotating) | Disaster recovery"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_ctl_003",
+    "name": "Legal Hold",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "A mechanism to preserve legal and compliance emails for an extended period (7 years) regardless of general deletion cycles.",
+    "context": [
+      "Email (legal/compliance) | 7 years | Legal hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_pol_001",
+    "name": "Data Retention Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A governing instrument defining the mandatory retention periods for financial and risk-related documents based on accounting, regulatory, and risk framework requirements.",
+    "context": [
+      "Financial & Risk Documents",
+      "Retention Period",
+      "Basis"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_001",
+    "name": "General Ledger Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that General Ledger documents must be retained for a period of 6 years in accordance with accounting standards.",
+    "context": [
+      "General Ledger | 6 years | Accounting standards"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_002",
+    "name": "Transaction Ledger Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that Transaction Ledger documents must be retained for a period of 6 years for regulatory and audit purposes.",
+    "context": [
+      "Transaction Ledger | 6 years | Regulatory, audit"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_003",
+    "name": "Risk Assessment Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that Risk Assessments must be retained for a period of 5 years as per the risk framework.",
+    "context": [
+      "Risk Assessments | 5 years | Risk framework"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_004",
+    "name": "Incident Report Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that Incident Reports must be retained for a period of 5 years to track loss data and patterns.",
+    "context": [
+      "Incident Reports | 5 years | Loss data, patterns"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_005",
+    "name": "Fraud Investigation Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that Fraud Investigations must be retained for a period of 5 years to support fraud prevention.",
+    "context": [
+      "Fraud Investigations | 5 years | Fraud prevention"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_006",
+    "name": "Third-Party Vendor Contract Retention Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that Third-Party Vendor Contracts must be retained for 6 years following the termination of the contract for contractual and compliance reasons.",
+    "context": [
+      "Third-Party Vendor Contracts | 6 years post-termination | Contractual, compliance"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_reg_001",
+    "name": "Accounting Standards",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "industry_code",
+    "description": "The external accounting standards that serve as the basis for the retention of General Ledger documents.",
+    "context": [
+      "Accounting standards"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity, the mitigation of which requires the retention of investigation records for 5 years.",
+    "context": [
+      "Fraud prevention"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_ctl_001",
+    "name": "Record Keeping",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational safeguard of maintaining financial and risk documents for specified durations to ensure regulatory and audit compliance.",
+    "context": [
+      "Retention Period",
+      "General Ledger | 6 years",
+      "Transaction Ledger | 6 years",
+      "Risk Assessments | 5 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_pol_001",
+    "name": "Mortgage Data Retention Policy",
+    "aliases": [
+      "Mortgage-Specific Documents"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the extended retention periods for mortgage-related documentation to ensure security of property liens.",
+    "context": [
+      "Mortgage-Specific Documents",
+      "Mortgages require extended retention due to security (property lien)."
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_rsk_001",
+    "name": "Property Lien Security Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "operational_risk",
+    "description": "The risk associated with the security of property liens, necessitating extended document retention to protect the bank's interest in the collateral.",
+    "context": [
+      "Mortgages require extended retention due to security (property lien)."
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_001",
+    "name": "Retention of Mortgage Application",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain Mortgage Application documents for the entire life of the loan plus an additional 6 years.",
+    "context": [
+      "Mortgage Application | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_002",
+    "name": "Retention of Underwriting File",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain Underwriting Files for the entire life of the loan plus an additional 6 years.",
+    "context": [
+      "Underwriting File | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_003",
+    "name": "Retention of Property Valuation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain Property Valuation documents for the entire life of the loan plus an additional 6 years.",
+    "context": [
+      "Property Valuation | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_004",
+    "name": "Retention of Legal Charge or Deed",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain Legal Charge or Deed documents for the entire life of the loan plus an additional 6 years.",
+    "context": [
+      "Legal Charge/Deed | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_005",
+    "name": "Retention of Payment Records",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement to retain Payment Records for the entire life of the loan plus an additional 6 years.",
+    "context": [
+      "Payment Records | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_ctl_001",
+    "name": "Mortgage Document Record Keeping",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of maintaining specific mortgage documents for a defined period (Life of loan + 6 years) to mitigate lien security risks.",
+    "context": [
+      "Mortgages require extended retention due to security (property lien).",
+      "Retention Period | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_001",
+    "name": "Mortgage Application",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "document_retention",
+    "description": "The application document used for mortgage processing, subject to a retention period of life of loan plus 6 years.",
+    "context": [
+      "Mortgage Application | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_002",
+    "name": "Underwriting File",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "document_retention",
+    "description": "The file containing underwriting analysis for a mortgage, subject to a retention period of life of loan plus 6 years.",
+    "context": [
+      "Underwriting File | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_003",
+    "name": "Property Valuation",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "document_retention",
+    "description": "The valuation report for the mortgaged property, subject to a retention period of life of loan plus 6 years.",
+    "context": [
+      "Property Valuation | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_004",
+    "name": "Legal Charge/Deed",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "document_retention",
+    "description": "The legal instrument creating the charge over the property, subject to a retention period of life of loan plus 6 years.",
+    "context": [
+      "Legal Charge/Deed | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_005",
+    "name": "Payment Records",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "document_retention",
+    "description": "Records of payments made against the mortgage, subject to a retention period of life of loan plus 6 years.",
+    "context": [
+      "Payment Records | Life of loan + 6 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_pol_001",
+    "name": "Extended Retention Policy",
+    "aliases": [
+      "Extended Retention"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the extension of data retention periods beyond standard timelines when specific legal, regulatory, or customer-driven triggers are present.",
+    "context": [
+      "Extended Retention",
+      "Retention Extended If:"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_001",
+    "name": "Retention Extension for Active Customer Disputes",
+    "aliases": [
+      "Customer dispute retention"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that records must be retained while a customer dispute is active and for a further 6 years following the resolution of said dispute.",
+    "context": [
+      "Customer dispute is active (until resolution + 6 years)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_002",
+    "name": "Retention Extension for Regulatory Investigations",
+    "aliases": [
+      "Regulatory investigation retention"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires that documents be retained for the entire duration of an ongoing regulatory investigation until its conclusion.",
+    "context": [
+      "Regulatory investigation ongoing (until conclusion)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_003",
+    "name": "Retention Extension for Pending Legal Action",
+    "aliases": [
+      "Legal action retention"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that records be retained while legal action is pending and for a further 6 years after the conclusion of the action.",
+    "context": [
+      "Legal action pending (until conclusion + 6 years)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_004",
+    "name": "Retention Extension upon Customer Request",
+    "aliases": [
+      "Customer requested retention"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Allows for the extension of retention if a customer requests it, provided that the request is formally documented.",
+    "context": [
+      "Customer requests retention (must be documented)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_005",
+    "name": "Retention Extension for Regulatory Compliance",
+    "aliases": [
+      "Regulatory requirement retention"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires the extension of retention periods to comply with specific regulatory requirements such as GDPR and POCA.",
+    "context": [
+      "Regulatory requirement (GDPR, POCA, etc.)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_006",
+    "name": "Annual Reassessment of Legal Holds",
+    "aliases": [
+      "Annual review"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Mandates that documents placed on legal hold must be reassessed on an annual basis to determine if the hold is still required.",
+    "context": [
+      "Reassess annually"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "A regulatory framework cited as a basis for extending the retention of data.",
+    "context": [
+      "Regulatory requirement (GDPR, POCA, etc.)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_reg_002",
+    "name": "Proceeds of Crime Act",
+    "aliases": [
+      "POCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "Legislation cited as a basis for extending the retention of data.",
+    "context": [
+      "Regulatory requirement (GDPR, POCA, etc.)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_ctl_001",
+    "name": "Legal Hold Implementation",
+    "aliases": [
+      "Legal hold"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of placing a document on legal hold to prevent its destruction during a dispute or investigation.",
+    "context": [
+      "Document placed on legal hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_ctl_002",
+    "name": "Do Not Destroy Marking",
+    "aliases": [
+      "Marking"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "A technical or administrative safeguard where documents are explicitly marked as 'Do Not Destroy' to prevent premature deletion.",
+    "context": [
+      "Marked \"Do Not Destroy\""
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer whose disputes or requests may trigger the extended retention of records.",
+    "context": [
+      "Customer dispute is active",
+      "Customer requests retention"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_pol_001",
+    "name": "Early Destruction Policy",
+    "aliases": [
+      "Early Destruction"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the early destruction of specific document types, including emails and system logs, based on their categorization and legal hold status.",
+    "context": [
+      "Early Destruction",
+      "Some documents destroyed early if:"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_001",
+    "name": "Retention Period for Routine Operational Emails",
+    "aliases": [
+      "Email (non-compliance)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that routine operational emails that are non-compliance related must be destroyed after a period of 1 year.",
+    "context": [
+      "Routine operational emails: 1 year"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_002",
+    "name": "Retention Period for Archived Non-Compliance Emails",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that non-compliance emails archived to external storage must be retained for 3 years.",
+    "context": [
+      "Archived to external storage: 3 years"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_003",
+    "name": "Retention Period for Compliance Emails",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that compliance emails must be retained for 7 years, subject to legal hold requirements.",
+    "context": [
+      "Compliance emails: 7 years (legal hold)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_004",
+    "name": "Retention Period for General Transaction Logs",
+    "aliases": [
+      "System Logs"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that general transaction system logs be retained for 1 year.",
+    "context": [
+      "General transaction logs: 1 year"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_005",
+    "name": "Retention Period for Backup System Logs",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that system logs archived for backup purposes be retained for 30 days.",
+    "context": [
+      "Archived for backup: 30 days"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_006",
+    "name": "Retention Period for Compliance and Audit Logs",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates a minimum retention period of 1 year for system logs related to compliance and auditing.",
+    "context": [
+      "Compliance/audit logs: 1 year minimum"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_007",
+    "name": "Secure Destruction Process Workflow",
+    "aliases": [
+      "Process"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Defines the mandatory five-step sequence for document destruction: categorization, legal hold confirmation, scheduling, secure destruction, and documentation of confirmation.",
+    "context": [
+      "1. Categorize document",
+      "2. Confirm no legal hold",
+      "3. Schedule for destruction",
+      "4. Destroy securely",
+      "5. Confirm and document"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_ctl_001",
+    "name": "Secure Destruction Mechanism",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational requirement to ensure that documents are destroyed securely and that the action is confirmed and documented.",
+    "context": [
+      "4. Destroy securely",
+      "5. Confirm and document"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_ctl_002",
+    "name": "Legal Hold Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "A mandatory check to confirm that no legal hold exists on a document before it is scheduled for destruction.",
+    "context": [
+      "2. Confirm no legal hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_pol_001",
+    "name": "Data Retention and Destruction Policy",
+    "aliases": [
+      "Destruction Methods"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the methods and standards for the secure destruction of physical documents to ensure data privacy and compliance.",
+    "context": [
+      "Destruction Methods",
+      "Physical Documents"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_001",
+    "name": "On-site Shredding Requirements",
+    "aliases": [
+      "Shredding"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that physical documents must be shredded before recycling, with on-site shredders permitted for volumes under 10 pages per day.",
+    "context": [
+      "On-site shredder (if <10 pages/day)",
+      "Shred before recycle"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_002",
+    "name": "Document Destruction Logging",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires the maintenance of a document destruction log to track the disposal of physical records.",
+    "context": [
+      "Document destruction log"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_003",
+    "name": "Professional Shredding Standards",
+    "aliases": [
+      "Professional Shredding"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the use of a third-party secure destruction company for professional shredding, ensuring a certificate of destruction is provided and a chain of custody is maintained.",
+    "context": [
+      "Third-party secure destruction company",
+      "Certificate of destruction provided",
+      "Chain of custody maintained"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_004",
+    "name": "Professional Shredding Pickup Schedule",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Specifies that professional shredding pickups must be scheduled on a monthly or quarterly basis.",
+    "context": [
+      "Scheduled pickup (monthly/quarterly)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_ctl_001",
+    "name": "Secure Shredding",
+    "aliases": [
+      "Shredding",
+      "Professional Shredding"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational use of shredding (either on-site or via third-party) to prevent unauthorized access to discarded physical data.",
+    "context": [
+      "On-site shredder",
+      "Third-party secure destruction company"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_ctl_002",
+    "name": "Destruction Certification and Logging",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The use of destruction logs and certificates of destruction to provide an audit trail for the disposal of sensitive documents.",
+    "context": [
+      "Document destruction log",
+      "Certificate of destruction provided"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_rol_001",
+    "name": "Third-party Secure Destruction Company",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "An external entity responsible for the secure destruction of documents, providing certificates of destruction and maintaining the chain of custody.",
+    "context": [
+      "Third-party secure destruction company",
+      "Certificate of destruction provided",
+      "Chain of custody maintained"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_pol_001",
+    "name": "Digital Records Policy",
+    "aliases": [
+      "Digital Records"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the secure deletion and destruction of digital records to ensure data is not recoverable after its retention period.",
+    "context": [
+      "Digital Records",
+      "Secure Deletion"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_prv_001",
+    "name": "Mandatory Secure Deletion of Digital Records",
+    "aliases": [
+      "Secure Deletion"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requirement that digital records must be destroyed using specific secure deletion methods rather than simple deletion to prevent data recovery.",
+    "context": [
+      "Secure Deletion:",
+      "Secure delete (not just recycle bin)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_prv_002",
+    "name": "Digital Destruction Process Sequence",
+    "aliases": [
+      "Process"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory five-step operational sequence for the destruction of files: identification, quarantine, secure deletion, verification, and certificate generation.",
+    "context": [
+      "Process:",
+      "1. Identify files to destroy",
+      "2. Quarantine to destruction folder",
+      "3. Secure delete (not just recycle bin)",
+      "4. Verify deletion",
+      "5. Certificate generated"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_001",
+    "name": "DoD Standard 3-Pass Data Overwriting",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_masking",
+    "description": "A technical control requiring data to be overwritten three times according to Department of Defense standards to ensure permanent erasure.",
+    "context": [
+      "Data overwriting (DoD standard, 3-pass)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_002",
+    "name": "AES-256 Encrypted Deletion",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "data_encryption",
+    "description": "The use of AES-256 encryption as a mechanism for the secure deletion of digital records.",
+    "context": [
+      "Encrypted deletion (AES-256)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_003",
+    "name": "Physical Hard Drive Destruction",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The physical destruction of hard drive hardware to ensure the total elimination of digital records.",
+    "context": [
+      "Physical destruction (hard drives)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_004",
+    "name": "Destruction Certification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The generation of a certificate to provide formal verification that the digital record destruction process has been completed.",
+    "context": [
+      "5. Certificate generated"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_rsk_001",
+    "name": "Unauthorized Data Recovery",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "information_security_risk",
+    "description": "The risk that digital records are not fully erased and can be recovered from storage media, necessitating secure deletion standards.",
+    "context": [
+      "Secure delete (not just recycle bin)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_pol_001",
+    "name": "Records Management System Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "The governing framework for the management and retention of records within the bank, specifically focusing on the digital tracking and destruction of documents.",
+    "context": [
+      "Records Management System"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_001",
+    "name": "Automated Retention Date Tracking",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandatory requirement that the document storage system must track the specific retention dates for records.",
+    "context": [
+      "Document storage system (DMS-001) tracks retention dates"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_002",
+    "name": "Pre-Destruction Notification Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Obligation to provide automated alerts 30 days prior to the scheduled destruction of records.",
+    "context": [
+      "Automated alerts 30 days before destruction"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_003",
+    "name": "Mandatory Destruction Logging",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requirement that all deletions of records must be formally recorded in a destruction log.",
+    "context": [
+      "Destruction log records all deletions"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_004",
+    "name": "Audit Trail Maintenance",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligation to maintain a continuous audit trail for records management activities.",
+    "context": [
+      "Audit trail maintained"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_ctl_001",
+    "name": "Document Storage System (DMS-001)",
+    "aliases": [
+      "DMS-001"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The technical system used to implement digital retention tracking and manage the lifecycle of documents.",
+    "context": [
+      "Document storage system (DMS-001) tracks retention dates"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_ctl_002",
+    "name": "Destruction Log",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "An operational log used to record and evidence the deletion of records in compliance with retention policies.",
+    "context": [
+      "Destruction log records all deletions"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_ctl_003",
+    "name": "Audit Trail",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A monitoring mechanism used to track changes and actions within the records management system.",
+    "context": [
+      "Audit trail maintained"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_pol_001",
+    "name": "FirstUK Bank Data Deletion Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "privacy",
+    "description": "A policy governing the process and conditions under which FirstUK Bank handles customer requests for data deletion, balancing privacy rights against legal and regulatory retention obligations.",
+    "context": [
+      "Customer Requests",
+      "Customer Right to Data Deletion"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The overarching data protection regulation providing customers with the 'Right to Erasure' or 'Right to be Forgotten'.",
+    "context": [
+      "GDPR Right to Erasure (\"Right to be Forgotten\")"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_reg_002",
+    "name": "Proceeds of Crime Act",
+    "aliases": [
+      "POCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "Legislation that creates legal obligations for the bank to retain records, serving as a valid reason to refuse a data deletion request.",
+    "context": [
+      "Exception: POCA, AML records (cannot delete if regulatory required)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_reg_003",
+    "name": "Anti-Money Laundering Regulations",
+    "aliases": [
+      "AML records"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Regulatory requirements regarding the retention of AML records that override a customer's request for data erasure.",
+    "context": [
+      "Exception: POCA, AML records (cannot delete if regulatory required)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_001",
+    "name": "Customer Right to Request Data Erasure",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The bank must allow customers to request the deletion of their data in accordance with the Right to be Forgotten.",
+    "context": [
+      "Customer can request deletion",
+      "GDPR Right to Erasure (\"Right to be Forgotten\")"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_002",
+    "name": "Refusal of Deletion Based on Legal Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "FirstUK Bank is permitted to refuse a deletion request if a legal obligation exists, specifically citing POCA or AML record requirements.",
+    "context": [
+      "FirstUK Bank may refuse if legal obligation exists",
+      "Exception: POCA, AML records (cannot delete if regulatory required)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_003",
+    "name": "Written Request Requirement for Deletion",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The procedure requires that a customer's request for data deletion must be submitted in writing.",
+    "context": [
+      "Customer requests deletion (in writing)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_004",
+    "name": "Legal Hold Assessment Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank must assess whether a legal hold exists before proceeding with the destruction of customer data.",
+    "context": [
+      "FirstUK Bank assesses legal hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_005",
+    "name": "Data Destruction and Confirmation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "If no legal hold is identified, the bank must destroy the requested data and provide confirmation to the customer.",
+    "context": [
+      "If no hold: Destroy and confirm"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_006",
+    "name": "Notification Obligation for Deletion Refusal",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "In cases where a legal hold prevents deletion, the bank must explain the reason for the refusal and the applicable timeframe to the customer.",
+    "context": [
+      "If hold: Explain reason and timeframe"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The entity responsible for assessing legal holds, executing data destruction, and communicating reasons for refusal to customers.",
+    "context": [
+      "FirstUK Bank may refuse if legal obligation exists",
+      "FirstUK Bank assesses legal hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_cus_001",
+    "name": "Requesting Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer exercising their right to data erasure under GDPR.",
+    "context": [
+      "Customer can request deletion",
+      "Customer requests deletion (in writing)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_ctl_001",
+    "name": "Legal Hold Assessment",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "An operational check to determine if regulatory requirements (e.g., POCA, AML) mandate the retention of data despite a deletion request.",
+    "context": [
+      "FirstUK Bank assesses legal hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_pol_001",
+    "name": "Dispute & Legal Holds Policy",
+    "aliases": [
+      "Dispute & Legal Holds"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A policy governing the retention and management of documents during customer disputes, legal actions, and regulatory investigations to ensure evidence is preserved.",
+    "context": [
+      "## Dispute & Legal Holds"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_prv_001",
+    "name": "Mandatory Document Retention during Litigation Hold",
+    "aliases": [
+      "Litigation Hold"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requires the bank to retain all relevant documents when a customer dispute or legal action occurs. Documents must be specifically marked as 'Legal Hold' and cannot be destroyed for the duration of the dispute.",
+    "context": [
+      "Retain all relevant documents",
+      "Document marked \"Legal Hold\"",
+      "Cannot destroy during dispute"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_prv_002",
+    "name": "Post-Resolution Document Destruction Timeline",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates that documents held under a litigation hold must be destroyed 6 years after the resolution of the dispute.",
+    "context": [
+      "Destroy 6 years after resolution"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_prv_003",
+    "name": "Regulatory Investigation Hold Obligation",
+    "aliases": [
+      "Regulatory Investigation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Obligates the bank to retain all specified documents upon a regulator's request, adhering to the regulator's specific timeline and destruction instructions.",
+    "context": [
+      "Regulator requests hold",
+      "Retain all specified documents",
+      "Follow regulator timeline",
+      "Destroy per regulator instruction"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_rsk_001",
+    "name": "Legal and Regulatory Risk",
+    "aliases": [
+      "Customer dispute",
+      "legal action",
+      "Regulatory Investigation"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "Risks associated with customer disputes, legal actions, and regulatory investigations that necessitate the preservation of evidence.",
+    "context": [
+      "Customer dispute or legal action",
+      "Regulator requests hold"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_ctl_001",
+    "name": "Legal Hold Marking",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of marking documents as 'Legal Hold' to prevent their accidental or intentional destruction during a dispute.",
+    "context": [
+      "Document marked \"Legal Hold\""
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_rol_001",
+    "name": "Regulator",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external authority with the power to request document holds and provide instructions on the timeline and destruction of those documents.",
+    "context": [
+      "Regulator requests hold",
+      "Follow regulator timeline",
+      "Destroy per regulator instruction"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_cus_001",
+    "name": "Disputing Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A customer involved in a dispute or legal action that triggers a litigation hold on relevant documentation.",
+    "context": [
+      "Customer dispute or legal action"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_pol_001",
+    "name": "Audit & Compliance Policy",
+    "aliases": [
+      "Audit & Compliance"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "A governing framework establishing the requirements for auditing records retention practices and ensuring compliance with regulatory standards.",
+    "context": [
+      "## Audit & Compliance"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_001",
+    "name": "Annual Audit of Retention Practices",
+    "aliases": [
+      "Records Audit"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement to conduct an audit of the bank's records retention practices on an annual basis.",
+    "context": [
+      "Annual audit of retention practices"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_002",
+    "name": "Sample File Review of Destruction Logs",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform a review of sample files specifically focusing on destruction logs to ensure proper disposal of records.",
+    "context": [
+      "Sample file review (destruction logs)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_003",
+    "name": "Compliance with Retention Schedule",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to ensure that all record-keeping activities adhere to the established retention schedule.",
+    "context": [
+      "Compliance with retention schedule"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_004",
+    "name": "Unauthorized Destruction Assessment",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to assess whether any records have been destroyed without proper authorization.",
+    "context": [
+      "Unauthorized destruction assessment"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body responsible for conducting periodic reviews of the bank's compliance and document retention.",
+    "context": [
+      "FCA/PRA periodic reviews"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_reg_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body responsible for conducting periodic reviews of the bank's compliance and document retention.",
+    "context": [
+      "FCA/PRA periodic reviews"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_reg_003",
+    "name": "Proceeds of Crime Act",
+    "aliases": [
+      "POCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "Legislation used as the basis for compliance assessments regarding the handling and retention of records related to criminal proceeds.",
+    "context": [
+      "POCA compliance assessment"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_rsk_001",
+    "name": "Unauthorized Record Destruction",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk that records are destroyed without authorization, leading to regulatory non-compliance or loss of evidence.",
+    "context": [
+      "Unauthorized destruction assessment"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_ctl_001",
+    "name": "Destruction Logs",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism used to track the destruction of records, which is subject to sample file reviews during audits.",
+    "context": [
+      "Sample file review (destruction logs)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_ctl_002",
+    "name": "Document Retention Sampling",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A monitoring mechanism used by regulators to verify that the bank is adhering to its document retention obligations.",
+    "context": [
+      "Document retention sampling"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_rol_001",
+    "name": "External Regulator",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "Regulatory bodies (such as the FCA and PRA) tasked with performing periodic reviews and compliance assessments of the bank.",
+    "context": [
+      "FCA/PRA periodic reviews",
+      "POCA compliance assessment"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_rol_001",
+    "name": "Document Owners",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Staff members designated as owners of specific documents who are accountable for managing the document lifecycle, including retention, destruction, and legal holds.",
+    "context": [
+      "Document Owners",
+      "Know retention period for documents",
+      "Comply with destruction schedule",
+      "Flag legal holds"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_001",
+    "name": "Knowledge of Document Retention Periods",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A mandatory requirement for Document Owners to be aware of the specific retention periods applicable to the documents under their ownership.",
+    "context": [
+      "Know retention period for documents"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_002",
+    "name": "Compliance with Document Destruction Schedule",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "An obligation for Document Owners to ensure that documents are destroyed in accordance with the bank's established destruction schedule.",
+    "context": [
+      "Comply with destruction schedule"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_003",
+    "name": "Identification and Flagging of Legal Holds",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for Document Owners to identify and flag documents that are subject to legal holds to prevent premature destruction.",
+    "context": [
+      "Flag legal holds"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_004",
+    "name": "Documentation of Customer Requests",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_keeping",
+    "description": "A mandate for Document Owners to formally document requests received from customers regarding their data or documents.",
+    "context": [
+      "Document customer requests"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_ctl_001",
+    "name": "Destruction Schedule",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism used to govern the timely and compliant disposal of bank documents.",
+    "context": [
+      "Comply with destruction schedule"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_ctl_002",
+    "name": "Legal Hold Flagging",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The process of marking documents as exempt from destruction due to ongoing legal proceedings or investigations.",
+    "context": [
+      "Flag legal holds"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_pol_001",
+    "name": "Compliance and Records Policy",
+    "aliases": [
+      "Compliance/Records"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the maintenance, monitoring, and auditing of record retention and destruction schedules to ensure regulatory compliance.",
+    "context": [
+      "Compliance/Records"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_001",
+    "name": "Maintenance of Retention Schedule",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A mandatory requirement to maintain a formal schedule for the retention of records.",
+    "context": [
+      "Maintain retention schedule"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_002",
+    "name": "Monitoring of Record Destruction",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to monitor the process of record destruction to ensure it aligns with policy and regulatory standards.",
+    "context": [
+      "Monitor destruction"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_003",
+    "name": "Verification of Compliance",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to verify that record-keeping and destruction activities are compliant with established standards.",
+    "context": [
+      "Verify compliance"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_004",
+    "name": "Audit of Records Management",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandate to perform audits on the records management process to ensure integrity and adherence to the retention schedule.",
+    "context": [
+      "Audit records management"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_ctl_001",
+    "name": "Records Management Audit",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of auditing records management to ensure compliance and proper destruction of data.",
+    "context": [
+      "Audit records management"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_ctl_002",
+    "name": "Retention Schedule Management",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The use of a retention schedule as a control to manage the lifecycle of bank records.",
+    "context": [
+      "Maintain retention schedule"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_pol_001",
+    "name": "FirstUK Bank Data Retention Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "The governing policy document establishing the requirements for document retention awareness and governance across the bank.",
+    "context": [
+      "Training & Awareness"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_prv_001",
+    "name": "Mandatory Annual Training for All Staff",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory annual requirement for all staff to complete a 30-minute training session on document retention awareness.",
+    "context": [
+      "Mandatory Annual Training:",
+      "All staff: Document retention awareness (30 min)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_prv_002",
+    "name": "Mandatory Annual Training for Managers",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory annual requirement for managers to complete a 60-minute training session focused on retention responsibility.",
+    "context": [
+      "Mandatory Annual Training:",
+      "Managers: Retention responsibility (60 min)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_prv_003",
+    "name": "Mandatory Annual Training for Compliance",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory annual requirement for compliance staff to complete a 2-hour advanced training session on retention governance.",
+    "context": [
+      "Mandatory Annual Training:",
+      "Compliance: Advanced retention governance (2 hours)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are obligated to undergo annual document retention awareness training.",
+    "context": [
+      "All staff: Document retention awareness (30 min)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_rol_002",
+    "name": "Managers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Staff in management roles who hold specific responsibilities for retention and must complete specialized annual training.",
+    "context": [
+      "Managers: Retention responsibility (60 min)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_rol_003",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The compliance function responsible for advanced retention governance and mandatory specialized training.",
+    "context": [
+      "Compliance: Advanced retention governance (2 hours)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_ctl_001",
+    "name": "Annual Retention Training Program",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The operational mechanism of tiered annual training used to ensure staff awareness and governance of document retention.",
+    "context": [
+      "Mandatory Annual Training:",
+      "All staff: Document retention awareness (30 min)",
+      "Managers: Retention responsibility (60 min)",
+      "Compliance: Advanced retention governance (2 hours)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022_pol_001",
+    "name": "FirstUK Bank Policy Document",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing policy document subject to annual review or updates upon regulatory change. The most recent review was conducted on 2026-01-15.",
+    "context": [
+      "Policy Review & Updates",
+      "Last Review: 2026-01-15"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement that the policy must be reviewed on an annual basis, or more frequently if a regulatory change occurs.",
+    "context": [
+      "Review Frequency: Annual (or upon regulatory change)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_pol_001",
+    "name": "GDPR Data Retention Policy",
+    "aliases": [
+      "policy_privacy"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A formal policy governing the retention of data in accordance with GDPR requirements.",
+    "context": [
+      "[[policy_privacy]] — GDPR data retention"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_reg_001",
+    "name": "General Data Protection Regulation",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The overarching European Union regulation governing data protection and privacy, which informs the bank's data retention policies.",
+    "context": [
+      "GDPR data retention"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_ctl_001",
+    "name": "Document Management System",
+    "aliases": [
+      "DMS-001"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The technical system used by the bank for the organized storage and management of documents.",
+    "context": [
+      "Document Management System (DMS-001)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_ctl_002",
+    "name": "Destruction Certificate",
+    "aliases": [
+      "template"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A standardized template used to certify and record the formal destruction of data or documents.",
+    "context": [
+      "Destruction Certificate (template)"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024_rol_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the formal approval and sign-off of the policy document.",
+    "context": [
+      "Approved by: Head of Compliance — Date: 2026-01-15"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024_rol_002",
+    "name": "Data Protection Officer",
+    "aliases": [
+      "DPO"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_protection_officer",
+    "description": "The role responsible for ensuring the policy aligns with data protection standards and providing formal sign-off.",
+    "context": [
+      "Data Protection Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024_rol_003",
+    "name": "General Counsel",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The legal lead responsible for the legal review and formal approval of the policy document.",
+    "context": [
+      "General Counsel — Date: 2026-01-15"
+    ],
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6",
+    "domain": "banking_policy"
+  }
+]

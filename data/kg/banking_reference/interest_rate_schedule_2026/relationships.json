@@ -1,0 +1,2609 @@
+[
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_001_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_001",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_001",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "Tier 1 rate is applicable to the SmartSaver Account product",
+    "properties": {},
+    "context": "SmartSaver Account (SAV-001) Variable Interest Rates by Balance Tier: Tier 1 £0–£10,000 4.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "Tier 2 rate is applicable to the SmartSaver Account product",
+    "properties": {},
+    "context": "SmartSaver Account (SAV-001) Variable Interest Rates by Balance Tier: Tier 2 £10,001–£50,000 4.70%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% AER (£50,001+), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "Tier 3 rate is applicable to the SmartSaver Account product",
+    "properties": {},
+    "context": "SmartSaver Account (SAV-001) Variable Interest Rates by Balance Tier: Tier 3 £50,001+ 4.80%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "determines_interest_on",
+    "description": "Tier 1 rate determines the interest earned on the SmartSaver Account for balances up to £10,000",
+    "properties": {},
+    "context": "Tier 1 £0–£10,000 4.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "determines_interest_on",
+    "description": "Tier 2 rate determines the interest earned on the SmartSaver Account for balances between £10,001 and £50,000",
+    "properties": {},
+    "context": "Tier 2 £10,001–£50,000 4.70%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% AER (£50,001+), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "determines_interest_on",
+    "description": "Tier 3 rate determines the interest earned on the SmartSaver Account for balances over £50,000",
+    "properties": {},
+    "context": "Tier 3 £50,001+ 4.80%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 2 is a higher balance tier than Tier 1",
+    "properties": {
+      "balance_boundary": "£10,000"
+    },
+    "context": "Tier 1 £0–£10,000... Tier 2 £10,001–£50,000",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% AER (£50,001+), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "target_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 3 is a higher balance tier than Tier 2",
+    "properties": {
+      "balance_boundary": "£50,000"
+    },
+    "context": "Tier 2 £10,001–£50,000... Tier 3 £50,001+",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% AER (£50,001+), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 3 is a higher balance tier than Tier 1",
+    "properties": {
+      "balance_boundary": "£10,000"
+    },
+    "context": "Tier 1 £0–£10,000... Tier 3 £50,001+",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15",
+    "rel_type": "adjacent_to",
+    "description": "Tier 2 is the immediate next tier after Tier 1",
+    "properties": {},
+    "context": "Tier 1 £0–£10,000... Tier 2 £10,001–£50,000",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% AER (£50,001+), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "target_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "rel_type": "adjacent_to",
+    "description": "Tier 3 is the immediate next tier after Tier 2",
+    "properties": {},
+    "context": "Tier 2 £10,001–£50,000... Tier 3 £50,001+",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% AER (£50,001+), effective 2026-01-15",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_acc_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_rat_001",
+    "source_name": "SmartSaver Plus Account Premium Tier Rate — 5.25% AER (£50,001+), Variable",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_prod_001",
+    "target_name": "SmartSaver Plus Account",
+    "rel_type": "applies_to",
+    "description": "The 5.25% AER rate is applicable to the SmartSaver Plus Account product.",
+    "properties": {
+      "minimum_balance": "£50,001",
+      "rate_type": "Variable"
+    },
+    "context": "Product: SmartSaver Plus | Minimum Balance: £50,001+ | Annual Interest Rate (AER): 5.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_rat_001",
+    "source_name": "SmartSaver Plus Account Premium Tier Rate — 5.25% AER (£50,001+), Variable",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_acc_001",
+    "target_name": "SmartSaver Plus Account",
+    "rel_type": "determines_interest_on",
+    "description": "The Premium Tier rate determines the interest earned on the SmartSaver Plus Account.",
+    "properties": {
+      "accrual_frequency": "Daily",
+      "payment_frequency": "Monthly"
+    },
+    "context": "Premium Tier (Minimum £50,001): SmartSaver Plus | 5.25% | Interest Accrual: Daily | Interest Payment: Monthly",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_prod_001",
+    "source_name": "SmartSaver Plus Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_acc_001",
+    "target_name": "SmartSaver Plus Account",
+    "rel_type": "related_to",
+    "description": "The product definition maps directly to the account type.",
+    "properties": {
+      "product_code": "SAV-002"
+    },
+    "context": "SmartSaver Plus Account (SAV-002)",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_rat_001",
+    "source_name": "SmartSaver Plus Account Premium Tier Rate — 5.25% AER (£50,001+), Variable",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_prod_001",
+    "source_name": "SmartSaver Plus Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_acc_001",
+    "source_name": "SmartSaver Plus Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_001",
+    "source_name": "Current Account Deposit Interest — £0.00",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_prod_001",
+    "target_name": "Current Account (CURR-001)",
+    "rel_type": "applies_to",
+    "description": "Deposit interest rate applies to the Current Account product",
+    "properties": {
+      "rate_value": "£0.00"
+    },
+    "context": "Current Account (CURR-001) Deposit Interest: £0.00",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_001",
+    "source_name": "Current Account Deposit Interest — £0.00",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_acc_001",
+    "target_name": "Current Account",
+    "rel_type": "determines_interest_on",
+    "description": "Determines the interest earned on Current Account balances",
+    "properties": {
+      "interest_type": "deposit"
+    },
+    "context": "Deposit Interest: £0.00 (no interest on current account balances)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_002",
+    "source_name": "Current Account Arranged Overdraft Rate — 15.00% AER",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_prod_001",
+    "target_name": "Current Account (CURR-001)",
+    "rel_type": "applies_to",
+    "description": "Arranged overdraft rate applies to the Current Account product",
+    "properties": {
+      "rate_value": "15.00% AER",
+      "limit": "up to £5,000"
+    },
+    "context": "Arranged Overdraft | 15.00% AER | Pre-approved limit up to £5,000",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_002",
+    "source_name": "Current Account Arranged Overdraft Rate — 15.00% AER",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_acc_001",
+    "target_name": "Current Account",
+    "rel_type": "applies_to_account_type",
+    "description": "Applies to the Current Account when in an arranged overdraft state",
+    "properties": {
+      "condition": "Pre-approved limit"
+    },
+    "context": "Overdraft Interest (if Arranged): Arranged Overdraft | 15.00% AER",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_003",
+    "source_name": "Current Account Unarranged Overdraft Rate — 25.00% AER plus £5.00 daily fee",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_prod_001",
+    "target_name": "Current Account (CURR-001)",
+    "rel_type": "applies_to",
+    "description": "Unarranged overdraft rate applies to the Current Account product",
+    "properties": {
+      "rate_value": "25.00% AER",
+      "additional_fee": "£5.00 daily"
+    },
+    "context": "Unarranged Overdraft | 25.00% AER | + £5.00 daily fee",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_003",
+    "source_name": "Current Account Unarranged Overdraft Rate — 25.00% AER plus £5.00 daily fee",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_acc_001",
+    "target_name": "Current Account",
+    "rel_type": "applies_to_account_type",
+    "description": "Applies to the Current Account when in an unarranged overdraft state",
+    "properties": {
+      "condition": "Not pre-approved"
+    },
+    "context": "Unarranged Overdraft | 25.00% AER | + £5.00 daily fee",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_003",
+    "source_name": "Current Account Unarranged Overdraft Rate — 25.00% AER plus £5.00 daily fee",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_002",
+    "target_name": "Current Account Arranged Overdraft Rate — 15.00% AER",
+    "rel_type": "higher_tier_than",
+    "description": "Unarranged overdraft rate is more expensive than the arranged overdraft rate",
+    "properties": {
+      "rate_diff": "10.00% AER",
+      "additional_cost": "£5.00 daily fee"
+    },
+    "context": "Arranged Overdraft | 15.00% AER ... Unarranged Overdraft | 25.00% AER",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_001",
+    "source_name": "Current Account Deposit Interest — £0.00",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_002",
+    "source_name": "Current Account Arranged Overdraft Rate — 15.00% AER",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_003",
+    "source_name": "Current Account Unarranged Overdraft Rate — 25.00% AER plus £5.00 daily fee",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_prod_001",
+    "source_name": "Current Account (CURR-001)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_acc_001",
+    "source_name": "Current Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_001",
+    "source_name": "Residential Mortgage 2-Year Fixed — 4.50% (<60% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "Residential Mortgage | <60% LTV | 4.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_002",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.00% (<60% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "Residential Mortgage | <60% LTV | 5.00%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_003",
+    "source_name": "Residential Mortgage 2-Year Fixed — 4.75% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "Residential Mortgage | 60–80% LTV | 4.75%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_004",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.25% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "Residential Mortgage | 60–80% LTV | 5.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_005",
+    "source_name": "Residential Mortgage 2-Year Fixed — 5.25% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "Residential Mortgage | 80%+ LTV | 5.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_006",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.75% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "Residential Mortgage | 80%+ LTV | 5.75%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_007",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 5.50% (<60% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "<60% LTV | BoE Base + 1.50% = 5.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_008",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 5.75% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "60–80% LTV | BoE Base + 1.75% = 5.75%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_009",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 6.25% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Rate applies to the Residential Mortgage product",
+    "properties": {},
+    "context": "80%+ LTV | BoE Base + 2.25% = 6.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_010",
+    "source_name": "Fixed Rate Early Repayment Penalty — 1–3% of outstanding balance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "target_name": "Residential Mortgage",
+    "rel_type": "applies_to",
+    "description": "Penalty applies to Residential Mortgage fixed rate products",
+    "properties": {},
+    "context": "Early Repayment Penalty (Fixed Rate): Typically 1–3% of outstanding balance",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_003",
+    "source_name": "Residential Mortgage 2-Year Fixed — 4.75% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_001",
+    "target_name": "Residential Mortgage 2-Year Fixed — 4.50% (<60% LTV)",
+    "rel_type": "higher_tier_than",
+    "description": "60-80% LTV tier is a higher risk/rate tier than <60% LTV",
+    "properties": {
+      "balance_boundary": "60% LTV"
+    },
+    "context": "Residential Mortgage | <60% LTV | 4.50% ... 60–80% LTV | 4.75%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_005",
+    "source_name": "Residential Mortgage 2-Year Fixed — 5.25% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_003",
+    "target_name": "Residential Mortgage 2-Year Fixed — 4.75% (60–80% LTV)",
+    "rel_type": "higher_tier_than",
+    "description": "80%+ LTV tier is a higher risk/rate tier than 60-80% LTV",
+    "properties": {
+      "balance_boundary": "80% LTV"
+    },
+    "context": "Residential Mortgage | 60–80% LTV | 4.75% ... 80%+ LTV | 5.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_004",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.25% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_002",
+    "target_name": "Residential Mortgage 5-Year Fixed — 5.00% (<60% LTV)",
+    "rel_type": "higher_tier_than",
+    "description": "60-80% LTV tier is a higher risk/rate tier than <60% LTV",
+    "properties": {
+      "balance_boundary": "60% LTV"
+    },
+    "context": "Residential Mortgage | <60% LTV | 5.00% ... 60–80% LTV | 5.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_006",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.75% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_004",
+    "target_name": "Residential Mortgage 5-Year Fixed — 5.25% (60–80% LTV)",
+    "rel_type": "higher_tier_than",
+    "description": "80%+ LTV tier is a higher risk/rate tier than 60-80% LTV",
+    "properties": {
+      "balance_boundary": "80% LTV"
+    },
+    "context": "Residential Mortgage | 60–80% LTV | 5.25% ... 80%+ LTV | 5.75%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_008",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 5.75% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_007",
+    "target_name": "Residential Mortgage Variable Rate (Tracker) — 5.50% (<60% LTV)",
+    "rel_type": "higher_tier_than",
+    "description": "60-80% LTV tier is a higher risk/rate tier than <60% LTV",
+    "properties": {
+      "balance_boundary": "60% LTV"
+    },
+    "context": "<60% LTV | 5.50% ... 60–80% LTV | 5.75%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_009",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 6.25% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_008",
+    "target_name": "Residential Mortgage Variable Rate (Tracker) — 5.75% (60–80% LTV)",
+    "rel_type": "higher_tier_than",
+    "description": "80%+ LTV tier is a higher risk/rate tier than 60-80% LTV",
+    "properties": {
+      "balance_boundary": "80% LTV"
+    },
+    "context": "60–80% LTV | 5.75% ... 80%+ LTV | 6.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_003",
+    "source_name": "Residential Mortgage 2-Year Fixed — 4.75% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_001",
+    "target_name": "Residential Mortgage 2-Year Fixed — 4.50% (<60% LTV)",
+    "rel_type": "adjacent_to",
+    "description": "LTV tiers are adjacent",
+    "properties": {},
+    "context": "Residential Mortgage | <60% LTV | 4.50% ... 60–80% LTV | 4.75%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_005",
+    "source_name": "Residential Mortgage 2-Year Fixed — 5.25% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_003",
+    "target_name": "Residential Mortgage 2-Year Fixed — 4.75% (60–80% LTV)",
+    "rel_type": "adjacent_to",
+    "description": "LTV tiers are adjacent",
+    "properties": {},
+    "context": "Residential Mortgage | 60–80% LTV | 4.75% ... 80%+ LTV | 5.25%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_001",
+    "source_name": "Residential Mortgage 2-Year Fixed — 4.50% (<60% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_002",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.00% (<60% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_003",
+    "source_name": "Residential Mortgage 2-Year Fixed — 4.75% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_004",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.25% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_005",
+    "source_name": "Residential Mortgage 2-Year Fixed — 5.25% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_006",
+    "source_name": "Residential Mortgage 5-Year Fixed — 5.75% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_007",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 5.50% (<60% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_008",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 5.75% (60–80% LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_009",
+    "source_name": "Residential Mortgage Variable Rate (Tracker) — 6.25% (80%+ LTV)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_010",
+    "source_name": "Fixed Rate Early Repayment Penalty — 1–3% of outstanding balance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "source_name": "Residential Mortgage",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_res_001",
+    "source_name": "Monthly Rate Review Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_001",
+    "target_name": "Customer Email Notification",
+    "rel_type": "notifies",
+    "description": "The Monthly Rate Review Process triggers an email alert to customers who have opted in.",
+    "properties": {
+      "notification_timeframe": "Mid-month",
+      "method": "Email",
+      "condition": "opted in"
+    },
+    "context": "Customer Notification: Email alert (if opted in)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_res_001",
+    "source_name": "Monthly Rate Review Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_002",
+    "target_name": "Customer SMS Notification",
+    "rel_type": "notifies",
+    "description": "The Monthly Rate Review Process triggers an SMS notification to customers who have opted in.",
+    "properties": {
+      "notification_timeframe": "Mid-month",
+      "method": "SMS",
+      "condition": "opted in"
+    },
+    "context": "Customer Notification: SMS notification (if opted in)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_res_001",
+    "source_name": "Monthly Rate Review Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_003",
+    "target_name": "FirstUK Website",
+    "rel_type": "notifies",
+    "description": "The Monthly Rate Review Process results in an update to the FirstUK Website.",
+    "properties": {
+      "notification_timeframe": "Mid-month",
+      "method": "Website Update",
+      "condition": "standard"
+    },
+    "context": "Customer Notification: Website update",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_res_001",
+    "source_name": "Monthly Rate Review Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_004",
+    "target_name": "Bank Branch",
+    "rel_type": "notifies",
+    "description": "The Monthly Rate Review Process provides notification via Bank Branches upon customer request.",
+    "properties": {
+      "notification_timeframe": "Mid-month",
+      "method": "In-person/Branch",
+      "condition": "upon request"
+    },
+    "context": "Customer Notification: Branch notification (upon request)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_cgi_001",
+    "source_name": "How Rates Change Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_res_001",
+    "target_name": "Monthly Rate Review Process",
+    "rel_type": "explains_processing_of",
+    "description": "The 'How Rates Change' guidance section explains the Monthly Rate Review Process.",
+    "properties": {
+      "detail_level": "high"
+    },
+    "context": "## HOW RATES CHANGE\n### Monthly Rate Review Process",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_res_001",
+    "source_name": "Monthly Rate Review Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_001",
+    "source_name": "Customer Email Notification",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_002",
+    "source_name": "Customer SMS Notification",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_003",
+    "source_name": "FirstUK Website",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_004",
+    "source_name": "Bank Branch",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_cgi_001",
+    "source_name": "How Rates Change Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_002",
+    "source_name": "SAV-002 Rate — 5.25% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_001",
+    "target_name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "rel_type": "higher_tier_than",
+    "description": "SAV-002 offers a higher interest rate than SAV-001 Tier 1 for the same effective date.",
+    "properties": {
+      "balance_boundary": "not specified"
+    },
+    "context": "2026-01-15 | 4.00% | 4.50% | 5.25% | 4.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_005",
+    "source_name": "SAV-002 Rate — 5.00% (effective 2025-10-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_004",
+    "target_name": "SAV-001 Tier 1 Rate — 4.25% (effective 2025-10-15)",
+    "rel_type": "higher_tier_than",
+    "description": "SAV-002 offers a higher interest rate than SAV-001 Tier 1 for the same effective date.",
+    "properties": {
+      "balance_boundary": "not specified"
+    },
+    "context": "2025-10-15 | 3.75% | 4.25% | 5.00% | 4.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_001",
+    "source_name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_004",
+    "target_name": "SAV-001 Tier 1 Rate — 4.25% (effective 2025-10-15)",
+    "rel_type": "supersedes",
+    "description": "The rate effective 2026-01-15 replaces the rate effective 2025-10-15 for SAV-001 Tier 1.",
+    "properties": {
+      "change": "+0.25%"
+    },
+    "context": "2026-01-15 | 4.00% | 4.50% ... 2025-10-15 | 3.75% | 4.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_002",
+    "source_name": "SAV-002 Rate — 5.25% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_005",
+    "target_name": "SAV-002 Rate — 5.00% (effective 2025-10-15)",
+    "rel_type": "supersedes",
+    "description": "The rate effective 2026-01-15 replaces the rate effective 2025-10-15 for SAV-002.",
+    "properties": {
+      "change": "+0.25%"
+    },
+    "context": "2026-01-15 | 4.00% | ... | 5.25% ... 2025-10-15 | 3.75% | ... | 5.00%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_003",
+    "source_name": "MORT 2-Yr Rate — 4.50% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_006",
+    "target_name": "MORT 2-Yr Rate — 4.25% (effective 2025-10-15)",
+    "rel_type": "supersedes",
+    "description": "The rate effective 2026-01-15 replaces the rate effective 2025-10-15 for MORT 2-Yr.",
+    "properties": {
+      "change": "+0.25%"
+    },
+    "context": "2026-01-15 | ... | 4.50% ... 2025-10-15 | ... | 4.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_001",
+    "source_name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_003",
+    "target_name": "MORT 2-Yr Rate — 4.50% (effective 2026-01-15)",
+    "rel_type": "applies_same_basis_as",
+    "description": "Both SAV-001 Tier 1 and MORT 2-Yr share the same rate value of 4.50% on 2026-01-15.",
+    "properties": {
+      "rate_value": "4.50%"
+    },
+    "context": "2026-01-15 | 4.00% | 4.50% | 5.25% | 4.50%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_004",
+    "source_name": "SAV-001 Tier 1 Rate — 4.25% (effective 2025-10-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_006",
+    "target_name": "MORT 2-Yr Rate — 4.25% (effective 2025-10-15)",
+    "rel_type": "applies_same_basis_as",
+    "description": "Both SAV-001 Tier 1 and MORT 2-Yr share the same rate value of 4.25% on 2025-10-15.",
+    "properties": {
+      "rate_value": "4.25%"
+    },
+    "context": "2025-10-15 | 3.75% | 4.25% | 5.00% | 4.25%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_001",
+    "source_name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_002",
+    "source_name": "SAV-002 Rate — 5.25% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_003",
+    "source_name": "MORT 2-Yr Rate — 4.50% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_004",
+    "source_name": "SAV-001 Tier 1 Rate — 4.25% (effective 2025-10-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_005",
+    "source_name": "SAV-002 Rate — 5.00% (effective 2025-10-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_006",
+    "source_name": "MORT 2-Yr Rate — 4.25% (effective 2025-10-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cgi_001",
+    "source_name": "SmartSaver Variable Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "explains_features_of",
+    "description": "The guidance explains why rates vary for the SmartSaver Account",
+    "properties": {
+      "focus": "variable rate mechanics"
+    },
+    "context": "## WHY RATES VARY ### SmartSaver Rates (Variable)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cgi_001",
+    "source_name": "SmartSaver Variable Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_acc_001",
+    "target_name": "SmartSaver Variable Account",
+    "rel_type": "provides_guidance_on",
+    "description": "Provides guidance on how rates are determined for the SmartSaver Variable Account",
+    "properties": {
+      "topic": "rate variability"
+    },
+    "context": "## WHY RATES VARY ### SmartSaver Rates (Variable)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_acc_001",
+    "target_name": "SmartSaver Variable Account",
+    "rel_type": "applies_to",
+    "description": "The SmartSaver Account product is implemented as a SmartSaver Variable Account",
+    "properties": {
+      "account_type": "variable"
+    },
+    "context": "SmartSaver Rates (Variable)",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cust_001",
+    "source_name": "SmartSaver Account Holder",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_acc_001",
+    "target_name": "SmartSaver Variable Account",
+    "rel_type": "earned_by",
+    "description": "The account holder earns interest on the SmartSaver Variable Account",
+    "properties": {
+      "benefit": "market rate adjustments"
+    },
+    "context": "Your benefit: If market rates fall, you're not locked into old rate",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cgi_001",
+    "source_name": "SmartSaver Variable Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cust_001",
+    "target_name": "SmartSaver Account Holder",
+    "rel_type": "refers_customer_to",
+    "description": "The guidance informs the account holder about rate risks and benefits",
+    "properties": {
+      "content": "risk and benefit disclosure"
+    },
+    "context": "Your benefit: If market rates fall... Your risk: If rates rise",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cgi_001",
+    "source_name": "SmartSaver Variable Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cust_001",
+    "source_name": "SmartSaver Account Holder",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_acc_001",
+    "source_name": "SmartSaver Variable Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_001",
+    "source_name": "Mortgage Fixed Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_prod_001",
+    "target_name": "Mortgage",
+    "rel_type": "explains_features_of",
+    "description": "Provides guidance on the benefits and risks of fixed rate mortgage options",
+    "properties": {
+      "focus": "Fixed Rate",
+      "key_benefits": [
+        "Rate guarantee",
+        "Predictable payments"
+      ],
+      "key_risks": [
+        "Early repayment penalties",
+        "Re-fix risk"
+      ]
+    },
+    "context": "Fixed Rate Benefit: Rate guaranteed for 2–5 years... Fixed Rate Risk: Early repayment penalties if you refinance",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_002",
+    "source_name": "Mortgage Variable Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_prod_001",
+    "target_name": "Mortgage",
+    "rel_type": "explains_features_of",
+    "description": "Provides guidance on the benefits and risks of variable rate mortgage options",
+    "properties": {
+      "focus": "Variable Rate",
+      "key_benefits": [
+        "Lower initial rate",
+        "No early repayment penalties"
+      ],
+      "key_risks": [
+        "Unpredictable payments",
+        "BoE rate sensitivity"
+      ]
+    },
+    "context": "Variable Rate Benefit: Lower initial rate (usually)... Variable Rate Risk: Monthly payment unpredictable",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_001",
+    "source_name": "Mortgage Fixed Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_002",
+    "target_name": "Mortgage Variable Rate Guidance",
+    "rel_type": "related_to",
+    "description": "Comparative guidance between fixed and variable mortgage rate structures",
+    "properties": {
+      "comparison_type": "Rate Structure"
+    },
+    "context": "Mortgage Rates (Fixed vs. Variable)",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_001",
+    "source_name": "Mortgage Fixed Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_002",
+    "source_name": "Mortgage Variable Rate Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_prod_001",
+    "source_name": "Mortgage",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% (<£10k)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "The Tier 1 rate is applicable to the SmartSaver Account product.",
+    "properties": {},
+    "context": "Tier 1 Rate (<£10k) | FirstUK SAV-001 | 4.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% (£10k–£50k)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "The Tier 2 rate is applicable to the SmartSaver Account product.",
+    "properties": {},
+    "context": "Tier 2 Rate (£10k–£50k) | FirstUK SAV-001 | 4.70%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "The Tier 3 rate is applicable to the SmartSaver Account product.",
+    "properties": {},
+    "context": "Tier 3 Rate (£50k+) | FirstUK SAV-001 | 4.80%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% (£10k–£50k)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% (<£10k)",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 2 is a higher balance tier than Tier 1.",
+    "properties": {
+      "balance_boundary": "£10k"
+    },
+    "context": "Tier 1 Rate (<£10k) ... Tier 2 Rate (£10k–£50k)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_002",
+    "target_name": "SmartSaver Account Tier 2 Rate — 4.70% (£10k–£50k)",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 3 is a higher balance tier than Tier 2.",
+    "properties": {
+      "balance_boundary": "£50k"
+    },
+    "context": "Tier 2 Rate (£10k–£50k) ... Tier 3 Rate (£50k+)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% (<£10k)",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 3 is a higher balance tier than Tier 1.",
+    "properties": {
+      "balance_boundary": "£10k"
+    },
+    "context": "Tier 1 Rate (<£10k) ... Tier 3 Rate (£50k+)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% (<£10k)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% (£10k–£50k)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_003",
+    "source_name": "SmartSaver Account Tier 3 Rate — 4.80% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_002",
+    "source_name": "SmartSaver Account Tier 2/3 Rate",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 2/3 provides a higher interest rate than Tier 1",
+    "properties": {
+      "balance_boundary": "not specified"
+    },
+    "context": "Move from Tier 1 to Tier 2/3 (higher rate)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "Tier 1 rate is applicable to the SmartSaver Account product",
+    "properties": {},
+    "context": "Move from Tier 1 to Tier 2/3",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_002",
+    "source_name": "SmartSaver Account Tier 2/3 Rate",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "Tier 2/3 rate is applicable to the SmartSaver Account product",
+    "properties": {},
+    "context": "Move from Tier 1 to Tier 2/3",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_003",
+    "source_name": "SmartSaver Plus Rate — 5.25% (Balance £50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_002",
+    "target_name": "SmartSaver Plus",
+    "rel_type": "applies_to",
+    "description": "The 5.25% rate applies to the SmartSaver Plus product",
+    "properties": {
+      "minimum_balance": "£50,000"
+    },
+    "context": "SmartSaver Plus earns 5.25% if £50k+ balance",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_004",
+    "source_name": "BoE Linked Rate — 2.5% Margin",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "The BoE linked rate with 2.5% margin applies to the SmartSaver account",
+    "properties": {
+      "margin": "2.5%"
+    },
+    "context": "BoE Rate Rise: Automatic rate rise (2.5% margin maintained)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_cgi_001",
+    "source_name": "Factors Affecting Your Interest Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate",
+    "rel_type": "explains_processing_of",
+    "description": "Guidance explains how moving from Tier 1 affects interest",
+    "properties": {},
+    "context": "FACTORS AFFECTING YOUR INTEREST... Move from Tier 1 to Tier 2/3",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_cgi_001",
+    "source_name": "Factors Affecting Your Interest Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_002",
+    "target_name": "SmartSaver Account Tier 2/3 Rate",
+    "rel_type": "explains_processing_of",
+    "description": "Guidance explains how moving to Tier 2/3 increases interest",
+    "properties": {},
+    "context": "FACTORS AFFECTING YOUR INTEREST... Move from Tier 1 to Tier 2/3",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_cgi_001",
+    "source_name": "Factors Affecting Your Interest Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_003",
+    "target_name": "SmartSaver Plus Rate — 5.25% (Balance £50k+)",
+    "rel_type": "explains_processing_of",
+    "description": "Guidance explains the interest earned by switching to SmartSaver Plus",
+    "properties": {},
+    "context": "FACTORS AFFECTING YOUR INTEREST... Switch to Plus: SmartSaver Plus earns 5.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_cgi_001",
+    "source_name": "Factors Affecting Your Interest Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_004",
+    "target_name": "BoE Linked Rate — 2.5% Margin",
+    "rel_type": "explains_processing_of",
+    "description": "Guidance explains how BoE rate rises affect the linked rate",
+    "properties": {},
+    "context": "FACTORS AFFECTING YOUR INTEREST... BoE Rate Rise: Automatic rate rise",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_002",
+    "source_name": "SmartSaver Account Tier 2/3 Rate",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_003",
+    "source_name": "SmartSaver Plus Rate — 5.25% (Balance £50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_004",
+    "source_name": "BoE Linked Rate — 2.5% Margin",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_002",
+    "source_name": "SmartSaver Plus",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_cgi_001",
+    "source_name": "Factors Affecting Your Interest Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_cgi_001",
+    "source_name": "Factors Decreasing Interest Earned",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Threshold — £10,000",
+    "rel_type": "referenced_by",
+    "description": "The guide item on decreasing interest references the specific balance threshold for Tier 1",
+    "properties": {
+      "impact": "negative",
+      "trigger_condition": "balance drop below threshold"
+    },
+    "context": "What DECREASES Your Interest Earned... Decrease Balance: Drop below £10,000 threshold",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Threshold — £10,000",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_cgi_001",
+    "target_name": "Factors Decreasing Interest Earned",
+    "rel_type": "explained_in",
+    "description": "The Tier 1 threshold is explained as a factor that can decrease interest earned if the balance drops below it",
+    "properties": {
+      "context_type": "interest_reduction_warning"
+    },
+    "context": "What DECREASES Your Interest Earned... Decrease Balance: Drop below £10,000 threshold",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Threshold — £10,000",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_cgi_001",
+    "source_name": "Factors Decreasing Interest Earned",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013_rat_001",
+    "source_name": "SmartSaver Tier 1 Rate — 5.0% (December 2025)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "The 5.0% interest rate is applicable to the SmartSaver Account product.",
+    "properties": {
+      "effective_date": "December 2025",
+      "rate_value": "5.0%"
+    },
+    "context": "12-Month Rate Trend (SmartSaver Tier 1)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013_rat_001",
+    "source_name": "SmartSaver Tier 1 Rate — 5.0% (December 2025)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,000–£50,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (< £10,000)",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 2 provides a higher interest rate than Tier 1 for balances above £10,000",
+    "properties": {
+      "balance_boundary": "£10,000"
+    },
+    "context": "If kept in Tier 1 (< £10k)... If moved to Tier 2 (£10k–£50k)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (< £10,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to_account_type",
+    "description": "The Tier 1 rate is applicable to the SmartSaver Account",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "If kept in Tier 1 (< £10k): - Only first £10,000 earns 4.50%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,000–£50,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to_account_type",
+    "description": "The Tier 2 rate is applicable to the SmartSaver Account",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "If moved to Tier 2 (£10k–£50k): - All £11,000 earns 4.70%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cgi_001",
+    "source_name": "How to Maximize Interest Earned — Strategy 1: Move Funds to Higher Tier",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_002",
+    "target_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,000–£50,000)",
+    "rel_type": "illustrated_by",
+    "description": "The strategy to maximize interest is illustrated by moving funds into the Tier 2 rate bracket",
+    "properties": {
+      "example_gain": "£67/year"
+    },
+    "context": "Strategy 1: Move Funds to Higher Tier... If moved to Tier 2 (£10k–£50k): - All £11,000 earns 4.70%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cgi_001",
+    "source_name": "How to Maximize Interest Earned — Strategy 1: Move Funds to Higher Tier",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (< £10,000)",
+    "rel_type": "illustrated_by",
+    "description": "The strategy compares the potential gain against the Tier 1 rate",
+    "properties": {
+      "comparison_basis": "baseline"
+    },
+    "context": "Strategy 1: Move Funds to Higher Tier... If kept in Tier 1 (< £10k): - Only first £10,000 earns 4.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (< £10,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cus_001",
+    "target_name": "Account Holder",
+    "rel_type": "earned_by",
+    "description": "Interest at the Tier 1 rate is earned by the account holder",
+    "properties": {
+      "condition": "balance < £10,000"
+    },
+    "context": "If kept in Tier 1 (< £10k): - Only first £10,000 earns 4.50%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,000–£50,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cus_001",
+    "target_name": "Account Holder",
+    "rel_type": "earned_by",
+    "description": "Interest at the Tier 2 rate is earned by the account holder",
+    "properties": {
+      "condition": "balance between £10,000 and £50,000"
+    },
+    "context": "If moved to Tier 2 (£10k–£50k): - All £11,000 earns 4.70%",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (< £10,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,000–£50,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cgi_001",
+    "source_name": "How to Maximize Interest Earned — Strategy 1: Move Funds to Higher Tier",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_acc_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cus_001",
+    "source_name": "Account Holder",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_001",
+    "source_name": "SmartSaver Tier 3 Rate — 4.80% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "The 4.80% rate is the Tier 3 offering for the SmartSaver Account",
+    "properties": {
+      "balance_threshold": "£50,000+",
+      "rate_value": "4.80%"
+    },
+    "context": "SmartSaver Tier 3 (£50k+): - Earns 4.80%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_002",
+    "source_name": "SmartSaver Plus Rate — 5.25% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_prod_002",
+    "target_name": "SmartSaver Plus Account",
+    "rel_type": "applies_to",
+    "description": "The 5.25% rate is the standard offering for the SmartSaver Plus Account",
+    "properties": {
+      "balance_threshold": "£50,000+",
+      "rate_value": "5.25%"
+    },
+    "context": "SmartSaver Plus (£50k+): - Earns 5.25%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_002",
+    "source_name": "SmartSaver Plus Rate — 5.25% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_001",
+    "target_name": "SmartSaver Tier 3 Rate — 4.80% (£50k+)",
+    "rel_type": "higher_tier_than",
+    "description": "The SmartSaver Plus rate provides a higher yield than the SmartSaver Tier 3 rate for the same balance threshold",
+    "properties": {
+      "yield_difference": "0.45%",
+      "annual_gain": "£337.50"
+    },
+    "context": "SmartSaver Plus (£50k+): - Earns 5.25% ... SmartSaver Tier 3 (£50k+): - Earns 4.80% ... Gain: +£337.50/year",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_002",
+    "source_name": "SmartSaver Plus Rate — 5.25% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_001",
+    "target_name": "SmartSaver Tier 3 Rate — 4.80% (£50k+)",
+    "rel_type": "applies_same_basis_as",
+    "description": "Both rates apply to the same minimum balance threshold of £50,000",
+    "properties": {
+      "shared_threshold": "£50,000+"
+    },
+    "context": "SmartSaver Tier 3 (£50k+) ... SmartSaver Plus (£50k+)",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_001",
+    "source_name": "SmartSaver Tier 3 Rate — 4.80% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_002",
+    "source_name": "SmartSaver Plus Rate — 5.25% (£50k+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_prod_002",
+    "source_name": "SmartSaver Plus Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_cgi_001",
+    "source_name": "Watch Rate Changes Strategy",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_001",
+    "target_name": "Track BoE base rate decisions",
+    "rel_type": "requires",
+    "description": "The Watch Rate Changes Strategy requires tracking BoE base rate decisions.",
+    "properties": {
+      "mandatory": true,
+      "timeframe": "monthly"
+    },
+    "context": "Strategy 3: Watch Rate Changes - Track BoE base rate decisions (monthly)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_cgi_001",
+    "source_name": "Watch Rate Changes Strategy",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_002",
+    "target_name": "Monitor FirstUK email alerts for rate changes",
+    "rel_type": "requires",
+    "description": "The Watch Rate Changes Strategy requires monitoring FirstUK email alerts.",
+    "properties": {
+      "mandatory": true,
+      "timeframe": "ongoing"
+    },
+    "context": "Strategy 3: Watch Rate Changes - Monitor FirstUK email alerts for rate changes",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_001",
+    "source_name": "Track BoE base rate decisions",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_002",
+    "target_name": "Monitor FirstUK email alerts for rate changes",
+    "rel_type": "followed_by",
+    "description": "Tracking BoE decisions is followed by monitoring FirstUK alerts to confirm the bank's response.",
+    "properties": {
+      "expected_lag": "within 1 month"
+    },
+    "context": "Track BoE base rate decisions (monthly) - When BoE raises rates, FirstUK typically follows within 1 month - Monitor FirstUK email alerts for rate changes",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_001",
+    "source_name": "Track BoE base rate decisions",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_002",
+    "source_name": "Monitor FirstUK email alerts for rate changes",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_cgi_001",
+    "source_name": "Watch Rate Changes Strategy",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_001",
+    "source_name": "SmartSaver Account Rate — 4.50% AER",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "The 4.50% AER rate is the interest rate applied to the SmartSaver Account product.",
+    "properties": {
+      "rate_value": "4.50%",
+      "rate_type": "AER"
+    },
+    "context": "Gross Interest Earned (SmartSaver): £450/year (4.50%)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_002",
+    "source_name": "International ATM Withdrawal Fee — £2.50 per withdrawal",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_tra_001",
+    "target_name": "International ATM Withdrawal",
+    "rel_type": "applies_to",
+    "description": "A fee of £2.50 is charged for each International ATM Withdrawal transaction.",
+    "properties": {
+      "fee_amount": "£2.50",
+      "frequency": "per withdrawal"
+    },
+    "context": "Less: International ATM fees: £2.50 per withdrawal",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_cgi_001",
+    "source_name": "International ATM Usage Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_tra_001",
+    "target_name": "International ATM Withdrawal",
+    "rel_type": "explains_processing_of",
+    "description": "The guidance provides information on the costs and impact of International ATM Withdrawals.",
+    "properties": {
+      "focus": "fee impact on net interest"
+    },
+    "context": "International ATM Withdrawal... Scenario: Withdraw £500 abroad",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_cgi_001",
+    "source_name": "International ATM Usage Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_002",
+    "target_name": "International ATM Withdrawal Fee — £2.50 per withdrawal",
+    "rel_type": "referenced_by",
+    "description": "The International ATM Usage Guidance references the specific withdrawal fee.",
+    "properties": {},
+    "context": "Less: International ATM fees: £2.50 per withdrawal",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_tra_001",
+    "source_name": "International ATM Withdrawal",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_001",
+    "target_name": "SmartSaver Account Rate — 4.50% AER",
+    "rel_type": "disrupts",
+    "description": "International ATM Withdrawal fees reduce the effective interest rate earned on the SmartSaver Account.",
+    "properties": {
+      "impact": "reduces net interest",
+      "effective_rate_reduction": "from 4.50% to 4.20%"
+    },
+    "context": "Net interest after fees: £450 - £30 = £420/year Effective rate: 4.20% (vs. stated 4.50%)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_001",
+    "source_name": "SmartSaver Account Rate — 4.50% AER",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_002",
+    "source_name": "International ATM Withdrawal Fee — £2.50 per withdrawal",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_cgi_001",
+    "source_name": "International ATM Usage Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_tra_001",
+    "source_name": "International ATM Withdrawal",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_001",
+    "source_name": "Rate Change Notification Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_002",
+    "target_name": "Rate Review and Effective Date Policy",
+    "rel_type": "related_to",
+    "description": "The notification process is linked to the review cycle and effective date policy",
+    "properties": {},
+    "context": "Customer Notification: Email + SMS (if opted in) + website Effective Date: 1st of month following review",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_002",
+    "source_name": "Rate Review and Effective Date Policy",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_003",
+    "target_name": "FirstUK Rate Change Reservation",
+    "rel_type": "related_to",
+    "description": "The policy on review dates is subject to the bank's right to change rates without notice",
+    "properties": {},
+    "context": "Effective Date: 1st of month following review No Guarantee: FirstUK reserves right to change rates without notice",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_001",
+    "source_name": "Rate Change Notification Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_003",
+    "target_name": "FirstUK Rate Change Reservation",
+    "rel_type": "related_to",
+    "description": "The notification process is superseded by the bank's reservation to change rates without notice",
+    "properties": {
+      "condition": "within regulatory limits"
+    },
+    "context": "Customer Notification: Email + SMS (if opted in) + website No Guarantee: FirstUK reserves right to change rates without notice (within regulatory limits)",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_001",
+    "source_name": "Rate Change Notification Process",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_002",
+    "source_name": "Rate Review and Effective Date Policy",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_003",
+    "source_name": "FirstUK Rate Change Reservation",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "rel_type": "higher_tier_than",
+    "description": "Tier 2 applies to balances above £10,000, making it a higher tier than Tier 1",
+    "properties": {
+      "balance_boundary": "£10,000"
+    },
+    "context": "If your balance is below £10,000, you earn Tier 1 rate (4.50%). Your friend earning 4.70% likely has £10,001+ in their account.",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "Tier 1 rate is applicable to the SmartSaver Account product",
+    "properties": {},
+    "context": "If your balance is below £10,000, you earn Tier 1 rate (4.50%).",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "applies_to",
+    "description": "Tier 2 rate is applicable to the SmartSaver Account product",
+    "properties": {},
+    "context": "Your friend earning 4.70% likely has £10,001+ in their account.",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_003",
+    "target_name": "SmartSaver Variable Rate Basis — 2.5% margin over BoE",
+    "rel_type": "applies_same_basis_as",
+    "description": "Tier 1 rate is derived from the standard variable rate basis of 2.5% over BoE",
+    "properties": {},
+    "context": "If Bank of England cuts its base rate, your rate will decline (we maintain 2.5% margin over BoE).",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_003",
+    "target_name": "SmartSaver Variable Rate Basis — 2.5% margin over BoE",
+    "rel_type": "applies_same_basis_as",
+    "description": "Tier 2 rate is derived from the standard variable rate basis of 2.5% over BoE",
+    "properties": {},
+    "context": "If Bank of England cuts its base rate, your rate will decline (we maintain 2.5% margin over BoE).",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_cgi_001",
+    "source_name": "SmartSaver Interest Payment Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_001",
+    "target_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "rel_type": "explained_in",
+    "description": "Tier 1 rate details are explained within the interest payment guidance",
+    "properties": {},
+    "context": "If your balance is below £10,000, you earn Tier 1 rate (4.50%).",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_cgi_001",
+    "source_name": "SmartSaver Interest Payment Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_002",
+    "target_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001+)",
+    "rel_type": "explained_in",
+    "description": "Tier 2 rate details are explained within the interest payment guidance",
+    "properties": {},
+    "context": "Your friend earning 4.70% likely has £10,001+ in their account.",
+    "bidirectional": true,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_cgi_001",
+    "source_name": "SmartSaver Interest Payment Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_prod_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "explains_features_of",
+    "description": "The guidance explains the interest payment features of the SmartSaver Account",
+    "properties": {},
+    "context": "When is interest paid? Last business day of each month.",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_acc_001",
+    "target_name": "SmartSaver Account Holder",
+    "rel_type": "applicable_to",
+    "description": "Tier 1 rate is applicable to account holders with balances below £10,000",
+    "properties": {
+      "condition": "balance < £10,000"
+    },
+    "context": "If your balance is below £10,000, you earn Tier 1 rate (4.50%).",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_acc_001",
+    "target_name": "SmartSaver Account Holder",
+    "rel_type": "applicable_to",
+    "description": "Tier 2 rate is applicable to account holders with balances of £10,001 or more",
+    "properties": {
+      "condition": "balance >= £10,001"
+    },
+    "context": "Your friend earning 4.70% likely has £10,001+ in their account.",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_001",
+    "source_name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_002",
+    "source_name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001+)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_003",
+    "source_name": "SmartSaver Variable Rate Basis — 2.5% margin over BoE",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_cgi_001",
+    "source_name": "SmartSaver Interest Payment Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_prod_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_acc_001",
+    "source_name": "SmartSaver Account Holder",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_cgi_002",
+    "source_name": "Gross Interest Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_not_001",
+    "target_name": "HM Revenue and Customs (HMRC)",
+    "rel_type": "refers_customer_to",
+    "description": "Guidance on gross interest informs the customer of their responsibility to report to HMRC",
+    "properties": {
+      "obligation": "tax_reporting",
+      "condition": "if applicable"
+    },
+    "context": "Interest paid without tax withholding. You're responsible for reporting to HMRC if applicable.",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_cgi_001",
+    "source_name": "Annual Percentage Rate (APR) Disclosure",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_cgi_002",
+    "source_name": "Gross Interest Guidance",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_not_001",
+    "source_name": "HM Revenue and Customs (HMRC)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021_rat_001",
+    "source_name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "target_id": "prod_sav001",
+    "target_name": "SAV-001 Savings Product",
+    "rel_type": "applies_to",
+    "description": "The 4.50% rate is the specific interest rate applied to the SAV-001 product.",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "rate_value": "4.50%"
+    },
+    "context": "SAV-001 T1 | 4.50%",
+    "bidirectional": false,
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4"
+  },
+  {
+    "source_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021_rat_001",
+    "source_name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "target_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021",
+    "target_name": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  }
+]

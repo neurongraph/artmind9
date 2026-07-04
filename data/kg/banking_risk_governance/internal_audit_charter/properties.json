@@ -1,0 +1,979 @@
+[
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_001_dep_001",
+    "name": "Internal Audit Department",
+    "properties": {
+      "department_name": "Internal Audit",
+      "ownership": "Internal Audit Charter",
+      "document_reference": "AUDIT-CHARTER-001",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "status": "Active"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_001",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_002_dec_001",
+    "name": "Approval of Internal Audit Charter",
+    "properties": {
+      "decision_topic": "Internal Audit Charter",
+      "decision_outcome": "approved",
+      "rationale": "To define the Internal Audit function's independence, authority, scope, and responsibility for providing independent assurance over risk management and control effectiveness"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_002",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_002_dep_001",
+    "name": "Internal Audit Function",
+    "properties": {
+      "department_name": "Internal Audit",
+      "ownership": "independent assurance over risk management and control effectiveness"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_002",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_003_dep_001",
+    "name": "Internal Audit",
+    "properties": {
+      "department_name": "Internal Audit",
+      "ownership": "Evaluation of risk management, control, and governance processes",
+      "accountability_finding": "Independent and objective evaluation of bank-wide effectiveness"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_003",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_003_dep_002",
+    "name": "Board Audit Committee",
+    "properties": {
+      "department_name": "Board Audit Committee",
+      "ownership": "Direct oversight of Internal Audit",
+      "accountability_finding": "Ensuring impartiality of the audit function through direct reporting lines"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_003",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_006_dep_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "ownership": "Direct oversight of audit activities",
+      "accountability_finding": "Direct reporting line for audit findings without management filtering"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_006",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_006_emp_001",
+    "name": "Employee or Contractor",
+    "properties": {
+      "accountability": "Subject to interviews and audits as part of the unrestricted access authority"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_006",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_prd_001",
+    "name": "Account Opening Process",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "category": "Business process"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_001",
+    "name": "Compliance Risk",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "related_controls": [
+        "KYC",
+        "AML",
+        "regulatory"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_kyc_001",
+    "name": "KYC Compliance Controls",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "category": "Compliance controls"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_aml_001",
+    "name": "AML Compliance Controls",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "category": "Compliance controls"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_002",
+    "name": "Operational Risk",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "related_controls": [
+        "segregation of duties",
+        "authorization"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_003",
+    "name": "Technology Risk",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "related_controls": [
+        "access",
+        "change management",
+        "backups"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_004",
+    "name": "Fraud and Misconduct Risk",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "focus_area": "investigations"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_005",
+    "name": "Third-Party Vendor Risk",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "focus_area": "service providers"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_006",
+    "name": "General Risk Management",
+    "properties": {
+      "audit_scope_inclusion": true,
+      "focus_area": [
+        "risk assessment",
+        "mitigation"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_upd_001",
+    "name": "International Standards for the Professional Practice of Internal Auditing (ISPPIA)",
+    "properties": {
+      "key_requirement": "Professional practice standards for internal auditing"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_upd_002",
+    "name": "IIA Code of Ethics",
+    "properties": {
+      "key_requirement": [
+        "Integrity",
+        "Objectivity",
+        "Confidentiality",
+        "Competency"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_upd_003",
+    "name": "FCA and PRA Expectations for Internal Audit Function",
+    "properties": {
+      "issuing_authority": [
+        "FCA",
+        "PRA"
+      ],
+      "key_requirement": "Expectations for the internal audit function"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_dec_001",
+    "name": "FirstUK Bank Audit Charter",
+    "properties": {
+      "decision_topic": "Audit Charter",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "ownership": "Primary functional reporting line for Internal Audit",
+      "meeting_frequency": "Quarterly minimum",
+      "accountability_finding": "Recipient of regulatory examination findings"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_002",
+    "name": "Internal Audit",
+    "properties": {
+      "ownership": "Independent audit function",
+      "organizational_independence": "Separate from operational departments with no operational responsibilities",
+      "staff_rotation_policy": "Every 5–7 years to prevent familiarity",
+      "reporting_lines": [
+        "Functional: Board Audit Committee",
+        "Administrative: Chief Operating Officer",
+        "Escalation: Chief Executive Officer"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_003",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "ownership": "Administrative oversight of Internal Audit",
+      "accountability_finding": "Responsible for Internal Audit budgeting, HR, and facilities"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_004",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "accountability_finding": "Point of direct access for Internal Audit escalations"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_005",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "ownership": "External regulator",
+      "accountability_finding": "Direct communication with Head of Internal Audit; provides regulatory examination findings"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_006",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "ownership": "External regulator",
+      "accountability_finding": "Direct communication with Head of Internal Audit; provides regulatory examination findings"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_dec_001",
+    "name": "Board Audit Committee Approval of Annual Audit Plan",
+    "properties": {
+      "decision_topic": "Annual Audit Plan approval",
+      "deciding_body": "Board Audit Committee",
+      "decision_outcome": "approved",
+      "rationale": "Based on risk assessment, stakeholder input, regulatory expectations, and known issues from prior audits"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_dec_002",
+    "name": "Board Audit Committee Reporting of In-Year Plan Changes",
+    "properties": {
+      "decision_topic": "In-year adjustments to the audit plan",
+      "deciding_body": "Board Audit Committee",
+      "rationale": "To account for emerging risks, urgent issues, regulatory concerns, or fraud investigations"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_dept_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "ownership": "Annual Audit Plan approval and oversight of in-year plan changes"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_upd_001",
+    "name": "FCA and PRA Regulatory Guidance on Audit Planning",
+    "properties": {
+      "issuing_authority": [
+        "FCA",
+        "PRA"
+      ],
+      "key_requirement": "Guidance on audit planning to be integrated into the risk assessment and development process"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_001",
+    "name": "AML/KYC Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "appetite_level": "low",
+      "audit_frequency": "annual"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_002",
+    "name": "Payment Processing Risk",
+    "properties": {
+      "risk_category": "operational",
+      "appetite_level": "low",
+      "audit_frequency": "annual"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_003",
+    "name": "Fraud Detection Risk",
+    "properties": {
+      "risk_category": "fraud",
+      "appetite_level": "low",
+      "audit_frequency": "annual"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_004",
+    "name": "Technology Controls Risk",
+    "properties": {
+      "risk_category": "technology",
+      "appetite_level": "low",
+      "audit_frequency": "annual"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_005",
+    "name": "Complaint Handling Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "appetite_level": "moderate",
+      "audit_frequency": "biennial"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_006",
+    "name": "Account Opening Risk",
+    "properties": {
+      "risk_category": "operational",
+      "appetite_level": "moderate",
+      "audit_frequency": "biennial"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_007",
+    "name": "Operational Risk",
+    "properties": {
+      "risk_category": "operational",
+      "appetite_level": "moderate",
+      "audit_frequency": "biennial"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_008",
+    "name": "Compliance Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "appetite_level": "moderate",
+      "audit_frequency": "biennial"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_009",
+    "name": "Facilities Risk",
+    "properties": {
+      "risk_category": "operational",
+      "appetite_level": "elevated",
+      "audit_frequency": "triennial"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_010",
+    "name": "Payroll Risk",
+    "properties": {
+      "risk_category": "operational",
+      "appetite_level": "elevated",
+      "audit_frequency": "triennial"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_011",
+    "name": "Travel & Expenses Risk",
+    "properties": {
+      "risk_category": "operational",
+      "appetite_level": "elevated",
+      "audit_frequency": "triennial"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_dec_001",
+    "name": "Approval of 2026 Audit Plan",
+    "properties": {
+      "decision_outcome": "approved",
+      "decision_topic": "2026 Audit Plan",
+      "rationale": "Risk-based prioritization focusing on high-risk areas and regulatory requirements",
+      "related_action_items": [
+        "Account Opening & KYC audit",
+        "Payment Processing audit",
+        "Fraud Detection audit",
+        "IT General Controls audit",
+        "Operational Risk audit",
+        "Compliance Controls audit"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_014_dep_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "ownership": "Audit oversight and reporting",
+      "accountability_finding": "Recipient of executive summaries and quarterly status updates on remediation progress"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_014",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_001",
+    "name": "Critical Finding Remediation Timeframe — 30 Days",
+    "properties": {
+      "metric_name": "Critical Finding Remediation Timeframe",
+      "target_threshold": "30 days",
+      "context": "Remediation window for control failures causing financial loss or regulatory breach"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_002",
+    "name": "High Finding Remediation Timeframe — 90 Days",
+    "properties": {
+      "metric_name": "High Finding Remediation Timeframe",
+      "target_threshold": "90 days",
+      "context": "Remediation window for control weaknesses with significant risk"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_003",
+    "name": "Medium Finding Remediation Timeframe — 180 Days",
+    "properties": {
+      "metric_name": "Medium Finding Remediation Timeframe",
+      "target_threshold": "180 days",
+      "context": "Remediation window for control gaps with moderate impact"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_004",
+    "name": "Low Finding Remediation Timeframe — 1 Year",
+    "properties": {
+      "metric_name": "Low Finding Remediation Timeframe",
+      "target_threshold": "1 year",
+      "context": "Remediation window for control improvement opportunities"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_dep_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "department_name": "Board Audit Committee",
+      "accountability_finding": "Quarterly review of remediation action plans"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_dep_002",
+    "name": "Internal Audit",
+    "properties": {
+      "department_name": "Internal Audit",
+      "accountability_finding": "Follow-up and re-testing of controls to verify remediation closure"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dec_001",
+    "name": "Board Audit Committee Approval of Annual Audit Plan",
+    "properties": {
+      "decision_topic": "Annual Audit Plan",
+      "deciding_body": "Board Audit Committee",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dec_002",
+    "name": "Board Audit Committee Approval of Audit Budget",
+    "properties": {
+      "decision_topic": "Audit Budget",
+      "deciding_body": "Board Audit Committee",
+      "decision_outcome": "approved"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dept_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "department_name": "Board Audit Committee",
+      "ownership": [
+        "Annual audit plan approval",
+        "Audit budget approval",
+        "Management remediation monitoring",
+        "Internal Audit effectiveness assessment"
+      ],
+      "meeting_frequency": "Quarterly (minimum)"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dept_002",
+    "name": "Internal Audit",
+    "properties": {
+      "department_name": "Internal Audit",
+      "accountability_finding": "Effectiveness is assessed by the Board Audit Committee",
+      "governance_interaction": "Quarterly executive sessions with the Board Audit Committee"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_dep_001",
+    "name": "Internal Audit",
+    "properties": {
+      "ownership": "Independence and objective assurance",
+      "accountability_finding": "Must maintain separation from operational responsibilities and decision-making authority",
+      "stated_prohibitions": [
+        "Cannot audit departments recently managed by staff",
+        "Cannot audit own work",
+        "Cannot approve transactions or controls they audit",
+        "Cannot advise on strategy"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_dep_002",
+    "name": "Board Audit Committee",
+    "properties": {
+      "accountability_finding": "Recipient of separate reporting from Internal Audit to ensure independence"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_dep_003",
+    "name": "Board",
+    "properties": {
+      "ownership": "Budget approval for Internal Audit",
+      "accountability_finding": "Board chair responsible for reviewing Internal Audit staff appraisals"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_rsk_001",
+    "name": "Conflict of Interest Risk",
+    "properties": {
+      "risk_category": "operational",
+      "appetite_level": "low",
+      "stated_prohibitions": [
+        "Internal Audit staff auditing recently managed departments",
+        "Internal Audit staff auditing their own work",
+        "Internal Audit staff approving transactions or controls they audit"
+      ],
+      "controls_in_place": [
+        "No operational responsibilities",
+        "No decision-making authority",
+        "Separate reporting to Board Audit Committee",
+        "Budget approved by Board",
+        "Staff appraisals reviewed by Board chair"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_emp_001",
+    "name": "Internal Audit Staff",
+    "properties": {
+      "role_type": "compliance",
+      "accountability": "Adherence to independence safeguards and prohibited activities",
+      "stated_prohibitions": [
+        "Auditing recently managed departments",
+        "Auditing own work",
+        "Approving transactions or controls they audit"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_act_001",
+    "name": "Escalation of Identified Conflict to Head of Internal Audit",
+    "properties": {
+      "action_description": "Immediately escalate any identified conflict to the Head of Internal Audit",
+      "priority": "high",
+      "triggered_by": "Identification of a conflict"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_act_002",
+    "name": "Head of Internal Audit Reporting to Board Audit Committee",
+    "properties": {
+      "action_description": "Head of Internal Audit to report the identified conflict to the Board Audit Committee",
+      "owner": "Head of Internal Audit",
+      "dependencies": [
+        "Escalation of conflict to Head of Internal Audit"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_dec_001",
+    "name": "Board Audit Committee Conflict Resolution Decision",
+    "properties": {
+      "deciding_body": "Board Audit Committee",
+      "decision_topic": "Resolution of identified conflict",
+      "decision_outcome": "approved",
+      "rationale": "To ensure audit independence and objectivity",
+      "conditions": [
+        "Reassign audit",
+        "Appoint external auditor"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_act_003",
+    "name": "Documentation of Conflict and Resolution",
+    "properties": {
+      "action_description": "Formal documentation of the identified conflict and the subsequent resolution reached by the committee",
+      "triggered_by": "Board Audit Committee Conflict Resolution Decision"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_emp_001",
+    "name": "Head of Internal Audit",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Receiving conflict escalations and reporting them to the Board Audit Committee"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_dep_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "department_name": "Board Audit Committee",
+      "ownership": "Conflict resolution and audit oversight"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_dep_001",
+    "name": "Internal Audit Department",
+    "properties": {
+      "ownership": "Internal audit functions, staffing, and budget management"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_emp_001",
+    "name": "Head of Internal Audit",
+    "properties": {
+      "role_type": "manager",
+      "allocation": "1 FTE"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_emp_002",
+    "name": "Internal Auditors",
+    "properties": {
+      "role_type": "specialist",
+      "allocation": "1–2 FTE",
+      "required_skills": [
+        "Accounting/financial controls knowledge",
+        "Risk management understanding",
+        "Process mapping and analysis",
+        "IT controls knowledge (databases, systems)",
+        "Regulatory compliance knowledge",
+        "Communication skills (report writing)"
+      ],
+      "development_requirements": [
+        "Auditor certifications (CIA, CISA, etc.)",
+        "Continuous professional education"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_dec_001",
+    "name": "Board Approval of Internal Audit Salaries and Benefits",
+    "properties": {
+      "decision_outcome": "approved",
+      "decision_topic": "Salaries and benefits for Internal Audit",
+      "deciding_body": "Board"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_021_dep_001",
+    "name": "Internal Audit",
+    "properties": {
+      "ownership": [
+        "External Audit Coordination",
+        "Regulatory Audit Coordination"
+      ],
+      "accountability_finding": "Responsible for providing cooperation and documentation during FCA/PRA examinations and aligning audit plans with external auditors"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_021",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_021_dep_002",
+    "name": "Board Audit Committee",
+    "properties": {
+      "accountability_finding": "Must be kept informed of regulatory feedback resulting from FCA/PRA examinations"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_021",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_021_upd_001",
+    "name": "FCA/PRA Regulatory Examinations",
+    "properties": {
+      "issuing_authority": [
+        "FCA",
+        "PRA"
+      ],
+      "key_requirement": "Conduct of regulatory examinations requiring bank cooperation and documentation",
+      "affected_departments": [
+        "Internal Audit"
+      ]
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_021",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_dec_001",
+    "name": "Board Approval of Charter - 2026-01-15",
+    "properties": {
+      "decision_outcome": "approved",
+      "decision_topic": "Charter",
+      "deciding_body": "Board of Directors",
+      "decision_date": "2026-01-15"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_act_001",
+    "name": "Annual Charter Review - Due 2027-01-15",
+    "properties": {
+      "action_description": "Annual review of the Charter",
+      "deadline": "2027-01-15",
+      "triggered_by": "Annual review frequency requirement"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_dep_001",
+    "name": "Board of Directors",
+    "properties": {
+      "department_name": "Board of Directors",
+      "ownership": "Approval Authority for Charter",
+      "accountability_finding": "Ratification of Charter changes"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_dep_002",
+    "name": "Board Audit Committee",
+    "properties": {
+      "department_name": "Board Audit Committee",
+      "ownership": "Approval of proposed Charter changes",
+      "accountability_finding": "Proposing changes to Charter"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_emp_001",
+    "name": "Head of Internal Audit",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Proposing changes to the Charter"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_023_dec_001",
+    "name": "Board Approval of Initial Charter Version 1.0",
+    "properties": {
+      "decision_outcome": "approved",
+      "decision_topic": "Initial charter",
+      "deciding_body": "Board",
+      "decision_date": "2025-01-01"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_023",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_023_dec_002",
+    "name": "Board Approval of Charter Version 1.1 — External Auditor Coordination",
+    "properties": {
+      "decision_outcome": "approved",
+      "decision_topic": "Clarified external auditor coordination",
+      "deciding_body": "Board",
+      "decision_date": "2026-01-15"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_023",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dec_001",
+    "name": "Board Audit Committee Approval of Document",
+    "properties": {
+      "decision_outcome": "approved",
+      "deciding_body": "Board Audit Committee",
+      "decision_date": "2026-01-15",
+      "decision_topic": "Document Approval"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dec_002",
+    "name": "Board of Directors Approval of Document",
+    "properties": {
+      "decision_outcome": "approved",
+      "deciding_body": "Board of Directors",
+      "decision_date": "2026-01-15",
+      "decision_topic": "Document Approval"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dec_003",
+    "name": "Head of Internal Audit Approval of Document",
+    "properties": {
+      "decision_outcome": "approved",
+      "deciding_body": "Head of Internal Audit",
+      "decision_date": "2026-01-15",
+      "decision_topic": "Document Approval"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dep_001",
+    "name": "Board Audit Committee",
+    "properties": {
+      "department_name": "Board Audit Committee",
+      "ownership": "Document Approval"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dep_002",
+    "name": "Board of Directors",
+    "properties": {
+      "department_name": "Board of Directors",
+      "ownership": "Document Approval"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_emp_001",
+    "name": "Head of Internal Audit",
+    "properties": {
+      "role_type": "Head of Internal Audit",
+      "accountability": "Document Approval"
+    },
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac"
+  }
+]

@@ -1,0 +1,1242 @@
+[
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_tpl_001",
+    "name": "Opening Script (All Calls)",
+    "aliases": [
+      "Opening Script"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A standardized call center script used by agents at the start of every customer interaction to establish a professional greeting and perform initial security verification.",
+    "context": [
+      "Good morning/afternoon. You've reached FirstUK Bank.",
+      "For security, may I have the last 4 digits of your account number and your date of birth?",
+      "I've confirmed your details. Let me help you with [reason]."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A dynamic placeholder used by the agent to personalize the greeting after the customer has provided their name.",
+    "context": [
+      "Thank you, [Customer Name]. How can I help you today?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_var_002",
+    "name": "Reason for Call",
+    "aliases": [
+      "[reason]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "transaction_data",
+    "description": "A placeholder representing the specific issue or request the customer is calling about, used to close the verification phase and begin the service phase.",
+    "context": [
+      "Let me help you with [reason]."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_obl_001",
+    "name": "Customer Identity Verification Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement for agents to verify a customer's identity using specific security markers (last 4 digits of account number and date of birth) before proceeding with the request.",
+    "context": [
+      "For security, may I have the last 4 digits of your account number and your date of birth?",
+      "[Verify against system]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_cust_001",
+    "name": "Bank Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The individual contacting FirstUK Bank who must undergo security verification before receiving assistance.",
+    "context": [
+      "[Customer provides name]",
+      "[Customer explains reason for call]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_003_acc_001",
+    "name": "Customer Account",
+    "aliases": [
+      "account number"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The customer's bank account, the last four digits of which are used as a security verification token.",
+    "context": [
+      "may I have the last 4 digits of your account number"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_003",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_tpl_001",
+    "name": "Account Opening Inquiry Agent Script",
+    "aliases": [
+      "Scenario 1"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script used by agents to guide customers through the process of opening a SmartSaver account. It outlines the product benefits, interest rates, and the three available application methods (online, branch, and post).",
+    "context": [
+      "Agent: \"Excellent choice! Our SmartSaver account offers some of the best interest rates available.\"",
+      "We have three ways to open an account: 1. Online... 2. In one of our 12 branches... 3. By post",
+      "Do you have any questions about the SmartSaver?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product offering interest rates between 4.50% and 4.80% AER with no monthly fees.",
+    "context": [
+      "I'd like to open a SmartSaver account.",
+      "Our SmartSaver account offers some of the best interest rates available.",
+      "We currently offer 4.50% to 4.80% AER depending on your balance, with no monthly fees."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_cust_001",
+    "name": "New Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "new_customer",
+    "description": "An individual inquiring about and intending to open a new banking product with FirstUK Bank.",
+    "context": [
+      "Customer: \"I'd like to open a SmartSaver account.\"",
+      "Which option works best for you?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_acc_001",
+    "name": "SmartSaver Account Opening",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The process of establishing a new SmartSaver account via online, branch, or postal channels.",
+    "context": [
+      "We have three ways to open an account",
+      "Our staff will help you open the account on the spot."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_004_kyc_001",
+    "name": "SmartSaver Identity and Address Verification",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The requirement for customers opening accounts online to provide specific government-issued identification and proof of residency.",
+    "context": [
+      "You'll need a UK Passport or Driving License, plus proof of address (utility bill, council tax, or bank statement).",
+      "The process takes about 10 minutes."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_004",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_tpl_001",
+    "name": "Interest Rate Question Agent Script",
+    "aliases": [
+      "Scenario 2"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script designed to explain to customers why their SmartSaver interest rate has decreased, linking the change to the Bank of England's base rate and the bank's fixed margin.",
+    "context": [
+      "Agent: \"Great question. Our SmartSaver rates are variable, which means they move with the Bank of England's base rate.\"",
+      "We maintain a fixed 2.5% margin above the BoE rate, so your rate always stays competitive."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_var_001",
+    "name": "Current Interest Rate",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "rate_field",
+    "description": "A dynamic field in the agent script representing the customer's specific current interest rate expressed as AER.",
+    "context": [
+      "Your current rate is 4.50% AER."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_prod_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A variable-rate savings product that tracks the Bank of England's base rate with a fixed margin.",
+    "context": [
+      "Our SmartSaver rates are variable",
+      "We maintain a fixed 2.5% margin above the BoE rate"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_005_cust_001",
+    "name": "SmartSaver Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "An existing bank customer inquiring about changes to their account interest rates.",
+    "context": [
+      "Customer: \"Why did my interest rate drop?\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_005",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_tpl_001",
+    "name": "Failed Transaction Agent Script",
+    "aliases": [
+      "Scenario 3: Failed Transaction"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script designed to guide agents through the process of investigating and resolving a customer's failed transfer. It provides a structured approach to gathering transaction details and offering specific resolutions based on the failure reason.",
+    "context": [
+      "Agent: \"I'm sorry to hear that. Let me look into this for you.\"",
+      "The transfer failed because [reason: insufficient funds/invalid recipient/account closed/other].",
+      "Here's what we can do: [Offer resolution based on scenario]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_001",
+    "name": "Transfer Attempt Date",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "A dynamic data point the agent must collect from the customer regarding when the failed transfer was attempted.",
+    "context": [
+      "When did you attempt the transfer?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_002",
+    "name": "Transfer Amount",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A dynamic data point the agent must collect from the customer regarding the monetary value of the failed transfer.",
+    "context": [
+      "How much was it for?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_003",
+    "name": "Recipient Account",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "The destination account details for the failed transfer that the agent must verify with the customer.",
+    "context": [
+      "To which account?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_004",
+    "name": "Failure Reason",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "transaction_data",
+    "description": "The specific cause of the transaction failure, such as insufficient funds, invalid recipient, or a closed account.",
+    "context": [
+      "[reason: insufficient funds/invalid recipient/account closed/other]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_var_005",
+    "name": "Resolution Offer",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "process_skill",
+    "description": "A conditional response provided by the agent based on the specific reason the transaction failed.",
+    "context": [
+      "[Offer resolution based on scenario]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_cust_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is reporting a failed transfer and interacting with the agent.",
+    "context": [
+      "Customer: \"My transfer didn't go through.\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The account held by the customer which the agent must check to identify the cause of the failed transfer.",
+    "context": [
+      "Let me check your account... [Pull transaction record]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_006_txn_001",
+    "name": "Failed Transfer Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "disputed_transaction",
+    "description": "A financial transfer event that did not complete successfully, serving as the trigger for the customer interaction.",
+    "context": [
+      "My transfer didn't go through.",
+      "The transfer failed because [reason: insufficient funds/invalid recipient/account closed/other]."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_006",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_tpl_001",
+    "name": "Fraud/Unauthorized Transaction Agent Script",
+    "aliases": [
+      "Scenario 4"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script used by agents to handle customers reporting unauthorized transactions. It guides the agent through empathy, data collection, immediate mitigation steps, and setting expectations for investigation and refund timelines.",
+    "context": [
+      "Agent: \"I'm very sorry to hear that. We take fraud seriously and will investigate immediately.\"",
+      "\"I'm going to: 1. Block any suspicious transactions right away 2. Investigate what happened 3. Refund you within 10 days\"",
+      "\"We'll follow up with you within 5 business days with our findings.\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_var_001",
+    "name": "Unauthorized Transaction Details",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "transaction_data",
+    "description": "Dynamic information provided by the customer regarding the specific fraudulent event, including which transaction, the date of occurrence, and the amount.",
+    "context": [
+      "Which transaction is unauthorized?",
+      "When did it occur?",
+      "How much was it for?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_var_002",
+    "name": "Customer Contact Phone Number",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "contact_field",
+    "description": "The phone number provided by the customer for the bank to use when following up with the findings of the fraud investigation.",
+    "context": [
+      "Is there a phone number where we can reach you?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_obl_001",
+    "name": "Immediate Blocking of Suspicious Transactions",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement for the agent to immediately stop any further suspicious financial activity on the account once fraud is reported.",
+    "context": [
+      "I'm going to: 1. Block any suspicious transactions right away"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_obl_002",
+    "name": "Fraud Investigation and Refund Timeline",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The obligation to investigate the reported unauthorized transaction and provide a refund within a 10-day window if the fraud is confirmed.",
+    "context": [
+      "Investigate what happened",
+      "Refund you within 10 days if the transaction is confirmed as unauthorized"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_obl_003",
+    "name": "Fraud Investigation Follow-up Deadline",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The commitment to contact the customer with the results of the fraud investigation within 5 business days.",
+    "context": [
+      "We'll follow up with you within 5 business days with our findings."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_cust_001",
+    "name": "Fraud Victim Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer who has identified and reported a transaction on their account that they did not authorize.",
+    "context": [
+      "Customer: \"I see a transaction I didn't authorize.\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_007_txn_001",
+    "name": "Unauthorized Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "disputed_transaction",
+    "description": "A financial transaction reported by the customer as not being authorized by them, triggering a fraud investigation.",
+    "context": [
+      "Which transaction is unauthorized?",
+      "Refund you within 10 days if the transaction is confirmed as unauthorized"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_007",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_tpl_001",
+    "name": "Complaint Handling Agent Script",
+    "aliases": [
+      "Scenario 5: Complaint"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script used by agents to document customer complaints, explain the escalation process to the Complaints Team, and provide timelines for resolution and external escalation options.",
+    "context": [
+      "I'm sorry you've had a poor experience. We want to make this right. Let me document your complaint.",
+      "I'm escalating this to our Complaints Team. Here's what happens next:",
+      "If you disagree, you can escalate to the Financial Ombudsman Service (free and independent)"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_var_001",
+    "name": "Complaint Reference Number",
+    "aliases": [
+      "[EXC-XXXXX]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A unique alphanumeric identifier assigned to a customer's complaint for tracking and record-keeping purposes.",
+    "context": [
+      "Your complaint reference number is [EXC-XXXXX]."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_obl_001",
+    "name": "Complaint Investigation Timeline Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The bank is obligated to investigate a customer complaint within a specific timeframe of 8 calendar days.",
+    "context": [
+      "We'll investigate within 8 calendar days",
+      "We'll be in touch within 8 days."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_obl_002",
+    "name": "Complaint Escalation Disclosure Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "Staff must inform the customer of their right to escalate the matter to the Financial Ombudsman Service if they disagree with the bank's findings.",
+    "context": [
+      "If you disagree, you can escalate to the Financial Ombudsman Service (free and independent)"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_008_cust_001",
+    "name": "Complaining Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A bank customer who is expressing dissatisfaction and initiating a formal complaint process.",
+    "context": [
+      "Customer: \"I want to file a complaint.\"",
+      "I'm sorry you've had a poor experience."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_008",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_tpl_001",
+    "name": "Standing Order Setup Agent Script",
+    "aliases": [
+      "Scenario 6"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script used by agents to guide customers through the process of setting up a recurring standing order payment. It includes a data collection phase and a final confirmation step to ensure accuracy of payment details.",
+    "context": [
+      "Agent: \"Perfect! A standing order lets you set up recurring payments to anyone. Let me collect the details\"",
+      "Let me confirm: - Paying [Recipient] £[amount] - Every [frequency] - Starting [date]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_001",
+    "name": "Recipient Name",
+    "aliases": [
+      "[Recipient]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "The name of the person or entity to whom the standing order payments will be sent.",
+    "context": [
+      "Who do you want to pay? (Recipient name)",
+      "Paying [Recipient]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_002",
+    "name": "Payment Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "The specific monetary value to be transferred in each recurring payment cycle.",
+    "context": [
+      "How much each time?",
+      "£[amount]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_003",
+    "name": "Payment Frequency",
+    "aliases": [
+      "[frequency]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The interval at which the payment is repeated, such as weekly, monthly, quarterly, or annually.",
+    "context": [
+      "How often? (Weekly, monthly, quarterly, annually)",
+      "Every [frequency]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_004",
+    "name": "Start Date",
+    "aliases": [
+      "[date]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The calendar date on which the first standing order payment is scheduled to occur.",
+    "context": [
+      "What date should it start?",
+      "Starting [date]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_var_005",
+    "name": "Recipient Bank Details",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "The account number and sort code of the recipient required to route the standing order payment.",
+    "context": [
+      "Their bank details? (Account number and sort code)"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_009_prd_001",
+    "name": "Standing Order",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A banking service that allows customers to set up automated, recurring payments to a specified recipient.",
+    "context": [
+      "A standing order lets you set up recurring payments to anyone."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_009",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_mod_001",
+    "name": "Scenario 7: Account Closure",
+    "aliases": [
+      "Scenario 7"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A training scenario focused on the operational procedure for closing a customer account, including the agent's communication flow and the necessary administrative steps.",
+    "context": [
+      "## SCENARIO 7: Account Closure"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_tpl_001",
+    "name": "Account Closure Agent Script",
+    "aliases": [
+      "Agent Script"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A structured script for agents to use when a customer requests to close their account. It covers the discovery of the reason for closure, explanation of the process, fund disbursement options, and a final retention attempt.",
+    "context": [
+      "Agent: \"I'm sorry to hear you want to close your account. Before you go, may I ask why? This helps us improve.\"",
+      "Let me explain the closure process:",
+      "Before I process this, are you sure you want to close? We'd love to keep you as a customer.",
+      "\"I've processed your closure request. Your account will close in 5-7 days. We appreciate your business.\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_cust_001",
+    "name": "Customer requesting account closure",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "An existing bank customer who has initiated a request to terminate their banking relationship.",
+    "context": [
+      "Customer: \"I'd like to close my account.\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_acc_001",
+    "name": "Customer Account for Closure",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The specific bank account being closed, which requires a final balance calculation and the cancellation of associated payment instructions.",
+    "context": [
+      "I'd like to close my account.",
+      "calculate your final balance (including pending interest)"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_txn_001",
+    "name": "Standing Orders and Direct Debits",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "statement_entry",
+    "description": "Recurring payment instructions linked to the account that must be cancelled as part of the closure workflow.",
+    "context": [
+      "Cancel any standing orders or Direct Debits"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_txn_002",
+    "name": "Final Balance Transfer",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transaction_alert",
+    "description": "The final movement of remaining funds from the closing account to the customer via bank transfer, cheque, or cash.",
+    "context": [
+      "Transfer any remaining funds to your new bank",
+      "Transfer to another UK bank account (1-2 days)",
+      "Cheque in the post (3-5 days)",
+      "Cash in a branch (same day)"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_010_obl_001",
+    "name": "Account Closure Process Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The mandatory operational steps that must be completed to successfully close a customer account, including balance calculation, instruction cancellation, and fund transfer.",
+    "context": [
+      "1. We'll calculate your final balance (including pending interest)",
+      "2. Cancel any standing orders or Direct Debits",
+      "3. Transfer any remaining funds to your new bank",
+      "4. Your account will be closed"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_010",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_tpl_001",
+    "name": "Direct Debit Question Agent Script",
+    "aliases": [
+      "Scenario 8"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script designed to handle customer inquiries regarding Direct Debit charges. It guides the agent through explaining what a Direct Debit is, gathering transaction details, and offering cancellation or refund options.",
+    "context": [
+      "Agent: \"Let me look that up for you. A Direct Debit is when a company (like a utility or insurance) automatically deducts payment from your account.\"",
+      "If you didn't authorize it or want to cancel, I can help: Option 1: Cancel the Direct Debit with us (immediate) Option 2: Contact [Company] directly to cancel",
+      "Either way, if you were charged without authorization, we'll refund you within 10 days."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_var_001",
+    "name": "Company Name",
+    "aliases": [
+      "[Company Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "company_data",
+    "description": "A placeholder for the name of the third-party company that initiated the Direct Debit charge.",
+    "context": [
+      "I found it. This is for [Company Name]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_var_002",
+    "name": "Company Category",
+    "aliases": [
+      "[utility/subscription]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "product_data",
+    "description": "A placeholder used to categorize the type of service the company provides, such as a utility or a subscription.",
+    "context": [
+      "your [utility/subscription]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_var_003",
+    "name": "Company Contact",
+    "aliases": [
+      "[Company]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "contact_field",
+    "description": "A placeholder for the company name when directing the customer to contact the provider directly for cancellation.",
+    "context": [
+      "Option 2: Contact [Company] directly to cancel"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_cust_001",
+    "name": "Direct Debit Inquiring Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A bank customer who is questioning a specific Direct Debit charge on their account.",
+    "context": [
+      "Customer: \"Why was I charged by Direct Debit?\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The customer account from which the Direct Debit payment was automatically deducted.",
+    "context": [
+      "automatically deducts payment from your account"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_txn_001",
+    "name": "Direct Debit Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "statement_entry",
+    "description": "The specific financial event where a company automatically deducts payment from a customer's account.",
+    "context": [
+      "Which company charged you?",
+      "When was the charge?",
+      "How much was it?"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_011_obl_001",
+    "name": "Unauthorized Direct Debit Refund Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The bank's commitment to refund a customer within 10 days if a Direct Debit charge was made without authorization.",
+    "context": [
+      "if you were charged without authorization, we'll refund you within 10 days."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_011",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_tpl_001",
+    "name": "Card Replacement Agent Script",
+    "aliases": [
+      "Scenario 9"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script used by agents to handle customers reporting lost or damaged cards. It guides the agent through blocking the card and offering replacement delivery options.",
+    "context": [
+      "Agent: \"Don't worry, we can replace that right away.\"",
+      "First, I'm going to block your card immediately so no one else can use it.",
+      "We can send a new card in 3-5 business days (free), or an expedited replacement overnight for £25."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_cus_001",
+    "name": "Customer reporting lost/damaged card",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A bank customer who has contacted the bank to report that their payment card is either lost or damaged.",
+    "context": [
+      "Customer: \"My card is lost/damaged.\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_crd_001",
+    "name": "Replacement Payment Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "lost_stolen_card",
+    "description": "A payment card that has been reported as lost or damaged and requires blocking and replacement.",
+    "context": [
+      "I'm going to block your card immediately",
+      "We can send a new card in 3-5 business days"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_012_obl_001",
+    "name": "Immediate Card Blocking Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement for the agent to immediately block a card reported as lost or damaged to prevent unauthorised use.",
+    "context": [
+      "First, I'm going to block your card immediately so no one else can use it.",
+      "[Block card in system]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_012",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_tpl_001",
+    "name": "Password Reset Agent Script",
+    "aliases": [
+      "Scenario 10"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script used by agents to assist customers who are unable to log into online banking. It outlines the identity verification process and the instructions for using a password reset link sent via email.",
+    "context": [
+      "Agent: \"No problem, let me help you regain access.\"",
+      "For security, I'll verify your identity first",
+      "Now I'm sending a password reset link to your registered email address."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_var_001",
+    "name": "Account Number Last 4 Digits",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "A verification field used to confirm the customer's identity by checking the final four digits of their account number.",
+    "context": [
+      "Last 4 digits of account number: [verify]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_var_002",
+    "name": "Customer Date of Birth",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A verification field used to confirm the customer's identity via their date of birth.",
+    "context": [
+      "Date of birth: [verify]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_var_003",
+    "name": "Mother's Maiden Name",
+    "aliases": [],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A security question used as a verification field to confirm the customer's identity.",
+    "context": [
+      "Mother's maiden name: [verify]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_cust_001",
+    "name": "Online Banking Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "An existing bank customer who has lost access to their online banking credentials and requires a password reset.",
+    "context": [
+      "Customer: \"I can't log into online banking.\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_acc_001",
+    "name": "Online Banking Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The customer account associated with the online banking login that requires identity verification for access recovery.",
+    "context": [
+      "Last 4 digits of account number: [verify]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_013_obl_001",
+    "name": "Identity Verification Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement for agents to verify a customer's identity using specific data points before initiating a password reset process.",
+    "context": [
+      "For security, I'll verify your identity first",
+      "[Verify details]"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_013",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_014_tpl_001",
+    "name": "Closing Script (All Calls)",
+    "aliases": [
+      "Closing Script"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A standardized call center script used by agents to conclude all customer interactions. It ensures a professional sign-off and provides the customer with a case reference number for their records.",
+    "context": [
+      "Closing Script (All Calls)",
+      "Agent: \"Is there anything else I can help you with today?\"",
+      "\"Thank you for calling FirstUK Bank. Your case reference is [number]. We appreciate your business!\""
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_014",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_014_var_001",
+    "name": "Case Reference Number",
+    "aliases": [
+      "[number]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A dynamic placeholder in the Closing Script used to provide the customer with a unique identification number for their specific support case.",
+    "context": [
+      "Your case reference is [number]."
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_014",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_001",
+    "name": "Customer Identity Verification Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A mandatory requirement for staff to confirm the identity of a customer prior to disclosing or discussing any account-specific information.",
+    "context": [
+      "Always verify customer identity before discussing accounts"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_002",
+    "name": "Escalation Duty for High-Value or High-Risk Issues",
+    "aliases": [
+      "Escalation Triggers"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "The requirement to escalate a customer interaction to a supervisor or specialist when specific triggers are met, including high financial values, fraud, or regulatory concerns.",
+    "context": [
+      "Know when to escalate (amounts >£1,000, complaints, fraud)",
+      "Escalation Triggers:",
+      "Financial amount >£1,000",
+      "Potential fraud",
+      "Regulatory issue"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_003",
+    "name": "Accurate Product Information Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "Staff must utilize official document references, specifically product and policy guides, to ensure the accuracy of information provided to customers.",
+    "context": [
+      "Use document references ([[products]], [[policies]]) to answer product questions accurately"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_obl_004",
+    "name": "Promise Limitation Prohibition",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "prohibition",
+    "description": "A strict prohibition against making commitments or promises to customers that the staff member is unable to fulfill.",
+    "context": [
+      "Never promise what you can't deliver"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_001",
+    "name": "High Value Transaction Trigger (>£1,000)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "A financial threshold indicator where any amount exceeding £1,000 serves as a signal that the matter must be escalated.",
+    "context": [
+      "amounts >£1,000",
+      "Financial amount >£1,000"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_002",
+    "name": "Potential Fraud Indicator",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "Any scenario identified as potential fraud that requires immediate escalation according to general guidelines.",
+    "context": [
+      "Potential fraud"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_003",
+    "name": "Customer Complaint or High Emotional Distress Signal",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "misconduct_signal",
+    "description": "Behavioral indicators including the formal escalation to a complaint or the customer becoming very upset or angry.",
+    "context": [
+      "Customer escalates to complaint",
+      "Customer very upset/angry"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "634db54205804803963bbeaf2be02f89_015_wrn_004",
+    "name": "Regulatory Issue Indicator",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "data_protection_concern",
+    "description": "The identification of a regulatory issue during a customer interaction that triggers a mandatory escalation.",
+    "context": [
+      "Regulatory issue"
+    ],
+    "chunk_id": "634db54205804803963bbeaf2be02f89_015",
+    "doc_id": "634db54205804803963bbeaf2be02f89",
+    "domain": "banking_communications"
+  }
+]

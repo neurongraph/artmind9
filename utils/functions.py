@@ -25,6 +25,15 @@ def load_env(path: Path = ENV_FILE) -> dict[str, str | None]:
     return values or {}
 
 
+def resolve_llm_model(env: dict, override: str | None = None) -> str:
+    """Resolve the chat/text LLM model, defaulting per ARTMIND_KG_LLM_PROVIDER."""
+    if override:
+        return override
+    provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
+    default = "google/gemma-4-31b-it" if provider == "openrouter" else "ministral-3:14b"
+    return env.get("ARTMIND_KG_LLM_MODEL", default)
+
+
 
 _SEP = "=" * 72
 

@@ -1,0 +1,198 @@
+[
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_001",
+    "name": "Diarist",
+    "properties": {
+      "current_state": "feeling relaxed",
+      "recurring_behaviours": [
+        "working an office routine"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_002",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "wife",
+      "activities": [
+        "shopping for vegetables",
+        "buying jewelry"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_003",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "life_stage": "school-age",
+      "desires": [
+        "new backpack"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_004",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "desires": [
+        "toy car"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_005",
+    "name": "Mother-in-law",
+    "properties": {
+      "relationship_to_diarist": "mother-in-law",
+      "recurring_behaviours": [
+        "giving extra treats to the dog"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_per_006",
+    "name": "Browny",
+    "properties": {
+      "species": "dog",
+      "current_state": "overfed",
+      "notable_characteristics": [
+        "needs a diet"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_001",
+    "name": "Local Market",
+    "properties": {
+      "place_type": "market",
+      "atmosphere": "bustling",
+      "location": "Indore",
+      "narrative_function": "place for buying essentials and kids' clothes"
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_002",
+    "name": "PCSO",
+    "properties": {
+      "place_type": "mall",
+      "location": "near Sarafa Bazaar",
+      "who_associated_with": [
+        "Diarist",
+        "Preeti",
+        "Neetish",
+        "Mohan"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_003",
+    "name": "Sarah's",
+    "properties": {
+      "place_type": "eatery",
+      "notable_offerings": [
+        "chaat",
+        "poha",
+        "jalebi"
+      ]
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_004",
+    "name": "Home",
+    "properties": {
+      "place_type": "residence",
+      "atmosphere": "relaxed",
+      "narrative_function": "place of rest and family discussion"
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_plc_005",
+    "name": "Bangalore",
+    "properties": {
+      "place_type": "city",
+      "narrative_function": "potential holiday destination"
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_evt_001",
+    "name": "Family Outing",
+    "properties": {
+      "date_or_time": "April 19, 2026",
+      "participants": [
+        "Diarist",
+        "Preeti",
+        "Neetish",
+        "Mohan"
+      ],
+      "outcome": "positive",
+      "emotional_significance": "provided a break from office routine"
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_act_001",
+    "name": "Shopping",
+    "properties": {
+      "who_involved": [
+        "Diarist",
+        "Preeti"
+      ],
+      "purpose": "buying vegetables, clothes, and jewelry",
+      "emotional_valence": "enjoyed"
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_emo_001",
+    "name": "Contentment",
+    "properties": {
+      "experienced_by": "Diarist",
+      "trigger": "spending the day with family",
+      "intensity": "moderate"
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  },
+  {
+    "id": "48220d0cd19d4ca1a39ba83ed841663b_001_pln_001",
+    "name": "Bangalore Trip",
+    "properties": {
+      "timeframe": "holidays",
+      "who_involved": [
+        "Diarist",
+        "Preeti",
+        "children"
+      ],
+      "status": "tentative",
+      "motivation": "family enjoyment"
+    },
+    "chunk_id": "48220d0cd19d4ca1a39ba83ed841663b_001",
+    "doc_id": "48220d0cd19d4ca1a39ba83ed841663b"
+  }
+]

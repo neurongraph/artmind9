@@ -1,0 +1,2488 @@
+{
+  "embedding": [
+    -0.027276019,
+    0.05074595,
+    -0.16234174,
+    -0.0072972905,
+    0.023419302,
+    -0.011619349,
+    0.026683405,
+    -0.02373848,
+    -0.0045959563,
+    -0.056037866,
+    -0.04436419,
+    0.040372174,
+    0.05355372,
+    0.072631724,
+    0.03199075,
+    -0.037191458,
+    0.043078095,
+    -0.044081006,
+    -0.124369286,
+    -0.0082034515,
+    -0.07580435,
+    0.015218069,
+    -0.03310425,
+    -2.1571504e-05,
+    0.073705465,
+    0.047653023,
+    -0.038098108,
+    -0.00080932095,
+    0.001233874,
+    -0.0015216972,
+    0.042505275,
+    -0.067774646,
+    0.015497312,
+    -0.030161116,
+    -0.030689701,
+    0.0197055,
+    0.03283789,
+    0.02214671,
+    -0.00082501676,
+    -0.10138877,
+    0.061588366,
+    0.010817092,
+    0.028035767,
+    -0.025952728,
+    -0.008135879,
+    -0.036890052,
+    0.024309674,
+    -0.015717087,
+    0.04522624,
+    0.022690946,
+    -0.017871374,
+    -0.024065098,
+    -0.029751766,
+    -0.024687668,
+    0.049272865,
+    0.040316842,
+    0.020714914,
+    -0.038113352,
+    0.011927425,
+    0.007981254,
+    0.082540296,
+    0.018280601,
+    -0.01266108,
+    0.06853217,
+    0.019988395,
+    -0.04162182,
+    -0.06207878,
+    0.050464157,
+    -0.02050075,
+    -0.025748407,
+    0.068657115,
+    -0.06595644,
+    0.00011112164,
+    0.023004163,
+    -0.031232607,
+    0.00043061975,
+    0.057939027,
+    -0.08187424,
+    -0.03227652,
+    0.00035304998,
+    0.017853847,
+    0.0033022296,
+    0.04529769,
+    -0.07228364,
+    0.03691531,
+    -0.01732177,
+    -0.016565314,
+    0.016740818,
+    -0.04089428,
+    0.07156507,
+    0.01580921,
+    0.036194496,
+    -0.0048620207,
+    0.008335771,
+    -0.017753297,
+    0.017131824,
+    0.014192325,
+    0.026461836,
+    -0.05395822,
+    -0.02807783,
+    -0.01567507,
+    -0.07213865,
+    0.029315107,
+    -0.042951103,
+    0.043499954,
+    0.019744288,
+    0.0014897826,
+    0.0058259442,
+    -0.049882837,
+    -0.030256663,
+    -0.039377116,
+    0.03409179,
+    -0.053984463,
+    -0.053010117,
+    0.03932816,
+    0.013070306,
+    0.06266825,
+    -0.052250862,
+    0.062260088,
+    -0.00043706349,
+    -0.036895644,
+    0.0067089186,
+    0.019031586,
+    0.04798162,
+    0.042013723,
+    0.031066982,
+    -0.052995503,
+    -0.014035187,
+    0.027298385,
+    -0.03743536,
+    -0.037122738,
+    0.0054586586,
+    -0.039995044,
+    0.03250496,
+    0.023828449,
+    0.01522121,
+    0.01260787,
+    -0.012873716,
+    0.030101625,
+    -0.0072726035,
+    0.073573895,
+    0.025123695,
+    -0.032081477,
+    -0.0503246,
+    0.014402171,
+    -0.03233666,
+    0.030413365,
+    -0.018035408,
+    -0.03768728,
+    0.053853657,
+    0.025317555,
+    -0.006491227,
+    -0.032991923,
+    0.04479188,
+    0.014309597,
+    -0.039390292,
+    -0.01440095,
+    0.056536876,
+    0.0668311,
+    0.031660277,
+    0.028875018,
+    0.045334913,
+    -0.070170246,
+    0.013013713,
+    -0.01266647,
+    -0.039048277,
+    -0.008701596,
+    0.030313235,
+    0.05162431,
+    0.03450441,
+    -0.032735042,
+    -0.03922802,
+    -0.012810576,
+    -0.06103565,
+    -0.02151645,
+    -0.001534118,
+    0.047387082,
+    -0.019714966,
+    -0.00034522155,
+    -0.031398762,
+    0.066545315,
+    -0.034698404,
+    0.052762132,
+    -0.0014118465,
+    0.035281297,
+    0.020842124,
+    0.005608854,
+    -0.0024174557,
+    -0.063066654,
+    -0.045384932,
+    -0.048958026,
+    0.012362448,
+    -0.04648593,
+    -0.031450406,
+    -0.07174833,
+    -0.03610104,
+    0.023098916,
+    0.014986864,
+    -0.0049422127,
+    0.031055275,
+    -0.00823102,
+    -0.03580542,
+    -0.022803104,
+    -0.0010718673,
+    -0.015795844,
+    0.04703656,
+    0.0003222568,
+    -0.046283398,
+    -0.0458577,
+    -0.0071444935,
+    0.026586168,
+    -0.045364484,
+    -0.0077443477,
+    0.01831234,
+    0.026170328,
+    0.02344463,
+    0.040673308,
+    -0.0133624105,
+    -0.020892663,
+    0.038729973,
+    0.0515954,
+    0.008874241,
+    -0.015920173,
+    -0.028006822,
+    0.019014437,
+    0.02523026,
+    0.0039790706,
+    -0.058495473,
+    -0.07877271,
+    0.0029908519,
+    -0.019157317,
+    -0.06439009,
+    0.027176356,
+    0.026138727,
+    0.025961133,
+    0.024272949,
+    0.00053223193,
+    0.04962849,
+    0.005315181,
+    -0.039192103,
+    0.016238002,
+    0.027725464,
+    0.02959832,
+    0.012756013,
+    -0.02545844,
+    0.027660381,
+    0.002176398,
+    -0.05013954,
+    0.01695652,
+    0.02829156,
+    0.04523874,
+    -0.009859303,
+    0.063255176,
+    0.020690102,
+    0.008759811,
+    0.011855132,
+    -0.004275929,
+    0.0033290514,
+    0.009115006,
+    -0.02692872,
+    0.056300864,
+    -0.03774612,
+    -0.01570387,
+    0.0016250808,
+    -0.038109023,
+    -0.033009592,
+    -0.013224138,
+    -0.031368874,
+    -0.011204432,
+    -0.10479871,
+    0.039743617,
+    0.024055598,
+    0.043642264,
+    -0.003103102,
+    -0.0044350196,
+    -0.013650852,
+    0.057024866,
+    -0.026053205,
+    -0.024266904,
+    0.062873065,
+    -0.029270759,
+    -0.0044734315,
+    -0.016404415,
+    -0.0032846415,
+    0.031126684,
+    0.0029052154,
+    0.032019753,
+    0.007595251,
+    0.033959877,
+    -0.03301855,
+    0.021832278,
+    0.043372028,
+    -0.012998843,
+    0.09086549,
+    0.014952596,
+    0.050066885,
+    0.06105611,
+    -0.03677104,
+    -0.020474145,
+    -0.048702873,
+    0.040392615,
+    0.041984934,
+    0.012214064,
+    0.04238288,
+    -0.019883612,
+    -0.01959524,
+    0.03373974,
+    0.0064504123,
+    -0.0029860428,
+    0.027889188,
+    -0.066125505,
+    -0.019893177,
+    -0.034234025,
+    0.011586153,
+    -0.031133253,
+    0.021231031,
+    0.006091445,
+    0.016273808,
+    0.042441826,
+    -0.0018505473,
+    -0.050234683,
+    -0.017410584,
+    -0.0122508565,
+    -0.04711317,
+    -0.04710074,
+    0.07007301,
+    -0.057878975,
+    0.04510001,
+    0.03515441,
+    -0.0234567,
+    -0.026713109,
+    0.024770455,
+    0.0066301124,
+    -0.049432784,
+    -0.015243793,
+    0.03390579,
+    6.989332e-05,
+    0.0072568664,
+    -0.012597696,
+    0.020663746,
+    -0.0065537263,
+    0.007125086,
+    0.03570604,
+    -0.079244524,
+    0.021948555,
+    -0.02807165,
+    -0.007358806,
+    -0.02360659,
+    0.055158477,
+    -0.0008374294,
+    0.03057488,
+    0.0015203088,
+    -0.03698687,
+    -0.008552671,
+    0.022702202,
+    0.0077999867,
+    0.0019482978,
+    0.028063465,
+    0.006915647,
+    -0.035344232,
+    0.02979533,
+    -0.018530149,
+    -0.003893617,
+    -0.017504845,
+    -0.008050151,
+    0.003610529,
+    0.08235788,
+    0.02500483,
+    0.0629321,
+    0.020877989,
+    -0.0048425146,
+    -0.029437324,
+    -0.020322992,
+    0.024351861,
+    -0.010475138,
+    0.036580745,
+    -0.047931395,
+    -0.03258347,
+    -0.041195016,
+    0.015240854,
+    0.0183312,
+    0.005292457,
+    0.0075993193,
+    0.03307222,
+    0.010392889,
+    0.046092995,
+    0.025682187,
+    0.011841699,
+    -0.027859636,
+    0.032228924,
+    0.02607811,
+    -0.026281558,
+    -0.008432116,
+    -0.0031572937,
+    0.036489863,
+    -0.016583806,
+    0.054142594,
+    -0.020530501,
+    -0.06563438,
+    0.042262767,
+    -0.050045166,
+    -0.051676493,
+    0.0026925656,
+    -0.016040046,
+    -0.02649508,
+    0.053174865,
+    -0.04093098,
+    -0.02626325,
+    0.070848666,
+    -0.024414029,
+    0.03517694,
+    0.049745344,
+    -0.023156594,
+    -0.0745763,
+    0.0074307793,
+    0.021285431,
+    0.047424935,
+    -0.0078998925,
+    0.004948576,
+    -0.018434243,
+    -0.005136216,
+    0.042867295,
+    -0.029356819,
+    0.04226185,
+    0.018535832,
+    0.036225617,
+    0.028101608,
+    0.024526227,
+    0.009609462,
+    -0.03388354,
+    0.021016262,
+    0.014259354,
+    0.025076674,
+    0.0069639594,
+    0.0069368673,
+    0.016167495,
+    0.0035012993,
+    0.05282276,
+    0.035187323,
+    0.024278838,
+    0.037182085,
+    0.004008955,
+    -0.016815126,
+    -0.013160513,
+    0.017933343,
+    0.04274303,
+    0.05509287,
+    -0.04239146,
+    -0.018872699,
+    0.024834646,
+    0.022650218,
+    0.020223405,
+    0.029658003,
+    0.056191325,
+    0.059998766,
+    -0.056794737,
+    -0.03754509,
+    0.014328838,
+    -0.029057533,
+    0.06145776,
+    0.045961734,
+    -0.005695233,
+    -0.028453236,
+    -0.0005816249,
+    -0.019418754,
+    -0.018462498,
+    -0.0148248365,
+    -0.0048761587,
+    0.031683736,
+    0.06760519,
+    -0.025442423,
+    0.02740264,
+    0.040104087,
+    -0.04747939,
+    -0.013607795,
+    0.017320603,
+    -0.035953354,
+    0.033442643,
+    -0.002217054,
+    0.12054678,
+    0.056359272,
+    0.0025376643,
+    -0.018063469,
+    -0.058323294,
+    0.0025869063,
+    0.0072533404,
+    0.0016260443,
+    -0.04384121,
+    0.005513355,
+    0.0128088165,
+    -0.00353861,
+    -0.049124297,
+    0.010406303,
+    -0.005582687,
+    0.046148233,
+    -0.022846982,
+    -0.022208594,
+    0.04483765,
+    0.04495444,
+    0.023148164,
+    0.018719845,
+    0.0050667073,
+    -0.02055641,
+    0.0011183384,
+    0.037316572,
+    -0.045358133,
+    -0.007346165,
+    -0.077181704,
+    -0.065283835,
+    -0.00024987131,
+    -0.054497268,
+    0.028754057,
+    -0.0055532195,
+    0.026158439,
+    0.07966292,
+    -0.022460585,
+    0.020216817,
+    0.027664134,
+    0.011178596,
+    0.07666515,
+    0.00145585,
+    -0.049511053,
+    0.030495835,
+    -0.020219557,
+    -0.02055392,
+    0.037633426,
+    -0.007808672,
+    -0.066403575,
+    0.07485732,
+    -0.009066993,
+    -0.038370397,
+    0.03660995,
+    -0.058840618,
+    -0.024694279,
+    0.01188578,
+    -0.008151595,
+    -0.010969942,
+    0.0034049724,
+    0.018881496,
+    0.04805793,
+    -0.026125738,
+    0.016547602,
+    -0.0022384175,
+    -0.04722085,
+    0.013376863,
+    0.00857272,
+    -0.053365473,
+    -0.024565669,
+    -0.01722409,
+    0.055269618,
+    0.015084762,
+    -0.04977359,
+    -0.008842433,
+    -0.023862178,
+    -0.019831205,
+    -0.025381735,
+    -0.014853909,
+    -0.05261712,
+    -0.006985871,
+    -0.0024189304,
+    0.0023912524,
+    -0.007201292,
+    0.038991578,
+    -0.016047997,
+    0.0008209597,
+    -0.029922135,
+    0.020601,
+    -0.03953459,
+    0.009769452,
+    -0.01963701,
+    0.031398874,
+    -0.08413958,
+    -0.0057155304,
+    -0.025424585,
+    0.003778444,
+    0.015717886,
+    0.01875424,
+    0.018337134,
+    -0.07143092,
+    -0.021369375,
+    0.0006034517,
+    -0.050611373,
+    0.015104625,
+    -0.013908439,
+    -0.026442895,
+    -0.02490496,
+    -0.04566376,
+    -0.05002116,
+    0.032056443,
+    -0.029230699,
+    0.0038756654,
+    -0.014836705,
+    -0.008644414,
+    0.015467875,
+    -0.015328202,
+    -0.021618795,
+    -0.005121259,
+    -0.018123442,
+    -0.07446388,
+    -0.016376618,
+    0.040464625,
+    0.039082132,
+    0.026148297,
+    -0.009986621,
+    -0.0075452514,
+    0.010621664,
+    -0.011684723,
+    0.010405861,
+    -0.0026986555,
+    0.008000282,
+    0.023540072,
+    0.01320707,
+    -0.0051619927,
+    0.030348623,
+    -0.0020707177,
+    -0.0045637246,
+    0.09004691,
+    -0.0138054695,
+    -0.0035192624,
+    -0.032745615,
+    -0.028482765,
+    -0.08185092,
+    0.05340142,
+    -0.027081791,
+    0.023194281,
+    -0.007765375,
+    -0.053750798,
+    -0.039634123,
+    -0.01122954,
+    0.0806355,
+    -0.065140605,
+    -0.01851274,
+    -0.09374237,
+    0.028549295,
+    -0.06327011,
+    0.023081431,
+    -0.019956077,
+    0.03237115,
+    -0.029904798,
+    0.019144924,
+    0.061340027,
+    -0.02653534,
+    0.011244411,
+    0.0391386,
+    0.0785098,
+    -0.040732205,
+    0.016305238,
+    0.04044081,
+    0.07768563,
+    -0.036328457,
+    0.10891775,
+    0.05434897,
+    0.018687055,
+    -0.015040751,
+    -0.0087030465,
+    -0.017810706,
+    0.008945902,
+    -0.053604577,
+    -0.023383234,
+    -0.025419949,
+    0.011214569,
+    -0.013018233,
+    -0.025943313,
+    0.0075728945,
+    0.021266153,
+    0.0061448277,
+    0.049983907,
+    0.033276167,
+    -0.050336096,
+    -0.009791187,
+    0.042741917,
+    0.016241118,
+    -0.015426633,
+    -0.008629413,
+    -0.032224234,
+    -0.0010217454,
+    0.04668474,
+    0.05513685,
+    0.044705532,
+    -0.02845577,
+    -0.0007764759,
+    0.0008810604,
+    0.016657734,
+    0.008789013,
+    0.017817825,
+    -0.010392451,
+    0.023516726,
+    -9.844148e-05,
+    -0.018472932,
+    -0.006024702,
+    0.010221156,
+    -0.028709056,
+    -0.02947522,
+    -0.057688925,
+    -0.0039055343,
+    -0.005294684,
+    0.019992614,
+    -0.00087222905,
+    -0.010255489,
+    -0.0044497186,
+    -0.031968255,
+    -0.0038527735,
+    -0.021727303,
+    0.038851157,
+    -0.037686765,
+    -0.016042696,
+    0.005318388,
+    -0.020741427,
+    0.023287041,
+    0.01392252,
+    0.021675825,
+    0.019173043,
+    -0.013977443,
+    0.02694525,
+    0.044286795,
+    0.018478977,
+    -0.041555658,
+    -0.061641805,
+    -0.021863345,
+    0.043173935,
+    0.07116251,
+    -0.03091785,
+    -0.10044723,
+    0.014639313,
+    -0.0120312,
+    -0.010978809,
+    0.031525515,
+    -0.037826106,
+    0.008058421,
+    -0.036254507,
+    0.007199605,
+    -0.019410329,
+    -0.05054873,
+    -0.00066669524,
+    -0.01458988,
+    0.030623857,
+    -0.039009776,
+    -0.028845947,
+    -0.037340175,
+    -0.02613648,
+    0.013734627,
+    0.06438377,
+    0.018510127,
+    0.04205303,
+    -0.00014838148,
+    -0.010483809,
+    -0.042032108,
+    0.038305923,
+    0.017712984,
+    -0.021088304,
+    -0.030702963,
+    0.0037135505,
+    -0.02507663,
+    0.037462346,
+    0.012526283,
+    0.015559412,
+    -0.02431856,
+    0.03322041,
+    0.055686194,
+    -0.038403,
+    -0.0024449797,
+    -0.0034898743,
+    0.06765788,
+    0.0069922465,
+    -0.02443694,
+    -0.052569225,
+    -0.030405685,
+    -0.08767601
+  ],
+  "chunk_seq": 1,
+  "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+  "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+  "text": "# April 21, 2026  \n- Preeti's first yoga class today. She came back feeling refreshed.\n- Neetish opened up about her exam stress. Feeling better that she talked.\n- Had a call from Mohan's school about the fight with Aryan. Need to meet the principal.\n- Office: submitted the project proposal. Waiting for client approval.\n- Lunch: went to Rajkumar (a popular dhaba near Vijay Nagar). Had the famous poha.\n- Browny pulled a trick today. He escaped from the house when the gate was open.\n- Found him at the neighbor's house eating их food. Naughty boy.\n- Evening: family dinner at home. Simple but peaceful.\n- Watched the kids play with Browny in the compound.\n- Bedtime stories. Mohan requested two tonight.",
+  "name": "Chunk 1/1",
+  "domain": "personal_journal",
+  "raw_entities": [
+    {
+      "id": "per_001",
+      "name": "Preeti",
+      "aliases": [
+        "she"
+      ],
+      "entity_class": "PERSON",
+      "type": "family",
+      "description": "A family member who attended her first yoga class today and returned feeling refreshed.",
+      "context": [
+        "Preeti's first yoga class today",
+        "She came back feeling refreshed"
+      ]
+    },
+    {
+      "id": "per_002",
+      "name": "Neetish",
+      "aliases": [
+        "she"
+      ],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "A child who is experiencing stress regarding her exams and shared these feelings with the diarist.",
+      "context": [
+        "Neetish opened up about her exam stress",
+        "Feeling better that she talked"
+      ]
+    },
+    {
+      "id": "per_003",
+      "name": "Mohan",
+      "aliases": [
+        "he"
+      ],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "A child who was involved in a fight with Aryan at school and requested extra bedtime stories.",
+      "context": [
+        "call from Mohan's school about the fight with Aryan",
+        "Mohan requested two tonight"
+      ]
+    },
+    {
+      "id": "per_004",
+      "name": "Aryan",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "acquaintance",
+      "description": "A peer of Mohan's who was involved in a fight with him at school.",
+      "context": [
+        "the fight with Aryan"
+      ]
+    },
+    {
+      "id": "per_005",
+      "name": "The Principal",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "professional",
+      "description": "The head of Mohan's school whom the diarist needs to meet following a student conflict.",
+      "context": [
+        "Need to meet the principal"
+      ]
+    },
+    {
+      "id": "per_006",
+      "name": "Browny",
+      "aliases": [
+        "him",
+        "Naughty boy"
+      ],
+      "entity_class": "PERSON",
+      "type": "pet",
+      "description": "The family pet who escaped the house and was found eating food at a neighbor's home.",
+      "context": [
+        "Browny pulled a trick today",
+        "He escaped from the house when the gate was open",
+        "Found him at the neighbor's house eating их food",
+        "Naughty boy"
+      ]
+    },
+    {
+      "id": "per_007",
+      "name": "Self",
+      "aliases": [
+        "I"
+      ],
+      "entity_class": "PERSON",
+      "type": "self",
+      "description": "The diarist who managed work submissions, handled a school incident, and spent the evening with family.",
+      "context": [
+        "submitted the project proposal",
+        "Feeling better that she talked"
+      ]
+    },
+    {
+      "id": "plc_001",
+      "name": "Mohan's School",
+      "aliases": [
+        "school"
+      ],
+      "entity_class": "PLACE",
+      "type": "school",
+      "description": "The educational institution where Mohan is a student and where a fight occurred.",
+      "context": [
+        "call from Mohan's school"
+      ]
+    },
+    {
+      "id": "plc_002",
+      "name": "Office",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "workplace",
+      "description": "The diarist's place of employment where a project proposal was submitted.",
+      "context": [
+        "Office: submitted the project proposal"
+      ]
+    },
+    {
+      "id": "plc_003",
+      "name": "Rajkumar",
+      "aliases": [
+        "popular dhaba"
+      ],
+      "entity_class": "PLACE",
+      "type": "restaurant",
+      "description": "A popular dhaba located near Vijay Nagar where the diarist had poha for lunch.",
+      "context": [
+        "went to Rajkumar (a popular dhaba near Vijay Nagar)",
+        "Had the famous poha"
+      ]
+    },
+    {
+      "id": "plc_004",
+      "name": "Vijay Nagar",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "neighbourhood",
+      "description": "The area where the Rajkumar dhaba is located.",
+      "context": [
+        "near Vijay Nagar"
+      ]
+    },
+    {
+      "id": "plc_005",
+      "name": "Home",
+      "aliases": [
+        "the house"
+      ],
+      "entity_class": "PLACE",
+      "type": "home",
+      "description": "The diarist's residence where the family dinner took place and where Browny escaped from.",
+      "context": [
+        "escaped from the house",
+        "family dinner at home"
+      ]
+    },
+    {
+      "id": "plc_006",
+      "name": "Neighbor's House",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "home",
+      "description": "The residence of a neighbor where Browny was found eating food.",
+      "context": [
+        "Found him at the neighbor's house"
+      ]
+    },
+    {
+      "id": "plc_007",
+      "name": "Compound",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "home",
+      "description": "The outdoor area of the home where the children played with the pet.",
+      "context": [
+        "play with Browny in the compound"
+      ]
+    },
+    {
+      "id": "evt_001",
+      "name": "Preeti's First Yoga Class",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "milestone",
+      "description": "The first time Preeti attended a yoga class, leaving her feeling refreshed.",
+      "context": [
+        "Preeti's first yoga class today"
+      ]
+    },
+    {
+      "id": "evt_002",
+      "name": "Neetish's Disclosure",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "conversation",
+      "description": "A significant moment where Neetish opened up about her stress regarding exams.",
+      "context": [
+        "Neetish opened up about her exam stress"
+      ]
+    },
+    {
+      "id": "evt_003",
+      "name": "Mohan's School Fight",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "conflict",
+      "description": "An altercation between Mohan and Aryan at school that required a call to the parents.",
+      "context": [
+        "the fight with Aryan"
+      ]
+    },
+    {
+      "id": "evt_004",
+      "name": "Browny's Escape",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "routine_disruption",
+      "description": "An incident where the pet dog escaped through an open gate and went to a neighbor's house.",
+      "context": [
+        "Browny pulled a trick today",
+        "He escaped from the house when the gate was open"
+      ]
+    },
+    {
+      "id": "evt_005",
+      "name": "Family Dinner",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "social_gathering",
+      "description": "A simple and peaceful evening meal shared by the family at home.",
+      "context": [
+        "Evening: family dinner at home",
+        "Simple but peaceful"
+      ]
+    },
+    {
+      "id": "act_001",
+      "name": "Yoga",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "exercise",
+      "description": "A physical activity started by Preeti today.",
+      "context": [
+        "first yoga class today"
+      ]
+    },
+    {
+      "id": "act_002",
+      "name": "Work",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "work",
+      "description": "Professional tasks including the submission of a project proposal.",
+      "context": [
+        "submitted the project proposal",
+        "Waiting for client approval"
+      ]
+    },
+    {
+      "id": "act_003",
+      "name": "Bedtime Stories",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "care",
+      "description": "A nightly routine of reading stories to the children, with Mohan requesting two stories.",
+      "context": [
+        "Bedtime stories",
+        "Mohan requested two tonight"
+      ]
+    },
+    {
+      "id": "emo_001",
+      "name": "Refreshed",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "contentment",
+      "description": "The feeling Preeti experienced after her first yoga class.",
+      "context": [
+        "came back feeling refreshed"
+      ]
+    },
+    {
+      "id": "emo_002",
+      "name": "Exam Stress",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "anxiety",
+      "description": "The pressure and worry Neetish felt regarding her upcoming exams.",
+      "context": [
+        "opened up about her exam stress"
+      ]
+    },
+    {
+      "id": "emo_003",
+      "name": "Peaceful",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "contentment",
+      "description": "The mood of the family dinner in the evening.",
+      "context": [
+        "Simple but peaceful"
+      ]
+    },
+    {
+      "id": "pla_001",
+      "name": "Principal Meeting",
+      "aliases": [],
+      "entity_class": "PLAN",
+      "type": "errand",
+      "description": "A necessary future meeting with the school principal to discuss Mohan's fight.",
+      "context": [
+        "Need to meet the principal"
+      ]
+    }
+  ],
+  "id_map": {
+    "per_001": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+    "per_002": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+    "per_003": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+    "per_004": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+    "per_005": "a95e2a21830b44978e613bb3e21f8e4a_001_per_005",
+    "per_006": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+    "per_007": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+    "plc_001": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_001",
+    "plc_002": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_002",
+    "plc_003": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+    "plc_004": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_004",
+    "plc_005": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+    "plc_006": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_006",
+    "plc_007": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_007",
+    "evt_001": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_001",
+    "evt_002": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_002",
+    "evt_003": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+    "evt_004": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_004",
+    "evt_005": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+    "act_001": "a95e2a21830b44978e613bb3e21f8e4a_001_act_001",
+    "act_002": "a95e2a21830b44978e613bb3e21f8e4a_001_act_002",
+    "act_003": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+    "emo_001": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_001",
+    "emo_002": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_002",
+    "emo_003": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_003",
+    "pla_001": "a95e2a21830b44978e613bb3e21f8e4a_001_pla_001"
+  },
+  "entities": [
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+      "name": "Preeti",
+      "aliases": [
+        "she"
+      ],
+      "entity_class": "PERSON",
+      "type": "family",
+      "description": "A family member who attended her first yoga class today and returned feeling refreshed.",
+      "context": [
+        "Preeti's first yoga class today",
+        "She came back feeling refreshed"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+      "name": "Neetish",
+      "aliases": [
+        "she"
+      ],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "A child who is experiencing stress regarding her exams and shared these feelings with the diarist.",
+      "context": [
+        "Neetish opened up about her exam stress",
+        "Feeling better that she talked"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+      "name": "Mohan",
+      "aliases": [
+        "he"
+      ],
+      "entity_class": "PERSON",
+      "type": "child",
+      "description": "A child who was involved in a fight with Aryan at school and requested extra bedtime stories.",
+      "context": [
+        "call from Mohan's school about the fight with Aryan",
+        "Mohan requested two tonight"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+      "name": "Aryan",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "acquaintance",
+      "description": "A peer of Mohan's who was involved in a fight with him at school.",
+      "context": [
+        "the fight with Aryan"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_005",
+      "name": "The Principal",
+      "aliases": [],
+      "entity_class": "PERSON",
+      "type": "professional",
+      "description": "The head of Mohan's school whom the diarist needs to meet following a student conflict.",
+      "context": [
+        "Need to meet the principal"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "name": "Browny",
+      "aliases": [
+        "him",
+        "Naughty boy"
+      ],
+      "entity_class": "PERSON",
+      "type": "pet",
+      "description": "The family pet who escaped the house and was found eating food at a neighbor's home.",
+      "context": [
+        "Browny pulled a trick today",
+        "He escaped from the house when the gate was open",
+        "Found him at the neighbor's house eating их food",
+        "Naughty boy"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "name": "Self",
+      "aliases": [
+        "I"
+      ],
+      "entity_class": "PERSON",
+      "type": "self",
+      "description": "The diarist who managed work submissions, handled a school incident, and spent the evening with family.",
+      "context": [
+        "submitted the project proposal",
+        "Feeling better that she talked"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_001",
+      "name": "Mohan's School",
+      "aliases": [
+        "school"
+      ],
+      "entity_class": "PLACE",
+      "type": "school",
+      "description": "The educational institution where Mohan is a student and where a fight occurred.",
+      "context": [
+        "call from Mohan's school"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_002",
+      "name": "Office",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "workplace",
+      "description": "The diarist's place of employment where a project proposal was submitted.",
+      "context": [
+        "Office: submitted the project proposal"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+      "name": "Rajkumar",
+      "aliases": [
+        "popular dhaba"
+      ],
+      "entity_class": "PLACE",
+      "type": "restaurant",
+      "description": "A popular dhaba located near Vijay Nagar where the diarist had poha for lunch.",
+      "context": [
+        "went to Rajkumar (a popular dhaba near Vijay Nagar)",
+        "Had the famous poha"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_004",
+      "name": "Vijay Nagar",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "neighbourhood",
+      "description": "The area where the Rajkumar dhaba is located.",
+      "context": [
+        "near Vijay Nagar"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+      "name": "Home",
+      "aliases": [
+        "the house"
+      ],
+      "entity_class": "PLACE",
+      "type": "home",
+      "description": "The diarist's residence where the family dinner took place and where Browny escaped from.",
+      "context": [
+        "escaped from the house",
+        "family dinner at home"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_006",
+      "name": "Neighbor's House",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "home",
+      "description": "The residence of a neighbor where Browny was found eating food.",
+      "context": [
+        "Found him at the neighbor's house"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_007",
+      "name": "Compound",
+      "aliases": [],
+      "entity_class": "PLACE",
+      "type": "home",
+      "description": "The outdoor area of the home where the children played with the pet.",
+      "context": [
+        "play with Browny in the compound"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_001",
+      "name": "Preeti's First Yoga Class",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "milestone",
+      "description": "The first time Preeti attended a yoga class, leaving her feeling refreshed.",
+      "context": [
+        "Preeti's first yoga class today"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_002",
+      "name": "Neetish's Disclosure",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "conversation",
+      "description": "A significant moment where Neetish opened up about her stress regarding exams.",
+      "context": [
+        "Neetish opened up about her exam stress"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+      "name": "Mohan's School Fight",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "conflict",
+      "description": "An altercation between Mohan and Aryan at school that required a call to the parents.",
+      "context": [
+        "the fight with Aryan"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_004",
+      "name": "Browny's Escape",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "routine_disruption",
+      "description": "An incident where the pet dog escaped through an open gate and went to a neighbor's house.",
+      "context": [
+        "Browny pulled a trick today",
+        "He escaped from the house when the gate was open"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+      "name": "Family Dinner",
+      "aliases": [],
+      "entity_class": "EVENT",
+      "type": "social_gathering",
+      "description": "A simple and peaceful evening meal shared by the family at home.",
+      "context": [
+        "Evening: family dinner at home",
+        "Simple but peaceful"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_001",
+      "name": "Yoga",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "exercise",
+      "description": "A physical activity started by Preeti today.",
+      "context": [
+        "first yoga class today"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_002",
+      "name": "Work",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "work",
+      "description": "Professional tasks including the submission of a project proposal.",
+      "context": [
+        "submitted the project proposal",
+        "Waiting for client approval"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+      "name": "Bedtime Stories",
+      "aliases": [],
+      "entity_class": "ACTIVITY",
+      "type": "care",
+      "description": "A nightly routine of reading stories to the children, with Mohan requesting two stories.",
+      "context": [
+        "Bedtime stories",
+        "Mohan requested two tonight"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_001",
+      "name": "Refreshed",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "contentment",
+      "description": "The feeling Preeti experienced after her first yoga class.",
+      "context": [
+        "came back feeling refreshed"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_002",
+      "name": "Exam Stress",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "anxiety",
+      "description": "The pressure and worry Neetish felt regarding her upcoming exams.",
+      "context": [
+        "opened up about her exam stress"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_003",
+      "name": "Peaceful",
+      "aliases": [],
+      "entity_class": "EMOTION",
+      "type": "contentment",
+      "description": "The mood of the family dinner in the evening.",
+      "context": [
+        "Simple but peaceful"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_pla_001",
+      "name": "Principal Meeting",
+      "aliases": [],
+      "entity_class": "PLAN",
+      "type": "errand",
+      "description": "A necessary future meeting with the school principal to discuss Mohan's fight.",
+      "context": [
+        "Need to meet the principal"
+      ],
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    }
+  ],
+  "properties": [
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+      "name": "Preeti",
+      "properties": {
+        "relationship_to_diarist": "family member",
+        "current_state": "feeling refreshed"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+      "name": "Neetish",
+      "properties": {
+        "relationship_to_diarist": "family member",
+        "current_state": "experiencing exam stress",
+        "personality_traits": [
+          "open"
+        ]
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+      "name": "Mohan",
+      "properties": {
+        "relationship_to_diarist": "son",
+        "recurring_behaviours": [
+          "requesting bedtime stories"
+        ],
+        "current_state": "involved in a school fight"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+      "name": "Aryan",
+      "properties": {
+        "relationship_to_diarist": "peer of son",
+        "notable_characteristics": [
+          "involved in a fight with Mohan"
+        ]
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_005",
+      "name": "The Principal",
+      "properties": {
+        "occupation": "School Principal",
+        "narrative_function": "authority figure to be met regarding Mohan's behavior"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "name": "Browny",
+      "properties": {
+        "species": "dog",
+        "personality_traits": [
+          "naughty"
+        ],
+        "recurring_behaviours": [
+          "escaping the house",
+          "eating others' food"
+        ]
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "name": "Self",
+      "properties": {
+        "current_state": "working on project proposals"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_001",
+      "name": "Mohan's School",
+      "properties": {
+        "place_type": "school",
+        "narrative_function": "site of a conflict between students"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_002",
+      "name": "Office",
+      "properties": {
+        "place_type": "workplace",
+        "narrative_function": "place of project submission"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+      "name": "Rajkumar",
+      "properties": {
+        "place_type": "dhaba",
+        "location": "near Vijay Nagar",
+        "atmosphere": "popular"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_004",
+      "name": "Vijay Nagar",
+      "properties": {
+        "place_type": "neighborhood/area"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+      "name": "Home",
+      "properties": {
+        "place_type": "residence",
+        "atmosphere": "peaceful"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_006",
+      "name": "Neighbor's House",
+      "properties": {
+        "place_type": "residence",
+        "narrative_function": "where Browny was found"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_007",
+      "name": "Compound",
+      "properties": {
+        "place_type": "residential outdoor area",
+        "who_associated_with": [
+          "kids",
+          "Browny"
+        ]
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_001",
+      "name": "Preeti's First Yoga Class",
+      "properties": {
+        "date_or_time": "April 21, 2026",
+        "participants": [
+          "Preeti"
+        ],
+        "outcome": "positive",
+        "emotional_significance": "left her feeling refreshed"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_002",
+      "name": "Neetish's Disclosure",
+      "properties": {
+        "participants": [
+          "Neetish",
+          "Self"
+        ],
+        "cause": "exam stress",
+        "outcome": "Neetish feeling better"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+      "name": "Mohan's School Fight",
+      "properties": {
+        "participants": [
+          "Mohan",
+          "Aryan"
+        ],
+        "outcome": "negative",
+        "emotional_significance": "necessitated a meeting with the principal"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_004",
+      "name": "Browny's Escape",
+      "properties": {
+        "cause": "gate was open",
+        "outcome": "Browny found at neighbor's house eating food"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+      "name": "Family Dinner",
+      "properties": {
+        "date_or_time": "Evening",
+        "participants": [
+          "Family"
+        ],
+        "outcome": "peaceful"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_001",
+      "name": "Yoga",
+      "properties": {
+        "who_involved": [
+          "Preeti"
+        ],
+        "frequency": "first-time",
+        "emotional_valence": "refreshed"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_002",
+      "name": "Work",
+      "properties": {
+        "who_involved": [
+          "Self"
+        ],
+        "purpose": "project proposal submission",
+        "outcome_or_result": "waiting for client approval"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+      "name": "Bedtime Stories",
+      "properties": {
+        "who_involved": [
+          "Self",
+          "Mohan"
+        ],
+        "frequency": "routine",
+        "emotional_valence": "positive"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_001",
+      "name": "Refreshed",
+      "properties": {
+        "experienced_by": "Preeti",
+        "trigger": "first yoga class",
+        "intensity": "moderate"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_002",
+      "name": "Exam Stress",
+      "properties": {
+        "experienced_by": "Neetish",
+        "resolution": "talking about it",
+        "intensity": "moderate"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_003",
+      "name": "Peaceful",
+      "properties": {
+        "experienced_by": "Self",
+        "trigger": "family dinner",
+        "duration": "evening"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "id": "a95e2a21830b44978e613bb3e21f8e4a_001_pla_001",
+      "name": "Principal Meeting",
+      "properties": {
+        "timeframe": "future",
+        "who_involved": [
+          "Self",
+          "The Principal"
+        ],
+        "motivation": "Mohan's fight with Aryan",
+        "status": "firm intention",
+        "urgency": "high"
+      },
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+      "source_name": "Preeti",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_001",
+      "target_name": "Preeti's First Yoga Class",
+      "rel_type": "participates_in",
+      "description": "Preeti attended her first yoga class",
+      "properties": {
+        "role": "participant",
+        "outcome": "success"
+      },
+      "context": "Preeti's first yoga class today.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+      "source_name": "Preeti",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_001",
+      "target_name": "Refreshed",
+      "rel_type": "experiences",
+      "description": "Preeti felt refreshed after her yoga class",
+      "properties": {
+        "intensity": "moderate"
+      },
+      "context": "She came back feeling refreshed.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+      "source_name": "Preeti",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_001",
+      "target_name": "Yoga",
+      "rel_type": "performs",
+      "description": "Preeti practiced yoga",
+      "properties": {
+        "frequency": "first time"
+      },
+      "context": "Preeti's first yoga class today.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+      "source_name": "Neetish",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_002",
+      "target_name": "Neetish's Disclosure",
+      "rel_type": "participates_in",
+      "description": "Neetish opened up about her stress",
+      "properties": {
+        "role": "subject",
+        "outcome": "feeling better"
+      },
+      "context": "Neetish opened up about her exam stress.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+      "source_name": "Neetish",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_002",
+      "target_name": "Exam Stress",
+      "rel_type": "experiences",
+      "description": "Neetish is experiencing stress due to exams",
+      "properties": {
+        "reason": "exams",
+        "duration": "ongoing"
+      },
+      "context": "Neetish opened up about her exam stress.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+      "source_name": "Mohan",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+      "target_name": "Mohan's School Fight",
+      "rel_type": "participates_in",
+      "description": "Mohan was involved in a fight at school",
+      "properties": {
+        "role": "participant",
+        "outcome": "disciplinary action"
+      },
+      "context": "call from Mohan's school about the fight with Aryan.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+      "source_name": "Mohan",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+      "target_name": "Aryan",
+      "rel_type": "conflicts_with",
+      "description": "Mohan had a fight with Aryan",
+      "properties": {
+        "nature": "physical/verbal fight",
+        "location": "school"
+      },
+      "context": "the fight with Aryan",
+      "bidirectional": true,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+      "source_name": "Mohan",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_001",
+      "target_name": "Mohan's School",
+      "rel_type": "studies_at",
+      "description": "Mohan attends this school",
+      "properties": {},
+      "context": "call from Mohan's school",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+      "source_name": "Mohan",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+      "target_name": "Bedtime Stories",
+      "rel_type": "performs",
+      "description": "Mohan requested bedtime stories",
+      "properties": {
+        "quantity": "two"
+      },
+      "context": "Bedtime stories. Mohan requested two tonight.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+      "source_name": "Aryan",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+      "target_name": "Mohan's School Fight",
+      "rel_type": "participates_in",
+      "description": "Aryan was involved in a fight with Mohan",
+      "properties": {
+        "role": "participant"
+      },
+      "context": "the fight with Aryan",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_pla_001",
+      "target_name": "Principal Meeting",
+      "rel_type": "has_plan",
+      "description": "Self needs to meet the principal regarding Mohan",
+      "properties": {
+        "urgency": "high",
+        "reason": "school fight"
+      },
+      "context": "Need to meet the principal.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_005",
+      "target_name": "The Principal",
+      "rel_type": "related_to",
+      "description": "Self is scheduled to meet the Principal",
+      "properties": {
+        "nature": "professional/disciplinary"
+      },
+      "context": "Need to meet the principal.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_002",
+      "target_name": "Office",
+      "rel_type": "works_at",
+      "description": "Self works at the office",
+      "properties": {},
+      "context": "Office: submitted the project proposal.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_002",
+      "target_name": "Work",
+      "rel_type": "performs",
+      "description": "Self submitted a project proposal",
+      "properties": {
+        "task": "project proposal submission"
+      },
+      "context": "Office: submitted the project proposal.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+      "target_name": "Rajkumar",
+      "rel_type": "visits",
+      "description": "Self went to Rajkumar dhaba for lunch",
+      "properties": {
+        "purpose": "lunch"
+      },
+      "context": "went to Rajkumar (a popular dhaba near Vijay Nagar).",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "target_name": "Browny",
+      "rel_type": "cares_for",
+      "description": "Self looks after the dog Browny",
+      "properties": {
+        "bond_strength": "close"
+      },
+      "context": "Found him at the neighbor's house eating их food. Naughty boy.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "source_name": "Browny",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_004",
+      "target_name": "Browny's Escape",
+      "rel_type": "participates_in",
+      "description": "Browny escaped from the house",
+      "properties": {
+        "role": "subject",
+        "outcome": "found at neighbor's"
+      },
+      "context": "He escaped from the house when the gate was open.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "source_name": "Browny",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+      "target_name": "Home",
+      "rel_type": "lives_at",
+      "description": "Browny lives at home",
+      "properties": {},
+      "context": "escaped from the house",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "source_name": "Browny",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_006",
+      "target_name": "Neighbor's House",
+      "rel_type": "visits",
+      "description": "Browny went to the neighbor's house",
+      "properties": {
+        "reason": "eating food"
+      },
+      "context": "Found him at the neighbor's house eating их food.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "source_name": "Browny",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_007",
+      "target_name": "Compound",
+      "rel_type": "visits",
+      "description": "Browny played in the compound",
+      "properties": {},
+      "context": "Watched the kids play with Browny in the compound.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+      "target_name": "Family Dinner",
+      "rel_type": "participates_in",
+      "description": "Self had a family dinner at home",
+      "properties": {
+        "role": "participant"
+      },
+      "context": "Evening: family dinner at home.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+      "source_name": "Family Dinner",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+      "target_name": "Home",
+      "rel_type": "occurs_at",
+      "description": "The family dinner took place at home",
+      "properties": {},
+      "context": "family dinner at home.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+      "source_name": "Family Dinner",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_003",
+      "target_name": "Peaceful",
+      "rel_type": "evokes",
+      "description": "The dinner felt peaceful",
+      "properties": {},
+      "context": "Simple but peaceful.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+      "target_name": "Bedtime Stories",
+      "rel_type": "performs",
+      "description": "Self read bedtime stories to the kids",
+      "properties": {},
+      "context": "Bedtime stories. Mohan requested two tonight.",
+      "bidirectional": false,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+      "source_name": "Rajkumar",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_004",
+      "target_name": "Vijay Nagar",
+      "rel_type": "related_to",
+      "description": "Rajkumar is located near Vijay Nagar",
+      "properties": {
+        "nature": "geographic proximity"
+      },
+      "context": "Rajkumar (a popular dhaba near Vijay Nagar).",
+      "bidirectional": true,
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_001",
+      "source_name": "Preeti",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_002",
+      "source_name": "Neetish",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_003",
+      "source_name": "Mohan",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_004",
+      "source_name": "Aryan",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_005",
+      "source_name": "The Principal",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_006",
+      "source_name": "Browny",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_per_007",
+      "source_name": "Self",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_001",
+      "source_name": "Mohan's School",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_002",
+      "source_name": "Office",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_003",
+      "source_name": "Rajkumar",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_004",
+      "source_name": "Vijay Nagar",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_005",
+      "source_name": "Home",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_006",
+      "source_name": "Neighbor's House",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_plc_007",
+      "source_name": "Compound",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_001",
+      "source_name": "Preeti's First Yoga Class",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_002",
+      "source_name": "Neetish's Disclosure",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_003",
+      "source_name": "Mohan's School Fight",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_004",
+      "source_name": "Browny's Escape",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_evt_005",
+      "source_name": "Family Dinner",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_001",
+      "source_name": "Yoga",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_002",
+      "source_name": "Work",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_act_003",
+      "source_name": "Bedtime Stories",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_001",
+      "source_name": "Refreshed",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_002",
+      "source_name": "Exam Stress",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_emo_003",
+      "source_name": "Peaceful",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    },
+    {
+      "source_id": "a95e2a21830b44978e613bb3e21f8e4a_001_pla_001",
+      "source_name": "Principal Meeting",
+      "target_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "target_name": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "a95e2a21830b44978e613bb3e21f8e4a_001",
+      "doc_id": "a95e2a21830b44978e613bb3e21f8e4a",
+      "domain": "personal_journal"
+    }
+  ]
+}

@@ -1,0 +1,2128 @@
+[
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_001_dep_001",
+    "name": "Internal Audit Department",
+    "aliases": [
+      "Internal Audit"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The department responsible for the production and ownership of the Q4 2025 Internal Audit Report.",
+    "context": [
+      "Owner | Head of Internal Audit",
+      "Department | Internal Audit"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_001",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_001",
+    "name": "Standing Order Management Validation Gaps",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "high_priority",
+    "description": "An audit finding identifying gaps in the validation processes for standing order management. This is categorized as a high priority issue requiring attention.",
+    "context": [
+      "Standing order management has gaps in validation"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_002",
+    "name": "Account Closure Documentation Deficiency",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "high_priority",
+    "description": "An audit finding noting that procedures for closing accounts are missing necessary documentation. This is categorized as a high priority issue.",
+    "context": [
+      "Account closure procedures missing documentation"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_003",
+    "name": "AML Screening Control Effectiveness",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "A positive audit finding confirming that AML screening controls are operating effectively with a 100% compliance rate.",
+    "context": [
+      "AML screening controls operating effectively (100% compliance)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_002_fnd_004",
+    "name": "KYC Verification Standard Compliance",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "A positive audit finding confirming that KYC verification procedures are in alignment with FCA standards.",
+    "context": [
+      "KYC verification procedures meet FCA standards"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_001",
+    "name": "AML Compliance Rate — 100%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The measured compliance rate for AML screening controls during the Q4 2025 period.",
+    "context": [
+      "AML screening controls operating effectively (100% compliance)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_002",
+    "name": "Fraud Detection Rate — 97%+",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "fraud_detection_rate",
+    "description": "The quantitative detection rate for fraud, which has shown improvement to over 97%.",
+    "context": [
+      "Fraud detection rates improved (97%+ detection)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_002_met_003",
+    "name": "Technology Infrastructure Uptime — 99.8%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The resilience metric for technology infrastructure, recording an uptime of 99.8%.",
+    "context": [
+      "Technology infrastructure resilient (99.8% uptime)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_002",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_001",
+    "name": "AML Controls Risk",
+    "aliases": [
+      "AML Controls"
+    ],
+    "entity_class": "RISK",
+    "type": "aml_risk",
+    "description": "Risk associated with AML controls, specifically focusing on compliance with OFAC, EU, and HMT screening requirements.",
+    "context": [
+      "AML Controls",
+      "OFAC/EU/HMT screening compliance"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_002",
+    "name": "KYC Verification Risk",
+    "aliases": [
+      "KYC Verification"
+    ],
+    "entity_class": "RISK",
+    "type": "kyc_gap",
+    "description": "Risk associated with the effectiveness of document verification procedures during the KYC process.",
+    "context": [
+      "KYC Verification",
+      "Document verification procedures"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_003",
+    "name": "Account Opening Risk",
+    "aliases": [
+      "Account Opening"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk associated with the end-to-end onboarding process for new customer accounts.",
+    "context": [
+      "Account Opening",
+      "End-to-end onboarding process"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_004",
+    "name": "Standing Orders Risk",
+    "aliases": [
+      "Standing Orders"
+    ],
+    "entity_class": "RISK",
+    "type": "standing_order_validation_gap",
+    "description": "Risk associated with the controls governing recurring payment processes.",
+    "context": [
+      "Standing Orders",
+      "Recurring payment controls"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_005",
+    "name": "Account Closure Risk",
+    "aliases": [
+      "Account Closure"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk associated with the procedures for customer account termination.",
+    "context": [
+      "Account Closure",
+      "Customer account termination"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_003_rsk_006",
+    "name": "Fraud Detection Risk",
+    "aliases": [
+      "Fraud Detection"
+    ],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "Risk associated with the effectiveness of the Fraud Detection Engine (FDE) system.",
+    "context": [
+      "Fraud Detection",
+      "FDE system effectiveness"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_003",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_001",
+    "name": "Payment processing delays — Resolved Finding",
+    "aliases": [
+      "Payment processing delays"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "resolved",
+    "description": "A finding from the Q3 2025 audit regarding delays in payment processing which has been marked as resolved.",
+    "context": [
+      "Payment processing delays (RESOLVED)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_002",
+    "name": "System backup procedures — Resolved Finding",
+    "aliases": [
+      "System backup procedures"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "resolved",
+    "description": "A finding from the Q3 2025 audit regarding system backup procedures which has been marked as resolved.",
+    "context": [
+      "System backup procedures (RESOLVED)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_003",
+    "name": "Interest calculation accuracy — Partial Resolution Finding",
+    "aliases": [
+      "Interest calculation accuracy"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "partial",
+    "description": "A finding from the Q3 2025 audit regarding the accuracy of interest calculations that is currently only partially resolved.",
+    "context": [
+      "Interest calculation accuracy (PARTIAL)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_004_fnd_004",
+    "name": "Staff compliance training — Partial Resolution Finding",
+    "aliases": [
+      "Staff compliance training"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "partial",
+    "description": "A finding from the Q3 2025 audit regarding staff compliance training that is currently only partially resolved.",
+    "context": [
+      "Staff compliance training (PARTIAL)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_004",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_aml_001",
+    "name": "AML Screening Controls",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "aml_screening_effectiveness",
+    "description": "The process of screening the customer base against OFAC, EU, HMT, and UN sanctions lists to ensure compliance. The controls were rated as satisfactory for the period of Sept 1 to Dec 31, 2025.",
+    "context": [
+      "AML Screening Controls — ✅ SATISFACTORY",
+      "Scope: OFAC/EU/HMT/UN sanctions screening against customer base"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_001",
+    "name": "AML Screening Controls — Satisfactory Overall Finding",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "An overall audit finding confirming that AML screening procedures are operating per policy with no exceptions noted.",
+    "context": [
+      "AML Screening Controls — ✅ SATISFACTORY",
+      "All AML screening procedures operating per [[policy_aml]]. No exceptions noted."
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_002",
+    "name": "Pre-opening Customer Screening Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "A confirmed strength where 100% of the sampled new customers (500) were screened prior to the opening of their accounts.",
+    "context": [
+      "All 500 new customers screened before account opening"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_003",
+    "name": "Screening Processing Time Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "A confirmed strength where screening times were maintained under 5 minutes, adhering to the established Service Level Agreement (SLA).",
+    "context": [
+      "Screening times: <5 minutes (within SLA)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_004",
+    "name": "False Positive Management Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "A confirmed strength regarding the effectiveness of false positive management, with an average rate of 1.2%.",
+    "context": [
+      "False positive management effective (average 1.2% false positive rate)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_005",
+    "name": "PEP Screening Implementation Improvement",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "An improvement in the control environment noted in Q4 with the addition of Politically Exposed Person (PEP) screening.",
+    "context": [
+      "PEP screening added Q4 (improvement)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_fnd_006",
+    "name": "Sanctions Match Accuracy Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "A confirmed strength where no sanctions matches were missed during the testing period.",
+    "context": [
+      "No sanctions matches missed"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_001",
+    "name": "Compliance Rate — 100%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The percentage of new customer accounts that successfully underwent screening before account opening.",
+    "context": [
+      "Compliance Rate: 100%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_002",
+    "name": "Sanctions Matches — 0 (clean)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "The total number of sanctions matches identified within the sample of 500 new customers.",
+    "context": [
+      "Sanctions matches: 0 (clean)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_003",
+    "name": "False Positive Rate — Actual 1.2% (6 cases)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "The quantitative rate of false positives generated during the AML screening process.",
+    "context": [
+      "False positives: 6 (1.2%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_met_004",
+    "name": "Processing Time — Avg 3.2 min (SLA: 5 min)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The average time taken to process AML screenings compared to the target SLA of 5 minutes.",
+    "context": [
+      "Processing time: Avg 3.2 min (SLA: 5 min)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_acc_001",
+    "name": "New Customer Accounts",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "A sample of 500 new customer accounts opened between September 1 and December 31, 2025, used for audit testing of AML screening.",
+    "context": [
+      "Sample Size: 500 new customer accounts opened"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_005_cus_001",
+    "name": "Customer Base",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The overall population of bank customers subject to sanctions screening against OFAC, EU, HMT, and UN lists.",
+    "context": [
+      "Scope: OFAC/EU/HMT/UN sanctions screening against customer base"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_005",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_001",
+    "name": "KYC Compliance Rate — 95%",
+    "aliases": [
+      "Compliance Rate"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The overall compliance rate for Know-Your-Customer document verification procedures based on a sample of 120 opened accounts.",
+    "context": [
+      "Compliance Rate: 95%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_001",
+    "name": "KYC Document Verification — Satisfactory Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "The audit found that document quality checks are effective, no fraudulent documents were detected, and 100% of accounts have ID on file.",
+    "context": [
+      "All accounts have ID on file (100%)",
+      "Document quality checks effective",
+      "No fraudulent documents detected"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_fnd_002",
+    "name": "Missing Proof of Address — Low Priority Observation",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "low_priority",
+    "description": "A low priority observation where 5% of tested accounts (6 of 120) were missing proof of address due to postal application delays. Impact was mitigated by marking accounts as pending and restricting transactions.",
+    "context": [
+      "6 of 120 accounts (5%) missing proof of address",
+      "Reason: Postal applications in-flight (awaiting documents)",
+      "Impact: Accounts marked pending, transactions restricted appropriately"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_002",
+    "name": "ID Verification Rate — 120/120 (100%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Quantitative metric showing 100% success rate for ID verification across the tested sample.",
+    "context": [
+      "ID verification: 120/120 (100%) ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_003",
+    "name": "Address Verification Rate — 114/120 (95%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Quantitative metric showing a 95% success rate for address verification across the tested sample.",
+    "context": [
+      "Address verification: 114/120 (95%) ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_met_004",
+    "name": "Fraudulent Document Detection Rate — 0 (0%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "detection_rate",
+    "description": "Quantitative metric confirming that zero fraudulent documents were detected during the testing period.",
+    "context": [
+      "Fraudulent documents: 0 (0%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_kyc_001",
+    "name": "KYC Verification Process",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "kyc_gap",
+    "description": "The Know-Your-Customer document verification procedures tested between Oct 1 and Dec 31, 2025, focusing on ID and address verification.",
+    "context": [
+      "Scope: Know-Your-Customer document verification procedures",
+      "Processes per [[policy_customer_identification]] working correctly"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_006_acc_001",
+    "name": "Sampled Opened Accounts",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "A random sample of 120 opened accounts used to test KYC compliance.",
+    "context": [
+      "Accounts Tested: 120 random sample of opened accounts"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_006",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_001",
+    "name": "Account Opening Process Adherence — Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "The audit confirmed that all 89 tested account openings across online, branch, and postal channels followed the established SOP procedures. Risk assessments were applied correctly and regulatory holds were properly documented.",
+    "context": [
+      "All 89 accounts followed [[sop_account_opening]] procedures",
+      "Risk assessment applied correctly",
+      "Regulatory holds (if any) documented"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_007_fnd_002",
+    "name": "Account Opening Decision Timeliness — Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "Decision times for account openings were found to be within the defined Service Level Agreements (SLA) across all tested channels.",
+    "context": [
+      "Decision times within SLA"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_001",
+    "name": "Online Account Opening Time — Avg 1.5 days, SLA 2 days",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The average time to open an account via the online channel was 1.5 days, which is within the 2-day SLA threshold.",
+    "context": [
+      "Online avg 1.5 days",
+      "Online | 45 | 1.5 days | 2 days | ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_002",
+    "name": "Branch Account Opening Time — Avg 4 hours, SLA Same-day",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The average time to open an account via the branch channel was 4 hours, meeting the same-day SLA requirement.",
+    "context": [
+      "Branch avg same-day",
+      "Branch | 32 | 4 hours | Same-day | ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_007_met_003",
+    "name": "Postal Account Opening Time — Avg 6 days, SLA 7 days",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The average time to open an account via the postal channel was 6 days, which is within the 7-day SLA threshold.",
+    "context": [
+      "Postal avg 6 days",
+      "Postal | 12 | 6 days | 7 days | ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_007_prd_001",
+    "name": "Account Opening Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account_product",
+    "description": "The end-to-end account opening process across online, branch, and postal channels subject to audit testing.",
+    "context": [
+      "End-to-end account opening (channel: online/branch/postal)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_007",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_001",
+    "name": "Standing Orders Compliance Rate — 85%",
+    "aliases": [
+      "Compliance Rate"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The overall compliance rate for standing order management during the testing period from Oct 1 to Dec 31, 2025.",
+    "context": [
+      "Compliance Rate: 85%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_001",
+    "name": "Standing Order Execution Timing Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "Audit confirmed that execution timing for standing orders is correct, with 95% occurring on the due date.",
+    "context": [
+      "Execution timing correct (95% on due date)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_002",
+    "name": "Missing Modification Documentation — Medium Priority Finding",
+    "aliases": [
+      "Finding 1"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "medium_priority",
+    "description": "15% of sampled orders (3 of 20) lacked an audit trail for modifications, such as payment amount changes. This creates a medium impact risk regarding the ability to trace changes for audits or disputes.",
+    "context": [
+      "Finding 1: Missing Modification Documentation",
+      "3 of 20 orders (15%) had modifications without audit trail",
+      "Risk: Difficulty tracing changes for audit/dispute",
+      "Impact: Medium (affects audit trail, not customer impact)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_fnd_003",
+    "name": "Cancellation Delay — Medium Priority Finding",
+    "aliases": [
+      "Finding 2"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "medium_priority",
+    "description": "10% of sampled orders (2 of 20) were not cancelled immediately as per SLA, taking more than one day to process. The impact is rated as low as the delays were manually corrected.",
+    "context": [
+      "Finding 2: Cancellation Delay",
+      "2 of 20 orders (10%) took >1 day to cancel",
+      "SLA: Immediate cancellation",
+      "Impact: Low (only 1-day delay, manually corrected)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_001",
+    "name": "Document all modifications for audit trail",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Requirement to ensure all modifications to standing orders are documented to maintain a proper audit trail.",
+    "context": [
+      "Document all modifications (audit trail)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_002",
+    "name": "Implement automated cancellation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Requirement to implement automated cancellation of standing orders, effective immediately.",
+    "context": [
+      "Implement automated cancellation (effective immediately)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_act_003",
+    "name": "Retest Standing Orders Management Q1 2026",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "follow_up",
+    "description": "Scheduled retesting of the standing orders management process to be conducted in Q1 2026.",
+    "context": [
+      "Retest Q1 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_002",
+    "name": "Standing Orders Timely Execution — 44/47 (95%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Metric tracking the percentage of standing orders executed on the correct due date.",
+    "context": [
+      "Timely execution: 44/47 (95%) ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_003",
+    "name": "Proper Standing Order Cancellations — 45/47 (96%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Metric tracking the percentage of standing orders cancelled correctly according to procedure.",
+    "context": [
+      "Proper cancellations: 45/47 (96%) ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_met_004",
+    "name": "Missing Standing Order Documentation — 3/47 (6%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Metric tracking the percentage of standing orders missing required modification documentation.",
+    "context": [
+      "Missing documentation: 3/47 (6%) ⚠️"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_008_prod_001",
+    "name": "Standing Orders",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "Recurring payment product involving setup, execution, modifications, and cancellations.",
+    "context": [
+      "Standing Orders Management",
+      "Recurring payment setup, execution, modifications, cancellations"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_008",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_001",
+    "name": "Account Closure Process — Needs Improvement",
+    "aliases": [
+      "Section E"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "observation",
+    "description": "An overall observation of the account closure process for both customer-initiated and bank-initiated closures. The process showed a general compliance rate of 80% during the testing period of Oct 1 – Dec 31, 2025.",
+    "context": [
+      "Account Closure — ⚠️ NEEDS IMPROVEMENT (Observation)",
+      "Compliance Rate: 80%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_002",
+    "name": "Account Closure Process Strengths",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "Confirmed effective controls regarding the processing of closures according to SOP, the calculation of final balances, and the cancellation of standing orders.",
+    "context": [
+      "All closures processed per [[sop_account_closure]]",
+      "Final balances calculated correctly",
+      "Standing orders cancelled"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_fnd_003",
+    "name": "Missing Documentation on Bank-Initiated Closures — High Priority Finding",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "high_priority",
+    "description": "A high priority finding where 20% of tested closures were bank-initiated, but only 33% had proper 30-day notice letters and 67% had documented reasons. This creates a regulatory risk regarding FCA closure justifications.",
+    "context": [
+      "Finding (High Priority): Missing Documentation on Bank-Initiated Closures",
+      "Only 1 of 3 had proper 30-day notice letter on file",
+      "Only 2 of 3 had documented reason (fraud, policy, regulatory)",
+      "Impact: Regulatory risk (FCA may query closure justification)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_rsk_001",
+    "name": "Regulatory Risk — Account Closure Justification",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "The risk that the FCA may query the bank's justification for bank-initiated account closures due to missing documentation and notice letters.",
+    "context": [
+      "Impact: Regulatory risk (FCA may query closure justification)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_001",
+    "name": "Implement Mandatory Closure Letter Procedure",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Remediation task to implement a mandatory procedure for issuing closure letters to customers.",
+    "context": [
+      "Implement mandatory closure letter procedure"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_002",
+    "name": "Document Closure Reason Implementation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Remediation task to ensure closure reasons are documented using a dropdown menu including regulatory, fraud, policy, or other.",
+    "context": [
+      "Document closure reason (dropdown: regulatory, fraud, policy, other)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_003",
+    "name": "Enforce Mandatory 30-Day Notice for Bank-Initiated Closures",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Remediation task to ensure a mandatory 30-day notice period is provided for all bank-initiated closures.",
+    "context": [
+      "Mandatory 30-day notice for bank-initiated closures"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_004",
+    "name": "Establish Audit Trail for All Closures",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Remediation task to create a comprehensive audit trail for all account closure activities.",
+    "context": [
+      "Audit trail for all closures"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_act_005",
+    "name": "Account Closure Process Retest Q1 2026",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "follow_up",
+    "description": "Scheduled retest of the account closure controls to be performed in the first quarter of 2026.",
+    "context": [
+      "Retest Q1 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_001",
+    "name": "Account Closure Compliance Rate — Actual 80%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The overall compliance rate for account closures tested between Oct 1 and Dec 31, 2025.",
+    "context": [
+      "Compliance Rate: 80%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_002",
+    "name": "Customer-Initiated Closures Compliance — Actual 100%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Compliance rate for customer-initiated account closures, where 12 out of 12 samples were compliant.",
+    "context": [
+      "Customer-initiated closures: 12/12 (100%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_003",
+    "name": "Bank-Initiated Closures Notice Compliance — Actual 33%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The rate of bank-initiated closures that had a proper 30-day notice letter on file, with only 1 out of 3 compliant.",
+    "context": [
+      "With proper notice: 1/3 (33%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_met_004",
+    "name": "Bank-Initiated Closures Reason Documentation Compliance — Actual 67%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The rate of bank-initiated closures that had a documented reason on file, with 2 out of 3 compliant.",
+    "context": [
+      "With documented reason: 2/3 (67%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_009_acc_001",
+    "name": "Bank-Initiated Account Closures",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "Accounts closed by the bank rather than the customer, which are the subject of documentation gaps.",
+    "context": [
+      "3 of 15 closures (20%) were bank-initiated"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_009",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_fnd_001",
+    "name": "Fraud Detection Engine Effectiveness — Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "The Fraud Detection Engine (FDE) demonstrated excellent effectiveness during the Q4 2025 testing period, showing improvements in detection rates and response times compared to Q3.",
+    "context": [
+      "Fraud Detection — ✅ EXCELLENT",
+      "Detection rate: 97.9% (47 of 48 frauds caught; 1 missed)",
+      "Average response time: 2.3 hours (excellent)",
+      "Customer refunds processed within 10 days (100%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_001",
+    "name": "Fraud Detection Rate — Q4 2025 Actual 97.9% (Q3 96%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "detection_rate",
+    "description": "The percentage of fraudulent transactions successfully identified by the Fraud Detection Engine, which increased by 1.9% over the previous quarter.",
+    "context": [
+      "Detection rate: 97.9% (47 of 48 frauds caught; 1 missed)",
+      "Detection Rate | 96% | 97.9% | ↑ +1.9% ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_002",
+    "name": "False Positive Rate — Q4 2025 Actual 44% (Q3 48%)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "false_positive_rate",
+    "description": "The rate of legitimate transactions incorrectly flagged as fraud, which saw a decrease of 4% in Q4.",
+    "context": [
+      "False Positives: 39 transactions (44%)",
+      "False Positives | 48% | 44% | ↓ -4% ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_003",
+    "name": "Average Response Time — Q4 2025 Actual 2.3 hrs (Q3 2.8 hrs)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The average time taken to respond to fraud flags, showing a reduction of 0.5 hours compared to Q3.",
+    "context": [
+      "Average response time: 2.3 hours (excellent)",
+      "Response Time | 2.8 hrs | 2.3 hrs | ↓ -0.5 hrs ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_met_004",
+    "name": "Frauds Prevented Value — Q4 2025 Actual £47k (Q3 £34k)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "The total monetary value of fraudulent transactions prevented from being completed, increasing by 39% in Q4.",
+    "context": [
+      "Frauds Prevented | £34k | £47k | ↑ +39% ✅"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_001",
+    "name": "Card-not-present Transaction — Blocked",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "high_value_transaction",
+    "description": "A blocked fraudulent transaction involving an unusual merchant with a charge of £2,500.",
+    "context": [
+      "Card-not-present transaction, unusual merchant, £2,500 charge → BLOCKED"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_002",
+    "name": "Rapid International Transfers — Flagged",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A series of rapid international transfers that were flagged and subsequently revealed to be fraudulent.",
+    "context": [
+      "Multiple rapid international transfers → FLAGGED (investigation revealed fraudster)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_trn_003",
+    "name": "Account Takeover Attempt — Caught",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "An attempted account takeover that was detected and stopped within 15 minutes.",
+    "context": [
+      "Account takeover attempt → CAUGHT within 15 minutes"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_rsk_001",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "The risk of financial loss and customer impact due to fraudulent activity, managed via the Fraud Detection Engine (FDE).",
+    "context": [
+      "Fraud Detection Engine (FDE) effectiveness",
+      "Confirmed Fraud: 47 transactions"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_010_prd_001",
+    "name": "Fraud Detection Engine (FDE)",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "technology_product",
+    "description": "The internal system used by FirstUK Bank to detect and prevent fraudulent transactions.",
+    "context": [
+      "Scope: Fraud Detection Engine (FDE) effectiveness"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_010",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_011_met_001",
+    "name": "System Availability — Target SLA 99.5%, Actual Q4 99.87%",
+    "aliases": [
+      "System Availability",
+      "SLA"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The system availability metric for Q4, which exceeded the target SLA of 99.5% with an actual uptime of 99.87%. Total unplanned downtime for the quarter was 45 minutes.",
+    "context": [
+      "Target SLA: 99.5% uptime",
+      "Actual Q4: 99.87% uptime",
+      "Total Unplanned Downtime: 45 minutes (0.01% of quarter)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_011_rsk_001",
+    "name": "Technology & Infrastructure Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "Risk category covering the bank's technology and infrastructure, specifically focusing on system availability and uptime performance during Q4.",
+    "context": [
+      "3. TECHNOLOGY & INFRASTRUCTURE",
+      "System Availability (✅ Exceeds Target)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_011_dep_001",
+    "name": "Technology Department",
+    "aliases": [
+      "Technology"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "The department responsible for the management of technology and infrastructure, including system uptime and maintenance.",
+    "context": [
+      "3. TECHNOLOGY & INFRASTRUCTURE"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_011",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_001",
+    "name": "Recovery Time Objective (RTO) — 2 hours",
+    "aliases": [
+      "RTO"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The target time to restore systems after a failure, which has been tested and confirmed as 2 hours.",
+    "context": [
+      "RTO: 2 hours (tested, confirmed)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_012_met_002",
+    "name": "Recovery Point Objective (RPO) — 15 minutes",
+    "aliases": [
+      "RPO"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The maximum acceptable amount of data loss measured in time, tested and confirmed at 15 minutes.",
+    "context": [
+      "RPO: 15 minutes (tested, confirmed)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_012_fnd_001",
+    "name": "Backup and Disaster Recovery Effectiveness — Strength",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "strength",
+    "description": "The backup and disaster recovery processes are operating effectively. Backups are performed daily, stored in encrypted multi-region AWS S3, and monthly restore tests have been successful for the last three months.",
+    "context": [
+      "Backup & Disaster Recovery (✅ Operational)",
+      "Recovery Testing: Monthly restore test (all 3 months successful)",
+      "Status: ✅ All backups successful, DR procedures validated"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_012_rsk_001",
+    "name": "Technology Risk — Backup & Disaster Recovery",
+    "aliases": [
+      "DR"
+    ],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "The risk associated with system availability and data recovery, currently managed via daily encrypted AWS S3 backups and monthly validation testing.",
+    "context": [
+      "Backup & Disaster Recovery (✅ Operational)",
+      "Backup Location: AWS S3 (encrypted, multi-region)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_012",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_001",
+    "name": "Conduct of Business Sourcebook (COBS)",
+    "aliases": [
+      "COBS"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "Regulatory framework governing conduct of business. The bank is currently marked as compliant, with customer communications noted as clear and fair.",
+    "context": [
+      "COBS (Conduct of Business)",
+      "✅ Compliant",
+      "Customer communications clear, fair"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_002",
+    "name": "General Data Protection Regulation (GDPR)",
+    "aliases": [
+      "GDPR"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "Regulatory framework for data protection and privacy. The bank is compliant, with data handling performed according to policy.",
+    "context": [
+      "GDPR",
+      "✅ Compliant",
+      "Data handling per policy"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_003",
+    "name": "Anti-Money Laundering and Countering the Financing of Terrorism (AML/CFT)",
+    "aliases": [
+      "AML/CFT"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "Regulatory framework for AML and CFT. The bank is compliant, achieving 100% screening and 95% KYC completion.",
+    "context": [
+      "AML/CFT",
+      "✅ Compliant",
+      "Screening 100%, KYC 95%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_004",
+    "name": "Operational Resilience Framework",
+    "aliases": [],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "implementation_deadline",
+    "description": "New regulatory requirements regarding operational resilience. Implementation is currently in progress and reported as being on track.",
+    "context": [
+      "Operational Resilience",
+      "✅ In Progress",
+      "New requirements, on track"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_013_upd_005",
+    "name": "Proceeds of Crime Act (POCA)",
+    "aliases": [
+      "POCA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "Regulatory framework regarding the proceeds of crime. The bank is compliant, with document retention following the established schedule.",
+    "context": [
+      "POCA",
+      "✅ Compliant",
+      "Document retention on schedule"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_001",
+    "name": "AML Screening Rate — Actual 100%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Quantitative measure of AML screening coverage, currently achieving a 100% completion rate.",
+    "context": [
+      "Screening 100%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_013_met_002",
+    "name": "KYC Completion Rate — Actual 95%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "Quantitative measure of KYC verification completion, currently at 95%.",
+    "context": [
+      "KYC 95%"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_013",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_014_fnd_001",
+    "name": "Staff Compliance Training Completion Gap — Observation",
+    "aliases": [
+      "Staff Compliance Training"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "observation",
+    "description": "An observation regarding mandatory compliance training where completion is currently below the 100% target. The status is deemed acceptable as the outstanding staff are new hires with training scheduled by January 31, 2026.",
+    "context": [
+      "Staff Compliance Training (⚠️ Observation)",
+      "Actual Q4: 94% (47 of 50 staff)",
+      "Status: Acceptable (tracking below 100%, but with valid reasons)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_014_met_001",
+    "name": "Mandatory Compliance Training Completion — Target 100%, Actual Q4 94%",
+    "aliases": [
+      "Compliance Training Completion"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "A quantitative metric tracking the annual completion rate of mandatory compliance training for staff. The Q4 actual is 94% against a target of 100%.",
+    "context": [
+      "Mandatory Compliance Training Completion:",
+      "Target: 100% annually",
+      "Actual Q4: 94% (47 of 50 staff)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_014_act_001",
+    "name": "Completion of Compliance Training for New Hires",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "training",
+    "description": "Requirement for three new hires currently in onboarding to complete their mandatory compliance training by the specified deadline.",
+    "context": [
+      "3 staff members outstanding (new hires, onboarding in progress)",
+      "All 3 had compliance training scheduled by Jan 31, 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_014_emp_001",
+    "name": "Bank Staff",
+    "aliases": [
+      "staff"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "all_staff",
+    "description": "The general staff population of the bank subject to mandatory compliance training requirements.",
+    "context": [
+      "Target: 100% annually",
+      "Actual Q4: 94% (47 of 50 staff)",
+      "3 staff members outstanding"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_014",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_001",
+    "name": "Account Closure Documentation — High Priority Finding",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "high_priority",
+    "description": "A high priority finding regarding the lack of mandatory closure letter procedures and the failure to document closure reasons within the system. Remediation is expected by February 2026.",
+    "context": [
+      "Account Closure Documentation (HIGH)",
+      "Implement mandatory closure letter procedure",
+      "Document closure reason in system"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_001",
+    "name": "Remediation of Account Closure Documentation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Implementation of mandatory closure letter procedures and system documentation of closure reasons. Assigned to the Head of Operations with an expected completion date of February 2026.",
+    "context": [
+      "Implement mandatory closure letter procedure",
+      "Document closure reason in system",
+      "Expected completion: Feb 2026",
+      "Owner: Head of Operations"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_fnd_002",
+    "name": "Standing Order Audit Trail — High Priority Finding",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "high_priority",
+    "description": "A high priority finding identifying a gap in the audit trail for standing orders, specifically the need to log all modifications with timestamps and user IDs. Remediation is expected by March 2026.",
+    "context": [
+      "Standing Order Audit Trail (HIGH)",
+      "Log all modifications with timestamp/user",
+      "System enhancement required"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_act_002",
+    "name": "Remediation of Standing Order Audit Trail",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "System enhancement to ensure all standing order modifications are logged with a timestamp and user ID. Assigned to the CTO with an expected completion date of March 2026.",
+    "context": [
+      "Log all modifications with timestamp/user",
+      "System enhancement required",
+      "Expected completion: March 2026",
+      "Owner: CTO"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_dep_001",
+    "name": "Operations Department",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "operations",
+    "description": "The department responsible for the remediation of account closure documentation, led by the Head of Operations.",
+    "context": [
+      "Owner: Head of Operations"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_dep_002",
+    "name": "Technology Department",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "The department responsible for the system enhancements required for the standing order audit trail, led by the CTO.",
+    "context": [
+      "Owner: CTO"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_acc_001",
+    "name": "Account Closure Process",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "The process of closing customer accounts, which is currently subject to a high priority audit finding regarding documentation.",
+    "context": [
+      "Account Closure Documentation (HIGH)",
+      "Implement mandatory closure letter procedure"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_015_sto_001",
+    "name": "Standing Order Modification Process",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_validation_gap",
+    "description": "The process for modifying standing orders, which currently lacks a sufficient audit trail of timestamps and users.",
+    "context": [
+      "Standing Order Audit Trail (HIGH)",
+      "Log all modifications with timestamp/user"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_015",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_016_fnd_001",
+    "name": "Interest Calculation Verification — Medium Priority Finding",
+    "aliases": [
+      "3",
+      "Q3 follow-up"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "medium_priority",
+    "description": "A medium priority finding arising from a Q3 follow-up regarding the verification of interest calculations. It requires manual verification of a 10% sample, specifically spot-checking rate tiers and monthly calculations, with a remediation deadline of Q2 2026.",
+    "context": [
+      "Interest Calculation Verification (from Q3 follow-up)",
+      "Manual verification of interest calculations (10% sample)",
+      "Spot-check rate tiers and monthly calculations"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_016_act_001",
+    "name": "Remediation of Interest Calculation Verification",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Task to perform manual verification of interest calculations on a 10% sample, including rate tiers and monthly calculations. Assigned to the Risk team with a deadline of Q2 2026.",
+    "context": [
+      "Manual verification of interest calculations (10% sample)",
+      "Owner: Risk team",
+      "Address by Q2 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_016_fnd_002",
+    "name": "Customer Communication Clarity — Minor Finding",
+    "aliases": [
+      "4"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "observation",
+    "description": "A minor finding regarding the clarity of customer communications. The issue involves the need to simplify terms and conditions language and improve the timing of rate change notifications, to be addressed by Q2 2026.",
+    "context": [
+      "Customer Communication Clarity (Minor)",
+      "Simplify terms & conditions language",
+      "Improve rate change notification timing"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_016_dep_001",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The internal department designated as the owner for the remediation of interest calculation verification findings.",
+    "context": [
+      "Owner: Risk team"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_016",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_001",
+    "name": "Standing Order Audit Trail Gap",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "An audit finding regarding the standing order audit trail. The finding has been accepted by management with a planned implementation date of March 2026.",
+    "context": [
+      "Standing order audit trail — Will implement by March 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_002",
+    "name": "Account Closure Documentation Gap",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "An audit finding concerning deficiencies in account closure documentation. Management has accepted the finding and intends to implement improvements by February 2026.",
+    "context": [
+      "Account closure documentation — Will implement by Feb 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_fnd_003",
+    "name": "Standing Order Cancellation Delays",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "An audit finding identifying delays in the cancellation of standing orders. Management has accepted the finding and plans to automate the process by February 2026.",
+    "context": [
+      "Standing order cancellation delays — Will automate by Feb 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_001",
+    "name": "Implement Standing Order Audit Trail",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Remediation of the standing order audit trail finding. The action is assigned to the Head of Operations with a deadline of March 15, 2026.",
+    "context": [
+      "Standing order audit trail — Will implement by March 2026",
+      "Standing order audit trail: 60 days (by March 15)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_002",
+    "name": "Improve Account Closure Documentation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Remediation of account closure documentation gaps. The action is assigned to the Head of Operations with a deadline of February 15, 2026.",
+    "context": [
+      "Account closure documentation — Will implement by Feb 2026",
+      "Account closure improvements: 30 days (by Feb 15)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_003",
+    "name": "Automate Standing Order Cancellations",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Automation of the standing order cancellation process to resolve identified delays. The action is assigned to the Head of Operations with a target date of February 2026.",
+    "context": [
+      "Standing order cancellation delays — Will automate by Feb 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_act_004",
+    "name": "Interest Calculation Review",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "Ongoing monitoring of interest calculations via monthly spot checks starting in January 2026.",
+    "context": [
+      "Interest calculation review: Ongoing (monthly spot checks start Jan 2026)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_emp_001",
+    "name": "Head of Operations",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "operations_head",
+    "description": "The individual responsible for preparing the management response and overseeing the remediation of the audit findings.",
+    "context": [
+      "Prepared by: Head of Operations"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_017_dep_001",
+    "name": "Operations Department",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "operations",
+    "description": "The department responsible for the processes related to standing orders and account closures identified in the audit findings.",
+    "context": [
+      "Prepared by: Head of Operations"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_017",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_001",
+    "name": "Payment Processing Delays",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "resolved",
+    "description": "An audit finding regarding delays in payment processing. The issue has been marked as resolved as of December 1, 2025.",
+    "context": [
+      "Payment Processing Delays",
+      "✅ Resolved",
+      "Dec 1, 2025"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_002",
+    "name": "System Backup Procedures",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "resolved",
+    "description": "An audit finding concerning system backup procedures. The issue was resolved on November 15, 2025.",
+    "context": [
+      "System Backup Procedures",
+      "✅ Resolved",
+      "Nov 15, 2025"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_003",
+    "name": "Interest Calculation Accuracy",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "An outstanding audit finding regarding the accuracy of interest calculations. The resolution is currently in progress with an expected completion date in Q1 2026.",
+    "context": [
+      "Interest Calc Accuracy",
+      "⚠️ In Progress",
+      "Q1 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_018_fnd_004",
+    "name": "Staff Training Completion",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "An outstanding audit finding related to the completion of staff training. The item is in progress and due for resolution by January 31, 2026.",
+    "context": [
+      "Staff Training Completion",
+      "⚠️ In Progress",
+      "Jan 31, 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_001",
+    "name": "Remediation of Interest Calculation Accuracy",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Action to resolve the interest calculation accuracy issue, currently in progress with a deadline of Q1 2026.",
+    "context": [
+      "Interest Calc Accuracy",
+      "⚠️ In Progress",
+      "Q1 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_018_act_002",
+    "name": "Completion of Staff Training",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "training",
+    "description": "Action to ensure all required staff training is completed, currently in progress with a deadline of January 31, 2026.",
+    "context": [
+      "Staff Training Completion",
+      "⚠️ In Progress",
+      "Jan 31, 2026"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_018",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_001",
+    "name": "Account Closure Documentation Gap",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "A minor process gap identified regarding the documentation of account closures, which presents a regulatory risk to the bank.",
+    "context": [
+      "Account closure documentation (regulatory risk)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_002",
+    "name": "Standing Order Audit Trail Compliance Gap",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "A minor process gap identified in the audit trail for standing orders, categorized as a compliance gap.",
+    "context": [
+      "Standing order audit trail (compliance gap)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_019_fnd_003",
+    "name": "Staff Training Completion Gap",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "An area for improvement identified regarding the completion of staff training against the established compliance target.",
+    "context": [
+      "Staff training completion (compliance target)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_001",
+    "name": "AML Compliance Rate — 100%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The actual compliance rate for Anti-Money Laundering (AML) processes, noted as an exceptional key strength.",
+    "context": [
+      "AML compliance exceptional (100%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_002",
+    "name": "Fraud Detection Rate — 97.9%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "fraud_detection_rate",
+    "description": "The actual fraud detection performance rate, described as leading performance.",
+    "context": [
+      "Fraud detection leading performance (97.9% detection)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_019_met_003",
+    "name": "System Uptime — 99.87%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "The actual system uptime percentage, identified as an excellent performance metric.",
+    "context": [
+      "System uptime excellent (99.87%)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_019_rsk_001",
+    "name": "Regulatory Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk associated with regulatory non-compliance, specifically highlighted in the context of account closure documentation.",
+    "context": [
+      "Account closure documentation (regulatory risk)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_019",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_001",
+    "name": "Account Closure Documentation — High Priority Finding",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "high_priority",
+    "description": "A high-priority audit finding regarding deficiencies in the documentation process for account closures. Management is required to remediate this issue by Q1 2026.",
+    "context": [
+      "two high-priority findings (account closure documentation and standing order audit trail)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_020_fnd_002",
+    "name": "Standing Order Audit Trail — High Priority Finding",
+    "aliases": [],
+    "entity_class": "AUDIT_FINDING",
+    "type": "high_priority",
+    "description": "A high-priority audit finding concerning the audit trail for standing orders. Remediation is expected by Q1 2026 to strengthen the control environment.",
+    "context": [
+      "two high-priority findings (account closure documentation and standing order audit trail)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_020_act_001",
+    "name": "Remediation of Account Closure and Standing Order Findings",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Management is tasked with addressing the high-priority findings related to account closure documentation and standing order audit trails. The deadline for completion is Q1 2026.",
+    "context": [
+      "Management should address the two high-priority findings (account closure documentation and standing order audit trail) by Q1 2026."
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_020",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_021_dec_001",
+    "name": "Board Audit Committee Approval of Q4 2025 Internal Audit Report",
+    "aliases": [
+      "approved Jan 15, 2026"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "audit_plan_approval",
+    "description": "The Board Audit Committee formally approved the internal audit report reflecting the independent assessment of FirstUK Bank's internal audit function for procedures conducted during Q4 2025.",
+    "context": [
+      "Approved by: Board Audit Committee (approved Jan 15, 2026)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_021_emp_001",
+    "name": "Sarah Mitchell",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "internal_audit_manager",
+    "description": "Internal Audit Manager responsible for preparing the Q4 2025 independent assessment report.",
+    "context": [
+      "Prepared by: Sarah Mitchell, Internal Audit Manager"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_021_emp_002",
+    "name": "James Wilson",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "head_of_internal_audit",
+    "description": "Head of Internal Audit responsible for reviewing the Q4 2025 independent assessment report.",
+    "context": [
+      "Reviewed by: James Wilson, Head of Internal Audit"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The governance body responsible for the final approval of the internal audit reports.",
+    "context": [
+      "Approved by: Board Audit Committee (approved Jan 15, 2026)"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "7e579c73734d46ca94c0137f4cf0efd8_021_dep_002",
+    "name": "Internal Audit Function",
+    "aliases": [
+      "internal audit"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The department responsible for conducting independent assessments of FirstUK Bank's processes.",
+    "context": [
+      "This report reflects the independent assessment of FirstUK Bank's internal audit function"
+    ],
+    "chunk_id": "7e579c73734d46ca94c0137f4cf0efd8_021",
+    "doc_id": "7e579c73734d46ca94c0137f4cf0efd8",
+    "domain": "banking_risk_governance"
+  }
+]

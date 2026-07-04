@@ -1,0 +1,269 @@
+[
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_001",
+    "name": "Self",
+    "properties": {
+      "relationship_to_diarist": "diarist",
+      "current_state": "busy",
+      "recurring_behaviours": [
+        "visiting Meghdoot Garden in the evening"
+      ]
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_002",
+    "name": "Neetish",
+    "properties": {
+      "relationship_to_diarist": "daughter",
+      "personality_traits": [
+        "nervous but capable"
+      ],
+      "current_state": "growing up fast",
+      "notable_characteristics": "student"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_003",
+    "name": "Preeti",
+    "properties": {
+      "relationship_to_diarist": "partner/spouse",
+      "current_state": "tired from yoga"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_004",
+    "name": "Mohan",
+    "properties": {
+      "relationship_to_diarist": "son",
+      "current_state": "involved in a misunderstanding/fight with Aryan",
+      "notable_characteristics": "student"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_005",
+    "name": "Aryan",
+    "properties": {
+      "current_state": "involved in a misunderstanding/fight with Mohan",
+      "notable_characteristics": "student"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_006",
+    "name": "Mohan's Principal",
+    "properties": {
+      "occupation": "School Principal"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_007",
+    "name": "Browny",
+    "properties": {
+      "relationship_to_diarist": "pet/companion"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_per_008",
+    "name": "The Team",
+    "properties": {
+      "relationship_to_diarist": "colleagues",
+      "current_state": "disappointed"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_001",
+    "name": "School",
+    "properties": {
+      "place_type": "educational institution",
+      "narrative_function": "site of Neetish's presentation and meeting with principal"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_002",
+    "name": "Office",
+    "properties": {
+      "place_type": "workplace",
+      "atmosphere": "demanding"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_003",
+    "name": "Meghdoot Garden",
+    "properties": {
+      "place_type": "park",
+      "atmosphere": "peaceful",
+      "location": "Indore",
+      "who_associated_with": [
+        "Self",
+        "Browny"
+      ]
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_plc_004",
+    "name": "Indore",
+    "properties": {
+      "place_type": "city",
+      "notable_characteristics": "has nice spots"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_evt_001",
+    "name": "Neetish's History Presentation",
+    "properties": {
+      "participants": [
+        {
+          "name": "Neetish",
+          "role": "presenter"
+        },
+        {
+          "name": "Self",
+          "role": "observer"
+        },
+        {
+          "name": "Preeti",
+          "role": "observer"
+        }
+      ],
+      "outcome": "wonderful",
+      "emotional_significance": "proud parents moment"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_evt_002",
+    "name": "Client Proposal Rejection",
+    "properties": {
+      "outcome": "negative",
+      "emotional_significance": "disappointing for the team",
+      "cause": "client rejected proposal"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_evt_003",
+    "name": "Principal Meeting",
+    "properties": {
+      "participants": [
+        {
+          "name": "Self",
+          "role": "parent"
+        },
+        {
+          "name": "Mohan's Principal",
+          "role": "administrator"
+        }
+      ],
+      "outcome": "resolved that the fight was a misunderstanding",
+      "cause": "conflict between Mohan and Aryan"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_act_001",
+    "name": "Yoga",
+    "properties": {
+      "who_involved": [
+        "Preeti"
+      ],
+      "emotional_valence": "positive",
+      "outcome_or_result": "physical tiredness"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_emo_001",
+    "name": "Pride",
+    "properties": {
+      "experienced_by": [
+        "Self",
+        "Preeti"
+      ],
+      "trigger": "Neetish's successful history presentation",
+      "intensity": "strong"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_emo_002",
+    "name": "Disappointment",
+    "properties": {
+      "experienced_by": [
+        "The Team"
+      ],
+      "trigger": "client proposal rejection",
+      "intensity": "moderate"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_pln_001",
+    "name": "Strategy Rework",
+    "properties": {
+      "timeframe": "immediate future",
+      "motivation": "client rejected the proposal",
+      "status": "firm intention",
+      "urgency": "high"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_pln_002",
+    "name": "Mohan and Aryan Playdate",
+    "properties": {
+      "timeframe": "this weekend",
+      "who_involved": [
+        "Mohan",
+        "Aryan"
+      ],
+      "motivation": "to mend things after a fight",
+      "status": "organized"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  },
+  {
+    "id": "3524de1e73c94464bedbc96ced1e1ffa_001_pln_003",
+    "name": "Preeti's Next Yoga Class",
+    "properties": {
+      "timeframe": "tomorrow",
+      "who_involved": [
+        "Preeti"
+      ],
+      "motivation": "instructor is good",
+      "status": "firm intention"
+    },
+    "chunk_id": "3524de1e73c94464bedbc96ced1e1ffa_001",
+    "doc_id": "3524de1e73c94464bedbc96ced1e1ffa"
+  }
+]

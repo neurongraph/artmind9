@@ -1,0 +1,4056 @@
+[
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_001",
+    "target_name": "Identifying gaps in reconciliation",
+    "rel_type": "faces",
+    "description": "The bank struggles with identifying gaps in its technical data reconciliation processes.",
+    "properties": {
+      "severity": "high",
+      "domain": "data operations"
+    },
+    "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_002",
+    "target_name": "Legacy system complexity",
+    "rel_type": "faces",
+    "description": "The bank's operations are hindered by complex legacy system architectures.",
+    "properties": {
+      "impact": "operational inefficiency",
+      "scope": "cross-functional"
+    },
+    "context": "reviewed documentation for 78 systems across 6 “in scope” areas",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_003",
+    "target_name": "Regulatory & compliance burden",
+    "rel_type": "faces",
+    "description": "The bank faces significant regulatory and compliance pressures requiring robust data governance.",
+    "properties": {
+      "regulatory_focus": "AML & data quality",
+      "urgency": "critical"
+    },
+    "context": "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_004",
+    "target_name": "Knowledge transfer & skill gap",
+    "rel_type": "faces",
+    "description": "The bank experiences skill gaps and knowledge transfer challenges within its BAU teams.",
+    "properties": {
+      "mitigation_approach": "coaching & handover",
+      "target_audience": "BAU colleagues"
+    },
+    "context": "Actively coaching BAU colleagues to ensure successful handover",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_001",
+    "target_name": "Identifying gaps in reconciliation",
+    "rel_type": "faces",
+    "description": "Nationwide faces similar reconciliation gap identification challenges in its FTP landscape.",
+    "properties": {
+      "severity": "high",
+      "context": "FTP landscape mapping"
+    },
+    "context": "labeled 'Nationwide FTP Landscape Mic...'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_002",
+    "target_name": "Legacy system complexity",
+    "rel_type": "faces",
+    "description": "Nationwide's data architecture involves complex legacy system integrations.",
+    "properties": {
+      "impact": "data flow visibility",
+      "scope": "multi-system"
+    },
+    "context": "The picture is a screenshot of the Microsoft Excel spreadsheet application, displaying a large, partially filled spreadsheet labeled 'Nationwide FTP Landscape Mic...'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "target_name": "Eco Crime",
+    "rel_type": "engaged_with",
+    "description": "The bank engaged with the Eco Crime offering to address data lineage and quality challenges.",
+    "properties": {
+      "engagement_phase": "implementation & coaching",
+      "focus_area": "CDEs across functional areas"
+    },
+    "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "target_name": "Payments Screening",
+    "rel_type": "engaged_with",
+    "description": "The bank utilized the Payments Screening solution to review reconciliation processes.",
+    "properties": {
+      "engagement_phase": "assessment & review",
+      "focus_area": "technical data reconciliation"
+    },
+    "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "target_name": "Analysis And MI Reporting",
+    "rel_type": "engaged_with",
+    "description": "Nationwide engaged with the Analysis and MI Reporting solution for data mapping and reporting.",
+    "properties": {
+      "engagement_phase": "mapping & visualization",
+      "focus_area": "FTP landscape"
+    },
+    "context": "The picture is a screenshot of the Microsoft Excel spreadsheet application, displaying a large, partially filled spreadsheet labeled 'Nationwide FTP Landscape Mic...'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_001",
+    "target_name": "Identifying gaps in reconciliation",
+    "rel_type": "mitigates",
+    "description": "Eco Crime mitigates reconciliation gap identification through structured data lineage and quality checks.",
+    "properties": {
+      "approach": "metadata derivation & rule creation",
+      "completeness": "full"
+    },
+    "context": "Derived technical rules from data lineage metadata and worked with 7 Business SMEs to create 400+ DQ rules and SSDs for 205 CDEs",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_002",
+    "target_name": "Legacy system complexity",
+    "rel_type": "mitigates",
+    "description": "Eco Crime mitigates legacy system complexity by mapping 78 systems and 205 CDEs.",
+    "properties": {
+      "approach": "system documentation & dataflow mapping",
+      "completeness": "full"
+    },
+    "context": "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_003",
+    "target_name": "Regulatory & compliance burden",
+    "rel_type": "mitigates",
+    "description": "Eco Crime mitigates regulatory burden by enforcing conformity and completeness DQ rules.",
+    "properties": {
+      "approach": "automated quality checks & rule validation",
+      "completeness": "full"
+    },
+    "context": "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_004",
+    "target_name": "Knowledge transfer & skill gap",
+    "rel_type": "mitigates",
+    "description": "Eco Crime mitigates skill gaps through active coaching and successful handover processes.",
+    "properties": {
+      "approach": "BAU coaching & knowledge transfer",
+      "completeness": "full"
+    },
+    "context": "Actively coaching BAU colleagues to ensure successful handover",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "source_name": "Payments Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_001",
+    "target_name": "Identifying gaps in reconciliation",
+    "rel_type": "solves",
+    "description": "Payments Screening solves reconciliation gap identification by producing maturity assessment reports.",
+    "properties": {
+      "approach": "SME interviews & maturity reporting",
+      "completeness": "full"
+    },
+    "context": "Interviewed c. 20 SMEs for Payments Screening to produce 1 maturity assessment report on as-is technical data reconciliation",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "source_name": "Payments Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_002",
+    "target_name": "Legacy system complexity",
+    "rel_type": "mitigates",
+    "description": "Payments Screening mitigates legacy complexity by mapping functional areas and interfaces.",
+    "properties": {
+      "approach": "comprehensive XLS mapping & interface contracts",
+      "completeness": "partial"
+    },
+    "context": "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "source_name": "Payments Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_003",
+    "target_name": "Regulatory & compliance burden",
+    "rel_type": "mitigates",
+    "description": "Payments Screening mitigates compliance burden by establishing clear data flows and rules.",
+    "properties": {
+      "approach": "dataflow visualization & rule definition",
+      "completeness": "partial"
+    },
+    "context": "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "source_name": "Payments Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_004",
+    "target_name": "Knowledge transfer & skill gap",
+    "rel_type": "mitigates",
+    "description": "Payments Screening mitigates skill gaps by identifying next steps and working with NW on review areas.",
+    "properties": {
+      "approach": "collaborative review & next-step planning",
+      "completeness": "partial"
+    },
+    "context": "Working with NW to identify additional review area and next steps for P.S. based on findings",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_003",
+    "target_name": "Regulatory & compliance burden",
+    "rel_type": "mitigates",
+    "description": "Analysis and MI Reporting mitigates compliance burden by centralizing data sets for reporting.",
+    "properties": {
+      "approach": "data aggregation & reporting flow",
+      "completeness": "partial"
+    },
+    "context": "The overall structure maps the transformation of raw data from source systems into organized data sets for Analysis And MI Reporting.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_004",
+    "target_name": "Knowledge transfer & skill gap",
+    "rel_type": "mitigates",
+    "description": "Analysis and MI Reporting mitigates skill gaps by providing clear data architecture and reporting flows.",
+    "properties": {
+      "approach": "visual data architecture & reporting standardization",
+      "completeness": "partial"
+    },
+    "context": "The image is a detailed technical diagram illustrating a data architecture and reporting flow, titled 'Analysis And MI Reporting.'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "target_name": "Establishing baseline maturity",
+    "rel_type": "achieved",
+    "description": "Eco Crime achieved the establishment of baseline maturity for CDEs across functional areas.",
+    "properties": {
+      "metric": "baseline maturity",
+      "value": "established",
+      "timeframe": "project completion"
+    },
+    "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "source_name": "Payments Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_002",
+    "target_name": "Identifying gaps & immediate steps",
+    "rel_type": "achieved",
+    "description": "Payments Screening achieved the identification of reconciliation gaps and immediate next steps.",
+    "properties": {
+      "metric": "gap identification",
+      "value": "identified",
+      "timeframe": "assessment phase"
+    },
+    "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_003",
+    "target_name": "Successful handover",
+    "rel_type": "achieved",
+    "description": "Eco Crime achieved a successful handover through active coaching of BAU colleagues.",
+    "properties": {
+      "metric": "handover success",
+      "value": "successful",
+      "timeframe": "post-implementation"
+    },
+    "context": "Actively coaching BAU colleagues to ensure successful handover",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "target_name": "Establishing baseline maturity",
+    "rel_type": "achieved",
+    "description": "The bank achieved baseline maturity establishment for its critical data elements.",
+    "properties": {
+      "metric": "baseline maturity",
+      "value": "established",
+      "timeframe": "project delivery"
+    },
+    "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_002",
+    "target_name": "Identifying gaps & immediate steps",
+    "rel_type": "achieved",
+    "description": "The bank achieved identification of reconciliation gaps and immediate remediation steps.",
+    "properties": {
+      "metric": "gap identification",
+      "value": "identified",
+      "timeframe": "assessment delivery"
+    },
+    "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_003",
+    "target_name": "Successful handover",
+    "rel_type": "achieved",
+    "description": "The bank achieved a successful handover of BAU operations through coaching and documentation.",
+    "properties": {
+      "metric": "handover success",
+      "value": "successful",
+      "timeframe": "post-implementation"
+    },
+    "context": "Actively coaching BAU colleagues to ensure successful handover",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "target_name": "Establishing baseline maturity",
+    "rel_type": "achieved",
+    "description": "Nationwide achieved baseline maturity establishment through data mapping and reporting solutions.",
+    "properties": {
+      "metric": "baseline maturity",
+      "value": "established",
+      "timeframe": "project delivery"
+    },
+    "context": "The picture is a screenshot of the Microsoft Excel spreadsheet application, displaying a large, partially filled spreadsheet labeled 'Nationwide FTP Landscape Mic...'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_002",
+    "target_name": "Identifying gaps & immediate steps",
+    "rel_type": "achieved",
+    "description": "Nationwide achieved identification of data gaps and immediate next steps for its FTP landscape.",
+    "properties": {
+      "metric": "gap identification",
+      "value": "identified",
+      "timeframe": "assessment delivery"
+    },
+    "context": "Working with NW to identify additional review area and next steps for P.S. based on findings",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_001",
+    "source_name": "Compute data lineage",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "target_name": "Eco Crime",
+    "rel_type": "comprises",
+    "description": "Eco Crime comprises the compute data lineage capability for CDEs.",
+    "properties": {
+      "component_type": "core capability",
+      "optional": false
+    },
+    "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_002",
+    "source_name": "Measure data quality",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "target_name": "Eco Crime",
+    "rel_type": "comprises",
+    "description": "Eco Crime comprises the measure data quality capability for CDEs.",
+    "properties": {
+      "component_type": "core capability",
+      "optional": false
+    },
+    "context": "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_003",
+    "source_name": "Review technical data reconciliation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "target_name": "Payments Screening",
+    "rel_type": "comprises",
+    "description": "Payments Screening comprises the review technical data reconciliation capability.",
+    "properties": {
+      "component_type": "core capability",
+      "optional": false
+    },
+    "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_004",
+    "source_name": "Promote capability build",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "target_name": "Eco Crime",
+    "rel_type": "comprises",
+    "description": "Eco Crime comprises the promote capability build capability through BAU coaching.",
+    "properties": {
+      "component_type": "enablement capability",
+      "optional": false
+    },
+    "context": "Actively coaching BAU colleagues to ensure successful handover",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_001",
+    "source_name": "Compute data lineage",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "target_name": "Establishing baseline maturity",
+    "rel_type": "delivers",
+    "description": "Compute data lineage delivers the establishment of baseline maturity.",
+    "properties": {
+      "metric": "baseline maturity",
+      "value": "established",
+      "timeframe": "project delivery"
+    },
+    "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_002",
+    "source_name": "Measure data quality",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "target_name": "Establishing baseline maturity",
+    "rel_type": "delivers",
+    "description": "Measure data quality delivers the establishment of baseline maturity.",
+    "properties": {
+      "metric": "baseline maturity",
+      "value": "established",
+      "timeframe": "project delivery"
+    },
+    "context": "Measure data quality for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_003",
+    "source_name": "Review technical data reconciliation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_002",
+    "target_name": "Identifying gaps & immediate steps",
+    "rel_type": "delivers",
+    "description": "Review technical data reconciliation delivers the identification of gaps and immediate steps.",
+    "properties": {
+      "metric": "gap identification",
+      "value": "identified",
+      "timeframe": "assessment delivery"
+    },
+    "context": "Review technical data reconciliation processes for Payments Screening—identifying gaps & immediate steps",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_004",
+    "source_name": "Promote capability build",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_003",
+    "target_name": "Successful handover",
+    "rel_type": "delivers",
+    "description": "Promote capability build delivers a successful handover through coaching.",
+    "properties": {
+      "metric": "handover success",
+      "value": "successful",
+      "timeframe": "post-implementation"
+    },
+    "context": "Actively coaching BAU colleagues to ensure successful handover",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_002",
+    "source_name": "Measure data quality",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_001",
+    "target_name": "SAS Analytics",
+    "rel_type": "powered_by",
+    "description": "Measure data quality is powered by SAS Analytics for running quality checks.",
+    "properties": {
+      "version": "N/A",
+      "deployment_model": "on-premise/cloud",
+      "usage": "DQ rule execution"
+    },
+    "context": "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_003",
+    "target_name": "Data Lineage & Quality Baseline",
+    "rel_type": "demonstrated_through",
+    "description": "Eco Crime is demonstrated through the Data Lineage & Quality Baseline use case.",
+    "properties": {
+      "demonstration_type": "case study",
+      "focus_area": "CDE lineage & quality"
+    },
+    "context": "Compute data lineage for CDEs across in scope functional areas for Eco Crime—establishing baseline maturity",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "source_name": "Payments Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_001",
+    "target_name": "AML T&M",
+    "rel_type": "demonstrated_through",
+    "description": "Payments Screening is demonstrated through the AML T&M use case.",
+    "properties": {
+      "demonstration_type": "case study",
+      "focus_area": "AML transaction monitoring"
+    },
+    "context": "The diagram processes data from several sources... SAS Analytics (AML T&M)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_002",
+    "target_name": "MI Reporting",
+    "rel_type": "demonstrated_through",
+    "description": "Analysis and MI Reporting is demonstrated through the MI Reporting use case.",
+    "properties": {
+      "demonstration_type": "case study",
+      "focus_area": "management reporting"
+    },
+    "context": "The image is a detailed technical diagram illustrating a data architecture and reporting flow, titled 'Analysis And MI Reporting.'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_001",
+    "source_name": "AML T&M",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_001",
+    "target_name": "SAS Analytics",
+    "rel_type": "uses",
+    "description": "AML T&M uses SAS Analytics for data processing and rule execution.",
+    "properties": {
+      "usage_type": "core engine",
+      "integration_level": "deep"
+    },
+    "context": "The diagram processes data from several sources... SAS Analytics (AML T&M)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_002",
+    "source_name": "MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_003",
+    "target_name": "Microsoft Excel",
+    "rel_type": "uses",
+    "description": "MI Reporting uses Microsoft Excel for data mapping and spreadsheet-based reporting.",
+    "properties": {
+      "usage_type": "visualization & mapping",
+      "integration_level": "manual/semi-automated"
+    },
+    "context": "The picture is a screenshot of a Microsoft Excel spreadsheet, displaying a large, detailed data table and the surrounding spreadsheet interface.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_001",
+    "target_name": "SAS Analytics",
+    "rel_type": "integrates_with",
+    "description": "Eco Crime integrates with SAS Analytics for data quality rule execution.",
+    "properties": {
+      "integration_type": "rule engine",
+      "data_flow": "bidirectional"
+    },
+    "context": "Configuring SAS Tool to run quality checks against 2 DQ dimensions (Conformity & Completeness)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_002",
+    "target_name": "Planview",
+    "rel_type": "integrates_with",
+    "description": "Eco Crime integrates with Planview to augment information with comprehensive mapping files.",
+    "properties": {
+      "integration_type": "data augmentation",
+      "data_flow": "unidirectional"
+    },
+    "context": "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_004",
+    "target_name": "Unisys",
+    "rel_type": "integrates_with",
+    "description": "Analysis and MI Reporting integrates with Unisys as a primary data source.",
+    "properties": {
+      "integration_type": "data ingestion",
+      "data_flow": "unidirectional"
+    },
+    "context": "The diagram processes data from several sources on the left: Payments, Unisys, SAP, Sira, Chaps, and CIS.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_005",
+    "target_name": "SAP",
+    "rel_type": "integrates_with",
+    "description": "Analysis and MI Reporting integrates with SAP as a primary data source.",
+    "properties": {
+      "integration_type": "data ingestion",
+      "data_flow": "unidirectional"
+    },
+    "context": "The diagram processes data from several sources on the left: Payments, Unisys, SAP, Sira, Chaps, and CIS.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_006",
+    "target_name": "Chaps",
+    "rel_type": "integrates_with",
+    "description": "Analysis and MI Reporting integrates with Chaps for data processing and reporting.",
+    "properties": {
+      "integration_type": "data processing",
+      "data_flow": "bidirectional"
+    },
+    "context": "The diagram processes data from several sources... These sources flow into the main processing component, FCD... feeds into another Chaps component",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_007",
+    "target_name": "FCD",
+    "rel_type": "integrates_with",
+    "description": "Analysis and MI Reporting integrates with FCD as the main processing component.",
+    "properties": {
+      "integration_type": "core processing",
+      "data_flow": "bidirectional"
+    },
+    "context": "These sources flow into the main processing component, FCD.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_008",
+    "target_name": "NetReveal",
+    "rel_type": "integrates_with",
+    "description": "Analysis and MI Reporting integrates with NetReveal for data set generation.",
+    "properties": {
+      "integration_type": "data set output",
+      "data_flow": "unidirectional"
+    },
+    "context": "The resulting data sets are labeled throughout the diagram, including: ... NetReveal Data Set.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_009",
+    "target_name": "SUMMIT_DEP",
+    "rel_type": "integrates_with",
+    "description": "Analysis and MI Reporting integrates with SUMMIT_DEP for deposit-related data processing.",
+    "properties": {
+      "integration_type": "data ingestion",
+      "data_flow": "unidirectional"
+    },
+    "context": "The spreadsheet contains numerous rows of structured data. The content includes phrases and technical terms such as: ... SUMMIT_DEP",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_001",
+    "source_name": "Consulted c. 150+ SMEs",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "target_name": "Eco Crime",
+    "rel_type": "distinguishes",
+    "description": "Consulting over 150 SMEs distinguishes Eco Crime through extensive stakeholder engagement.",
+    "properties": {
+      "differentiation_type": "engagement scale",
+      "impact": "high"
+    },
+    "context": "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_001",
+    "source_name": "Consulted c. 150+ SMEs",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "target_name": "Payments Screening",
+    "rel_type": "distinguishes",
+    "description": "Consulting over 150 SMEs distinguishes Payments Screening through extensive stakeholder engagement.",
+    "properties": {
+      "differentiation_type": "engagement scale",
+      "impact": "high"
+    },
+    "context": "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_002",
+    "source_name": "Created 6 dataflow diagrams and 108 interface contracts",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "target_name": "Eco Crime",
+    "rel_type": "distinguishes",
+    "description": "Creating detailed dataflow diagrams and interface contracts distinguishes Eco Crime through comprehensive documentation.",
+    "properties": {
+      "differentiation_type": "documentation depth",
+      "impact": "high"
+    },
+    "context": "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_002",
+    "source_name": "Created 6 dataflow diagrams and 108 interface contracts",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "target_name": "Payments Screening",
+    "rel_type": "distinguishes",
+    "description": "Creating detailed dataflow diagrams and interface contracts distinguishes Payments Screening through comprehensive documentation.",
+    "properties": {
+      "differentiation_type": "documentation depth",
+      "impact": "high"
+    },
+    "context": "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_001",
+    "source_name": "Consulted c. 150+ SMEs",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_001",
+    "target_name": "Compute data lineage",
+    "rel_type": "demonstrated_through",
+    "description": "Consulting 150+ SMEs demonstrates the compute data lineage capability through extensive review.",
+    "properties": {
+      "demonstration_type": "stakeholder validation",
+      "evidence": "documentation review"
+    },
+    "context": "Consulted c. 150+ SMEs across business and technology and reviewed documentation for 78 systems across 6 “in scope” areas",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_002",
+    "source_name": "Created 6 dataflow diagrams and 108 interface contracts",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_001",
+    "target_name": "Compute data lineage",
+    "rel_type": "demonstrated_through",
+    "description": "Creating dataflow diagrams demonstrates the compute data lineage capability through visual mapping.",
+    "properties": {
+      "demonstration_type": "visual mapping",
+      "evidence": "6 dataflow diagrams"
+    },
+    "context": "Created 6 dataflow diagrams and 108 interface contracts to visualise flow of 205 Critical Data Elements",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_001",
+    "source_name": "Detailed technical diagram",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "target_name": "Analysis And MI Reporting",
+    "rel_type": "part_of",
+    "description": "The detailed technical diagram is part of the Analysis and MI Reporting offering.",
+    "properties": {
+      "component_type": "visual artifact",
+      "optional": false
+    },
+    "context": "The image is a detailed technical diagram illustrating a data architecture and reporting flow, titled 'Analysis And MI Reporting.'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_002",
+    "source_name": "Comprehensive XLS mapping file",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "target_name": "Eco Crime",
+    "rel_type": "part_of",
+    "description": "The comprehensive XLS mapping file is part of the Eco Crime offering.",
+    "properties": {
+      "component_type": "data artifact",
+      "optional": false
+    },
+    "context": "Produced 1 comprehensive XLS mapping file of functional areas, CDEs, interfaces, and SMEs across business and technology to augment information in Planview",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_001",
+    "source_name": "Ikant Pawar",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "target_name": "UK based Bank",
+    "rel_type": "champions",
+    "description": "Ikant Pawar champions the UK based Bank's engagement with the offering.",
+    "properties": {
+      "role": "stakeholder",
+      "engagement_level": "high"
+    },
+    "context": "On the right side of the image, several names are visible: Ikant Pawar",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_002",
+    "source_name": "Tom Wheatley",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "target_name": "UK based Bank",
+    "rel_type": "champions",
+    "description": "Tom Wheatley champions the UK based Bank's engagement with the offering.",
+    "properties": {
+      "role": "stakeholder",
+      "engagement_level": "high"
+    },
+    "context": "On the right side of the image, several names are visible: Tom Wheatley",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_003",
+    "source_name": "Dylan Anderson",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "target_name": "UK based Bank",
+    "rel_type": "champions",
+    "description": "Dylan Anderson champions the UK based Bank's engagement with the offering.",
+    "properties": {
+      "role": "stakeholder",
+      "engagement_level": "high"
+    },
+    "context": "On the right side of the image, several names are visible: Dylan Anderson",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_004",
+    "source_name": "Nishkant Pawar",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "target_name": "UK based Bank",
+    "rel_type": "champions",
+    "description": "Nishkant Pawar champions the UK based Bank's engagement with the offering.",
+    "properties": {
+      "role": "stakeholder",
+      "engagement_level": "high"
+    },
+    "context": "On the right side of the image, several names are visible: Nishkant Pawar",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_org_001",
+    "source_name": "NW",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "target_name": "UK based Bank",
+    "rel_type": "partners_with",
+    "description": "NW partners with the UK based Bank to identify review areas and next steps.",
+    "properties": {
+      "partnership_type": "collaborative review",
+      "scope": "Payments Screening"
+    },
+    "context": "Working with NW to identify additional review area and next steps for P.S. based on findings",
+    "bidirectional": true,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_loc_001",
+    "source_name": "UK",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "target_name": "UK based Bank",
+    "rel_type": "is_market_for",
+    "description": "The UK is the market for the UK based Bank's operations and solutions.",
+    "properties": {
+      "market_type": "domestic",
+      "regulatory_context": "UK banking"
+    },
+    "context": "Case Study for a UK based Bank",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_loc_001",
+    "source_name": "UK",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "target_name": "Nationwide",
+    "rel_type": "is_market_for",
+    "description": "The UK is the market for Nationwide's operations and solutions.",
+    "properties": {
+      "market_type": "domestic",
+      "regulatory_context": "UK banking"
+    },
+    "context": "The picture is a screenshot of the Microsoft Excel spreadsheet application, displaying a large, partially filled spreadsheet labeled 'Nationwide FTP Landscape Mic...'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_001",
+    "source_name": "UK based Bank",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_002",
+    "source_name": "RBS",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cli_003",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_001",
+    "source_name": "Eco Crime",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_002",
+    "source_name": "Payments Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_003",
+    "source_name": "Analysis And MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_off_004",
+    "source_name": "Maturity Assessment Report",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_001",
+    "source_name": "Compute data lineage",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_002",
+    "source_name": "Measure data quality",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_003",
+    "source_name": "Review technical data reconciliation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cap_004",
+    "source_name": "Promote capability build",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_001",
+    "source_name": "AML T&M",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_002",
+    "source_name": "MI Reporting",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_use_003",
+    "source_name": "Data Lineage & Quality Baseline",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_001",
+    "source_name": "Establishing baseline maturity",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_002",
+    "source_name": "Identifying gaps & immediate steps",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_ben_003",
+    "source_name": "Successful handover",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_001",
+    "source_name": "Identifying gaps in reconciliation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_002",
+    "source_name": "Legacy system complexity",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_003",
+    "source_name": "Regulatory & compliance burden",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_cha_004",
+    "source_name": "Knowledge transfer & skill gap",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_001",
+    "source_name": "SAS Analytics",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_002",
+    "source_name": "Planview",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_003",
+    "source_name": "Microsoft Excel",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_004",
+    "source_name": "Unisys",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_005",
+    "source_name": "SAP",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_006",
+    "source_name": "Chaps",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_007",
+    "source_name": "FCD",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_008",
+    "source_name": "NetReveal",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_tec_009",
+    "source_name": "SUMMIT_DEP",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_001",
+    "source_name": "Consulted c. 150+ SMEs",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_002",
+    "source_name": "Created 6 dataflow diagrams and 108 interface contracts",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_dif_003",
+    "source_name": "Actively coaching BAU colleagues",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_001",
+    "source_name": "Ikant Pawar",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_002",
+    "source_name": "Tom Wheatley",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_003",
+    "source_name": "Dylan Anderson",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_per_004",
+    "source_name": "Nishkant Pawar",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_001",
+    "source_name": "Detailed technical diagram",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_obj_002",
+    "source_name": "Comprehensive XLS mapping file",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_org_001",
+    "source_name": "NW",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_002_loc_001",
+    "source_name": "UK",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_002",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "source_name": "organisation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_001",
+    "target_name": "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+    "rel_type": "faces",
+    "description": "The organisation faces a lack of evidence for monitoring or reconciling transaction movements and data screening across systems.",
+    "properties": {
+      "severity": "active pain point",
+      "domain": "Payment Screening"
+    },
+    "context": "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled as regards the CDES within Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "source_name": "organisation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_002",
+    "target_name": "Data Reconciliation for Payment Screening does not appear to have been implemented yet",
+    "rel_type": "faces",
+    "description": "The organisation experiences the absence of implemented data reconciliation for payment screening.",
+    "properties": {
+      "status": "unimplemented",
+      "impact": "active pain point"
+    },
+    "context": "Data Reconciliation for Payment Screening does not appear to have been implemented yet although multiple SMEs confirmed this is a relevant and active pain point for the organisation.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "source_name": "FCTP Data Reconciliation Initiative",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_001",
+    "target_name": "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+    "rel_type": "addresses",
+    "description": "The initiative directly addresses the lack of evidence for monitoring and reconciling transaction movements.",
+    "properties": {
+      "approach": "assessment and process review",
+      "completeness": "full"
+    },
+    "context": "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "source_name": "FCTP Data Reconciliation Initiative",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_002",
+    "target_name": "Data Reconciliation for Payment Screening does not appear to have been implemented yet",
+    "rel_type": "addresses",
+    "description": "The initiative targets the unimplemented state of data reconciliation for payment screening.",
+    "properties": {
+      "approach": "process assessment and implementation roadmap",
+      "completeness": "full"
+    },
+    "context": "Data Reconciliation for Payment Screening does not appear to have been implemented yet although multiple SMEs confirmed this is a relevant and active pain point for the organisation.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_001",
+    "target_name": "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+    "rel_type": "solves",
+    "description": "The solution resolves the lack of evidence for monitoring and reconciling transaction movements.",
+    "properties": {
+      "approach": "technical data reconciliation process",
+      "completeness": "full"
+    },
+    "context": "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_002",
+    "target_name": "Data Reconciliation for Payment Screening does not appear to have been implemented yet",
+    "rel_type": "solves",
+    "description": "The solution addresses the unimplemented data reconciliation for payment screening.",
+    "properties": {
+      "approach": "reconciliation strategy and tool configuration",
+      "completeness": "full"
+    },
+    "context": "Data Reconciliation for Payment Screening does not appear to have been implemented yet although multiple SMEs confirmed this is a relevant and active pain point for the organisation.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_001",
+    "target_name": "Payment Screening",
+    "rel_type": "addresses",
+    "description": "The solution is designed to address payment screening reconciliation needs.",
+    "properties": {
+      "domain": "financial crime analytics",
+      "phase": "NOW/NEAR"
+    },
+    "context": "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_002",
+    "target_name": "Reconciliation",
+    "rel_type": "addresses",
+    "description": "The solution directly supports reconciliation use cases across the banking estate.",
+    "properties": {
+      "domain": "data reconciliation",
+      "phase": "NEXT"
+    },
+    "context": "FCTP Data Reconciliation Initiative - Current State and Key Findings... Tentative Roadmap for Reconciliation solution",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_003",
+    "target_name": "Financial or banking management",
+    "rel_type": "addresses",
+    "description": "The solution supports broader financial and banking management operations.",
+    "properties": {
+      "domain": "banking operations",
+      "scope": "enterprise"
+    },
+    "context": "The picture is a screenshot of a comprehensive financial or banking management application interface...",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_001",
+    "target_name": "Data Reconciliation",
+    "rel_type": "comprises",
+    "description": "The solution includes core data reconciliation capabilities.",
+    "properties": {
+      "component_type": "core capability",
+      "priority": "high"
+    },
+    "context": "Define Recon Strategy with DQ & A... Execute Recon, QA, Produce Reports",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_002",
+    "target_name": "Payment Screening",
+    "rel_type": "comprises",
+    "description": "The solution encompasses payment screening reconciliation functions.",
+    "properties": {
+      "component_type": "security capability",
+      "priority": "high"
+    },
+    "context": "assess the existing technical data reconciliation process(es) for Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_003",
+    "target_name": "Recon Strategy",
+    "rel_type": "comprises",
+    "description": "The solution delivers recon strategy definition and planning.",
+    "properties": {
+      "component_type": "strategic capability",
+      "priority": "medium"
+    },
+    "context": "Define Recon Strategy with DQ & A",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_004",
+    "target_name": "System Design",
+    "rel_type": "comprises",
+    "description": "The solution includes system design activities.",
+    "properties": {
+      "component_type": "technical capability",
+      "priority": "medium"
+    },
+    "context": "System Design",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_005",
+    "target_name": "Tool Configuration and Custom Coding",
+    "rel_type": "comprises",
+    "description": "The solution provides tool configuration and custom coding capabilities.",
+    "properties": {
+      "component_type": "development capability",
+      "priority": "medium"
+    },
+    "context": "Tool Configuration and Custom Coding",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_006",
+    "target_name": "Execute Recon, QA, Produce Reports",
+    "rel_type": "comprises",
+    "description": "The solution enables execution of reconciliation, QA, and reporting.",
+    "properties": {
+      "component_type": "operational capability",
+      "priority": "high"
+    },
+    "context": "Execute Recon, QA, Produce Reports",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_007",
+    "target_name": "BAU Process",
+    "rel_type": "comprises",
+    "description": "The solution supports business-as-usual reconciliation processes.",
+    "properties": {
+      "component_type": "operational capability",
+      "priority": "high"
+    },
+    "context": "The final phase box includes 'Execute Recon, QA, Produce Reports' and the 'BAU Process.'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_008",
+    "target_name": "DQ & A",
+    "rel_type": "comprises",
+    "description": "The solution incorporates data quality and analysis capabilities.",
+    "properties": {
+      "component_type": "quality capability",
+      "priority": "medium"
+    },
+    "context": "Define Recon Strategy with DQ & A",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_003",
+    "source_name": "MVP - Selected Functional Area",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_002",
+    "target_name": "In house Tools and Custom Coding",
+    "rel_type": "built_on",
+    "description": "The MVP phase is built upon in-house tools and custom coding.",
+    "properties": {
+      "phase": "NOW",
+      "dependency_level": "high"
+    },
+    "context": "The process caption for this phase is 'In house Tools and Custom Coding.'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "source_name": "FCTP Data Reconciliation Initiative",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_003",
+    "target_name": "Industry Standard DQ & DR tools Commissioned",
+    "rel_type": "built_on",
+    "description": "The initiative leverages commissioned industry standard DQ & DR tools.",
+    "properties": {
+      "phase": "NEAR",
+      "dependency_level": "high"
+    },
+    "context": "The process caption is 'Industry Standard DQ & DR tools Commissioned.'",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_007",
+    "target_name": "Industry Standard DQ & DR tools",
+    "rel_type": "uses",
+    "description": "The solution utilizes industry standard data quality and data reconciliation tools.",
+    "properties": {
+      "phase": "NEAR",
+      "vendor_type": "third-party"
+    },
+    "context": "Industry Standard DQ & DR tools Commissioned",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_004",
+    "source_name": "final reporting system",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_005",
+    "target_name": "originating sources",
+    "rel_type": "migrates_to",
+    "description": "System coverage extends from the final reporting system to originating sources.",
+    "properties": {
+      "migration_scope": "all products",
+      "direction": "upstream"
+    },
+    "context": "Extend system coverage from final reporting system to originating sources for all the products.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_001",
+    "target_name": "Prove capabilities",
+    "rel_type": "promises",
+    "description": "The solution promises to prove its capabilities in the NEAR phase.",
+    "properties": {
+      "phase": "NEAR",
+      "timeline": "2Q 2024",
+      "validation_method": "SME review"
+    },
+    "context": "NEAR (2Q 2024): Prove capabilities",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_002",
+    "target_name": "Scale and Piloterate",
+    "rel_type": "promises",
+    "description": "The solution promises scale and piloterate outcomes in the NEXT phase.",
+    "properties": {
+      "phase": "NEXT",
+      "timeline": "2024-25",
+      "scope": "Remaining Functional Areas and BAU"
+    },
+    "context": "NEXT (2024-25): Scale and Piloterate",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "source_name": "FCTP Data Reconciliation Initiative",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_001",
+    "target_name": "FCTP Data Reconciliation Initiative",
+    "rel_type": "launched_at",
+    "description": "The initiative was launched as part of the FCTP Data Reconciliation Initiative event.",
+    "properties": {
+      "event_type": "program launch",
+      "status": "current state"
+    },
+    "context": "FCTP Data Reconciliation Initiative - Current State and Key Findings",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "source_name": "organisation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "target_name": "Reconciliation solution",
+    "rel_type": "is_target_for",
+    "description": "The organisation is the target for the Reconciliation solution roadmap.",
+    "properties": {
+      "roadmap_phase": "Tentative Roadmap",
+      "target_status": "planned"
+    },
+    "context": "Tentative Roadmap for Reconciliation solution",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_001",
+    "source_name": "IBM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "supplies",
+    "description": "IBM supplies assessment and reconciliation services to the organisation.",
+    "properties": {
+      "contract_type": "Time and Materials",
+      "engagement_scope": "process assessment"
+    },
+    "context": "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_001",
+    "source_name": "IBM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "target_name": "FCTP Data Reconciliation Initiative",
+    "rel_type": "delivers",
+    "description": "IBM delivers the FCTP Data Reconciliation Initiative.",
+    "properties": {
+      "delivery_model": "Time and Materials",
+      "focus": "process assessment"
+    },
+    "context": "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_001",
+    "source_name": "IBM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_001",
+    "target_name": "Time and Materials contract",
+    "rel_type": "uses",
+    "description": "IBM operates under a Time and Materials contract for this engagement.",
+    "properties": {
+      "contract_type": "Time and Materials",
+      "usage_context": "assessment engagement"
+    },
+    "context": "IBM has been engaged on a Time and Materials contract to assess the existing technical data reconciliation process(es) for Payment Screening.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_014",
+    "source_name": "Julian Duriez",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_002",
+    "target_name": "LexisNexis",
+    "rel_type": "represents",
+    "description": "Julian Duriez represents LexisNexis as a Senior Consultant.",
+    "properties": {
+      "role": "Senior Consultant",
+      "affiliation": "vendor partner"
+    },
+    "context": "Julian Duriez | Senior Consultant (LexisNexis)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_001",
+    "source_name": "Ben Ashwell",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Ben Ashwell works at the organisation as an Electronic Payments Director.",
+    "properties": {
+      "role": "Electronic Payments Director",
+      "function": "payments"
+    },
+    "context": "Ben Ashwell | Electronic Payments Director",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_002",
+    "source_name": "Rachel Cardy",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Rachel Cardy works at the organisation as a Product Owner.",
+    "properties": {
+      "role": "Product Owner",
+      "function": "assisted service"
+    },
+    "context": "Rachel Cardy | Product Owner • Assisted Service",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_003",
+    "source_name": "Simon Clydesdale",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Simon Clydesdale works at the organisation as a Delivery Manager.",
+    "properties": {
+      "role": "Delivery Manager",
+      "function": "payments"
+    },
+    "context": "Simon Clydesdale | Delivery Manager • Payments",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_004",
+    "source_name": "Vaibhav Nioding",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Vaibhav Nioding works at the organisation as a Test Analyst.",
+    "properties": {
+      "role": "Test Analyst",
+      "function": "quality assurance"
+    },
+    "context": "Vaibhav Nioding | Test Analyst",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_005",
+    "source_name": "Nupur Bole",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Nupur Bole works at the organisation as a Business Designer.",
+    "properties": {
+      "role": "Business Designer",
+      "function": "business analysis"
+    },
+    "context": "Nupur Bole | Business Designer",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_006",
+    "source_name": "Shipra Saxena",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Shipra Saxena works at the organisation as a Scrum Master.",
+    "properties": {
+      "role": "Scrum Master",
+      "function": "agile delivery"
+    },
+    "context": "Shipra Saxena | Scrum Master",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_007",
+    "source_name": "Karen Gosling",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Karen Gosling works at the organisation as a Product Owner.",
+    "properties": {
+      "role": "Product Owner",
+      "function": "payments CIO"
+    },
+    "context": "Karen Gosling | Product Owner • Payments CIO",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_008",
+    "source_name": "Vinoth Raj Seran",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Vinoth Raj Seran works at the organisation as an Engineer.",
+    "properties": {
+      "role": "Engineer",
+      "function": "E2"
+    },
+    "context": "Vinoth Raj Seran | Engineer E2",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_009",
+    "source_name": "Tom Rees",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Tom Rees works at the organisation as a Product Owner.",
+    "properties": {
+      "role": "Product Owner",
+      "function": "Member&Data Protection Rec"
+    },
+    "context": "Tom Rees | Product Owner • Member&Data Protection Rec",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_010",
+    "source_name": "Mike Rivet",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Mike Rivet works at the organisation as a Senior Consultant.",
+    "properties": {
+      "role": "FC Analytics Senior Consultant",
+      "function": "analytics"
+    },
+    "context": "Mike Rivet | FC Analytics Senior Consultant",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_011",
+    "source_name": "Adam Stephens",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Adam Stephens works at the organisation as an Engineer.",
+    "properties": {
+      "role": "Engineer",
+      "function": "E2 • Member&Data Protection Rec"
+    },
+    "context": "Adam Stephens | Engineer - E2 • Member&Data Protection Rec",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_012",
+    "source_name": "Jessica Mary",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Jessica Mary works at the organisation as a Product Owner.",
+    "properties": {
+      "role": "Product Owner",
+      "function": "Payments"
+    },
+    "context": "Jessica Mary | Product Owner • Payments",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_013",
+    "source_name": "Gary Bodden",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Gary Bodden works at the organisation as a Product Owner.",
+    "properties": {
+      "role": "Product Owner",
+      "function": "Payments CIO"
+    },
+    "context": "Gary Bodden | Product Owner • Payments CIO",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_015",
+    "source_name": "HIBA ALAM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "HIBA ALAM works at the organisation as an Engineer.",
+    "properties": {
+      "role": "Engineer",
+      "function": "3 • Payments"
+    },
+    "context": "HIBA ALAM | Engineer 3 • Payments",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_016",
+    "source_name": "Colin Winter",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Colin Winter works at the organisation in Credit Cards.",
+    "properties": {
+      "role": "Staff",
+      "function": "Credit Cards"
+    },
+    "context": "Colin Winter | Credit Cards",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_017",
+    "source_name": "Nicholas Polley",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Nicholas Polley works at the organisation as an Engineer.",
+    "properties": {
+      "role": "Engineer",
+      "function": "E2"
+    },
+    "context": "Nicholas Polley | Engineer E2",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_018",
+    "source_name": "Ashleigh Batson",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Ashleigh Batson works at the organisation as a Cards Value Stream Lead.",
+    "properties": {
+      "role": "Cards Value Stream Lead PO",
+      "function": "cards"
+    },
+    "context": "Ashleigh Batson | Cards Value Stream Lead PO",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_019",
+    "source_name": "Craig Barnes",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "target_name": "organisation",
+    "rel_type": "works_at",
+    "description": "Craig Barnes works at the organisation as an FC Analytics Consultant.",
+    "properties": {
+      "role": "FC Analytics Consultant",
+      "function": "Financial Crime Analytics"
+    },
+    "context": "Craig Barnes | FC Analytics Consultant • Financial Crime Analytics",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_001",
+    "source_name": "IBM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_org_002",
+    "source_name": "LexisNexis",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cli_001",
+    "source_name": "organisation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_001",
+    "source_name": "Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_002",
+    "source_name": "FCTP Data Reconciliation Initiative",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_003",
+    "source_name": "MVP - Selected Functional Area",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_off_004",
+    "source_name": "Industry Standard DQ & DR tools",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_001",
+    "source_name": "Data Reconciliation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_002",
+    "source_name": "Payment Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_003",
+    "source_name": "Recon Strategy",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_004",
+    "source_name": "System Design",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_005",
+    "source_name": "Tool Configuration and Custom Coding",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_006",
+    "source_name": "Execute Recon, QA, Produce Reports",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_007",
+    "source_name": "BAU Process",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cap_008",
+    "source_name": "DQ & A",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_001",
+    "source_name": "Payment Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_002",
+    "source_name": "Reconciliation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_003",
+    "source_name": "Financial or banking management",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_004",
+    "source_name": "Credit card",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_use_005",
+    "source_name": "Loans",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_001",
+    "source_name": "Prove capabilities",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_ben_002",
+    "source_name": "Scale and Piloterate",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_001",
+    "source_name": "Lack of evidence to suggest transaction movements and data screening across various systems have been monitored or reconciled",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_002",
+    "source_name": "Data Reconciliation for Payment Screening does not appear to have been implemented yet",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_cha_003",
+    "source_name": "active pain point for the organisation",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_001",
+    "source_name": "Internet banking",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_002",
+    "source_name": "Savings & ISA",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_003",
+    "source_name": "CDES",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_004",
+    "source_name": "final reporting system",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_005",
+    "source_name": "originating sources",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_006",
+    "source_name": "In house Tools",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_tech_007",
+    "source_name": "Industry Standard DQ & DR tools",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_001",
+    "source_name": "Time and Materials contract",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_002",
+    "source_name": "In house Tools and Custom Coding",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_003",
+    "source_name": "Industry Standard DQ & DR tools Commissioned",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_diff_004",
+    "source_name": "30+ meetings with 19 SMEs",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_001",
+    "source_name": "Ben Ashwell",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_002",
+    "source_name": "Rachel Cardy",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_003",
+    "source_name": "Simon Clydesdale",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_004",
+    "source_name": "Vaibhav Nioding",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_005",
+    "source_name": "Nupur Bole",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_006",
+    "source_name": "Shipra Saxena",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_007",
+    "source_name": "Karen Gosling",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_008",
+    "source_name": "Vinoth Raj Seran",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_009",
+    "source_name": "Tom Rees",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_010",
+    "source_name": "Mike Rivet",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_011",
+    "source_name": "Adam Stephens",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_012",
+    "source_name": "Jessica Mary",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_013",
+    "source_name": "Gary Bodden",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_014",
+    "source_name": "Julian Duriez",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_015",
+    "source_name": "HIBA ALAM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_016",
+    "source_name": "Colin Winter",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_017",
+    "source_name": "Nicholas Polley",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_018",
+    "source_name": "Ashleigh Batson",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_per_019",
+    "source_name": "Craig Barnes",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_001",
+    "source_name": "spreadsheet",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_002",
+    "source_name": "presentation slide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_003",
+    "source_name": "document",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_004",
+    "source_name": "screenshot",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_005",
+    "source_name": "interface",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_obj_006",
+    "source_name": "Banking app",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_001",
+    "source_name": "FCTP Data Reconciliation Initiative",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_002",
+    "source_name": "Tentative Roadmap for Reconciliation solution",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_003",
+    "source_name": "NOW (3Q 2023 - 1Q 2024)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_004",
+    "source_name": "NEAR (2Q 2024)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_005",
+    "source_name": "NEXT (2024-25)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_006",
+    "source_name": "Last updated on 10 Jan 2020",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_003_evt_007",
+    "source_name": "July 12, 2023",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_003",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cli_001",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_001",
+    "target_name": "Absence of Data Reconciliation Process",
+    "rel_type": "faces",
+    "description": "Nationwide lacks a defined overarching data reconciliation process for regulatory compliance and governance.",
+    "properties": {
+      "impact": "regulatory compliance risk",
+      "severity": "high",
+      "visibility": "unidentified by SMEs"
+    },
+    "context": "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective, specially for Regulatory Compliance.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cli_001",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_002",
+    "target_name": "Disconnected Governance Frameworks",
+    "rel_type": "experiencing",
+    "description": "Nationwide operates with fragmented data governance policies and processes.",
+    "properties": {
+      "area": "data governance",
+      "status": "fragmented",
+      "improvement_needed": true
+    },
+    "context": "Further improvement needed across Nationwide on how best to define Data Reconciliation policies, processes and governance framework as multiple instances of disconnected observed.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cli_001",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_003",
+    "target_name": "Undefined Payment Screening Scope",
+    "rel_type": "seeking_to_solve",
+    "description": "Nationwide requires a defined scope and action plan to address gaps in payment screening reconciliation.",
+    "properties": {
+      "focus": "payment screening",
+      "current_state": "undefined",
+      "requirement": "value to value comparison"
+    },
+    "context": "Apparent lack of action plan and strategy to address 3rd Party Audit report findings about absence of data reconciliation process in Payment Screening area...",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_001",
+    "source_name": "Data Reconciliation Process",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_001",
+    "target_name": "Absence of Data Reconciliation Process",
+    "rel_type": "solves",
+    "description": "The Data Reconciliation Process is designed to establish the missing end-to-end reconciliation framework.",
+    "properties": {
+      "approach": "end-to-end reconciliation",
+      "completeness": "full",
+      "target_domain": "regulatory compliance"
+    },
+    "context": "None of the 19 SMEs consulted could identify the overarching Data Reconciliation process employed by Nationwide from a Data Governance perspective, specially for Regulatory Compliance.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_001",
+    "source_name": "Data Reconciliation Process",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_002",
+    "target_name": "Disconnected Governance Frameworks",
+    "rel_type": "mitigates",
+    "description": "The process provides structured policies and governance frameworks to unify disconnected instances.",
+    "properties": {
+      "target": "governance frameworks",
+      "method": "policy definition",
+      "status": "ongoing"
+    },
+    "context": "Further improvement needed across Nationwide on how best to define Data Reconciliation policies, processes and governance framework as multiple instances of disconnected observed.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_001",
+    "source_name": "Data Reconciliation Process",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_use_001",
+    "target_name": "Payment Screening",
+    "rel_type": "addresses",
+    "description": "The reconciliation process is applied to the payment screening functional area to monitor transactional activities.",
+    "properties": {
+      "domain": "payment screening",
+      "scope": "transactional activities",
+      "coverage": "all customers, products, lines of business"
+    },
+    "context": "Apparent lack of action plan and strategy to address 3rd Party Audit report findings about absence of data reconciliation process in Payment Screening area to confirm monitoring of all transactional activities...",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_002",
+    "source_name": "FCTP Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_use_001",
+    "target_name": "Payment Screening",
+    "rel_type": "addresses",
+    "description": "FCTP Screening is the functional solution deployed to handle payment screening operations.",
+    "properties": {
+      "functional_area": "screening",
+      "status": "ongoing",
+      "artifact_reference": "FCTP - Screening - Decision"
+    },
+    "context": "Referred artifacts \"FCTP - Screening - Decision\" in Confluence, dated July 12, 2023, as \"Payment Screening: No reconciliation / evidence exists to confirm that all of the payments that need to be screened...\"",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_002",
+    "source_name": "FCTP Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "target_name": "HLS (Filter Server)",
+    "rel_type": "uses",
+    "description": "FCTP Screening relies on HLS as the central filter server for payment screening operations.",
+    "properties": {
+      "dependency_type": "filtering",
+      "role": "central hub",
+      "direction": "bidirectional"
+    },
+    "context": "Referred artifacts \"FCTP - Screening - Decision\" in Confluence... \"Payment Screening: No reconciliation / evidence exists to confirm that all of the payments that need to be screened by HLS are sent to the various payment systems...\"",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "source_name": "HLS (Filter Server)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_002",
+    "target_name": "Chaos",
+    "rel_type": "integrates_with",
+    "description": "HLS connects with the Chaos payment service for data lineage and transaction routing.",
+    "properties": {
+      "connection_type": "data lineage",
+      "direction": "bidirectional",
+      "status": "revealed"
+    },
+    "context": "Ongoing Data Lineage exercise revealed connection between various payment services like Chaos, Swift, SEPA, First Payment, Visa Fund Fast Funds and Filter Server (HLS).",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "source_name": "HLS (Filter Server)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_003",
+    "target_name": "Swift",
+    "rel_type": "integrates_with",
+    "description": "HLS connects with the Swift payment service for data lineage and transaction routing.",
+    "properties": {
+      "connection_type": "data lineage",
+      "direction": "bidirectional",
+      "status": "revealed"
+    },
+    "context": "Ongoing Data Lineage exercise revealed connection between various payment services like Chaos, Swift, SEPA, First Payment, Visa Fund Fast Funds and Filter Server (HLS).",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "source_name": "HLS (Filter Server)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_004",
+    "target_name": "SEPA",
+    "rel_type": "integrates_with",
+    "description": "HLS connects with the SEPA payment service for data lineage and transaction routing.",
+    "properties": {
+      "connection_type": "data lineage",
+      "direction": "bidirectional",
+      "status": "revealed"
+    },
+    "context": "Ongoing Data Lineage exercise revealed connection between various payment services like Chaos, Swift, SEPA, First Payment, Visa Fund Fast Funds and Filter Server (HLS).",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "source_name": "HLS (Filter Server)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_005",
+    "target_name": "First Payment",
+    "rel_type": "integrates_with",
+    "description": "HLS connects with the First Payment service for data lineage and transaction routing.",
+    "properties": {
+      "connection_type": "data lineage",
+      "direction": "bidirectional",
+      "status": "revealed"
+    },
+    "context": "Ongoing Data Lineage exercise revealed connection between various payment services like Chaos, Swift, SEPA, First Payment, Visa Fund Fast Funds and Filter Server (HLS).",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "source_name": "HLS (Filter Server)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_006",
+    "target_name": "Visa Fund Fast Funds",
+    "rel_type": "integrates_with",
+    "description": "HLS connects with the Visa Fund Fast Funds service for data lineage and transaction routing.",
+    "properties": {
+      "connection_type": "data lineage",
+      "direction": "bidirectional",
+      "status": "revealed"
+    },
+    "context": "Ongoing Data Lineage exercise revealed connection between various payment services like Chaos, Swift, SEPA, First Payment, Visa Fund Fast Funds and Filter Server (HLS).",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_002",
+    "source_name": "FCTP Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_eve_001",
+    "target_name": "July 12, 2023 Artifact Release",
+    "rel_type": "demonstrated_at",
+    "description": "FCTP Screening artifacts and decisions were formally documented and released on the specified date.",
+    "properties": {
+      "artifact_name": "FCTP - Screening - Decision",
+      "platform": "Confluence",
+      "date": "July 12, 2023"
+    },
+    "context": "Referred artifacts \"FCTP - Screening - Decision\" in Confluence, dated July 12, 2023, as \"Payment Screening: No reconciliation / evidence exists...\"",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_use_001",
+    "source_name": "Payment Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "target_name": "HLS (Filter Server)",
+    "rel_type": "uses",
+    "description": "The payment screening use case relies on HLS to filter and route transactions across channels.",
+    "properties": {
+      "function": "screening",
+      "dependency": "filter server",
+      "scope": "products across channels"
+    },
+    "context": "If the products across channels are sending all the required transaction to HLS.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cli_001",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_org_001",
+    "target_name": "3rd Party Audit",
+    "rel_type": "engaged_with",
+    "description": "Nationwide is subject to and addresses findings from a third-party audit report.",
+    "properties": {
+      "engagement_type": "audit review",
+      "status": "findings pending",
+      "focus": "data reconciliation gaps"
+    },
+    "context": "Apparent lack of action plan and strategy to address 3rd Party Audit report findings about absence of data reconciliation process in Payment Screening area...",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_use_001",
+    "source_name": "Payment Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_003",
+    "target_name": "Undefined Payment Screening Scope",
+    "rel_type": "faces",
+    "description": "The payment screening functional area currently lacks a defined scope for value-to-value comparison.",
+    "properties": {
+      "status": "undefined",
+      "requirement": "value to value comparison",
+      "source_to_target": "Source System to Target System"
+    },
+    "context": "In the Screening functional area, titled 'Payment Screening Data Reconciliation BRD', it is indicated that the scope is yet to be defined, specifically highlighting a 'Value to Value' comparison from the Source System to the Target System.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_001",
+    "source_name": "Data Reconciliation Process",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_003",
+    "target_name": "Undefined Payment Screening Scope",
+    "rel_type": "solves",
+    "description": "The reconciliation process is designed to define the scope and establish value-to-value comparisons for payment screening.",
+    "properties": {
+      "target": "screening scope",
+      "method": "value to value comparison",
+      "completeness": "full"
+    },
+    "context": "In the Screening functional area, titled 'Payment Screening Data Reconciliation BRD', it is indicated that the scope is yet to be defined, specifically highlighting a 'Value to Value' comparison from the Source System to the Target System.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cli_001",
+    "source_name": "Nationwide",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_001",
+    "source_name": "Absence of Data Reconciliation Process",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_002",
+    "source_name": "Disconnected Governance Frameworks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_cha_003",
+    "source_name": "Undefined Payment Screening Scope",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_001",
+    "source_name": "Data Reconciliation Process",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_off_002",
+    "source_name": "FCTP Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_use_001",
+    "source_name": "Payment Screening",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_001",
+    "source_name": "HLS (Filter Server)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_002",
+    "source_name": "Chaos",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_003",
+    "source_name": "Swift",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_004",
+    "source_name": "SEPA",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_005",
+    "source_name": "First Payment",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_006",
+    "source_name": "Visa Fund Fast Funds",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_tec_007",
+    "source_name": "Confluence",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_eve_001",
+    "source_name": "July 12, 2023 Artifact Release",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_004_org_001",
+    "source_name": "3rd Party Audit",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_004",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_org_001",
+    "source_name": "FCTP",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_ev_001",
+    "target_name": "FCTP DR Assessment Report",
+    "rel_type": "involves",
+    "description": "The assessment report involves the FCTP organization as the primary subject and beneficiary.",
+    "properties": {
+      "document_type": "assessment_report",
+      "date": "9th February 2024"
+    },
+    "context": "FCTP DR Assessment Report | 9th February 2024",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "source_name": "Business Control Framework",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "target_name": "Data Reconciliation Controls and Checks",
+    "rel_type": "comprises",
+    "description": "The business control framework comprises data reconciliation controls and checks to ensure data integrity.",
+    "properties": {
+      "component_type": "control_mechanism",
+      "scope": "data_transmission"
+    },
+    "context": "Data Reconciliation Controls and Checks",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "source_name": "Business Control Framework",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_002",
+    "target_name": "Interface Level Key Controls",
+    "rel_type": "comprises",
+    "description": "The business control framework comprises interface level key controls for system audit and error handling.",
+    "properties": {
+      "component_type": "control_mechanism",
+      "scope": "all_CDEs"
+    },
+    "context": "Interface Level Key Controls (applicable for all CDEs):",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "source_name": "Business Control Framework",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_003",
+    "target_name": "Country of Origin Data Maintenance",
+    "rel_type": "comprises",
+    "description": "The business control framework comprises country of origin data maintenance to prevent unauthorized modifications.",
+    "properties": {
+      "component_type": "data_governance_process",
+      "policy": "strict_prohibition_of_modification"
+    },
+    "context": "The ‘Country of Origin’ data element must be maintained in its original state from the point of entry into the system through to its utilization in the risk rating system within the CDD system.",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_003",
+    "source_name": "Country of Origin Data Maintenance",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_use_001",
+    "target_name": "Customer Due Diligence (CDD)",
+    "rel_type": "enables",
+    "description": "Maintaining accurate country of origin data enables effective customer due diligence processes.",
+    "properties": {
+      "application_area": "compliance_risk_rating",
+      "data_element": "Country Of Origin"
+    },
+    "context": "FCTP CDE “Country Of Origin” as derived from CDD (Customer Due Diligence) output",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "source_name": "Business Control Framework",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_use_001",
+    "target_name": "Customer Due Diligence (CDD)",
+    "rel_type": "applicable_to",
+    "description": "The business control framework is applicable to the customer due diligence system environment.",
+    "properties": {
+      "system_context": "risk_rating",
+      "target_environment": "CDD_system"
+    },
+    "context": "within the CDD system",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_ev_001",
+    "source_name": "FCTP DR Assessment Report",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "target_name": "Business Control Framework",
+    "rel_type": "demonstrated_at",
+    "description": "The business control framework is demonstrated and documented at the FCTP DR Assessment Report.",
+    "properties": {
+      "document_date": "9th February 2024",
+      "demonstration_type": "assessment_documentation"
+    },
+    "context": "FCTP DR Assessment Report | 9th February 2024",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "source_name": "Business Control Framework",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_org_001",
+    "target_name": "FCTP",
+    "rel_type": "is_target_for",
+    "description": "The business control framework is targeted for the FCTP organization to govern data controls.",
+    "properties": {
+      "target_scope": "data_controls_reconciliation",
+      "implementation_status": "assessed"
+    },
+    "context": "FCTP DR Assessment Report",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_001",
+    "target_name": "EDB",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the EDB technology at the source system level.",
+    "properties": {
+      "data_element": "Country of birth",
+      "system_role": "source",
+      "control_check": "record_count_matching"
+    },
+    "context": "EDB (CAO/SAO) ... Country of birth",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_002",
+    "target_name": "SAMM",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the SAMM technology during webservice transmission.",
+    "properties": {
+      "data_element": "countryOfBirth",
+      "system_role": "intermediary",
+      "control_check": "checksum_matching"
+    },
+    "context": "SAMM ... countryOfBirth ... Webservice (PUT)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_003",
+    "target_name": "PLPOS",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the PLPOS technology for applicant data processing.",
+    "properties": {
+      "data_element": "CountryOfBirthCode",
+      "system_role": "intermediary",
+      "control_check": "format_data_type_validation"
+    },
+    "context": "PLPOS ... CountryOfBirthCode ... Applicant table",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_004",
+    "target_name": "Summit",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the Summit technology for customer personal details.",
+    "properties": {
+      "data_element": "Country of birth",
+      "system_role": "intermediary",
+      "control_check": "string_checksum_matching"
+    },
+    "context": "Summit(TMW) ... Country of birth ... Cust_personal_details",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_005",
+    "target_name": "CIS",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the CIS technology at the ODS/database level.",
+    "properties": {
+      "data_element": "COUBIRISO",
+      "system_role": "intermediary",
+      "control_check": "record_count_matching"
+    },
+    "context": "CIS (ODS) ... CIS (Database) ... Table : BA001 ... Column : COUBIRISO",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_006",
+    "target_name": "IMAS",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the IMAS technology for MLR historical data.",
+    "properties": {
+      "data_element": "BIRTH_COUNTRY_CD",
+      "system_role": "intermediary",
+      "control_check": "format_data_type_validation"
+    },
+    "context": "IMAS (MLR) ... Table : MLR_MCDD_HIST_ACC Column : BIRTH_COUNTRY_CD",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_007",
+    "target_name": "NeRDE",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the NeRDE technology across inbound, feed, and transform schemas.",
+    "properties": {
+      "data_element": "CountryOfBirth",
+      "system_role": "intermediary",
+      "control_check": "string_checksum_matching"
+    },
+    "context": "NeRDE (inbound file) ... NeRDE (Feed Schema) ... NeRDE(transform schema) ... NeRDE(IFS)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_008",
+    "target_name": "Net Reveal Database",
+    "rel_type": "delivered_via",
+    "description": "Data reconciliation controls are delivered via the Net Reveal Database at the final target storage stage.",
+    "properties": {
+      "data_element": "COUNTRY_OF_ORIGIN",
+      "system_role": "target",
+      "control_check": "invalid_flagging_and_alerting"
+    },
+    "context": "Net Reveal Database ... Table : CUSTOMERS Column: COUNTRY_OF_ORIGIN",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_001",
+    "source_name": "EDB",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_002",
+    "target_name": "SAMM",
+    "rel_type": "feeds_into",
+    "description": "EDB feeds into SAMM via webservice for country of birth data transmission.",
+    "properties": {
+      "transmission_method": "Webservice (PUT)",
+      "data_flow": "Country of birth",
+      "direction": "source_to_intermediary"
+    },
+    "context": "EDB (CAO/SAO) ... Webservice (PUT) ... SAMM",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_002",
+    "source_name": "SAMM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_003",
+    "target_name": "PLPOS",
+    "rel_type": "feeds_into",
+    "description": "SAMM feeds into PLPOS via webservice for country of birth code transmission.",
+    "properties": {
+      "transmission_method": "Webservice (PUT)",
+      "data_flow": "countryOfBirth",
+      "direction": "intermediary_to_intermediary"
+    },
+    "context": "SAMM ... Webservice (PUT) ... PLPOS",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_003",
+    "source_name": "PLPOS",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_004",
+    "target_name": "Summit",
+    "rel_type": "feeds_into",
+    "description": "PLPOS feeds into Summit for applicant table data processing.",
+    "properties": {
+      "transmission_method": "Applicant table",
+      "data_flow": "CountryOfBirthCode",
+      "direction": "intermediary_to_intermediary"
+    },
+    "context": "PLPOS ... Applicant table ... Summit(TMW)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_004",
+    "source_name": "Summit",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_005",
+    "target_name": "CIS",
+    "rel_type": "feeds_into",
+    "description": "Summit feeds into CIS for customer personal details and ODS data storage.",
+    "properties": {
+      "transmission_method": "Cust_personal_details",
+      "data_flow": "Country of birth",
+      "direction": "intermediary_to_intermediary"
+    },
+    "context": "Summit(TMW) ... Cust_personal_details ... CIS (ODS)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_005",
+    "source_name": "CIS",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_006",
+    "target_name": "IMAS",
+    "rel_type": "feeds_into",
+    "description": "CIS feeds into IMAS for MLR historical data processing.",
+    "properties": {
+      "transmission_method": "Table/Column mapping",
+      "data_flow": "COUBIRISO",
+      "direction": "intermediary_to_intermediary"
+    },
+    "context": "CIS (ODS) ... CIS (Database) ... IMAS (MLR)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_006",
+    "source_name": "IMAS",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_007",
+    "target_name": "NeRDE",
+    "rel_type": "feeds_into",
+    "description": "IMAS feeds into NeRDE via inbound file for CDD data extraction.",
+    "properties": {
+      "transmission_method": "File",
+      "data_flow": "BIRTH_COUNTRY_CD",
+      "direction": "intermediary_to_intermediary"
+    },
+    "context": "IMAS (MLR) ... NeRDE (inbound file)",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_007",
+    "source_name": "NeRDE",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_008",
+    "target_name": "Net Reveal Database",
+    "rel_type": "feeds_into",
+    "description": "NeRDE feeds into Net Reveal Database via transform/IFS for final customer data storage.",
+    "properties": {
+      "transmission_method": "Transform/IFS",
+      "data_flow": "COUNTRY_OF_ORIGIN",
+      "direction": "intermediary_to_target"
+    },
+    "context": "NeRDE(IFS) ... Net Reveal Database",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_002",
+    "source_name": "Interface Level Key Controls",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_001",
+    "target_name": "EDB",
+    "rel_type": "delivered_via",
+    "description": "Interface level key controls are delivered via the EDB technology interface for job control and error handling.",
+    "properties": {
+      "control_type": "job_control",
+      "scope": "all_CDEs",
+      "mechanism": "system_audit_error_threshold_restart"
+    },
+    "context": "Interface Level Key Controls (applicable for all CDEs): 1. Every interface need to have job control (system audit, error threshold , altering & restart process) implemented",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_002",
+    "source_name": "Interface Level Key Controls",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_008",
+    "target_name": "Net Reveal Database",
+    "rel_type": "delivered_via",
+    "description": "Interface level key controls are delivered via the Net Reveal Database interface for data mismatch alerting and logging.",
+    "properties": {
+      "control_type": "alert_logging",
+      "scope": "all_CDEs",
+      "mechanism": "halt_data_loading_trigger_alert_detailed_log"
+    },
+    "context": "Interface Level Key Controls (applicable for all CDEs): 2. In the event of any data or count mismatch ... the interface must halt data loading and trigger a alert. 3. A detailed log should be maintained for every loading operation",
+    "bidirectional": false,
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_ev_001",
+    "source_name": "FCTP DR Assessment Report",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_001",
+    "source_name": "EDB",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_002",
+    "source_name": "SAMM",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_003",
+    "source_name": "PLPOS",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_004",
+    "source_name": "Summit",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_005",
+    "source_name": "CIS",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_006",
+    "source_name": "IMAS",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_007",
+    "source_name": "NeRDE",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_tech_008",
+    "source_name": "Net Reveal Database",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_001",
+    "source_name": "Data Reconciliation Controls and Checks",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_002",
+    "source_name": "Interface Level Key Controls",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_cap_003",
+    "source_name": "Country of Origin Data Maintenance",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_use_001",
+    "source_name": "Customer Due Diligence (CDD)",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_org_001",
+    "source_name": "FCTP",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  },
+  {
+    "source_id": "fb66b39b82704ca2826c9e19d2eab6f6_005_off_001",
+    "source_name": "Business Control Framework",
+    "target_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "target_name": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "fb66b39b82704ca2826c9e19d2eab6f6_005",
+    "doc_id": "fb66b39b82704ca2826c9e19d2eab6f6",
+    "domain": "sales_collateral"
+  }
+]

@@ -1,0 +1,1972 @@
+{
+  "embedding": [
+    0.045473646,
+    -0.00040366038,
+    -0.18801095,
+    -0.006373958,
+    0.0884467,
+    -0.06047858,
+    0.08508771,
+    0.033250853,
+    0.028751938,
+    -0.05276099,
+    -0.004927504,
+    0.032629576,
+    0.05382089,
+    0.033492558,
+    0.011559974,
+    -0.07376654,
+    0.04149308,
+    -0.05874408,
+    -0.10770795,
+    0.016777506,
+    0.019596355,
+    -0.02251444,
+    -0.052964546,
+    -0.021556877,
+    0.055551592,
+    0.037956282,
+    0.018582283,
+    0.031969942,
+    -0.035806004,
+    -0.029047236,
+    0.015829995,
+    0.015432458,
+    -0.03913019,
+    -0.056919675,
+    -0.023677606,
+    -0.041295018,
+    -0.0067992313,
+    -0.040134575,
+    -0.047225952,
+    0.014792129,
+    0.02177572,
+    -0.05787495,
+    0.067035384,
+    -0.049572542,
+    0.019350313,
+    0.018774722,
+    0.06314901,
+    0.037404682,
+    0.040758952,
+    0.009651954,
+    -0.005367466,
+    -0.012187178,
+    -0.023855949,
+    0.0060950844,
+    0.044162903,
+    0.04111595,
+    -0.021264877,
+    0.047270905,
+    -0.0031545814,
+    -0.031769305,
+    0.1077623,
+    0.047379505,
+    -0.0009735131,
+    -0.03840485,
+    -4.6510624e-05,
+    0.009037949,
+    -0.0210106,
+    0.06959885,
+    0.015774755,
+    -0.032491587,
+    0.017786348,
+    -0.052053742,
+    -0.018235493,
+    0.02052991,
+    -0.00955332,
+    0.007149447,
+    -0.016220469,
+    -0.030679043,
+    -0.018026106,
+    0.023078311,
+    0.041732755,
+    -0.008744753,
+    0.07740164,
+    -0.046392884,
+    0.020260075,
+    -0.026095795,
+    -0.04426282,
+    -0.00013736264,
+    -0.00071608264,
+    0.050475493,
+    0.032999124,
+    0.023911083,
+    0.010767227,
+    -0.027119912,
+    -0.08900389,
+    0.041146502,
+    0.014794842,
+    -0.013997127,
+    -0.020434244,
+    -0.040404838,
+    0.0011194237,
+    -0.03577192,
+    0.0011648014,
+    -0.029057981,
+    -0.005349966,
+    0.06740889,
+    5.08825e-05,
+    0.023910608,
+    0.018972754,
+    -0.062176667,
+    -0.034442622,
+    0.05709791,
+    -0.032920353,
+    -0.016274786,
+    0.051167283,
+    0.0013182875,
+    0.08884907,
+    -0.008928123,
+    0.0086809145,
+    0.05447778,
+    0.005564553,
+    -0.046066508,
+    -0.047744248,
+    -0.012786011,
+    0.014757353,
+    -0.018661533,
+    -0.029099882,
+    0.029097024,
+    0.0024167767,
+    -0.040745735,
+    -0.029409122,
+    -0.013045046,
+    -0.031288855,
+    0.0044449586,
+    0.0009062141,
+    0.05388919,
+    0.01899187,
+    -0.020096615,
+    0.0028218615,
+    0.008402453,
+    0.011063221,
+    0.026674444,
+    -0.037615135,
+    -0.0023700986,
+    -0.003014036,
+    0.0015870612,
+    0.014475221,
+    -0.019066876,
+    -0.012409663,
+    -0.017083738,
+    -0.027987704,
+    -0.010766003,
+    -0.0053172233,
+    -0.00012719017,
+    0.047503524,
+    -0.020139402,
+    -0.01988025,
+    0.002535631,
+    0.021437319,
+    0.07572426,
+    0.035868526,
+    -0.027770022,
+    -0.03834213,
+    0.068289846,
+    -0.004383342,
+    -0.059682284,
+    -0.01852674,
+    0.06544116,
+    0.059532404,
+    0.006848988,
+    -0.042418733,
+    -0.05140021,
+    0.013866122,
+    0.0061805206,
+    0.016904356,
+    0.027282352,
+    0.040280122,
+    -0.027660368,
+    0.009384877,
+    -0.064856365,
+    -0.003708248,
+    -0.05290721,
+    0.0033076406,
+    0.046491846,
+    0.0098914495,
+    -0.06409259,
+    0.060544174,
+    -0.013572212,
+    -0.021545509,
+    -0.00981505,
+    0.0060777264,
+    -0.00028316962,
+    -0.048324183,
+    -0.035553694,
+    -0.01666582,
+    -0.023002705,
+    0.014481866,
+    -0.03351586,
+    -0.011299588,
+    -0.028601458,
+    0.029570902,
+    -0.013452817,
+    -0.02259549,
+    0.008920308,
+    -0.028351938,
+    0.041888766,
+    -0.0050654407,
+    0.012190714,
+    -0.0018630755,
+    0.013067959,
+    0.03724771,
+    0.011579345,
+    0.012815605,
+    -0.022090252,
+    0.004147479,
+    0.014717687,
+    0.009534856,
+    0.022796791,
+    0.027920514,
+    -0.0039326586,
+    0.002623221,
+    -0.004919023,
+    -0.020178307,
+    -0.08029336,
+    0.0069533484,
+    0.014009392,
+    -0.011096725,
+    -0.0146757,
+    -0.0044989153,
+    -0.05600777,
+    0.0016524429,
+    0.0042073024,
+    0.028357888,
+    -0.030375492,
+    -0.0081850225,
+    0.043275937,
+    -0.011826518,
+    0.0229633,
+    0.06081754,
+    -0.00046510747,
+    -0.038728222,
+    0.062547915,
+    -0.01728427,
+    0.03680994,
+    -0.0604053,
+    -0.024402218,
+    -0.027150918,
+    -0.040655963,
+    -0.0049505923,
+    0.016954193,
+    -0.033615913,
+    -0.022895567,
+    0.033733338,
+    -0.022113003,
+    0.034781344,
+    -0.0466899,
+    -0.001665374,
+    0.030022832,
+    -0.011646613,
+    0.030313607,
+    -0.011984215,
+    -0.00067674293,
+    0.06680518,
+    -0.042040944,
+    -0.040786058,
+    -0.03419993,
+    -0.043907724,
+    0.023414554,
+    0.005574206,
+    -0.06081565,
+    -0.013964572,
+    -0.025180452,
+    -0.026234558,
+    0.063628845,
+    0.023376178,
+    0.016707035,
+    0.027876947,
+    -0.044025186,
+    -0.03788983,
+    0.007461857,
+    -0.00079904293,
+    -0.06818733,
+    -0.018671805,
+    -0.01337671,
+    0.01795156,
+    0.03904307,
+    0.042972904,
+    0.021472014,
+    -0.033793483,
+    -0.018609408,
+    0.08344928,
+    -0.025111249,
+    -0.041310925,
+    0.05820356,
+    -0.058551285,
+    0.013757133,
+    0.07392914,
+    -0.020120645,
+    0.018856045,
+    -0.03250599,
+    0.04396095,
+    0.01238828,
+    0.025039088,
+    0.026749758,
+    -0.011793529,
+    -0.018545639,
+    -0.021695586,
+    0.0191896,
+    0.031408705,
+    -0.0009999797,
+    -0.038981237,
+    -0.009490405,
+    -0.032516435,
+    -0.0049996073,
+    -0.024507113,
+    0.034434076,
+    0.029882008,
+    0.05698372,
+    0.012393594,
+    0.049195565,
+    -0.023731723,
+    -0.034831308,
+    -0.018325066,
+    -0.027073894,
+    -0.025575763,
+    0.035817742,
+    -0.015239273,
+    0.07184168,
+    0.04458958,
+    -0.016040955,
+    0.03127383,
+    0.03887668,
+    0.028885106,
+    -0.076199576,
+    -0.0039890865,
+    0.04078192,
+    0.041851517,
+    0.011746116,
+    0.016186068,
+    0.003662147,
+    0.04010401,
+    -0.058810912,
+    -0.014916817,
+    -0.062276583,
+    -0.020070648,
+    -0.07587723,
+    -0.012997092,
+    -0.0008097743,
+    0.0116513185,
+    0.00026996498,
+    0.019566858,
+    0.011122915,
+    -0.028736008,
+    -0.05170335,
+    0.025276134,
+    -0.027488057,
+    0.027070768,
+    0.05743894,
+    -0.015815232,
+    -0.030381514,
+    0.033308472,
+    0.027091231,
+    -0.024012875,
+    0.026784003,
+    0.023036622,
+    0.0028377725,
+    0.061327063,
+    -0.02415757,
+    0.03576072,
+    0.0043441225,
+    0.050766546,
+    -0.028493986,
+    -0.037267778,
+    0.03096564,
+    0.02721589,
+    0.022400111,
+    -0.048942726,
+    -0.026305217,
+    0.014158744,
+    0.033705506,
+    -0.023112655,
+    -0.009749677,
+    0.033293653,
+    -0.045072474,
+    0.02456491,
+    0.023469517,
+    -0.009812452,
+    -0.04102133,
+    -0.022485845,
+    -0.015732804,
+    0.013503785,
+    -0.050626725,
+    -0.029602602,
+    0.0091362335,
+    0.07706385,
+    0.0045040064,
+    0.020967945,
+    0.014228599,
+    -0.05289054,
+    0.059606798,
+    -0.013662891,
+    -0.037533447,
+    0.041318372,
+    0.0045227516,
+    0.0024335918,
+    -0.014876416,
+    -0.025225941,
+    0.02287142,
+    0.066061474,
+    0.039988957,
+    0.033908896,
+    0.004473018,
+    -0.022843976,
+    -0.05900279,
+    0.03323993,
+    0.008909973,
+    0.06763119,
+    0.025960516,
+    -0.013974767,
+    -0.02172048,
+    0.04129104,
+    0.022496669,
+    -0.011585491,
+    -0.009294044,
+    -0.04897561,
+    0.020940226,
+    0.03151387,
+    0.0395135,
+    -0.015153755,
+    -0.0103307525,
+    0.021535357,
+    -0.015982289,
+    0.035716556,
+    0.006619363,
+    -0.020120699,
+    0.020792218,
+    0.05256145,
+    0.036000986,
+    0.07819394,
+    0.04524046,
+    0.029640142,
+    -0.025162349,
+    -0.046418723,
+    -0.00219053,
+    0.006419768,
+    0.107665814,
+    0.061354373,
+    -0.06526396,
+    -0.003015063,
+    0.021121489,
+    0.008011967,
+    0.04230096,
+    0.03930374,
+    0.022668818,
+    0.035877228,
+    -0.05691872,
+    0.0376329,
+    0.013610413,
+    -0.0054528,
+    0.07214001,
+    0.016391411,
+    0.031209715,
+    -0.048913132,
+    0.00063506624,
+    0.018446457,
+    0.007321685,
+    0.002447562,
+    0.00029792645,
+    0.020259922,
+    0.047257096,
+    -0.052917663,
+    -0.054108735,
+    0.026930667,
+    -0.049194045,
+    0.011117888,
+    0.025442421,
+    -0.026066246,
+    0.020163339,
+    0.03242616,
+    0.043735225,
+    0.042122893,
+    -0.040954318,
+    -0.057127036,
+    -0.015253637,
+    0.009505377,
+    0.04471709,
+    0.0146441925,
+    -0.01159918,
+    0.018092947,
+    -0.024230277,
+    0.019007456,
+    0.03490931,
+    -0.052478522,
+    0.0025065257,
+    0.018416174,
+    -0.017108373,
+    -0.007439573,
+    0.0129355425,
+    0.03643404,
+    -0.0032977862,
+    0.04474955,
+    0.044000026,
+    -0.011578162,
+    0.013951397,
+    -0.036704917,
+    -0.054689474,
+    -0.002991757,
+    -0.05742736,
+    -0.024196927,
+    0.0062665204,
+    -0.018044682,
+    0.025299782,
+    0.04684463,
+    -0.020610884,
+    -0.015797256,
+    -0.031984244,
+    0.035004783,
+    0.0070056706,
+    -0.010075557,
+    0.033678528,
+    -0.011666703,
+    -0.015167835,
+    -0.014541396,
+    -0.04542674,
+    -0.101273514,
+    -0.028311709,
+    -0.024416903,
+    -0.043815665,
+    0.035944596,
+    -0.005758004,
+    -0.014074443,
+    0.05347265,
+    -0.04428271,
+    -0.038422763,
+    0.027196538,
+    -0.021989562,
+    0.0011162553,
+    0.03154847,
+    0.033912204,
+    0.02143551,
+    -0.028749105,
+    0.027089143,
+    -0.0018873074,
+    -0.030327516,
+    0.037076127,
+    -0.04601775,
+    -0.004075316,
+    0.057633094,
+    -0.040668856,
+    -0.030865777,
+    0.011148315,
+    -0.04965539,
+    0.009237364,
+    -0.04121957,
+    0.035507113,
+    -0.008113348,
+    0.0034719883,
+    -0.05736001,
+    -0.031053957,
+    -0.023960205,
+    0.031920683,
+    -0.0037724813,
+    0.054729138,
+    0.04370697,
+    0.00087953074,
+    -0.05682225,
+    0.009992781,
+    0.018905884,
+    0.008168214,
+    0.003567284,
+    0.022339799,
+    -0.05739548,
+    0.018525863,
+    -0.03165331,
+    -0.026344845,
+    -0.0050311447,
+    0.03247212,
+    0.019029258,
+    -0.053841624,
+    -0.012209178,
+    0.0028661662,
+    0.047390442,
+    0.023765316,
+    0.100832134,
+    0.018503057,
+    -0.047786325,
+    -0.06559889,
+    -0.048967168,
+    0.043515597,
+    -0.036021847,
+    0.019846,
+    -0.015041528,
+    -0.016974347,
+    -0.021663483,
+    -0.017674964,
+    -0.00762457,
+    0.040708743,
+    -0.032340918,
+    -0.026538614,
+    0.013892922,
+    -0.0032661662,
+    -0.018118268,
+    0.015076705,
+    -0.036660578,
+    -0.011611609,
+    0.008436226,
+    0.01862882,
+    -0.020129023,
+    0.018785896,
+    -0.032871805,
+    0.029222224,
+    -0.032404296,
+    0.009904362,
+    -0.0073406585,
+    0.015107543,
+    -0.035120048,
+    0.089310646,
+    -0.047177963,
+    0.033798426,
+    -0.044014145,
+    -0.04257709,
+    -0.06656897,
+    0.059662607,
+    -0.043003198,
+    0.0310223,
+    -0.018694585,
+    0.0038751322,
+    -0.07129633,
+    -0.0030969684,
+    0.066646226,
+    -0.019534675,
+    0.019740986,
+    -0.022575445,
+    -0.028080616,
+    -0.037129954,
+    0.025229944,
+    0.011641099,
+    -0.0071374057,
+    -0.0046643578,
+    0.04582646,
+    0.10737481,
+    -0.0027580096,
+    -0.037922196,
+    -0.012502382,
+    0.0041036876,
+    0.0023966476,
+    0.002784726,
+    0.090575345,
+    0.062097672,
+    0.028391205,
+    0.08282999,
+    0.025449678,
+    0.010003372,
+    6.64412e-05,
+    -0.0053386358,
+    -0.013118788,
+    1.8767862e-05,
+    -0.013590217,
+    -0.016226325,
+    -0.04422511,
+    0.0023555227,
+    0.021779183,
+    -0.04879962,
+    -0.022680517,
+    0.0077779405,
+    -0.038340166,
+    0.0031987352,
+    0.015920034,
+    -0.035251465,
+    -0.08623322,
+    0.056472257,
+    0.034037784,
+    0.023370823,
+    -0.01452053,
+    -0.0064077317,
+    0.013390667,
+    0.05880988,
+    -0.0025605215,
+    -0.008734242,
+    0.031443495,
+    -0.032915507,
+    -0.03187078,
+    0.052150737,
+    -0.023213752,
+    -0.0028241633,
+    0.028444303,
+    0.007755284,
+    0.023958677,
+    -0.015285162,
+    -0.007292625,
+    -0.025715094,
+    -0.0023552682,
+    -0.025082493,
+    -0.031822253,
+    -0.0030013563,
+    0.0124821905,
+    -0.01770719,
+    -0.028920772,
+    -0.042273585,
+    0.04847452,
+    -0.030608201,
+    0.020390267,
+    0.013397159,
+    0.03524959,
+    -0.020448841,
+    0.023904521,
+    0.018536627,
+    -0.05078108,
+    0.041528422,
+    0.008417614,
+    0.012111258,
+    0.054390583,
+    -0.06414173,
+    0.04355394,
+    -0.050187286,
+    0.032497443,
+    -0.015335012,
+    -0.019247077,
+    0.038343,
+    0.026027646,
+    0.030356046,
+    0.004470961,
+    -0.04733676,
+    -0.009969735,
+    0.023798425,
+    0.03556849,
+    0.060511556,
+    -0.0023099822,
+    0.030912427,
+    -0.061973296,
+    -0.019730993,
+    -0.03113711,
+    -0.034428086,
+    0.037486903,
+    -0.041012015,
+    -0.0034242019,
+    0.0031069887,
+    -0.0080023715,
+    -0.08903003,
+    -0.0089342,
+    -0.0546435,
+    0.017284792,
+    -0.06913932,
+    0.013759378,
+    0.05962895,
+    -0.05501217,
+    0.011336955,
+    0.046913043,
+    0.02680573,
+    -0.06821918,
+    -0.009157537,
+    0.02097228,
+    -0.06505874,
+    -0.008237915,
+    0.0071022236,
+    -0.0040276675,
+    -0.019019453,
+    -0.015758066,
+    0.08092301,
+    -0.01370235,
+    0.05588356,
+    0.014669772,
+    0.0021899887,
+    -0.005976339,
+    -0.048212312,
+    -0.04599328,
+    -0.05724303,
+    -0.047493972
+  ],
+  "chunk_seq": 7,
+  "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+  "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+  "text": "## Incident Response Procedure  \n### Phase 1: Detect & Alert (0–15 Minutes)  \n**Detection Methods:**\n- Automated alerts (SIEM, IDS, monitoring)\n- Staff report (customer, employee, system)\n- Regulatory notification (law enforcement, regulator)\n- Third-party notification (vendor, partner)  \n**Immediate Actions:**\n1. **Report:** Alert reaches on-call incident commander\n2. **Verify:** Confirm incident is real (not false alarm)\n3. **Classify:** Assign severity level (1–4)\n4. **Notify:** Escalate per escalation matrix ([[escalation_matrix]])\n5. **Activate:** Convene incident response team  \n**Notification Timeline:**\n- **Severity 1:** Executive team (ASAP), Board (within 2 hours)\n- **Severity 2:** Executive team (within 30 min), CRO (within 1 hour)\n- **Severity 3:** Department head (within 4 hours)\n- **Severity 4:** Log incident (routine)  \n---",
+  "name": "Chunk 7/25",
+  "domain": "banking_reference",
+  "prev_chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_006",
+  "next_chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_008",
+  "raw_entities": [
+    {
+      "id": "res_001",
+      "name": "Detect & Alert Phase",
+      "aliases": [
+        "Phase 1"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "detection",
+      "description": "The initial phase of the Incident Response Procedure occurring within 0–15 minutes. It encompasses detection methods, immediate verification, classification, and the activation of the response team.",
+      "context": [
+        "Phase 1: Detect & Alert (0–15 Minutes)",
+        "Detection Methods: Automated alerts (SIEM, IDS, monitoring), Staff report (customer, employee, system), Regulatory notification (law enforcement, regulator), Third-party notification (vendor, partner)"
+      ]
+    },
+    {
+      "id": "res_002",
+      "name": "Report Action",
+      "aliases": [
+        "Report"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "escalation",
+      "description": "The immediate action where an alert reaches the on-call incident commander to initiate the response process.",
+      "context": [
+        "1. Report: Alert reaches on-call incident commander"
+      ]
+    },
+    {
+      "id": "res_003",
+      "name": "Verify Action",
+      "aliases": [
+        "Verify"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "investigation",
+      "description": "The process of confirming that a reported incident is a real event and not a false alarm.",
+      "context": [
+        "2. Verify: Confirm incident is real (not false alarm)"
+      ]
+    },
+    {
+      "id": "res_004",
+      "name": "Classify Action",
+      "aliases": [
+        "Classify"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "investigation",
+      "description": "The step of assigning a severity level from 1 to 4 to the identified incident.",
+      "context": [
+        "3. Classify: Assign severity level (1–4)"
+      ]
+    },
+    {
+      "id": "res_005",
+      "name": "Notify Action",
+      "aliases": [
+        "Notify"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "notification",
+      "description": "The action of escalating the incident according to the defined escalation matrix.",
+      "context": [
+        "4. Notify: Escalate per escalation matrix ([[escalation_matrix]])"
+      ]
+    },
+    {
+      "id": "res_006",
+      "name": "Activate Action",
+      "aliases": [
+        "Activate"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "escalation",
+      "description": "The final step of the detection phase involving the convening of the incident response team.",
+      "context": [
+        "5. Activate: Convene incident response team"
+      ]
+    },
+    {
+      "id": "sev_001",
+      "name": "Severity 1 (Critical)",
+      "aliases": [
+        "Severity 1"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "critical_p1",
+      "description": "The highest severity level requiring immediate notification of the Executive team and notification of the Board within 2 hours.",
+      "context": [
+        "Severity 1: Executive team (ASAP), Board (within 2 hours)"
+      ]
+    },
+    {
+      "id": "sev_002",
+      "name": "Severity 2 (High)",
+      "aliases": [
+        "Severity 2"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "high_p2",
+      "description": "A high severity level requiring Executive team notification within 30 minutes and CRO notification within 1 hour.",
+      "context": [
+        "Severity 2: Executive team (within 30 min), CRO (within 1 hour)"
+      ]
+    },
+    {
+      "id": "sev_003",
+      "name": "Severity 3 (Medium)",
+      "aliases": [
+        "Severity 3"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "medium_p3",
+      "description": "A medium severity level requiring notification of the Department head within 4 hours.",
+      "context": [
+        "Severity 3: Department head (within 4 hours)"
+      ]
+    },
+    {
+      "id": "sev_004",
+      "name": "Severity 4 (Low)",
+      "aliases": [
+        "Severity 4"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "low_p4",
+      "description": "The lowest severity level where the required action is to log the incident as routine.",
+      "context": [
+        "Severity 4: Log incident (routine)"
+      ]
+    },
+    {
+      "id": "not_001",
+      "name": "Executive Team",
+      "aliases": [
+        "Executive"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "executive",
+      "description": "Internal leadership team to be notified ASAP for Severity 1 incidents and within 30 minutes for Severity 2 incidents.",
+      "context": [
+        "Severity 1: Executive team (ASAP)",
+        "Severity 2: Executive team (within 30 min)"
+      ]
+    },
+    {
+      "id": "not_002",
+      "name": "Board",
+      "aliases": [
+        "The Board"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "executive",
+      "description": "The governing board to be notified within 2 hours for Severity 1 incidents.",
+      "context": [
+        "Severity 1: ... Board (within 2 hours)"
+      ]
+    },
+    {
+      "id": "not_003",
+      "name": "Chief Risk Officer (CRO)",
+      "aliases": [
+        "CRO"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "executive",
+      "description": "The CRO to be notified within 1 hour for Severity 2 incidents.",
+      "context": [
+        "Severity 2: ... CRO (within 1 hour)"
+      ]
+    },
+    {
+      "id": "not_004",
+      "name": "Department Head",
+      "aliases": [
+        "Dept Head"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "internal_team",
+      "description": "The relevant department head to be notified within 4 hours for Severity 3 incidents.",
+      "context": [
+        "Severity 3: Department head (within 4 hours)"
+      ]
+    },
+    {
+      "id": "not_005",
+      "name": "Law Enforcement",
+      "aliases": [
+        "Police"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "law_enforcement",
+      "description": "External regulatory body that may provide notifications to trigger the detection phase.",
+      "context": [
+        "Regulatory notification (law enforcement, regulator)"
+      ]
+    },
+    {
+      "id": "not_006",
+      "name": "Regulator",
+      "aliases": [
+        "Regulatory Body"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "regulator",
+      "description": "External regulatory body that may provide notifications to trigger the detection phase.",
+      "context": [
+        "Regulatory notification (law enforcement, regulator)"
+      ]
+    },
+    {
+      "id": "not_007",
+      "name": "Third-party Vendor/Partner",
+      "aliases": [
+        "Vendor",
+        "Partner"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "external_partner",
+      "description": "External partners or vendors that may provide notifications to trigger the detection phase.",
+      "context": [
+        "Third-party notification (vendor, partner)"
+      ]
+    }
+  ],
+  "id_map": {
+    "res_001": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+    "res_002": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+    "res_003": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+    "res_004": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+    "res_005": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+    "res_006": "fccb74c536ca47e6a5ef7a964c995b29_007_res_006",
+    "sev_001": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+    "sev_002": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+    "sev_003": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+    "sev_004": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+    "not_001": "fccb74c536ca47e6a5ef7a964c995b29_007_not_001",
+    "not_002": "fccb74c536ca47e6a5ef7a964c995b29_007_not_002",
+    "not_003": "fccb74c536ca47e6a5ef7a964c995b29_007_not_003",
+    "not_004": "fccb74c536ca47e6a5ef7a964c995b29_007_not_004",
+    "not_005": "fccb74c536ca47e6a5ef7a964c995b29_007_not_005",
+    "not_006": "fccb74c536ca47e6a5ef7a964c995b29_007_not_006",
+    "not_007": "fccb74c536ca47e6a5ef7a964c995b29_007_not_007"
+  },
+  "entities": [
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+      "name": "Detect & Alert Phase",
+      "aliases": [
+        "Phase 1"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "detection",
+      "description": "The initial phase of the Incident Response Procedure occurring within 0–15 minutes. It encompasses detection methods, immediate verification, classification, and the activation of the response team.",
+      "context": [
+        "Phase 1: Detect & Alert (0–15 Minutes)",
+        "Detection Methods: Automated alerts (SIEM, IDS, monitoring), Staff report (customer, employee, system), Regulatory notification (law enforcement, regulator), Third-party notification (vendor, partner)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+      "name": "Report Action",
+      "aliases": [
+        "Report"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "escalation",
+      "description": "The immediate action where an alert reaches the on-call incident commander to initiate the response process.",
+      "context": [
+        "1. Report: Alert reaches on-call incident commander"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+      "name": "Verify Action",
+      "aliases": [
+        "Verify"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "investigation",
+      "description": "The process of confirming that a reported incident is a real event and not a false alarm.",
+      "context": [
+        "2. Verify: Confirm incident is real (not false alarm)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+      "name": "Classify Action",
+      "aliases": [
+        "Classify"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "investigation",
+      "description": "The step of assigning a severity level from 1 to 4 to the identified incident.",
+      "context": [
+        "3. Classify: Assign severity level (1–4)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "name": "Notify Action",
+      "aliases": [
+        "Notify"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "notification",
+      "description": "The action of escalating the incident according to the defined escalation matrix.",
+      "context": [
+        "4. Notify: Escalate per escalation matrix ([[escalation_matrix]])"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_006",
+      "name": "Activate Action",
+      "aliases": [
+        "Activate"
+      ],
+      "entity_class": "RESPONSE_ACTION",
+      "type": "escalation",
+      "description": "The final step of the detection phase involving the convening of the incident response team.",
+      "context": [
+        "5. Activate: Convene incident response team"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+      "name": "Severity 1 (Critical)",
+      "aliases": [
+        "Severity 1"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "critical_p1",
+      "description": "The highest severity level requiring immediate notification of the Executive team and notification of the Board within 2 hours.",
+      "context": [
+        "Severity 1: Executive team (ASAP), Board (within 2 hours)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+      "name": "Severity 2 (High)",
+      "aliases": [
+        "Severity 2"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "high_p2",
+      "description": "A high severity level requiring Executive team notification within 30 minutes and CRO notification within 1 hour.",
+      "context": [
+        "Severity 2: Executive team (within 30 min), CRO (within 1 hour)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+      "name": "Severity 3 (Medium)",
+      "aliases": [
+        "Severity 3"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "medium_p3",
+      "description": "A medium severity level requiring notification of the Department head within 4 hours.",
+      "context": [
+        "Severity 3: Department head (within 4 hours)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+      "name": "Severity 4 (Low)",
+      "aliases": [
+        "Severity 4"
+      ],
+      "entity_class": "SEVERITY_LEVEL",
+      "type": "low_p4",
+      "description": "The lowest severity level where the required action is to log the incident as routine.",
+      "context": [
+        "Severity 4: Log incident (routine)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_001",
+      "name": "Executive Team",
+      "aliases": [
+        "Executive"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "executive",
+      "description": "Internal leadership team to be notified ASAP for Severity 1 incidents and within 30 minutes for Severity 2 incidents.",
+      "context": [
+        "Severity 1: Executive team (ASAP)",
+        "Severity 2: Executive team (within 30 min)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_002",
+      "name": "Board",
+      "aliases": [
+        "The Board"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "executive",
+      "description": "The governing board to be notified within 2 hours for Severity 1 incidents.",
+      "context": [
+        "Severity 1: ... Board (within 2 hours)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_003",
+      "name": "Chief Risk Officer (CRO)",
+      "aliases": [
+        "CRO"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "executive",
+      "description": "The CRO to be notified within 1 hour for Severity 2 incidents.",
+      "context": [
+        "Severity 2: ... CRO (within 1 hour)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_004",
+      "name": "Department Head",
+      "aliases": [
+        "Dept Head"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "internal_team",
+      "description": "The relevant department head to be notified within 4 hours for Severity 3 incidents.",
+      "context": [
+        "Severity 3: Department head (within 4 hours)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_005",
+      "name": "Law Enforcement",
+      "aliases": [
+        "Police"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "law_enforcement",
+      "description": "External regulatory body that may provide notifications to trigger the detection phase.",
+      "context": [
+        "Regulatory notification (law enforcement, regulator)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_006",
+      "name": "Regulator",
+      "aliases": [
+        "Regulatory Body"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "regulator",
+      "description": "External regulatory body that may provide notifications to trigger the detection phase.",
+      "context": [
+        "Regulatory notification (law enforcement, regulator)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_007",
+      "name": "Third-party Vendor/Partner",
+      "aliases": [
+        "Vendor",
+        "Partner"
+      ],
+      "entity_class": "NOTIFICATION_CONTACT",
+      "type": "external_partner",
+      "description": "External partners or vendors that may provide notifications to trigger the detection phase.",
+      "context": [
+        "Third-party notification (vendor, partner)"
+      ],
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    }
+  ],
+  "properties": [
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+      "name": "Detect & Alert Phase",
+      "properties": {
+        "action_phase": "detection",
+        "timeline": "0–15 Minutes",
+        "indicators": [
+          "Automated alerts (SIEM, IDS, monitoring)",
+          "Staff report",
+          "Regulatory notification",
+          "Third-party notification"
+        ]
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+      "name": "Report Action",
+      "properties": {
+        "action_phase": "detection",
+        "actor": "on-call incident commander",
+        "output_or_artifact": "Alert notification"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+      "name": "Verify Action",
+      "properties": {
+        "action_phase": "detection",
+        "output_or_artifact": "Confirmation of incident validity"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+      "name": "Classify Action",
+      "properties": {
+        "action_phase": "detection",
+        "output_or_artifact": "Severity level assignment (1–4)"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "name": "Notify Action",
+      "properties": {
+        "action_phase": "detection",
+        "tools_or_systems": "escalation matrix"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_006",
+      "name": "Activate Action",
+      "properties": {
+        "action_phase": "detection",
+        "output_or_artifact": "Convened incident response team"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+      "name": "Severity 1 (Critical)",
+      "properties": {
+        "level_number": 1,
+        "severity_label": "Critical",
+        "escalation_required_to": [
+          "Executive team",
+          "Board"
+        ]
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+      "name": "Severity 2 (High)",
+      "properties": {
+        "level_number": 2,
+        "severity_label": "High",
+        "escalation_required_to": [
+          "Executive team",
+          "Chief Risk Officer (CRO)"
+        ]
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+      "name": "Severity 3 (Medium)",
+      "properties": {
+        "level_number": 3,
+        "severity_label": "Medium",
+        "escalation_required_to": [
+          "Department head"
+        ]
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+      "name": "Severity 4 (Low)",
+      "properties": {
+        "level_number": 4,
+        "severity_label": "Low",
+        "response_time_target": "routine"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_001",
+      "name": "Executive Team",
+      "properties": {
+        "contact_role": "Executive team",
+        "trigger_condition": "Severity 1 or Severity 2 incident",
+        "notification_timeframe": {
+          "Severity 1": "ASAP",
+          "Severity 2": "within 30 min"
+        }
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_002",
+      "name": "Board",
+      "properties": {
+        "contact_role": "Board",
+        "trigger_condition": "Severity 1 incident",
+        "notification_timeframe": "within 2 hours"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_003",
+      "name": "Chief Risk Officer (CRO)",
+      "properties": {
+        "contact_role": "Chief Risk Officer (CRO)",
+        "trigger_condition": "Severity 2 incident",
+        "notification_timeframe": "within 1 hour"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_004",
+      "name": "Department Head",
+      "properties": {
+        "contact_role": "Department head",
+        "trigger_condition": "Severity 3 incident",
+        "notification_timeframe": "within 4 hours"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_005",
+      "name": "Law Enforcement",
+      "properties": {
+        "contact_role": "Law enforcement",
+        "trigger_condition": "Regulatory notification"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_006",
+      "name": "Regulator",
+      "properties": {
+        "contact_role": "Regulator",
+        "trigger_condition": "Regulatory notification"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_007",
+      "name": "Third-party Vendor/Partner",
+      "properties": {
+        "contact_role": "Vendor, partner",
+        "trigger_condition": "Third-party notification"
+      },
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+      "source_name": "Detect & Alert Phase",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+      "target_name": "Report Action",
+      "rel_type": "triggers",
+      "description": "The Detect & Alert phase initiates the reporting process.",
+      "properties": {
+        "sequence": 1
+      },
+      "context": "Phase 1: Detect & Alert (0–15 Minutes)... Immediate Actions: 1. Report",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+      "source_name": "Report Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+      "target_name": "Verify Action",
+      "rel_type": "followed_by",
+      "description": "Reporting is followed by verification of the incident.",
+      "properties": {
+        "sequence": "2"
+      },
+      "context": "1. Report: Alert reaches on-call incident commander 2. Verify: Confirm incident is real",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+      "source_name": "Verify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+      "target_name": "Classify Action",
+      "rel_type": "followed_by",
+      "description": "Verification is followed by the classification of the incident severity.",
+      "properties": {
+        "sequence": "3"
+      },
+      "context": "2. Verify: Confirm incident is real (not false alarm) 3. Classify: Assign severity level (1–4)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+      "source_name": "Classify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "target_name": "Notify Action",
+      "rel_type": "followed_by",
+      "description": "Classification of severity is followed by the notification process.",
+      "properties": {
+        "sequence": "4"
+      },
+      "context": "3. Classify: Assign severity level (1–4) 4. Notify: Escalate per escalation matrix",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "source_name": "Notify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_006",
+      "target_name": "Activate Action",
+      "rel_type": "followed_by",
+      "description": "Notification is followed by the activation of the response team.",
+      "properties": {
+        "sequence": "5"
+      },
+      "context": "4. Notify: Escalate per escalation matrix ([[escalation_matrix]]) 5. Activate: Convene incident response team",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+      "source_name": "Severity 1 (Critical)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "target_name": "Notify Action",
+      "rel_type": "triggers",
+      "description": "Severity 1 incidents trigger immediate notification actions.",
+      "properties": {
+        "mandatory": true
+      },
+      "context": "Severity 1: Executive team (ASAP), Board (within 2 hours)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+      "source_name": "Severity 2 (High)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "target_name": "Notify Action",
+      "rel_type": "triggers",
+      "description": "Severity 2 incidents trigger notification actions.",
+      "properties": {
+        "mandatory": true
+      },
+      "context": "Severity 2: Executive team (within 30 min), CRO (within 1 hour)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+      "source_name": "Severity 3 (Medium)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "target_name": "Notify Action",
+      "rel_type": "triggers",
+      "description": "Severity 3 incidents trigger notification actions.",
+      "properties": {
+        "mandatory": true
+      },
+      "context": "Severity 3: Department head (within 4 hours)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+      "source_name": "Severity 4 (Low)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "target_name": "Notify Action",
+      "rel_type": "triggers",
+      "description": "Severity 4 incidents trigger routine logging notifications.",
+      "properties": {
+        "mandatory": true
+      },
+      "context": "Severity 4: Log incident (routine)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "source_name": "Notify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_001",
+      "target_name": "Executive Team",
+      "rel_type": "notifies",
+      "description": "Notification action informs the Executive Team for Severity 1 and 2.",
+      "properties": {
+        "notification_timeframe": "ASAP to 30 min",
+        "condition": "Severity 1 or 2"
+      },
+      "context": "Severity 1: Executive team (ASAP)... Severity 2: Executive team (within 30 min)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "source_name": "Notify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_002",
+      "target_name": "Board",
+      "rel_type": "notifies",
+      "description": "Notification action informs the Board for Severity 1.",
+      "properties": {
+        "notification_timeframe": "within 2 hours",
+        "condition": "Severity 1"
+      },
+      "context": "Severity 1: ... Board (within 2 hours)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "source_name": "Notify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_003",
+      "target_name": "Chief Risk Officer (CRO)",
+      "rel_type": "notifies",
+      "description": "Notification action informs the CRO for Severity 2.",
+      "properties": {
+        "notification_timeframe": "within 1 hour",
+        "condition": "Severity 2"
+      },
+      "context": "Severity 2: ... CRO (within 1 hour)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "source_name": "Notify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_004",
+      "target_name": "Department Head",
+      "rel_type": "notifies",
+      "description": "Notification action informs the Department Head for Severity 3.",
+      "properties": {
+        "notification_timeframe": "within 4 hours",
+        "condition": "Severity 3"
+      },
+      "context": "Severity 3: Department head (within 4 hours)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+      "source_name": "Severity 1 (Critical)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+      "target_name": "Severity 2 (High)",
+      "rel_type": "more_severe_than",
+      "description": "Severity 1 is a higher level of severity than Severity 2.",
+      "properties": {},
+      "context": "Assign severity level (1–4)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+      "source_name": "Severity 2 (High)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+      "target_name": "Severity 3 (Medium)",
+      "rel_type": "more_severe_than",
+      "description": "Severity 2 is a higher level of severity than Severity 3.",
+      "properties": {},
+      "context": "Assign severity level (1–4)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+      "source_name": "Severity 3 (Medium)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+      "target_name": "Severity 4 (Low)",
+      "rel_type": "more_severe_than",
+      "description": "Severity 3 is a higher level of severity than Severity 4.",
+      "properties": {},
+      "context": "Assign severity level (1–4)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_005",
+      "source_name": "Law Enforcement",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+      "target_name": "Detect & Alert Phase",
+      "rel_type": "triggers",
+      "description": "Regulatory notification from law enforcement triggers the Detect & Alert phase.",
+      "properties": {
+        "method": "Regulatory notification"
+      },
+      "context": "Detection Methods: ... Regulatory notification (law enforcement, regulator)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_006",
+      "source_name": "Regulator",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+      "target_name": "Detect & Alert Phase",
+      "rel_type": "triggers",
+      "description": "Regulatory notification from a regulator triggers the Detect & Alert phase.",
+      "properties": {
+        "method": "Regulatory notification"
+      },
+      "context": "Detection Methods: ... Regulatory notification (law enforcement, regulator)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_007",
+      "source_name": "Third-party Vendor/Partner",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+      "target_name": "Detect & Alert Phase",
+      "rel_type": "triggers",
+      "description": "Third-party notification triggers the Detect & Alert phase.",
+      "properties": {
+        "method": "Third-party notification"
+      },
+      "context": "Detection Methods: ... Third-party notification (vendor, partner)",
+      "bidirectional": false,
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_001",
+      "source_name": "Detect & Alert Phase",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_002",
+      "source_name": "Report Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_003",
+      "source_name": "Verify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_004",
+      "source_name": "Classify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_005",
+      "source_name": "Notify Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_res_006",
+      "source_name": "Activate Action",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_001",
+      "source_name": "Severity 1 (Critical)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_002",
+      "source_name": "Severity 2 (High)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_003",
+      "source_name": "Severity 3 (Medium)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_sev_004",
+      "source_name": "Severity 4 (Low)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_001",
+      "source_name": "Executive Team",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_002",
+      "source_name": "Board",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_003",
+      "source_name": "Chief Risk Officer (CRO)",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_004",
+      "source_name": "Department Head",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_005",
+      "source_name": "Law Enforcement",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_006",
+      "source_name": "Regulator",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    },
+    {
+      "source_id": "fccb74c536ca47e6a5ef7a964c995b29_007_not_007",
+      "source_name": "Third-party Vendor/Partner",
+      "target_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "target_name": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "fccb74c536ca47e6a5ef7a964c995b29_007",
+      "doc_id": "fccb74c536ca47e6a5ef7a964c995b29",
+      "domain": "banking_reference"
+    }
+  ]
+}

@@ -1,0 +1,3631 @@
+{
+  "embedding": [
+    -0.00086081785,
+    0.08191366,
+    -0.16272555,
+    -0.03150669,
+    0.026253656,
+    -0.016432578,
+    0.02742711,
+    0.027406843,
+    -0.022647908,
+    -0.05406208,
+    -0.027683998,
+    0.0367543,
+    0.0793118,
+    0.006482697,
+    0.022149693,
+    -0.0006223063,
+    -0.0034514999,
+    -0.026857875,
+    -0.038326558,
+    0.10845997,
+    0.069814384,
+    -0.052027706,
+    -0.007363128,
+    -0.10380791,
+    0.0038735345,
+    0.048861343,
+    0.021467885,
+    -0.0008346525,
+    -0.0044282195,
+    -0.009573055,
+    0.086021215,
+    -0.013833661,
+    -0.0393991,
+    -0.0183528,
+    -0.04642041,
+    -0.05059796,
+    0.05314224,
+    -0.0016377862,
+    0.03834844,
+    -0.015194569,
+    0.05323252,
+    0.008933725,
+    0.0057092784,
+    -0.039449938,
+    0.051697902,
+    -0.0014625882,
+    0.02593911,
+    0.0063246894,
+    0.095875196,
+    -0.08598244,
+    -0.024137195,
+    -0.0059805904,
+    0.012396922,
+    -0.00036267802,
+    0.044209495,
+    0.042027842,
+    -0.044957932,
+    0.011675282,
+    -0.011244441,
+    -0.041282836,
+    0.08031933,
+    0.07369835,
+    0.011059637,
+    0.056172,
+    0.008616822,
+    -0.03254537,
+    0.026535193,
+    0.020560268,
+    0.0019953619,
+    -0.02689068,
+    0.0005631707,
+    -0.025444401,
+    -0.005146409,
+    0.011250661,
+    -0.034029048,
+    -0.023089195,
+    -0.033105887,
+    -0.034610156,
+    -0.013407387,
+    0.022020893,
+    0.059566874,
+    -0.030573523,
+    0.052446064,
+    0.016937708,
+    0.04215202,
+    -0.025422309,
+    -0.002066032,
+    -0.011316204,
+    -0.06799172,
+    0.06169838,
+    0.03250907,
+    -0.029619087,
+    -0.015761578,
+    0.0076634805,
+    -0.055272806,
+    -0.009093485,
+    0.008925137,
+    0.007056758,
+    -0.0027381927,
+    -0.0107747745,
+    0.010207313,
+    -0.037265074,
+    -0.00902696,
+    -0.06335139,
+    0.0415661,
+    0.080947325,
+    0.022483388,
+    0.021270229,
+    -0.018923834,
+    0.011150523,
+    -0.011711924,
+    -0.009179091,
+    -0.07371212,
+    -0.013220491,
+    -0.009475963,
+    -0.032232404,
+    0.04846446,
+    -0.043262716,
+    -0.02082043,
+    0.007837974,
+    -0.0072335354,
+    -0.04392554,
+    -0.016281059,
+    0.0050256206,
+    0.061957117,
+    0.021095611,
+    -0.0698053,
+    0.0028936004,
+    -0.028150786,
+    -0.07627795,
+    0.044902507,
+    0.0051117144,
+    -0.019614097,
+    0.012606128,
+    0.049147204,
+    0.03407284,
+    -0.04767218,
+    -0.03801391,
+    0.021848388,
+    0.00037912128,
+    0.025312537,
+    0.043405697,
+    -0.028298797,
+    0.019349415,
+    0.022067714,
+    -0.027910138,
+    0.014234118,
+    0.0028673254,
+    -0.07177839,
+    0.02009865,
+    0.0075443587,
+    -0.0093040485,
+    -0.01806482,
+    0.06722413,
+    0.056778662,
+    -0.042120464,
+    -0.021829247,
+    0.01755819,
+    -0.0070510427,
+    0.030931288,
+    -0.025586845,
+    -0.0039049292,
+    -0.027866667,
+    0.054127872,
+    0.01261836,
+    -0.06000543,
+    -0.015896458,
+    0.026848864,
+    0.02149958,
+    0.0063036336,
+    -0.050180715,
+    0.0059778118,
+    -0.015045823,
+    0.024055343,
+    0.039538197,
+    0.009848663,
+    0.021494456,
+    -0.015849778,
+    0.007562778,
+    -0.011120133,
+    -0.004048626,
+    -0.037824392,
+    0.024925523,
+    0.027667163,
+    -0.072436795,
+    -0.017524945,
+    0.009043582,
+    -0.014838056,
+    -0.005537335,
+    -0.033511136,
+    0.034302574,
+    -0.008931896,
+    -0.040575754,
+    -0.01780061,
+    -0.04661867,
+    -0.024697552,
+    0.028673628,
+    0.015458699,
+    0.011812143,
+    -0.031514768,
+    -0.052031044,
+    0.010287999,
+    -0.0037336254,
+    0.00092822436,
+    -0.019416342,
+    0.016941696,
+    -0.02442123,
+    0.045529295,
+    -0.014491906,
+    0.023983832,
+    0.013600844,
+    0.014381343,
+    0.02109174,
+    -0.0009631096,
+    0.05117187,
+    0.0024449243,
+    0.030162739,
+    -0.03038798,
+    -0.020959763,
+    0.02124374,
+    0.032120697,
+    0.0075843614,
+    -0.019806456,
+    0.02448021,
+    0.04337138,
+    -0.0023679747,
+    -0.024465743,
+    -0.02726475,
+    0.01006059,
+    -0.0052499673,
+    0.019063195,
+    -0.020053517,
+    0.07101938,
+    0.024789374,
+    0.012438525,
+    0.042052723,
+    -0.013728251,
+    0.038133085,
+    0.0058285734,
+    0.052967027,
+    0.012431882,
+    0.046264175,
+    -0.021105908,
+    -0.010198449,
+    -0.0090012215,
+    -0.016735414,
+    0.020917714,
+    0.020354852,
+    0.0120657,
+    0.038165737,
+    0.038291294,
+    0.020925593,
+    0.03734695,
+    0.01381917,
+    0.024407046,
+    -0.041254554,
+    -0.020555535,
+    -0.0059557953,
+    -0.028807651,
+    -0.03551828,
+    -0.028540218,
+    -0.01524544,
+    0.036547262,
+    -0.029082546,
+    0.03944668,
+    0.023612626,
+    -0.044974048,
+    0.0015565089,
+    0.024005366,
+    -0.009856128,
+    0.033649515,
+    0.03915758,
+    0.009451434,
+    0.06557641,
+    -0.025106844,
+    -0.02553444,
+    0.027072811,
+    0.013949861,
+    -0.029598583,
+    0.02553372,
+    -0.042234078,
+    -0.07078026,
+    -0.008398662,
+    -0.035618234,
+    -0.029091302,
+    0.0064314185,
+    -0.009088586,
+    -0.005086135,
+    0.03753972,
+    -0.0010270197,
+    0.028769128,
+    -0.042466164,
+    -0.017663356,
+    0.005283683,
+    -0.007813852,
+    0.034133013,
+    0.013881737,
+    -0.025974872,
+    -0.022380626,
+    -0.007815653,
+    0.048920814,
+    0.047825594,
+    0.05458195,
+    0.034789383,
+    -0.034834675,
+    -0.014061273,
+    -0.004020221,
+    0.0018896064,
+    -0.054714806,
+    -0.033520315,
+    -0.0042917593,
+    -0.027494673,
+    -0.06767135,
+    -0.019633189,
+    -0.06601705,
+    0.027720021,
+    0.023626424,
+    0.017762342,
+    0.06465919,
+    0.007556829,
+    -0.016254518,
+    -0.07417919,
+    -0.005543208,
+    -0.029878981,
+    0.012512371,
+    0.06993678,
+    0.0036309636,
+    0.059346627,
+    0.00831331,
+    0.011727973,
+    0.038574714,
+    0.049801774,
+    0.010267736,
+    -0.009080236,
+    -0.0055945576,
+    -0.0022302424,
+    -0.02607565,
+    0.058809776,
+    0.024227783,
+    0.04406254,
+    -0.00053823035,
+    0.022108119,
+    -0.002975826,
+    -0.020548489,
+    0.009143742,
+    -0.010287611,
+    -0.00833697,
+    -0.009017797,
+    0.07550619,
+    0.003300516,
+    0.021491941,
+    0.017556215,
+    -0.0068408404,
+    -0.033769652,
+    0.019151159,
+    0.042473704,
+    -0.01939382,
+    0.060603764,
+    0.02958477,
+    -0.013708719,
+    0.036422387,
+    0.03262451,
+    0.041916274,
+    0.036845848,
+    -0.014134306,
+    0.058020733,
+    0.060168274,
+    -0.005426953,
+    -0.013483994,
+    0.018624933,
+    0.006300684,
+    -0.010141904,
+    -0.026279408,
+    0.011220192,
+    6.117557e-05,
+    0.029837823,
+    -0.03561414,
+    0.004294233,
+    -0.009368468,
+    0.022527331,
+    0.015545721,
+    -0.036019176,
+    -0.056640096,
+    0.005125178,
+    0.057844665,
+    -0.028297754,
+    0.03993004,
+    -0.016229318,
+    -0.011632982,
+    0.022101836,
+    0.0037506104,
+    -0.007426756,
+    0.023072172,
+    0.01050657,
+    0.01729376,
+    -0.021201015,
+    0.014082011,
+    0.00091045245,
+    0.013186055,
+    0.013387693,
+    -0.03968777,
+    -0.082691625,
+    0.024684753,
+    0.038005337,
+    0.010505884,
+    -0.041684385,
+    -0.05605575,
+    -0.046409056,
+    0.054298557,
+    -0.024569964,
+    0.011742297,
+    0.03200333,
+    -0.00011555665,
+    -0.006714713,
+    0.0680315,
+    0.0413971,
+    0.06540535,
+    -0.01797892,
+    -0.060902532,
+    0.02995243,
+    0.0006630824,
+    0.033399355,
+    0.007281691,
+    -0.00607994,
+    0.022368735,
+    0.017636603,
+    0.00051851576,
+    -0.018137857,
+    0.03865661,
+    -0.085173674,
+    0.013249097,
+    0.023069246,
+    0.031320892,
+    -0.012659797,
+    -0.010210505,
+    0.008196282,
+    0.03078263,
+    0.0077437963,
+    0.027718725,
+    0.01758308,
+    0.05261109,
+    -0.04199878,
+    -0.049655907,
+    -0.049647916,
+    -0.021060308,
+    0.08093395,
+    0.035215728,
+    -0.021672951,
+    -0.050346214,
+    0.029775923,
+    0.009459892,
+    0.03940319,
+    0.029652113,
+    0.031502724,
+    0.05656263,
+    -0.0033163764,
+    -0.0026922415,
+    -0.03707117,
+    -0.004405103,
+    0.025402922,
+    -0.020435892,
+    0.030350963,
+    -0.065811865,
+    -0.000804732,
+    0.01887563,
+    -0.020076005,
+    0.010338472,
+    0.022837037,
+    -0.011860373,
+    0.085415535,
+    -0.035573933,
+    -0.024725117,
+    0.031691723,
+    -0.04479425,
+    -0.009131553,
+    0.027663074,
+    -0.007581623,
+    -0.025867265,
+    0.03722918,
+    0.100226395,
+    -0.00068688975,
+    -0.053414032,
+    -0.02852708,
+    -0.04628951,
+    -0.038278148,
+    0.05600883,
+    -0.004397035,
+    -0.0649071,
+    0.011996489,
+    -0.064550266,
+    0.029758874,
+    0.03525857,
+    -0.0026079337,
+    0.0028809544,
+    -0.023744838,
+    0.009159411,
+    -0.05638534,
+    0.047260165,
+    0.066322625,
+    0.012039405,
+    0.05210214,
+    0.021426098,
+    -0.031044824,
+    0.015441187,
+    0.045405596,
+    0.025400262,
+    0.068065226,
+    -0.05528923,
+    -0.032112125,
+    0.016019199,
+    -0.0065606013,
+    -0.0190605,
+    0.035359424,
+    -0.0046435166,
+    0.03731742,
+    -0.073042266,
+    0.004708177,
+    0.0075088865,
+    -0.060271017,
+    -0.04126795,
+    0.02403641,
+    -0.014484862,
+    -0.018716834,
+    -0.014392817,
+    -0.055554472,
+    0.009054133,
+    0.00299821,
+    -0.03428862,
+    0.055473216,
+    0.011590243,
+    0.0010999563,
+    0.0744758,
+    -0.007559266,
+    -0.050410207,
+    -0.008121342,
+    0.023274872,
+    -0.01308267,
+    -0.0006960937,
+    0.06726087,
+    0.052594844,
+    0.0022591392,
+    0.0114605,
+    0.022420218,
+    0.0141174495,
+    0.0006176259,
+    -0.023777522,
+    0.026839947,
+    0.04879154,
+    0.008105757,
+    -0.07949284,
+    0.04506197,
+    -0.05880102,
+    -0.010682642,
+    -0.022086207,
+    0.010767585,
+    0.025611736,
+    0.024549479,
+    -0.03363962,
+    -0.050741937,
+    -0.09337614,
+    -0.011320272,
+    -0.009232587,
+    0.008116989,
+    0.0130751105,
+    0.026779888,
+    -0.04942128,
+    0.023868997,
+    0.033586096,
+    -0.0025722785,
+    0.028114617,
+    0.020122578,
+    -0.041400608,
+    -0.06633441,
+    -0.007860059,
+    -0.034903012,
+    -0.036653455,
+    0.054249458,
+    -0.0032691772,
+    -0.06697242,
+    -0.021684797,
+    -0.001005599,
+    -0.09547065,
+    0.0041772383,
+    0.073015764,
+    -0.013115009,
+    -0.006179664,
+    -0.056563344,
+    -0.03635246,
+    0.04552315,
+    -0.017128043,
+    0.004231156,
+    0.04671934,
+    0.023590622,
+    0.013077845,
+    0.025173161,
+    0.025087645,
+    0.026275437,
+    -0.037378028,
+    -0.01917968,
+    -0.0457438,
+    -0.031089794,
+    0.009939529,
+    0.06352593,
+    -0.059540432,
+    -0.018502792,
+    0.021114914,
+    -0.018986087,
+    -0.0049519157,
+    0.0045600967,
+    -0.057829354,
+    0.01632525,
+    -0.021020966,
+    -0.016445264,
+    -0.021546884,
+    0.03829507,
+    0.020977363,
+    0.04449143,
+    -0.031781454,
+    0.014021386,
+    -0.013431087,
+    -0.011381242,
+    -0.03356473,
+    0.028409265,
+    -0.019975265,
+    -0.015848443,
+    0.0038461718,
+    -0.0070211384,
+    -0.034770276,
+    -0.032781295,
+    0.061018646,
+    -0.047140002,
+    0.024970286,
+    -0.052552428,
+    -0.02918217,
+    -0.05970673,
+    0.03309326,
+    -0.01003857,
+    -0.008473285,
+    -0.02464914,
+    0.010679471,
+    0.069948964,
+    -0.039794404,
+    -0.042594247,
+    0.052433398,
+    0.06548979,
+    -0.022877922,
+    0.038876157,
+    -0.023321554,
+    0.07169798,
+    -0.03655444,
+    0.03201859,
+    0.05043269,
+    0.024274891,
+    -0.006410931,
+    0.02574224,
+    0.022898868,
+    0.018658439,
+    -0.04368118,
+    -0.06411465,
+    -0.05418878,
+    -0.021247108,
+    0.019028502,
+    -0.0020175355,
+    0.020121224,
+    0.0049300897,
+    0.014085774,
+    -0.027929034,
+    0.041203104,
+    -0.04528646,
+    -0.065415375,
+    -0.0011915675,
+    0.090618655,
+    -0.022679536,
+    -0.02470933,
+    -0.038396444,
+    0.0289182,
+    0.046302643,
+    0.020496566,
+    -0.060252037,
+    0.038526583,
+    -0.010083254,
+    -0.007872108,
+    0.002684515,
+    -0.04954642,
+    0.015731758,
+    -0.015329077,
+    0.04517367,
+    0.0062362235,
+    0.015363994,
+    -0.023224559,
+    -0.038572393,
+    -0.034479883,
+    -0.029414898,
+    0.013980541,
+    0.0132121,
+    0.07198713,
+    -0.007469049,
+    -0.011641942,
+    -0.049481675,
+    -0.021568444,
+    -0.048539452,
+    0.0032552343,
+    -0.0018226904,
+    0.05023835,
+    -0.03134491,
+    0.025145782,
+    0.0053995075,
+    -0.017015658,
+    -0.029293288,
+    -0.014857434,
+    -0.012047216,
+    -0.016971525,
+    -0.015494282,
+    -0.0050557,
+    -0.013321524,
+    0.060868762,
+    -0.01567358,
+    -0.028259434,
+    -0.023435706,
+    -0.024426669,
+    0.044246748,
+    -0.028679173,
+    -0.09643941,
+    -0.021719702,
+    -0.028601082,
+    0.06651755,
+    0.027140886,
+    -0.06020304,
+    -0.019102272,
+    -0.022729604,
+    0.0049237567,
+    -0.051620062,
+    -0.033252902,
+    0.057161923,
+    -0.019289996,
+    0.008653627,
+    -0.05229873,
+    -0.037203345,
+    -0.041895013,
+    -0.049627952,
+    -0.09257681,
+    -0.009985752,
+    -0.039497476,
+    0.028426364,
+    0.00038113052,
+    0.015947167,
+    -0.022643076,
+    0.028098501,
+    0.019432655,
+    -0.0038522247,
+    0.047779027,
+    -0.0023227336,
+    -0.076312736,
+    -0.023130579,
+    -0.023333775,
+    0.01561317,
+    0.05353249,
+    0.03835705,
+    0.109814756,
+    0.03881302,
+    0.03050026,
+    -0.047902677,
+    -0.0020057845,
+    -0.042948186,
+    -0.009766049,
+    -0.05281845,
+    -0.015304671,
+    -0.06781924
+  ],
+  "chunk_seq": 4,
+  "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+  "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+  "text": "# From Legacy to Legendary Accelerating software delivery in modernization projects at Nationwide Building Society  \n5  \n|                                                             |    | Requirements                                                                                                                                                   | Design    &    Coding                                                                                                                                                                                                                                                                                 | Unit Testing                                                                                                                                                                                 |\n|-------------------------------------------------------------|----|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| Mobile Banking App Modernization Legacy Sencha App Codebase |    | Reverse engineered to extract business requirements  ~25% reduction from manual code analysis and 80%+ accurate requirement extraction from legacy Sencha code | Figma  Native, React code / components auto generated  Generated Kotlin, Swift code & React, APIs and logic rapidly with adaptive suggestions  30% faster UI development  Automated code refactoring for has removed a low skills, manual process from development process   10% better code quality | Autogenerated Unit/Component Test cases & simulated edge cases  15% faster test cycles  Increased unit test automation resulted in ~30% reduction in testing defects (demonstrated in React) |\n| Internet Banking Modernization Figma Designs to React Code  |    | N.A.                                                                                                                                                           | Figma  Native, React code / components auto generated  Generated Kotlin, Swift code & React, APIs and logic rapidly with adaptive suggestions  30% faster UI development  Automated code refactoring for has removed a low skills, manual process from development process   10% better code quality | Autogenerated Unit/Component Test cases & simulated edge cases  15% faster test cycles  Increased unit test automation resulted in ~30% reduction in testing defects (demonstrated in React) |\n| Modernize Data Platform Teradata to Databricks Migration    |    | Reverse engineer Teradata Stored Procedures to understand the logic                                                                                            | Generate dbt code based on client frameworks, standards and guardrails 40% reduction in coding effort                                                                                                                                                                                                 |                                                                                                                                                                                              |  \nUsing IBM Science of Consulting  \nicon  \nicon  \nicon  \nicon  \nThe Nationwide delivery team is on a continuous journey of innovation. Taking on the challenge of productivity by bringing together the knowledge of the client context, and client provided GenAI tools – our teams were able to demonstrate quantitative benefits from live modernization enagements  \n# From Legacy to Legendary Accelerating software delivery in modernization projects at Nationwide Building Society  \n6  \nUsing IBM Science of Consulting  \nLegacy Sencha App Codebase  \n- Reverse engineered to extract business requirements\n- Rebuilt in Java, Native, Swift &amp; Kotlin via Copilot  \nlogo  \nAccelerated development with Figma designs  \n- Generated production ready code in React, Kotlin &amp; Swift\n- Co-Pilot provided with Client Design guideline files and precise specification and context for high quality code output  \nlogo  \nUse of gen AI revealed hidden areas of inefficiency in SDLC  \n- Prompted rethinking of processes\n- Identified potential for Agentic AI integration  \nlogo  \nEstimation models updated to deliver promised efficiency  \n- Gen AI efficiencies are now getting baked in\n- Sprint Planning is getting faster and smarter  \nicon  \nClients want predictable outcomes &amp; results  \nRan multiple POCs to seek, absorb and push Gen AI Limits  \n- Careful Prompt -&gt; Context Engineering, iterated over 2 months\n- Discovered Copilot limitations, and built utilities for workarounds  \nlogo  \nEvidence driven,  \nquick iterations  \nCollaborated deeply with client stakeholders  \n- Tech Architects\n- Product Owners\n- Code Owners\n- Brought them along the learning curve  \nicon  \nOpen Collaboration  \nClient challenge  \n- Reduce time taken for modernizing projects by 30-40%\n- Architects, Developers, Testers utilized their expertise of existing apps, applied it with newly acquired GenAI tooling knowledge to take on challenge  \nlogo  \nExperts across squads  \nExperts across squads",
+  "name": "Chunk 4/8",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_003",
+  "next_chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_005",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide Building Society",
+      "aliases": [
+        "Nationwide",
+        "the client",
+        "client context"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK financial services institution undergoing comprehensive digital and data platform modernization. The client is actively partnering with IBM to accelerate software delivery, reduce legacy technical debt, and integrate GenAI tools into their SDLC to meet aggressive productivity and timeline targets.",
+      "context": [
+        "at Nationwide Building Society",
+        "the client context",
+        "Client challenge",
+        "Nationwide delivery team"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "IBM Science of Consulting",
+      "aliases": [
+        "Science of Consulting",
+        "IBM Consulting Framework"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "IBM's proprietary consulting and delivery methodology applied to drive innovation and quantitative benefits in client modernization engagements. It serves as the foundational approach for structuring AI-driven development, stakeholder collaboration, and iterative proof-of-concept cycles.",
+      "context": [
+        "Using IBM Science of Consulting",
+        "Using IBM Science of Consulting",
+        "live modernization enagements"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "Software Modernization Engagements",
+      "aliases": [
+        "modernization projects",
+        "modernizing projects",
+        "software delivery projects"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A suite of targeted software delivery and modernization initiatives focused on migrating legacy codebases and data platforms to modern, cloud-native architectures. These engagements leverage AI-assisted development to accelerate delivery and improve code quality.",
+      "context": [
+        "Mobile Banking App Modernization",
+        "Internet Banking Modernization",
+        "Modernize Data Platform Teradata to Databricks Migration",
+        "modernizing projects"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Legacy Code Reverse Engineering",
+      "aliases": [
+        "business requirements extraction",
+        "legacy logic analysis"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to systematically analyze and deconstruct outdated codebases to extract underlying business logic and requirements. This capability enables the transition from legacy systems to modern architectures by providing accurate foundational documentation for redevelopment.",
+      "context": [
+        "Reverse engineered to extract business requirements",
+        "Reverse engineer Teradata Stored Procedures to understand the logic",
+        "~25% reduction from manual code analysis"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "AI-Driven Code Generation & Refactoring",
+      "aliases": [
+        "automated code generation",
+        "adaptive code suggestions",
+        "production-ready code generation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The use of AI assistants to automatically generate, refactor, and suggest code across multiple programming languages and frameworks. This capability removes low-skill manual processes, accelerates UI development, and improves overall code quality through automated refactoring.",
+      "context": [
+        "Generated Kotlin, Swift code & React, APIs and logic rapidly with adaptive suggestions",
+        "Automated code refactoring for has removed a low skills, manual process",
+        "30% faster UI development",
+        "10% better code quality"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "AI-Driven Test Automation",
+      "aliases": [
+        "autogenerated test cases",
+        "simulated edge case testing",
+        "unit test automation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The capability to automatically generate unit and component test cases, including simulated edge cases, to improve testing speed and reduce software defects. This automation streamlines the testing lifecycle and increases confidence in code deployments.",
+      "context": [
+        "Autogenerated Unit/Component Test cases & simulated edge cases",
+        "15% faster test cycles",
+        "Increased unit test automation resulted in ~30% reduction in testing defects"
+      ]
+    },
+    {
+      "id": "cap_004",
+      "name": "Prompt & Context Engineering",
+      "aliases": [
+        "context engineering",
+        "prompt optimization",
+        "AI tool configuration"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The disciplined process of crafting, iterating, and refining AI prompts and context inputs to maximize tool output quality. This capability was critical for overcoming platform limitations and building workarounds during the modernization journey.",
+      "context": [
+        "Careful Prompt -> Context Engineering, iterated over 2 months",
+        "Discovered Copilot limitations, and built utilities for workarounds",
+        "Client provided GenAI tools"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Mobile Banking App Modernization",
+      "aliases": [
+        "Mobile Banking Modernization",
+        "Sencha to React Modernization"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The modernization of a legacy mobile banking application originally built on a Sencha codebase. The use case involves reverse-engineering legacy logic, generating production-ready React code, and automating testing to accelerate delivery and improve quality.",
+      "context": [
+        "Mobile Banking App Modernization Legacy Sencha App Codebase",
+        "Reverse engineered to extract business requirements",
+        "Figma  Native, React code / components auto generated"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Internet Banking Platform Modernization",
+      "aliases": [
+        "Internet Banking Modernization",
+        "Figma to React Code Generation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The transformation of internet banking interfaces from Figma design specifications into production-ready code across multiple platforms. This use case leverages automated code generation to rapidly convert designs into React, Kotlin, and Swift components.",
+      "context": [
+        "Internet Banking Modernization Figma Designs to React Code",
+        "Accelerated development with Figma designs",
+        "Generated production ready code in React, Kotlin & Swift"
+      ]
+    },
+    {
+      "id": "use_003",
+      "name": "Data Platform Migration",
+      "aliases": [
+        "Teradata to Databricks Migration",
+        "Data Platform Modernization"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "migration",
+      "description": "The migration of a legacy Teradata data platform to a modern Databricks cloud data platform. This use case focuses on reverse-engineering stored procedures, generating dbt code based on client standards, and significantly reducing manual coding effort.",
+      "context": [
+        "Modernize Data Platform Teradata to Databricks Migration",
+        "Teradata Stored Procedures",
+        "Generate dbt code based on client frameworks, standards and guardrails"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Accelerated UI Development Speed",
+      "aliases": [
+        "faster UI development",
+        "speed improvement",
+        "development acceleration"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "A measurable reduction in the time required to develop user interfaces, driven by automated code generation and adaptive AI suggestions. This benefit directly addresses client goals for faster delivery and improved productivity.",
+      "context": [
+        "30% faster UI development",
+        "Accelerated development with Figma designs",
+        "Reduced time taken for modernizing projects by 30-40%"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Enhanced Code Quality & Maintainability",
+      "aliases": [
+        "better code quality",
+        "quality improvement",
+        "high quality code output"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "An improvement in the overall quality and maintainability of generated code, achieved through automated refactoring and precise specification context. This benefit reduces technical debt and supports long-term platform stability.",
+      "context": [
+        "10% better code quality",
+        "high quality code output",
+        "Estimation models updated to deliver promised efficiency"
+      ]
+    },
+    {
+      "id": "ben_003",
+      "name": "Reduced Testing Defects & Faster Cycles",
+      "aliases": [
+        "defect reduction",
+        "faster test cycles",
+        "testing efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "A significant decrease in software defects and faster test execution cycles, achieved through automated unit and component test case generation. This benefit increases deployment confidence and reduces post-release risk.",
+      "context": [
+        "15% faster test cycles",
+        "~30% reduction in testing defects (demonstrated in React)",
+        "Autogenerated Unit/Component Test cases & simulated edge cases"
+      ]
+    },
+    {
+      "id": "ben_004",
+      "name": "Significant Coding Effort Reduction",
+      "aliases": [
+        "coding effort reduction",
+        "efficiency gain",
+        "productivity improvement"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A substantial decrease in manual coding workload and high-accuracy requirement extraction, driven by AI-assisted development processes. This benefit directly supports the client's explicit goal of reducing modernization project timelines by 30-40%.",
+      "context": [
+        "40% reduction in coding effort",
+        "~25% reduction from manual code analysis",
+        "80%+ accurate requirement extraction"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Legacy System Constraints",
+      "aliases": [
+        "legacy codebase",
+        "Sencha codebase",
+        "existing apps"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The technical debt and operational friction associated with maintaining and modernizing outdated, monolithic legacy codebases. These constraints create bottlenecks in development and require systematic reverse engineering to overcome.",
+      "context": [
+        "Legacy Sencha App Codebase",
+        "legacy Sencha code",
+        "existing apps",
+        "low skills, manual process"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Project Timeline Pressure",
+      "aliases": [
+        "time reduction target",
+        "productivity challenge",
+        "delivery speed constraint"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "The client's explicit requirement to significantly accelerate modernization project delivery timelines to meet business productivity goals. This pressure drives the adoption of AI tools and iterative proof-of-concept methodologies.",
+      "context": [
+        "Reduce time taken for modernizing projects by 30-40%",
+        "challenge of productivity",
+        "Clients want predictable outcomes & results"
+      ]
+    },
+    {
+      "id": "cha_003",
+      "name": "AI Tool Limitations & Skill Gaps",
+      "aliases": [
+        "Copilot limitations",
+        "low skills manual process",
+        "SDLC inefficiency"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "The reliance on manual, low-skill coding tasks that are inefficient and prone to error, combined with the initial limitations of GenAI tools. Overcoming these challenges required careful prompt engineering, iterative testing, and the development of custom workarounds.",
+      "context": [
+        "removed a low skills, manual process",
+        "Discovered Copilot limitations, and built utilities for workarounds",
+        "revealed hidden areas of inefficiency in SDLC"
+      ]
+    },
+    {
+      "id": "tec_001",
+      "name": "IBM Copilot",
+      "aliases": [
+        "Copilot",
+        "AI coding assistant",
+        "GenAI tools"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "An AI-powered coding assistant used to generate, refactor, and suggest code across multiple programming languages and frameworks. It serves as the core engine for accelerating development, though it required careful context engineering to overcome initial limitations.",
+      "context": [
+        "via Copilot",
+        "Copilot provided with Client Design guideline files",
+        "Discovered Copilot limitations, and built utilities for workarounds",
+        "Client provided GenAI tools"
+      ]
+    },
+    {
+      "id": "tec_002",
+      "name": "Figma",
+      "aliases": [
+        "Figma designs",
+        "design platform",
+        "prototyping tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A design and prototyping platform used as a source of truth for generating production-ready frontend code and components. It enables the automated translation of visual designs into React, Kotlin, and Swift code.",
+      "context": [
+        "Figma  Native, React code / components auto generated",
+        "Figma Designs to React Code",
+        "Accelerated development with Figma designs"
+      ]
+    },
+    {
+      "id": "tec_003",
+      "name": "Teradata",
+      "aliases": [
+        "Teradata platform",
+        "legacy data warehouse",
+        "Teradata Stored Procedures"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "A legacy enterprise data warehousing platform whose stored procedures and logic were reverse-engineered for migration. It represents the outdated infrastructure driving the need for modernization.",
+      "context": [
+        "Teradata Stored Procedures",
+        "Teradata to Databricks Migration",
+        "Modernize Data Platform Teradata to Databricks"
+      ]
+    },
+    {
+      "id": "tec_004",
+      "name": "Databricks",
+      "aliases": [
+        "Databricks platform",
+        "cloud data platform",
+        "target data environment"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A modern cloud-based data and AI platform serving as the target environment for the client's data platform migration. It replaces legacy Teradata infrastructure and supports modern data transformation workflows.",
+      "context": [
+        "Teradata to Databricks Migration",
+        "Modernize Data Platform Teradata to Databricks",
+        "cloud data platform"
+      ]
+    },
+    {
+      "id": "tec_005",
+      "name": "dbt (data build tool)",
+      "aliases": [
+        "dbt code",
+        "data transformation framework",
+        "SQL transformation tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A data transformation framework used to generate SQL-based data models and transformations according to client standards. It enables the automated generation of dbt code based on established guardrails and frameworks.",
+      "context": [
+        "Generate dbt code based on client frameworks, standards and guardrails",
+        "dbt code",
+        "client frameworks, standards and guardrails"
+      ]
+    },
+    {
+      "id": "dif_001",
+      "name": "Evidence-Driven Iterative Delivery",
+      "aliases": [
+        "quick iterations",
+        "POC-driven approach",
+        "data-backed validation"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "track_record",
+      "description": "A delivery approach focused on rapid prototyping, continuous testing, and data-backed validation to prove value and overcome tool limitations. This methodology ensures predictable outcomes by iteratively pushing AI boundaries and refining processes.",
+      "context": [
+        "Evidence driven, quick iterations",
+        "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+        "Careful Prompt -> Context Engineering, iterated over 2 months"
+      ]
+    },
+    {
+      "id": "dif_002",
+      "name": "Deep Client Collaboration & Stakeholder Alignment",
+      "aliases": [
+        "open collaboration",
+        "stakeholder engagement",
+        "client partnership"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "partnership",
+      "description": "A highly collaborative engagement model that actively involves client architects, product owners, and code owners in the modernization journey. This approach brings stakeholders along the learning curve and ensures shared ownership of outcomes.",
+      "context": [
+        "Collaborated deeply with client stakeholders",
+        "Open Collaboration",
+        "Brought them along the learning curve",
+        "Tech Architects",
+        "Product Owners",
+        "Code Owners"
+      ]
+    },
+    {
+      "id": "dif_003",
+      "name": "Expert Cross-Functional Squads",
+      "aliases": [
+        "skilled teams",
+        "domain experts",
+        "multi-disciplinary squads"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "The deployment of highly skilled, cross-functional teams combining deep domain knowledge with emerging GenAI tooling expertise. These experts leverage their understanding of existing apps to drive productivity and overcome legacy constraints.",
+      "context": [
+        "Experts across squads",
+        "Architects, Developers, Testers utilized their expertise",
+        "knowledge of the client context"
+      ]
+    },
+    {
+      "id": "per_001",
+      "name": "Client Stakeholders",
+      "aliases": [
+        "client contacts",
+        "client-side team",
+        "client decision-makers"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "Key client-side technical and business contributors involved in the modernization process, including tech architects, product owners, and code owners. These individuals were actively engaged to align on goals, share expertise, and adopt new AI-driven workflows.",
+      "context": [
+        "Collaborated deeply with client stakeholders",
+        "Tech Architects",
+        "Product Owners",
+        "Code Owners"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Consulting",
+        "the vendor",
+        "IBM delivery team"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary technology and consulting vendor delivering the modernization solutions and AI-driven development services. IBM provides the Science of Consulting framework, expert squads, and GenAI tooling to accelerate client modernization projects.",
+      "context": [
+        "Using IBM Science of Consulting",
+        "IBM Science of Consulting",
+        "The Nationwide delivery team is on a continuous journey of innovation"
+      ]
+    },
+    {
+      "id": "eve_001",
+      "name": "Proof of Concept (POC) Cycles",
+      "aliases": [
+        "POCs",
+        "iterative testing phases",
+        "GenAI limit testing"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A series of iterative proof-of-concept engagements designed to test AI tool capabilities, identify limitations, and develop workarounds. These POCs were critical for validating GenAI effectiveness and refining prompt engineering over a two-month period.",
+      "context": [
+        "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+        "iterated over 2 months",
+        "Discovered Copilot limitations, and built utilities for workarounds"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+    "off_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+    "off_002": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_002",
+    "cap_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+    "cap_002": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+    "cap_003": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+    "cap_004": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_004",
+    "use_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+    "use_002": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+    "use_003": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+    "ben_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+    "ben_002": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+    "ben_003": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+    "ben_004": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+    "cha_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+    "cha_002": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+    "cha_003": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_003",
+    "tec_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_001",
+    "tec_002": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+    "tec_003": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+    "tec_004": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_004",
+    "tec_005": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_005",
+    "dif_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+    "dif_002": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+    "dif_003": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+    "per_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_per_001",
+    "org_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_org_001",
+    "eve_001": "70bc1b535aa4478b9e32cfd02b6643e3_004_eve_001"
+  },
+  "entities": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "name": "Nationwide Building Society",
+      "aliases": [
+        "Nationwide",
+        "the client",
+        "client context"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major UK financial services institution undergoing comprehensive digital and data platform modernization. The client is actively partnering with IBM to accelerate software delivery, reduce legacy technical debt, and integrate GenAI tools into their SDLC to meet aggressive productivity and timeline targets.",
+      "context": [
+        "at Nationwide Building Society",
+        "the client context",
+        "Client challenge",
+        "Nationwide delivery team"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "name": "IBM Science of Consulting",
+      "aliases": [
+        "Science of Consulting",
+        "IBM Consulting Framework"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "IBM's proprietary consulting and delivery methodology applied to drive innovation and quantitative benefits in client modernization engagements. It serves as the foundational approach for structuring AI-driven development, stakeholder collaboration, and iterative proof-of-concept cycles.",
+      "context": [
+        "Using IBM Science of Consulting",
+        "Using IBM Science of Consulting",
+        "live modernization enagements"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_002",
+      "name": "Software Modernization Engagements",
+      "aliases": [
+        "modernization projects",
+        "modernizing projects",
+        "software delivery projects"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A suite of targeted software delivery and modernization initiatives focused on migrating legacy codebases and data platforms to modern, cloud-native architectures. These engagements leverage AI-assisted development to accelerate delivery and improve code quality.",
+      "context": [
+        "Mobile Banking App Modernization",
+        "Internet Banking Modernization",
+        "Modernize Data Platform Teradata to Databricks Migration",
+        "modernizing projects"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+      "name": "Legacy Code Reverse Engineering",
+      "aliases": [
+        "business requirements extraction",
+        "legacy logic analysis"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The ability to systematically analyze and deconstruct outdated codebases to extract underlying business logic and requirements. This capability enables the transition from legacy systems to modern architectures by providing accurate foundational documentation for redevelopment.",
+      "context": [
+        "Reverse engineered to extract business requirements",
+        "Reverse engineer Teradata Stored Procedures to understand the logic",
+        "~25% reduction from manual code analysis"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "name": "AI-Driven Code Generation & Refactoring",
+      "aliases": [
+        "automated code generation",
+        "adaptive code suggestions",
+        "production-ready code generation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The use of AI assistants to automatically generate, refactor, and suggest code across multiple programming languages and frameworks. This capability removes low-skill manual processes, accelerates UI development, and improves overall code quality through automated refactoring.",
+      "context": [
+        "Generated Kotlin, Swift code & React, APIs and logic rapidly with adaptive suggestions",
+        "Automated code refactoring for has removed a low skills, manual process",
+        "30% faster UI development",
+        "10% better code quality"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+      "name": "AI-Driven Test Automation",
+      "aliases": [
+        "autogenerated test cases",
+        "simulated edge case testing",
+        "unit test automation"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The capability to automatically generate unit and component test cases, including simulated edge cases, to improve testing speed and reduce software defects. This automation streamlines the testing lifecycle and increases confidence in code deployments.",
+      "context": [
+        "Autogenerated Unit/Component Test cases & simulated edge cases",
+        "15% faster test cycles",
+        "Increased unit test automation resulted in ~30% reduction in testing defects"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_004",
+      "name": "Prompt & Context Engineering",
+      "aliases": [
+        "context engineering",
+        "prompt optimization",
+        "AI tool configuration"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The disciplined process of crafting, iterating, and refining AI prompts and context inputs to maximize tool output quality. This capability was critical for overcoming platform limitations and building workarounds during the modernization journey.",
+      "context": [
+        "Careful Prompt -> Context Engineering, iterated over 2 months",
+        "Discovered Copilot limitations, and built utilities for workarounds",
+        "Client provided GenAI tools"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+      "name": "Mobile Banking App Modernization",
+      "aliases": [
+        "Mobile Banking Modernization",
+        "Sencha to React Modernization"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The modernization of a legacy mobile banking application originally built on a Sencha codebase. The use case involves reverse-engineering legacy logic, generating production-ready React code, and automating testing to accelerate delivery and improve quality.",
+      "context": [
+        "Mobile Banking App Modernization Legacy Sencha App Codebase",
+        "Reverse engineered to extract business requirements",
+        "Figma  Native, React code / components auto generated"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+      "name": "Internet Banking Platform Modernization",
+      "aliases": [
+        "Internet Banking Modernization",
+        "Figma to React Code Generation"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "modernisation",
+      "description": "The transformation of internet banking interfaces from Figma design specifications into production-ready code across multiple platforms. This use case leverages automated code generation to rapidly convert designs into React, Kotlin, and Swift components.",
+      "context": [
+        "Internet Banking Modernization Figma Designs to React Code",
+        "Accelerated development with Figma designs",
+        "Generated production ready code in React, Kotlin & Swift"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+      "name": "Data Platform Migration",
+      "aliases": [
+        "Teradata to Databricks Migration",
+        "Data Platform Modernization"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "migration",
+      "description": "The migration of a legacy Teradata data platform to a modern Databricks cloud data platform. This use case focuses on reverse-engineering stored procedures, generating dbt code based on client standards, and significantly reducing manual coding effort.",
+      "context": [
+        "Modernize Data Platform Teradata to Databricks Migration",
+        "Teradata Stored Procedures",
+        "Generate dbt code based on client frameworks, standards and guardrails"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+      "name": "Accelerated UI Development Speed",
+      "aliases": [
+        "faster UI development",
+        "speed improvement",
+        "development acceleration"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "A measurable reduction in the time required to develop user interfaces, driven by automated code generation and adaptive AI suggestions. This benefit directly addresses client goals for faster delivery and improved productivity.",
+      "context": [
+        "30% faster UI development",
+        "Accelerated development with Figma designs",
+        "Reduced time taken for modernizing projects by 30-40%"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+      "name": "Enhanced Code Quality & Maintainability",
+      "aliases": [
+        "better code quality",
+        "quality improvement",
+        "high quality code output"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "An improvement in the overall quality and maintainability of generated code, achieved through automated refactoring and precise specification context. This benefit reduces technical debt and supports long-term platform stability.",
+      "context": [
+        "10% better code quality",
+        "high quality code output",
+        "Estimation models updated to deliver promised efficiency"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+      "name": "Reduced Testing Defects & Faster Cycles",
+      "aliases": [
+        "defect reduction",
+        "faster test cycles",
+        "testing efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "A significant decrease in software defects and faster test execution cycles, achieved through automated unit and component test case generation. This benefit increases deployment confidence and reduces post-release risk.",
+      "context": [
+        "15% faster test cycles",
+        "~30% reduction in testing defects (demonstrated in React)",
+        "Autogenerated Unit/Component Test cases & simulated edge cases"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+      "name": "Significant Coding Effort Reduction",
+      "aliases": [
+        "coding effort reduction",
+        "efficiency gain",
+        "productivity improvement"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "A substantial decrease in manual coding workload and high-accuracy requirement extraction, driven by AI-assisted development processes. This benefit directly supports the client's explicit goal of reducing modernization project timelines by 30-40%.",
+      "context": [
+        "40% reduction in coding effort",
+        "~25% reduction from manual code analysis",
+        "80%+ accurate requirement extraction"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "name": "Legacy System Constraints",
+      "aliases": [
+        "legacy codebase",
+        "Sencha codebase",
+        "existing apps"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The technical debt and operational friction associated with maintaining and modernizing outdated, monolithic legacy codebases. These constraints create bottlenecks in development and require systematic reverse engineering to overcome.",
+      "context": [
+        "Legacy Sencha App Codebase",
+        "legacy Sencha code",
+        "existing apps",
+        "low skills, manual process"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+      "name": "Project Timeline Pressure",
+      "aliases": [
+        "time reduction target",
+        "productivity challenge",
+        "delivery speed constraint"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "The client's explicit requirement to significantly accelerate modernization project delivery timelines to meet business productivity goals. This pressure drives the adoption of AI tools and iterative proof-of-concept methodologies.",
+      "context": [
+        "Reduce time taken for modernizing projects by 30-40%",
+        "challenge of productivity",
+        "Clients want predictable outcomes & results"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_003",
+      "name": "AI Tool Limitations & Skill Gaps",
+      "aliases": [
+        "Copilot limitations",
+        "low skills manual process",
+        "SDLC inefficiency"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "The reliance on manual, low-skill coding tasks that are inefficient and prone to error, combined with the initial limitations of GenAI tools. Overcoming these challenges required careful prompt engineering, iterative testing, and the development of custom workarounds.",
+      "context": [
+        "removed a low skills, manual process",
+        "Discovered Copilot limitations, and built utilities for workarounds",
+        "revealed hidden areas of inefficiency in SDLC"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_001",
+      "name": "IBM Copilot",
+      "aliases": [
+        "Copilot",
+        "AI coding assistant",
+        "GenAI tools"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "ai_platform",
+      "description": "An AI-powered coding assistant used to generate, refactor, and suggest code across multiple programming languages and frameworks. It serves as the core engine for accelerating development, though it required careful context engineering to overcome initial limitations.",
+      "context": [
+        "via Copilot",
+        "Copilot provided with Client Design guideline files",
+        "Discovered Copilot limitations, and built utilities for workarounds",
+        "Client provided GenAI tools"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+      "name": "Figma",
+      "aliases": [
+        "Figma designs",
+        "design platform",
+        "prototyping tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "A design and prototyping platform used as a source of truth for generating production-ready frontend code and components. It enables the automated translation of visual designs into React, Kotlin, and Swift code.",
+      "context": [
+        "Figma  Native, React code / components auto generated",
+        "Figma Designs to React Code",
+        "Accelerated development with Figma designs"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+      "name": "Teradata",
+      "aliases": [
+        "Teradata platform",
+        "legacy data warehouse",
+        "Teradata Stored Procedures"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "legacy_system",
+      "description": "A legacy enterprise data warehousing platform whose stored procedures and logic were reverse-engineered for migration. It represents the outdated infrastructure driving the need for modernization.",
+      "context": [
+        "Teradata Stored Procedures",
+        "Teradata to Databricks Migration",
+        "Modernize Data Platform Teradata to Databricks"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_004",
+      "name": "Databricks",
+      "aliases": [
+        "Databricks platform",
+        "cloud data platform",
+        "target data environment"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "cloud_platform",
+      "description": "A modern cloud-based data and AI platform serving as the target environment for the client's data platform migration. It replaces legacy Teradata infrastructure and supports modern data transformation workflows.",
+      "context": [
+        "Teradata to Databricks Migration",
+        "Modernize Data Platform Teradata to Databricks",
+        "cloud data platform"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_005",
+      "name": "dbt (data build tool)",
+      "aliases": [
+        "dbt code",
+        "data transformation framework",
+        "SQL transformation tool"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "framework",
+      "description": "A data transformation framework used to generate SQL-based data models and transformations according to client standards. It enables the automated generation of dbt code based on established guardrails and frameworks.",
+      "context": [
+        "Generate dbt code based on client frameworks, standards and guardrails",
+        "dbt code",
+        "client frameworks, standards and guardrails"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+      "name": "Evidence-Driven Iterative Delivery",
+      "aliases": [
+        "quick iterations",
+        "POC-driven approach",
+        "data-backed validation"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "track_record",
+      "description": "A delivery approach focused on rapid prototyping, continuous testing, and data-backed validation to prove value and overcome tool limitations. This methodology ensures predictable outcomes by iteratively pushing AI boundaries and refining processes.",
+      "context": [
+        "Evidence driven, quick iterations",
+        "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+        "Careful Prompt -> Context Engineering, iterated over 2 months"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+      "name": "Deep Client Collaboration & Stakeholder Alignment",
+      "aliases": [
+        "open collaboration",
+        "stakeholder engagement",
+        "client partnership"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "partnership",
+      "description": "A highly collaborative engagement model that actively involves client architects, product owners, and code owners in the modernization journey. This approach brings stakeholders along the learning curve and ensures shared ownership of outcomes.",
+      "context": [
+        "Collaborated deeply with client stakeholders",
+        "Open Collaboration",
+        "Brought them along the learning curve",
+        "Tech Architects",
+        "Product Owners",
+        "Code Owners"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+      "name": "Expert Cross-Functional Squads",
+      "aliases": [
+        "skilled teams",
+        "domain experts",
+        "multi-disciplinary squads"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "The deployment of highly skilled, cross-functional teams combining deep domain knowledge with emerging GenAI tooling expertise. These experts leverage their understanding of existing apps to drive productivity and overcome legacy constraints.",
+      "context": [
+        "Experts across squads",
+        "Architects, Developers, Testers utilized their expertise",
+        "knowledge of the client context"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_per_001",
+      "name": "Client Stakeholders",
+      "aliases": [
+        "client contacts",
+        "client-side team",
+        "client decision-makers"
+      ],
+      "entity_class": "PERSON",
+      "type": "stakeholder",
+      "description": "Key client-side technical and business contributors involved in the modernization process, including tech architects, product owners, and code owners. These individuals were actively engaged to align on goals, share expertise, and adopt new AI-driven workflows.",
+      "context": [
+        "Collaborated deeply with client stakeholders",
+        "Tech Architects",
+        "Product Owners",
+        "Code Owners"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Consulting",
+        "the vendor",
+        "IBM delivery team"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary technology and consulting vendor delivering the modernization solutions and AI-driven development services. IBM provides the Science of Consulting framework, expert squads, and GenAI tooling to accelerate client modernization projects.",
+      "context": [
+        "Using IBM Science of Consulting",
+        "IBM Science of Consulting",
+        "The Nationwide delivery team is on a continuous journey of innovation"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_eve_001",
+      "name": "Proof of Concept (POC) Cycles",
+      "aliases": [
+        "POCs",
+        "iterative testing phases",
+        "GenAI limit testing"
+      ],
+      "entity_class": "EVENT",
+      "type": "proof_of_concept",
+      "description": "A series of iterative proof-of-concept engagements designed to test AI tool capabilities, identify limitations, and develop workarounds. These POCs were critical for validating GenAI effectiveness and refining prompt engineering over a two-month period.",
+      "context": [
+        "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+        "iterated over 2 months",
+        "Discovered Copilot limitations, and built utilities for workarounds"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "name": "Nationwide Building Society",
+      "properties": {
+        "industry": [
+          "banking",
+          "financial services"
+        ],
+        "size": [
+          "large",
+          "enterprise"
+        ],
+        "relationship_status": [
+          "active"
+        ],
+        "named_or_anonymous": [
+          true
+        ],
+        "pain_points": [
+          "legacy system constraints",
+          "project timeline pressure",
+          "need to reduce modernization time by 30-40%"
+        ],
+        "engagement_type": [
+          "software modernization projects"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "name": "IBM Science of Consulting",
+      "properties": {
+        "offering_type": [
+          "consulting_programme"
+        ],
+        "delivery_model": [
+          "hybrid"
+        ],
+        "scope": [
+          "requirements extraction",
+          "code generation",
+          "test automation",
+          "stakeholder alignment",
+          "estimation model updates"
+        ],
+        "target_client_profile": [
+          "financial services"
+        ],
+        "key_phases": [
+          "requirements",
+          "design & coding",
+          "unit testing"
+        ],
+        "named_assets_or_accelerators": [
+          "IBM Science of Consulting"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_002",
+      "name": "Software Modernization Engagements",
+      "properties": {
+        "offering_type": [
+          "project",
+          "managed_service"
+        ],
+        "scope": [
+          "legacy codebase modernization",
+          "data platform migration",
+          "mobile/internet banking app modernization"
+        ],
+        "target_client_profile": [
+          "financial services"
+        ],
+        "key_phases": [
+          "reverse engineering",
+          "code generation/refactoring",
+          "test automation"
+        ],
+        "named_assets_or_accelerators": [
+          "GenAI tooling",
+          "Copilot",
+          "Figma"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+      "name": "Legacy Code Reverse Engineering",
+      "properties": {
+        "what_it_does": [
+          "extracts business requirements and logic from legacy codebases"
+        ],
+        "technical_components": [
+          "Sencha codebase analysis",
+          "Teradata stored procedure reverse engineering"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "automates extraction using GenAI, reducing manual effort"
+        ],
+        "industry_applicability": [
+          "banking",
+          "financial services"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "name": "AI-Driven Code Generation & Refactoring",
+      "properties": {
+        "what_it_does": [
+          "generates production-ready code and refactors legacy components"
+        ],
+        "technical_components": [
+          "Kotlin",
+          "Swift",
+          "React",
+          "APIs",
+          "adaptive suggestions"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "rapid generation with adaptive suggestions and automated refactoring"
+        ],
+        "industry_applicability": [
+          "banking",
+          "financial services"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+      "name": "AI-Driven Test Automation",
+      "properties": {
+        "what_it_does": [
+          "automates unit/component test case generation and edge case simulation"
+        ],
+        "technical_components": [
+          "unit testing",
+          "component testing",
+          "edge case simulation"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "drives significant defect reduction through automation"
+        ],
+        "industry_applicability": [
+          "banking",
+          "financial services"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_004",
+      "name": "Prompt & Context Engineering",
+      "properties": {
+        "what_it_does": [
+          "crafts precise prompts and context to optimize AI tool outputs"
+        ],
+        "technical_components": [
+          "prompt engineering",
+          "context engineering",
+          "design guideline integration"
+        ],
+        "delivery_maturity": [
+          "emerging"
+        ],
+        "differentiating_aspect": [
+          "iterative refinement to push AI limits and build workarounds"
+        ],
+        "industry_applicability": [
+          "banking",
+          "financial services"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+      "name": "Mobile Banking App Modernization",
+      "properties": {
+        "problem_context": [
+          "modernizing legacy Sencha-based mobile banking app"
+        ],
+        "approach": [
+          "reverse engineering requirements, AI code generation, automated testing"
+        ],
+        "industry": [
+          "banking"
+        ],
+        "outcome_achieved": [
+          "30% faster UI development, 10% better code quality, ~30% reduction in testing defects"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+      "name": "Internet Banking Platform Modernization",
+      "properties": {
+        "problem_context": [
+          "modernizing internet banking platform from Figma designs to React"
+        ],
+        "approach": [
+          "AI-driven code generation from designs, automated refactoring and testing"
+        ],
+        "industry": [
+          "banking"
+        ],
+        "outcome_achieved": [
+          "30% faster UI development, 10% better code quality, ~30% reduction in testing defects"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+      "name": "Data Platform Migration",
+      "properties": {
+        "problem_context": [
+          "migrating data platform from Teradata to Databricks"
+        ],
+        "approach": [
+          "reverse engineering stored procedures, generating dbt code aligned with client standards"
+        ],
+        "industry": [
+          "banking"
+        ],
+        "outcome_achieved": [
+          "40% reduction in coding effort"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+      "name": "Accelerated UI Development Speed",
+      "properties": {
+        "quantified_value": [
+          "30% faster"
+        ],
+        "beneficiary": [
+          "client",
+          "development_team"
+        ],
+        "time_to_value": [
+          "immediate_during_project"
+        ],
+        "category": [
+          "speed"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+      "name": "Enhanced Code Quality & Maintainability",
+      "properties": {
+        "quantified_value": [
+          "10% better code quality"
+        ],
+        "beneficiary": [
+          "client",
+          "development_team"
+        ],
+        "time_to_value": [
+          "during_project"
+        ],
+        "category": [
+          "quality"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+      "name": "Reduced Testing Defects & Faster Cycles",
+      "properties": {
+        "quantified_value": [
+          "15% faster test cycles",
+          "~30% reduction in testing defects"
+        ],
+        "beneficiary": [
+          "client",
+          "qa_team"
+        ],
+        "time_to_value": [
+          "during_project"
+        ],
+        "category": [
+          "speed",
+          "quality"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+      "name": "Significant Coding Effort Reduction",
+      "properties": {
+        "quantified_value": [
+          "40% reduction"
+        ],
+        "beneficiary": [
+          "client",
+          "development_team"
+        ],
+        "time_to_value": [
+          "during_project"
+        ],
+        "category": [
+          "cost",
+          "speed"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "name": "Legacy System Constraints",
+      "properties": {
+        "root_cause": [
+          "aging Sencha codebase and Teradata stored procedures"
+        ],
+        "business_impact": [
+          "slows modernization, increases manual effort and skill dependency"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "Nationwide Building Society",
+          "delivery_team"
+        ],
+        "current_workaround": [
+          "manual code analysis and low-skill manual processes"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+      "name": "Project Timeline Pressure",
+      "properties": {
+        "root_cause": [
+          "demand for faster modernization and predictable delivery"
+        ],
+        "business_impact": [
+          "risk of missed deadlines and increased costs"
+        ],
+        "urgency": [
+          "critical"
+        ],
+        "who_faces_it": [
+          "Nationwide Building Society",
+          "client_stakeholders"
+        ],
+        "current_workaround": [
+          "traditional SDLC processes"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_003",
+      "name": "AI Tool Limitations & Skill Gaps",
+      "properties": {
+        "root_cause": [
+          "GenAI tooling limitations and team's initial lack of GenAI expertise"
+        ],
+        "business_impact": [
+          "potential for suboptimal outputs and slower adoption"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "delivery_team",
+          "client_stakeholders"
+        ],
+        "current_workaround": [
+          "careful prompt-context engineering, iterative POCs, building custom utilities"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_001",
+      "name": "IBM Copilot",
+      "properties": {
+        "vendor": [
+          "IBM"
+        ],
+        "technology_category": [
+          "ai",
+          "code_generation"
+        ],
+        "role_in_solution": [
+          "core"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "generates production-ready code, provides adaptive suggestions, requires precise context"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+      "name": "Figma",
+      "properties": {
+        "vendor": [
+          "Figma"
+        ],
+        "technology_category": [
+          "design",
+          "ui_ux"
+        ],
+        "role_in_solution": [
+          "supporting"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "provides design guidelines and specifications for AI code generation"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+      "name": "Teradata",
+      "properties": {
+        "vendor": [
+          "Teradata"
+        ],
+        "technology_category": [
+          "data",
+          "database"
+        ],
+        "role_in_solution": [
+          "replaced"
+        ],
+        "maturity": [
+          "legacy"
+        ],
+        "key_characteristics": [
+          "legacy data platform with stored procedures requiring reverse engineering"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_004",
+      "name": "Databricks",
+      "properties": {
+        "vendor": [
+          "Databricks"
+        ],
+        "technology_category": [
+          "data",
+          "cloud_platform"
+        ],
+        "role_in_solution": [
+          "target"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "target data platform for migration"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_005",
+      "name": "dbt (data build tool)",
+      "properties": {
+        "vendor": [
+          "dbt Labs"
+        ],
+        "technology_category": [
+          "data",
+          "etl"
+        ],
+        "role_in_solution": [
+          "supporting"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "generates data transformation code aligned with client frameworks and guardrails"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+      "name": "Evidence-Driven Iterative Delivery",
+      "properties": {
+        "competitive_advantage": [
+          "uses rapid POCs and iterative cycles to validate AI capabilities and push limits"
+        ],
+        "evidence_or_proof_point": [
+          "demonstrated quantitative benefits from live modernization engagements",
+          "2-month iterative refinement cycle"
+        ],
+        "uniqueness": [
+          "proven_in_context",
+          "data_driven"
+        ],
+        "target_audience": [
+          "client_stakeholders",
+          "delivery_teams"
+        ],
+        "relates_to_offering": [
+          "IBM Science of Consulting",
+          "Software Modernization Engagements"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+      "name": "Deep Client Collaboration & Stakeholder Alignment",
+      "properties": {
+        "competitive_advantage": [
+          "integrates client stakeholders directly into the delivery process to align on outcomes and upskill teams"
+        ],
+        "evidence_or_proof_point": [
+          "active involvement of Tech Architects, Product Owners, and Code Owners"
+        ],
+        "uniqueness": [
+          "collaborative",
+          "co_delivery"
+        ],
+        "target_audience": [
+          "client_stakeholders",
+          "technical_leads"
+        ],
+        "relates_to_offering": [
+          "IBM Science of Consulting"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+      "name": "Expert Cross-Functional Squads",
+      "properties": {
+        "competitive_advantage": [
+          "combines deep domain expertise with emerging GenAI skills to drive efficiency"
+        ],
+        "evidence_or_proof_point": [
+          "cross-functional teams of Architects, Developers, and Testers leveraging existing app knowledge with GenAI"
+        ],
+        "uniqueness": [
+          "skill_mixed",
+          "agile"
+        ],
+        "target_audience": [
+          "delivery_teams",
+          "client_stakeholders"
+        ],
+        "relates_to_offering": [
+          "Software Modernization Engagements"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_per_001",
+      "name": "Client Stakeholders",
+      "properties": {
+        "role_title": [
+          "Tech Architects",
+          "Product Owners",
+          "Code Owners"
+        ],
+        "influence_level": [
+          "decision_maker",
+          "influencer"
+        ],
+        "known_pain_points": [
+          "legacy system constraints",
+          "project timeline pressure",
+          "need for predictable outcomes"
+        ],
+        "relationship_to_deal": [
+          "sponsor",
+          "collaborator"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_org_001",
+      "name": "IBM",
+      "properties": {
+        "org_type": [
+          "service_provider",
+          "technology_vendor"
+        ],
+        "relationship_to_offering": [
+          "primary_provider",
+          "solution_owner"
+        ],
+        "geographic_presence": [
+          "global"
+        ],
+        "key_characteristics": [
+          "provides consulting framework, AI tools (Copilot), and delivery expertise"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_004_eve_001",
+      "name": "Proof of Concept (POC) Cycles",
+      "properties": {
+        "event_type": [
+          "proof_of_concept",
+          "iteration_cycle"
+        ],
+        "date_or_period": [
+          "2_month_iteration_period"
+        ],
+        "relevance_to_deal": [
+          "milestone",
+          "validation_phase"
+        ],
+        "key_participants": [
+          "delivery_team",
+          "client_stakeholders"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "target_name": "Legacy System Constraints",
+      "rel_type": "faces",
+      "description": "Client faces constraints from legacy Sencha app codebase requiring modernization",
+      "properties": {
+        "constraint_type": "legacy_codebase",
+        "impact": "delivery_bottleneck"
+      },
+      "context": "Legacy Sencha App Codebase",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+      "target_name": "Project Timeline Pressure",
+      "rel_type": "faces",
+      "description": "Client faces pressure to reduce modernization project timelines by 30-40%",
+      "properties": {
+        "target_reduction": "30-40%",
+        "domain": "software_delivery"
+      },
+      "context": "Reduce time taken for modernizing projects by 30-40%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "engaged_with",
+      "description": "Client engaged IBM's consulting methodology to accelerate modernization projects",
+      "properties": {
+        "engagement_type": "modernization_partnership",
+        "phase": "active_delivery"
+      },
+      "context": "Using IBM Science of Consulting",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+      "target_name": "Legacy Code Reverse Engineering",
+      "rel_type": "comprises",
+      "description": "Offering includes reverse engineering capabilities to extract business requirements from legacy code",
+      "properties": {
+        "component_type": "analysis_phase",
+        "output": "business_requirements"
+      },
+      "context": "Reverse engineered to extract business requirements",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "target_name": "AI-Driven Code Generation & Refactoring",
+      "rel_type": "comprises",
+      "description": "Offering delivers AI-driven generation and refactoring of production-ready code",
+      "properties": {
+        "component_type": "development_phase",
+        "technologies": [
+          "Copilot",
+          "Figma"
+        ]
+      },
+      "context": "Generated Kotlin, Swift code & React, APIs and logic rapidly",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+      "target_name": "AI-Driven Test Automation",
+      "rel_type": "comprises",
+      "description": "Offering includes automated unit/component test case generation and edge case simulation",
+      "properties": {
+        "component_type": "testing_phase",
+        "automation_level": "high"
+      },
+      "context": "Autogenerated Unit/Component Test cases & simulated edge cases",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_004",
+      "target_name": "Prompt & Context Engineering",
+      "rel_type": "comprises",
+      "description": "Offering incorporates iterative prompt and context engineering to optimize AI outputs",
+      "properties": {
+        "component_type": "ai_optimization",
+        "iteration_period": "2_months"
+      },
+      "context": "Careful Prompt -> Context Engineering, iterated over 2 months",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+      "source_name": "Legacy Code Reverse Engineering",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+      "target_name": "Mobile Banking App Modernization",
+      "rel_type": "applied_in",
+      "description": "Reverse engineering capability applied to modernize the mobile banking app codebase",
+      "properties": {
+        "application_scope": "mobile_banking",
+        "target_codebase": "Sencha"
+      },
+      "context": "Mobile Banking App Modernization Legacy Sencha App Codebase | Reverse engineered to extract business requirements",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+      "source_name": "Legacy Code Reverse Engineering",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+      "target_name": "Internet Banking Platform Modernization",
+      "rel_type": "applied_in",
+      "description": "Reverse engineering capability applied to extract logic from internet banking platforms",
+      "properties": {
+        "application_scope": "internet_banking",
+        "target_codebase": "Teradata/React"
+      },
+      "context": "Internet Banking Modernization Figma Designs to React Code",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+      "target_name": "Mobile Banking App Modernization",
+      "rel_type": "applied_in",
+      "description": "AI code generation applied to auto-generate React, Kotlin, and Swift components for mobile app",
+      "properties": {
+        "application_scope": "mobile_banking",
+        "output_languages": [
+          "React",
+          "Kotlin",
+          "Swift"
+        ]
+      },
+      "context": "Figma Native, React code / components auto generated",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+      "target_name": "Internet Banking Platform Modernization",
+      "rel_type": "applied_in",
+      "description": "AI code generation applied to convert Figma designs into production-ready React code",
+      "properties": {
+        "application_scope": "internet_banking",
+        "output_languages": [
+          "React"
+        ]
+      },
+      "context": "Figma Designs to React Code",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+      "source_name": "AI-Driven Test Automation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+      "target_name": "Mobile Banking App Modernization",
+      "rel_type": "applied_in",
+      "description": "Test automation capability applied to generate unit tests and simulate edge cases for mobile app",
+      "properties": {
+        "application_scope": "mobile_banking",
+        "test_types": [
+          "unit",
+          "component",
+          "edge_case"
+        ]
+      },
+      "context": "Autogenerated Unit/Component Test cases & simulated edge cases",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+      "source_name": "AI-Driven Test Automation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+      "target_name": "Internet Banking Platform Modernization",
+      "rel_type": "applied_in",
+      "description": "Test automation capability applied to generate unit tests and simulate edge cases for internet banking",
+      "properties": {
+        "application_scope": "internet_banking",
+        "test_types": [
+          "unit",
+          "component",
+          "edge_case"
+        ]
+      },
+      "context": "Autogenerated Unit/Component Test cases & simulated edge cases",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "target_name": "Legacy System Constraints",
+      "rel_type": "solves",
+      "description": "Offering solves legacy system constraints by reverse engineering and rebuilding codebases",
+      "properties": {
+        "approach": "reverse_engineering_and_rebuild",
+        "completeness": "full"
+      },
+      "context": "Legacy Sencha App Codebase... Reverse engineered to extract business requirements",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+      "target_name": "Project Timeline Pressure",
+      "rel_type": "solves",
+      "description": "Offering solves timeline pressure by accelerating UI development and testing cycles",
+      "properties": {
+        "approach": "ai_acceleration",
+        "completeness": "full"
+      },
+      "context": "Reduce time taken for modernizing projects by 30-40%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_003",
+      "target_name": "AI Tool Limitations & Skill Gaps",
+      "rel_type": "solves",
+      "description": "Offering solves AI tool limitations by building custom utilities and workarounds",
+      "properties": {
+        "approach": "custom_utility_development",
+        "completeness": "partial"
+      },
+      "context": "Discovered Copilot limitations, and built utilities for workarounds",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+      "target_name": "Accelerated UI Development Speed",
+      "rel_type": "delivers",
+      "description": "Capability delivers accelerated UI development speed through automated code generation",
+      "properties": {
+        "metric": "speed",
+        "value": "30%",
+        "timeframe": "per_release"
+      },
+      "context": "30% faster UI development",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+      "target_name": "Enhanced Code Quality & Maintainability",
+      "rel_type": "delivers",
+      "description": "Capability delivers enhanced code quality through automated refactoring and adaptive suggestions",
+      "properties": {
+        "metric": "quality",
+        "value": "10%",
+        "timeframe": "per_release"
+      },
+      "context": "10% better code quality",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+      "source_name": "AI-Driven Test Automation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+      "target_name": "Reduced Testing Defects & Faster Cycles",
+      "rel_type": "delivers",
+      "description": "Capability delivers reduced testing defects and faster cycles through automated test generation",
+      "properties": {
+        "metric": "defect_reduction",
+        "value": "30%",
+        "timeframe": "per_cycle"
+      },
+      "context": "15% faster test cycles... ~30% reduction in testing defects",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+      "target_name": "Significant Coding Effort Reduction",
+      "rel_type": "delivers",
+      "description": "Capability delivers significant coding effort reduction by automating framework-based code generation",
+      "properties": {
+        "metric": "effort",
+        "value": "40%",
+        "timeframe": "per_project"
+      },
+      "context": "40% reduction in coding effort",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+      "target_name": "Accelerated UI Development Speed",
+      "rel_type": "achieved",
+      "description": "Client achieved accelerated UI development speed through modernization engagements",
+      "properties": {
+        "metric": "speed",
+        "value": "30%"
+      },
+      "context": "30% faster UI development",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+      "target_name": "Enhanced Code Quality & Maintainability",
+      "rel_type": "achieved",
+      "description": "Client achieved enhanced code quality and maintainability via automated refactoring",
+      "properties": {
+        "metric": "quality",
+        "value": "10%"
+      },
+      "context": "10% better code quality",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+      "target_name": "Reduced Testing Defects & Faster Cycles",
+      "rel_type": "achieved",
+      "description": "Client achieved reduced testing defects and faster test cycles through automation",
+      "properties": {
+        "metric": "defect_reduction",
+        "value": "30%"
+      },
+      "context": "~30% reduction in testing defects",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+      "target_name": "Significant Coding Effort Reduction",
+      "rel_type": "achieved",
+      "description": "Client achieved significant reduction in coding effort via AI-driven generation",
+      "properties": {
+        "metric": "effort",
+        "value": "40%"
+      },
+      "context": "40% reduction in coding effort",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_001",
+      "target_name": "IBM Copilot",
+      "rel_type": "uses",
+      "description": "Capability uses IBM Copilot to generate production-ready code across multiple languages",
+      "properties": {
+        "version": "GenAI",
+        "deployment_model": "cloud",
+        "usage": "code_generation"
+      },
+      "context": "Rebuilt in Java, Native, Swift & Kotlin via Copilot",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+      "target_name": "Figma",
+      "rel_type": "uses",
+      "description": "Capability uses Figma designs as input to auto-generate production-ready code",
+      "properties": {
+        "version": "design_tool",
+        "deployment_model": "cloud",
+        "usage": "design_to_code"
+      },
+      "context": "Accelerated development with Figma designs",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+      "source_name": "Legacy Code Reverse Engineering",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+      "target_name": "Teradata",
+      "rel_type": "uses",
+      "description": "Capability uses Teradata stored procedures as source for reverse engineering logic",
+      "properties": {
+        "version": "legacy_db",
+        "deployment_model": "on_prem",
+        "usage": "source_analysis"
+      },
+      "context": "Reverse engineer Teradata Stored Procedures to understand the logic",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+      "source_name": "Data Platform Migration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+      "target_name": "Teradata",
+      "rel_type": "uses",
+      "description": "Use case uses Teradata as the legacy data platform to be migrated",
+      "properties": {
+        "version": "legacy_db",
+        "deployment_model": "on_prem",
+        "role": "source_system"
+      },
+      "context": "Modernize Data Platform Teradata to Databricks Migration",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+      "source_name": "Data Platform Migration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_004",
+      "target_name": "Databricks",
+      "rel_type": "uses",
+      "description": "Use case uses Databricks as the target modern cloud data platform",
+      "properties": {
+        "version": "modern_cloud",
+        "deployment_model": "cloud",
+        "role": "target_system"
+      },
+      "context": "Teradata to Databricks Migration",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_005",
+      "target_name": "dbt (data build tool)",
+      "rel_type": "uses",
+      "description": "Capability uses dbt to generate code based on client frameworks and guardrails",
+      "properties": {
+        "version": "data_build_tool",
+        "deployment_model": "cloud",
+        "usage": "framework_generation"
+      },
+      "context": "Generate dbt code based on client frameworks, standards and guardrails",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+      "source_name": "Evidence-Driven Iterative Delivery",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "characterised_by",
+      "description": "Differentiator characterizes the offering through evidence-driven quick iterations",
+      "properties": {
+        "basis": "iterative_feedback",
+        "focus": "speed_and_validation"
+      },
+      "context": "Evidence driven, quick iterations",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+      "source_name": "Deep Client Collaboration & Stakeholder Alignment",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "characterised_by",
+      "description": "Differentiator characterizes the offering through deep collaboration with client stakeholders",
+      "properties": {
+        "basis": "stakeholder_engagement",
+        "focus": "alignment_and_transparency"
+      },
+      "context": "Collaborated deeply with client stakeholders",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+      "source_name": "Expert Cross-Functional Squads",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "characterised_by",
+      "description": "Differentiator characterizes the offering through deployment of expert cross-functional squads",
+      "properties": {
+        "basis": "cross_functional_teams",
+        "focus": "specialized_expertise"
+      },
+      "context": "Experts across squads",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+      "source_name": "Deep Client Collaboration & Stakeholder Alignment",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "target_name": "Nationwide Building Society",
+      "rel_type": "resonates_with",
+      "description": "Differentiator resonates with client by aligning tech architects, product owners, and code owners",
+      "properties": {
+        "alignment_type": "process_transparency",
+        "stakeholders": [
+          "Tech Architects",
+          "Product Owners",
+          "Code Owners"
+        ]
+      },
+      "context": "Collaborated deeply with client stakeholders... Tech Architects, Product Owners, Code Owners",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_per_001",
+      "source_name": "Client Stakeholders",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "target_name": "Nationwide Building Society",
+      "rel_type": "represents",
+      "description": "Person represents key decision-making and operational roles within the client organization",
+      "properties": {
+        "role": "decision_makers",
+        "functions": [
+          "architecture",
+          "product",
+          "development"
+        ]
+      },
+      "context": "Client Stakeholders... Tech Architects, Product Owners, Code Owners",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "evaluated",
+      "description": "Client evaluated the offering through multiple proof of concept cycles",
+      "properties": {
+        "evaluation_method": "proof_of_concept",
+        "focus": "gen_ai_limits"
+      },
+      "context": "Ran multiple POCs to seek, absorb and push Gen AI Limits",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_eve_001",
+      "target_name": "Proof of Concept (POC) Cycles",
+      "rel_type": "demonstrated_at",
+      "description": "Offering was demonstrated and validated during client POC cycles",
+      "properties": {
+        "event_type": "validation",
+        "outcome": "benefit_demonstration"
+      },
+      "context": "Ran multiple POCs",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+      "target_name": "Significant Coding Effort Reduction",
+      "rel_type": "promises",
+      "description": "Offering promises efficiency gains through updated estimation models",
+      "properties": {
+        "metric": "efficiency",
+        "value": "promised",
+        "mechanism": "updated_estimation_models"
+      },
+      "context": "Estimation models updated to deliver promised efficiency",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+      "source_name": "Mobile Banking App Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "target_name": "Legacy System Constraints",
+      "rel_type": "addresses",
+      "description": "Use case addresses legacy system constraints by modernizing the mobile banking app",
+      "properties": {
+        "scope": "mobile_app",
+        "target": "sencha_codebase"
+      },
+      "context": "Mobile Banking App Modernization Legacy Sencha App Codebase",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+      "source_name": "Internet Banking Platform Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "target_name": "Legacy System Constraints",
+      "rel_type": "addresses",
+      "description": "Use case addresses legacy system constraints by modernizing the internet banking platform",
+      "properties": {
+        "scope": "web_platform",
+        "target": "figma_to_react"
+      },
+      "context": "Internet Banking Modernization Figma Designs to React Code",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+      "source_name": "Data Platform Migration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "target_name": "Legacy System Constraints",
+      "rel_type": "addresses",
+      "description": "Use case addresses legacy system constraints by migrating data platforms",
+      "properties": {
+        "scope": "data_infrastructure",
+        "target": "teradata_to_databricks"
+      },
+      "context": "Modernize Data Platform",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+      "target_name": "Figma",
+      "rel_type": "integrates_with",
+      "description": "Offering integrates with Figma by consuming client design guideline files for context",
+      "properties": {
+        "integration_type": "context_input",
+        "data_flow": "design_to_code"
+      },
+      "context": "Co-Pilot provided with Client Design guideline files",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+      "source_name": "Evidence-Driven Iterative Delivery",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "distinguished_by",
+      "description": "Differentiator distinguishes the offering through evidence-driven iterative delivery",
+      "properties": {
+        "basis": "iterative_feedback",
+        "focus": "speed_and_validation"
+      },
+      "context": "Evidence driven, quick iterations",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+      "source_name": "Deep Client Collaboration & Stakeholder Alignment",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "distinguished_by",
+      "description": "Differentiator distinguishes the offering through deep client collaboration",
+      "properties": {
+        "basis": "stakeholder_engagement",
+        "focus": "alignment_and_transparency"
+      },
+      "context": "Collaborated deeply with client stakeholders",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+      "source_name": "Expert Cross-Functional Squads",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "target_name": "IBM Science of Consulting",
+      "rel_type": "distinguished_by",
+      "description": "Differentiator distinguishes the offering through expert cross-functional squads",
+      "properties": {
+        "basis": "cross_functional_teams",
+        "focus": "specialized_expertise"
+      },
+      "context": "Experts across squads",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cli_001",
+      "source_name": "Nationwide Building Society",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_001",
+      "source_name": "IBM Science of Consulting",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_off_002",
+      "source_name": "Software Modernization Engagements",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_001",
+      "source_name": "Legacy Code Reverse Engineering",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_002",
+      "source_name": "AI-Driven Code Generation & Refactoring",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_003",
+      "source_name": "AI-Driven Test Automation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cap_004",
+      "source_name": "Prompt & Context Engineering",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_001",
+      "source_name": "Mobile Banking App Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_002",
+      "source_name": "Internet Banking Platform Modernization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_use_003",
+      "source_name": "Data Platform Migration",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_001",
+      "source_name": "Accelerated UI Development Speed",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_002",
+      "source_name": "Enhanced Code Quality & Maintainability",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_003",
+      "source_name": "Reduced Testing Defects & Faster Cycles",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_ben_004",
+      "source_name": "Significant Coding Effort Reduction",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_001",
+      "source_name": "Legacy System Constraints",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_002",
+      "source_name": "Project Timeline Pressure",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_cha_003",
+      "source_name": "AI Tool Limitations & Skill Gaps",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_001",
+      "source_name": "IBM Copilot",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_002",
+      "source_name": "Figma",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_003",
+      "source_name": "Teradata",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_004",
+      "source_name": "Databricks",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_tec_005",
+      "source_name": "dbt (data build tool)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_001",
+      "source_name": "Evidence-Driven Iterative Delivery",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_002",
+      "source_name": "Deep Client Collaboration & Stakeholder Alignment",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_dif_003",
+      "source_name": "Expert Cross-Functional Squads",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_per_001",
+      "source_name": "Client Stakeholders",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_org_001",
+      "source_name": "IBM",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_004_eve_001",
+      "source_name": "Proof of Concept (POC) Cycles",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_004",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ]
+}

@@ -1,0 +1,2758 @@
+[
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_prc_001",
+    "name": "AML Screening Process",
+    "aliases": [
+      "AML-SOP-001"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "The end-to-end operational procedure for Anti-Money Laundering screening at FirstUK Bank, governed by the Financial Crime department and applicable to Financial Crime Staff, Compliance, and Branch Staff.",
+    "context": [
+      "FirstUK Bank — AML Screening SOP",
+      "Document ID | AML-SOP-001"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The owner of the AML Screening SOP responsible for the oversight and maintenance of the procedure.",
+    "context": [
+      "Owner | Head of Financial Crime"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_002",
+    "name": "Financial Crime Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "Staff members within the Financial Crime department designated as the target audience and executors of the AML screening procedure.",
+    "context": [
+      "Audience | Financial Crime Staff, Compliance, Branch Staff"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_003",
+    "name": "Compliance Staff",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "Personnel responsible for ensuring the AML screening process adheres to regulatory and internal policy requirements.",
+    "context": [
+      "Audience | Financial Crime Staff, Compliance, Branch Staff"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_001_rol_004",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "branch_staff",
+    "description": "Front-line personnel involved in the AML screening workflow as part of the designated audience for the SOP.",
+    "context": [
+      "Audience | Financial Crime Staff, Compliance, Branch Staff"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_001",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_002_prc_001",
+    "name": "AML Screening Process",
+    "aliases": [
+      "AML screening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "A systematic procedure designed to detect and prevent money laundering, terrorist financing, and sanctions violations by screening customers against regulatory lists.",
+    "context": [
+      "Establish procedures for AML screening to detect and prevent money laundering, terrorist financing, and sanctions violations through systematic screening of customers against regulatory lists."
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_002",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_001",
+    "name": "New Customer Account Opening Process",
+    "aliases": [
+      "account openings"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "A mandatory operational procedure governing the opening of all new customer accounts to ensure compliance and regulatory standards.",
+    "context": [
+      "Applies to: All new customer account openings (mandatory)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_002",
+    "name": "Periodic Re-screening Process",
+    "aliases": [
+      "re-screening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "A recurring review process for customers based on risk profile, with high-risk customers reviewed quarterly and standard customers reviewed annually.",
+    "context": [
+      "Periodic re-screening (high-risk customers quarterly, standard annually)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_003",
+    "name": "Transaction Monitoring Process",
+    "aliases": [
+      "monitoring"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "An ongoing and automated workflow used to monitor financial transactions for irregularities or suspicious patterns.",
+    "context": [
+      "Transaction monitoring (ongoing, automated)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_prc_004",
+    "name": "Suspicious Activity Assessment and Reporting Process",
+    "aliases": [
+      "reporting"
+    ],
+    "entity_class": "PROCESS",
+    "type": "sar",
+    "description": "The end-to-end procedure for assessing potentially suspicious activities and filing the necessary reports.",
+    "context": [
+      "Suspicious activity assessment and reporting"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_cus_001",
+    "name": "High-Risk Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer classification that requires more frequent periodic re-screening on a quarterly basis.",
+    "context": [
+      "high-risk customers quarterly"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_cus_002",
+    "name": "Standard Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer classification subject to standard annual periodic re-screening.",
+    "context": [
+      "standard annually"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_003_rol_001",
+    "name": "Automated Monitoring System",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system responsible for the ongoing, automated execution of transaction monitoring.",
+    "context": [
+      "Transaction monitoring (ongoing, automated)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_003",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_prc_001",
+    "name": "AML Screening Process",
+    "aliases": [
+      "AML Screening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "An operational workflow to screen customer applications against lists to identify potential matches. The process is largely automated taking less than 5 minutes, but can extend to 1-24 hours if a manual review is required due to a hit.",
+    "context": [
+      "Customer Application Received",
+      "AML Screening Complete",
+      "Timeline: <5 minutes (automated), 1–24 hours (manual review if hit)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_001",
+    "name": "Initiate Screening",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The first stage of the AML process where the screening procedure is triggered following the receipt of a customer application.",
+    "context": [
+      "Step 1: Initiate Screening"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_002",
+    "name": "Screen Against Lists",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sanctions_screening_step",
+    "description": "The execution phase where the customer's data is checked against predefined lists to identify potential matches.",
+    "context": [
+      "Step 2: Screen Against Lists"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_003",
+    "name": "Assess Match",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "match_review",
+    "description": "The analysis phase where a potential match identified during screening is evaluated to determine if it is a true hit.",
+    "context": [
+      "Step 3: Assess Match (if found)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_dec_001",
+    "name": "Match Found Decision Gate",
+    "aliases": [
+      "Match Found: Manual Review",
+      "No Match: Proceed"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "fraud_flag",
+    "description": "A branching point based on the result of the match assessment. If no match is found, the process proceeds; if a match is found, it triggers a manual review.",
+    "context": [
+      "No Match: Proceed ✅",
+      "Match Found: Manual Review 🔍"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_004",
+    "name": "Record Results",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The step where the outcomes of the screening and match assessment are formally documented in the system.",
+    "context": [
+      "Step 4: Record Results"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_stp_005",
+    "name": "Hit Handling",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "An optional step performed only if a match was identified, involving the specific procedures to manage and resolve the hit.",
+    "context": [
+      "Step 5: Hit Handling (if applicable)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_chk_001",
+    "name": "AML Screening Completion Checkpoint",
+    "aliases": [
+      "AML Screening Complete"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "The final regulatory gate verifying that the AML screening process has been fully executed and recorded before the application can progress.",
+    "context": [
+      "✅ AML Screening Complete"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_rol_001",
+    "name": "Automated Screening System",
+    "aliases": [
+      "automated"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system responsible for the automated portions of the screening process, completing these steps in under 5 minutes.",
+    "context": [
+      "Timeline: <5 minutes (automated)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_rol_002",
+    "name": "Manual Reviewer",
+    "aliases": [
+      "manual review"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The human actor responsible for conducting manual reviews when a match is found, with a processing window of 1 to 24 hours.",
+    "context": [
+      "Match Found: Manual Review 🔍",
+      "1–24 hours (manual review if hit)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_004_cus_001",
+    "name": "Applicant",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual whose application has been received and is the subject of the AML screening process.",
+    "context": [
+      "Customer Application Received"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_004",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_prc_001",
+    "name": "Customer Screening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "An operational workflow triggered by new account openings, periodic schedules, or manual requests to screen customers against configured lists using legal identifiers.",
+    "context": [
+      "Initiate Screening",
+      "Automatic Screening On",
+      "Initiates screening against all configured lists"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_stp_001",
+    "name": "Screening Initiation Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial phase of the screening process where a trigger is identified and required customer information is gathered for system entry.",
+    "context": [
+      "Step 1: Initiate Screening",
+      "Information Required for Screening"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_stp_002",
+    "name": "Screening System Data Entry",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of entering customer identifiers into the screening system to prepare a query and execute the search against configured lists.",
+    "context": [
+      "Compliance staff enters customer information",
+      "System prepares screening query",
+      "Initiates screening against all configured lists"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_rol_001",
+    "name": "Compliance Staff",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The human actor responsible for entering customer information into the screening system to initiate the query process.",
+    "context": [
+      "Compliance staff enters customer information"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_rol_002",
+    "name": "Screening System",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system that prepares the screening query and executes the check against all configured lists based on the input data.",
+    "context": [
+      "System prepares screening query",
+      "Initiates screening against all configured lists"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual or business entity being screened, specifically during new account opening, periodic reviews, or manual requests.",
+    "context": [
+      "New customer account opening",
+      "Customer full legal name"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_005_acc_001",
+    "name": "New Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "A customer account in the process of being opened, which serves as a trigger for the automatic screening process before creation is finalized.",
+    "context": [
+      "New customer account opening (before account creation)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_005",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_stp_001",
+    "name": "Screen Against Regulatory Lists",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "aml_screening",
+    "description": "A mandatory screening step where the entity is checked against six specific regulatory and risk lists to identify sanctions, PEP status, or adverse media. Each list has specific update frequencies and distinct outcomes based on the type of hit discovered.",
+    "context": [
+      "Step 2: Screen Against Regulatory Lists",
+      "Screening Lists (All Mandatory)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_001",
+    "name": "OFAC Sanctions Screening",
+    "aliases": [
+      "1. OFAC Sanctions List"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory check against the US Treasury Office of Foreign Assets Control Specially Designated Nationals and Blocked Persons (SDN) list. It covers global individuals and entities under US sanctions and is updated daily.",
+    "context": [
+      "OFAC Sanctions List",
+      "Authority: US Treasury Office of Foreign Assets Control",
+      "List: Specially Designated Nationals and Blocked Persons (SDN)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_002",
+    "name": "EU Consolidated Sanctions Screening",
+    "aliases": [
+      "2. EU Consolidated Sanctions List"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory check against the European Commission's EU Common Foreign & Security Policy sanctions list. It covers individuals and entities under EU sanctions and is updated daily.",
+    "context": [
+      "EU Consolidated Sanctions List",
+      "Authority: European Commission",
+      "List: EU Common Foreign & Security Policy sanctions"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_003",
+    "name": "HM Treasury Sanctions Screening",
+    "aliases": [
+      "3. HM Treasury Sanctions List"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory check against the UK Treasury (OFSI) sanctions designations list. It covers individuals and entities under UK sanctions and is updated daily.",
+    "context": [
+      "HM Treasury Sanctions List",
+      "Authority: UK Treasury (Office of Financial Sanctions Implementation, OFSI)",
+      "List: UK sanctions designations"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_004",
+    "name": "UN Sanctions Screening",
+    "aliases": [
+      "4. UN Sanctions List"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory check against the UN Security Council's Consolidated UN sanctions list regarding terrorism and weapons. This list is updated weekly.",
+    "context": [
+      "UN Sanctions List",
+      "Authority: UN Security Council",
+      "List: Consolidated UN sanctions (terrorism, weapons, etc.)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_005",
+    "name": "PEP Database Screening",
+    "aliases": [
+      "5. PEP Database"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "pep_screening",
+    "description": "A real-time check against third-party providers (e.g., World-Check, Dow Jones) to identify Politically Exposed Persons, including government officials and their associates.",
+    "context": [
+      "PEP Database",
+      "Authority: Third-party data provider (World-Check, Dow Jones, etc.)",
+      "List: Politically Exposed Persons (government officials, senior politicians, military)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_chk_006",
+    "name": "Adverse Media Screening",
+    "aliases": [
+      "6. Adverse Media Screening"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A daily check using news database aggregators to identify criminal convictions, fraud allegations, or sanctions violations related to the subject.",
+    "context": [
+      "Adverse Media Screening",
+      "Authority: News database aggregator",
+      "List: Criminal convictions, fraud allegations, sanctions violations (from news)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_dec_001",
+    "name": "Sanctions Hit Escalation Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A decision point triggered by any match on the OFAC, EU, HM Treasury, or UN sanctions lists, resulting in an immediate escalation.",
+    "context": [
+      "Hits: Any match = immediate escalation"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_dec_002",
+    "name": "PEP Match Review Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A decision point triggered by a PEP match which requires the process to move to enhanced due diligence rather than an automatic block.",
+    "context": [
+      "Hits: PEP match = enhanced due diligence (not auto-block)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_006_dec_003",
+    "name": "Adverse Media Assessment Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A decision point where material adverse media hits trigger an escalation for further assessment.",
+    "context": [
+      "Hits: Material adverse media = escalation for assessment"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_006",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_prc_001",
+    "name": "Screening Execution Process",
+    "aliases": [
+      "Screening Execution",
+      "Automated Process"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "An automated operational workflow used to screen customers against configured lists to identify potential matches. The process is characterized by high-speed execution, typically returning results in under one minute.",
+    "context": [
+      "Screening Execution",
+      "Automated Process:",
+      "Results returned (typically <1 minute)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_rol_001",
+    "name": "Screening Engine",
+    "aliases": [
+      "system",
+      "engine"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The automated system responsible for receiving customer names, searching configured lists, and identifying exact or close-match results based on a match threshold.",
+    "context": [
+      "System enters customer name into screening engine",
+      "Screening engine searches all configured lists",
+      "System checks for exact and close-match results"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_001",
+    "name": "Customer Name Submission",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "The initial step where the system inputs the customer's name into the screening engine to initiate the search.",
+    "context": [
+      "System enters customer name into screening engine"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_002",
+    "name": "List Search Execution",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sanctions_screening_step",
+    "description": "The phase where the screening engine scans all pre-configured lists to find potential matches for the submitted name.",
+    "context": [
+      "Screening engine searches all configured lists"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_003",
+    "name": "Match Validation Check",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "match_review",
+    "description": "The step where the system evaluates results for both exact matches and close matches, considering name variations and typos.",
+    "context": [
+      "System checks for exact and close-match results",
+      "Close matches included (name variations, typos)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_stp_004",
+    "name": "Screening Results Retrieval",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "screening_outcome",
+    "description": "The final step of the automated process where results, including the matched name, list, and match score, are returned, usually within one minute.",
+    "context": [
+      "Results returned (typically <1 minute)",
+      "Result includes: Matched name, list, match score"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_dec_001",
+    "name": "Match Threshold Determination",
+    "aliases": [
+      "match threshold"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "compliance_gate",
+    "description": "A configurable decision gate (typically set at 80%+) that determines if a result qualifies as a match based on name, DOB, and nationality.",
+    "context": [
+      "Match threshold: Configurable (typically 80%+ match)",
+      "Field matching: Name, DOB, nationality"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_007_cus_001",
+    "name": "Customer",
+    "aliases": [
+      "customer name"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual whose identity details (Name, DOB, Nationality) are being processed through the screening engine.",
+    "context": [
+      "System enters customer name into screening engine"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_007",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [
+      "account opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for establishing a new customer account, involving KYC completion, screening results assessment, and AML compliance checks.",
+    "context": [
+      "Proceed with account opening (KYC already complete)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_stp_001",
+    "name": "Assess Screening Results",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The stage where the outcome of sanctions and watchlist screening is reviewed to determine if the customer can proceed with account opening. In a no-match scenario, the action is immediate.",
+    "context": [
+      "Step 3: Assess Screening Results",
+      "No Match Scenario"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_stp_002",
+    "name": "Record Screening Outcome",
+    "aliases": [
+      "system recording"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The action of documenting the 'screening passed' status in the system, including the specific screening date and the system reference number.",
+    "context": [
+      "Record \"screening passed\" in system",
+      "Note screening date and system reference"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_stp_003",
+    "name": "AML Compliance Checklist Review",
+    "aliases": [
+      "compliance checklist"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The final step following a successful screening result where the operator continues to the AML compliance checklist.",
+    "context": [
+      "Continue to AML compliance checklist"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_dec_001",
+    "name": "Screening Result Validation",
+    "aliases": [
+      "No Match Scenario"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision gate checking for hits across sanctions lists, watchlists, and adverse media. A 'No Match' result allows the process to proceed to account opening.",
+    "context": [
+      "Screening shows NO hits across all lists",
+      "Customer not on any sanctions/watchlist",
+      "No adverse media identified"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_chk_001",
+    "name": "Sanctions and Adverse Media Screening Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory compliance gate that verifies the customer is not on any sanctions or watchlists and has no adverse media before proceeding with account opening.",
+    "context": [
+      "Screening shows NO hits across all lists",
+      "Customer not on any sanctions/watchlist",
+      "No adverse media identified"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_008_cus_001",
+    "name": "Applicant",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual undergoing the screening process to open an account.",
+    "context": [
+      "Customer not on any sanctions/watchlist"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_008",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_prc_001",
+    "name": "Match Found Scenario Handling Process",
+    "aliases": [
+      "Match Found Scenario"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "The operational workflow triggered when an AML screening returns a potential hit during the account opening process. It involves stopping the onboarding, documenting the match, and escalating to the Financial Crime team.",
+    "context": [
+      "Match Found Scenario",
+      "STOP account opening immediately",
+      "Escalate to Financial Crime team for manual review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_001",
+    "name": "Screening Result Identification",
+    "aliases": [
+      "Results"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "match_review",
+    "description": "The initial stage where the screening system identifies a potential hit, including the match score, matched name, and the specific list identified.",
+    "context": [
+      "Screening shows potential HIT (match found)",
+      "Match score displayed (% likelihood match)",
+      "Matched name and list identified"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_002",
+    "name": "Account Opening Suspension",
+    "aliases": [
+      "STOP account opening"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "An immediate mandatory action to halt the account opening process once a potential AML match is detected.",
+    "context": [
+      "STOP account opening immediately"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_003",
+    "name": "Financial Crime Escalation",
+    "aliases": [
+      "Escalate"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "escalation_trigger",
+    "description": "The action of transferring the case to the Financial Crime team for a specialized manual review of the potential match.",
+    "context": [
+      "Escalate to Financial Crime team for manual review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_004",
+    "name": "Match Detail Documentation",
+    "aliases": [
+      "Document match details"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The requirement to record the specific details of the identified match within the bank's system for audit and review purposes.",
+    "context": [
+      "Document match details in system"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_stp_005",
+    "name": "Manual Review Initiation",
+    "aliases": [
+      "Initiate manual review"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The final step in the immediate action sequence to start the formal manual review process of the flagged entity.",
+    "context": [
+      "Initiate manual review process"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_rol_001",
+    "name": "Financial Crime Team",
+    "aliases": [
+      "FinCrime"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The specialized team responsible for performing manual reviews of potential AML screening hits to determine if a true match exists.",
+    "context": [
+      "Escalate to Financial Crime team for manual review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_dec_001",
+    "name": "AML Screening Match Gate",
+    "aliases": [
+      "Potential HIT"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "fraud_flag",
+    "description": "A branching point where the presence of a potential hit (match found) triggers the suspension of account opening and escalation to the Financial Crime team.",
+    "context": [
+      "Screening shows potential HIT (match found)",
+      "STOP account opening immediately"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_009_chk_001",
+    "name": "AML Screening Compliance Checkpoint",
+    "aliases": [
+      "Screening"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "The mandatory regulatory gate that verifies whether the applicant appears on sanctions or AML lists before allowing an account to be opened.",
+    "context": [
+      "Screening shows potential HIT (match found)",
+      "Matched name and list identified"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_009",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_prc_001",
+    "name": "Manual Review Process (Hit Assessment)",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "An operational workflow used to assess potential matches generated during screening. It involves a preliminary assessment of match scores and personal details to determine if a hit is a false positive or a true positive.",
+    "context": [
+      "Step 4: Manual Review Process (Hit Assessment)",
+      "Preliminary Assessment"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_stp_001",
+    "name": "Preliminary Assessment Step",
+    "aliases": [
+      "Step 4A"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "match_review",
+    "description": "The initial stage of the Manual Review Process where Financial Crime Staff evaluate a match based on score, name variance, date of birth, nationality, and entity type.",
+    "context": [
+      "Step 4A: Preliminary Assessment",
+      "Financial Crime Staff Reviews: 1. Match Score... 2. Name Variance... 3. Date of Birth... 4. Nationality... 5. Business"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_rol_001",
+    "name": "Financial Crime Staff",
+    "aliases": [
+      "FinCrime Staff"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "The personnel responsible for conducting the preliminary assessment of screening hits and determining the initial decision outcome.",
+    "context": [
+      "Financial Crime Staff Reviews:"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_010_dec_001",
+    "name": "Hit Outcome Decision",
+    "aliases": [
+      "Initial Decision Options"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "escalate_or_resolve",
+    "description": "A branching point based on the preliminary assessment that determines if a hit is a clear false positive, a likely true positive requiring immediate escalation, or an uncertain match requiring deeper research.",
+    "context": [
+      "Initial Decision Options:",
+      "A) Clear False Positive: Similar name but different person → Clear to proceed",
+      "B) Likely True Positive: Name, DOB, nationality all match → Escalate immediately",
+      "C) Uncertain: Partial match requiring investigation → Deeper research"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_010",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_prc_001",
+    "name": "True Positive Investigation Process",
+    "aliases": [
+      "Step 4B"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "The operational workflow for investigating and actioning confirmed true positive matches resulting from AML screening, including categorization by hit type and required remediation.",
+    "context": [
+      "Step 4B: True Positive Investigation",
+      "If True Positive Confirmed"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_stp_001",
+    "name": "Identify Match Reason",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "match_review",
+    "description": "The action of determining the specific list and designation that triggered the match, such as sanctions, PEP, or adverse media.",
+    "context": [
+      "Identify Reason: Which list? What's the designation (sanctions, PEP, adverse media)?"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_stp_002",
+    "name": "Determine Remediation Action",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The stage where the specific action is decided based on the type of hit, ranging from account freezes to enhanced due diligence or risk monitoring.",
+    "context": [
+      "Determine Action:",
+      "Sanctions Hit: Automatic FREEZE + Escalate to OFSI",
+      "PEP Hit: Enhanced due diligence required",
+      "Adverse Media: Risk assessment"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_stp_003",
+    "name": "Document Investigation Findings",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The formal recording of the investigation, capturing match assessment notes, decision reasoning, evidence reviewed, and the approver's details.",
+    "context": [
+      "Document Investigation:",
+      "Notes on match assessment",
+      "Reason for decision",
+      "Evidence reviewed",
+      "Approver name/date"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_dec_001",
+    "name": "Hit Type Categorization Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A branching point that determines the workflow path based on whether the hit is a Sanctions Hit, PEP Hit, or Adverse Media hit.",
+    "context": [
+      "Sanctions Hit: Automatic FREEZE + Escalate to OFSI",
+      "PEP Hit: Enhanced due diligence required (escalate to Compliance Head)",
+      "Adverse Media: Risk assessment (may proceed with monitoring)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The senior authority responsible for reviewing and approving actions related to PEP hits and enhanced due diligence.",
+    "context": [
+      "escalate to Compliance Head"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_rol_002",
+    "name": "OFSI (Office of Financial Sanctions Implementation)",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulatory body to which sanctions hits must be escalated following an account freeze.",
+    "context": [
+      "Escalate to OFSI"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_esc_001",
+    "name": "External Regulatory Escalation — OFSI",
+    "aliases": [],
+    "entity_class": "ESCALATION_LEVEL",
+    "type": "regulator",
+    "description": "The highest level of escalation triggered by a confirmed sanctions hit, requiring a mandatory account freeze and reporting to the regulator.",
+    "context": [
+      "Sanctions Hit: Automatic FREEZE + Escalate to OFSI"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_chk_001",
+    "name": "Sanctions Compliance Gate",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "A mandatory control point where a confirmed sanctions hit triggers an automatic freeze of assets.",
+    "context": [
+      "Sanctions Hit: Automatic FREEZE"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_chk_002",
+    "name": "PEP Compliance Gate",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "pep_screening",
+    "description": "A control point that identifies Politically Exposed Persons and mandates the application of enhanced due diligence.",
+    "context": [
+      "PEP Hit: Enhanced due diligence required"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_011_acc_001",
+    "name": "Frozen Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "An account that has been automatically frozen as a result of a confirmed sanctions hit.",
+    "context": [
+      "Automatic FREEZE"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_011",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_prc_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for opening a customer account, which includes a specific sub-workflow for resolving false positive screening matches.",
+    "context": [
+      "Proceed with account opening"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_stp_001",
+    "name": "False Positive Resolution Step",
+    "aliases": [
+      "Step 4C"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A discrete stage in the account opening process where a potential match is determined to be a false positive. The step requires documenting reasoning, recording the result in the system to prevent re-flagging, and archiving the assessment within a 2–4 hour timeline.",
+    "context": [
+      "Step 4C: False Positive Resolution",
+      "Document reasoning (different person due to...)",
+      "Record in system (prevents re-flagging)",
+      "Archive false positive assessment"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_dec_001",
+    "name": "False Positive Determination Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "fraud_flag",
+    "description": "A branching condition to determine if a screening alert is a false positive. If determined as a false positive, the process proceeds to documentation and account opening.",
+    "context": [
+      "If False Positive Determined:"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_rol_001",
+    "name": "Operational Reviewer",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "operations_staff",
+    "description": "The actor responsible for determining false positives, documenting the reasoning for the distinction between persons, and recording the outcome in the system.",
+    "context": [
+      "Document reasoning (different person due to...)",
+      "Record in system (prevents re-flagging)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_012_chk_001",
+    "name": "Screening Match Clearance Checkpoint",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "The mandatory compliance gate where a screening alert must be resolved as a false positive before the account opening process is permitted to proceed.",
+    "context": [
+      "If False Positive Determined:",
+      "Proceed with account opening"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_012",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_stp_001",
+    "name": "Record Screening Results",
+    "aliases": [
+      "Step 5",
+      "Record Results"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final stage of the screening process where results, including reference numbers, match scores, and decisions, are documented in the system. This ensures a full audit trail of the screening outcome and the approver's resolution.",
+    "context": [
+      "Step 5: Record Results",
+      "Record Fields: Screening reference number (system-generated), Customer ID, Screening date/time",
+      "If reviewed: Decision, approver, resolution date"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_rol_001",
+    "name": "System Approver",
+    "aliases": [
+      "approver"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The individual responsible for reviewing screening hits and recording the final decision and resolution date within the system record.",
+    "context": [
+      "If reviewed: Decision, approver, resolution date"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_dec_001",
+    "name": "Screening Outcome Decision",
+    "aliases": [
+      "Results",
+      "Status"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "A decision gate based on the screening results that categorizes the customer as Pass or Hit, and subsequently assigns a status of Cleared, Blocked, or Under Review.",
+    "context": [
+      "Results: Pass / Hit (specify which)",
+      "Status: Cleared / Blocked / Under Review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_rol_002",
+    "name": "Account Management System (AMS)",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The primary system used for storing screening records, linking results to customer records, and maintaining data for audit purposes.",
+    "context": [
+      "Storage: AMS (Account Management System)",
+      "Linked to customer record",
+      "Accessible for audit"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_chk_001",
+    "name": "AML Data Retention Check",
+    "aliases": [
+      "Storage"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "document_retention",
+    "description": "A mandatory regulatory control requiring that all screening records be retained for a minimum of 5 years in accordance with AML regulations.",
+    "context": [
+      "Retained for 5 years minimum (AML regulations)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_013_cus_001",
+    "name": "Screened Customer",
+    "aliases": [
+      "Customer ID"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer subject to the screening process whose ID is linked to the screening record in the AMS.",
+    "context": [
+      "Customer ID",
+      "Linked to customer record"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_013",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_prc_001",
+    "name": "Sanctions Hit Handling Process",
+    "aliases": [
+      "Step 6: Hit Handling",
+      "Type 1: Sanctions Hit"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "The end-to-end operational procedure for managing Sanctions Hits from OFAC, EU, HMT, and UN. It involves immediate account freezing, regulatory notification to OFSI within 24 hours, SAR filing, and a strict prohibition on tipping off the customer.",
+    "context": [
+      "Step 6: Hit Handling",
+      "Type 1: Sanctions Hit (OFAC/EU/HMT/UN)",
+      "Timeline: Immediate + regulatory notification within 24 hours"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_001",
+    "name": "Immediate Account Freeze",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The initial action where the account is frozen immediately to ensure no transactions are permitted following a sanctions hit.",
+    "context": [
+      "Account FROZEN immediately (no transactions permitted)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_002",
+    "name": "Compliance and Financial Crime Escalation",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of escalating the sanctions hit to the Compliance Head and the Head of Financial Crime for review.",
+    "context": [
+      "Escalate to Compliance Head + Head of Financial Crime"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_003",
+    "name": "OFSI Regulatory Notification",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The mandatory reporting of a UK sanctions hit to the Office of Financial Sanctions Implementation (OFSI) within a 24-hour window.",
+    "context": [
+      "Notify OFSI (UK Treasury) within 24 hours (if UK sanctions hit)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_004",
+    "name": "SAR Filing with NCA",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "sar_submission",
+    "description": "The formal submission of a Suspicious Activity Report (SAR) to the National Crime Agency (NCA) following a sanctions match.",
+    "context": [
+      "File Suspicious Activity Report (SAR) with NCA"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_005",
+    "name": "System Documentation of Hold",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The administrative step of recording the specific reason for the account hold within the bank's internal systems.",
+    "context": [
+      "Document hold reason in system"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_stp_006",
+    "name": "Anti-Tipping Off Communication Management",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "Ensuring the customer is not informed of the specific reason for the freeze to avoid tipping off risks; uses generic messaging.",
+    "context": [
+      "Do NOT inform customer of reason (tipping off risk)",
+      "Generic message: \"Your account has been frozen pending review\"",
+      "No mention of AML/sanctions (confidential)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "A senior officer responsible for receiving escalations regarding sanctions hits and overseeing the resolution.",
+    "context": [
+      "Escalate to Compliance Head + Head of Financial Crime"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_002",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "financial_crime_team",
+    "description": "A senior officer responsible for reviewing sanctions hits and coordinating with regulatory bodies.",
+    "context": [
+      "Escalate to Compliance Head + Head of Financial Crime"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_003",
+    "name": "OFSI (UK Treasury)",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The external regulatory body that must be notified within 24 hours of a UK sanctions hit.",
+    "context": [
+      "Notify OFSI (UK Treasury) within 24 hours (if UK sanctions hit)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_004",
+    "name": "NCA",
+    "aliases": [
+      "National Crime Agency"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "external_regulator",
+    "description": "The agency responsible for receiving Suspicious Activity Reports (SARs).",
+    "context": [
+      "File Suspicious Activity Report (SAR) with NCA"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_rol_005",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "supervisor",
+    "description": "The actor to whom a case is escalated if a customer questions the generic freeze notification.",
+    "context": [
+      "Escalate to manager if customer questions"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_dec_001",
+    "name": "Sanctions Hit Confirmation Gate",
+    "aliases": [
+      "Outcome Options"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "pass_fail",
+    "description": "The decision point determining if a sanctions hit is a false positive or a true positive, leading to either unfreezing the account or maintaining the freeze/closing the account.",
+    "context": [
+      "Hit confirmed as false positive → Unfreeze, apologize, proceed",
+      "Hit confirmed as true positive → Remain frozen, potential account closure"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_chk_001",
+    "name": "Sanctions Screening Checkpoint",
+    "aliases": [
+      "Hit Handling"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "The control gate where matches against OFAC, EU, HMT, and UN lists are processed and determined to be true or false positives.",
+    "context": [
+      "Type 1: Sanctions Hit (OFAC/EU/HMT/UN)",
+      "Hit confirmed as false positive",
+      "Hit confirmed as true positive"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_014_acc_001",
+    "name": "Frozen Account",
+    "aliases": [
+      "Account FROZEN"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "A customer account that has been placed under an immediate block, prohibiting all transactions due to a sanctions hit.",
+    "context": [
+      "Account FROZEN immediately (no transactions permitted)",
+      "Your account has been frozen pending review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_014",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_prc_001",
+    "name": "PEP Hit Handling Process",
+    "aliases": [
+      "Type 2: PEP Hit"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "The procedure for managing customers identified as Politically Exposed Persons (PEPs). It involves enhanced due diligence (EDD) rather than an automatic block, with a completion timeline of 1–2 business days.",
+    "context": [
+      "Type 2: PEP Hit",
+      "Action: ENHANCED DUE DILIGENCE (Not automatic block)",
+      "Timeline: 1–2 business days"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_001",
+    "name": "PEP Status Flagging",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The initial action of marking the customer record with a 'PEP' flag to initiate the enhanced workflow.",
+    "context": [
+      "Flag customer as \"PEP\""
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_002",
+    "name": "Compliance Head Escalation",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "notification",
+    "description": "The step where the PEP hit is escalated to the Compliance Head for formal review.",
+    "context": [
+      "Escalate to Compliance Head for review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The senior compliance officer responsible for reviewing PEP escalations and making the approval decision on whether to proceed with the application.",
+    "context": [
+      "Escalate to Compliance Head for review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_003",
+    "name": "PEP Risk Assessment",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The evaluation of the customer's specific PEP profile, determining if they are a family member, close associate, or a foreign PEP.",
+    "context": [
+      "Assess risk (family member? Close associate? Foreign PEP?)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_dec_001",
+    "name": "EDD Proceed or Reject Decision",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A critical decision gate where the Compliance Head decides whether to proceed with Enhanced Due Diligence or reject the application entirely.",
+    "context": [
+      "Approval decision: Proceed with EDD / Reject application"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_004",
+    "name": "EDD Monitoring Implementation",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "ongoing_monitoring_setup",
+    "description": "The application of enhanced monitoring requirements if the decision to proceed with the application is made.",
+    "context": [
+      "If proceed: Enhanced monitoring requirements"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_005",
+    "name": "Risk Assessment Documentation",
+    "aliases": [
+      "Step 6"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final step of formalizing and recording the risk assessment results in the bank's records.",
+    "context": [
+      "Document risk assessment"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_chk_001",
+    "name": "Beneficial Ownership Verification Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "beneficial_owner_check",
+    "description": "A mandatory compliance gate under EDD requirements to verify the beneficial ownership of the customer.",
+    "context": [
+      "Beneficial ownership verification (if applicable)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_chk_002",
+    "name": "Source of Funds Verification",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A mandatory requirement to collect and verify documentation regarding the customer's source of funds.",
+    "context": [
+      "Source of funds documentation"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_006",
+    "name": "Quarterly Transaction Monitoring",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "An ongoing EDD requirement involving the review of transactions every quarter.",
+    "context": [
+      "Ongoing transaction monitoring (quarterly)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_stp_007",
+    "name": "Annual PEP Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "periodic_refresh",
+    "description": "A mandatory annual review of the PEP status and associated risk assessment.",
+    "context": [
+      "Annual review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_015_cus_001",
+    "name": "PEP Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer flagged as a Politically Exposed Person (PEP), including family members and close associates.",
+    "context": [
+      "Flag customer as \"PEP\"",
+      "Assess risk (family member? Close associate? Foreign PEP?)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_015",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_prc_001",
+    "name": "Adverse Media Hit Risk Assessment Process",
+    "aliases": [
+      "Type 3: Adverse Media Hit"
+    ],
+    "entity_class": "PROCESS",
+    "type": "risk_assessment",
+    "description": "A procedure for reviewing and assessing the materiality of adverse media hits during a banking relationship application. The process determines whether to proceed with monitoring or reject the application and is completed within 1–2 business days.",
+    "context": [
+      "Type 3: Adverse Media Hit",
+      "Action: RISK ASSESSMENT",
+      "Timeline: 1–2 business days"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_001",
+    "name": "Review Adverse Media Details",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The initial step where the actor reviews the specific news or adverse media details associated with the hit.",
+    "context": [
+      "Review news/adverse media details"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_002",
+    "name": "Assess Materiality",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "The evaluation of whether the adverse media information is relevant to the specific banking relationship.",
+    "context": [
+      "Assess materiality (relevance to banking relationship)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_003",
+    "name": "Escalate to Compliance Head",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "escalation_procedure",
+    "description": "A mandatory action taken when adverse media is deemed material, involving the notification and review by the Compliance Head.",
+    "context": [
+      "If material: Escalate to Compliance Head"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_dec_001",
+    "name": "Application Proceed or Reject Decision",
+    "aliases": [
+      "Step 4",
+      "Decision"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "approve_reject",
+    "description": "A branching point where a decision is made to either proceed with standard monitoring or reject the application based on the materiality and nature of the hit (e.g., old accusations vs recent sanctions violations).",
+    "context": [
+      "Decision: Proceed with monitoring / Reject application",
+      "PASS: Old fraud accusation (10+ years ago, no conviction) → Proceed with standard monitoring",
+      "REJECT: Recent sanctions violation (confirmed) → Reject application"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_stp_004",
+    "name": "Document Assessment",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The final step of the process where the findings and the outcome of the risk assessment are formally documented.",
+    "context": [
+      "Document assessment"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The senior authority responsible for reviewing material adverse media hits and providing a decision on the application.",
+    "context": [
+      "Escalate to Compliance Head"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_chk_001",
+    "name": "Adverse Media Materiality Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A compliance gate used to determine if a news hit is material enough to trigger an escalation or an application rejection.",
+    "context": [
+      "Assess materiality (relevance to banking relationship)",
+      "If material: Escalate to Compliance Head"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_016_cus_001",
+    "name": "Applicant",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "applicant",
+    "description": "The individual or entity whose application is being evaluated for adverse media hits.",
+    "context": [
+      "Reject application",
+      "Proceed with monitoring"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_016",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_prc_001",
+    "name": "Ongoing Monitoring Process",
+    "aliases": [
+      "Step 7",
+      "Post-Screening Monitoring"
+    ],
+    "entity_class": "PROCESS",
+    "type": "ongoing_monitoring",
+    "description": "A procedure for the continuous oversight of customers after initial screening, featuring differentiated monitoring frequencies and intensities based on the customer's risk profile (High-Risk vs Standard-Risk).",
+    "context": [
+      "Step 7: Ongoing Monitoring",
+      "Post-Screening Monitoring"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_001",
+    "name": "High-Risk Customer Quarterly Re-screening",
+    "aliases": [
+      "Quarterly re-screening"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "periodic_refresh",
+    "description": "A mandatory quarterly action for high-risk customers involving the re-scanning of sanctions lists to ensure continued compliance.",
+    "context": [
+      "High-Risk Customers: Quarterly re-screening (re-scan sanctions lists)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_002",
+    "name": "High-Risk Enhanced Transaction Monitoring",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The application of intensified monitoring on transactions for customers classified as high-risk.",
+    "context": [
+      "Enhanced transaction monitoring"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_003",
+    "name": "Manual Review of Unusual Activity Alerts",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A manual review process for alerts triggered by unusual activity specifically for high-risk customers.",
+    "context": [
+      "Unusual activity alerts reviewed manually"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_004",
+    "name": "High-Risk Annual Comprehensive Risk Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "risk_assessment",
+    "description": "A full-scale review of the customer's risk profile conducted on an annual basis for high-risk individuals.",
+    "context": [
+      "Annual comprehensive risk review"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_005",
+    "name": "Standard-Risk Customer Annual Re-screening",
+    "aliases": [
+      "Annual re-screening"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "periodic_refresh",
+    "description": "A yearly action for standard-risk customers involving the re-scanning of sanctions lists.",
+    "context": [
+      "Standard-Risk Customers: Annual re-screening (re-scan sanctions lists)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_006",
+    "name": "Automated Transaction Monitoring",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The use of automated systems to monitor transactions for standard-risk customers.",
+    "context": [
+      "Automated transaction monitoring"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_stp_007",
+    "name": "Automated Alert Review",
+    "aliases": [],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "The process where monitoring alerts for standard-risk customers are reviewed by automated rules rather than manual intervention.",
+    "context": [
+      "Alerts reviewed by automated rules"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_dec_001",
+    "name": "Customer Risk Classification Gate",
+    "aliases": [],
+    "entity_class": "DECISION_POINT",
+    "type": "risk_level_gate",
+    "description": "A branching point that determines whether a customer follows the High-Risk monitoring path (quarterly scans, manual review) or the Standard-Risk path (annual scans, automated review).",
+    "context": [
+      "High-Risk Customers:",
+      "Standard-Risk Customers:"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_dec_002",
+    "name": "Transaction Monitoring Trigger Check",
+    "aliases": [
+      "Monitoring Triggers"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A set of conditional triggers (amount, jurisdiction, beneficiary, velocity) that, if met, initiate specific monitoring or investigation actions.",
+    "context": [
+      "Monitoring Triggers:",
+      "Large transaction (>£50,000)",
+      "Transaction to high-risk jurisdiction",
+      "New beneficiary or payee",
+      "Rapid transaction velocity (multiple in short time)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_rol_001",
+    "name": "Automated Monitoring System",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The system responsible for executing automated transaction monitoring and applying automated rules to review alerts for standard-risk customers.",
+    "context": [
+      "Automated transaction monitoring",
+      "Alerts reviewed by automated rules"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_chk_001",
+    "name": "Sanctions List Re-screening Checkpoint",
+    "aliases": [
+      "re-scan sanctions lists"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "The mandatory regulatory gate where customers are re-screened against sanctions lists either quarterly or annually depending on risk level.",
+    "context": [
+      "Quarterly re-screening (re-scan sanctions lists)",
+      "Annual re-screening (re-scan sanctions lists)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_cust_001",
+    "name": "High-Risk Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer subject to enhanced monitoring, quarterly re-screening, and annual comprehensive risk reviews.",
+    "context": [
+      "High-Risk Customers:"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_cust_002",
+    "name": "Standard-Risk Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer subject to standard annual re-screening and automated transaction monitoring.",
+    "context": [
+      "Standard-Risk Customers:"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_017_txn_001",
+    "name": "Monitored Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "Financial events subjected to monitoring, particularly those triggering alerts due to size, jurisdiction, or velocity.",
+    "context": [
+      "Large transaction (>£50,000)",
+      "Transaction to high-risk jurisdiction",
+      "Rapid transaction velocity (multiple in short time)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_017",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_prc_001",
+    "name": "Screening System Down Troubleshooting Process",
+    "aliases": [
+      "Screening System Down"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational procedure to handle scenarios where the screening system is unavailable during account opening. It mandates a halt to onboarding until the system is restored and screening is completed.",
+    "context": [
+      "Troubleshooting",
+      "Screening System Down",
+      "If Screening System Unavailable"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_001",
+    "name": "Outage Documentation Step",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The initial action taken when the screening system is unavailable, requiring the staff to record the specific time the outage occurred.",
+    "context": [
+      "Document outage time"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_002",
+    "name": "Account Opening Suspension Step",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "A mandatory hold on the account opening process due to the criticality of screening.",
+    "context": [
+      "Do NOT proceed with account opening (screening mandatory)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_003",
+    "name": "Technology Team Escalation Step",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The action of notifying the Technology team to ensure immediate resolution of the system outage.",
+    "context": [
+      "Escalate to Technology team (immediate resolution)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_004",
+    "name": "System Restoration Retry Step",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "The requirement to attempt the screening process again once the system has been restored.",
+    "context": [
+      "Retry once system restored"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_stp_005",
+    "name": "Account Opening Delay Finalization",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "account_activation",
+    "description": "The final state where the account opening remains paused until all screening requirements are successfully met.",
+    "context": [
+      "Account opening delayed until screening complete"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_rol_001",
+    "name": "Technology Team",
+    "aliases": [
+      "Tech Team"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "automated_system",
+    "description": "The internal team responsible for the immediate resolution of screening system outages.",
+    "context": [
+      "Escalate to Technology team (immediate resolution)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_dec_001",
+    "name": "Screening System Availability Check",
+    "aliases": [
+      "System Unavailable"
+    ],
+    "entity_class": "DECISION_POINT",
+    "type": "exception_trigger",
+    "description": "A check to determine if the screening system is functional; if unavailable, the process diverts to the troubleshooting workflow.",
+    "context": [
+      "If Screening System Unavailable"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_018_chk_001",
+    "name": "Mandatory Screening Compliance Gate",
+    "aliases": [
+      "screening mandatory"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "risk_classification",
+    "description": "A critical regulatory gate that prevents the account opening process from proceeding if screening cannot be performed.",
+    "context": [
+      "Do NOT proceed with account opening (screening mandatory)",
+      "Account opening delayed until screening complete"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_018",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_prc_001",
+    "name": "False Positive Screening Resolution Process",
+    "aliases": [
+      "False Positive Frequently Triggered"
+    ],
+    "entity_class": "PROCESS",
+    "type": "exception_handling",
+    "description": "An operational workflow for managing customers who frequently trigger alerts during screening processes. It focuses on documenting previous assessments and updating profiles to accelerate future resolutions.",
+    "context": [
+      "False Positive Frequently Triggered",
+      "If Customer Frequently Hit on Screening"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_001",
+    "name": "Document Previous False Positive Assessments",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "reporting",
+    "description": "The initial action of recording and archiving the outcomes of prior screening assessments to justify subsequent false positive determinations.",
+    "context": [
+      "Document previous false positive assessments"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_002",
+    "name": "Update Customer Profile with Verified Flag",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "system_recording",
+    "description": "Updating the customer's electronic record to include a 'verified' flag, intended to streamline the resolution of future screening hits.",
+    "context": [
+      "Update customer profile with \"verified\" flag"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_003",
+    "name": "Perform Rapid Re-screen Resolution",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "investigation",
+    "description": "The action of resolving a re-screen trigger quickly, acknowledging that list updates may still cause a hit despite previous verification.",
+    "context": [
+      "Re-screen may still trigger (due to list updates), but quick resolution"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_stp_004",
+    "name": "Implement Alternative Name Variant",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "data_collection",
+    "description": "Evaluating and applying an alternative name variant for the customer to reduce the frequency of screening hits and enable faster processing.",
+    "context": [
+      "Consider alternative name variant for faster screening"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_rol_001",
+    "name": "Screening Analyst",
+    "aliases": [
+      "analyst"
+    ],
+    "entity_class": "ROLE_ACTOR",
+    "type": "compliance_staff",
+    "description": "The implicit actor responsible for documenting assessments, updating customer profile flags, and managing the re-screening resolution.",
+    "context": [
+      "Document previous false positive assessments",
+      "Update customer profile"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_cust_001",
+    "name": "Frequently Triggered Customer",
+    "aliases": [
+      "Customer Frequently Hit on Screening"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer who repeatedly triggers hits during AML or sanctions screening, necessitating a specific resolution workflow.",
+    "context": [
+      "If Customer Frequently Hit on Screening"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_019_chk_001",
+    "name": "Screening Hit Verification Gate",
+    "aliases": [
+      "Re-screen"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "sanctions_check",
+    "description": "The regulatory control point where a customer's name is screened against lists; this specific process manages the 'false positive' outcome of this gate.",
+    "context": [
+      "Re-screen may still trigger (due to list updates)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_019",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_prc_001",
+    "name": "Screening Audit Process",
+    "aliases": [
+      "Screening Audit",
+      "Quality Assurance"
+    ],
+    "entity_class": "PROCESS",
+    "type": "quality_check",
+    "description": "A quality assurance procedure consisting of monthly and annual audits to ensure screening decisions are properly escalated, documented, and timely. The process verifies hit resolution and the appropriateness of SAR filings.",
+    "context": [
+      "Quality Assurance",
+      "Screening Audit",
+      "Monthly Audit",
+      "Annual Audit"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_stp_001",
+    "name": "Monthly Screening Decision Review",
+    "aliases": [
+      "Monthly Audit"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A monthly operational step where 10 or more screening decisions are reviewed to verify escalation accuracy, documentation of false positives, and decision timeliness.",
+    "context": [
+      "Monthly Audit:",
+      "Review 10+ screening decisions",
+      "Verify hits properly escalated",
+      "Confirm false positives documented",
+      "Assess timeliness of decisions"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_stp_002",
+    "name": "Annual Full Screening Process Review",
+    "aliases": [
+      "Annual Audit"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "quality_check",
+    "description": "A comprehensive annual review of the screening process, including verification of active list coverage, hit resolution speed, and the appropriateness of SAR filings.",
+    "context": [
+      "Annual Audit:",
+      "Full screening process review",
+      "List coverage verification (all lists active)",
+      "Hit resolution timeliness",
+      "SAR filing appropriateness"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_020_chk_001",
+    "name": "Screening Decision Compliance Gate",
+    "aliases": [
+      "Hit resolution timeliness",
+      "List coverage verification"
+    ],
+    "entity_class": "COMPLIANCE_CHECKPOINT",
+    "type": "regulatory_reporting",
+    "description": "A control point within the audit process to ensure all screening lists are active and that hit resolutions and SAR filings meet regulatory appropriateness and timeliness standards.",
+    "context": [
+      "List coverage verification (all lists active)",
+      "Hit resolution timeliness",
+      "SAR filing appropriateness"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_020",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_prc_001",
+    "name": "AML Screening Process",
+    "aliases": [
+      "AML screening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "aml_screening",
+    "description": "An operational workflow focused on Anti-Money Laundering screening. It is positioned as Step 5 within the broader Account Opening process and follows the KYC verification procedure.",
+    "context": [
+      "AML screening is Step 5",
+      "KYC verification (precedes AML screening)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_prc_002",
+    "name": "Account Opening Process",
+    "aliases": [
+      "sop_account_opening"
+    ],
+    "entity_class": "PROCESS",
+    "type": "account_opening",
+    "description": "The end-to-end procedure for opening a new customer account, which includes AML screening as its fifth operational step.",
+    "context": [
+      "Account opening (AML screening is Step 5)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_prc_003",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "sop_kyc_verification"
+    ],
+    "entity_class": "PROCESS",
+    "type": "kyc_verification",
+    "description": "The Know Your Customer verification procedure that must be completed before AML screening can commence.",
+    "context": [
+      "KYC verification (precedes AML screening)"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_021_stp_001",
+    "name": "AML Screening Execution Step",
+    "aliases": [
+      "Step 5"
+    ],
+    "entity_class": "PROCESS_STEP",
+    "type": "aml_screening_step",
+    "description": "The fifth specific action within the Account Opening process dedicated to performing AML screening.",
+    "context": [
+      "AML screening is Step 5"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_021",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_022_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "The individual responsible for the authorship and updating of the SOP, including the addition of hit handling procedures and ongoing monitoring.",
+    "context": [
+      "Author | Head of Financial Crime"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_022",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_023_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior executive role responsible for the approval and sign-off of the operational procedure documents.",
+    "context": [
+      "Approved by: Head of Financial Crime"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_023",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  },
+  {
+    "id": "2b9919f108494b7897d3f93820601a32_023_rol_002",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_ACTOR",
+    "type": "department_head",
+    "description": "A senior executive role responsible for the approval and sign-off of the operational procedure documents.",
+    "context": [
+      "Approved by: Head of Compliance"
+    ],
+    "chunk_id": "2b9919f108494b7897d3f93820601a32_023",
+    "doc_id": "2b9919f108494b7897d3f93820601a32",
+    "domain": "banking_sop_guides"
+  }
+]

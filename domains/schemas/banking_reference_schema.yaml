@@ -15,8 +15,8 @@ entities_prompt: |
     example type values: savings_rate_tier | overdraft_rate | mortgage_rate | variable_rate | fixed_rate | fee_table_entry | rate_basis
 
   INCIDENT_TYPE
-    A named category or scenario of operational incident, security event, or system failure with defining characteristics and examples. Each top-level incident category (Cybersecurity Incident, Data Breach, System Incident, etc.) is a separate entity. Also extract specific subtypes (e.g., Ransomware Attack, Customer Data Breach) when they have distinct response requirements.
-    example type values: cybersecurity_incident | data_breach | system_outage | fraud_misconduct | physical_security | performance_degradation | integration_failure | backup_failure | credential_compromise | ransomware
+    A named category or scenario of operational incident, security event, or system failure with defining characteristics and examples. Each top-level incident category (Cybersecurity Incident, Data Breach, System Incident, etc.) is a separate entity. Also extract specific subtypes (e.g., Ransomware Attack, Customer Data Breach) when they have distinct response requirements. Note: fraud events that generate detection alerts are captured as FRAUD_ALERT entities; use INCIDENT_TYPE for system, security, data, and operational failures, not for fraud alert events.
+    example type values: cybersecurity_incident | data_breach | system_outage | physical_security | performance_degradation | integration_failure | backup_failure | credential_compromise | ransomware | operational_failure
 
   SEVERITY_LEVEL
     A defined incident severity tier with quantified impact thresholds (financial, customer scope, system downtime), specific response time targets, and mandatory escalation requirements. Each severity level is a separate entity.
@@ -33,6 +33,38 @@ entities_prompt: |
   CUSTOMER_GUIDE_ITEM
     A piece of customer-facing guidance from the welcome pack or customer reference materials — explaining how to use an account feature, how to contact the bank, what to expect during onboarding, or how a product works. Each distinct guidance point or section is a separate entity.
     example type values: getting_started | account_management | feature_guide | contact_info | regulatory_protection | security_guidance | opening_process | channel_guide | faq_reference | complaint_path
+
+  CUSTOMER
+    A bank customer referenced in reference materials — as the recipient of a welcome pack, as a party to be notified during an incident, or as the holder of an account described in a rate schedule. Extract when the document addresses the customer directly or defines obligations toward them.
+    example type values: new_customer | account_holder | joint_holder | notified_customer | affected_customer
+
+  ACCOUNT
+    A customer account referenced in reference materials — the account type covered by a rate entry, the account affected by an incident, or the account described in a welcome pack. Extract when the account is the subject of operational reference information.
+    example type values: savings_account | current_account | joint_account | affected_account | new_account
+
+  TRANSACTION
+    A financial event referenced in reference materials — transactions affected by an incident, suspicious transactions triggering an incident type, or transaction types described in a welcome pack or rate schedule.
+    example type values: affected_transaction | suspicious_transaction | standing_order_payment | direct_debit_payment | disputed_transaction
+
+  PRODUCT
+    A banking product referenced in a rate schedule, incident scope, or welcome pack. Extract when the product is the primary subject or the governing context of a reference document entry.
+    example type values: smartsaver_account | current_account | mortgage | card_product
+
+  CARD
+    A payment card referenced in incident response (card compromise, card fraud) or in welcome pack guidance (card usage, card limits, lost or stolen card procedure).
+    example type values: debit_card | card_compromise | contactless | card_limit | replacement_card
+
+  FRAUD_ALERT
+    A fraud event or fraud detection mechanism referenced in incident response plans — the alert that triggers an incident response or the fraud pattern being responded to.
+    example type values: fraud_incident | account_takeover | card_fraud_event | transaction_fraud | identity_fraud
+
+  STANDING_ORDER
+    A standing order referenced in a welcome pack or customer guide — how to set one up, how to cancel, what happens if a payment fails.
+    example type values: standing_order_setup | standing_order_cancellation | payment_failure_guidance
+
+  DIRECT_DEBIT
+    A direct debit referenced in a welcome pack or customer guide — the mandate process, the Direct Debit Guarantee, how to cancel, and how to dispute a payment.
+    example type values: direct_debit_mandate | dd_guarantee | dd_cancellation | dd_dispute
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -176,6 +208,50 @@ properties_prompt: |
     - contact_for_help (support channel referenced)
     - related_product (which product this guidance applies to)
 
+  For CUSTOMER, consider:
+    - customer_context (new customer welcome, incident-affected, rate schedule holder)
+    - notification_obligation (whether the bank must notify this customer and when)
+    - affected_by (incident type or rate change that affects them)
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - rate_applicable (rate schedule entry that applies to this account)
+    - incident_impact (how this account type is affected by an incident)
+    - welcome_pack_coverage (whether this account type is covered by welcome pack guidance)
+
+  For TRANSACTION, consider:
+    - transaction_context (incident trigger, rate calculation basis, guide topic)
+    - affected_in_incident (whether this transaction type is disrupted by an incident)
+    - guide_topic (what welcome pack says about this transaction type)
+
+  For PRODUCT, consider:
+    - product_id (e.g., SAV-001)
+    - rate_entries (list of rate entries associated with this product)
+    - welcome_pack_section (which welcome pack section covers this product)
+
+  For CARD, consider:
+    - card_context (incident response for card compromise, welcome pack usage guide)
+    - daily_limit (as stated in the reference document)
+    - loss_report_guidance (what the welcome pack says about lost or stolen cards)
+
+  For FRAUD_ALERT, consider:
+    - incident_type (the incident type that generates a fraud alert)
+    - response_required (what the incident response plan requires)
+    - customer_notification (whether customers must be notified and when)
+
+  For STANDING_ORDER, consider:
+    - guide_topic (what the welcome pack says about setting up a standing order)
+    - setup_steps (how to create a standing order as described)
+    - cancellation_process (how to cancel)
+    - failure_guidance (what happens and what customer should do if payment fails)
+
+  For DIRECT_DEBIT, consider:
+    - guide_topic (what the welcome pack says about direct debits)
+    - mandate_process (how a direct debit mandate is set up)
+    - dd_guarantee (what the Direct Debit Guarantee covers)
+    - cancellation_process (how to cancel a direct debit)
+    - dispute_process (how to dispute an incorrect direct debit payment)
+
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "financial_impact_threshold" not "fin_thresh")
     2. Use arrays for multiple values
@@ -292,6 +368,63 @@ relationships_prompt: |
 
   CUSTOMER_GUIDE_ITEM ↔ NOTIFICATION_CONTACT:
     refers_customer_to, escalates_to
+
+  RATE_ENTRY ↔ PRODUCT:
+    applies_to, earned_on, published_for
+
+  RATE_ENTRY ↔ ACCOUNT:
+    applies_to_account_type, determines_interest_on
+
+  RATE_ENTRY ↔ CUSTOMER:
+    applicable_to, earned_by
+
+  INCIDENT_TYPE ↔ CUSTOMER:
+    requires_notification_of, affects, triggers_communication_to
+
+  INCIDENT_TYPE ↔ ACCOUNT:
+    affects, may_trigger_freeze_of, disrupts_operations_on
+
+  INCIDENT_TYPE ↔ TRANSACTION:
+    disrupts, may_involve_suspicious, triggers_investigation_of
+
+  INCIDENT_TYPE ↔ CARD:
+    may_compromise, triggers_block_of, involves
+
+  INCIDENT_TYPE ↔ FRAUD_ALERT:
+    triggers, classified_as, corresponds_to
+
+  SEVERITY_LEVEL ↔ CUSTOMER:
+    determines_notification_obligation_toward, triggers_communication_to
+
+  RESPONSE_ACTION ↔ CUSTOMER:
+    notifies, communicates_to, protects
+
+  RESPONSE_ACTION ↔ ACCOUNT:
+    freezes, restores, investigates
+
+  RESPONSE_ACTION ↔ CARD:
+    blocks, replaces, investigates
+
+  RESPONSE_ACTION ↔ FRAUD_ALERT:
+    responds_to, investigates, closes
+
+  CUSTOMER_GUIDE_ITEM ↔ ACCOUNT:
+    provides_guidance_on, explains_management_of
+
+  CUSTOMER_GUIDE_ITEM ↔ PRODUCT:
+    explains_features_of, guides_use_of
+
+  CUSTOMER_GUIDE_ITEM ↔ CARD:
+    explains_usage_of, guides_management_of
+
+  CUSTOMER_GUIDE_ITEM ↔ STANDING_ORDER:
+    explains_setup_of, guides_management_of
+
+  CUSTOMER_GUIDE_ITEM ↔ DIRECT_DEBIT:
+    explains_setup_of, guides_management_of, describes_guarantee_of
+
+  CUSTOMER_GUIDE_ITEM ↔ TRANSACTION:
+    explains_processing_of, describes_monitoring_of
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

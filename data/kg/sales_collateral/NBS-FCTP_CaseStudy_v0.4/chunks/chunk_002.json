@@ -1,0 +1,2290 @@
+{
+  "embedding": [
+    0.09505386,
+    -0.001252507,
+    -0.16322076,
+    -0.0067493482,
+    0.09542698,
+    -0.05746344,
+    0.06966989,
+    0.02300969,
+    0.00056956866,
+    0.0012299484,
+    -0.01772619,
+    -0.031787176,
+    0.082512796,
+    0.006060997,
+    -0.026784195,
+    -0.009873748,
+    0.018453225,
+    -0.02679865,
+    -0.084098436,
+    -0.0010522534,
+    0.00014286814,
+    -0.08704174,
+    -0.008041425,
+    0.014132293,
+    0.055294286,
+    0.02684261,
+    -0.0073952978,
+    0.0038196917,
+    -0.02501608,
+    -0.007855553,
+    0.044843625,
+    -0.01640269,
+    -0.042374935,
+    -0.036232956,
+    -0.059671853,
+    -0.04737658,
+    0.07546953,
+    0.014876429,
+    -0.031223943,
+    -0.025234802,
+    0.0098696025,
+    0.024817517,
+    -0.008982636,
+    -0.08594397,
+    0.03120117,
+    0.040167827,
+    0.02734368,
+    -0.03278575,
+    0.05574495,
+    -3.64114e-06,
+    0.024289232,
+    -0.022248317,
+    -0.015449198,
+    0.046303052,
+    0.056411803,
+    0.010369372,
+    -0.018519165,
+    0.06884806,
+    -0.08354973,
+    -0.066866405,
+    0.058788903,
+    0.06855844,
+    -0.001923589,
+    0.010442299,
+    -0.03444887,
+    -0.02543986,
+    -0.018241188,
+    0.021129271,
+    -0.0031121715,
+    -0.02293456,
+    0.02224567,
+    0.032374922,
+    -0.011249369,
+    0.0037775594,
+    0.014441178,
+    -0.009842127,
+    -0.009575184,
+    -0.02478395,
+    -0.02617259,
+    0.04591847,
+    0.047230426,
+    -0.050166998,
+    0.050828204,
+    -0.04794533,
+    0.02831098,
+    0.013488218,
+    -0.018030666,
+    -0.03328171,
+    -0.029731452,
+    0.052697323,
+    0.0033393,
+    0.0066043152,
+    0.01476193,
+    0.020402491,
+    -0.082995966,
+    0.042749196,
+    -0.037793677,
+    0.05161565,
+    -0.026169445,
+    -0.008014887,
+    -0.036448054,
+    -0.041414585,
+    0.03532427,
+    0.014311754,
+    0.030035844,
+    0.036066286,
+    0.011034422,
+    0.0027948823,
+    0.015888672,
+    0.052061167,
+    -0.0082154,
+    0.0513759,
+    -0.029383913,
+    0.020107752,
+    0.039201837,
+    0.0047348314,
+    0.097482234,
+    -0.0119853765,
+    -0.019133262,
+    0.079217166,
+    -0.008702,
+    -0.08273051,
+    0.022027612,
+    0.006341353,
+    0.030573016,
+    0.01985071,
+    -0.068075836,
+    0.004879682,
+    0.008010974,
+    -0.06039747,
+    -0.016323911,
+    -0.015478655,
+    -0.015320309,
+    0.004998299,
+    0.025275147,
+    0.050675493,
+    0.014850377,
+    -0.04460181,
+    -0.015245338,
+    0.02616178,
+    0.049045905,
+    -0.0051778806,
+    0.00397048,
+    0.022000473,
+    -0.04791804,
+    0.0029078918,
+    0.0139889745,
+    0.00026110548,
+    -0.002737724,
+    -0.023788065,
+    -0.02417429,
+    0.02709451,
+    -0.048173904,
+    0.05130008,
+    0.037158947,
+    -0.052442387,
+    -0.044291046,
+    0.027984204,
+    0.017659904,
+    0.0045588743,
+    0.036601618,
+    0.0089087095,
+    -0.04230355,
+    0.022769509,
+    -0.028264157,
+    -0.0791409,
+    -0.012421486,
+    0.03720006,
+    0.022187036,
+    0.0022275008,
+    -0.074764475,
+    -0.034220338,
+    0.0028157241,
+    0.030741718,
+    0.05169546,
+    0.002139904,
+    0.03678151,
+    -0.026714906,
+    0.026053,
+    -0.034492034,
+    0.016208667,
+    -0.040348273,
+    0.0550279,
+    0.022634482,
+    0.023056902,
+    -0.024939675,
+    0.036320727,
+    0.003480763,
+    0.0028286306,
+    -0.0292595,
+    0.019776653,
+    0.037040625,
+    -0.032010145,
+    -0.003983835,
+    -0.08299093,
+    -0.030554712,
+    -0.015278147,
+    0.011263081,
+    0.003697857,
+    -0.029807972,
+    -0.011053981,
+    -0.0016514834,
+    -0.0034234351,
+    -0.010479878,
+    -0.04218339,
+    0.06958339,
+    0.049071897,
+    0.0040749935,
+    -0.012115731,
+    0.036178406,
+    0.070236474,
+    -0.02099337,
+    0.037474018,
+    0.0065912404,
+    0.022985503,
+    0.03202504,
+    0.006184627,
+    0.0011864463,
+    -0.031014796,
+    -0.030043455,
+    -0.03196435,
+    0.014364309,
+    -0.012959733,
+    0.009201589,
+    0.033790268,
+    0.01060818,
+    -0.051817313,
+    -0.026279483,
+    0.0073642256,
+    -0.018198878,
+    -0.020678148,
+    -0.060811102,
+    0.063749775,
+    -0.00091597304,
+    -0.00811625,
+    0.022287793,
+    -0.02468038,
+    0.022858482,
+    0.031768143,
+    0.04752741,
+    -0.009538044,
+    0.05613396,
+    -0.04417353,
+    -0.03761888,
+    -0.033041745,
+    0.01783083,
+    0.019216765,
+    -0.0063711926,
+    0.022408385,
+    0.045385536,
+    0.03477083,
+    -0.006494615,
+    0.026513709,
+    -0.025601331,
+    0.04863368,
+    -0.010231964,
+    -0.0224049,
+    0.025588542,
+    0.00072356267,
+    0.04060066,
+    0.020121252,
+    0.009746471,
+    0.03881458,
+    -0.030301312,
+    0.005957169,
+    -0.049741898,
+    -0.061985176,
+    0.013754499,
+    0.052793186,
+    0.017664475,
+    0.06441465,
+    0.0056246337,
+    -0.0010531427,
+    0.077132724,
+    -0.012092014,
+    -0.0005324369,
+    -0.026866063,
+    -0.050765283,
+    -0.05063719,
+    0.052601296,
+    -0.022511825,
+    -0.07159027,
+    -0.029414872,
+    -0.0048153535,
+    -0.041033886,
+    0.082314745,
+    0.026444353,
+    0.014971108,
+    -0.047074653,
+    -0.020451635,
+    0.03134384,
+    0.040855553,
+    -0.016875936,
+    -0.0015689248,
+    -0.026641633,
+    -0.0038850948,
+    0.08123717,
+    0.0005445606,
+    0.057949338,
+    -0.06469309,
+    0.019067194,
+    0.042275302,
+    0.015261555,
+    0.026912114,
+    -0.00762018,
+    -0.012709661,
+    -0.011744598,
+    0.03689206,
+    0.007443073,
+    -0.057865623,
+    -0.03748784,
+    -0.027395397,
+    -0.06404371,
+    0.017921075,
+    -0.003526301,
+    0.016442984,
+    0.059033718,
+    0.024344623,
+    0.008700295,
+    0.022979591,
+    0.02365668,
+    0.04338695,
+    -0.05409646,
+    -0.048730157,
+    0.018512534,
+    0.018637082,
+    -0.03722949,
+    0.023717431,
+    -0.016315253,
+    -0.004260765,
+    -0.02436839,
+    0.038977887,
+    0.025206134,
+    -0.03121294,
+    -0.032762714,
+    0.07403563,
+    0.01214537,
+    0.007930289,
+    0.061747,
+    -0.0012406781,
+    0.061670195,
+    -0.022609144,
+    0.017980646,
+    -0.02507479,
+    -0.024126673,
+    -0.021851026,
+    0.0034692392,
+    0.0079559265,
+    0.032013614,
+    -0.00087062456,
+    -0.021124836,
+    -0.020212911,
+    -0.0065854895,
+    -0.019090246,
+    0.020275312,
+    -0.050489746,
+    -0.0491091,
+    0.08466105,
+    0.008776464,
+    -0.010416382,
+    0.015352817,
+    -0.019465953,
+    -0.036622927,
+    0.030689284,
+    0.019053383,
+    0.041936558,
+    0.10947615,
+    -0.008499004,
+    -0.009894883,
+    -0.008875622,
+    -0.00063333946,
+    -0.02073404,
+    -0.011474438,
+    0.042113055,
+    0.024193557,
+    0.030002646,
+    -0.070659325,
+    -0.001082381,
+    0.0023718283,
+    0.01614535,
+    0.0401265,
+    -0.04106698,
+    -0.010529958,
+    0.012675047,
+    0.013024679,
+    -0.029110333,
+    0.010296441,
+    -0.044008028,
+    -0.007774521,
+    0.010214797,
+    -0.026912976,
+    -0.04469866,
+    0.0048454795,
+    0.0065325517,
+    0.03922164,
+    -0.016439129,
+    -0.034840558,
+    -0.026045337,
+    0.017664976,
+    0.038753722,
+    -0.037096966,
+    -0.07972948,
+    0.0029644317,
+    -0.010841321,
+    -0.034069203,
+    -0.0025513445,
+    -0.03738972,
+    -0.06405231,
+    0.009592443,
+    -0.043274473,
+    0.021056889,
+    1.554123e-05,
+    -0.03780146,
+    -0.021431569,
+    0.020838516,
+    0.034986336,
+    0.05747913,
+    0.02544282,
+    -0.00041903564,
+    0.018566497,
+    0.021973059,
+    -0.0064286855,
+    0.027561162,
+    0.0072664856,
+    0.014134784,
+    0.013531448,
+    0.01673297,
+    0.0038472011,
+    0.0029083637,
+    -0.04208841,
+    0.009430345,
+    0.0129125295,
+    0.020813217,
+    -0.027322466,
+    -0.02496952,
+    -0.0091022225,
+    0.014687608,
+    0.0025771626,
+    0.03746448,
+    0.028362243,
+    0.025884712,
+    -0.025321092,
+    -0.0698912,
+    -0.036479108,
+    0.029738178,
+    0.064398095,
+    0.0584264,
+    -0.030498268,
+    -0.020937214,
+    0.035428666,
+    0.006764921,
+    0.050097153,
+    -0.012851735,
+    0.0072464007,
+    0.046776555,
+    -0.029996,
+    0.028179526,
+    -0.022499366,
+    -0.027503356,
+    0.026946038,
+    0.010364551,
+    0.025191689,
+    -0.039798573,
+    -0.004426261,
+    0.024219442,
+    0.0043889964,
+    0.0008548672,
+    -0.020660786,
+    0.03169806,
+    0.07586921,
+    -0.09678869,
+    -0.022353955,
+    -0.020154722,
+    -0.058583993,
+    0.02163645,
+    -0.01492278,
+    -0.030162621,
+    -0.013971483,
+    0.03424143,
+    0.077742435,
+    -0.0025735365,
+    -0.009034015,
+    -0.0031521097,
+    -0.01444327,
+    -0.0073698135,
+    0.054249123,
+    0.01901215,
+    -0.05131202,
+    0.036638673,
+    -0.018296508,
+    0.041263346,
+    0.0635768,
+    -0.02173845,
+    0.03863632,
+    -0.019532593,
+    -0.006392591,
+    0.007256074,
+    0.028323496,
+    0.002384963,
+    0.0014781824,
+    0.052619457,
+    0.04249292,
+    -0.059184156,
+    0.02661099,
+    0.022818852,
+    -0.0005538153,
+    -0.012129953,
+    -0.06003783,
+    -0.027880602,
+    -0.017592322,
+    -0.03240986,
+    0.015749473,
+    0.0054050717,
+    -0.016959108,
+    0.06400388,
+    -0.031239219,
+    0.028549222,
+    -0.00066991453,
+    -0.05443711,
+    0.0087793395,
+    0.007483113,
+    0.0023349805,
+    -0.040641546,
+    -0.012262836,
+    -0.060500894,
+    -0.02593653,
+    0.033282686,
+    -0.05908983,
+    0.030105293,
+    0.016088123,
+    0.0031375063,
+    0.018382883,
+    0.0021929988,
+    0.03143646,
+    0.007966347,
+    0.0020566906,
+    -0.0036132738,
+    0.0057836347,
+    0.04657578,
+    0.022123152,
+    -0.00018676027,
+    0.034128852,
+    -0.020884031,
+    0.023403322,
+    0.038019717,
+    -0.038882103,
+    0.0037648801,
+    0.059503414,
+    -0.010796257,
+    -0.05350726,
+    0.06372617,
+    -0.066753596,
+    0.0015618822,
+    -0.055185262,
+    0.052615818,
+    -0.019386295,
+    0.0017780686,
+    -0.007944485,
+    -0.06316543,
+    -0.018426763,
+    0.0011284038,
+    0.014177579,
+    0.039308466,
+    6.254912e-05,
+    0.012960498,
+    -0.04263099,
+    0.022253312,
+    0.049918156,
+    -0.011440006,
+    -0.002355422,
+    0.017029203,
+    -0.06954858,
+    -0.01892144,
+    -0.017497564,
+    -0.0036536641,
+    -0.03652287,
+    -0.012760299,
+    0.008226796,
+    -0.0272979,
+    -0.03661895,
+    0.007470224,
+    -0.012168118,
+    0.03746342,
+    0.063976124,
+    -0.03127155,
+    0.006771622,
+    -0.05006968,
+    -0.08485743,
+    0.02442002,
+    -0.052750528,
+    -0.008574667,
+    0.037480112,
+    0.017384894,
+    -0.028352043,
+    0.0042239865,
+    0.038300406,
+    -0.003962007,
+    -0.025697695,
+    -0.014718165,
+    -0.038169596,
+    -0.0405803,
+    0.003973915,
+    -0.0103936475,
+    -0.11265939,
+    -0.02891155,
+    0.010499436,
+    0.008921585,
+    0.054634172,
+    0.037578408,
+    -0.028236544,
+    0.036216415,
+    -0.028505437,
+    -0.022424337,
+    0.008538305,
+    0.028955603,
+    0.029840793,
+    0.03396715,
+    -0.024464976,
+    0.010104423,
+    0.003492235,
+    -0.048097182,
+    -0.07151232,
+    0.059707735,
+    -0.0014172564,
+    0.03233762,
+    -0.0020074886,
+    -0.03981433,
+    -0.01701913,
+    0.004295178,
+    0.062202305,
+    -0.023091335,
+    -0.0036106405,
+    -0.03373706,
+    -0.039339133,
+    -0.07456825,
+    0.008855993,
+    0.030554608,
+    0.03319878,
+    -0.02939518,
+    -0.0038516175,
+    0.04344973,
+    -0.02930155,
+    -0.046343602,
+    0.037437715,
+    0.026031643,
+    -0.036259066,
+    0.021348882,
+    0.060130525,
+    0.052392848,
+    -0.0031142011,
+    0.07143287,
+    0.08145606,
+    0.041647602,
+    -0.0050712284,
+    -0.039859597,
+    -0.04093477,
+    -0.016839411,
+    -0.0509309,
+    -0.050460402,
+    -0.042696018,
+    0.0014617918,
+    -0.009770881,
+    0.04215163,
+    -0.043302763,
+    0.03069452,
+    0.008266409,
+    0.008764919,
+    0.037008543,
+    -0.056020975,
+    -0.08073983,
+    -0.0006233946,
+    0.024212621,
+    0.01979475,
+    0.0068871444,
+    -0.013530759,
+    0.05604425,
+    0.05117794,
+    0.01471873,
+    0.00032222277,
+    0.037209682,
+    0.0044479053,
+    0.011058677,
+    0.011781441,
+    -0.03373,
+    0.02829276,
+    -0.029077545,
+    -0.007953804,
+    0.053303298,
+    -0.05746787,
+    0.01873917,
+    -0.011586346,
+    -0.018883152,
+    -0.0073597883,
+    -0.0036868865,
+    0.0015809737,
+    0.015680699,
+    0.0013494891,
+    -0.016356708,
+    -0.009254074,
+    0.04668318,
+    -0.008044192,
+    0.004222352,
+    -0.0136129595,
+    0.07771472,
+    -0.048825443,
+    -0.040172357,
+    0.010037571,
+    -0.04374592,
+    0.026654422,
+    -0.0120103555,
+    -0.009646307,
+    0.015937379,
+    -0.017426161,
+    0.02495048,
+    -0.0060149287,
+    0.029467225,
+    -0.0074303197,
+    -0.030539222,
+    0.007933929,
+    0.019687537,
+    -0.019924328,
+    -0.0019534451,
+    -0.07364341,
+    -0.03579551,
+    0.02138611,
+    0.009848212,
+    0.029602306,
+    -0.046396643,
+    -0.029457055,
+    -0.056514397,
+    -0.019336235,
+    -0.037400343,
+    -0.060191292,
+    0.063156776,
+    -0.0036910404,
+    -0.050325714,
+    -0.07723174,
+    -0.026583686,
+    -0.08347132,
+    -0.022513188,
+    -0.042194493,
+    0.029407129,
+    -0.066710636,
+    0.015356978,
+    0.033099648,
+    -0.022552082,
+    0.03202641,
+    0.038395576,
+    0.048574746,
+    -0.0058837687,
+    -0.004080069,
+    0.021227857,
+    -0.043316804,
+    0.010280971,
+    0.009589481,
+    0.008084293,
+    0.032982163,
+    -0.020813895,
+    0.049798682,
+    0.049773,
+    0.043498546,
+    -0.017163303,
+    0.04963164,
+    0.002261291,
+    -0.022338143,
+    -0.10286516,
+    0.01307603,
+    -0.022628684
+  ],
+  "chunk_seq": 2,
+  "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+  "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+  "text": "IBM worked on the design and deployment of a formalized, end-to-end workflow and case management solution that replaced the current manual, spreadsheet-based processes. This new system enabled real-time tracking, operational control, and governance of remediation activities, while supporting multiple outreach and data enrichment channels such as third-party services and relationship managers.  \nThe Business is now empowered to make timely, risk-informed decisions to retain, block, or exit customers based on their financial crime risk profile.   This also improved operational efficiency, data integrity, and strategic decision-making across the Business Savings portfolio.  \nResults:  \n- Replacement of manual process by end-to-end workflow and case management told reduce manual errors and increased operational efficiency\n- Enhanced Regulatory Compliance and reduced exposure to financial crime\n- Strategic decision making across the Business Savings portfolio",
+  "name": "Chunk 2/2",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_001",
+  "raw_entities": [
+    {
+      "id": "org_001",
+      "name": "IBM",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The selling organization responsible for designing and deploying the client's automated case management system. IBM led the end-to-end design and deployment effort to replace legacy manual workflows. This engagement positioned IBM as the primary technology and consulting partner for the financial institution's operational transformation.",
+      "context": [
+        "IBM worked on the design and deployment of a formalized, end-to-end workflow and case management solution"
+      ]
+    },
+    {
+      "id": "cli_001",
+      "name": "The Business",
+      "aliases": [
+        "client",
+        "the Business"
+      ],
+      "entity_class": "CLIENT",
+      "type": "anonymous_client",
+      "description": "An anonymized financial services client that required modernization of its customer risk management and remediation workflows. The organization faced operational inefficiencies and sought a formalized system to govern financial crime risk. Post-implementation, the client gained enhanced control over customer lifecycle decisions.",
+      "context": [
+        "The Business is now empowered to make timely, risk-informed decisions",
+        "across the Business Savings portfolio"
+      ]
+    },
+    {
+      "id": "cli_002",
+      "name": "Business Savings portfolio",
+      "aliases": [
+        "Business Savings"
+      ],
+      "entity_class": "CLIENT",
+      "type": "target_segment",
+      "description": "A specific business unit or client segment within the financial institution where strategic and operational improvements were realized. The portfolio served as the primary scope for the workflow modernization initiative. Decision-making and risk governance were specifically optimized for this segment.",
+      "context": [
+        "across the Business Savings portfolio",
+        "Strategic decision making across the Business Savings portfolio"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "End-to-End Workflow and Case Management Solution",
+      "aliases": [
+        "new system",
+        "formalized workflow"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A comprehensive, automated system designed to replace manual, spreadsheet-driven processes with structured digital workflows. The solution provides real-time tracking, operational control, and governance for remediation activities. It serves as the central platform for managing customer risk and compliance operations.",
+      "context": [
+        "formalized, end-to-end workflow and case management solution",
+        "This new system enabled real-time tracking, operational control, and governance"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Manual Spreadsheet-Based Processes",
+      "aliases": [
+        "current manual processes",
+        "spreadsheet-based processes"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The client's pre-existing reliance on manual, unstructured workflows that caused operational bottlenecks and data quality issues. These legacy processes lacked real-time visibility and centralized governance. The solution was specifically deployed to eliminate these constraints and automate case management.",
+      "context": [
+        "replaced the current manual, spreadsheet-based processes",
+        "Replacement of manual process by end-to-end workflow"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Real-Time Tracking",
+      "aliases": [
+        "tracking"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The system's capability to monitor and update remediation activities and customer statuses instantly. This feature provides immediate visibility into operational workflows and case progress. It enables business users to respond quickly to emerging risk indicators.",
+      "context": [
+        "enabled real-time tracking, operational control, and governance",
+        "real-time tracking, operational control, and governance of remediation activities"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Operational Control",
+      "aliases": [
+        "control"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The ability to manage, direct, and oversee business processes with structured governance and oversight. This capability ensures that remediation activities follow standardized protocols and compliance requirements. It reduces ad-hoc decision-making in favor of governed workflows.",
+      "context": [
+        "operational control, and governance of remediation activities",
+        "operational control, and governance"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Governance of Remediation Activities",
+      "aliases": [
+        "remediation governance"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "Structured oversight and management of customer remediation workflows to ensure compliance and standardized execution. This capability aligns operational actions with regulatory standards and internal risk policies. It provides an auditable trail for all customer-related decisions.",
+      "context": [
+        "governance of remediation activities",
+        "governance of remediation activities"
+      ]
+    },
+    {
+      "id": "cap_004",
+      "name": "Data Enrichment",
+      "aliases": [
+        "enrichment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "integration_capability",
+      "description": "The capability to augment and enhance customer data through multiple outreach channels and external integrations. This function supports more accurate risk profiling and decision-making. It leverages third-party services to fill data gaps and improve client records.",
+      "context": [
+        "supporting multiple outreach and data enrichment channels",
+        "data enrichment channels"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Financial Crime Risk Profiling",
+      "aliases": [
+        "risk profile",
+        "financial crime risk"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "The application of the solution to assess customer risk levels for financial crime and regulatory compliance. This use case enables the business to evaluate accounts against defined risk thresholds. It directly informs subsequent customer lifecycle actions and remediation steps.",
+      "context": [
+        "based on their financial crime risk profile",
+        "financial crime risk profile"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Customer Lifecycle Management",
+      "aliases": [
+        "retain, block, or exit customers"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The operational scenario of managing customer relationships by deciding whether to retain, block, or exit accounts based on risk assessments. This use case addresses the need for timely, risk-informed decisions across the portfolio. It standardizes how the business interacts with high-risk or non-compliant customers.",
+      "context": [
+        "decisions to retain, block, or exit customers",
+        "retain, block, or exit customers"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Operational Efficiency",
+      "aliases": [
+        "efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Measurable improvement in workflow speed and resource utilization achieved by replacing manual processes with an automated system. The solution eliminates redundant manual steps and streamlines case handling. This gain directly reduces processing time and operational overhead.",
+      "context": [
+        "improved operational efficiency",
+        "increased operational efficiency"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Data Integrity",
+      "aliases": [
+        "data quality"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "Enhanced accuracy, consistency, and reliability of customer and transactional data within the business portfolio. The automated workflow enforces standardized data entry and validation rules. This improvement ensures that risk assessments and decisions are based on trustworthy information.",
+      "context": [
+        "data integrity, and strategic decision-making",
+        "data integrity"
+      ]
+    },
+    {
+      "id": "ben_003",
+      "name": "Strategic Decision-Making",
+      "aliases": [
+        "decision making"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "The ability to make timely, informed business choices regarding customer risk and portfolio management. The solution provides centralized visibility and analytics to support executive and operational planning. This benefit enables proactive rather than reactive portfolio management.",
+      "context": [
+        "strategic decision-making across the Business Savings portfolio",
+        "Strategic decision making across the Business Savings portfolio"
+      ]
+    },
+    {
+      "id": "ben_004",
+      "name": "Enhanced Regulatory Compliance",
+      "aliases": [
+        "compliance"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "compliance_achievement",
+      "description": "Improved adherence to regulatory requirements and standards through structured workflows and automated case management. The system enforces compliance checkpoints and audit trails for all remediation activities. This achievement reduces the likelihood of regulatory penalties or findings.",
+      "context": [
+        "Enhanced Regulatory Compliance and reduced exposure to financial crime",
+        "Enhanced Regulatory Compliance"
+      ]
+    },
+    {
+      "id": "ben_005",
+      "name": "Reduced Financial Crime Exposure",
+      "aliases": [
+        "risk reduction",
+        "crime exposure"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "Lowered vulnerability to financial crimes and associated penalties through proactive risk profiling and automated remediation. The solution mitigates exposure by enabling faster identification and action on high-risk accounts. This risk reduction protects the business from reputational and financial damage.",
+      "context": [
+        "reduced exposure to financial crime",
+        "exposure to financial crime"
+      ]
+    },
+    {
+      "id": "tech_001",
+      "name": "Third-Party Services",
+      "aliases": [
+        "external services"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "External data and service providers integrated into the solution to support outreach and data enrichment channels. These services augment the core platform with specialized data feeds and customer engagement tools. They enable the business to access external risk indicators and communication channels.",
+      "context": [
+        "such as third-party services and relationship managers",
+        "third-party services"
+      ]
+    }
+  ],
+  "id_map": {
+    "org_001": "edc0aa58c25a485a9c05c12750ec21aa_002_org_001",
+    "cli_001": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+    "cli_002": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+    "off_001": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+    "cha_001": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+    "cap_001": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+    "cap_002": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+    "cap_003": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+    "cap_004": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+    "use_001": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+    "use_002": "edc0aa58c25a485a9c05c12750ec21aa_002_use_002",
+    "ben_001": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+    "ben_002": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+    "ben_003": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+    "ben_004": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+    "ben_005": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+    "tech_001": "edc0aa58c25a485a9c05c12750ec21aa_002_tech_001"
+  },
+  "entities": [
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_org_001",
+      "name": "IBM",
+      "aliases": [],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The selling organization responsible for designing and deploying the client's automated case management system. IBM led the end-to-end design and deployment effort to replace legacy manual workflows. This engagement positioned IBM as the primary technology and consulting partner for the financial institution's operational transformation.",
+      "context": [
+        "IBM worked on the design and deployment of a formalized, end-to-end workflow and case management solution"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+      "name": "The Business",
+      "aliases": [
+        "client",
+        "the Business"
+      ],
+      "entity_class": "CLIENT",
+      "type": "anonymous_client",
+      "description": "An anonymized financial services client that required modernization of its customer risk management and remediation workflows. The organization faced operational inefficiencies and sought a formalized system to govern financial crime risk. Post-implementation, the client gained enhanced control over customer lifecycle decisions.",
+      "context": [
+        "The Business is now empowered to make timely, risk-informed decisions",
+        "across the Business Savings portfolio"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "name": "Business Savings portfolio",
+      "aliases": [
+        "Business Savings"
+      ],
+      "entity_class": "CLIENT",
+      "type": "target_segment",
+      "description": "A specific business unit or client segment within the financial institution where strategic and operational improvements were realized. The portfolio served as the primary scope for the workflow modernization initiative. Decision-making and risk governance were specifically optimized for this segment.",
+      "context": [
+        "across the Business Savings portfolio",
+        "Strategic decision making across the Business Savings portfolio"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "name": "End-to-End Workflow and Case Management Solution",
+      "aliases": [
+        "new system",
+        "formalized workflow"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A comprehensive, automated system designed to replace manual, spreadsheet-driven processes with structured digital workflows. The solution provides real-time tracking, operational control, and governance for remediation activities. It serves as the central platform for managing customer risk and compliance operations.",
+      "context": [
+        "formalized, end-to-end workflow and case management solution",
+        "This new system enabled real-time tracking, operational control, and governance"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+      "name": "Manual Spreadsheet-Based Processes",
+      "aliases": [
+        "current manual processes",
+        "spreadsheet-based processes"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "legacy_constraint",
+      "description": "The client's pre-existing reliance on manual, unstructured workflows that caused operational bottlenecks and data quality issues. These legacy processes lacked real-time visibility and centralized governance. The solution was specifically deployed to eliminate these constraints and automate case management.",
+      "context": [
+        "replaced the current manual, spreadsheet-based processes",
+        "Replacement of manual process by end-to-end workflow"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+      "name": "Real-Time Tracking",
+      "aliases": [
+        "tracking"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The system's capability to monitor and update remediation activities and customer statuses instantly. This feature provides immediate visibility into operational workflows and case progress. It enables business users to respond quickly to emerging risk indicators.",
+      "context": [
+        "enabled real-time tracking, operational control, and governance",
+        "real-time tracking, operational control, and governance of remediation activities"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+      "name": "Operational Control",
+      "aliases": [
+        "control"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The ability to manage, direct, and oversee business processes with structured governance and oversight. This capability ensures that remediation activities follow standardized protocols and compliance requirements. It reduces ad-hoc decision-making in favor of governed workflows.",
+      "context": [
+        "operational control, and governance of remediation activities",
+        "operational control, and governance"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+      "name": "Governance of Remediation Activities",
+      "aliases": [
+        "remediation governance"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "Structured oversight and management of customer remediation workflows to ensure compliance and standardized execution. This capability aligns operational actions with regulatory standards and internal risk policies. It provides an auditable trail for all customer-related decisions.",
+      "context": [
+        "governance of remediation activities",
+        "governance of remediation activities"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+      "name": "Data Enrichment",
+      "aliases": [
+        "enrichment"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "integration_capability",
+      "description": "The capability to augment and enhance customer data through multiple outreach channels and external integrations. This function supports more accurate risk profiling and decision-making. It leverages third-party services to fill data gaps and improve client records.",
+      "context": [
+        "supporting multiple outreach and data enrichment channels",
+        "data enrichment channels"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+      "name": "Financial Crime Risk Profiling",
+      "aliases": [
+        "risk profile",
+        "financial crime risk"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "compliance",
+      "description": "The application of the solution to assess customer risk levels for financial crime and regulatory compliance. This use case enables the business to evaluate accounts against defined risk thresholds. It directly informs subsequent customer lifecycle actions and remediation steps.",
+      "context": [
+        "based on their financial crime risk profile",
+        "financial crime risk profile"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_002",
+      "name": "Customer Lifecycle Management",
+      "aliases": [
+        "retain, block, or exit customers"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "customer_experience",
+      "description": "The operational scenario of managing customer relationships by deciding whether to retain, block, or exit accounts based on risk assessments. This use case addresses the need for timely, risk-informed decisions across the portfolio. It standardizes how the business interacts with high-risk or non-compliant customers.",
+      "context": [
+        "decisions to retain, block, or exit customers",
+        "retain, block, or exit customers"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+      "name": "Operational Efficiency",
+      "aliases": [
+        "efficiency"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "efficiency_gain",
+      "description": "Measurable improvement in workflow speed and resource utilization achieved by replacing manual processes with an automated system. The solution eliminates redundant manual steps and streamlines case handling. This gain directly reduces processing time and operational overhead.",
+      "context": [
+        "improved operational efficiency",
+        "increased operational efficiency"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+      "name": "Data Integrity",
+      "aliases": [
+        "data quality"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "quality_improvement",
+      "description": "Enhanced accuracy, consistency, and reliability of customer and transactional data within the business portfolio. The automated workflow enforces standardized data entry and validation rules. This improvement ensures that risk assessments and decisions are based on trustworthy information.",
+      "context": [
+        "data integrity, and strategic decision-making",
+        "data integrity"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+      "name": "Strategic Decision-Making",
+      "aliases": [
+        "decision making"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "The ability to make timely, informed business choices regarding customer risk and portfolio management. The solution provides centralized visibility and analytics to support executive and operational planning. This benefit enables proactive rather than reactive portfolio management.",
+      "context": [
+        "strategic decision-making across the Business Savings portfolio",
+        "Strategic decision making across the Business Savings portfolio"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+      "name": "Enhanced Regulatory Compliance",
+      "aliases": [
+        "compliance"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "compliance_achievement",
+      "description": "Improved adherence to regulatory requirements and standards through structured workflows and automated case management. The system enforces compliance checkpoints and audit trails for all remediation activities. This achievement reduces the likelihood of regulatory penalties or findings.",
+      "context": [
+        "Enhanced Regulatory Compliance and reduced exposure to financial crime",
+        "Enhanced Regulatory Compliance"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+      "name": "Reduced Financial Crime Exposure",
+      "aliases": [
+        "risk reduction",
+        "crime exposure"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "Lowered vulnerability to financial crimes and associated penalties through proactive risk profiling and automated remediation. The solution mitigates exposure by enabling faster identification and action on high-risk accounts. This risk reduction protects the business from reputational and financial damage.",
+      "context": [
+        "reduced exposure to financial crime",
+        "exposure to financial crime"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_tech_001",
+      "name": "Third-Party Services",
+      "aliases": [
+        "external services"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "External data and service providers integrated into the solution to support outreach and data enrichment channels. These services augment the core platform with specialized data feeds and customer engagement tools. They enable the business to access external risk indicators and communication channels.",
+      "context": [
+        "such as third-party services and relationship managers",
+        "third-party services"
+      ],
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_org_001",
+      "name": "IBM",
+      "properties": {
+        "org_type": [
+          "vendor"
+        ],
+        "relationship_to_offering": [
+          "designer_and_deployer"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+      "name": "The Business",
+      "properties": {
+        "industry": [
+          "banking",
+          "financial_services"
+        ],
+        "relationship_status": [
+          "active"
+        ],
+        "named_or_anonymous": true,
+        "pain_points": [
+          "manual spreadsheet-based processes",
+          "lack of real-time tracking",
+          "operational control gaps"
+        ],
+        "engagement_type": [
+          "workflow_and_case_management_solution"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "name": "Business Savings portfolio",
+      "properties": {
+        "industry": [
+          "banking"
+        ],
+        "relationship_status": [
+          "active"
+        ],
+        "named_or_anonymous": true,
+        "pain_points": [
+          "manual processes",
+          "data integrity issues",
+          "suboptimal strategic decision-making"
+        ],
+        "engagement_type": [
+          "portfolio_optimization"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "name": "End-to-End Workflow and Case Management Solution",
+      "properties": {
+        "offering_type": [
+          "solution"
+        ],
+        "scope": [
+          "end-to-end workflow",
+          "case management",
+          "outreach and data enrichment channels"
+        ],
+        "target_client_profile": [
+          "financial_services",
+          "business_savings_portfolios"
+        ],
+        "key_phases_or_components": [
+          "design",
+          "deployment",
+          "real-time_tracking",
+          "operational_control",
+          "remediation_governance",
+          "data_enrichment"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+      "name": "Manual Spreadsheet-Based Processes",
+      "properties": {
+        "root_cause": [
+          "legacy_manual_workflows",
+          "spreadsheet_dependency"
+        ],
+        "business_impact": [
+          "increased_manual_errors",
+          "operational_inefficiency",
+          "lack_of_real-time_visibility",
+          "regulatory_exposure"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "The_Business"
+        ],
+        "current_workaround": [
+          "manual_spreadsheets"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+      "name": "Real-Time Tracking",
+      "properties": {
+        "what_it_does": [
+          "provides_immediate_visibility_into_workflow_and_case_status"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "enables_timely_risk_informed_decisions"
+        ],
+        "industry_applicability": [
+          "financial_services"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+      "name": "Operational Control",
+      "properties": {
+        "what_it_does": [
+          "standardizes_and_manages_workflow_execution"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "replaces_fragmented_manual_processes_with_formalized_controls"
+        ],
+        "industry_applicability": [
+          "financial_services"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+      "name": "Governance of Remediation Activities",
+      "properties": {
+        "what_it_does": [
+          "oversees_and_manages_remediation_processes"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "ensures_compliance_and_reduces_financial_crime_exposure"
+        ],
+        "industry_applicability": [
+          "financial_services"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+      "name": "Data Enrichment",
+      "properties": {
+        "what_it_does": [
+          "enhances_customer_data_through_multiple_channels"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "integrates_third-party_services_and_relationship_managers"
+        ],
+        "industry_applicability": [
+          "financial_services"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+      "name": "Financial Crime Risk Profiling",
+      "properties": {
+        "problem_context": [
+          "managing_customer_financial_crime_risk"
+        ],
+        "approach": [
+          "risk_informed_decision_making_using_enriched_data_and_real_time_tracking"
+        ],
+        "industry": [
+          "financial_services"
+        ],
+        "outcome_achieved": [
+          "timely_decisions_to_retain_block_or_exit_customers",
+          "reduced_exposure_to_financial_crime"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_002",
+      "name": "Customer Lifecycle Management",
+      "properties": {
+        "problem_context": [
+          "managing_customer_relationships_and_portfolio_strategy"
+        ],
+        "approach": [
+          "workflow_driven_case_management_with_operational_control_and_data_enrichment"
+        ],
+        "industry": [
+          "financial_services"
+        ],
+        "outcome_achieved": [
+          "improved_operational_efficiency",
+          "enhanced_strategic_decision_making"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+      "name": "Operational Efficiency",
+      "properties": {
+        "beneficiary": [
+          "The_Business"
+        ],
+        "category": [
+          "efficiency",
+          "cost"
+        ],
+        "evidence_type": [
+          "claimed"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+      "name": "Data Integrity",
+      "properties": {
+        "beneficiary": [
+          "The_Business"
+        ],
+        "category": [
+          "quality",
+          "risk"
+        ],
+        "evidence_type": [
+          "claimed"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+      "name": "Strategic Decision-Making",
+      "properties": {
+        "beneficiary": [
+          "The_Business",
+          "Business_Savings_Portfolio"
+        ],
+        "category": [
+          "strategy",
+          "revenue"
+        ],
+        "evidence_type": [
+          "claimed"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+      "name": "Enhanced Regulatory Compliance",
+      "properties": {
+        "beneficiary": [
+          "The_Business"
+        ],
+        "category": [
+          "risk",
+          "compliance"
+        ],
+        "evidence_type": [
+          "claimed"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+      "name": "Reduced Financial Crime Exposure",
+      "properties": {
+        "beneficiary": [
+          "The_Business"
+        ],
+        "category": [
+          "risk"
+        ],
+        "evidence_type": [
+          "claimed"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "id": "edc0aa58c25a485a9c05c12750ec21aa_002_tech_001",
+      "name": "Third-Party Services",
+      "properties": {
+        "technology_category": [
+          "data_integration",
+          "outreach"
+        ],
+        "role_in_solution": [
+          "supporting",
+          "data_enrichment"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "enables_data_enrichment_and_outreach_channels"
+        ]
+      },
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_org_001",
+      "source_name": "IBM",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "target_name": "End-to-End Workflow and Case Management Solution",
+      "rel_type": "delivered",
+      "description": "IBM designed and deployed the end-to-end workflow and case management solution.",
+      "properties": {
+        "role": "designer_and_deployer",
+        "project_phase": "completed"
+      },
+      "context": "IBM worked on the design and deployment of a formalized, end-to-end workflow and case management solution",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+      "target_name": "Manual Spreadsheet-Based Processes",
+      "rel_type": "replaces",
+      "description": "The solution replaced legacy manual and spreadsheet-based processes.",
+      "properties": {
+        "completeness": "full",
+        "approach": "formalized_workflow"
+      },
+      "context": "replaced the current manual, spreadsheet-based processes",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+      "target_name": "Real-Time Tracking",
+      "rel_type": "comprises",
+      "description": "The solution includes real-time tracking as a core capability.",
+      "properties": {
+        "component_type": "tracking_feature",
+        "optional": false
+      },
+      "context": "enabled real-time tracking",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+      "target_name": "Operational Control",
+      "rel_type": "comprises",
+      "description": "The solution provides operational control over processes.",
+      "properties": {
+        "component_type": "control_feature",
+        "optional": false
+      },
+      "context": "operational control",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+      "target_name": "Governance of Remediation Activities",
+      "rel_type": "comprises",
+      "description": "The solution governs remediation activities.",
+      "properties": {
+        "component_type": "governance_feature",
+        "optional": false
+      },
+      "context": "governance of remediation activities",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+      "target_name": "Data Enrichment",
+      "rel_type": "comprises",
+      "description": "The solution supports data enrichment channels.",
+      "properties": {
+        "component_type": "enrichment_feature",
+        "optional": false
+      },
+      "context": "data enrichment channels",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_tech_001",
+      "target_name": "Third-Party Services",
+      "rel_type": "integrates_with",
+      "description": "The solution integrates with third-party services for outreach and enrichment.",
+      "properties": {
+        "integration_type": "channel_support",
+        "status": "active"
+      },
+      "context": "supporting multiple outreach and data enrichment channels such as third-party services",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+      "source_name": "The Business",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+      "target_name": "Financial Crime Risk Profiling",
+      "rel_type": "uses",
+      "description": "The Business applies financial crime risk profiling to make customer decisions.",
+      "properties": {
+        "application_context": "customer_retention_and_exit",
+        "decision_type": "risk_informed"
+      },
+      "context": "make timely, risk-informed decisions to retain, block, or exit customers based on their financial crime risk profile",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+      "source_name": "The Business",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "target_name": "End-to-End Workflow and Case Management Solution",
+      "rel_type": "engaged_with",
+      "description": "The Business adopted and utilizes the new workflow solution.",
+      "properties": {
+        "adoption_status": "fully_operational",
+        "empowerment_level": "high"
+      },
+      "context": "The Business is now empowered to make timely, risk-informed decisions",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+      "target_name": "Operational Efficiency",
+      "rel_type": "achieved",
+      "description": "The solution delivered measurable improvements in operational efficiency.",
+      "properties": {
+        "metric": "operational_efficiency",
+        "value": "increased",
+        "timeframe": "post_deployment"
+      },
+      "context": "increased operational efficiency",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+      "target_name": "Data Integrity",
+      "rel_type": "achieved",
+      "description": "The solution improved data integrity across the portfolio.",
+      "properties": {
+        "metric": "data_integrity",
+        "value": "improved",
+        "timeframe": "post_deployment"
+      },
+      "context": "improved ... data integrity",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+      "target_name": "Strategic Decision-Making",
+      "rel_type": "achieved",
+      "description": "The solution enhanced strategic decision-making capabilities.",
+      "properties": {
+        "metric": "strategic_decision_making",
+        "value": "improved",
+        "timeframe": "post_deployment"
+      },
+      "context": "improved ... strategic decision-making",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "source_name": "Business Savings portfolio",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+      "target_name": "Operational Efficiency",
+      "rel_type": "achieved",
+      "description": "The Business Savings portfolio realized gains in operational efficiency.",
+      "properties": {
+        "metric": "operational_efficiency",
+        "value": "increased",
+        "timeframe": "post_deployment"
+      },
+      "context": "across the Business Savings portfolio",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "source_name": "Business Savings portfolio",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+      "target_name": "Data Integrity",
+      "rel_type": "achieved",
+      "description": "The Business Savings portfolio experienced improved data integrity.",
+      "properties": {
+        "metric": "data_integrity",
+        "value": "improved",
+        "timeframe": "post_deployment"
+      },
+      "context": "across the Business Savings portfolio",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "source_name": "Business Savings portfolio",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+      "target_name": "Strategic Decision-Making",
+      "rel_type": "achieved",
+      "description": "The Business Savings portfolio achieved enhanced strategic decision-making.",
+      "properties": {
+        "metric": "strategic_decision_making",
+        "value": "improved",
+        "timeframe": "post_deployment"
+      },
+      "context": "across the Business Savings portfolio",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+      "target_name": "Enhanced Regulatory Compliance",
+      "rel_type": "achieved",
+      "description": "The solution delivered enhanced regulatory compliance outcomes.",
+      "properties": {
+        "metric": "regulatory_compliance",
+        "value": "enhanced",
+        "timeframe": "post_deployment"
+      },
+      "context": "Enhanced Regulatory Compliance",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+      "target_name": "Reduced Financial Crime Exposure",
+      "rel_type": "achieved",
+      "description": "The solution reduced the client's exposure to financial crime.",
+      "properties": {
+        "metric": "financial_crime_exposure",
+        "value": "reduced",
+        "timeframe": "post_deployment"
+      },
+      "context": "reduced exposure to financial crime",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "source_name": "Business Savings portfolio",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+      "target_name": "Enhanced Regulatory Compliance",
+      "rel_type": "achieved",
+      "description": "The Business Savings portfolio achieved enhanced regulatory compliance.",
+      "properties": {
+        "metric": "regulatory_compliance",
+        "value": "enhanced",
+        "timeframe": "post_deployment"
+      },
+      "context": "Enhanced Regulatory Compliance",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "source_name": "Business Savings portfolio",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+      "target_name": "Reduced Financial Crime Exposure",
+      "rel_type": "achieved",
+      "description": "The Business Savings portfolio realized reduced exposure to financial crime.",
+      "properties": {
+        "metric": "financial_crime_exposure",
+        "value": "reduced",
+        "timeframe": "post_deployment"
+      },
+      "context": "reduced exposure to financial crime",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+      "source_name": "Real-Time Tracking",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+      "target_name": "Operational Efficiency",
+      "rel_type": "delivers",
+      "description": "Real-time tracking directly contributes to improved operational efficiency.",
+      "properties": {
+        "delivery_mechanism": "visibility_and_speed",
+        "impact_level": "high"
+      },
+      "context": "enabled real-time tracking... increased operational efficiency",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+      "source_name": "Operational Control",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+      "target_name": "Operational Efficiency",
+      "rel_type": "delivers",
+      "description": "Operational control capabilities drive operational efficiency gains.",
+      "properties": {
+        "delivery_mechanism": "process_oversight",
+        "impact_level": "high"
+      },
+      "context": "operational control... increased operational efficiency",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+      "source_name": "Governance of Remediation Activities",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+      "target_name": "Enhanced Regulatory Compliance",
+      "rel_type": "delivers",
+      "description": "Governance of remediation activities ensures regulatory compliance.",
+      "properties": {
+        "delivery_mechanism": "remediation_oversight",
+        "impact_level": "high"
+      },
+      "context": "governance of remediation activities... Enhanced Regulatory Compliance",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+      "source_name": "Data Enrichment",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+      "target_name": "Data Integrity",
+      "rel_type": "delivers",
+      "description": "Data enrichment processes directly improve data integrity.",
+      "properties": {
+        "delivery_mechanism": "data_augmentation",
+        "impact_level": "high"
+      },
+      "context": "data enrichment channels... data integrity",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+      "source_name": "Financial Crime Risk Profiling",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+      "target_name": "Manual Spreadsheet-Based Processes",
+      "rel_type": "solves",
+      "description": "Financial crime risk profiling addresses the inefficiencies of manual spreadsheet processes.",
+      "properties": {
+        "approach": "automated_risk_assessment",
+        "completeness": "full"
+      },
+      "context": "based on their financial crime risk profile",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+      "source_name": "Financial Crime Risk Profiling",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+      "target_name": "Reduced Financial Crime Exposure",
+      "rel_type": "leads_to",
+      "description": "Applying financial crime risk profiling leads to reduced exposure to financial crime.",
+      "properties": {
+        "causal_mechanism": "risk_identification_and_mitigation",
+        "impact_level": "significant"
+      },
+      "context": "financial crime risk profile... reduced exposure to financial crime",
+      "bidirectional": false,
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_org_001",
+      "source_name": "IBM",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_001",
+      "source_name": "The Business",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cli_002",
+      "source_name": "Business Savings portfolio",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_off_001",
+      "source_name": "End-to-End Workflow and Case Management Solution",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cha_001",
+      "source_name": "Manual Spreadsheet-Based Processes",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_001",
+      "source_name": "Real-Time Tracking",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_002",
+      "source_name": "Operational Control",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_003",
+      "source_name": "Governance of Remediation Activities",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_cap_004",
+      "source_name": "Data Enrichment",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_001",
+      "source_name": "Financial Crime Risk Profiling",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_use_002",
+      "source_name": "Customer Lifecycle Management",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_001",
+      "source_name": "Operational Efficiency",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_002",
+      "source_name": "Data Integrity",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_003",
+      "source_name": "Strategic Decision-Making",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_004",
+      "source_name": "Enhanced Regulatory Compliance",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_ben_005",
+      "source_name": "Reduced Financial Crime Exposure",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "edc0aa58c25a485a9c05c12750ec21aa_002_tech_001",
+      "source_name": "Third-Party Services",
+      "target_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "target_name": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "edc0aa58c25a485a9c05c12750ec21aa_002",
+      "doc_id": "edc0aa58c25a485a9c05c12750ec21aa",
+      "domain": "sales_collateral"
+    }
+  ]
+}

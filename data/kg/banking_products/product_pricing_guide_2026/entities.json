@@ -1,0 +1,1881 @@
+[
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_001_prd_001",
+    "name": "Product Pricing Guide 2026",
+    "aliases": [
+      "PRC-GUIDE-2026"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "pricing_guide",
+    "description": "The official pricing and product guide for FirstUK Bank effective from January 15, 2026. It serves as a reference for staff, customers, sales, and marketing departments.",
+    "context": [
+      "FirstUK Bank — Product Pricing Guide 2026",
+      "Document ID | PRC-GUIDE-2026"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_001",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_002_cls_001",
+    "name": "Price Review Policy",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "The bank's policy regarding the frequency and timing of pricing reviews for retail banking products. Prices are reviewed on a quarterly basis and updated as required.",
+    "context": [
+      "Prices reviewed quarterly and updated as needed."
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_002",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_003_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings product offered by FirstUK Bank with a variable interest rate structure based on the Bank of England Base Rate.",
+    "context": [
+      "SMARTSAVER ACCOUNT (SAV-001)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_003_rat_001",
+    "name": "SmartSaver Variable Rate — Bank of England Base Rate + 2.5% Margin",
+    "aliases": [
+      "Base Calculation"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "savings_rate",
+    "description": "A variable interest rate applied to the SmartSaver Account, calculated as the Bank of England Base Rate plus a 2.5% margin. The rate is subject to monthly review.",
+    "context": [
+      "Rate Type: Variable (reviewed monthly)",
+      "Base Calculation: Bank of England Base Rate + 2.5% Margin"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_003_cls_001",
+    "name": "SmartSaver Interest Rate Review Policy",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "The contractual provision stating that the interest rate for the SmartSaver account is variable and is reviewed by the bank on a monthly basis.",
+    "context": [
+      "Rate Type: Variable (reviewed monthly)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_003",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_001",
+    "name": "Interest Rate Tier 1 — 4.50% AER/Gross (£0–£10,000)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "tiered_rate",
+    "description": "The first interest rate tier applying to balances between £0 and £10,000, offering an annual interest rate of 4.50% AER and Gross.",
+    "context": [
+      "£0–£10,000 | 4.50% | 4.50%",
+      "£10,000 balance in Tier 1"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_002",
+    "name": "Interest Rate Tier 2 — 4.70% AER/Gross (£10,001–£50,000)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "tiered_rate",
+    "description": "The second interest rate tier applying to balances between £10,001 and £50,000, offering an annual interest rate of 4.70% AER and Gross.",
+    "context": [
+      "£10,001–£50,000 | 4.70% | 4.70%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_004_rat_003",
+    "name": "Interest Rate Tier 3 — 4.80% AER/Gross (£50,001+)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "tiered_rate",
+    "description": "The highest interest rate tier applying to balances exceeding £50,000, offering an annual interest rate of 4.80% AER and Gross.",
+    "context": [
+      "£50,001+ | 4.80% | 4.80%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_004_cls_001",
+    "name": "Interest Accrual Rule",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "The contractual provision defining how interest is calculated and paid. Interest is calculated daily and paid on the last business day of the month.",
+    "context": [
+      "Interest Accrual: Monthly (calculated daily, paid on last business day of month)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_004",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_005_cls_001",
+    "name": "Interest Rate Variation Basis",
+    "aliases": [
+      "Variation Basis"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "The contractual framework governing how the product's interest rate is adjusted. It is tied to the Bank of England Base Rate with a fixed margin of 2.5%, reviewed monthly.",
+    "context": [
+      "Review Frequency: Monthly",
+      "Trigger: Bank of England Base Rate changes",
+      "Basis: BoE Base Rate + 2.5% Margin (fixed margin)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_005_ftr_001",
+    "name": "Rate Change Email Notifications",
+    "aliases": [
+      "Notification"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "service_feature",
+    "description": "An opt-in service that allows customers to receive email alerts whenever the product's interest rate changes.",
+    "context": [
+      "Notification: Email alert when rate changes (customer can opt-in)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_005_cls_002",
+    "name": "Rate Change Effective Date Clause",
+    "aliases": [
+      "Effective Date"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "The provision specifying that any changes to the interest rate become effective on the 1st of the month following the trigger event.",
+    "context": [
+      "Effective Date: Rate change effective 1st of following month"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_005_rat_001",
+    "name": "Variable Rate — BoE Base Rate + 2.5% Margin",
+    "aliases": [
+      "Fixed Margin"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "variable_mortgage_rate",
+    "description": "A variable interest rate calculated by adding a fixed margin of 2.5% to the current Bank of England Base Rate.",
+    "context": [
+      "Basis: BoE Base Rate + 2.5% Margin (fixed margin)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_005",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_007_fee_001",
+    "name": "Monthly Maintenance Fee — £0.00",
+    "aliases": [
+      "Maintenance Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "A recurring monthly charge for the maintenance of the account. This fee is explicitly set at £0.00, indicating the service is free for the customer.",
+    "context": [
+      "Monthly Maintenance Fee: £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_007_elig_001",
+    "name": "Minimum Opening Balance Requirement — £1.00",
+    "aliases": [
+      "Minimum Opening Balance"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "balance_requirement",
+    "description": "The minimum amount of funds required to be deposited by a customer to successfully open the account. The required threshold is £1.00.",
+    "context": [
+      "Minimum Opening Balance: £1.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_007_cls_001",
+    "name": "Maximum Balance Limit Provision",
+    "aliases": [
+      "Maximum Balance"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "The contractual limit on the total balance a customer can hold within the account. The document specifies that there is no upper limit on the balance.",
+    "context": [
+      "Maximum Balance: Unlimited"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_007_ftr_001",
+    "name": "Overdraft Facility Availability",
+    "aliases": [
+      "Overdraft"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "payment_feature",
+    "description": "The capability for an account to go into a negative balance. This specific product does not offer an overdraft facility.",
+    "context": [
+      "Overdraft Facility: Not available"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_007",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_001",
+    "name": "ATM Withdrawal (UK) Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee applied to ATM withdrawals made within the UK. This service is explicitly provided at no cost to the customer.",
+    "context": [
+      "ATM Withdrawal (UK) | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_002",
+    "name": "ATM Withdrawal (International) Fee — £2.50",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A charge of £2.50 levied on the customer for each ATM withdrawal performed internationally.",
+    "context": [
+      "ATM Withdrawal (International) | £2.50"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_003",
+    "name": "International Transfer Fee — £5.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A specific charge of £5.00 applied to each international transfer transaction.",
+    "context": [
+      "International Transfer | £5.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_004",
+    "name": "Domestic Transfer Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee applied to domestic transfers. This service is explicitly provided at no cost to the customer.",
+    "context": [
+      "Domestic Transfer | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_005",
+    "name": "Standing Order Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee associated with the setup or execution of standing orders. This service is explicitly provided at no cost to the customer.",
+    "context": [
+      "Standing Order | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_008_fee_006",
+    "name": "Direct Debit Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee associated with the processing of direct debits. This service is explicitly provided at no cost to the customer.",
+    "context": [
+      "Direct Debit | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_008",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_001",
+    "name": "Debit Card (Initial) — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "A fee of £0.00 is charged for the issuance of the initial debit card.",
+    "context": [
+      "Debit Card (Initial) | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_002",
+    "name": "Card Replacement — £15.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "A charge of £15.00 is applied when a customer requests a replacement card.",
+    "context": [
+      "Card Replacement | £15.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_003",
+    "name": "Expedited Card Replacement (1–2 days) — £25.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "A premium fee of £25.00 is charged for expedited delivery of a replacement card within 1–2 days.",
+    "context": [
+      "Expedited Card Replacement (1–2 days) | £25.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_009_fee_004",
+    "name": "Virtual Card Number (for online shopping) — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "The provision of virtual card numbers for the purpose of online shopping is offered at no cost (£0.00).",
+    "context": [
+      "Virtual Card Number (for online shopping) | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_001",
+    "name": "Debit Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "The physical payment card issued to the customer, subject to initial and replacement fees.",
+    "context": [
+      "Debit Card (Initial)",
+      "Card Replacement",
+      "Expedited Card Replacement (1–2 days)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_009_crd_002",
+    "name": "Virtual Card Number",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "contactless",
+    "description": "A digital card number provided specifically for use in online shopping transactions.",
+    "context": [
+      "Virtual Card Number (for online shopping)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_009",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_001",
+    "name": "Account Closure Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "closure_fee",
+    "description": "The cost associated with closing the account. The bank explicitly states there is no charge for this service.",
+    "context": [
+      "Account Closure | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_002",
+    "name": "Statement Reprint Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "The cost for requesting a reprinted copy of an account statement. This service is provided free of charge.",
+    "context": [
+      "Statement Reprint | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_003",
+    "name": "Dormancy Letter Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "The cost for issuing a letter regarding account dormancy. There is no fee charged for this notification.",
+    "context": [
+      "Dormancy Letter | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_004",
+    "name": "Chequebook Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "The cost for a chequebook, where offered. This service is provided at no cost to the customer.",
+    "context": [
+      "Chequebook (if offered) | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_010_fee_005",
+    "name": "Total Annual Cost (Typical Customer) — £0.00",
+    "aliases": [
+      "Typical Annual Cost"
+    ],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "The estimated total annual cost for a typical customer using the product. The document explicitly states there are no fees.",
+    "context": [
+      "Total Annual Cost (Typical Customer): £0.00 (no fees)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_010",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_011_prd_001",
+    "name": "SmartSaver Plus Account",
+    "aliases": [
+      "SAV-002"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "premium_savings",
+    "description": "A premium savings product offered by FirstUK Bank with a variable interest rate based on the Bank of England Base Rate plus a margin.",
+    "context": [
+      "SMARTSAVER PLUS ACCOUNT (SAV-002)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_011_rat_001",
+    "name": "SmartSaver Plus Variable Rate — BoE Base Rate + 2.75% Margin (£50,001+)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "savings_rate",
+    "description": "A variable interest rate applied to balances of £50,001 and above. The rate is reviewed monthly and calculated as the Bank of England Base Rate plus a 2.75% margin.",
+    "context": [
+      "Rate Type: Variable (reviewed monthly)",
+      "Base Calculation: Bank of England Base Rate + 2.75% Margin",
+      "Minimum Balance for this Rate: £50,001"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_011_elig_001",
+    "name": "SmartSaver Plus Minimum Balance Requirement",
+    "aliases": [],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "balance_requirement",
+    "description": "A balance requirement specifying that a minimum of £50,001 is needed to qualify for the specific interest rate tier of the SmartSaver Plus account.",
+    "context": [
+      "Minimum Balance for this Rate: £50,001"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_011",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_012_rat_001",
+    "name": "Universal Savings Rate — 5.25% AER (All balances)",
+    "aliases": [
+      "All balances rate"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "savings_rate",
+    "description": "A flat interest rate of 5.25% AER applied to all account balances regardless of the amount held. Interest is accrued on a monthly basis.",
+    "context": [
+      "Balance | Annual Interest Rate (AER)",
+      "All balances | 5.25%",
+      "Interest Accrual: Monthly"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_012_cls_001",
+    "name": "Interest Calculation and Accrual Rule",
+    "aliases": [
+      "Interest Accrual"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "The provision governing how interest is calculated and credited to the account. It specifies that interest accrues monthly based on the AER.",
+    "context": [
+      "Interest Accrual: Monthly",
+      "Monthly interest: £437.50 (= £100,000 × 5.25% ÷ 12)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_012",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_013_fee_001",
+    "name": "Premium Account Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "A monthly maintenance fee for the Premium Account which is currently set at £0.00, as it is offset by higher interest rates.",
+    "context": [
+      "Premium Account Fee: £0.00 (offset by higher rates)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_013_prd_001",
+    "name": "Premium Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "premium_savings",
+    "description": "A banking product that offers higher interest rates to offset its account fees.",
+    "context": [
+      "Premium Account Fee: £0.00 (offset by higher rates)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_013_prd_002",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A banking product whose fee structure serves as the baseline for other account types, including the Premium Account.",
+    "context": [
+      "All Other Fees: Same as SmartSaver Account"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_013",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_001",
+    "name": "Dedicated Relationship Manager",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "premium_service",
+    "description": "A value-added service providing the customer with a dedicated relationship manager accessible via phone support.",
+    "context": [
+      "Dedicated relationship manager (phone support)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_002",
+    "name": "Priority Customer Service",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "service_feature",
+    "description": "An enhanced customer service feature that guarantees a response time within 24 hours.",
+    "context": [
+      "Priority customer service (24-hour response)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_014_ftr_003",
+    "name": "Annual Financial Planning Review",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "premium_service",
+    "description": "A value-added service consisting of a financial planning review conducted on an annual basis.",
+    "context": [
+      "Annual financial planning review"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_014_fee_001",
+    "name": "Waived International Transfer Fee (£0)",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee waiver for international transfers, meaning the customer is not charged for these transactions.",
+    "context": [
+      "Waived international transfer fees"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_014",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_015_prd_001",
+    "name": "Current Account",
+    "aliases": [
+      "CURR-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A standard banking product offered by FirstUK Bank for everyday financial transactions. It carries the product code CURR-001.",
+    "context": [
+      "CURRENT ACCOUNT (CURR-001)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_015_rat_001",
+    "name": "Current Account Savings Interest — £0.00",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "savings_rate",
+    "description": "The interest rate applicable to balances held within the Current Account. This product does not accrue interest.",
+    "context": [
+      "Savings Interest: £0.00 (no interest on current account)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_015_rat_002",
+    "name": "Arranged Overdraft Interest Rate — 15.00% AER",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "overdraft_rate",
+    "description": "The annual equivalent rate (AER) applied to balances when the account is in an arranged overdraft position.",
+    "context": [
+      "Overdraft Interest Rate (if Arranged): 15.00% AER"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_015",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_001",
+    "name": "Arranged Overdraft Rate — 15%",
+    "aliases": [
+      "Arranged Overdraft"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "overdraft_rate",
+    "description": "An interest rate of 15% applied to an arranged overdraft limit of £1,000. This results in a daily interest charge of £0.41 and a monthly charge of £12.50.",
+    "context": [
+      "Arranged Overdraft of £1,000 at 15%",
+      "Daily interest: £0.41",
+      "Monthly interest: £12.50",
+      "Annual interest: £150.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_016_rat_002",
+    "name": "Unarranged Overdraft Rate — 25.00% AER",
+    "aliases": [
+      "Unarranged Overdraft"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "overdraft_rate",
+    "description": "An interest rate of 25.00% AER applied to overdrafts that have not been previously arranged with the bank.",
+    "context": [
+      "Unarranged Overdraft: 25.00% AER"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_016_fee_001",
+    "name": "Unarranged Overdraft Daily Fee — £5",
+    "aliases": [
+      "daily fee"
+    ],
+    "entity_class": "FEE",
+    "type": "overdraft_fee",
+    "description": "A recurring daily charge of £5 levied on customers using an unarranged overdraft facility.",
+    "context": [
+      "Unarranged Overdraft: 25.00% AER + £5 daily fee"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_016",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_017_fee_001",
+    "name": "Monthly Account Fee — £0.00",
+    "aliases": [
+      "Monthly Account Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "A monthly charge levied on the account, which is explicitly set to zero pounds.",
+    "context": [
+      "Monthly Account Fee: £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_017_fee_002",
+    "name": "Overdraft Arrangement Fee — £0.00 (first time)",
+    "aliases": [
+      "Overdraft Arrangement Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "overdraft_fee",
+    "description": "A fee charged for the initial arrangement of an overdraft, which is free for the first time.",
+    "context": [
+      "Overdraft Arrangement Fee: £0.00 (first time)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_017",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_001",
+    "name": "Domestic Transfer Fee — £0.00",
+    "aliases": [
+      "Domestic Transfer"
+    ],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A transaction fee applied to domestic transfers. The cost for this service is explicitly stated as £0.00.",
+    "context": [
+      "Domestic Transfer | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_002",
+    "name": "International Transfer Fee — £8.00",
+    "aliases": [
+      "International Transfer"
+    ],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A transaction fee applied to international transfers, charged at a rate of £8.00 per transaction.",
+    "context": [
+      "International Transfer | £8.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_003",
+    "name": "UK ATM Withdrawal Fee — £0.00",
+    "aliases": [
+      "ATM Withdrawal (UK)"
+    ],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee for withdrawing cash from an ATM within the UK. The cost for this service is explicitly stated as £0.00.",
+    "context": [
+      "ATM Withdrawal (UK) | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_004",
+    "name": "International ATM Withdrawal Fee — £3.00",
+    "aliases": [
+      "ATM Withdrawal (International)"
+    ],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A fee applied to cash withdrawals made at ATMs outside of the UK, charged at £3.00 per transaction.",
+    "context": [
+      "ATM Withdrawal (International) | £3.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_018_rat_001",
+    "name": "Overdraft Interest Rate — 15.00% AER",
+    "aliases": [
+      "Overdraft Interest"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "overdraft_rate",
+    "description": "The annual equivalent rate of interest applied to overdraft balances.",
+    "context": [
+      "Overdraft Interest (see above) | 15.00% AER"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_018_fee_005",
+    "name": "Unarranged Overdraft Fee — 25.00% AER + £5/day",
+    "aliases": [
+      "Unarranged Overdraft"
+    ],
+    "entity_class": "FEE",
+    "type": "overdraft_fee",
+    "description": "A combination of an interest rate and a daily charge applied when a customer exceeds their arranged overdraft limit. It consists of a 25.00% AER interest rate plus a £5 per day fee.",
+    "context": [
+      "Unarranged Overdraft | 25.00% AER + £5/day"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_018",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_019_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A banking product referenced as the baseline for card fee structures in the document.",
+    "context": [
+      "Same as SmartSaver Account (see above)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_019_fee_001",
+    "name": "Annual Card Fee — £0.00 (No Overdraft Use)",
+    "aliases": [
+      "Total Annual Cost (No Overdraft Use)"
+    ],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "The total annual cost for card usage when no overdraft is utilized is explicitly stated as zero.",
+    "context": [
+      "Total Annual Cost (No Overdraft Use): £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_019_fee_002",
+    "name": "Annual Overdraft Interest Cost — ~£300 (£2,000 Usage)",
+    "aliases": [
+      "Total Annual Cost (With £2,000 Overdraft Usage)"
+    ],
+    "entity_class": "FEE",
+    "type": "overdraft_fee",
+    "description": "The approximate total annual interest cost incurred when the customer utilizes a £2,000 overdraft.",
+    "context": [
+      "Total Annual Cost (With £2,000 Overdraft Usage): ~£300 (interest only)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_019",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_020_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A mortgage lending product offered by FirstUK Bank, identified by product code MORT-001. It offers multiple interest rate options including fixed and variable terms.",
+    "context": [
+      "# MORTGAGE PRODUCT (MORT-001)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_001",
+    "name": "Fixed Rate 2 Year",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A fixed interest rate option for the Mortgage Product (MORT-001) applicable for a term of two years.",
+    "context": [
+      "Fixed Rate 2 Year"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_002",
+    "name": "Fixed Rate 5 Year",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A fixed interest rate option for the Mortgage Product (MORT-001) applicable for a term of five years.",
+    "context": [
+      "Fixed Rate 5 Year"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_020_rat_003",
+    "name": "Variable Rate (tracker)",
+    "aliases": [
+      "tracker"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "variable_mortgage_rate",
+    "description": "A variable interest rate option for the Mortgage Product (MORT-001) that tracks a benchmark rate.",
+    "context": [
+      "Variable Rate (tracker)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_020",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_prd_001",
+    "name": "Residential Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A mortgage product for residential properties offering a variety of fixed and variable rate options based on the Loan-to-Value (LTV) ratio.",
+    "context": [
+      "Residential Mortgage"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_001",
+    "name": "Residential Mortgage Fixed 2-Yr Rate — 4.50% (<60% LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A 2-year fixed interest rate of 4.50% applicable to residential mortgages with a Loan-to-Value ratio of less than 60%.",
+    "context": [
+      "Residential Mortgage | <60% LTV | 4.50%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_002",
+    "name": "Residential Mortgage Fixed 5-Yr Rate — 5.00% (<60% LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A 5-year fixed interest rate of 5.00% applicable to residential mortgages with a Loan-to-Value ratio of less than 60%.",
+    "context": [
+      "Residential Mortgage | <60% LTV | 5.00%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_003",
+    "name": "Residential Mortgage Variable Rate — Base + 1.5% (<60% LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "variable_mortgage_rate",
+    "description": "A variable interest rate calculated as the Bank of England Base rate plus a 1.5% margin for mortgages with less than 60% LTV.",
+    "context": [
+      "Residential Mortgage | <60% LTV | Base + 1.5%",
+      "Current Variable Rate Example (at BoE Base 4.0%): 5.50% (Base 4.0% + 1.5% margin)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_004",
+    "name": "Residential Mortgage Fixed 2-Yr Rate — 4.75% (60–80% LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A 2-year fixed interest rate of 4.75% applicable to residential mortgages with a Loan-to-Value ratio between 60% and 80%.",
+    "context": [
+      "Residential Mortgage | 60–80% LTV | 4.75%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_005",
+    "name": "Residential Mortgage Fixed 5-Yr Rate — 5.25% (60–80% LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A 5-year fixed interest rate of 5.25% applicable to residential mortgages with a Loan-to-Value ratio between 60% and 80%.",
+    "context": [
+      "Residential Mortgage | 60–80% LTV | 5.25%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_006",
+    "name": "Residential Mortgage Variable Rate — Base + 1.75% (60–80% LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "variable_mortgage_rate",
+    "description": "A variable interest rate calculated as the Bank of England Base rate plus a 1.75% margin for mortgages with 60-80% LTV.",
+    "context": [
+      "Residential Mortgage | 60–80% LTV | Base + 1.75%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_007",
+    "name": "Residential Mortgage Fixed 2-Yr Rate — 5.25% (80%+ LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A 2-year fixed interest rate of 5.25% applicable to residential mortgages with a Loan-to-Value ratio of 80% or more.",
+    "context": [
+      "Residential Mortgage | 80%+ LTV | 5.25%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_008",
+    "name": "Residential Mortgage Fixed 5-Yr Rate — 5.75% (80%+ LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A 5-year fixed interest rate of 5.75% applicable to residential mortgages with a Loan-to-Value ratio of 80% or more.",
+    "context": [
+      "Residential Mortgage | 80%+ LTV | 5.75%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_rat_009",
+    "name": "Residential Mortgage Variable Rate — Base + 2.25% (80%+ LTV)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "variable_mortgage_rate",
+    "description": "A variable interest rate calculated as the Bank of England Base rate plus a 2.25% margin for mortgages with 80% or more LTV.",
+    "context": [
+      "Residential Mortgage | 80%+ LTV | Base + 2.25%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_021_elig_001",
+    "name": "Loan-to-Value (LTV) Requirements",
+    "aliases": [
+      "LTV"
+    ],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "balance_requirement",
+    "description": "The mortgage product applies different interest rates based on the Loan-to-Value (LTV) ratio of the property, with tiers defined at <60%, 60-80%, and 80%一个+.",
+    "context": [
+      "Loan-to-Value (LTV)",
+      "<60% LTV",
+      "60–80% LTV",
+      "80%+ LTV"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_021",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_001",
+    "name": "Fixed Rate 2-Year Mortgage",
+    "aliases": [
+      "Fixed Rate 2-Year"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "fixed_mortgage_rate",
+    "description": "A mortgage product where the interest rate remains fixed for a period of 2 years, after which it is re-fixed.",
+    "context": [
+      "Fixed Rate 2-Year: Fixed for 2 years, then re-fixed"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_022_prd_002",
+    "name": "Fixed Rate 5-Year Mortgage",
+    "aliases": [
+      "Fixed Rate 5-Year"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "fixed_mortgage_rate",
+    "description": "A mortgage product where the interest rate remains fixed for a period of 5 years, after which it is re-fixed.",
+    "context": [
+      "Fixed Rate 5-Year: Fixed for 5 years, then re-fixed"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_022_fee_001",
+    "name": "Early Repayment Fee (Fixed Rate) — 1–3% of outstanding balance",
+    "aliases": [
+      "Early Repayment Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "penalty_fee",
+    "description": "A penalty charge applied if a customer makes an early repayment during the fixed rate period. The fee is typically between 1% and 3% of the outstanding balance.",
+    "context": [
+      "Early Repayment Fee (Fixed Rate): Typically 1–3% of outstanding balance (if early repayment during fixed period)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_022",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_001",
+    "name": "Arrangement Fee — Included (no separate fee)",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "A mortgage arrangement fee that is included in the product cost, meaning no separate charge is levied on the customer.",
+    "context": [
+      "Arrangement Fee | Included (no separate fee)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_002",
+    "name": "Valuation Fee — Included (FirstUK Bank covers)",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "A fee for property valuation which is covered by FirstUK Bank, resulting in no cost to the customer.",
+    "context": [
+      "Valuation Fee | Included (FirstUK Bank covers)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_003",
+    "name": "Legal Fees (Conveyancing) — Customer's cost (~£1,200–£2,000)",
+    "aliases": [
+      "Conveyancing Fees"
+    ],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "Legal costs associated with conveyancing that are the responsibility of the customer, estimated between £1,200 and £2,000.",
+    "context": [
+      "Legal Fees (Conveyancing) | Customer's cost (~£1,200–£2,000)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_004",
+    "name": "Mortgage Protection Insurance — Optional (varies by provider)",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "An optional insurance fee for mortgage protection, the cost of which varies depending on the chosen provider.",
+    "context": [
+      "Mortgage Protection Insurance | Optional, varies by provider"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_023_fee_005",
+    "name": "Booking Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "service_fee",
+    "description": "A fee charged to lock in a specific mortgage rate, which is explicitly set at £0.00.",
+    "context": [
+      "Booking Fee (to lock rate) | £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_023",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_024_prd_001",
+    "name": "Fixed Rate Mortgage",
+    "aliases": [
+      "Mortgage"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "fixed_mortgage",
+    "description": "A mortgage product featuring a fixed interest rate for a specified term, providing protection against rate rises.",
+    "context": [
+      "Mortgage: £200,000 at 5.00% Fixed, 25-year term",
+      "Fixed rate protects against rate rises during term"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_001",
+    "name": "Fixed Mortgage Rate — 5.00% (£200,000 balance)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A fixed interest rate of 5.00% applied to a mortgage balance of £200,000 over a 25-year term.",
+    "context": [
+      "Mortgage: £200,000 at 5.00% Fixed, 25-year term"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_024_rat_002",
+    "name": "Re-fixed Mortgage Rate — 5.50% (Year 3+)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "fixed_mortgage_rate",
+    "description": "A potential re-fixed interest rate of 5.50% applicable from the third year onwards.",
+    "context": [
+      "Year 3+ (if re-fixed at 5.50%)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_024_ftr_001",
+    "name": "Rate Rise Protection",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "protection_scheme",
+    "description": "A feature of the fixed rate mortgage that protects the customer from interest rate increases during the fixed term.",
+    "context": [
+      "Fixed rate protects against rate rises during term"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_024",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_025_crd_001",
+    "name": "Visa Debit Card",
+    "aliases": [
+      "CARD-001",
+      "Debit Card"
+    ],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "A Visa Debit payment card issued by FirstUK Bank. It is linked to the customer's account for electronic payments and withdrawals.",
+    "context": [
+      "# DEBIT CARD (CARD-001)",
+      "Card Type: Visa Debit"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_001",
+    "name": "Annual Fee — £0.00",
+    "aliases": [
+      "Annual Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "The annual charge for maintaining the Visa Debit card, which is explicitly stated as zero.",
+    "context": [
+      "Annual Fee: £0.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_002",
+    "name": "Standard Replacement Fee — £15.00",
+    "aliases": [
+      "Replacement Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "A charge of £15.00 levied on the customer for the issuance of a replacement Visa Debit card under standard delivery terms.",
+    "context": [
+      "Replacement Fee: £15.00"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_025_fee_003",
+    "name": "Expedited Replacement Fee — £25.00",
+    "aliases": [
+      "Expedited Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "card_fee",
+    "description": "A premium charge of £25.00 for the replacement of a Visa Debit card when expedited 1–2 day delivery is requested.",
+    "context": [
+      "£25.00 for expedited 1–2 days"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_025",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_001",
+    "name": "UK ATM Withdrawal Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A charge of £0.00 for withdrawing cash from ATMs within the UK, subject to a daily limit of £500.",
+    "context": [
+      "UK ATM Withdrawal | £0.00 | £500/day"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_002",
+    "name": "International ATM Fee — £2.50 per withdrawal",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "A flat fee of £2.50 applied to each ATM withdrawal made internationally, with a daily limit of £300.",
+    "context": [
+      "International ATM | £2.50 per withdrawal | £300/day"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_003",
+    "name": "Contactless Payment Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "No fee is charged for contactless payments, which are limited to £100 per transaction.",
+    "context": [
+      "Contactless Payment | £0.00 | £100 per transaction"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_004",
+    "name": "Online Purchase Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "No fee is charged for online purchases, governed by the Visa limit.",
+    "context": [
+      "Online Purchase | £0.00 | Visa limit"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_005",
+    "name": "Point of Sale Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "No fee is charged for point of sale transactions, and there is no set limit.",
+    "context": [
+      "Point of Sale | £0.00 | No limit"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_006",
+    "name": "International Purchase Fee — £0.00",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "No transaction fee is charged for international purchases, although a Visa exchange rate of approximately 2% applies.",
+    "context": [
+      "International Purchase | £0.00 | ~2% Visa exchange rate"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_fee_007",
+    "name": "Monthly Maintenance Fee — £0.00",
+    "aliases": [
+      "Monthly Cost"
+    ],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "The typical monthly cost for a user is £0.00, provided there is no international use of the account.",
+    "context": [
+      "Monthly Cost (Typical User): £0.00 (no fees if no international use)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_001",
+    "name": "UK ATM Withdrawal",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "withdrawal",
+    "description": "The act of withdrawing funds from a UK-based ATM, limited to £500 per day.",
+    "context": [
+      "UK ATM Withdrawal | £0.00 | £500/day"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_002",
+    "name": "International ATM Withdrawal",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "withdrawal",
+    "description": "The act of withdrawing funds from an ATM outside the UK, limited to £300 per day.",
+    "context": [
+      "International ATM | £2.50 per withdrawal | £300/day"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_003",
+    "name": "Contactless Payment",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transfer",
+    "description": "A payment made via contactless technology, limited to £100 per individual transaction.",
+    "context": [
+      "Contactless Payment | £0.00 | £100 per transaction"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_004",
+    "name": "Online Purchase",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transfer",
+    "description": "A financial transaction conducted online, subject to Visa limits.",
+    "context": [
+      "Online Purchase | £0.00 | Visa limit"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_005",
+    "name": "Point of Sale Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transfer",
+    "description": "A payment made at a physical point of sale, with no specified transaction limit.",
+    "context": [
+      "Point of Sale | £0.00 | No limit"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_026_trn_006",
+    "name": "International Purchase",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transfer",
+    "description": "A payment for goods or services in a foreign currency, involving a Visa exchange rate of approximately 2%.",
+    "context": [
+      "International Purchase | £0.00 | ~2% Visa exchange rate"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_026",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_027_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A competitive savings product offered by FirstUK Bank characterized by high interest rates and low entry barriers compared to market competitors.",
+    "context": [
+      "SmartSaver Account vs. Market Leaders",
+      "Product | FirstUK | Competitor A | Competitor B"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_027_rat_001",
+    "name": "SmartSaver Tier 1 Rate — 4.50% (<£10k)",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "savings_rate",
+    "description": "The interest rate applicable to the first tier of balances under £10,000 for the SmartSaver Account, providing a 4.50% return.",
+    "context": [
+      "Interest Rate (Tier 1: <£10k) | 4.50%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_027_fee_001",
+    "name": "SmartSaver Monthly Fee — £0",
+    "aliases": [],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "A monthly maintenance charge of £0 applied to the SmartSaver Account, explicitly highlighting the product as free to maintain.",
+    "context": [
+      "Monthly Fee | £0"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_027_elig_001",
+    "name": "SmartSaver Minimum Opening Balance — £1",
+    "aliases": [],
+    "entity_class": "ELIGIBILITY_RULE",
+    "type": "balance_requirement",
+    "description": "The minimum balance requirement for a customer to open a SmartSaver Account is £1.",
+    "context": [
+      "Min. Opening Balance | £1"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_027",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_028_prd_001",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A standard current account offered by FirstUK Bank. It is positioned as a low-cost alternative to competitors with no monthly or UK ATM fees.",
+    "context": [
+      "Current Account vs. Competitors",
+      "Product | FirstUK"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_028_fee_001",
+    "name": "Monthly Fee — £0",
+    "aliases": [
+      "Monthly Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "maintenance_fee",
+    "description": "The monthly maintenance charge for the FirstUK Current Account, which is explicitly set at £0.",
+    "context": [
+      "Monthly Fee | £0"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_028_rat_001",
+    "name": "Current Account Overdraft Rate — 15%",
+    "aliases": [
+      "Overdraft Rate"
+    ],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "overdraft_rate",
+    "description": "The interest rate applied to overdraft balances on the FirstUK Current Account, set at 15%.",
+    "context": [
+      "Overdraft Rate | 15%"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_028_fee_002",
+    "name": "ATM Fee (UK) — £0",
+    "aliases": [
+      "ATM Fee"
+    ],
+    "entity_class": "FEE",
+    "type": "transaction_fee",
+    "description": "The fee charged for using ATMs within the UK with a FirstUK account, which is explicitly set at £0.",
+    "context": [
+      "ATM Fee (UK) | £0"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_028",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_029_cls_001",
+    "name": "Pricing Transparency Policy",
+    "aliases": [
+      "No Hidden Fees",
+      "Pricing Philosophy"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "A commitment by FirstUK Bank to ensure all charges are clearly stated and that customers understand their costs, avoiding hidden fees.",
+    "context": [
+      "FirstUK Bank aims for transparency and competitiveness",
+      "No Hidden Fees: All charges clearly stated",
+      "Clear Communication: Customers understand their costs"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_029_cls_002",
+    "name": "Quarterly Pricing Review Provision",
+    "aliases": [
+      "Regular Review"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "A procedural commitment to review product pricing on a quarterly basis to ensure the bank remains competitive within the market.",
+    "context": [
+      "Regular Review: Quarterly pricing review to stay competitive"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_029_ftr_001",
+    "name": "Competitive Rate Guarantee",
+    "aliases": [
+      "Competitive Rates"
+    ],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "service_feature",
+    "description": "A service commitment where the bank aims to match or beat the market rates for its key banking products.",
+    "context": [
+      "Competitive Rates: Match or beat market for key products"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_029",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_030_cls_001",
+    "name": "Product Review Schedule",
+    "aliases": [
+      "Review Schedule"
+    ],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "change_of_terms",
+    "description": "The contractual timeline and frequency for reviewing product terms and rates. It specifies a formal review cycle including quarterly updates and monthly adjustments for variable rates tied to the Bank of England.",
+    "context": [
+      "Effective Date: 2026-01-15",
+      "Next Scheduled Review: 2026-04-15",
+      "Quarterly Reviews: As market conditions change",
+      "Rate Changes: Monthly (for variable rates tied to BoE)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_030",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_account",
+    "description": "A savings product offering variable interest rates between 4.50% and 4.80% depending on the tier.",
+    "context": [
+      "SmartSaver: 4.50%–4.80% (variable, tier-dependent)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_031_prd_002",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A mortgage product with interest rates ranging from 5.00% to 5.75%, varying by specific product and Loan-to-Value (LTV) ratio.",
+    "context": [
+      "Mortgage: 5.00%–5.75% (varies by product/LTV)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_031_rat_001",
+    "name": "SmartSaver Tier Rates — 4.50%–4.80% AER",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "tiered_rate",
+    "description": "Variable interest rates applied to the SmartSaver product, ranging from 4.50% to 4.80% depending on the balance tier.",
+    "context": [
+      "SmartSaver: 4.50%–4.80% (variable, tier-dependent)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_031_rat_002",
+    "name": "Mortgage Rates — 5.00%–5.75% APR",
+    "aliases": [],
+    "entity_class": "INTEREST_RATE_TIER",
+    "type": "variable_mortgage_rate",
+    "description": "Interest rates for mortgage products ranging from 5.00% to 5.75%, influenced by the specific product selected and the LTV.",
+    "context": [
+      "Mortgage: 5.00%–5.75% (varies by product/LTV)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_031_cls_001",
+    "name": "Interest Tax Liability Clause",
+    "aliases": [],
+    "entity_class": "TERMS_CLAUSE",
+    "type": "interest_calculation_rule",
+    "description": "Provision stating that interest is paid gross without tax deduction, placing the responsibility for HMRC reporting on the customer if they are liable.",
+    "context": [
+      "Interest Paid: Gross (no tax deducted).",
+      "Customers must report to HMRC if liable."
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  },
+  {
+    "id": "14aa26f573af44288c2c8b15f634e3c5_031_ftr_001",
+    "name": "Optional PPI Insurance",
+    "aliases": [],
+    "entity_class": "PRODUCT_FEATURE",
+    "type": "protection_scheme",
+    "description": "An optional insurance add-on available for mortgage products; it is not included by default.",
+    "context": [
+      "PPI Insurance: Not included (optional add-on available for mortgages)"
+    ],
+    "chunk_id": "14aa26f573af44288c2c8b15f634e3c5_031",
+    "doc_id": "14aa26f573af44288c2c8b15f634e3c5",
+    "domain": "banking_products"
+  }
+]

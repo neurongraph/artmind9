@@ -1,0 +1,2380 @@
+[
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_001_tpl_001",
+    "source_name": "SMS Alert Template Suite",
+    "target_id": "email_templates",
+    "target_name": "Email Templates",
+    "rel_type": "related_to",
+    "description": "The SMS Alert Template Suite is linked to the Email Templates document as a related communication resource.",
+    "properties": {},
+    "context": "Related Documents | [[email_templates]], [[sop_account_opening]]",
+    "bidirectional": true,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_001",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_001_tpl_001",
+    "source_name": "SMS Alert Template Suite",
+    "target_id": "sop_account_opening",
+    "target_name": "SOP Account Opening",
+    "rel_type": "related_to",
+    "description": "The SMS Alert Template Suite is linked to the SOP Account Opening document as a related procedural resource.",
+    "properties": {},
+    "context": "Related Documents | [[email_templates]], [[sop_account_opening]]",
+    "bidirectional": true,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_001",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_001_tpl_001",
+    "source_name": "SMS Alert Template Suite",
+    "target_id": "129551a2f5234152887e52c93ef826eb_001",
+    "target_name": "129551a2f5234152887e52c93ef826eb_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_001",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_003_tpl_001",
+    "source_name": "Large Withdrawal Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_003_var_001",
+    "target_name": "Withdrawal Amount",
+    "rel_type": "contains",
+    "description": "The Large Withdrawal Alert template contains a variable for the specific withdrawal amount.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Transaction Ledger"
+    },
+    "context": "Large withdrawal of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_003_tpl_001",
+    "source_name": "Large Withdrawal Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_003_var_002",
+    "target_name": "Account Last Four Digits",
+    "rel_type": "contains",
+    "description": "The Large Withdrawal Alert template contains a variable for the last four digits of the account number.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking System"
+    },
+    "context": "from your account [last 4 digits]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_003_tpl_001",
+    "source_name": "Large Withdrawal Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_003_var_003",
+    "target_name": "Reference Code",
+    "rel_type": "contains",
+    "description": "The Large Withdrawal Alert template contains a variable for a unique reference code.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Notification Engine"
+    },
+    "context": "Ref: [code]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_003_tpl_001",
+    "source_name": "Large Withdrawal Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_003",
+    "target_name": "129551a2f5234152887e52c93ef826eb_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_003_var_001",
+    "source_name": "Withdrawal Amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_003",
+    "target_name": "129551a2f5234152887e52c93ef826eb_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_003_var_002",
+    "source_name": "Account Last Four Digits",
+    "target_id": "129551a2f5234152887e52c93ef826eb_003",
+    "target_name": "129551a2f5234152887e52c93ef826eb_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_003_var_003",
+    "source_name": "Reference Code",
+    "target_id": "129551a2f5234152887e52c93ef826eb_003",
+    "target_name": "129551a2f5234152887e52c93ef826eb_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_003",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "source_name": "Template 2: Transfer Sent Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004_var_001",
+    "target_name": "Transfer Amount",
+    "rel_type": "contains",
+    "description": "Template 2 contains a placeholder for the transfer amount",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Transfer of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "source_name": "Template 2: Transfer Sent Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004_var_002",
+    "target_name": "Recipient Name",
+    "rel_type": "contains",
+    "description": "Template 2 contains a placeholder for the recipient name",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payment Gateway"
+    },
+    "context": "to [recipient name] completed",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "source_name": "Template 2: Transfer Sent Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004_var_003",
+    "target_name": "New Account Balance",
+    "rel_type": "contains",
+    "description": "Template 2 contains a placeholder for the updated account balance",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Your balance: £[new balance]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "source_name": "Template 2: Transfer Sent Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004_txn_001",
+    "target_name": "Successful Transfer",
+    "rel_type": "triggered_by",
+    "description": "The communication template is sent upon the completion of a successful transfer",
+    "properties": {
+      "trigger_event": "completion"
+    },
+    "context": "Trigger: Successful transfer completion",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "source_name": "Template 2: Transfer Sent Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004_cust_001",
+    "target_name": "Transfer Recipient",
+    "rel_type": "references",
+    "description": "The template identifies the recipient of the funds",
+    "properties": {},
+    "context": "to [recipient name] completed",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "source_name": "Template 2: Transfer Sent Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004_acc_001",
+    "target_name": "Transferring Account",
+    "rel_type": "references",
+    "description": "The template provides the updated balance for the transferring account",
+    "properties": {},
+    "context": "Your balance: £[new balance]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_tpl_001",
+    "source_name": "Template 2: Transfer Sent Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004",
+    "target_name": "129551a2f5234152887e52c93ef826eb_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_var_001",
+    "source_name": "Transfer Amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004",
+    "target_name": "129551a2f5234152887e52c93ef826eb_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_var_002",
+    "source_name": "Recipient Name",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004",
+    "target_name": "129551a2f5234152887e52c93ef826eb_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_var_003",
+    "source_name": "New Account Balance",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004",
+    "target_name": "129551a2f5234152887e52c93ef826eb_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_cust_001",
+    "source_name": "Transfer Recipient",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004",
+    "target_name": "129551a2f5234152887e52c93ef826eb_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_acc_001",
+    "source_name": "Transferring Account",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004",
+    "target_name": "129551a2f5234152887e52c93ef826eb_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_004_txn_001",
+    "source_name": "Successful Transfer",
+    "target_id": "129551a2f5234152887e52c93ef826eb_004",
+    "target_name": "129551a2f5234152887e52c93ef826eb_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_004",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "source_name": "Template 3: Failed Direct Debit Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005_var_001",
+    "target_name": "amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the failed payment amount.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Direct Debit of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "source_name": "Template 3: Failed Direct Debit Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005_var_002",
+    "target_name": "biller",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the name of the biller.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payment Gateway"
+    },
+    "context": "to [biller] failed",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "source_name": "Template 3: Failed Direct Debit Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005_var_003",
+    "target_name": "date",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the date the failure occurred.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "failed on [date]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "source_name": "Template 3: Failed Direct Debit Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005_var_004",
+    "target_name": "insufficient funds/other",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the reason for the failure.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payment Gateway"
+    },
+    "context": "Reason: [insufficient funds/other]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "source_name": "Template 3: Failed Direct Debit Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005_txn_001",
+    "target_name": "Failed Direct Debit",
+    "rel_type": "triggered_by",
+    "description": "The communication is sent when a Direct Debit transaction fails.",
+    "properties": {
+      "trigger_event": "Direct Debit rejected"
+    },
+    "context": "Trigger: Direct Debit rejected (insufficient funds, etc.)",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "source_name": "Template 3: Failed Direct Debit Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005_prd_001",
+    "target_name": "Direct Debit",
+    "rel_type": "provides_information_about",
+    "description": "The template provides status updates regarding the Direct Debit product.",
+    "properties": {
+      "info_type": "Failure Notification"
+    },
+    "context": "Template 3: Failed Direct Debit Alert",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_tpl_001",
+    "source_name": "Template 3: Failed Direct Debit Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005",
+    "target_name": "129551a2f5234152887e52c93ef826eb_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_var_001",
+    "source_name": "amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005",
+    "target_name": "129551a2f5234152887e52c93ef826eb_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_var_002",
+    "source_name": "biller",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005",
+    "target_name": "129551a2f5234152887e52c93ef826eb_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_var_003",
+    "source_name": "date",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005",
+    "target_name": "129551a2f5234152887e52c93ef826eb_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_var_004",
+    "source_name": "insufficient funds/other",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005",
+    "target_name": "129551a2f5234152887e52c93ef826eb_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_txn_001",
+    "source_name": "Failed Direct Debit",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005",
+    "target_name": "129551a2f5234152887e52c93ef826eb_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_005_prd_001",
+    "source_name": "Direct Debit",
+    "target_id": "129551a2f5234152887e52c93ef826eb_005",
+    "target_name": "129551a2f5234152887e52c93ef826eb_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_005",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006_var_001",
+    "target_name": "Transaction Amount",
+    "rel_type": "contains",
+    "description": "Template 4 contains a variable for the transaction amount",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Transaction Ledger"
+    },
+    "context": "Card payment of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006_var_002",
+    "target_name": "Merchant Name",
+    "rel_type": "contains",
+    "description": "Template 4 contains a variable for the merchant name",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Merchant Registry"
+    },
+    "context": "at [merchant]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006_var_003",
+    "target_name": "Transaction Date",
+    "rel_type": "contains",
+    "description": "Template 4 contains a variable for the transaction date",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Transaction Ledger"
+    },
+    "context": "on [date]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006_var_004",
+    "target_name": "Transaction Time",
+    "rel_type": "contains",
+    "description": "Template 4 contains a variable for the transaction time",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Transaction Ledger"
+    },
+    "context": "[time]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006_cust_001",
+    "target_name": "Cardholder",
+    "rel_type": "sent_to",
+    "description": "The alert is sent to the cardholder associated with the payment",
+    "properties": {},
+    "context": "If not you, call 0800-555-2265",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006_card_001",
+    "target_name": "Payment Card",
+    "rel_type": "alerts_about",
+    "description": "The template provides an alert regarding activity on a specific payment card",
+    "properties": {},
+    "context": "Card payment of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006_txn_001",
+    "target_name": "High Value Card Transaction",
+    "rel_type": "triggered_by",
+    "description": "The template is triggered when a high value card transaction (>£500) occurs",
+    "properties": {
+      "threshold": "500",
+      "currency": "GBP"
+    },
+    "context": "Trigger: Contactless or online payment >£500",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_tpl_001",
+    "source_name": "Template 4: Card Payment Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_var_001",
+    "source_name": "Transaction Amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_var_002",
+    "source_name": "Merchant Name",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_var_003",
+    "source_name": "Transaction Date",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_var_004",
+    "source_name": "Transaction Time",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_cust_001",
+    "source_name": "Cardholder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_card_001",
+    "source_name": "Payment Card",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_006_txn_001",
+    "source_name": "High Value Card Transaction",
+    "target_id": "129551a2f5234152887e52c93ef826eb_006",
+    "target_name": "129551a2f5234152887e52c93ef826eb_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_006",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_tpl_001",
+    "source_name": "Template 5: Suspicious Activity Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007_frd_001",
+    "target_name": "Suspicious Activity Alert",
+    "rel_type": "triggered_by",
+    "description": "The communication template is triggered by a moderate risk fraud detection alert.",
+    "properties": {
+      "risk_level": "moderate",
+      "trigger_mechanism": "fraud detection rule"
+    },
+    "context": "Trigger: Fraud detection rule triggered (moderate risk)",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_tpl_001",
+    "source_name": "Template 5: Suspicious Activity Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007_cust_001",
+    "target_name": "Customer",
+    "rel_type": "sent_to",
+    "description": "The alert is sent to the customer to notify them of unusual activity.",
+    "properties": {
+      "channel": "SMS/Message"
+    },
+    "context": "FirstUK: Unusual activity detected on your account. Call 0800-555-2265 to confirm.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_tpl_001",
+    "source_name": "Template 5: Suspicious Activity Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007_acc_001",
+    "target_name": "Customer Account",
+    "rel_type": "references",
+    "description": "The template references the specific account where unusual activity was detected.",
+    "properties": {
+      "action": "notification"
+    },
+    "context": "Unusual activity detected on your account.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_tpl_001",
+    "source_name": "Template 5: Suspicious Activity Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007_txn_001",
+    "target_name": "Unusual Activity Transactions",
+    "rel_type": "notifies_about",
+    "description": "The template notifies the customer about transactions identified as unusual activity.",
+    "properties": {
+      "potential_action": "restrict transactions"
+    },
+    "context": "Unusual activity detected on your account... we may restrict transactions.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_tpl_001",
+    "source_name": "Template 5: Suspicious Activity Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007",
+    "target_name": "129551a2f5234152887e52c93ef826eb_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_cust_001",
+    "source_name": "Customer",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007",
+    "target_name": "129551a2f5234152887e52c93ef826eb_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_acc_001",
+    "source_name": "Customer Account",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007",
+    "target_name": "129551a2f5234152887e52c93ef826eb_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_txn_001",
+    "source_name": "Unusual Activity Transactions",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007",
+    "target_name": "129551a2f5234152887e52c93ef826eb_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_007_frd_001",
+    "source_name": "Suspicious Activity Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_007",
+    "target_name": "129551a2f5234152887e52c93ef826eb_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_007",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_tpl_001",
+    "source_name": "Template 6: Card Lost/Blocked Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008_var_001",
+    "target_name": "Product Variable",
+    "rel_type": "contains",
+    "description": "Template 6 contains a placeholder for the specific product name",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Product Database"
+    },
+    "context": "Your [product] card has been blocked.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_tpl_001",
+    "source_name": "Template 6: Card Lost/Blocked Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008_crd_001",
+    "target_name": "Blocked Card",
+    "rel_type": "alerts_about",
+    "description": "The template is used to notify the customer that their card has been blocked",
+    "properties": {
+      "alert_type": "Security/Loss"
+    },
+    "context": "Template 6: Card Lost/Blocked Alert... Your [product] card has been blocked.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_tpl_001",
+    "source_name": "Template 6: Card Lost/Blocked Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008_prd_001",
+    "target_name": "Payment Card",
+    "rel_type": "provides_information_about",
+    "description": "The template provides status and replacement information regarding the payment card",
+    "properties": {
+      "action_required": "Order replacement"
+    },
+    "context": "Your [product] card has been blocked... Order replacement",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_var_001",
+    "source_name": "Product Variable",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008_prd_001",
+    "target_name": "Payment Card",
+    "rel_type": "populates_with",
+    "description": "The product variable is populated with the specific payment card type",
+    "properties": {
+      "data_type": "string"
+    },
+    "context": "Your [product] card has been blocked.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_tpl_001",
+    "source_name": "Template 6: Card Lost/Blocked Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008",
+    "target_name": "129551a2f5234152887e52c93ef826eb_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_var_001",
+    "source_name": "Product Variable",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008",
+    "target_name": "129551a2f5234152887e52c93ef826eb_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_prd_001",
+    "source_name": "Payment Card",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008",
+    "target_name": "129551a2f5234152887e52c93ef826eb_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_008_crd_001",
+    "source_name": "Blocked Card",
+    "target_id": "129551a2f5234152887e52c93ef826eb_008",
+    "target_name": "129551a2f5234152887e52c93ef826eb_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_008",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_009_tpl_001",
+    "source_name": "Template 7: Password Reset Initiated",
+    "target_id": "129551a2f5234152887e52c93ef826eb_009_var_001",
+    "target_name": "Password Reset URL",
+    "rel_type": "contains",
+    "description": "The password reset template contains a placeholder for the reset URL link.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Authentication Service"
+    },
+    "context": "Click link to create new password: [short URL]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_009_tpl_001",
+    "source_name": "Template 7: Password Reset Initiated",
+    "target_id": "129551a2f5234152887e52c93ef826eb_009_cust_001",
+    "target_name": "Password Reset Recipient",
+    "rel_type": "addressed_to",
+    "description": "The password reset notification is sent to the customer who requested the reset.",
+    "properties": {
+      "delivery_channel": "SMS/Email"
+    },
+    "context": "FirstUK: Password reset requested.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_009_tpl_001",
+    "source_name": "Template 7: Password Reset Initiated",
+    "target_id": "129551a2f5234152887e52c93ef826eb_009",
+    "target_name": "129551a2f5234152887e52c93ef826eb_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_009_var_001",
+    "source_name": "Password Reset URL",
+    "target_id": "129551a2f5234152887e52c93ef826eb_009",
+    "target_name": "129551a2f5234152887e52c93ef826eb_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_009_cust_001",
+    "source_name": "Password Reset Recipient",
+    "target_id": "129551a2f5234152887e52c93ef826eb_009",
+    "target_name": "129551a2f5234152887e52c93ef826eb_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_009",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_010_tpl_001",
+    "source_name": "Template 8: 2FA Code (One-Time)",
+    "target_id": "129551a2f5234152887e52c93ef826eb_010_var_001",
+    "target_name": "6-digit code",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for the 6-digit security code",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Authentication Service"
+    },
+    "context": "Your security code is [6-digit code].",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_010_tpl_001",
+    "source_name": "Template 8: 2FA Code (One-Time)",
+    "target_id": "129551a2f5234152887e52c93ef826eb_010_cust_001",
+    "target_name": "2FA Recipient",
+    "rel_type": "addressed_to",
+    "description": "The 2FA code template is sent to the customer requesting authentication",
+    "properties": {
+      "channel": "SMS/Email"
+    },
+    "context": "Template 8: 2FA Code (One-Time)",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_010_fra_001",
+    "source_name": "Unauthorized 2FA Request Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_010_tpl_001",
+    "target_name": "Template 8: 2FA Code (One-Time)",
+    "rel_type": "triggers",
+    "description": "An unauthorized 2FA request triggers the sending of the 2FA code template to the customer",
+    "properties": {
+      "mandatory": true,
+      "escalation_path": "Customer Support Line"
+    },
+    "context": "If you didn't request this, call 0800-555-2265.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_010_tpl_001",
+    "source_name": "Template 8: 2FA Code (One-Time)",
+    "target_id": "129551a2f5234152887e52c93ef826eb_010",
+    "target_name": "129551a2f5234152887e52c93ef826eb_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_010_var_001",
+    "source_name": "6-digit code",
+    "target_id": "129551a2f5234152887e52c93ef826eb_010",
+    "target_name": "129551a2f5234152887e52c93ef826eb_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_010_cust_001",
+    "source_name": "2FA Recipient",
+    "target_id": "129551a2f5234152887e52c93ef826eb_010",
+    "target_name": "129551a2f5234152887e52c93ef826eb_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_010_fra_001",
+    "source_name": "Unauthorized 2FA Request Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_010",
+    "target_name": "129551a2f5234152887e52c93ef826eb_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_010",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_tpl_001",
+    "source_name": "Template 9: Account Opened Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011_var_001",
+    "target_name": "Account Number Placeholder",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the account number to be populated upon sending.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking System"
+    },
+    "context": "Account: [ACC-XXXXX]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_tpl_001",
+    "source_name": "Template 9: Account Opened Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011_prd_001",
+    "target_name": "SmartSaver account",
+    "rel_type": "provides_information_about",
+    "description": "The template confirms the opening of a SmartSaver account.",
+    "properties": {
+      "communication_goal": "Welcome/Confirmation"
+    },
+    "context": "Your SmartSaver account is open.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_tpl_001",
+    "source_name": "Template 9: Account Opened Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011_cust_001",
+    "target_name": "New Account Customer",
+    "rel_type": "sent_to",
+    "description": "The template is sent to the customer who has just opened a new account.",
+    "properties": {
+      "delivery_channel": "SMS/Email"
+    },
+    "context": "FirstUK: Welcome!",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_tpl_001",
+    "source_name": "Template 9: Account Opened Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011_acc_001",
+    "target_name": "New SmartSaver Account",
+    "rel_type": "confirms",
+    "description": "The template serves as a confirmation that the specific New SmartSaver Account has been created.",
+    "properties": {
+      "trigger_event": "Account successfully created"
+    },
+    "context": "Trigger: New account successfully created",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_tpl_001",
+    "source_name": "Template 9: Account Opened Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011",
+    "target_name": "129551a2f5234152887e52c93ef826eb_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_var_001",
+    "source_name": "Account Number Placeholder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011",
+    "target_name": "129551a2f5234152887e52c93ef826eb_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_prd_001",
+    "source_name": "SmartSaver account",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011",
+    "target_name": "129551a2f5234152887e52c93ef826eb_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_cust_001",
+    "source_name": "New Account Customer",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011",
+    "target_name": "129551a2f5234152887e52c93ef826eb_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_011_acc_001",
+    "source_name": "New SmartSaver Account",
+    "target_id": "129551a2f5234152887e52c93ef826eb_011",
+    "target_name": "129551a2f5234152887e52c93ef826eb_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_011",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_012_tpl_001",
+    "source_name": "Template 10: Interest Payment Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_012_var_001",
+    "target_name": "Interest Amount Variable",
+    "rel_type": "contains",
+    "description": "Template 10 contains a variable for the specific interest amount credited.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking Ledger"
+    },
+    "context": "Interest of £[amount] credited to your account.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_012_tpl_001",
+    "source_name": "Template 10: Interest Payment Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_012_var_002",
+    "target_name": "Account Balance Variable",
+    "rel_type": "contains",
+    "description": "Template 10 contains a variable for the new account balance after interest credit.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking Ledger"
+    },
+    "context": "New balance: £[balance].",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_012_tpl_001",
+    "source_name": "Template 10: Interest Payment Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_012",
+    "target_name": "129551a2f5234152887e52c93ef826eb_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_012_var_001",
+    "source_name": "Interest Amount Variable",
+    "target_id": "129551a2f5234152887e52c93ef826eb_012",
+    "target_name": "129551a2f5234152887e52c93ef826eb_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_012_var_002",
+    "source_name": "Account Balance Variable",
+    "target_id": "129551a2f5234152887e52c93ef826eb_012",
+    "target_name": "129551a2f5234152887e52c93ef826eb_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_012",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_tpl_001",
+    "source_name": "Template 11: Standing Order Executed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013_var_001",
+    "target_name": "amount",
+    "rel_type": "contains",
+    "description": "Template 11 requires the payment amount to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Standing order of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_tpl_001",
+    "source_name": "Template 11: Standing Order Executed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013_var_002",
+    "target_name": "payee",
+    "rel_type": "contains",
+    "description": "Template 11 requires the payee name to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "to [payee] processed",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_tpl_001",
+    "source_name": "Template 11: Standing Order Executed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013_var_003",
+    "target_name": "date",
+    "rel_type": "contains",
+    "description": "Template 11 requires the execution date to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "processed on [date]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_tpl_001",
+    "source_name": "Template 11: Standing Order Executed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013_var_004",
+    "target_name": "balance",
+    "rel_type": "contains",
+    "description": "Template 11 requires the remaining account balance to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Your balance: £[balance]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_tpl_001",
+    "source_name": "Template 11: Standing Order Executed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013",
+    "target_name": "129551a2f5234152887e52c93ef826eb_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_var_001",
+    "source_name": "amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013",
+    "target_name": "129551a2f5234152887e52c93ef826eb_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_var_002",
+    "source_name": "payee",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013",
+    "target_name": "129551a2f5234152887e52c93ef826eb_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_var_003",
+    "source_name": "date",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013",
+    "target_name": "129551a2f5234152887e52c93ef826eb_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_013_var_004",
+    "source_name": "balance",
+    "target_id": "129551a2f5234152887e52c93ef826eb_013",
+    "target_name": "129551a2f5234152887e52c93ef826eb_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_013",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_tpl_001",
+    "source_name": "Template 12: Account Verification Needed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014_var_001",
+    "target_name": "Verification Deadline Date",
+    "rel_type": "contains",
+    "description": "Template 12 contains a placeholder for the verification deadline date",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Compliance Calendar"
+    },
+    "context": "Deadline: [date]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_tpl_001",
+    "source_name": "Template 12: Account Verification Needed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014_cust_001",
+    "target_name": "Customer requiring KYC verification",
+    "rel_type": "addressed_to",
+    "description": "The communication is sent to customers who need to complete their KYC verification",
+    "properties": {},
+    "context": "We need your ID to complete verification",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_tpl_001",
+    "source_name": "Template 12: Account Verification Needed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014_acc_001",
+    "target_name": "Customer Account subject to restriction",
+    "rel_type": "alerts_about",
+    "description": "The template warns the customer that their account will be restricted if verification is not completed",
+    "properties": {
+      "alert_level": "High",
+      "consequence": "Account Restriction"
+    },
+    "context": "Your account will be restricted if not completed.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_tpl_001",
+    "source_name": "Template 12: Account Verification Needed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014_kyc_001",
+    "target_name": "KYC Document Verification Process",
+    "rel_type": "triggered_by",
+    "description": "The template is triggered when KYC documents are required for the verification process",
+    "properties": {
+      "trigger_event": "KYC documents required"
+    },
+    "context": "Trigger: KYC documents required",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_tpl_001",
+    "source_name": "Template 12: Account Verification Needed",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014",
+    "target_name": "129551a2f5234152887e52c93ef826eb_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_var_001",
+    "source_name": "Verification Deadline Date",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014",
+    "target_name": "129551a2f5234152887e52c93ef826eb_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_cust_001",
+    "source_name": "Customer requiring KYC verification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014",
+    "target_name": "129551a2f5234152887e52c93ef826eb_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_acc_001",
+    "source_name": "Customer Account subject to restriction",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014",
+    "target_name": "129551a2f5234152887e52c93ef826eb_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_014_kyc_001",
+    "source_name": "KYC Document Verification Process",
+    "target_id": "129551a2f5234152887e52c93ef826eb_014",
+    "target_name": "129551a2f5234152887e52c93ef826eb_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_014",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_015_tpl_001",
+    "source_name": "Template 13: Rate Change Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_015_var_001",
+    "target_name": "New Interest Rate",
+    "rel_type": "contains",
+    "description": "Template 13 contains a placeholder for the new interest rate",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking System"
+    },
+    "context": "Your rate changed to [new rate]% AER",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_015_tpl_001",
+    "source_name": "Template 13: Rate Change Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_015_var_002",
+    "target_name": "Old Interest Rate",
+    "rel_type": "contains",
+    "description": "Template 13 contains a placeholder for the previous interest rate",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking System"
+    },
+    "context": "(was [old rate]%)",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_015_tpl_001",
+    "source_name": "Template 13: Rate Change Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_015_var_003",
+    "target_name": "Bank of England Base Rate",
+    "rel_type": "contains",
+    "description": "Template 13 contains a placeholder for the current Bank of England base rate",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Market Data Feed"
+    },
+    "context": "Bank of England base rate moved to [new BoE rate]%",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_015_tpl_001",
+    "source_name": "Template 13: Rate Change Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_015",
+    "target_name": "129551a2f5234152887e52c93ef826eb_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_015_var_001",
+    "source_name": "New Interest Rate",
+    "target_id": "129551a2f5234152887e52c93ef826eb_015",
+    "target_name": "129551a2f5234152887e52c93ef826eb_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_015_var_002",
+    "source_name": "Old Interest Rate",
+    "target_id": "129551a2f5234152887e52c93ef826eb_015",
+    "target_name": "129551a2f5234152887e52c93ef826eb_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_015_var_003",
+    "source_name": "Bank of England Base Rate",
+    "target_id": "129551a2f5234152887e52c93ef826eb_015",
+    "target_name": "129551a2f5234152887e52c93ef826eb_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_015",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_tpl_001",
+    "source_name": "Template 14: Fraud Claim Resolved",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016_var_001",
+    "target_name": "Claim Reference Number",
+    "rel_type": "contains",
+    "description": "Template 14 contains a placeholder for the Claim Reference Number",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Claims Management System"
+    },
+    "context": "Your dispute claim (Ref: [EXC-XXXXX])",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_tpl_001",
+    "source_name": "Template 14: Fraud Claim Resolved",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016_var_002",
+    "target_name": "Refund Amount",
+    "rel_type": "contains",
+    "description": "Template 14 contains a placeholder for the Refund Amount",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payments Engine"
+    },
+    "context": "Refund of £[amount] processed",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_tpl_001",
+    "source_name": "Template 14: Fraud Claim Resolved",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016_cust_001",
+    "target_name": "Fraud Claim Recipient",
+    "rel_type": "addressed_to",
+    "description": "The communication is sent to the customer who filed the fraud claim",
+    "properties": {},
+    "context": "Your dispute claim",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_tpl_001",
+    "source_name": "Template 14: Fraud Claim Resolved",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016_txn_001",
+    "target_name": "Disputed Transaction",
+    "rel_type": "triggered_by",
+    "description": "The template is triggered once a disputed transaction is investigated and resolved",
+    "properties": {
+      "trigger_event": "Resolution of dispute"
+    },
+    "context": "Trigger: Disputed transaction investigated and resolved",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_tpl_001",
+    "source_name": "Template 14: Fraud Claim Resolved",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016",
+    "target_name": "129551a2f5234152887e52c93ef826eb_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_var_001",
+    "source_name": "Claim Reference Number",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016",
+    "target_name": "129551a2f5234152887e52c93ef826eb_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_var_002",
+    "source_name": "Refund Amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016",
+    "target_name": "129551a2f5234152887e52c93ef826eb_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_cust_001",
+    "source_name": "Fraud Claim Recipient",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016",
+    "target_name": "129551a2f5234152887e52c93ef826eb_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_016_txn_001",
+    "source_name": "Disputed Transaction",
+    "target_id": "129551a2f5234152887e52c93ef826eb_016",
+    "target_name": "129551a2f5234152887e52c93ef826eb_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_016",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_tpl_001",
+    "source_name": "Template 15: Branch Appointment Reminder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017_var_001",
+    "target_name": "branch name",
+    "rel_type": "contains",
+    "description": "Template 15 requires the branch name to be populated for the customer reminder.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Branch Management System"
+    },
+    "context": "You have an appointment at [branch name]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_tpl_001",
+    "source_name": "Template 15: Branch Appointment Reminder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017_var_002",
+    "target_name": "date",
+    "rel_type": "contains",
+    "description": "Template 15 requires the appointment date to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Calendar/Booking System"
+    },
+    "context": "on [date]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_tpl_001",
+    "source_name": "Template 15: Branch Appointment Reminder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017_var_003",
+    "target_name": "time",
+    "rel_type": "contains",
+    "description": "Template 15 requires the appointment time to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Calendar/Booking System"
+    },
+    "context": "at [time]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_tpl_001",
+    "source_name": "Template 15: Branch Appointment Reminder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017_cust_001",
+    "target_name": "Appointment Customer",
+    "rel_type": "addressed_to",
+    "description": "The appointment reminder template is sent to the customer who has a scheduled branch meeting.",
+    "properties": {
+      "delivery_channel": "SMS/Digital"
+    },
+    "context": "Reminder: You have an appointment",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_tpl_001",
+    "source_name": "Template 15: Branch Appointment Reminder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017",
+    "target_name": "129551a2f5234152887e52c93ef826eb_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_var_001",
+    "source_name": "branch name",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017",
+    "target_name": "129551a2f5234152887e52c93ef826eb_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_var_002",
+    "source_name": "date",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017",
+    "target_name": "129551a2f5234152887e52c93ef826eb_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_var_003",
+    "source_name": "time",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017",
+    "target_name": "129551a2f5234152887e52c93ef826eb_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_017_cust_001",
+    "source_name": "Appointment Customer",
+    "target_id": "129551a2f5234152887e52c93ef826eb_017",
+    "target_name": "129551a2f5234152887e52c93ef826eb_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_017",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_tpl_001",
+    "source_name": "Template 16: Account Closure Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018_var_001",
+    "target_name": "Account Reference Number",
+    "rel_type": "contains",
+    "description": "Template 16 requires the Account Reference Number to identify the closed account.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking System"
+    },
+    "context": "Your account has been closed (Ref: [ACC-XXXXX])",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_tpl_001",
+    "source_name": "Template 16: Account Closure Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018_var_002",
+    "target_name": "Final Balance Amount",
+    "rel_type": "contains",
+    "description": "Template 16 requires the Final Balance Amount to inform the customer of the remaining funds.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Ledger"
+    },
+    "context": "Final balance of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_tpl_001",
+    "source_name": "Template 16: Account Closure Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018_var_003",
+    "target_name": "Transfer Method",
+    "rel_type": "contains",
+    "description": "Template 16 requires the Transfer Method to specify how funds are being moved.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payments System"
+    },
+    "context": "will be transferred to [method]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_tpl_001",
+    "source_name": "Template 16: Account Closure Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018_cust_001",
+    "target_name": "Account Holder",
+    "rel_type": "addressed_to",
+    "description": "The account closure confirmation is sent to the account holder.",
+    "properties": {},
+    "context": "Your account has been closed",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_tpl_001",
+    "source_name": "Template 16: Account Closure Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018_acc_001",
+    "target_name": "Closed Account",
+    "rel_type": "references",
+    "description": "The template references the specific account that has been closed.",
+    "properties": {},
+    "context": "Your account has been closed (Ref: [ACC-XXXXX])",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_tpl_001",
+    "source_name": "Template 16: Account Closure Confirmation",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018",
+    "target_name": "129551a2f5234152887e52c93ef826eb_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_var_001",
+    "source_name": "Account Reference Number",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018",
+    "target_name": "129551a2f5234152887e52c93ef826eb_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_var_002",
+    "source_name": "Final Balance Amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018",
+    "target_name": "129551a2f5234152887e52c93ef826eb_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_var_003",
+    "source_name": "Transfer Method",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018",
+    "target_name": "129551a2f5234152887e52c93ef826eb_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_cust_001",
+    "source_name": "Account Holder",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018",
+    "target_name": "129551a2f5234152887e52c93ef826eb_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_018_acc_001",
+    "source_name": "Closed Account",
+    "target_id": "129551a2f5234152887e52c93ef826eb_018",
+    "target_name": "129551a2f5234152887e52c93ef826eb_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_018",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_019_tpl_001",
+    "source_name": "Template 17: Maintenance Notice",
+    "target_id": "129551a2f5234152887e52c93ef826eb_019_var_001",
+    "target_name": "Maintenance Date",
+    "rel_type": "contains",
+    "description": "Template 17: Maintenance Notice contains a placeholder for the Maintenance Date.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Scheduling System"
+    },
+    "context": "FirstUK: Scheduled maintenance 02:00–03:00 AM on [date].",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_019",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_019_tpl_001",
+    "source_name": "Template 17: Maintenance Notice",
+    "target_id": "129551a2f5234152887e52c93ef826eb_019",
+    "target_name": "129551a2f5234152887e52c93ef826eb_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_019",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_019_var_001",
+    "source_name": "Maintenance Date",
+    "target_id": "129551a2f5234152887e52c93ef826eb_019",
+    "target_name": "129551a2f5234152887e52c93ef826eb_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_019",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_020_tpl_001",
+    "source_name": "Template 18: Survey Request (Optional)",
+    "target_id": "129551a2f5234152887e52c93ef826eb_020_tra_001",
+    "target_name": "Post-transaction Event",
+    "rel_type": "triggered_by",
+    "description": "The Survey Request template is triggered by a post-transaction event.",
+    "properties": {
+      "mandatory": false,
+      "trigger_type": "event_based"
+    },
+    "context": "Trigger: Post-transaction or post-support",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_020_tpl_001",
+    "source_name": "Template 18: Survey Request (Optional)",
+    "target_id": "129551a2f5234152887e52c93ef826eb_020_cus_001",
+    "target_name": "Bank Customer",
+    "rel_type": "sent_to",
+    "description": "The Survey Request template is sent to the bank customer to gather feedback.",
+    "properties": {
+      "communication_channel": "SMS/Digital",
+      "purpose": "Customer Satisfaction"
+    },
+    "context": "FirstUK: How did we do? Rate your experience",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_020_tpl_001",
+    "source_name": "Template 18: Survey Request (Optional)",
+    "target_id": "129551a2f5234152887e52c93ef826eb_020",
+    "target_name": "129551a2f5234152887e52c93ef826eb_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_020_cus_001",
+    "source_name": "Bank Customer",
+    "target_id": "129551a2f5234152887e52c93ef826eb_020",
+    "target_name": "129551a2f5234152887e52c93ef826eb_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_020_tra_001",
+    "source_name": "Post-transaction Event",
+    "target_id": "129551a2f5234152887e52c93ef826eb_020",
+    "target_name": "129551a2f5234152887e52c93ef826eb_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_020",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_021_tpl_001",
+    "source_name": "Template 19: Unrecognized Login Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_021_var_001",
+    "target_name": "Login Date and Time",
+    "rel_type": "contains",
+    "description": "Template 19 requires the date and time of the login attempt to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Authentication Logs"
+    },
+    "context": "Login attempt on [date] [time]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_021_tpl_001",
+    "source_name": "Template 19: Unrecognized Login Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_021_var_002",
+    "target_name": "Login Location and Device",
+    "rel_type": "contains",
+    "description": "Template 19 requires the location and device details of the login attempt to be populated.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Authentication Logs"
+    },
+    "context": "from [location/device]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_021_tpl_001",
+    "source_name": "Template 19: Unrecognized Login Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_021_cust_001",
+    "target_name": "Customer",
+    "rel_type": "sent_to",
+    "description": "The Unrecognized Login Alert is sent to the customer to notify them of a potential security breach.",
+    "properties": {
+      "channel": "SMS/Email",
+      "urgency": "High"
+    },
+    "context": "If not you, change password immediately",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_021_tpl_001",
+    "source_name": "Template 19: Unrecognized Login Alert",
+    "target_id": "129551a2f5234152887e52c93ef826eb_021",
+    "target_name": "129551a2f5234152887e52c93ef826eb_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_021_var_001",
+    "source_name": "Login Date and Time",
+    "target_id": "129551a2f5234152887e52c93ef826eb_021",
+    "target_name": "129551a2f5234152887e52c93ef826eb_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_021_var_002",
+    "source_name": "Login Location and Device",
+    "target_id": "129551a2f5234152887e52c93ef826eb_021",
+    "target_name": "129551a2f5234152887e52c93ef826eb_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_021_cust_001",
+    "source_name": "Customer",
+    "target_id": "129551a2f5234152887e52c93ef826eb_021",
+    "target_name": "129551a2f5234152887e52c93ef826eb_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_021",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "source_name": "Template 20: Payment Reversal Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022_var_001",
+    "target_name": "amount",
+    "rel_type": "contains",
+    "description": "Template 20 contains a variable for the transaction amount",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Transaction of £[amount]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "source_name": "Template 20: Payment Reversal Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022_var_002",
+    "target_name": "recipient",
+    "rel_type": "contains",
+    "description": "Template 20 contains a variable for the payment recipient",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "to [recipient]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "source_name": "Template 20: Payment Reversal Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022_var_003",
+    "target_name": "EXC-XXXXX",
+    "rel_type": "contains",
+    "description": "Template 20 contains a reference variable for the reversal",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Transaction Ledger"
+    },
+    "context": "Ref: [EXC-XXXXX]",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "source_name": "Template 20: Payment Reversal Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022_txn_001",
+    "target_name": "Reversed Transaction",
+    "rel_type": "triggered_by",
+    "description": "The notification is triggered when a transaction is reversed or refunded",
+    "properties": {
+      "trigger_event": "Payment Reversal"
+    },
+    "context": "Trigger: Transaction reversed/refunded",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "source_name": "Template 20: Payment Reversal Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022_cust_001",
+    "target_name": "Customer",
+    "rel_type": "addressed_to",
+    "description": "The notification is sent to the customer whose transaction was reversed",
+    "properties": {
+      "channel": "SMS/Email"
+    },
+    "context": "FirstUK: Transaction of £[amount] to [recipient] has been reversed.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "source_name": "Template 20: Payment Reversal Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022_acc_001",
+    "target_name": "Customer Account",
+    "rel_type": "confirms",
+    "description": "The template confirms that a refund has been credited to the customer account",
+    "properties": {
+      "action": "Credit"
+    },
+    "context": "Refund credited to your account.",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_tpl_001",
+    "source_name": "Template 20: Payment Reversal Notification",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022",
+    "target_name": "129551a2f5234152887e52c93ef826eb_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_var_001",
+    "source_name": "amount",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022",
+    "target_name": "129551a2f5234152887e52c93ef826eb_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_var_002",
+    "source_name": "recipient",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022",
+    "target_name": "129551a2f5234152887e52c93ef826eb_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_var_003",
+    "source_name": "EXC-XXXXX",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022",
+    "target_name": "129551a2f5234152887e52c93ef826eb_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_cust_001",
+    "source_name": "Customer",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022",
+    "target_name": "129551a2f5234152887e52c93ef826eb_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_acc_001",
+    "source_name": "Customer Account",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022",
+    "target_name": "129551a2f5234152887e52c93ef826eb_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_022_txn_001",
+    "source_name": "Reversed Transaction",
+    "target_id": "129551a2f5234152887e52c93ef826eb_022",
+    "target_name": "129551a2f5234152887e52c93ef826eb_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_022",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_obl_001",
+    "source_name": "SMS Support Contact Requirement",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023_var_001",
+    "target_name": "SMS Reference/Confirmation Code",
+    "rel_type": "related_to",
+    "description": "Both are critical elements required for professional and actionable SMS communications.",
+    "properties": {},
+    "context": "Always include phone number for support\n- Include reference/confirmation codes when possible",
+    "bidirectional": true,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_obl_002",
+    "source_name": "SMS Sensitive Information Prohibition",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023_var_002",
+    "target_name": "Partial Account Number",
+    "rel_type": "mandates",
+    "description": "Prohibition of full account numbers mandates the use of partial account numbers (last 4 digits).",
+    "properties": {
+      "restriction": "no full account numbers",
+      "allowed_format": "last 4 digits"
+    },
+    "context": "Never ask for sensitive info via SMS (PIN, full account number)\n- Full account numbers (use last 4 digits only)",
+    "bidirectional": false,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_obl_003",
+    "source_name": "SMS Opt-Out Notification Requirement",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023_obl_001",
+    "target_name": "SMS Support Contact Requirement",
+    "rel_type": "related_to",
+    "description": "Both are mandatory components of the SMS communication guidelines.",
+    "properties": {},
+    "context": "All SMS templates should include note that customers can opt out... Always include phone number for support",
+    "bidirectional": true,
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_obl_001",
+    "source_name": "SMS Support Contact Requirement",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023",
+    "target_name": "129551a2f5234152887e52c93ef826eb_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_obl_002",
+    "source_name": "SMS Sensitive Information Prohibition",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023",
+    "target_name": "129551a2f5234152887e52c93ef826eb_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_obl_003",
+    "source_name": "SMS Opt-Out Notification Requirement",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023",
+    "target_name": "129551a2f5234152887e52c93ef826eb_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_var_001",
+    "source_name": "SMS Reference/Confirmation Code",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023",
+    "target_name": "129551a2f5234152887e52c93ef826eb_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "129551a2f5234152887e52c93ef826eb_023_var_002",
+    "source_name": "Partial Account Number",
+    "target_id": "129551a2f5234152887e52c93ef826eb_023",
+    "target_name": "129551a2f5234152887e52c93ef826eb_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "129551a2f5234152887e52c93ef826eb_023",
+    "doc_id": "129551a2f5234152887e52c93ef826eb",
+    "domain": "banking_communications"
+  }
+]

@@ -1,0 +1,3691 @@
+{
+  "embedding": [
+    0.01904933,
+    0.046742912,
+    -0.15700059,
+    -0.036407985,
+    0.07258391,
+    -0.04410591,
+    0.08077904,
+    0.020857962,
+    0.014048975,
+    -0.05381776,
+    -0.013967877,
+    0.04644668,
+    0.085301474,
+    -0.017762382,
+    0.036733575,
+    -0.00471113,
+    0.026241688,
+    -0.053903285,
+    -0.04486914,
+    -0.0011564792,
+    0.03836799,
+    -0.04693238,
+    -0.054496624,
+    -0.026068937,
+    0.029919278,
+    0.07952254,
+    -0.015589606,
+    -0.014735541,
+    -0.0127965575,
+    0.0074442187,
+    0.041903358,
+    -0.033129886,
+    -0.019045884,
+    -0.041364633,
+    -0.0059048086,
+    -0.012258856,
+    0.05714414,
+    -0.024361676,
+    0.023774277,
+    -0.05346085,
+    0.043838475,
+    -0.0010415056,
+    0.021318676,
+    -0.04121361,
+    0.045022458,
+    -0.011975894,
+    0.042204287,
+    0.0037405973,
+    0.05027913,
+    -0.044338826,
+    -0.019080693,
+    0.028670348,
+    0.030629259,
+    0.03831915,
+    0.050087757,
+    -0.00042244387,
+    -0.07719155,
+    0.031857457,
+    0.024257438,
+    -0.05785,
+    0.07000919,
+    0.029393753,
+    0.013725709,
+    0.035389923,
+    0.04817002,
+    -0.046540234,
+    0.022086192,
+    0.011875515,
+    0.009866305,
+    -0.015590576,
+    0.039757486,
+    -0.0024567617,
+    -0.018643904,
+    -0.005108144,
+    -0.03345982,
+    0.0036949879,
+    0.011928307,
+    -0.032282513,
+    -0.036730133,
+    0.013467245,
+    0.052176833,
+    -0.0060840435,
+    -0.006081291,
+    0.013573863,
+    0.065857284,
+    -0.042904265,
+    -0.006048684,
+    -0.0140699735,
+    -0.076842315,
+    0.05422676,
+    0.042575963,
+    -0.0027288408,
+    -0.028956294,
+    0.04347751,
+    -0.06294462,
+    0.038935762,
+    0.008217803,
+    -0.02056424,
+    -0.03190993,
+    -0.0019708048,
+    0.018964551,
+    -0.001124329,
+    0.012880418,
+    -0.0342796,
+    0.044343732,
+    0.08030316,
+    0.029962689,
+    0.014720627,
+    -0.0171339,
+    0.016329626,
+    -0.034272116,
+    0.043885354,
+    -0.049651235,
+    0.008362845,
+    0.02344716,
+    0.013652163,
+    0.050336536,
+    -0.0049725072,
+    -0.00708906,
+    0.035841685,
+    0.039736204,
+    0.00793097,
+    -0.0079067,
+    -0.015393865,
+    0.030127052,
+    0.064195275,
+    -0.09742547,
+    -0.010551062,
+    0.036352538,
+    -0.035694584,
+    0.01267477,
+    0.022216091,
+    -0.038151987,
+    0.015304052,
+    0.0013597069,
+    0.048766587,
+    -0.03822118,
+    -0.020017274,
+    0.0440948,
+    -0.0032714962,
+    0.0053323344,
+    0.0420162,
+    -0.012320402,
+    0.050605673,
+    0.011479279,
+    -0.064905696,
+    0.039691996,
+    0.01681422,
+    -0.041589253,
+    0.012221205,
+    -0.0040453346,
+    0.01695964,
+    -0.025819631,
+    0.06261116,
+    -0.0007060804,
+    -0.06907976,
+    -0.041193377,
+    0.03998125,
+    0.018004198,
+    0.027998595,
+    -0.004921879,
+    0.01736551,
+    -0.04250644,
+    0.0040865405,
+    -0.020603044,
+    -0.04351924,
+    0.00089515705,
+    0.0002956372,
+    0.025235275,
+    -0.0054711527,
+    -0.072984345,
+    -0.059880193,
+    0.037083756,
+    0.016463103,
+    0.030717753,
+    0.032593552,
+    0.046381235,
+    0.008868115,
+    -0.0024599647,
+    -0.02524817,
+    0.07457594,
+    -0.06341555,
+    0.06255601,
+    0.023415715,
+    -0.07098373,
+    -0.0074594077,
+    -0.0027668541,
+    -0.023397302,
+    -0.037728146,
+    -0.018361727,
+    0.072262675,
+    0.013956059,
+    -0.05837325,
+    -0.031924155,
+    -0.07083021,
+    -0.036921065,
+    0.06381133,
+    -0.019369045,
+    -0.001766776,
+    -0.071887515,
+    -0.010126517,
+    0.014229716,
+    -0.030554308,
+    0.01719855,
+    -0.012948853,
+    0.04537082,
+    -0.0012468763,
+    0.018591601,
+    -0.008923247,
+    0.032327957,
+    0.02226789,
+    -0.017154697,
+    -0.031184101,
+    -0.0017530202,
+    0.06694126,
+    0.027848866,
+    0.015793713,
+    -0.029475905,
+    -0.0012506281,
+    0.046786383,
+    0.0403004,
+    -0.0038731364,
+    -0.023565162,
+    -0.0013942693,
+    0.030199407,
+    0.002334824,
+    -0.04725557,
+    -0.020191025,
+    -0.017895682,
+    -0.014060844,
+    0.0058743055,
+    -0.060511965,
+    0.052720245,
+    -0.047967255,
+    0.026498072,
+    -0.0049153464,
+    -0.017782712,
+    0.057912633,
+    -0.011004333,
+    0.07365703,
+    0.012185615,
+    0.047566097,
+    -0.06308725,
+    0.03324378,
+    -0.025630955,
+    -0.019748645,
+    -0.023328397,
+    -8.818962e-05,
+    0.01973766,
+    0.076750316,
+    0.05055639,
+    0.05676045,
+    0.053960584,
+    0.022752443,
+    0.03559012,
+    -0.0029250563,
+    -0.06805642,
+    0.016523456,
+    0.027007708,
+    -0.015077231,
+    -0.0229304,
+    -0.016254475,
+    0.051650632,
+    -0.04734002,
+    -0.0030457994,
+    0.001891339,
+    -0.059741568,
+    -0.05726044,
+    0.021068806,
+    -0.0061861803,
+    0.0009415524,
+    0.01174845,
+    0.0095757125,
+    0.0526077,
+    0.011446697,
+    -0.0036163116,
+    0.00020048526,
+    -0.015811814,
+    -0.0030231148,
+    0.02790387,
+    -0.019278746,
+    -0.08002033,
+    0.004132269,
+    0.010415416,
+    -0.02729152,
+    0.022615448,
+    0.008140158,
+    -0.006640563,
+    0.036822803,
+    0.021621374,
+    0.052340128,
+    -0.010850687,
+    0.015168722,
+    -0.018997952,
+    -0.012387889,
+    0.03576157,
+    0.040475436,
+    -0.054253127,
+    0.018417286,
+    -0.070141815,
+    0.02279471,
+    0.08281459,
+    0.046397086,
+    0.0018855014,
+    0.025188396,
+    -0.04348078,
+    -0.05304642,
+    0.01516982,
+    -0.007468688,
+    -0.05577917,
+    -0.025529522,
+    -0.047556274,
+    -0.03579459,
+    -0.0019790302,
+    -0.06915033,
+    0.0047675124,
+    0.03269861,
+    0.026407415,
+    0.049083404,
+    -0.01644453,
+    -0.0110767,
+    -0.03741914,
+    -0.0021959625,
+    -0.05239639,
+    0.0035230522,
+    0.034737483,
+    0.019353509,
+    0.012510641,
+    -0.024867382,
+    0.01958539,
+    0.02872461,
+    0.04975212,
+    0.038509417,
+    -0.040341582,
+    0.02720918,
+    0.05016193,
+    0.00751598,
+    0.012605976,
+    0.006671607,
+    0.04131985,
+    0.0009137398,
+    -0.02440389,
+    0.0109204445,
+    -0.002882194,
+    0.010623122,
+    -0.005541041,
+    0.027907273,
+    -0.012259449,
+    0.032358427,
+    0.027930988,
+    0.028074002,
+    -0.012110616,
+    -0.02238658,
+    -0.027781626,
+    0.04796546,
+    0.024645215,
+    -0.020972107,
+    0.025462357,
+    0.0014923178,
+    -0.037105814,
+    0.01252889,
+    0.049623918,
+    0.0067822784,
+    -0.005405825,
+    -0.018379882,
+    0.029398592,
+    0.07577388,
+    -0.0015849491,
+    0.008182039,
+    0.012347021,
+    0.009291992,
+    0.011623751,
+    -0.017594615,
+    0.029845204,
+    -0.001027284,
+    0.022095788,
+    -0.06735462,
+    -0.010077812,
+    -0.0357092,
+    0.018656783,
+    0.033443008,
+    -0.01731271,
+    -0.058966957,
+    0.018517496,
+    -0.005664008,
+    -0.026802313,
+    0.009168811,
+    -0.031239722,
+    -0.017629799,
+    0.0004750391,
+    -0.009985679,
+    0.0054661087,
+    0.018801216,
+    -0.009204272,
+    -0.032091353,
+    -0.026644697,
+    0.0063964287,
+    -0.019480428,
+    -0.025460485,
+    0.0764566,
+    -0.046167165,
+    -0.08000361,
+    0.015011126,
+    0.016583787,
+    -0.002860686,
+    -0.042439923,
+    -0.06391396,
+    -0.00042098627,
+    -0.003010668,
+    0.0055785608,
+    0.03932012,
+    0.023697454,
+    -0.032375336,
+    -0.04120426,
+    0.043515585,
+    0.001908673,
+    0.06653085,
+    -0.04907344,
+    -0.019920273,
+    -0.020329379,
+    0.0022674515,
+    0.025653033,
+    0.021602718,
+    -0.018070076,
+    0.027112383,
+    -0.001356043,
+    0.026528083,
+    0.014595039,
+    -0.0020071683,
+    -0.045670994,
+    0.010442893,
+    0.013684014,
+    0.0072347783,
+    -0.025173659,
+    0.0012772458,
+    0.032886665,
+    0.02681835,
+    0.012177484,
+    0.03623324,
+    -0.02223215,
+    0.0315595,
+    -0.015514377,
+    -0.04169651,
+    -0.05151184,
+    0.008413677,
+    0.09982293,
+    0.046585955,
+    -0.0298885,
+    -0.0039258916,
+    0.033733852,
+    -0.034144614,
+    0.027628414,
+    -0.00966804,
+    0.03313535,
+    0.08664774,
+    -0.040856104,
+    0.019461714,
+    0.017138941,
+    0.016747475,
+    0.03167964,
+    -0.016999349,
+    0.01726691,
+    -0.042248257,
+    -0.025604827,
+    -0.00787928,
+    0.029023534,
+    0.013366303,
+    -0.009335708,
+    0.009270859,
+    0.10308629,
+    -0.06491609,
+    -0.012984915,
+    0.040407527,
+    -0.036351815,
+    -0.02316209,
+    0.031946015,
+    -0.036081128,
+    -0.014706318,
+    0.047915775,
+    0.037740882,
+    0.0023706986,
+    -0.031473827,
+    -0.056034032,
+    -0.04976757,
+    -0.038888212,
+    0.04075061,
+    -0.00011627434,
+    -0.11362687,
+    0.007625901,
+    -0.027054185,
+    0.026235972,
+    0.028684776,
+    0.009506886,
+    -0.014126782,
+    -0.048719138,
+    0.04506387,
+    -0.022529248,
+    0.0327151,
+    0.013275016,
+    -0.02312752,
+    0.018584263,
+    0.05038524,
+    -0.023052216,
+    0.0072692754,
+    0.061766468,
+    0.019811563,
+    0.059362236,
+    -0.06572641,
+    -0.012811176,
+    -0.015862081,
+    -3.490061e-06,
+    0.0030411936,
+    0.007876507,
+    -0.010976933,
+    0.03815671,
+    -0.0556628,
+    -0.013901054,
+    -0.013570981,
+    -0.03951626,
+    -0.01935338,
+    0.024363836,
+    -0.032505002,
+    0.0023910853,
+    -0.021227304,
+    -0.020425532,
+    0.027127171,
+    -0.01511761,
+    -0.058082663,
+    0.05642618,
+    -0.021601975,
+    -0.0062452895,
+    0.066098966,
+    0.012246675,
+    -0.007636832,
+    -0.027767,
+    -0.0009410315,
+    -0.020974796,
+    -0.019936211,
+    0.077426895,
+    0.012576519,
+    -0.008393182,
+    -0.008270266,
+    0.0040124133,
+    -0.006190228,
+    0.01605744,
+    -0.028924005,
+    -0.017294936,
+    0.020812038,
+    0.021116754,
+    -0.077721626,
+    0.052522063,
+    -0.038492765,
+    0.0066055087,
+    -0.059375394,
+    -0.00484974,
+    -0.008641567,
+    0.032236442,
+    -0.038760163,
+    -0.012840279,
+    -0.03991974,
+    0.013784432,
+    -0.0013995377,
+    0.050939046,
+    0.026783325,
+    -0.009650979,
+    -0.016700199,
+    -0.037891097,
+    -0.014929,
+    -0.014136813,
+    0.052738108,
+    0.06457428,
+    -0.07041239,
+    -0.052615657,
+    -0.007146249,
+    -0.01939887,
+    -0.03780263,
+    0.06512024,
+    -0.0127169145,
+    -0.048960835,
+    -0.02997431,
+    0.010570718,
+    -0.046103947,
+    0.027079862,
+    0.047849383,
+    0.009097186,
+    0.02393267,
+    -0.016068585,
+    -0.051365115,
+    0.031379804,
+    -0.04267906,
+    -0.022439895,
+    -0.021349613,
+    0.04373496,
+    -0.024895273,
+    -0.006518225,
+    0.0049128616,
+    0.036578547,
+    -0.035179626,
+    -0.04984678,
+    -0.013549906,
+    -0.059058815,
+    0.030194404,
+    0.0785646,
+    -0.07301193,
+    -0.00089374563,
+    0.014997385,
+    -0.013494101,
+    0.016000995,
+    0.014915223,
+    -0.042401366,
+    0.009966161,
+    0.012822109,
+    -0.0023873781,
+    0.020474575,
+    0.0034758325,
+    -0.0022482662,
+    0.09924937,
+    -0.045618366,
+    0.022135517,
+    -0.048653435,
+    -0.0061817057,
+    -0.041276474,
+    0.013480497,
+    -0.011955969,
+    -0.016436258,
+    0.0017042039,
+    -0.018723337,
+    -0.062378462,
+    -0.028760893,
+    0.035130825,
+    -0.060315795,
+    0.024877673,
+    -0.038688313,
+    -0.023721898,
+    -0.10553066,
+    -0.027160522,
+    0.002542162,
+    0.0035126524,
+    -0.016899867,
+    0.03679541,
+    0.06391443,
+    -0.0017646884,
+    -0.037172224,
+    0.051988408,
+    0.053887837,
+    -0.021389395,
+    0.019349156,
+    0.026819203,
+    0.031766184,
+    -0.03318334,
+    0.08539218,
+    0.041533027,
+    0.0034501336,
+    -0.03542244,
+    0.04946144,
+    -0.014101864,
+    0.028671388,
+    -0.030620132,
+    -0.0021753341,
+    0.007838544,
+    0.005364318,
+    0.033013303,
+    0.0022784,
+    0.049164303,
+    0.015881877,
+    0.025003714,
+    -0.041582614,
+    0.021018676,
+    -0.027278297,
+    -0.028977823,
+    0.044355933,
+    0.07164378,
+    -0.07354529,
+    0.0381883,
+    0.010616981,
+    0.04457895,
+    0.04409729,
+    0.032979265,
+    -0.050049383,
+    0.033889137,
+    -0.04749696,
+    0.017082922,
+    -0.0022664042,
+    -0.015054085,
+    0.0020026658,
+    -0.02516202,
+    -0.0022488586,
+    0.014297647,
+    -0.01194376,
+    -0.03576904,
+    -0.032842502,
+    0.015900705,
+    -0.0046401434,
+    -0.03797954,
+    0.0008018309,
+    0.048237164,
+    0.0040164446,
+    -0.040515367,
+    -0.046220373,
+    0.039213408,
+    -0.019749971,
+    0.025650105,
+    -0.011681441,
+    0.040006828,
+    -0.009203183,
+    0.0068853376,
+    -0.030274063,
+    -0.03266816,
+    -0.0061260904,
+    -0.014997204,
+    0.00089365203,
+    -0.015833627,
+    -0.0032583752,
+    -0.0004596001,
+    0.035895064,
+    0.06498698,
+    -0.034029495,
+    -0.018152805,
+    0.017884022,
+    0.022604387,
+    0.011158064,
+    -0.013578602,
+    -0.066892445,
+    -0.0046255514,
+    -0.0023203243,
+    0.029969648,
+    0.008254953,
+    -0.08220629,
+    -0.0307042,
+    -0.07571701,
+    0.017327823,
+    -0.037159894,
+    -0.07549505,
+    0.048011832,
+    -7.76371e-05,
+    -0.009148861,
+    0.035973065,
+    -0.040070347,
+    -0.060513444,
+    -0.04556616,
+    -0.04746913,
+    0.006504202,
+    -0.01302387,
+    0.01339259,
+    0.02449955,
+    -0.007762604,
+    -0.019910155,
+    0.032405216,
+    -0.025496406,
+    -0.024467785,
+    0.048800983,
+    0.005334835,
+    -0.06816145,
+    0.031049076,
+    -0.014872779,
+    0.0021593717,
+    0.03926503,
+    0.028563716,
+    0.08582768,
+    0.051623665,
+    0.008424137,
+    -0.036285017,
+    0.016921721,
+    -0.021499135,
+    -0.028367283,
+    -0.054722782,
+    -0.044948958,
+    -0.040905636
+  ],
+  "chunk_seq": 7,
+  "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+  "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+  "text": "# Hackathon  \nHackathon in progress  \nThe winners  \nThe winners  \nThe winners  \nThe winners  \nSlides for Data, AI and Modernisation to be added  \nDriving value through 98.5% IBM offshore teams  \nOffshore  \nWorking in true partnership to deliver the future of QE  \nOnsite  \nDriving improvements through  \nImpact Delivered &amp;Ongoing Transformation  \nOUTCOMES  \nMetrics  \nAssessments  \nCapability  \nOn going delivery  \n2024: Metrics Dashboard across all areas  \n2025: New CIO metrics to provide clear, test value view for all portfolios  \n2024- 25: Maturity assessments in CS, RP &amp; MFW portfolios  \noptimised regression tests using production volume data  \n2024-25: Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM  \n2025: CDMP testing (SAP development- 60% target automation, Data Migration- 70% target automation, Wider app Migration- testing 62 consumer apps)  \nTrBK testing (SAP Enterprise web services, Db schema, UI screens, E2E Business flows  \nThought leader  \nDriver  \nInfluencer  \nStrong Relationships  \n&amp; Partnerships  \nInnovation  \n&amp; Technology  \nEfforts savings  \nin every portfolio  \nModernise test methods  \nDrive test efficiency &amp; efficacy  \nBest Practices  \nCulture &amp; community engagement  \nTCD process and KT have accelerated IBM testers on boarding significantly  \n56 PDs per quarter efforts saving  \n2024: Onsite Design thinking workshop -&gt; 2024 CI Initiatives  \n2025: Onsite Test Continuous Improvement workshop -&gt; 2025 CI initiatives  \n2024, 2025: TesTalks- weekly newsletter, quarterly webinar  \nDevelop our Test capability  \nTransforming Nationwide test landscape: Delivering outcomes  \nRegression Packs  \nAutomation &amp; GenAI  \nShift Left  \nLive data in testing  \nNon-Functional Testing  \n- Test Data transformation program and Live Data Remediation program  \n- GenAI based Innovations for Security - AST\n- App Vulnerability Management improvements\n- Performance testing &amp; OAT productivity improvements  \nSuccess Delivered  \nTrack  \nActions &amp; Achievements  \nDriving Test Efficiency  \nCompliance &amp; Resilience  \nDriven by Metrics (Defect management dashboard &gt;&gt; Test metrics dashboard)- Supporting on going Assessments  \nSimplify Organisation  \nSimplify Processes  \n- Refactoring regression packs by applications.\n- Universal methodology established &amp; rolled out  \n- Automation Target calculator introduced through Test assessments in Customer Servicing &amp; Mortgages.\n- GenAI PoC (IBM Asset) implemented for Test Case creation in Alias migration  \n- Standardized Dashboard rolled out across Test Practice  \n- Team organisation based on Application platforms - pool of testers vs. captive squad-based capacity (core &amp; flex)  \n- Test Practice led POMS process changes initiated to replace TCDs, giving Test leads better control over Costs &amp; HC across NBS Test  \n- Measurable Test efficiency improvement\n- Quality maintained / improved  \nDriving Test optimisation across portfolios  \nThe picture is a comprehensive process and data visualization dashboard detailing a software development audit process.  \nThe left side outlines the methodology in four steps:\n1.  \"Transaction volume in production for customer journey/scenarios from SAMM Audit database for 3 months\"\n2.  \"Production journey mapped to Regression Tests Histogram of the 114 journeys\"\n3.  \"Conducted segmentation analysis into 4 buckets – the GRAB segments\"\n4.  \"Derived insights and actions\"  \nThe main body consists of a detailed data visualization (a segmented bar chart) and a corresponding action key.  \nThe action key defines four color segments:\n*   **67 (GREEN):** Indicates \"Significant # of transactions & Automated Regression Tests.\" The derived action is to \"Continue execution through regression automation packs,\" marked with a checkmark and \"Done.\"\n*   **13 (RED):** Indicates \"Significant # of transactions BUT NO Regression Tests.\" The derived action is to \"Prioritise to build a regression pack,\" marked with a checkmark and \"Done.\"\n*   **9 (AMBER):** Indicates \"Significant # of transactions, with manual Regression Tests.\" The derived action is \"Manual Test cases added to Automation backlog,\" marked with a checkmark and \"Done.\"\n*   **25 (BLACK):** Indicates \"Blacklist / Deprioritise as < 10 Transactions.\" The derived action is to \"Optimise Regression Test pack and save effort,\" marked with a checkmark and \"Done.\"  \nThe entire structure illustrates the analysis flow from assessing the \"Transaction volume in production for customer journey/scenarios from SAMM Audit database for 3 months\" through mapping the \"Production journey mapped to Regression Tests Histogram of the 114 journeys,\" resulting in \"insights and actions\" based on the GRAB segments.  \n- Customer Servicing\n-  Mortgages\n- Originations  \nBenefitting Portfolios  \n- Rollout of Automation ROI Calculator across Test Practice\n- Using the ‘New’ CIO metrics to report outcomes\n- Alias GenAI POC in Production  \n- BI, Digital, Customer Servicing &amp; Mortgages  \n- Customer Servicing\n- Mortgages  \n- BI dashboard on POMS portal to bring in transparency for resource allocation  \n- LDR Program completed  \n- AST Innovations &amp; newer ways of thinking  \n- Method to optimize Regression pack established  \nSAMM Test TRANSFORMATION  \nSIT Automation  \nJIRA Restructuring  \nGitHub Integration  \nShift left with SV  \nSmoke Test Execution  \nST Unattended Execution  \nicon  \nicon  \nicon  \nicon  \nicon  \nicon  \nDevelop a regression automation script with the BDD framework and integrate it with JIRA Zephyr.  \nRestructuring test cases in JIRA by feature for improved monitoring and reporting.  \nIntegrate with GitHub and maintain code repository in centralized location.  \nShift-left testing approach using Service Virtualization in the ST environment.  \nEnable on-demand testing with a pack of critical business scenarios.  \nAutomated Script Execution in ST Without Manual Intervention  \nMulti-Dimensional Benefits of SAMM Test Transformation  \nOctober 01,2025  \nReduced environment-driven delays  \nEnd-to-end unattended test execution  \nImproved predictability &amp; faster releases  \nTransformation in Testing Delivery  is expected to deliver 60% More Testing Throughput  \nA six-month initiative drove unattended automation to 100%, slashing environment-related defects from 30% down to just 3% and significantly accelerating release cycles  \n| April   | August   | Oct   |\n|---------|----------|-------|  \nLaunched with the goal of accelerating test cycles and improving quality  \n60% More Testing Delivered.  \nUpdates from Sept 23rd release  \n|                                        | April’25                                                                                                                | Aug’25                                                                                                                                                 | Sep‘25                                               |\n|----------------------------------------|-------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------|",
+  "name": "Chunk 7/8",
+  "domain": "sales_collateral",
+  "prev_chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_006",
+  "next_chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_008",
+  "raw_entities": [
+    {
+      "id": "cli_001",
+      "name": "Nationwide (NBS)",
+      "aliases": [
+        "NBS",
+        "Nationwide Building Society",
+        "Customer Servicing & Mortgages"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services organization and primary client undergoing a comprehensive test landscape transformation. The engagement focuses on modernizing testing methods, driving automation, and delivering offshore/onsite capabilities across Customer Servicing, Mortgages, and BI portfolios.",
+      "context": [
+        "Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM",
+        "Transforming Nationwide test landscape: Delivering outcomes",
+        "BI dashboard on POMS portal to bring in transparency for resource allocation"
+      ]
+    },
+    {
+      "id": "off_001",
+      "name": "SAMM Test Transformation",
+      "aliases": [
+        "SAMM Test TRANSFORMATION",
+        "Test Delivery Transformation"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A comprehensive testing delivery transformation initiative aimed at modernizing test methods, driving automation, and improving efficiency across multiple business portfolios. It encompasses SIT automation, shift-left testing, and unattended execution frameworks to accelerate release cycles.",
+      "context": [
+        "SAMM Test TRANSFORMATION",
+        "Transforming Nationwide test landscape: Delivering outcomes",
+        "Transformation in Testing Delivery is expected to deliver 60% More Testing Throughput"
+      ]
+    },
+    {
+      "id": "off_002",
+      "name": "Test Capability Framework",
+      "aliases": [
+        "Shared Skills Framework",
+        "Universal Methodology"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "A structured approach to standardize testing expectations, skills growth, and delivery models across the client's portfolios. It enables shared capabilities, continuous improvement, and consistent quality standards across offshore and onsite teams.",
+      "context": [
+        "Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM",
+        "Develop our Test capability",
+        "Universal methodology established & rolled out"
+      ]
+    },
+    {
+      "id": "off_003",
+      "name": "Automation & GenAI Testing Suite",
+      "aliases": [
+        "GenAI PoC",
+        "Automation & GenAI",
+        "AST Innovations"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A combined offering leveraging automation tools and generative AI to accelerate test case creation, enhance security testing, and drive regression automation across the client's application landscape, specifically applied during migration and security initiatives.",
+      "context": [
+        "Automation & GenAI",
+        "GenAI based Innovations for Security - AST",
+        "Alias GenAI POC in Production"
+      ]
+    },
+    {
+      "id": "cap_001",
+      "name": "Regression Automation & Optimization",
+      "aliases": [
+        "Optimised Regression Tests",
+        "Regression Pack Refactoring"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "The ability to automate regression testing packs, optimize them based on production transaction volumes, and integrate them with CI/CD pipelines to reduce manual effort and improve test coverage across key business applications.",
+      "context": [
+        "optimised regression tests using production volume data",
+        "Refactoring regression packs by applications",
+        "Continue execution through regression automation packs"
+      ]
+    },
+    {
+      "id": "cap_002",
+      "name": "Unattended Test Execution",
+      "aliases": [
+        "End-to-End Unattended Execution",
+        "ST Unattended Execution"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The capability to execute test scripts in staging environments without manual intervention, enabling end-to-end automated workflows, faster feedback loops, and significantly accelerated release cycles.",
+      "context": [
+        "End-to-end unattended test execution",
+        "Automated Script Execution in ST Without Manual Intervention",
+        "ST Unattended Execution"
+      ]
+    },
+    {
+      "id": "cap_003",
+      "name": "Test Metrics & Defect Management",
+      "aliases": [
+        "Defect Management Dashboard",
+        "Test Metrics Dashboard",
+        "CIO Metrics Reporting"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "analytics_capability",
+      "description": "The ability to track, visualize, and report on test performance, defect rates, and portfolio outcomes using standardized dashboards and CIO-level metrics to drive transparency and resource allocation.",
+      "context": [
+        "Driven by Metrics (Defect management dashboard >> Test metrics dashboard)",
+        "2025: New CIO metrics to provide clear, test value view for all portfolios",
+        "BI dashboard on POMS portal to bring in transparency for resource allocation"
+      ]
+    },
+    {
+      "id": "cap_004",
+      "name": "Shift-Left Testing with Service Virtualization",
+      "aliases": [
+        "Shift left with SV",
+        "SV Testing"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The capability to integrate testing earlier in the development lifecycle using service virtualization to simulate dependencies, enabling on-demand testing of critical business scenarios in staging environments.",
+      "context": [
+        "Shift left with SV",
+        "Shift-left testing approach using Service Virtualization in the ST environment",
+        "Enable on-demand testing with a pack of critical business scenarios"
+      ]
+    },
+    {
+      "id": "use_001",
+      "name": "Customer Journey Regression Testing",
+      "aliases": [
+        "Transaction Volume Segmentation",
+        "GRAB Segments Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "Applying automated regression testing to production customer journey scenarios to ensure system stability and validate transaction flows across key business applications, prioritized based on production volume data.",
+      "context": [
+        "Transaction volume in production for customer journey/scenarios from SAMM Audit database",
+        "Production journey mapped to Regression Tests Histogram of the 114 journeys",
+        "Significant # of transactions & Automated Regression Tests"
+      ]
+    },
+    {
+      "id": "use_002",
+      "name": "Test Case Generation via GenAI",
+      "aliases": [
+        "GenAI Test Creation",
+        "AST Security Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "Leveraging generative AI to automatically create and optimize test cases, specifically applied during the Alias migration and security testing initiatives to accelerate development and improve coverage.",
+      "context": [
+        "GenAI based Innovations for Security - AST",
+        "Alias GenAI POC in Production",
+        "GenAI PoC (IBM Asset) implemented for Test Case creation in Alias migration"
+      ]
+    },
+    {
+      "id": "use_003",
+      "name": "Performance & OAT Productivity Testing",
+      "aliases": [
+        "OAT Testing",
+        "SAP & E2E Flow Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "Conducting performance testing and Operational Acceptance Testing (OAT) to ensure system reliability, optimize throughput, and validate business flows across SAP development, database schemas, and end-to-end processes before release.",
+      "context": [
+        "Performance testing & OAT productivity improvements",
+        "TrBK testing (SAP Enterprise web services, Db schema, UI screens, E2E Business flows",
+        "CDMP testing (SAP development- 60% target automation, Data Migration- 70% target automation"
+      ]
+    },
+    {
+      "id": "ben_001",
+      "name": "Significant Effort & Cost Savings",
+      "aliases": [
+        "Efforts Savings",
+        "56 PDs per Quarter Savings"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "Quantifiable reduction in testing effort and costs across all portfolios, driven by automation, optimized regression packs, and streamlined onboarding processes that eliminate redundant manual work.",
+      "context": [
+        "Efforts savings in every portfolio",
+        "56 PDs per quarter efforts saving",
+        "Optimise Regression Test pack and save effort"
+      ]
+    },
+    {
+      "id": "ben_002",
+      "name": "Accelerated Release Cycles & Predictability",
+      "aliases": [
+        "Faster Releases",
+        "Improved Predictability"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Faster time-to-market and improved release predictability achieved through unattended automation, reduced environment delays, and shift-left methodologies that streamline the testing pipeline.",
+      "context": [
+        "Improved predictability & faster releases",
+        "significantly accelerating release cycles",
+        "Reduced environment-driven delays"
+      ]
+    },
+    {
+      "id": "ben_003",
+      "name": "Drastic Reduction in Environment-Related Defects",
+      "aliases": [
+        "Defect Slashing",
+        "30% to 3% Defect Reduction"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "A measurable decrease in defects caused by environment instability, dropping from 30% to 3% through comprehensive automation, standardized methodologies, and continuous improvement initiatives.",
+      "context": [
+        "slashing environment-related defects from 30% down to just 3%",
+        "Quality maintained / improved",
+        "Measurable Test efficiency improvement"
+      ]
+    },
+    {
+      "id": "ben_004",
+      "name": "Increased Testing Throughput",
+      "aliases": [
+        "60% More Testing Delivered",
+        "Testing Throughput Growth"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "scale_achievement",
+      "description": "A substantial increase in the volume of testing delivered, targeting a 60% improvement in throughput across the test practice, enabling faster validation of business scenarios and applications.",
+      "context": [
+        "Transformation in Testing Delivery is expected to deliver 60% More Testing Throughput",
+        "60% More Testing Delivered",
+        "Drive test efficiency & efficacy"
+      ]
+    },
+    {
+      "id": "cha_001",
+      "name": "Environment-Driven Delays & Defects",
+      "aliases": [
+        "Environment Instability",
+        "Legacy Environment Bottlenecks"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "technical_debt",
+      "description": "Legacy testing infrastructure and unstable environments causing significant delays, defects, and bottlenecks in the release pipeline, requiring modernization and unattended automation to resolve.",
+      "context": [
+        "Reduced environment-driven delays",
+        "slashing environment-related defects from 30% down to just 3%",
+        "Significant # of transactions BUT NO Regression Tests"
+      ]
+    },
+    {
+      "id": "cha_002",
+      "name": "Manual Testing Bottlenecks & Skill Gaps",
+      "aliases": [
+        "Manual Test Cases",
+        "Cost & HC Control Constraints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Reliance on manual test cases, lack of standardized methodologies, and constrained headcount/cost control limiting testing scalability and efficiency, necessitating automation and process redesign.",
+      "context": [
+        "Significant # of transactions, with manual Regression Tests",
+        "Manual Test cases added to Automation backlog",
+        "Test leads better control over Costs & HC across NBS Test"
+      ]
+    },
+    {
+      "id": "cha_003",
+      "name": "Portfolio Visibility & Resource Allocation",
+      "aliases": [
+        "Lack of Transparency",
+        "Resource Allocation Bottlenecks"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "Lack of transparent metrics and standardized dashboards for tracking portfolio performance, resource allocation, and test value across business units, hindering strategic decision-making and scaling.",
+      "context": [
+        "2025: New CIO metrics to provide clear, test value view for all portfolios",
+        "BI dashboard on POMS portal to bring in transparency for resource allocation",
+        "Restructuring test cases in JIRA by feature for improved monitoring and reporting"
+      ]
+    },
+    {
+      "id": "tec_001",
+      "name": "JIRA & Zephyr",
+      "aliases": [
+        "JIRA Restructuring",
+        "Zephyr Test Management"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Project management and test management platforms used for test case tracking, JIRA restructuring, and BDD framework integration to improve monitoring, reporting, and automation script execution.",
+      "context": [
+        "JIRA Restructuring",
+        "Develop a regression automation script with the BDD framework and integrate it with JIRA Zephyr",
+        "Restructuring test cases in JIRA by feature for improved monitoring and reporting"
+      ]
+    },
+    {
+      "id": "tec_002",
+      "name": "GitHub",
+      "aliases": [
+        "Code Repository",
+        "GitHub Integration"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Centralized code repository platform integrated into the testing workflow to maintain automation scripts, support continuous integration, and ensure version control across the test practice.",
+      "context": [
+        "GitHub Integration",
+        "Integrate with GitHub and maintain code repository in centralized location",
+        "Standardized Dashboard rolled out across Test Practice"
+      ]
+    },
+    {
+      "id": "tec_003",
+      "name": "Service Virtualization (SV)",
+      "aliases": [
+        "SV",
+        "Shift-Left SV"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "automation_tool",
+      "description": "Technology used to simulate dependent systems and enable shift-left testing, allowing critical business scenarios to be tested on-demand in staging environments without full infrastructure dependencies.",
+      "context": [
+        "Shift left with SV",
+        "Shift-left testing approach using Service Virtualization in the ST environment",
+        "Enable on-demand testing with a pack of critical business scenarios"
+      ]
+    },
+    {
+      "id": "tec_004",
+      "name": "SAMM Audit Database",
+      "aliases": [
+        "SAMM Database",
+        "Transaction Volume Database"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "database",
+      "description": "Internal audit database used to extract production transaction volumes for customer journey scenarios, feeding into segmentation analysis and regression testing prioritization based on actual usage data.",
+      "context": [
+        "Transaction volume in production for customer journey/scenarios from SAMM Audit database for 3 months",
+        "SAMM Audit database for 3 months",
+        "Conducted segmentation analysis into 4 buckets – the GRAB segments"
+      ]
+    },
+    {
+      "id": "tec_005",
+      "name": "POMS Portal",
+      "aliases": [
+        "POMS",
+        "BI Dashboard Portal"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "platform",
+      "description": "Client's internal portal used for BI dashboards, resource allocation transparency, and tracking test practice metrics, serving as a central hub for portfolio visibility and process changes.",
+      "context": [
+        "BI dashboard on POMS portal to bring in transparency for resource allocation",
+        "Test Practice led POMS process changes initiated",
+        "2024-25: Maturity assessments in CS, RP & MFW portfolios"
+      ]
+    },
+    {
+      "id": "dif_001",
+      "name": "98.5% IBM Offshore Delivery Model",
+      "aliases": [
+        "Offshore Delivery",
+        "IBM Offshore Teams"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "A highly leveraged offshore delivery model that drives value, efficiency, and cost savings while maintaining strong partnership and quality standards, enabling scalable testing across all portfolios.",
+      "context": [
+        "Driving value through 98.5% IBM offshore teams",
+        "Offshore",
+        "Working in true partnership to deliver the future of QE"
+      ]
+    },
+    {
+      "id": "dif_002",
+      "name": "Accelerated Tester Onboarding & Standardized Frameworks",
+      "aliases": [
+        "KT Process",
+        "Universal Methodology",
+        "Standardized Dashboard"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "Proprietary processes and knowledge transfer (KT) methods that significantly speed up tester onboarding, combined with universal methodologies and standardized dashboards that ensure consistent quality and faster ramp-up.",
+      "context": [
+        "TCD process and KT have accelerated IBM testers on boarding significantly",
+        "Universal methodology established & rolled out",
+        "Standardized Dashboard rolled out across Test Practice"
+      ]
+    },
+    {
+      "id": "dif_003",
+      "name": "Thought Leadership & Innovation Culture",
+      "aliases": [
+        "Innovation & Technology",
+        "Culture & Community Engagement",
+        "TesTalks"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "innovation",
+      "description": "A culture of continuous improvement, best practices, and community engagement, supported by weekly newsletters, webinars, and design thinking workshops that drive test efficiency and methodology adoption.",
+      "context": [
+        "Thought leader",
+        "Innovation & Technology",
+        "Culture & community engagement",
+        "TesTalks- weekly newsletter, quarterly webinar"
+      ]
+    },
+    {
+      "id": "org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Offshore",
+        "IBM Asset"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary solutions provider and partner delivering the test transformation, offshore capabilities, and GenAI innovations to the client, driving value through structured delivery and continuous improvement.",
+      "context": [
+        "98.5% IBM offshore teams",
+        "NBS and IBM",
+        "GenAI PoC (IBM Asset) implemented"
+      ]
+    },
+    {
+      "id": "org_002",
+      "name": "NBS (Nationwide Building Society)",
+      "aliases": [
+        "Nationwide",
+        "NBS Test",
+        "Customer Servicing & Mortgages"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The client organization undergoing the test transformation, with specific focus on Customer Servicing, Mortgages, and BI portfolios, leveraging shared skills frameworks and offshore delivery models.",
+      "context": [
+        "shared skills expectations and growth models across NBS and IBM",
+        "Costs & HC across NBS Test",
+        "Benefitting Portfolios"
+      ]
+    },
+    {
+      "id": "eve_001",
+      "name": "Hackathon",
+      "aliases": [
+        "Hackathon in progress",
+        "Data, AI and Modernisation Hackathon"
+      ],
+      "entity_class": "EVENT",
+      "type": "conference",
+      "description": "An internal or collaborative innovation event focused on testing, data, AI, and modernization, featuring winner announcements, slide presentations, and strategic roadmap discussions.",
+      "context": [
+        "Hackathon",
+        "Hackathon in progress",
+        "Slides for Data, AI and Modernisation to be added"
+      ]
+    },
+    {
+      "id": "eve_002",
+      "name": "Onsite Design Thinking & CI Workshops",
+      "aliases": [
+        "2024 CI Initiatives",
+        "2025 CI Initiatives",
+        "Test Continuous Improvement Workshop"
+      ],
+      "entity_class": "EVENT",
+      "type": "conference",
+      "description": "Scheduled workshops for 2024 and 2025 focused on design thinking and continuous improvement initiatives to drive test efficiency, methodology adoption, and portfolio transformation outcomes.",
+      "context": [
+        "2024: Onsite Design thinking workshop -> 2024 CI Initiatives",
+        "2025: Onsite Test Continuous Improvement workshop -> 2025 CI initiatives",
+        "2024-25: Maturity assessments in CS, RP & MFW portfolios"
+      ]
+    },
+    {
+      "id": "eve_003",
+      "name": "Quarterly Release & Milestone Events",
+      "aliases": [
+        "Sept 23rd Release",
+        "April'25",
+        "Aug'25",
+        "Sep'25"
+      ],
+      "entity_class": "EVENT",
+      "type": "product_launch",
+      "description": "Key release and milestone events tracking the rollout of automation, metrics, and transformation outcomes, serving as checkpoints for measuring throughput, defect reduction, and portfolio benefits.",
+      "context": [
+        "Updates from Sept 23rd release",
+        "April'25",
+        "Aug'25",
+        "Sep'25"
+      ]
+    }
+  ],
+  "id_map": {
+    "cli_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+    "off_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+    "off_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_002",
+    "off_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_003",
+    "cap_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+    "cap_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+    "cap_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+    "cap_004": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+    "use_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+    "use_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_002",
+    "use_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+    "ben_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+    "ben_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+    "ben_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_003",
+    "ben_004": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+    "cha_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+    "cha_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+    "cha_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+    "tec_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+    "tec_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_002",
+    "tec_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_003",
+    "tec_004": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_004",
+    "tec_005": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_005",
+    "dif_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_001",
+    "dif_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_002",
+    "dif_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_003",
+    "org_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_001",
+    "org_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_002",
+    "eve_001": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+    "eve_002": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_002",
+    "eve_003": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_003"
+  },
+  "entities": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "name": "Nationwide (NBS)",
+      "aliases": [
+        "NBS",
+        "Nationwide Building Society",
+        "Customer Servicing & Mortgages"
+      ],
+      "entity_class": "CLIENT",
+      "type": "named_account",
+      "description": "A major financial services organization and primary client undergoing a comprehensive test landscape transformation. The engagement focuses on modernizing testing methods, driving automation, and delivering offshore/onsite capabilities across Customer Servicing, Mortgages, and BI portfolios.",
+      "context": [
+        "Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM",
+        "Transforming Nationwide test landscape: Delivering outcomes",
+        "BI dashboard on POMS portal to bring in transparency for resource allocation"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "name": "SAMM Test Transformation",
+      "aliases": [
+        "SAMM Test TRANSFORMATION",
+        "Test Delivery Transformation"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "transformation_programme",
+      "description": "A comprehensive testing delivery transformation initiative aimed at modernizing test methods, driving automation, and improving efficiency across multiple business portfolios. It encompasses SIT automation, shift-left testing, and unattended execution frameworks to accelerate release cycles.",
+      "context": [
+        "SAMM Test TRANSFORMATION",
+        "Transforming Nationwide test landscape: Delivering outcomes",
+        "Transformation in Testing Delivery is expected to deliver 60% More Testing Throughput"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_002",
+      "name": "Test Capability Framework",
+      "aliases": [
+        "Shared Skills Framework",
+        "Universal Methodology"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "framework",
+      "description": "A structured approach to standardize testing expectations, skills growth, and delivery models across the client's portfolios. It enables shared capabilities, continuous improvement, and consistent quality standards across offshore and onsite teams.",
+      "context": [
+        "Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM",
+        "Develop our Test capability",
+        "Universal methodology established & rolled out"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_003",
+      "name": "Automation & GenAI Testing Suite",
+      "aliases": [
+        "GenAI PoC",
+        "Automation & GenAI",
+        "AST Innovations"
+      ],
+      "entity_class": "OFFERING_SOLUTION",
+      "type": "solution",
+      "description": "A combined offering leveraging automation tools and generative AI to accelerate test case creation, enhance security testing, and drive regression automation across the client's application landscape, specifically applied during migration and security initiatives.",
+      "context": [
+        "Automation & GenAI",
+        "GenAI based Innovations for Security - AST",
+        "Alias GenAI POC in Production"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+      "name": "Regression Automation & Optimization",
+      "aliases": [
+        "Optimised Regression Tests",
+        "Regression Pack Refactoring"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "automation_capability",
+      "description": "The ability to automate regression testing packs, optimize them based on production transaction volumes, and integrate them with CI/CD pipelines to reduce manual effort and improve test coverage across key business applications.",
+      "context": [
+        "optimised regression tests using production volume data",
+        "Refactoring regression packs by applications",
+        "Continue execution through regression automation packs"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+      "name": "Unattended Test Execution",
+      "aliases": [
+        "End-to-End Unattended Execution",
+        "ST Unattended Execution"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "delivery_capability",
+      "description": "The capability to execute test scripts in staging environments without manual intervention, enabling end-to-end automated workflows, faster feedback loops, and significantly accelerated release cycles.",
+      "context": [
+        "End-to-end unattended test execution",
+        "Automated Script Execution in ST Without Manual Intervention",
+        "ST Unattended Execution"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+      "name": "Test Metrics & Defect Management",
+      "aliases": [
+        "Defect Management Dashboard",
+        "Test Metrics Dashboard",
+        "CIO Metrics Reporting"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "analytics_capability",
+      "description": "The ability to track, visualize, and report on test performance, defect rates, and portfolio outcomes using standardized dashboards and CIO-level metrics to drive transparency and resource allocation.",
+      "context": [
+        "Driven by Metrics (Defect management dashboard >> Test metrics dashboard)",
+        "2025: New CIO metrics to provide clear, test value view for all portfolios",
+        "BI dashboard on POMS portal to bring in transparency for resource allocation"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+      "name": "Shift-Left Testing with Service Virtualization",
+      "aliases": [
+        "Shift left with SV",
+        "SV Testing"
+      ],
+      "entity_class": "CAPABILITY",
+      "type": "technical_capability",
+      "description": "The capability to integrate testing earlier in the development lifecycle using service virtualization to simulate dependencies, enabling on-demand testing of critical business scenarios in staging environments.",
+      "context": [
+        "Shift left with SV",
+        "Shift-left testing approach using Service Virtualization in the ST environment",
+        "Enable on-demand testing with a pack of critical business scenarios"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+      "name": "Customer Journey Regression Testing",
+      "aliases": [
+        "Transaction Volume Segmentation",
+        "GRAB Segments Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "Applying automated regression testing to production customer journey scenarios to ensure system stability and validate transaction flows across key business applications, prioritized based on production volume data.",
+      "context": [
+        "Transaction volume in production for customer journey/scenarios from SAMM Audit database",
+        "Production journey mapped to Regression Tests Histogram of the 114 journeys",
+        "Significant # of transactions & Automated Regression Tests"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_002",
+      "name": "Test Case Generation via GenAI",
+      "aliases": [
+        "GenAI Test Creation",
+        "AST Security Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "automation",
+      "description": "Leveraging generative AI to automatically create and optimize test cases, specifically applied during the Alias migration and security testing initiatives to accelerate development and improve coverage.",
+      "context": [
+        "GenAI based Innovations for Security - AST",
+        "Alias GenAI POC in Production",
+        "GenAI PoC (IBM Asset) implemented for Test Case creation in Alias migration"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+      "name": "Performance & OAT Productivity Testing",
+      "aliases": [
+        "OAT Testing",
+        "SAP & E2E Flow Testing"
+      ],
+      "entity_class": "USE_CASE",
+      "type": "analytics",
+      "description": "Conducting performance testing and Operational Acceptance Testing (OAT) to ensure system reliability, optimize throughput, and validate business flows across SAP development, database schemas, and end-to-end processes before release.",
+      "context": [
+        "Performance testing & OAT productivity improvements",
+        "TrBK testing (SAP Enterprise web services, Db schema, UI screens, E2E Business flows",
+        "CDMP testing (SAP development- 60% target automation, Data Migration- 70% target automation"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+      "name": "Significant Effort & Cost Savings",
+      "aliases": [
+        "Efforts Savings",
+        "56 PDs per Quarter Savings"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "cost_saving",
+      "description": "Quantifiable reduction in testing effort and costs across all portfolios, driven by automation, optimized regression packs, and streamlined onboarding processes that eliminate redundant manual work.",
+      "context": [
+        "Efforts savings in every portfolio",
+        "56 PDs per quarter efforts saving",
+        "Optimise Regression Test pack and save effort"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+      "name": "Accelerated Release Cycles & Predictability",
+      "aliases": [
+        "Faster Releases",
+        "Improved Predictability"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "speed_improvement",
+      "description": "Faster time-to-market and improved release predictability achieved through unattended automation, reduced environment delays, and shift-left methodologies that streamline the testing pipeline.",
+      "context": [
+        "Improved predictability & faster releases",
+        "significantly accelerating release cycles",
+        "Reduced environment-driven delays"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_003",
+      "name": "Drastic Reduction in Environment-Related Defects",
+      "aliases": [
+        "Defect Slashing",
+        "30% to 3% Defect Reduction"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "risk_reduction",
+      "description": "A measurable decrease in defects caused by environment instability, dropping from 30% to 3% through comprehensive automation, standardized methodologies, and continuous improvement initiatives.",
+      "context": [
+        "slashing environment-related defects from 30% down to just 3%",
+        "Quality maintained / improved",
+        "Measurable Test efficiency improvement"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+      "name": "Increased Testing Throughput",
+      "aliases": [
+        "60% More Testing Delivered",
+        "Testing Throughput Growth"
+      ],
+      "entity_class": "BENEFIT",
+      "type": "scale_achievement",
+      "description": "A substantial increase in the volume of testing delivered, targeting a 60% improvement in throughput across the test practice, enabling faster validation of business scenarios and applications.",
+      "context": [
+        "Transformation in Testing Delivery is expected to deliver 60% More Testing Throughput",
+        "60% More Testing Delivered",
+        "Drive test efficiency & efficacy"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+      "name": "Environment-Driven Delays & Defects",
+      "aliases": [
+        "Environment Instability",
+        "Legacy Environment Bottlenecks"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "technical_debt",
+      "description": "Legacy testing infrastructure and unstable environments causing significant delays, defects, and bottlenecks in the release pipeline, requiring modernization and unattended automation to resolve.",
+      "context": [
+        "Reduced environment-driven delays",
+        "slashing environment-related defects from 30% down to just 3%",
+        "Significant # of transactions BUT NO Regression Tests"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+      "name": "Manual Testing Bottlenecks & Skill Gaps",
+      "aliases": [
+        "Manual Test Cases",
+        "Cost & HC Control Constraints"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "operational_inefficiency",
+      "description": "Reliance on manual test cases, lack of standardized methodologies, and constrained headcount/cost control limiting testing scalability and efficiency, necessitating automation and process redesign.",
+      "context": [
+        "Significant # of transactions, with manual Regression Tests",
+        "Manual Test cases added to Automation backlog",
+        "Test leads better control over Costs & HC across NBS Test"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+      "name": "Portfolio Visibility & Resource Allocation",
+      "aliases": [
+        "Lack of Transparency",
+        "Resource Allocation Bottlenecks"
+      ],
+      "entity_class": "CHALLENGE",
+      "type": "scalability_limitation",
+      "description": "Lack of transparent metrics and standardized dashboards for tracking portfolio performance, resource allocation, and test value across business units, hindering strategic decision-making and scaling.",
+      "context": [
+        "2025: New CIO metrics to provide clear, test value view for all portfolios",
+        "BI dashboard on POMS portal to bring in transparency for resource allocation",
+        "Restructuring test cases in JIRA by feature for improved monitoring and reporting"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+      "name": "JIRA & Zephyr",
+      "aliases": [
+        "JIRA Restructuring",
+        "Zephyr Test Management"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Project management and test management platforms used for test case tracking, JIRA restructuring, and BDD framework integration to improve monitoring, reporting, and automation script execution.",
+      "context": [
+        "JIRA Restructuring",
+        "Develop a regression automation script with the BDD framework and integrate it with JIRA Zephyr",
+        "Restructuring test cases in JIRA by feature for improved monitoring and reporting"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_002",
+      "name": "GitHub",
+      "aliases": [
+        "Code Repository",
+        "GitHub Integration"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "integration_tool",
+      "description": "Centralized code repository platform integrated into the testing workflow to maintain automation scripts, support continuous integration, and ensure version control across the test practice.",
+      "context": [
+        "GitHub Integration",
+        "Integrate with GitHub and maintain code repository in centralized location",
+        "Standardized Dashboard rolled out across Test Practice"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_003",
+      "name": "Service Virtualization (SV)",
+      "aliases": [
+        "SV",
+        "Shift-Left SV"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "automation_tool",
+      "description": "Technology used to simulate dependent systems and enable shift-left testing, allowing critical business scenarios to be tested on-demand in staging environments without full infrastructure dependencies.",
+      "context": [
+        "Shift left with SV",
+        "Shift-left testing approach using Service Virtualization in the ST environment",
+        "Enable on-demand testing with a pack of critical business scenarios"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_004",
+      "name": "SAMM Audit Database",
+      "aliases": [
+        "SAMM Database",
+        "Transaction Volume Database"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "database",
+      "description": "Internal audit database used to extract production transaction volumes for customer journey scenarios, feeding into segmentation analysis and regression testing prioritization based on actual usage data.",
+      "context": [
+        "Transaction volume in production for customer journey/scenarios from SAMM Audit database for 3 months",
+        "SAMM Audit database for 3 months",
+        "Conducted segmentation analysis into 4 buckets – the GRAB segments"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_005",
+      "name": "POMS Portal",
+      "aliases": [
+        "POMS",
+        "BI Dashboard Portal"
+      ],
+      "entity_class": "TECHNOLOGY",
+      "type": "platform",
+      "description": "Client's internal portal used for BI dashboards, resource allocation transparency, and tracking test practice metrics, serving as a central hub for portfolio visibility and process changes.",
+      "context": [
+        "BI dashboard on POMS portal to bring in transparency for resource allocation",
+        "Test Practice led POMS process changes initiated",
+        "2024-25: Maturity assessments in CS, RP & MFW portfolios"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_001",
+      "name": "98.5% IBM Offshore Delivery Model",
+      "aliases": [
+        "Offshore Delivery",
+        "IBM Offshore Teams"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "delivery_model",
+      "description": "A highly leveraged offshore delivery model that drives value, efficiency, and cost savings while maintaining strong partnership and quality standards, enabling scalable testing across all portfolios.",
+      "context": [
+        "Driving value through 98.5% IBM offshore teams",
+        "Offshore",
+        "Working in true partnership to deliver the future of QE"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_002",
+      "name": "Accelerated Tester Onboarding & Standardized Frameworks",
+      "aliases": [
+        "KT Process",
+        "Universal Methodology",
+        "Standardized Dashboard"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "domain_expertise",
+      "description": "Proprietary processes and knowledge transfer (KT) methods that significantly speed up tester onboarding, combined with universal methodologies and standardized dashboards that ensure consistent quality and faster ramp-up.",
+      "context": [
+        "TCD process and KT have accelerated IBM testers on boarding significantly",
+        "Universal methodology established & rolled out",
+        "Standardized Dashboard rolled out across Test Practice"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_003",
+      "name": "Thought Leadership & Innovation Culture",
+      "aliases": [
+        "Innovation & Technology",
+        "Culture & Community Engagement",
+        "TesTalks"
+      ],
+      "entity_class": "DIFFERENTIATOR",
+      "type": "innovation",
+      "description": "A culture of continuous improvement, best practices, and community engagement, supported by weekly newsletters, webinars, and design thinking workshops that drive test efficiency and methodology adoption.",
+      "context": [
+        "Thought leader",
+        "Innovation & Technology",
+        "Culture & community engagement",
+        "TesTalks- weekly newsletter, quarterly webinar"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_001",
+      "name": "IBM",
+      "aliases": [
+        "IBM Offshore",
+        "IBM Asset"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "vendor",
+      "description": "The primary solutions provider and partner delivering the test transformation, offshore capabilities, and GenAI innovations to the client, driving value through structured delivery and continuous improvement.",
+      "context": [
+        "98.5% IBM offshore teams",
+        "NBS and IBM",
+        "GenAI PoC (IBM Asset) implemented"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_002",
+      "name": "NBS (Nationwide Building Society)",
+      "aliases": [
+        "Nationwide",
+        "NBS Test",
+        "Customer Servicing & Mortgages"
+      ],
+      "entity_class": "ORGANIZATION",
+      "type": "partner",
+      "description": "The client organization undergoing the test transformation, with specific focus on Customer Servicing, Mortgages, and BI portfolios, leveraging shared skills frameworks and offshore delivery models.",
+      "context": [
+        "shared skills expectations and growth models across NBS and IBM",
+        "Costs & HC across NBS Test",
+        "Benefitting Portfolios"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+      "name": "Hackathon",
+      "aliases": [
+        "Hackathon in progress",
+        "Data, AI and Modernisation Hackathon"
+      ],
+      "entity_class": "EVENT",
+      "type": "conference",
+      "description": "An internal or collaborative innovation event focused on testing, data, AI, and modernization, featuring winner announcements, slide presentations, and strategic roadmap discussions.",
+      "context": [
+        "Hackathon",
+        "Hackathon in progress",
+        "Slides for Data, AI and Modernisation to be added"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_002",
+      "name": "Onsite Design Thinking & CI Workshops",
+      "aliases": [
+        "2024 CI Initiatives",
+        "2025 CI Initiatives",
+        "Test Continuous Improvement Workshop"
+      ],
+      "entity_class": "EVENT",
+      "type": "conference",
+      "description": "Scheduled workshops for 2024 and 2025 focused on design thinking and continuous improvement initiatives to drive test efficiency, methodology adoption, and portfolio transformation outcomes.",
+      "context": [
+        "2024: Onsite Design thinking workshop -> 2024 CI Initiatives",
+        "2025: Onsite Test Continuous Improvement workshop -> 2025 CI initiatives",
+        "2024-25: Maturity assessments in CS, RP & MFW portfolios"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_003",
+      "name": "Quarterly Release & Milestone Events",
+      "aliases": [
+        "Sept 23rd Release",
+        "April'25",
+        "Aug'25",
+        "Sep'25"
+      ],
+      "entity_class": "EVENT",
+      "type": "product_launch",
+      "description": "Key release and milestone events tracking the rollout of automation, metrics, and transformation outcomes, serving as checkpoints for measuring throughput, defect reduction, and portfolio benefits.",
+      "context": [
+        "Updates from Sept 23rd release",
+        "April'25",
+        "Aug'25",
+        "Sep'25"
+      ],
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ],
+  "properties": [
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "name": "Nationwide (NBS)",
+      "properties": {
+        "industry": [
+          "banking",
+          "financial services"
+        ],
+        "geography": [
+          "UK"
+        ],
+        "relationship_status": [
+          "active"
+        ],
+        "named_or_anonymous": true,
+        "pain_points": [
+          "environment-driven delays",
+          "manual testing bottlenecks",
+          "portfolio visibility gaps",
+          "resource allocation challenges"
+        ],
+        "engagement_type": [
+          "test transformation partnership"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "name": "SAMM Test Transformation",
+      "properties": {
+        "offering_type": [
+          "programme"
+        ],
+        "delivery_model": [
+          "hybrid"
+        ],
+        "scope": [
+          "SIT Automation",
+          "JIRA Restructuring",
+          "GitHub Integration",
+          "Shift-left testing with SV",
+          "Unattended Test Execution"
+        ],
+        "duration": [
+          "six-month initiative"
+        ],
+        "key_phases": [
+          "SIT Automation",
+          "JIRA Restructuring",
+          "GitHub Integration",
+          "Shift-left with SV",
+          "Smoke Test Execution",
+          "ST Unattended Execution"
+        ],
+        "named_assets": [
+          "SAMM Audit Database",
+          "GRAB segments analysis"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_002",
+      "name": "Test Capability Framework",
+      "properties": {
+        "offering_type": [
+          "programme"
+        ],
+        "scope": [
+          "shared skills expectations and growth models across NBS and IBM"
+        ],
+        "duration": [
+          "2024-25"
+        ],
+        "target_client_profile": [
+          "NBS/IBM joint delivery teams"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_003",
+      "name": "Automation & GenAI Testing Suite",
+      "properties": {
+        "offering_type": [
+          "product/suite"
+        ],
+        "scope": [
+          "GenAI based security innovations",
+          "app vulnerability management",
+          "performance testing",
+          "OAT productivity improvements",
+          "test case generation"
+        ],
+        "key_phases": [
+          "GenAI PoC for Test Case creation",
+          "AST Security Innovations",
+          "Performance & OAT Productivity"
+        ],
+        "named_assets": [
+          "Alias GenAI POC",
+          "AST"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+      "name": "Regression Automation & Optimization",
+      "properties": {
+        "what_it_does": [
+          "Optimizes regression test packs using production transaction volume data to automate manual tests and eliminate low-traffic scenarios"
+        ],
+        "technical_components": [
+          "production volume data analysis",
+          "GRAB segmentation",
+          "BDD framework",
+          "regression pack refactoring"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Data-driven segmentation (GRAB) to prioritize automation and eliminate blacklisted/low-transaction journeys"
+        ],
+        "industry_applicability": [
+          "banking",
+          "mortgages"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+      "name": "Unattended Test Execution",
+      "properties": {
+        "what_it_does": [
+          "Enables fully automated, on-demand test execution without manual intervention"
+        ],
+        "technical_components": [
+          "ST environment automation",
+          "on-demand testing packs",
+          "critical business scenarios"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Achieved 100% unattended automation in six months, reducing environment-related defects from 30% to 3%"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+      "name": "Test Metrics & Defect Management",
+      "properties": {
+        "what_it_does": [
+          "Provides transparent visibility into test value, defect trends, and resource allocation through dashboards and ROI calculators"
+        ],
+        "technical_components": [
+          "Defect management dashboard",
+          "Test metrics dashboard",
+          "BI dashboard on POMS portal",
+          "Automation ROI Calculator",
+          "New CIO metrics"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Evolution from defect tracking to value-driven CIO metrics and transparent resource allocation"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+      "name": "Shift-Left Testing with Service Virtualization",
+      "properties": {
+        "what_it_does": [
+          "Enables early testing by simulating services and utilizing live data in the SIT environment"
+        ],
+        "technical_components": [
+          "Service Virtualization (SV)",
+          "Live data remediation",
+          "SIT environment integration"
+        ],
+        "delivery_maturity": [
+          "proven"
+        ],
+        "differentiating_aspect": [
+          "Combines SV with live data programs to accelerate testing without full environment dependencies"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+      "name": "Customer Journey Regression Testing",
+      "properties": {
+        "problem_context": [
+          "Need to prioritize and optimize regression testing across high-transaction customer journeys"
+        ],
+        "approach": [
+          "Analyze 3-month production transaction volumes, map to 114 journeys, segment via GRAB analysis, and automate/prioritize based on transaction significance"
+        ],
+        "industry": [
+          "banking",
+          "mortgages"
+        ],
+        "outcome_achieved": [
+          "100% unattended automation for significant journeys, optimized test packs, and eliminated low-traffic scenarios"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_002",
+      "name": "Test Case Generation via GenAI",
+      "properties": {
+        "problem_context": [
+          "Accelerate test case creation and improve security/vulnerability management during application migrations"
+        ],
+        "approach": [
+          "Implement GenAI PoC for automated test case generation and security AST innovations"
+        ],
+        "industry": [
+          "banking",
+          "digital"
+        ],
+        "outcome_achieved": [
+          "Successful PoC implementation for Alias migration test case creation"
+        ],
+        "complexity_level": [
+          "highly_complex"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+      "name": "Performance & OAT Productivity Testing",
+      "properties": {
+        "problem_context": [
+          "Improve testing throughput and productivity across performance and OAT testing"
+        ],
+        "approach": [
+          "Leverage unattended automation, optimized regression packs, and GenAI innovations to increase delivery capacity"
+        ],
+        "industry": [
+          "banking"
+        ],
+        "outcome_achieved": [
+          "60% increase in testing throughput/delivery"
+        ],
+        "complexity_level": [
+          "complex"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+      "name": "Significant Effort & Cost Savings",
+      "properties": {
+        "quantified_value": [
+          "56 PDs per quarter",
+          "effort savings in every portfolio"
+        ],
+        "beneficiary": [
+          "client",
+          "test practice"
+        ],
+        "time_to_value": [
+          "quarterly"
+        ],
+        "category": [
+          "cost",
+          "efficiency"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+      "name": "Accelerated Release Cycles & Predictability",
+      "properties": {
+        "quantified_value": [
+          "environment-related defects reduced from 30% to 3%",
+          "60% more testing delivered"
+        ],
+        "beneficiary": [
+          "client",
+          "end-users"
+        ],
+        "time_to_value": [
+          "six-month initiative"
+        ],
+        "category": [
+          "speed",
+          "quality"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_003",
+      "name": "Drastic Reduction in Environment-Related Defects",
+      "properties": {
+        "quantified_value": [
+          "30% to 3%"
+        ],
+        "beneficiary": [
+          "test teams",
+          "client"
+        ],
+        "time_to_value": [
+          "six-month initiative"
+        ],
+        "category": [
+          "quality",
+          "risk"
+        ],
+        "evidence_type": [
+          "measured"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+      "name": "Increased Testing Throughput",
+      "properties": {
+        "quantified_value": [
+          "60%"
+        ],
+        "beneficiary": [
+          "test practice",
+          "client"
+        ],
+        "time_to_value": [
+          "ongoing/2025 target"
+        ],
+        "category": [
+          "speed",
+          "revenue"
+        ],
+        "evidence_type": [
+          "projected"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+      "name": "Environment-Driven Delays & Defects",
+      "properties": {
+        "root_cause": [
+          "Heavy reliance on physical environments and manual test execution"
+        ],
+        "business_impact": [
+          "30% defect rate",
+          "release delays"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "NBS test teams",
+          "client"
+        ],
+        "current_workaround": [
+          "manual intervention",
+          "environment dependencies"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+      "name": "Manual Testing Bottlenecks & Skill Gaps",
+      "properties": {
+        "root_cause": [
+          "Reliance on manual testing and slow tester onboarding"
+        ],
+        "business_impact": [
+          "bottlenecks in test delivery",
+          "skill gaps"
+        ],
+        "urgency": [
+          "high"
+        ],
+        "who_faces_it": [
+          "IBM testers",
+          "NBS test practice"
+        ],
+        "current_workaround": [
+          "TCD process",
+          "KT acceleration",
+          "automation backlog"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+      "name": "Portfolio Visibility & Resource Allocation",
+      "properties": {
+        "root_cause": [
+          "Siloed test data and lack of centralized reporting"
+        ],
+        "business_impact": [
+          "inefficient resource allocation",
+          "opaque test value"
+        ],
+        "urgency": [
+          "medium"
+        ],
+        "who_faces_it": [
+          "test leads",
+          "CIO",
+          "client management"
+        ],
+        "current_workaround": [
+          "manual tracking",
+          "fragmented dashboards"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+      "name": "JIRA & Zephyr",
+      "properties": {
+        "vendor": [
+          "Atlassian (JIRA)",
+          "Zephyr"
+        ],
+        "technology_category": [
+          "test management",
+          "automation",
+          "monitoring"
+        ],
+        "role_in_solution": [
+          "core"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "BDD framework integration",
+          "feature-based test case restructuring",
+          "improved monitoring and reporting"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_002",
+      "name": "GitHub",
+      "properties": {
+        "vendor": [
+          "GitHub"
+        ],
+        "technology_category": [
+          "code repository",
+          "version control"
+        ],
+        "role_in_solution": [
+          "supporting"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "centralized code repository",
+          "automation script storage"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_003",
+      "name": "Service Virtualization (SV)",
+      "properties": {
+        "technology_category": [
+          "test automation",
+          "virtualization"
+        ],
+        "role_in_solution": [
+          "core"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "enables shift-left testing",
+          "supports ST environment",
+          "reduces environment dependencies"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_004",
+      "name": "SAMM Audit Database",
+      "properties": {
+        "technology_category": [
+          "data",
+          "audit",
+          "analytics"
+        ],
+        "role_in_solution": [
+          "core"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "provides 3-month production transaction volume data",
+          "feeds GRAB segmentation analysis"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_005",
+      "name": "POMS Portal",
+      "properties": {
+        "technology_category": [
+          "portal",
+          "resource management",
+          "BI"
+        ],
+        "role_in_solution": [
+          "supporting"
+        ],
+        "maturity": [
+          "modern"
+        ],
+        "key_characteristics": [
+          "centralized BI dashboard",
+          "resource allocation transparency",
+          "cost & HC control for test leads"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_001",
+      "name": "98.5% IBM Offshore Delivery Model",
+      "properties": {
+        "competitive_advantage": [
+          "Highly leveraged offshore delivery model driving efficiency and value"
+        ],
+        "evidence_or_proof_point": [
+          "98.5% offshore team composition",
+          "accelerated tester onboarding",
+          "56 PDs per quarter savings"
+        ],
+        "uniqueness": [
+          "scale-based",
+          "proprietary delivery model"
+        ],
+        "target_audience": [
+          "enterprise test leaders",
+          "CIOs"
+        ],
+        "relates_to_offering": [
+          "SAMM Test Transformation",
+          "Test Capability Framework"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_002",
+      "name": "Accelerated Tester Onboarding & Standardized Frameworks",
+      "properties": {
+        "competitive_advantage": [
+          "Rapid tester onboarding and standardized testing methodologies"
+        ],
+        "evidence_or_proof_point": [
+          "Significantly accelerated onboarding",
+          "Universal methodology rolled out",
+          "Standardized dashboard across practice"
+        ],
+        "uniqueness": [
+          "best-in-class",
+          "process-driven"
+        ],
+        "target_audience": [
+          "test practice managers",
+          "delivery leads"
+        ],
+        "relates_to_offering": [
+          "Test Capability Framework",
+          "SAMM Test Transformation"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_003",
+      "name": "Thought Leadership & Innovation Culture",
+      "properties": {
+        "competitive_advantage": [
+          "Strong innovation culture and thought leadership driving continuous improvement"
+        ],
+        "evidence_or_proof_point": [
+          "Hackathons",
+          "TesTalks newsletter/webinars",
+          "Design thinking workshops",
+          "GenAI PoCs",
+          "AST innovations"
+        ],
+        "uniqueness": [
+          "culture-based",
+          "community-driven"
+        ],
+        "target_audience": [
+          "technical teams",
+          "innovation leads",
+          "enterprise clients"
+        ],
+        "relates_to_offering": [
+          "Automation & GenAI Testing Suite",
+          "SAMM Test Transformation"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_001",
+      "name": "IBM",
+      "properties": {
+        "org_type": [
+          "vendor"
+        ],
+        "relationship_to_offering": [
+          "provider"
+        ],
+        "geographic_presence": [
+          "global",
+          "offshore",
+          "onsite"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_002",
+      "name": "NBS (Nationwide Building Society)",
+      "properties": {
+        "org_type": [
+          "client"
+        ],
+        "relationship_to_offering": [
+          "customer"
+        ],
+        "geographic_presence": [
+          "UK"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+      "name": "Hackathon",
+      "properties": {
+        "event_type": [
+          "innovation competition"
+        ],
+        "date_or_period": [
+          "ongoing/2024-25"
+        ],
+        "relevance_to_deal": [
+          "demonstrates innovation culture and accelerates solution adoption"
+        ],
+        "key_participants": [
+          "IBM",
+          "NBS",
+          "test teams"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_002",
+      "name": "Onsite Design Thinking & CI Workshops",
+      "properties": {
+        "event_type": [
+          "workshop"
+        ],
+        "date_or_period": [
+          "2024",
+          "2025"
+        ],
+        "relevance_to_deal": [
+          "drives continuous improvement initiatives and aligns test practices"
+        ],
+        "key_participants": [
+          "IBM",
+          "NBS",
+          "test leads"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_003",
+      "name": "Quarterly Release & Milestone Events",
+      "properties": {
+        "event_type": [
+          "milestone/quarterly review"
+        ],
+        "date_or_period": [
+          "quarterly",
+          "April 2025",
+          "August 2025",
+          "September 2025"
+        ],
+        "relevance_to_deal": [
+          "tracks delivery progress, shares metrics, and aligns on upcoming releases"
+        ],
+        "key_participants": [
+          "test practice",
+          "CIO",
+          "client stakeholders"
+        ]
+      },
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    }
+  ],
+  "relationships": [
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "source_name": "Nationwide (NBS)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+      "target_name": "Environment-Driven Delays & Defects",
+      "rel_type": "faces",
+      "description": "Client experienced significant environment-related defects and delivery delays prior to transformation",
+      "properties": {
+        "impact_level": "high",
+        "pre_transformation_defect_rate": "30%"
+      },
+      "context": "slashing environment-related defects from 30% down to just 3%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "source_name": "Nationwide (NBS)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+      "target_name": "Manual Testing Bottlenecks & Skill Gaps",
+      "rel_type": "faces",
+      "description": "Client struggled with manual testing bottlenecks and required accelerated tester onboarding",
+      "properties": {
+        "skill_gap_area": "test execution",
+        "onboarding_bottleneck": "TCD process"
+      },
+      "context": "TCD process and KT have accelerated IBM testers on boarding significantly",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "source_name": "Nationwide (NBS)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+      "target_name": "Portfolio Visibility & Resource Allocation",
+      "rel_type": "faces",
+      "description": "Client lacked transparency in resource allocation and portfolio-level test value visibility",
+      "properties": {
+        "visibility_gap": "resource allocation",
+        "reporting_need": "CIO metrics"
+      },
+      "context": "BI dashboard on POMS portal to bring in transparency for resource allocation",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+      "target_name": "Environment-Driven Delays & Defects",
+      "rel_type": "mitigates",
+      "description": "Solution directly reduced environment-driven defects and delivery delays through automation",
+      "properties": {
+        "approach": "unattended automation",
+        "completeness": "full",
+        "defect_reduction": "30% to 3%"
+      },
+      "context": "Reduced environment-driven delays",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+      "target_name": "Manual Testing Bottlenecks & Skill Gaps",
+      "rel_type": "mitigates",
+      "description": "Solution addressed manual bottlenecks by streamlining onboarding and knowledge transfer",
+      "properties": {
+        "approach": "process standardization",
+        "completeness": "partial"
+      },
+      "context": "TCD process and KT have accelerated IBM testers on boarding significantly",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+      "target_name": "Portfolio Visibility & Resource Allocation",
+      "rel_type": "addresses",
+      "description": "Solution provides portfolio-level transparency and resource allocation tracking",
+      "properties": {
+        "approach": "BI dashboard & CIO metrics",
+        "completeness": "full"
+      },
+      "context": "BI dashboard on POMS portal to bring in transparency for resource allocation",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+      "target_name": "Significant Effort & Cost Savings",
+      "rel_type": "achieved",
+      "description": "Solution delivered measurable effort and cost savings across client portfolios",
+      "properties": {
+        "metric": "effort savings",
+        "value": "56 PDs per quarter",
+        "scope": "every portfolio"
+      },
+      "context": "56 PDs per quarter efforts saving",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_003",
+      "target_name": "Drastic Reduction in Environment-Related Defects",
+      "rel_type": "achieved",
+      "description": "Solution successfully slashed environment-related defects through unattended automation",
+      "properties": {
+        "metric": "environment-related defects",
+        "value": "30% down to 3%",
+        "timeframe": "six-month initiative"
+      },
+      "context": "A six-month initiative drove unattended automation to 100%, slashing environment-related defects from 30% down to just 3%",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+      "target_name": "Accelerated Release Cycles & Predictability",
+      "rel_type": "produces",
+      "description": "Solution improved release predictability and accelerated delivery cycles",
+      "properties": {
+        "focus_area": "release predictability",
+        "outcome": "faster releases"
+      },
+      "context": "Improved predictability & faster releases",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+      "target_name": "Increased Testing Throughput",
+      "rel_type": "projected_to_deliver",
+      "description": "Solution is projected to significantly increase testing throughput",
+      "properties": {
+        "metric": "testing throughput",
+        "value": "60% More Testing Delivered",
+        "status": "projected"
+      },
+      "context": "Transformation in Testing Delivery is expected to deliver 60% More Testing Throughput",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+      "target_name": "Increased Testing Throughput",
+      "rel_type": "achieved",
+      "description": "Solution successfully delivered a 60% increase in testing throughput",
+      "properties": {
+        "metric": "testing throughput",
+        "value": "60% More Testing Delivered",
+        "status": "achieved"
+      },
+      "context": "60% More Testing Delivered.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+      "target_name": "JIRA & Zephyr",
+      "rel_type": "integrates_with",
+      "description": "Solution integrates regression automation scripts with JIRA and Zephyr for tracking",
+      "properties": {
+        "integration_type": "test case tracking",
+        "framework": "BDD",
+        "status": "active"
+      },
+      "context": "Develop a regression automation script with the BDD framework and integrate it with JIRA Zephyr.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_002",
+      "target_name": "GitHub",
+      "rel_type": "integrates_with",
+      "description": "Solution integrates with GitHub for centralized code repository management",
+      "properties": {
+        "integration_type": "code repository",
+        "status": "centralized"
+      },
+      "context": "Integrate with GitHub and maintain code repository in centralized location.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_005",
+      "target_name": "POMS Portal",
+      "rel_type": "uses",
+      "description": "Solution leverages POMS portal for BI dashboards and resource transparency",
+      "properties": {
+        "usage_type": "BI dashboard",
+        "function": "resource allocation transparency"
+      },
+      "context": "BI dashboard on POMS portal to bring in transparency for resource allocation",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+      "source_name": "Regression Automation & Optimization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+      "target_name": "Customer Journey Regression Testing",
+      "rel_type": "delivers",
+      "description": "Capability optimizes regression tests using production volume data for customer journeys",
+      "properties": {
+        "focus_area": "regression optimization",
+        "data_source": "production volume"
+      },
+      "context": "optimised regression tests using production volume data",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+      "source_name": "Unattended Test Execution",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "target_name": "SAMM Test Transformation",
+      "rel_type": "delivers",
+      "description": "Capability enables end-to-end unattended test execution within the solution",
+      "properties": {
+        "execution_mode": "unattended",
+        "environment": "ST"
+      },
+      "context": "End-to-end unattended test execution",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+      "source_name": "Shift-Left Testing with Service Virtualization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_003",
+      "target_name": "Service Virtualization (SV)",
+      "rel_type": "uses",
+      "description": "Capability utilizes Service Virtualization to enable shift-left testing approaches",
+      "properties": {
+        "usage_type": "test environment simulation",
+        "environment": "ST"
+      },
+      "context": "Shift-left testing approach using Service Virtualization in the ST environment.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_002",
+      "source_name": "Test Case Generation via GenAI",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "target_name": "SAMM Test Transformation",
+      "rel_type": "proven_in",
+      "description": "Use case has been proven through GenAI PoC implementations within the solution",
+      "properties": {
+        "proof_type": "PoC",
+        "application": "Alias migration"
+      },
+      "context": "Alias GenAI POC in Production",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+      "source_name": "Performance & OAT Productivity Testing",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+      "target_name": "Manual Testing Bottlenecks & Skill Gaps",
+      "rel_type": "addresses",
+      "description": "Use case addresses manual bottlenecks by improving performance and OAT productivity",
+      "properties": {
+        "approach": "productivity improvement",
+        "completeness": "partial"
+      },
+      "context": "Performance testing & OAT productivity improvements",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "target_name": "Nationwide (NBS)",
+      "rel_type": "delivered_to",
+      "description": "Solution was successfully delivered to the client as part of ongoing transformation",
+      "properties": {
+        "delivery_status": "completed",
+        "transformation_phase": "ongoing"
+      },
+      "context": "Impact Delivered & Ongoing Transformation",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_002",
+      "source_name": "Test Capability Framework",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "target_name": "Nationwide (NBS)",
+      "rel_type": "is_target_for",
+      "description": "Framework is specifically targeted at the client to standardize skills and growth models",
+      "properties": {
+        "target_scope": "NBS and IBM",
+        "focus": "shared skills expectations"
+      },
+      "context": "2024- 25: Nationwide test capability framework – shared skills expectations and growth models across NBS and IBM",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_001",
+      "source_name": "98.5% IBM Offshore Delivery Model",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "target_name": "SAMM Test Transformation",
+      "rel_type": "distinguishes",
+      "description": "Offshore delivery model distinguishes the solution by driving value through high offshore utilization",
+      "properties": {
+        "differentiation_type": "delivery model",
+        "value_driver": "offshore teams"
+      },
+      "context": "Driving value through 98.5% IBM offshore teams",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_002",
+      "source_name": "Accelerated Tester Onboarding & Standardized Frameworks",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "target_name": "SAMM Test Transformation",
+      "rel_type": "distinguishes",
+      "description": "Standardized frameworks and accelerated onboarding distinguish the solution's delivery approach",
+      "properties": {
+        "differentiation_type": "process standardization",
+        "focus": "tester onboarding"
+      },
+      "context": "TCD process and KT have accelerated IBM testers on boarding significantly",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_003",
+      "source_name": "Thought Leadership & Innovation Culture",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "target_name": "SAMM Test Transformation",
+      "rel_type": "distinguishes",
+      "description": "Innovation culture and thought leadership distinguish the solution's strategic positioning",
+      "properties": {
+        "differentiation_type": "culture & innovation",
+        "focus": "thought leadership"
+      },
+      "context": "Thought leader / Driver / Influencer / Innovation & Technology",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+      "source_name": "Hackathon",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "target_name": "Nationwide (NBS)",
+      "rel_type": "involves",
+      "description": "Event involves the client in collaborative innovation and solution validation",
+      "properties": {
+        "event_type": "collaborative innovation",
+        "status": "in progress"
+      },
+      "context": "Hackathon in progress",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_002",
+      "source_name": "Onsite Design Thinking & CI Workshops",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "target_name": "SAMM Test Transformation",
+      "rel_type": "triggered",
+      "description": "Workshops triggered continuous improvement initiatives within the solution",
+      "properties": {
+        "trigger_type": "design thinking",
+        "output": "CI initiatives"
+      },
+      "context": "2024: Onsite Design thinking workshop -> 2024 CI Initiatives",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_003",
+      "source_name": "Quarterly Release & Milestone Events",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "target_name": "Nationwide (NBS)",
+      "rel_type": "involves",
+      "description": "Event involves the client in tracking quarterly releases and milestone achievements",
+      "properties": {
+        "event_type": "milestone tracking",
+        "frequency": "quarterly"
+      },
+      "context": "Quarterly Release & Milestone Events",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+      "target_name": "Hackathon",
+      "rel_type": "launched_at",
+      "description": "Solution was launched at the hackathon with goals of accelerating test cycles",
+      "properties": {
+        "launch_goal": "accelerating test cycles",
+        "quality_focus": "improving quality"
+      },
+      "context": "Launched with the goal of accelerating test cycles and improving quality",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+      "source_name": "Test Metrics & Defect Management",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+      "target_name": "Significant Effort & Cost Savings",
+      "rel_type": "delivers",
+      "description": "Capability delivers effort and cost savings through comprehensive metrics dashboards",
+      "properties": {
+        "delivery_method": "metrics dashboard",
+        "scope": "all areas"
+      },
+      "context": "2024: Metrics Dashboard across all areas",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+      "source_name": "Test Metrics & Defect Management",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+      "target_name": "Portfolio Visibility & Resource Allocation",
+      "rel_type": "addresses",
+      "description": "Capability addresses visibility gaps by providing clear test value views for portfolios",
+      "properties": {
+        "approach": "CIO metrics",
+        "target": "portfolio visibility"
+      },
+      "context": "2025: New CIO metrics to provide clear, test value view for all portfolios",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+      "target_name": "Regression Automation & Optimization",
+      "rel_type": "comprises",
+      "description": "Solution comprises automation ROI calculator and regression optimization methods",
+      "properties": {
+        "component_type": "ROI calculator",
+        "status": "rolled out"
+      },
+      "context": "Rollout of Automation ROI Calculator across Test Practice",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+      "target_name": "Unattended Test Execution",
+      "rel_type": "comprises",
+      "description": "Solution comprises automated script execution capabilities without manual intervention",
+      "properties": {
+        "component_type": "execution automation",
+        "environment": "ST"
+      },
+      "context": "Automated Script Execution in ST Without Manual Intervention",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+      "target_name": "Shift-Left Testing with Service Virtualization",
+      "rel_type": "comprises",
+      "description": "Solution comprises shift-left testing approaches utilizing service virtualization",
+      "properties": {
+        "component_type": "shift-left testing",
+        "environment": "ST"
+      },
+      "context": "Shift-left testing approach using Service Virtualization in the ST environment.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+      "target_name": "Customer Journey Regression Testing",
+      "rel_type": "proven_in",
+      "description": "Solution has been proven in customer journey regression testing across multiple portfolios",
+      "properties": {
+        "proof_type": "maturity assessment",
+        "portfolios": "CS, RP & MFW"
+      },
+      "context": "2024-25: Maturity assessments in CS, RP & MFW portfolios",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+      "target_name": "Performance & OAT Productivity Testing",
+      "rel_type": "proven_in",
+      "description": "Solution has been proven in performance and OAT productivity testing use cases",
+      "properties": {
+        "proof_type": "productivity improvement",
+        "focus": "OAT"
+      },
+      "context": "Performance testing & OAT productivity improvements",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "source_name": "Nationwide (NBS)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+      "target_name": "Test Metrics & Defect Management",
+      "rel_type": "uses",
+      "description": "Client uses new CIO metrics to report outcomes and track test value",
+      "properties": {
+        "usage_type": "outcome reporting",
+        "metric_type": "CIO metrics"
+      },
+      "context": "Using the ‘New’ CIO metrics to report outcomes",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+      "target_name": "Significant Effort & Cost Savings",
+      "rel_type": "achieved",
+      "description": "Solution achieved significant effort savings across every client portfolio",
+      "properties": {
+        "metric": "effort savings",
+        "scope": "every portfolio",
+        "value": "56 PDs per quarter"
+      },
+      "context": "Efforts savings in every portfolio",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+      "target_name": "Accelerated Release Cycles & Predictability",
+      "rel_type": "produces",
+      "description": "Solution produces accelerated release cycles and improved test efficiency",
+      "properties": {
+        "focus_area": "test efficiency",
+        "outcome": "modernised methods"
+      },
+      "context": "Modernise test methods / Drive test efficiency & efficacy",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+      "source_name": "Regression Automation & Optimization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+      "target_name": "Significant Effort & Cost Savings",
+      "rel_type": "delivers",
+      "description": "Capability delivers effort savings by optimizing regression test packs",
+      "properties": {
+        "delivery_method": "regression pack optimization",
+        "focus": "effort reduction"
+      },
+      "context": "optimised regression tests using production volume data",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+      "target_name": "JIRA & Zephyr",
+      "rel_type": "integrates_with",
+      "description": "Solution integrates with JIRA for test case restructuring and improved monitoring",
+      "properties": {
+        "integration_type": "test case monitoring",
+        "focus": "feature-based restructuring"
+      },
+      "context": "Restructuring test cases in JIRA by feature for improved monitoring and reporting.",
+      "bidirectional": false,
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cli_001",
+      "source_name": "Nationwide (NBS)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_001",
+      "source_name": "SAMM Test Transformation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_002",
+      "source_name": "Test Capability Framework",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_off_003",
+      "source_name": "Automation & GenAI Testing Suite",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_001",
+      "source_name": "Regression Automation & Optimization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_002",
+      "source_name": "Unattended Test Execution",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_003",
+      "source_name": "Test Metrics & Defect Management",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cap_004",
+      "source_name": "Shift-Left Testing with Service Virtualization",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_001",
+      "source_name": "Customer Journey Regression Testing",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_002",
+      "source_name": "Test Case Generation via GenAI",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_use_003",
+      "source_name": "Performance & OAT Productivity Testing",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_001",
+      "source_name": "Significant Effort & Cost Savings",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_002",
+      "source_name": "Accelerated Release Cycles & Predictability",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_003",
+      "source_name": "Drastic Reduction in Environment-Related Defects",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_ben_004",
+      "source_name": "Increased Testing Throughput",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_001",
+      "source_name": "Environment-Driven Delays & Defects",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_002",
+      "source_name": "Manual Testing Bottlenecks & Skill Gaps",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_cha_003",
+      "source_name": "Portfolio Visibility & Resource Allocation",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_001",
+      "source_name": "JIRA & Zephyr",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_002",
+      "source_name": "GitHub",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_003",
+      "source_name": "Service Virtualization (SV)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_004",
+      "source_name": "SAMM Audit Database",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_tec_005",
+      "source_name": "POMS Portal",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_001",
+      "source_name": "98.5% IBM Offshore Delivery Model",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_002",
+      "source_name": "Accelerated Tester Onboarding & Standardized Frameworks",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_dif_003",
+      "source_name": "Thought Leadership & Innovation Culture",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_001",
+      "source_name": "IBM",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_org_002",
+      "source_name": "NBS (Nationwide Building Society)",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_001",
+      "source_name": "Hackathon",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_002",
+      "source_name": "Onsite Design Thinking & CI Workshops",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    },
+    {
+      "source_id": "70bc1b535aa4478b9e32cfd02b6643e3_007_eve_003",
+      "source_name": "Quarterly Release & Milestone Events",
+      "target_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "target_name": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "rel_type": "EXTRACTED_FROM",
+      "description": "Entity extracted from this document chunk",
+      "chunk_id": "70bc1b535aa4478b9e32cfd02b6643e3_007",
+      "doc_id": "70bc1b535aa4478b9e32cfd02b6643e3",
+      "domain": "sales_collateral"
+    }
+  ]
+}

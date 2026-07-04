@@ -1,0 +1,2466 @@
+[
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "document_id": "ACCT-CLOSE-SOP-001",
+      "owner": "Head of Operations",
+      "departments_involved": [
+        "Operations",
+        "Retail Banking"
+      ],
+      "scope": "Internal account closure procedures"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "authority_level": "Process Owner"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_002",
+    "name": "Branch Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Retail Banking"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_003",
+    "name": "Operations",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001_rol_004",
+    "name": "Customer Service",
+    "properties": {
+      "role_type": "human",
+      "department": "Retail Banking"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_001",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prc_001",
+    "name": "Customer Account Closure Process",
+    "properties": {
+      "purpose": "Establish standardized procedures for closing customer accounts",
+      "scope": [
+        "SmartSaver Account",
+        "Current Account",
+        "Mortgage Account"
+      ],
+      "trigger": "Customer-initiated requests or bank-initiated closures (policy violations, regulatory concerns, or fraud)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prd_002",
+    "name": "Current Account",
+    "properties": {
+      "product_type": "current"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_prd_003",
+    "name": "Mortgage Account",
+    "properties": {
+      "product_type": "mortgage"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_002",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "scope": "Customer-initiated account closures, Bank-initiated closures (regulatory, fraud, policy violation)",
+      "channels": [
+        "branch",
+        "online",
+        "phone",
+        "mail"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prod_001",
+    "name": "Savings Account",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prod_002",
+    "name": "Current Account",
+    "properties": {
+      "product_type": "current"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003_prod_003",
+    "name": "Mortgage Account",
+    "properties": {
+      "product_type": "mortgage"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_003",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "timeline_sla": "3–5 business days (customer-initiated), Immediate (bank-initiated with notice)",
+      "outcome_success": "Account Marked 'Closed' in System",
+      "trigger": "Closure Request Received"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_001",
+    "name": "Closure Request Receipt",
+    "properties": {
+      "step_number": 1,
+      "output": "Closure request"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_002",
+    "name": "Customer Identity Verification",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_003",
+    "name": "Final Balance Calculation",
+    "properties": {
+      "step_number": 3,
+      "output": "Final balance amount"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_004",
+    "name": "Payment Mandate Processing",
+    "properties": {
+      "step_number": 4,
+      "input": "Standing Orders/Direct Debits"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_dec_001",
+    "name": "Closure Type Assessment",
+    "properties": {
+      "decision_question": "Is the closure Customer-Initiated or Bank-Initiated?",
+      "path_yes": "Process normally (Customer-Initiated)",
+      "path_no": "Investigate and document reason (Bank-Initiated)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_005",
+    "name": "Final Balance Transfer",
+    "properties": {
+      "step_number": 6,
+      "output": "Remitted funds"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_006",
+    "name": "Closure Confirmation Issuance",
+    "properties": {
+      "step_number": 7,
+      "output": "Closure Confirmation"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_007",
+    "name": "Records Archiving",
+    "properties": {
+      "step_number": 8,
+      "timeline_sla": "6 years"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004_stp_008",
+    "name": "System Account Status Update",
+    "properties": {
+      "step_number": 9,
+      "output": "Account Marked 'Closed' in System"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_004",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "scope": "Customer-initiated account closures",
+      "channels": [
+        "branch",
+        "phone",
+        "online",
+        "mail"
+      ],
+      "trigger": "Customer request for account closure",
+      "outcome_success": "Account closed, final payment issued, records archived"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_001",
+    "name": "Closure Request Reception",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer Service",
+      "input": [
+        "Account number",
+        "Full name",
+        "Address",
+        "Reason for closure",
+        "Preferred method of final payment"
+      ],
+      "channel": "branch | phone | online | mail",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_002",
+    "name": "Request Recording",
+    "properties": {
+      "step_number": 2,
+      "actor": "Customer Service",
+      "output": "Request record containing date, time, method, and customer contact info",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_003",
+    "name": "Customer Identity Verification",
+    "properties": {
+      "step_number": 3,
+      "actor": "Customer Service",
+      "tools_or_systems": "Security questions or document verification",
+      "mandatory": "yes",
+      "failure_path": "Closure request cannot proceed until identity is verified"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_004",
+    "name": "Account Hold Confirmation",
+    "properties": {
+      "step_number": 4,
+      "actor": "Customer Service",
+      "input": "Account status check",
+      "criteria": "Check for freezes, disputes, or fraud investigations",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_stp_005",
+    "name": "Closure Implications Briefing",
+    "properties": {
+      "step_number": 5,
+      "actor": "Customer Service",
+      "output": "Customer informed of transaction cessation, interest stop, and record archiving",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_rol_001",
+    "name": "Branch Manager",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_rol_002",
+    "name": "Customer Service",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone",
+        "online",
+        "branch"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_rol_003",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "applicant",
+      "notification_required": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_dec_001",
+    "name": "Account Hold Gate",
+    "properties": {
+      "decision_question": "Are there any holds on the account?",
+      "criteria": "Presence of freezes, disputes, or fraud investigations",
+      "path_yes": "Closure paused/blocked until hold is resolved",
+      "path_no": "Proceed to closure implications briefing"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_start": "active",
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_005",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_prc_001",
+    "name": "Bank-Initiated Closure Process",
+    "properties": {
+      "purpose": "To close customer accounts due to regulatory, fraud, policy, or dormancy reasons",
+      "scope": "Accounts with compliance violations, AML breaches, fraud, misconduct, or 5-year dormancy",
+      "owner": "Manager/Compliance Head",
+      "trigger": "Regulatory reason, Fraud, Policy Violation, or Dormancy",
+      "timeline_sla": "30-day notice period",
+      "outcome_success": "Account closed following regulatory and policy guidelines"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_prc_002",
+    "name": "Emergency Bank-Initiated Closure Process",
+    "properties": {
+      "purpose": "Rapid closure of accounts posing immediate fraud or security risks",
+      "scope": "Confirmed fraud or security risk accounts",
+      "owner": "Manager/Compliance Head",
+      "trigger": "Confirmed fraud or security risk",
+      "timeline_sla": "Closure within 7 days",
+      "outcome_success": "Immediate risk mitigation via account freeze and rapid closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_rol_001",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Initiation of account closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_rol_002",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Initiation of account closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_001",
+    "name": "Closure Initiation Step",
+    "properties": {
+      "step_number": 1,
+      "actor": "Manager/Compliance Head",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_002",
+    "name": "Reason Documentation Step",
+    "properties": {
+      "step_number": 2,
+      "actor": "Manager/Compliance Head",
+      "output": "Documented reason (regulatory, fraud, or policy)",
+      "tools_or_systems": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_003",
+    "name": "Closure Notice Preparation Step",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "yes",
+      "output": "Customer notice",
+      "timeline_sla": "30-day notice requirement (standard)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_004",
+    "name": "Customer Notification Step",
+    "properties": {
+      "step_number": 4,
+      "output": "Letter explaining reason",
+      "channels": "postal"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_stp_005",
+    "name": "Immediate Account Freeze Step",
+    "properties": {
+      "actor": "Bank",
+      "channel": "system",
+      "trigger": "Confirmed fraud/security risk",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_dec_001",
+    "name": "Closure Trigger Decision",
+    "properties": {
+      "decision_question": "Does the account meet criteria for bank-initiated closure?",
+      "criteria": [
+        "Compliance violation",
+        "AML breach",
+        "Regulatory order",
+        "Fraudulent use",
+        "Identity issue",
+        "Unauthorized access",
+        "T&Cs breach",
+        "Customer misconduct",
+        "5-year dormancy with failed contact"
+      ],
+      "path_yes": "Initiate closure process",
+      "path_no": "Maintain account"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_dec_002",
+    "name": "Emergency vs Standard Closure Gate",
+    "properties": {
+      "decision_question": "Is there an immediate fraud or security risk?",
+      "criteria": "Confirmation of fraud or security risk",
+      "path_yes": "Emergency Closure (Immediate freeze, 7-day closure, same-day notice)",
+      "path_no": "Standard Closure (30-day notice)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_chk_001",
+    "name": "Regulatory and AML Compliance Check",
+    "properties": {
+      "regulatory_basis": "AML/Regulatory requirements",
+      "mandatory": "yes",
+      "evidence_required": "Documented reason in system",
+      "failure_consequence": "Unable to justify closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_acc_001",
+    "name": "Target Account",
+    "properties": {
+      "account_state_at_start": "active",
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "process_role": "Subject of closure",
+      "notification_required": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_006",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_prc_001",
+    "name": "Account Verification Process",
+    "properties": {
+      "purpose": "Verify account status, ownership, and legality before proceeding with a request",
+      "timeline_sla": "Same day",
+      "outcome_success": "Account verified and cleared for proceeding",
+      "outcome_failure": "Issue escalation and resolution required"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_stp_001",
+    "name": "Account Status and Ownership Verification",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes",
+      "input": "Customer identity",
+      "output": "Confirmation of account existence, active status, and ownership match"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_stp_002",
+    "name": "Account Dispute and Legal Hold Review",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes",
+      "input": "Account records",
+      "output": "Confirmation of absence of disputes, legal holds, or fraud investigations"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_dec_001",
+    "name": "Account Verification Outcome Gate",
+    "properties": {
+      "decision_question": "Are there any issues with account status, ownership, disputes, holds, or fraud investigations?",
+      "criteria": "Absence of active disputes, legal holds, fraud investigations, and verification of active ownership",
+      "path_yes": "Proceed to next process step",
+      "path_no": "Escalate to Manager or Compliance Head"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_stp_003",
+    "name": "Issue Resolution and Documentation",
+    "properties": {
+      "step_number": 3,
+      "actor": "Manager/Compliance Head",
+      "mandatory": "conditional",
+      "output": "Resolved issue and documented delay reason in system",
+      "failure_path": "Process remains halted until resolution"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_rol_001",
+    "name": "Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Issue resolution and process oversight"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_rol_002",
+    "name": "Compliance Head",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Compliance oversight and legal hold resolution"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_esc_001",
+    "name": "Level 1 — Management/Compliance Escalation",
+    "properties": {
+      "level_number": 1,
+      "authority": "Manager/Compliance Head",
+      "response_time": "Same day",
+      "escalation_trigger": "Identification of active disputes, legal holds, fraud investigations, or ownership mismatch"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007_chk_001",
+    "name": "Account Eligibility Compliance Check",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Account status record",
+        "Ownership identity match",
+        "Dispute/Legal hold registry",
+        "Fraud investigation log"
+      ],
+      "failure_consequence": "Escalation to management and halt of process"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_007",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_prc_001",
+    "name": "Balance Calculation Process",
+    "properties": {
+      "purpose": "Calculate and verify the final balance for account closure",
+      "scope": "Closing accounts",
+      "owner": "Operations Manager",
+      "departments_involved": [
+        "Operations"
+      ],
+      "trigger": "Account closure request",
+      "outcome_success": "Verified and signed-off final statement filed in account closure record"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_001",
+    "name": "Collect All Transactions Step",
+    "properties": {
+      "step_number": 1,
+      "input": "Transactions since last statement",
+      "output": "List of all posted and pending transactions",
+      "mandatory": "yes",
+      "tools_or_systems": [
+        "AMS"
+      ],
+      "details": [
+        "Include pending transactions (standing orders, direct debits)",
+        "Verify no unprocessed deposits/withdrawals"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_002",
+    "name": "Calculate Final Balance Step",
+    "properties": {
+      "step_number": 2,
+      "input": "Ledger balance, pending interest, pending fees",
+      "output": "Final calculated balance",
+      "mandatory": "yes",
+      "tools_or_systems": [
+        "AMS"
+      ],
+      "calculation_logic": "Ledger balance + pending interest - pending fees"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_003",
+    "name": "Document Balance Step",
+    "properties": {
+      "step_number": 3,
+      "output": "Printed final statement",
+      "mandatory": "yes",
+      "required_fields": [
+        "calculation date",
+        "list of pending transactions",
+        "final balance"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_stp_004",
+    "name": "Approval Step",
+    "properties": {
+      "step_number": 4,
+      "actor": "Operations Manager",
+      "output": "Signed-off final statement",
+      "mandatory": "yes",
+      "failure_path": "Calculation rejected for correction"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_rol_001",
+    "name": "Operations Manager",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Approval",
+      "responsibility": "Verifying calculations and signing-off on final statements"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_rol_002",
+    "name": "Account Management System (AMS)",
+    "properties": {
+      "role_type": "system",
+      "purpose": "Holding account records and transaction data"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_dec_001",
+    "name": "Balance Verification Gate",
+    "properties": {
+      "decision_question": "Does the calculated balance match the account record in AMS?",
+      "criteria": "Calculated balance == AMS record balance",
+      "decision_maker": "Operations Manager / AMS",
+      "path_yes": "Proceed to Step 3: Document Balance",
+      "path_no": "Recalculate or investigate discrepancy"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_start": "existing",
+      "account_state_at_end": "closed",
+      "system_recorded_in": "AMS"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_008",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_prc_001",
+    "name": "SmartSaver Account Closure Process",
+    "properties": {
+      "purpose": "Calculate and remit the final balance to the customer upon closing a SmartSaver account",
+      "outcome_success": "Final balance remitted to customer"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_acc_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_prd_001",
+    "name": "SmartSaver Product",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009_stp_001",
+    "name": "Final Balance Remittance Calculation",
+    "properties": {
+      "input": [
+        "Ledger Balance",
+        "Pending Interest",
+        "Pending Fees"
+      ],
+      "output": "FINAL BALANCE TO REMIT",
+      "calculation_logic": "Ledger Balance + Pending Interest - Pending Fees"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_009",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "scope": "Standing Orders & Direct Debits",
+      "timeline_sla": "Same day as closure request",
+      "outcome_success": "All future standing orders cancelled"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_stp_001",
+    "name": "Standing Order Cancellation Step",
+    "properties": {
+      "step_number": 4,
+      "output": "Cancellation of all future standing orders",
+      "mandatory": "yes",
+      "channel": "system",
+      "estimated_duration": "Same day"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_stp_002",
+    "name": "Customer Cancellation Notification Step",
+    "properties": {
+      "step_number": 4,
+      "actor": "System",
+      "output": "Cancellation notification to customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_stp_003",
+    "name": "Beneficiary Cancellation Notification Step",
+    "properties": {
+      "step_number": 4,
+      "actor": "System",
+      "output": "Cancellation notice to beneficiary",
+      "mandatory": "no"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Account holder requesting closure",
+      "notification_required": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_rol_002",
+    "name": "Beneficiary",
+    "properties": {
+      "role_type": "human",
+      "notification_required": "optional"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010_so_001",
+    "name": "Standing Order",
+    "properties": {
+      "cancellation_steps": "Cancel all future payments effective immediately",
+      "failure_handling": "Last standing order executes if scheduled before closure date"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_010",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_prc_001",
+    "name": "Direct Debit Cancellation Process",
+    "properties": {
+      "purpose": "Ensure all Direct Debit mandates are terminated immediately upon account closure request",
+      "timeline_sla": "Same day as closure request",
+      "outcome_success": "No further DD transactions can be processed",
+      "scope": "Direct Debit mandates"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_stp_001",
+    "name": "Direct Debit Mandate Cancellation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Bank Operational Staff",
+      "output": "Cancelled mandates",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_stp_002",
+    "name": "Biller Notification",
+    "properties": {
+      "step_number": 2,
+      "actor": "Bank Operational Staff",
+      "output": "Notification sent to billers",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_stp_003",
+    "name": "Customer Cancellation Advice",
+    "properties": {
+      "step_number": 3,
+      "actor": "Bank Operational Staff",
+      "output": "Advice provided to customer to confirm cancellation with billers separately",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_rol_001",
+    "name": "Bank Operational Staff",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Operational execution of mandate cancellation and notification"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_rol_002",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "Subject of the cancellation request",
+      "notification_required": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_dec_001",
+    "name": "Transaction Processing Gate",
+    "properties": {
+      "decision_question": "Can further DD transactions be processed?",
+      "criteria": "Whether the mandate cancellation process has been executed",
+      "path_yes": "Transaction processed (pre-cancellation)",
+      "path_no": "Transaction blocked (post-cancellation)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011_dd_001",
+    "name": "Direct Debit Mandate",
+    "properties": {
+      "cancellation_steps": [
+        "Cancel mandate immediately",
+        "Notify billers"
+      ],
+      "system_used": "Bank operational system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_011",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "scope": "Customer-initiated voluntary account closures",
+      "timeline_sla": "3–5 business days",
+      "outcome_success": "Standard closure confirmation sent"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_stp_001",
+    "name": "Closure Type Assessment",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "yes",
+      "output": "Determination of closure type (Standard vs. Non-Standard)",
+      "failure_path": "Diversion to regulatory/fraud concern protocols"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_dec_001",
+    "name": "Closure Type Determination",
+    "properties": {
+      "decision_question": "Is this a standard customer-initiated closure?",
+      "criteria": [
+        "Customer voluntarily requested closure",
+        "No regulatory concerns",
+        "No fraud concerns",
+        "Account in good standing"
+      ],
+      "path_yes": "Proceed to Step 6 (Final Payment Processing)",
+      "path_no": "Trigger special documentation/regulatory review"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_stp_002",
+    "name": "Final Payment Processing",
+    "properties": {
+      "step_number": 6,
+      "actor": "Bank Staff",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_stp_003",
+    "name": "Closure Confirmation Issuance",
+    "properties": {
+      "actor": "Bank Staff/System",
+      "output": "Standard closure confirmation",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_rol_001",
+    "name": "Customer",
+    "properties": {
+      "customer_type": "existing",
+      "process_role": "Requesting party",
+      "notification_required": "yes (Closure confirmation)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_start": "good standing",
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_012",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_prc_001",
+    "name": "Bank-Initiated Closure Process",
+    "properties": {
+      "purpose": "Closing accounts initiated by the bank due to regulatory, fraud, or policy reasons",
+      "scope": "Accounts subject to regulatory, fraud, or policy breaches",
+      "timeline_sla": "Immediate (freeze) + 7–30 days (notice period)",
+      "trigger": "Regulatory, fraud, or policy violation",
+      "outcome_success": "Account successfully closed and documented"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_001",
+    "name": "Closure Reason Documentation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Compliance Staff",
+      "output": "Documented closure reason in system",
+      "mandatory": "yes",
+      "tools_or_systems": "Bank internal system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_002",
+    "name": "Closure Approval Procurement",
+    "properties": {
+      "step_number": 2,
+      "actor": "Compliance Staff / Bank Manager",
+      "mandatory": "yes",
+      "output": "Approval for closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_003",
+    "name": "Legal Review",
+    "properties": {
+      "step_number": 3,
+      "actor": "Legal Team",
+      "mandatory": "conditional",
+      "criteria": "Required if significant financial impact is identified"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_004",
+    "name": "Customer Notification",
+    "properties": {
+      "step_number": 4,
+      "mandatory": "yes",
+      "timeline_sla": "30 days standard, or immediate if emergency"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_stp_005",
+    "name": "Investigation Documentation Attachment",
+    "properties": {
+      "step_number": 5,
+      "input": "Investigation findings",
+      "output": "Attached evidence in system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_rol_001",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_type": "human",
+      "department": "Compliance",
+      "authority_level": "Operational execution and documentation"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_rol_002",
+    "name": "Bank Manager",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch/Management",
+      "authority_level": "Approval authority for closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_rol_003",
+    "name": "Legal Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Legal",
+      "authority_level": "Review and validation of high-impact closures"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_dec_001",
+    "name": "Financial Impact Assessment",
+    "properties": {
+      "decision_question": "Is there a significant financial impact?",
+      "criteria": "Monetary value of account/transaction",
+      "path_yes": "Proceed to Legal Review (stp_003)",
+      "path_no": "Proceed to Customer Notification"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_dec_002",
+    "name": "Urgency/Emergency Determination",
+    "properties": {
+      "decision_question": "Is this an emergency scenario?",
+      "path_yes": "Immediate customer notice",
+      "path_no": "30-day notice period"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_chk_001",
+    "name": "Closure Approval Gate",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Compliance/Manager",
+      "evidence_required": "Documented closure reason",
+      "failure_consequence": "Process cannot proceed to notification or closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "account_state_at_start": "frozen",
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "process_role": "Subject of bank-initiated closure",
+      "notification_required": "Yes (30 days or immediate)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_013",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_prc_001",
+    "name": "Final Balance Payment Process",
+    "properties": {
+      "purpose": "Disburse the final remaining balance to the customer",
+      "scope": "Final balance payments across multiple channels",
+      "channels": [
+        "branch",
+        "online",
+        "postal"
+      ],
+      "outcome_success": "Balance successfully paid to customer via preferred method",
+      "outcome_failure": "Funds transferred to unclaimed money fund after 6 months"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_001",
+    "name": "Bank Transfer Payment Execution",
+    "properties": {
+      "actor": "Bank System/Staff",
+      "input": "Receiving bank details from customer",
+      "output": "Confirmation of transfer sent to customer",
+      "estimated_duration": "1–2 business days",
+      "channel": "system",
+      "mandatory": "no",
+      "tools_or_systems": "FPS (Faster Payments Service)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_002",
+    "name": "Check Issuance and Mailing",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Registered address",
+      "output": "Physical check and tracking number",
+      "estimated_duration": "3–5 business days",
+      "channel": "postal",
+      "mandatory": "no"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_003",
+    "name": "Branch Cash Collection",
+    "properties": {
+      "actor": "Branch Teller",
+      "output": "Cash and cash receipt",
+      "estimated_duration": "immediate",
+      "channel": "branch",
+      "mandatory": "no"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_004",
+    "name": "Hold for Customer Instruction",
+    "properties": {
+      "actor": "Bank Staff",
+      "input": "Customer instruction for payment method",
+      "estimated_duration": "maximum 6 months",
+      "channel": "manual",
+      "mandatory": "no",
+      "failure_path": "Transfer to unclaimed money fund after 6 months"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_stp_005",
+    "name": "Unclaimed Money Fund Transfer",
+    "properties": {
+      "actor": "Bank System/Staff",
+      "trigger": "No customer instruction received after 6 months",
+      "output": "Funds transferred to unclaimed money fund",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "branch",
+        "system",
+        "email"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_rol_002",
+    "name": "Branch Teller",
+    "properties": {
+      "role_type": "human",
+      "department": "Branch Operations",
+      "channels": [
+        "branch"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_dec_001",
+    "name": "Cash Limit Threshold Check",
+    "properties": {
+      "decision_question": "Is the balance within the £5,000 cash limit?",
+      "criteria": "Balance <= £5,000",
+      "decision_maker": "Branch Teller",
+      "path_yes": "Immediate cash payment at branch",
+      "path_no": "Recommend check or bank transfer"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_chk_001",
+    "name": "Cash Payment Regulatory Limit",
+    "properties": {
+      "regulatory_basis": "Regulatory requirement for cash",
+      "mandatory": "yes",
+      "applies_to_channels": [
+        "branch"
+      ],
+      "evidence_required": "Cash receipt",
+      "performed_by": "Branch Teller",
+      "failure_consequence": "Payment must be routed via check or transfer"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014_acc_001",
+    "name": "Suspense Account",
+    "properties": {
+      "account_state_at_start": "existing",
+      "account_state_at_end": "active",
+      "purpose": "Hold balances awaiting customer payment instructions"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_014",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_prc_001",
+    "name": "Payment Processing",
+    "properties": {
+      "purpose": "Process customer payments and record completion in system",
+      "timeline_sla": "5 business days",
+      "outcome_success": "Payment recorded in system and closure complete"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_001",
+    "name": "Payment Method Confirmation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_002",
+    "name": "Payment Detail Acquisition",
+    "properties": {
+      "step_number": 2,
+      "input": "Bank details (for transfers) or address (for checks)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_003",
+    "name": "Payment Execution",
+    "properties": {
+      "step_number": 3,
+      "estimated_duration": "5 business days",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_004",
+    "name": "Payment Sent Notification",
+    "properties": {
+      "step_number": 4,
+      "output": "Confirmation to customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_stp_005",
+    "name": "Payment System Recording",
+    "properties": {
+      "step_number": 5,
+      "channel": "system",
+      "outcome_success": "Closure complete",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "process_role": "payer/payee"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_015",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "scope": "Active accounts",
+      "timeline_sla": "Same day as final payment",
+      "outcome_success": "Account status Closed, access disabled, balances recorded"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_stp_001",
+    "name": "Account Status Update",
+    "properties": {
+      "actor": "System",
+      "input": "Final balance, closure reason",
+      "output": "Status changed from Active to Closed",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_stp_002",
+    "name": "Payment Instruction Cancellation",
+    "properties": {
+      "actor": "System",
+      "output": "Standing orders and Direct Debits marked as Cancelled",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_stp_003",
+    "name": "Access Restriction Enforcement",
+    "properties": {
+      "actor": "System",
+      "output": "Online banking disabled, cards deactivated, new transactions blocked",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_rol_001",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Monitoring",
+      "action": "Exclude closed accounts from monitoring"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_start": "active",
+      "account_state_at_end": "closed",
+      "data_recorded": [
+        "closure date",
+        "closure reason",
+        "final balance"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_sto_001",
+    "name": "Cancelled Standing Orders",
+    "properties": {
+      "cancellation_steps": "Marked as Cancelled during account status change",
+      "failure_handling": "Blocked from execution"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_dir_001",
+    "name": "Cancelled Direct Debits",
+    "properties": {
+      "cancellation_steps": "Marked as Cancelled during account status change",
+      "failure_handling": "Blocked from execution"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016_crd_001",
+    "name": "Deactivated Account Card",
+    "properties": {
+      "card_state": "deactivated",
+      "block_trigger": "Account status changed to Closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_016",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "timeline_sla": "Closure confirmation sent within 2 business days of closure",
+      "outcome_success": "Customer notified of closure and final balance"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_stp_001",
+    "name": "Customer Notification Step",
+    "properties": {
+      "actor": "Bank Operations Staff",
+      "output": "Closure Confirmation Letter",
+      "channels": [
+        "email",
+        "postal mail"
+      ],
+      "mandatory": "yes",
+      "estimated_duration": "2 business days"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_rol_001",
+    "name": "Bank Operations Staff",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "email",
+        "postal mail"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_cus_001",
+    "name": "Closing Customer",
+    "properties": {
+      "customer_type": "existing",
+      "notification_required": "yes",
+      "data_collected": [
+        "registered address",
+        "email"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_st_ord_001",
+    "name": "Standing Order Cancellation",
+    "properties": {
+      "cancellation_steps": "Confirmed in Closure Confirmation Letter"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_dd_001",
+    "name": "Direct Debit Cancellation",
+    "properties": {
+      "cancellation_steps": "Confirmed in Closure Confirmation Letter"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017_chk_001",
+    "name": "Records Retention Compliance Check",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "Records retention notice provided to customer",
+      "refresh_frequency": "6 years archive"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_017",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_prc_001",
+    "name": "Account Closure Record Retention and Archive Process",
+    "properties": {
+      "purpose": "Ensure legal and regulatory compliance for the storage and eventual destruction of account closure records",
+      "scope": "Account opening documents, transaction records, closure requests, statements, payment proofs, and dispute records",
+      "timeline_sla": "6 years from closure date",
+      "regulatory_references": [
+        "POCA",
+        "AML Regulations"
+      ],
+      "outcome_success": "Records archived securely for the mandatory period and destroyed with certification"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_stp_001",
+    "name": "Document Archival",
+    "properties": {
+      "step_number": 1,
+      "input": [
+        "KYC/ID/Address verification",
+        "Transaction logs/statements",
+        "Closure request and reason",
+        "Final statement",
+        "Payment proofs",
+        "Dispute/complaint records"
+      ],
+      "output": "Encrypted, access-controlled archive with audit trail",
+      "tools_or_systems": "Secure document management system (DMS)",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_stp_002",
+    "name": "Secure Destruction Procedure",
+    "properties": {
+      "step_number": 2,
+      "input": "Records reaching the 6-year mark",
+      "output": "Certificate of destruction",
+      "mandatory": "yes",
+      "channel": "manual",
+      "tools_or_systems": [
+        "Shredder",
+        "Digital deletion tool"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_rol_001",
+    "name": "Secure Document Management System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Access-controlled",
+      "capabilities": [
+        "Encryption",
+        "Audit trail tracking"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_chk_001",
+    "name": "POCA and AML Regulatory Retention Check",
+    "properties": {
+      "regulatory_basis": [
+        "POCA",
+        "AML Regulations"
+      ],
+      "mandatory": "yes",
+      "evidence_required": "Archive records held for minimum 6 years from closure date",
+      "failure_consequence": "Regulatory non-compliance",
+      "refresh_frequency": "At 6-year mark for destruction"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_end": "closed",
+      "system_recorded_in": "Secure document management system (DMS)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_018",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_prc_001",
+    "name": "Standard Customer-Initiated Closure Process",
+    "properties": {
+      "purpose": "Close a SmartSaver account and transfer the remaining balance to the customer's receiving bank",
+      "scope": [
+        "SmartSaver Account"
+      ],
+      "channels": [
+        "phone"
+      ],
+      "timeline_sla": "3 days",
+      "trigger": "Customer calls to request closure",
+      "outcome_success": "Account status changed to Closed, balance transferred, and confirmation letter sent"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_stp_001",
+    "name": "Closure Request Initiation",
+    "properties": {
+      "step_number": 1,
+      "actor": "Customer",
+      "input": "Receiving bank details",
+      "output": "System closure request note",
+      "channel": "phone",
+      "mandatory": "yes",
+      "tools_or_systems": [
+        "Banking System"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_stp_002",
+    "name": "Closure Processing and Payment Initiation",
+    "properties": {
+      "step_number": 2,
+      "actor": "Operations Team",
+      "input": "Closure request note",
+      "output": [
+        "Final balance calculation",
+        "FPS transfer",
+        "Closure confirmation letter"
+      ],
+      "channel": "system",
+      "mandatory": "yes",
+      "tools_or_systems": [
+        "Banking System"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_stp_003",
+    "name": "Account Finalisation and Archiving",
+    "properties": {
+      "step_number": 3,
+      "actor": "Banking System",
+      "output": [
+        "Account status: Closed",
+        "Archived records"
+      ],
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_type": "human",
+      "channels": [
+        "phone"
+      ],
+      "process_role": "Initiator of account closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_rol_002",
+    "name": "Operations Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Operations",
+      "authority_level": "Process execution and payment initiation"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_rol_003",
+    "name": "Banking System",
+    "properties": {
+      "role_type": "system",
+      "authority_level": "Automatic status updates and record archiving"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_acc_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "account_type": "savings",
+      "account_state_at_start": "active",
+      "account_state_at_end": "Closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_prd_001",
+    "name": "SmartSaver Product",
+    "properties": {
+      "product_type": "savings"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019_trn_001",
+    "name": "Closure Balance Transfer",
+    "properties": {
+      "transaction_type": "FPS transfer",
+      "outcome_paths": [
+        "Cleared"
+      ],
+      "amount_example": "£4,264.90"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_019",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_prc_001",
+    "name": "Bank-Initiated Account Closure (Policy Violation)",
+    "properties": {
+      "purpose": "Close account due to suspected unauthorized use and policy violation",
+      "scope": "Accounts with suspected unauthorized activity",
+      "timeline_sla": "38 days total (1 day freeze + 7 days investigation + 30 days notice)",
+      "trigger": "Suspected unauthorized use of account",
+      "outcome_success": "Account officially closed and records archived",
+      "outcome_failure": "Account remains open/unresolved"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_001",
+    "name": "Immediate Account Freeze",
+    "properties": {
+      "step_number": 1,
+      "actor": "Financial Crime Team",
+      "output": "Fraud hold applied to account",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "role_type": "human",
+      "department": "Financial Crime",
+      "authority_level": "Can initiate account freezes and lead investigations"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_002",
+    "name": "Investigation Initiation",
+    "properties": {
+      "step_number": 2,
+      "actor": "Financial Crime Team",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_003",
+    "name": "Customer Freeze Notification",
+    "properties": {
+      "step_number": 3,
+      "actor": "Financial Crime Team",
+      "mandatory": "yes",
+      "channel": "system/email",
+      "failure_path": "Tipping off risk if reason is disclosed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_004",
+    "name": "Investigation Completion and Transaction Confirmation",
+    "properties": {
+      "step_number": 4,
+      "estimated_duration": "Days 2–7",
+      "output": "Confirmation of unauthorized transactions",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_005",
+    "name": "Refund Processing",
+    "properties": {
+      "step_number": 5,
+      "input": "Confirmed unauthorized transactions",
+      "output": "Funds returned to customer",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_dec_001",
+    "name": "Account Closure Decision",
+    "properties": {
+      "decision_question": "Should the account be closed due to policy violation?",
+      "criteria": "Confirmation of unauthorized transactions/policy breach",
+      "decision_maker": "Financial Crime Team",
+      "path_yes": "Send closure notice and start 30-day period",
+      "path_no": "Account remains open or investigation continues"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_006",
+    "name": "Policy Violation Closure Notice",
+    "properties": {
+      "step_number": 6,
+      "actor": "Financial Crime Team",
+      "output": "Closure notice sent to customer",
+      "channel": "postal/email",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_007",
+    "name": "Final Balance Transfer",
+    "properties": {
+      "step_number": 7,
+      "input": "Remaining account balance",
+      "output": "Transferred funds minus chargebacks",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_008",
+    "name": "Official Account Closure",
+    "properties": {
+      "step_number": 8,
+      "actor": "Financial Crime Team",
+      "channel": "system",
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_stp_009",
+    "name": "Records Archiving",
+    "properties": {
+      "step_number": 9,
+      "actor": "Financial Crime Team",
+      "output": "Archived case file",
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_cus_001",
+    "name": "Affected Customer",
+    "properties": {
+      "customer_type": "high_risk",
+      "process_role": "Subject of policy violation investigation",
+      "notification_required": "yes (freeze notification and 30-day closure notice)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_acc_001",
+    "name": "Frozen/Closing Account",
+    "properties": {
+      "account_state_at_start": "frozen",
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020_trn_001",
+    "name": "Unauthorized Transactions",
+    "properties": {
+      "transaction_type": "suspicious",
+      "monitoring_trigger": "Unauthorized use suspicion",
+      "investigation_steps": "Financial Crime team review Days 2-7",
+      "outcome_paths": [
+        "refunded to customer",
+        "leads to account closure"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_020",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_prc_001",
+    "name": "Account Closure Quality Assurance Process",
+    "properties": {
+      "purpose": "Ensure accuracy and compliance of account closure activities through checklists and monthly audits",
+      "scope": "Account closure files",
+      "owner": "Quality Assurance/Audit Team",
+      "outcome_success": "Closure files are complete, accurate, and compliant with timelines",
+      "departments_involved": [
+        "Operations",
+        "Compliance/Audit"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_001",
+    "name": "Closure Request Documentation",
+    "properties": {
+      "step_number": 1,
+      "mandatory": "yes",
+      "output": "Documented closure request"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_002",
+    "name": "Customer Identity Verification",
+    "properties": {
+      "step_number": 2,
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_003",
+    "name": "Final Balance Calculation",
+    "properties": {
+      "step_number": 3,
+      "mandatory": "yes",
+      "output": "Correct final balance amount"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_004",
+    "name": "Standing Order and Direct Debit Cancellation",
+    "properties": {
+      "step_number": 4,
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_005",
+    "name": "Final Payment Initiation",
+    "properties": {
+      "step_number": 5,
+      "mandatory": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_006",
+    "name": "Customer Closure Confirmation",
+    "properties": {
+      "step_number": 6,
+      "mandatory": "yes",
+      "output": "Confirmation sent to customer"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_007",
+    "name": "System Account Status Update",
+    "properties": {
+      "step_number": 7,
+      "mandatory": "yes",
+      "channel": "system"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_008",
+    "name": "Records Archival Flagging",
+    "properties": {
+      "step_number": 8,
+      "mandatory": "yes",
+      "output": "Records flagged for 6-year archival"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_stp_009",
+    "name": "Monthly Closure File Review",
+    "properties": {
+      "step_number": 9,
+      "mandatory": "yes",
+      "input": "Minimum 5 closure files",
+      "output": "Assessment of completeness, accuracy, and compliance"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021_chk_001",
+    "name": "Closure Compliance Review",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "Closure request documentation",
+        "Identity verification record",
+        "Balance calculation",
+        "Cancellation logs for SO/DD",
+        "Payment initiation record",
+        "Customer confirmation receipt",
+        "System status log",
+        "Archival flag"
+      ],
+      "timing": "Before marking account as Closed",
+      "failure_consequence": "Account cannot be marked as Closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_021",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_prc_001",
+    "name": "Account Re-opening Process",
+    "properties": {
+      "purpose": "To handle requests where a customer has changed their mind about closing an account",
+      "scope": "Existing customers requesting re-opening",
+      "trigger": "Customer requests re-opening",
+      "outcome_success": "New account opening completed",
+      "departments_involved": [
+        "Branch",
+        "Compliance"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_prc_002",
+    "name": "Account Closure Exception Handling",
+    "properties": {
+      "purpose": "To resolve common issues encountered during the account closure phase",
+      "scope": "Account closure process",
+      "trigger": "Identification of common issues (e.g., pending SOs, disputes, uncollected checks)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_001",
+    "name": "Full KYC Verification",
+    "properties": {
+      "actor": "KYC Analyst / Branch Staff",
+      "mandatory": "yes",
+      "input": "Customer identity and address documentation",
+      "output": "Verified customer status",
+      "failure_path": "Account cannot be re-opened"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_002",
+    "name": "Final Standing Order Execution",
+    "properties": {
+      "actor": "System / Operations Staff",
+      "input": "Pending standing order",
+      "output": "Executed payment",
+      "mandatory": "yes",
+      "failure_path": "Closure delayed until SO is resolved"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_003",
+    "name": "Closure Dispute Investigation",
+    "properties": {
+      "actor": "Investigation Team",
+      "trigger": "Customer claim received after closure",
+      "output": "Investigation result determining if closure reversal is warranted"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_stp_004",
+    "name": "Uncollected Check Holding Period",
+    "properties": {
+      "estimated_duration": "6 months",
+      "input": "Uncollected payment check",
+      "failure_path": "Escalate to unclaimed money procedures"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_dec_001",
+    "name": "Closure Reversal Decision",
+    "properties": {
+      "decision_question": "Is the closure reversal warranted based on the dispute investigation?",
+      "criteria": "Validity of customer claim",
+      "path_yes": "Reverse closure and re-open account",
+      "path_no": "Maintain account closure"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_esc_001",
+    "name": "Unclaimed Money Procedures Escalation",
+    "properties": {
+      "escalation_trigger": "Check remains uncollected for 6 months",
+      "examples": [
+        "uncollected payment checks"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_cus_001",
+    "name": "Customer",
+    "properties": {
+      "process_role": "Subject of account closure or re-opening request",
+      "notification_required": "yes"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_acc_001",
+    "name": "Closing Account",
+    "properties": {
+      "account_state_at_start": "active",
+      "account_state_at_end": "closed"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_sto_001",
+    "name": "Pending Standing Order",
+    "properties": {
+      "transaction_type": "monitored",
+      "outcome_paths": [
+        "executed then close"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022_chk_001",
+    "name": "Full KYC Compliance Check",
+    "properties": {
+      "mandatory": "yes",
+      "timing": "At the start of the re-opening process",
+      "evidence_required": "Full KYC documentation"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_022",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_001",
+    "name": "Account Closure Process",
+    "properties": {
+      "related_documents": [
+        "sop_account_opening",
+        "business_ontology"
+      ]
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_002",
+    "name": "Account Opening Process",
+    "properties": {
+      "document_id": "sop_account_opening"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_003",
+    "name": "Account Dormancy Procedure",
+    "properties": {
+      "scope": "Dormancy management (distinct from closure)"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023_prc_004",
+    "name": "Record Retention Process",
+    "properties": {
+      "document_id": "policy_retention",
+      "timeline_sla": "6-year archive"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_023",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_024_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Document Author / Process Owner"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_024",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025_rol_001",
+    "name": "Head of Operations",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Sign-off approval"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025_rol_002",
+    "name": "Head of Retail Banking",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Sign-off approval"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  },
+  {
+    "id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025_rol_003",
+    "name": "Chief Operating Officer",
+    "properties": {
+      "role_type": "human",
+      "authority_level": "Sign-off approval"
+    },
+    "chunk_id": "4528c4aa3e884ef9b9305aff1a7f9b3e_025",
+    "doc_id": "4528c4aa3e884ef9b9305aff1a7f9b3e"
+  }
+]

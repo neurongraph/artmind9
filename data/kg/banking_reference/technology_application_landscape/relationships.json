@@ -1,0 +1,2543 @@
+[
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_002",
+    "target_name": "Database team",
+    "rel_type": "escalates_to",
+    "description": "Head of Technology manages and oversees the Database team as the system owner",
+    "properties": {
+      "relationship_type": "managerial"
+    },
+    "context": "Owner: Head of Technology Support Team: Database team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_003",
+    "target_name": "Application team",
+    "rel_type": "escalates_to",
+    "description": "Head of Technology manages and oversees the Application team as the system owner",
+    "properties": {
+      "relationship_type": "managerial"
+    },
+    "context": "Owner: Head of Technology Support Team: Application team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_002",
+    "source_name": "Database team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_003",
+    "target_name": "Application team",
+    "rel_type": "coordinates_with",
+    "description": "Database team and Application team both serve as the support team for the Account Management System",
+    "properties": {
+      "collaboration_level": "peer"
+    },
+    "context": "Support Team: Database team, Application team",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_002",
+    "source_name": "Database team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_004_not_003",
+    "source_name": "Application team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_005_acc_001",
+    "source_name": "Customer Accounts Repository",
+    "target_id": "txn_ledger_001",
+    "target_name": "Transaction Ledger",
+    "rel_type": "provides_guidance_on",
+    "description": "The Customer Accounts Repository serves as the central repository for the transaction ledger.",
+    "properties": {
+      "function": "storage"
+    },
+    "context": "Central repository for customer accounts, balances, and transaction ledger.",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_005",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_005_acc_001",
+    "source_name": "Customer Accounts Repository",
+    "target_id": "bal_repo_001",
+    "target_name": "Balances Repository",
+    "rel_type": "provides_guidance_on",
+    "description": "The Customer Accounts Repository serves as the central repository for balances.",
+    "properties": {
+      "function": "storage"
+    },
+    "context": "Central repository for customer accounts, balances, and transaction ledger.",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_005",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_005_acc_001",
+    "source_name": "Customer Accounts Repository",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_005",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_005",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_001",
+    "source_name": "Account CRUD Operations",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_002",
+    "target_name": "Balance Calculation and Reconciliation",
+    "rel_type": "related_to",
+    "description": "Account CRUD operations are functionally related to balance calculation and reconciliation within the core banking features.",
+    "properties": {},
+    "context": "Account CRUD (create, read, update, delete)\n- Balance calculation and reconciliation",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_002",
+    "source_name": "Balance Calculation and Reconciliation",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_003",
+    "target_name": "Transaction Ledger Management",
+    "rel_type": "related_to",
+    "description": "Balance calculation and reconciliation are related to the management of the immutable transaction ledger.",
+    "properties": {},
+    "context": "Balance calculation and reconciliation\n- Transaction ledger (immutable record)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_003",
+    "source_name": "Transaction Ledger Management",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_004",
+    "target_name": "Interest Calculation Process",
+    "rel_type": "related_to",
+    "description": "Transaction ledger management provides the basis for the interest calculation process.",
+    "properties": {},
+    "context": "Transaction ledger (immutable record)\n- Interest calculation",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_004",
+    "source_name": "Interest Calculation Process",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_005",
+    "target_name": "Account Status Management",
+    "rel_type": "related_to",
+    "description": "Interest calculation processes are related to the overall account status management.",
+    "properties": {},
+    "context": "Interest calculation\n- Account status management",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_001",
+    "source_name": "Account CRUD Operations",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_002",
+    "source_name": "Balance Calculation and Reconciliation",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_003",
+    "source_name": "Transaction Ledger Management",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_004",
+    "source_name": "Interest Calculation Process",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_005",
+    "source_name": "Account Status Management",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_002",
+    "source_name": "Account Holders",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "target_name": "Accounts",
+    "rel_type": "applicable_to",
+    "description": "Account Holders are the entities associated with and managing Accounts, including joint account support.",
+    "properties": {
+      "support_type": "joint"
+    },
+    "context": "Account Holders (joint account support)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_001",
+    "source_name": "Customers",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "target_name": "Accounts",
+    "rel_type": "applicable_to",
+    "description": "Customers hold and operate bank accounts.",
+    "properties": {},
+    "context": "Customers (500 records)\n- Accounts (800 records)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "source_name": "Accounts",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007_tra_001",
+    "target_name": "Transactions",
+    "rel_type": "disrupts_operations_on",
+    "description": "Transactions are processed through and recorded against Accounts.",
+    "properties": {
+      "frequency": "monthly"
+    },
+    "context": "Accounts (800 records)\n- Transactions (2,000+ monthly)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "source_name": "Accounts",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007_sto_001",
+    "target_name": "Standing Orders",
+    "rel_type": "explains_management_of",
+    "description": "Standing Orders are payment instructions linked to specific Accounts.",
+    "properties": {
+      "status": "active"
+    },
+    "context": "Accounts (800 records)\n- Standing Orders (50+ active)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "source_name": "Accounts",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007_did_001",
+    "target_name": "Direct Debits",
+    "rel_type": "explains_management_of",
+    "description": "Direct Debits are payment authorizations linked to specific Accounts.",
+    "properties": {
+      "status": "active"
+    },
+    "context": "Accounts (800 records)\n- Direct Debits (30+ active)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_001",
+    "source_name": "Customers",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_002",
+    "target_name": "Account Holders",
+    "rel_type": "related_to",
+    "description": "Account Holders are a specific subset or role of Customers.",
+    "properties": {
+      "relationship": "subtype"
+    },
+    "context": "Customers (500 records)\n- Account Holders (joint account support)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_001",
+    "source_name": "Customers",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "source_name": "Accounts",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_002",
+    "source_name": "Account Holders",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_tra_001",
+    "source_name": "Transactions",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_sto_001",
+    "source_name": "Standing Orders",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_007_did_001",
+    "source_name": "Direct Debits",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_001",
+    "target_name": "Internet Banking Platform",
+    "rel_type": "affects",
+    "description": "Integration failure affects the account data flow from the Internet Banking Platform",
+    "properties": {
+      "impact_area": "account data"
+    },
+    "context": "Integration Failure... Internet Banking Platform (account data)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_002",
+    "target_name": "Mobile Banking App",
+    "rel_type": "affects",
+    "description": "Integration failure affects account queries from the Mobile Banking App",
+    "properties": {
+      "impact_area": "account queries"
+    },
+    "context": "Integration Failure... Mobile Banking App (account queries)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_003",
+    "target_name": "Fraud Detection Engine",
+    "rel_type": "affects",
+    "description": "Integration failure affects transaction data flow from the Fraud Detection Engine",
+    "properties": {
+      "impact_area": "transaction data"
+    },
+    "context": "Integration Failure... Fraud Detection Engine (transaction data)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_004",
+    "target_name": "Payment Processing System",
+    "rel_type": "affects",
+    "description": "Integration failure affects balance updates from the Payment Processing System",
+    "properties": {
+      "impact_area": "balance updates"
+    },
+    "context": "Integration Failure... Payment Processing System (balance updates)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_005",
+    "target_name": "Data Warehouse",
+    "rel_type": "affects",
+    "description": "Integration failure affects the nightly batch process to the Data Warehouse",
+    "properties": {
+      "impact_area": "nightly batch"
+    },
+    "context": "Integration Failure... Data Warehouse (nightly batch)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_001",
+    "source_name": "Internet Banking Platform",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_002",
+    "source_name": "Mobile Banking App",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_003",
+    "source_name": "Fraud Detection Engine",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_004",
+    "source_name": "Payment Processing System",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_005",
+    "source_name": "Data Warehouse",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_002",
+    "source_name": "Daily Backup Procedure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_001",
+    "target_name": "Monthly Patching Procedure",
+    "rel_type": "parallel_to",
+    "description": "Daily backups and monthly patching are both part of the standard maintenance schedule.",
+    "properties": {
+      "category": "maintenance"
+    },
+    "context": "### Maintenance Schedule\n- **Patching:** Monthly (Tuesday 2–4 AM)\n- **Backups:** Daily (midnight)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_001",
+    "source_name": "Monthly Patching Procedure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_003",
+    "target_name": "Monthly Archiving Procedure",
+    "rel_type": "parallel_to",
+    "description": "Monthly patching and monthly archiving are both scheduled on a monthly cadence.",
+    "properties": {
+      "cadence": "monthly"
+    },
+    "context": "### Maintenance Schedule\n- **Patching:** Monthly (Tuesday 2–4 AM)\n- **Archiving:** Monthly (old data to cold storage)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_002",
+    "source_name": "Daily Backup Procedure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_003",
+    "target_name": "Monthly Archiving Procedure",
+    "rel_type": "parallel_to",
+    "description": "Daily backups and monthly archiving are both part of the standard maintenance schedule.",
+    "properties": {
+      "category": "maintenance"
+    },
+    "context": "### Maintenance Schedule\n- **Backups:** Daily (midnight)\n- **Archiving:** Monthly (old data to cold storage)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_001",
+    "source_name": "Monthly Patching Procedure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_002",
+    "source_name": "Daily Backup Procedure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_011_res_003",
+    "source_name": "Monthly Archiving Procedure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_prod_001",
+    "source_name": "Internet Banking Platform (IBP)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_001",
+    "target_name": "Head of Technology",
+    "rel_type": "reported_to",
+    "description": "The Internet Banking Platform is owned by the Head of Technology",
+    "properties": {
+      "role": "Owner"
+    },
+    "context": "Owner: Head of Technology",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_prod_001",
+    "source_name": "Internet Banking Platform (IBP)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_002",
+    "target_name": "Frontend team",
+    "rel_type": "reported_to",
+    "description": "The Frontend team provides support for the Internet Banking Platform",
+    "properties": {
+      "role": "Support Team"
+    },
+    "context": "Support Team: Frontend team, Backend team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_prod_001",
+    "source_name": "Internet Banking Platform (IBP)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_003",
+    "target_name": "Backend team",
+    "rel_type": "reported_to",
+    "description": "The Backend team provides support for the Internet Banking Platform",
+    "properties": {
+      "role": "Support Team"
+    },
+    "context": "Support Team: Frontend team, Backend team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_002",
+    "source_name": "Frontend team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_003",
+    "target_name": "Backend team",
+    "rel_type": "coordinates_with",
+    "description": "Frontend and Backend teams coordinate as part of the IBP support structure",
+    "properties": {
+      "context": "Shared support responsibility"
+    },
+    "context": "Support Team: Frontend team, Backend team",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_prod_001",
+    "source_name": "Internet Banking Platform (IBP)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_002",
+    "source_name": "Frontend team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_012_not_003",
+    "source_name": "Backend team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_013_cgi_001",
+    "source_name": "Web-based customer portal for account access and self-service",
+    "target_id": "acc_001",
+    "target_name": "Account",
+    "rel_type": "provides_guidance_on",
+    "description": "The web-based customer portal provides a means for account access and self-service management.",
+    "properties": {
+      "access_type": "self-service",
+      "channel": "web-based"
+    },
+    "context": "Web-based customer portal for account access and self-service.",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_013",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_013_cgi_001",
+    "source_name": "Web-based customer portal for account access and self-service",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_013",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_013",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_001",
+    "source_name": "Secure Login Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "target_name": "Account Dashboard Guidance",
+    "rel_type": "prerequisite_for",
+    "description": "Secure login is required before accessing the account dashboard",
+    "properties": {
+      "mandatory": true,
+      "method": "2FA via OTP"
+    },
+    "context": "Secure login (2FA via OTP) - Account dashboard",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_003",
+    "target_name": "Transaction History Guidance",
+    "rel_type": "leads_to",
+    "description": "The account dashboard provides access to transaction history",
+    "properties": {
+      "navigation_path": "dashboard -> history"
+    },
+    "context": "Account dashboard - Transaction history",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_004",
+    "target_name": "Standing Order Management Guidance",
+    "rel_type": "leads_to",
+    "description": "The account dashboard provides access to standing order management",
+    "properties": {
+      "navigation_path": "dashboard -> standing orders"
+    },
+    "context": "Account dashboard - Standing order management",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_005",
+    "target_name": "Direct Debit Authorization Guidance",
+    "rel_type": "leads_to",
+    "description": "The account dashboard provides access to direct debit authorization",
+    "properties": {
+      "navigation_path": "dashboard -> direct debits"
+    },
+    "context": "Account dashboard - Direct debit authorization",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_006",
+    "target_name": "Money Transfer Guidance",
+    "rel_type": "leads_to",
+    "description": "The account dashboard provides access to money transfer features",
+    "properties": {
+      "navigation_path": "dashboard -> transfers"
+    },
+    "context": "Account dashboard - Money transfer",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_007",
+    "target_name": "E-statements Guidance",
+    "rel_type": "leads_to",
+    "description": "The account dashboard provides access to e-statements",
+    "properties": {
+      "navigation_path": "dashboard -> statements"
+    },
+    "context": "Account dashboard - E-statements",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_008",
+    "target_name": "Profile Management Guidance",
+    "rel_type": "leads_to",
+    "description": "The account dashboard provides access to profile management",
+    "properties": {
+      "navigation_path": "dashboard -> profile"
+    },
+    "context": "Account dashboard - Profile management",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_001",
+    "source_name": "Secure Login Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_003",
+    "source_name": "Transaction History Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_004",
+    "source_name": "Standing Order Management Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_005",
+    "source_name": "Direct Debit Authorization Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_006",
+    "source_name": "Money Transfer Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_007",
+    "source_name": "E-statements Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_008",
+    "source_name": "Profile Management Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_016_inc_001",
+    "source_name": "Performance Degradation",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_016_tra_001",
+    "target_name": "Monthly Transaction Volume",
+    "rel_type": "disrupts",
+    "description": "Performance degradation impacts the processing and volume of monthly transactions.",
+    "properties": {
+      "impact_type": "operational_efficiency",
+      "metric_affected": "transaction_throughput"
+    },
+    "context": "Performance Degradation... Monthly transactions: 500+",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_016_inc_001",
+    "source_name": "Performance Degradation",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_016_tra_001",
+    "source_name": "Monthly Transaction Volume",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_017_cgi_001",
+    "source_name": "Security Specifications Guidance",
+    "target_id": "sec_spec_001",
+    "target_name": "TLS 1.3 encryption",
+    "rel_type": "provides_guidance_on",
+    "description": "Security Specifications Guidance provides details on the use of TLS 1.3 encryption",
+    "properties": {
+      "specification_type": "encryption"
+    },
+    "context": "Security\n- TLS 1.3 encryption",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_017_cgi_001",
+    "source_name": "Security Specifications Guidance",
+    "target_id": "sec_spec_002",
+    "target_name": "Session timeout",
+    "rel_type": "provides_guidance_on",
+    "description": "Security Specifications Guidance defines the session timeout period",
+    "properties": {
+      "value": "15 minutes",
+      "condition": "idle"
+    },
+    "context": "Session timeout: 15 minutes idle",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_017_cgi_001",
+    "source_name": "Security Specifications Guidance",
+    "target_id": "sec_spec_003",
+    "target_name": "Rate limiting",
+    "rel_type": "provides_guidance_on",
+    "description": "Security Specifications Guidance specifies the rate limiting thresholds",
+    "properties": {
+      "limit": "100 requests/minute",
+      "scope": "per user"
+    },
+    "context": "Rate limiting: 100 requests/minute per user",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_017_cgi_001",
+    "source_name": "Security Specifications Guidance",
+    "target_id": "sec_spec_004",
+    "target_name": "XSS/CSRF protection",
+    "rel_type": "provides_guidance_on",
+    "description": "Security Specifications Guidance outlines the requirements for XSS and CSRF protection",
+    "properties": {
+      "protection_type": "web_vulnerability"
+    },
+    "context": "XSS/CSRF protection",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_017_cgi_001",
+    "source_name": "Security Specifications Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_018_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_001",
+    "target_name": "AMS (Account Management System)",
+    "rel_type": "disrupts_operations_on",
+    "description": "Integration failure disrupts account queries and transaction initiation within the AMS",
+    "properties": {
+      "impacted_functions": [
+        "account queries",
+        "transaction initiation"
+      ]
+    },
+    "context": "Integration Failure... AMS (account queries, transaction initiation)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_018_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_002",
+    "target_name": "FDE (Fraud Detection Engine)",
+    "rel_type": "disrupts_operations_on",
+    "description": "Integration failure disrupts fraud scoring for transfers within the FDE",
+    "properties": {
+      "impacted_functions": [
+        "fraud scoring for transfers"
+      ]
+    },
+    "context": "Integration Failure... FDE (fraud scoring for transfers)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_018_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_003",
+    "target_name": "PPS (Payment Processing System)",
+    "rel_type": "disrupts_operations_on",
+    "description": "Integration failure disrupts payment submission within the PPS",
+    "properties": {
+      "impacted_functions": [
+        "payment submission"
+      ]
+    },
+    "context": "Integration Failure... PPS (payment submission)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_018_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_001",
+    "source_name": "AMS (Account Management System)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_002",
+    "source_name": "FDE (Fraud Detection Engine)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_003",
+    "source_name": "PPS (Payment Processing System)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_prod_001",
+    "source_name": "Mobile Banking App (MBA)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_001",
+    "target_name": "Head of Technology",
+    "rel_type": "reported_to",
+    "description": "The Head of Technology is the owner of the Mobile Banking App (MBA)",
+    "properties": {
+      "role": "Owner"
+    },
+    "context": "Owner: Head of Technology",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_prod_001",
+    "source_name": "Mobile Banking App (MBA)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_002",
+    "target_name": "Mobile team",
+    "rel_type": "reported_to",
+    "description": "The Mobile team provides support for the Mobile Banking App (MBA)",
+    "properties": {
+      "role": "Support Team"
+    },
+    "context": "Support Team: Mobile team, Backend team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_prod_001",
+    "source_name": "Mobile Banking App (MBA)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_003",
+    "target_name": "Backend team",
+    "rel_type": "reported_to",
+    "description": "The Backend team provides support for the Mobile Banking App (MBA)",
+    "properties": {
+      "role": "Support Team"
+    },
+    "context": "Support Team: Mobile team, Backend team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_002",
+    "source_name": "Mobile team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_003",
+    "target_name": "Backend team",
+    "rel_type": "coordinates_with",
+    "description": "The Mobile team and Backend team both provide support for the MBA, requiring coordination",
+    "properties": {
+      "collaboration_type": "Cross-functional support"
+    },
+    "context": "Support Team: Mobile team, Backend team",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_prod_001",
+    "source_name": "Mobile Banking App (MBA)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_002",
+    "source_name": "Mobile team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_019_not_003",
+    "source_name": "Backend team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_001",
+    "source_name": "Biometric Login Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "target_name": "Account Dashboard Guidance",
+    "rel_type": "prerequisite_for",
+    "description": "Biometric login is the primary method to access the account dashboard",
+    "properties": {
+      "mandatory": false,
+      "access_method": "authentication"
+    },
+    "context": "Biometric login (fingerprint, face) - Account dashboard (mobile-optimized)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_003",
+    "target_name": "Push Notifications Guidance",
+    "rel_type": "related_to",
+    "description": "The account dashboard provides the interface to manage push notification settings",
+    "properties": {
+      "interface_link": true
+    },
+    "context": "Account dashboard (mobile-optimized) - Push notifications",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_004",
+    "target_name": "Card Management Guidance",
+    "rel_type": "related_to",
+    "description": "Card management features are accessed via the account dashboard",
+    "properties": {
+      "interface_link": true
+    },
+    "context": "Account dashboard (mobile-optimized) - Card management (lock/unlock)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_005",
+    "target_name": "Money Transfer Guidance",
+    "rel_type": "related_to",
+    "description": "Money transfer functionality is integrated into the account dashboard",
+    "properties": {
+      "interface_link": true
+    },
+    "context": "Account dashboard (mobile-optimized) - Money transfer",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_006",
+    "target_name": "Virtual Card Numbers Guidance",
+    "rel_type": "related_to",
+    "description": "Virtual card numbers are managed through the account dashboard",
+    "properties": {
+      "interface_link": true
+    },
+    "context": "Account dashboard (mobile-optimized) - Virtual card numbers",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_004",
+    "source_name": "Card Management Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_006",
+    "target_name": "Virtual Card Numbers Guidance",
+    "rel_type": "related_to",
+    "description": "Virtual card numbers are a specific feature of card management",
+    "properties": {
+      "feature_category": "card_services"
+    },
+    "context": "Card management (lock/unlock) - Virtual card numbers",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_001",
+    "source_name": "Biometric Login Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "source_name": "Account Dashboard Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_003",
+    "source_name": "Push Notifications Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_004",
+    "source_name": "Card Management Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_005",
+    "source_name": "Money Transfer Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_006",
+    "source_name": "Virtual Card Numbers Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_024_cgi_001",
+    "source_name": "Platform Support Guidance",
+    "target_id": "prod_ios",
+    "target_name": "iOS",
+    "rel_type": "explains_features_of",
+    "description": "Provides version requirements for iOS platform support",
+    "properties": {
+      "minimum_version": "13+"
+    },
+    "context": "iOS: Version 13+",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_024",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_024_cgi_001",
+    "source_name": "Platform Support Guidance",
+    "target_id": "prod_android",
+    "target_name": "Android",
+    "rel_type": "explains_features_of",
+    "description": "Provides version requirements for Android platform support",
+    "properties": {
+      "minimum_version": "9+"
+    },
+    "context": "Android: Version 9+",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_024",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_024_cgi_001",
+    "source_name": "Platform Support Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_024",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_024",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "fde_001",
+    "target_name": "Fraud Detection Engine (FDE)",
+    "rel_type": "coordinates_with",
+    "description": "Head of Financial Crime is the owner of the Fraud Detection Engine (FDE)",
+    "properties": {
+      "role": "Owner"
+    },
+    "context": "Owner: Head of Financial Crime",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_002",
+    "source_name": "Data science team",
+    "target_id": "fde_001",
+    "target_name": "Fraud Detection Engine (FDE)",
+    "rel_type": "coordinates_with",
+    "description": "Data science team provides support for the Fraud Detection Engine (FDE)",
+    "properties": {
+      "role": "Support Team"
+    },
+    "context": "Support Team: Data science team, DevOps",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_003",
+    "source_name": "DevOps",
+    "target_id": "fde_001",
+    "target_name": "Fraud Detection Engine (FDE)",
+    "rel_type": "coordinates_with",
+    "description": "DevOps provides support for the Fraud Detection Engine (FDE)",
+    "properties": {
+      "role": "Support Team"
+    },
+    "context": "Support Team: Data science team, DevOps",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_002",
+    "source_name": "Data science team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_003",
+    "target_name": "DevOps",
+    "rel_type": "coordinates_with",
+    "description": "Data science team and DevOps both serve as the support team for the FDE",
+    "properties": {
+      "collaboration_context": "FDE Support"
+    },
+    "context": "Support Team: Data science team, DevOps",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_002",
+    "source_name": "Data science team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_026_not_003",
+    "source_name": "DevOps",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_027_fra_001",
+    "source_name": "Real-time fraud detection and transaction risk scoring",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_027_fra_001",
+    "target_name": "Real-time fraud detection and transaction risk scoring",
+    "rel_type": "related_to",
+    "description": "The entity serves as the primary mechanism for real-time fraud detection and transaction risk scoring.",
+    "properties": {},
+    "context": "Real-time fraud detection and transaction risk scoring.",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_027",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_027_fra_001",
+    "source_name": "Real-time fraud detection and transaction risk scoring",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_027",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_027",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_001",
+    "source_name": "Transaction Risk Scoring",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "target_name": "Auto-blocking for High-Risk Transactions",
+    "rel_type": "triggers",
+    "description": "High risk scores generated by transaction risk scoring trigger auto-blocking actions.",
+    "properties": {
+      "mandatory": true,
+      "condition": "score exceeds high-risk threshold"
+    },
+    "context": "Transaction risk scoring... Auto-blocking for high-risk transactions",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_002",
+    "source_name": "Rule-based Detection",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "target_name": "Auto-blocking for High-Risk Transactions",
+    "rel_type": "triggers",
+    "description": "Fraud rules matching high-risk patterns trigger auto-blocking actions.",
+    "properties": {
+      "mandatory": true,
+      "condition": "rule match identified as high-risk"
+    },
+    "context": "Rule-based detection (20+ fraud rules)... Auto-blocking for high-risk transactions",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_003",
+    "source_name": "Anomaly Detection ML Models",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "target_name": "Auto-blocking for High-Risk Transactions",
+    "rel_type": "triggers",
+    "description": "ML models identifying anomalies trigger auto-blocking actions.",
+    "properties": {
+      "mandatory": true,
+      "condition": "anomaly detected as high-risk"
+    },
+    "context": "Anomaly detection (ML models)... Auto-blocking for high-risk transactions",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_004",
+    "source_name": "Velocity Checks",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "target_name": "Auto-blocking for High-Risk Transactions",
+    "rel_type": "triggers",
+    "description": "Velocity check failures trigger auto-blocking actions.",
+    "properties": {
+      "mandatory": true,
+      "condition": "velocity threshold exceeded"
+    },
+    "context": "Velocity checks... Auto-blocking for high-risk transactions",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_005",
+    "source_name": "Geographic Anomaly Detection",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "target_name": "Auto-blocking for High-Risk Transactions",
+    "rel_type": "triggers",
+    "description": "Geographic anomalies trigger auto-blocking actions.",
+    "properties": {
+      "mandatory": true,
+      "condition": "geographic risk identified as high"
+    },
+    "context": "Geographic anomaly detection... Auto-blocking for high-risk transactions",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_001",
+    "source_name": "Transaction Risk Scoring",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_002",
+    "source_name": "Rule-based Detection",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_003",
+    "source_name": "Anomaly Detection ML Models",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_004",
+    "source_name": "Velocity Checks",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_005",
+    "source_name": "Geographic Anomaly Detection",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "source_name": "Auto-blocking for High-Risk Transactions",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_001",
+    "source_name": "Real-time transactions from AMS/PPS",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_002",
+    "target_name": "Historical transaction data",
+    "rel_type": "related_to",
+    "description": "Real-time transaction streams are archived into historical transaction data stores",
+    "properties": {
+      "data_flow": "streaming_to_batch"
+    },
+    "context": "Real-time transactions from AMS/PPS... Historical transaction data",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_029_cus_001",
+    "source_name": "Customer profile data",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_001",
+    "target_name": "Real-time transactions from AMS/PPS",
+    "rel_type": "related_to",
+    "description": "Customer profile data is used to contextualize real-time transactions",
+    "properties": {
+      "association": "account_ownership"
+    },
+    "context": "Real-time transactions from AMS/PPS... Customer profile data",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_029_cus_001",
+    "source_name": "Customer profile data",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_002",
+    "target_name": "Historical transaction data",
+    "rel_type": "related_to",
+    "description": "Customer profile data is linked to historical transaction records for behavioral analysis",
+    "properties": {
+      "association": "historical_audit"
+    },
+    "context": "Customer profile data... Historical transaction data",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_001",
+    "source_name": "Real-time transactions from AMS/PPS",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_029_cus_001",
+    "source_name": "Customer profile data",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_002",
+    "source_name": "Historical transaction data",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_001",
+    "source_name": "Transaction Risk Model",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_002",
+    "target_name": "Anomaly Detection Model",
+    "rel_type": "related_to",
+    "description": "Both are fraud detection models used for identifying risk and unusual patterns",
+    "properties": {
+      "category": "fraud_detection_suite"
+    },
+    "context": "Transaction Risk Model — Predicts fraud probability (0–100)\nAnomaly Detection Model — Detects unusual patterns",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_001",
+    "source_name": "Transaction Risk Model",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_003",
+    "target_name": "Chargeback Prediction Model",
+    "rel_type": "related_to",
+    "description": "Both are fraud detection models used for predicting risk and dispute likelihood",
+    "properties": {
+      "category": "fraud_detection_suite"
+    },
+    "context": "Transaction Risk Model — Predicts fraud probability (0–100)\nChargeback Prediction — Predicts dispute likelihood",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_002",
+    "source_name": "Anomaly Detection Model",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_003",
+    "target_name": "Chargeback Prediction Model",
+    "rel_type": "related_to",
+    "description": "Both are fraud detection models used for detecting patterns and predicting disputes",
+    "properties": {
+      "category": "fraud_detection_suite"
+    },
+    "context": "Anomaly Detection Model — Detects unusual patterns\nChargeback Prediction — Predicts dispute likelihood",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_001",
+    "source_name": "Transaction Risk Model",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_002",
+    "source_name": "Anomaly Detection Model",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_003",
+    "source_name": "Chargeback Prediction Model",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_031_fra_001",
+    "source_name": "Fraud Detection Performance Metrics",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_031",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_031",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032_not_001",
+    "target_name": "Account Monitoring System (AMS)",
+    "rel_type": "affects",
+    "description": "Integration failure disrupts the transaction stream from the Account Monitoring System",
+    "properties": {
+      "impact_type": "data_stream_interruption",
+      "criticality": "high"
+    },
+    "context": "Integrations - ← AMS (transaction stream)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032_not_002",
+    "target_name": "Instant Banking Platform (IBP)",
+    "rel_type": "affects",
+    "description": "Integration failure disrupts real-time transaction scoring from the Instant Banking Platform",
+    "properties": {
+      "impact_type": "scoring_delay",
+      "criticality": "high"
+    },
+    "context": "Integrations - ← IBP (real-time transaction scoring)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032_not_003",
+    "target_name": "Payment Processing Service (PPS)",
+    "rel_type": "affects",
+    "description": "Integration failure disrupts transfer risk assessment from the Payment Processing Service",
+    "properties": {
+      "impact_type": "risk_assessment_failure",
+      "criticality": "high"
+    },
+    "context": "Integrations - ← PPS (transfer risk assessment)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032_fra_001",
+    "target_name": "Fraud Alert Database",
+    "rel_type": "disrupts",
+    "description": "Integration failure prevents fraud alerts from being stored in the Fraud Alert Database",
+    "properties": {
+      "impact_type": "storage_failure",
+      "criticality": "critical"
+    },
+    "context": "Integrations - → Database (fraud alerts stored)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_inc_001",
+    "source_name": "Integration Failure",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_not_001",
+    "source_name": "Account Monitoring System (AMS)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_not_002",
+    "source_name": "Instant Banking Platform (IBP)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_not_003",
+    "source_name": "Payment Processing Service (PPS)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_032_fra_001",
+    "source_name": "Fraud Alert Database",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_033_prod_001",
+    "source_name": "Payment Processing System (PPS)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_033_not_001",
+    "target_name": "Head of Technology",
+    "rel_type": "reported_to",
+    "description": "The Head of Technology is the owner of the Payment Processing System (PPS).",
+    "properties": {
+      "role": "Owner"
+    },
+    "context": "Owner: Head of Technology",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_033_prod_001",
+    "source_name": "Payment Processing System (PPS)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_033_not_002",
+    "target_name": "Payments team",
+    "rel_type": "reported_to",
+    "description": "The Payments team provides support for the Payment Processing System (PPS).",
+    "properties": {
+      "role": "Support Team"
+    },
+    "context": "Support Team: Payments team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_033_prod_001",
+    "source_name": "Payment Processing System (PPS)",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_033_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_033_not_002",
+    "source_name": "Payments team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_001",
+    "source_name": "Faster Payments (FPS) Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_002",
+    "target_name": "BACS Payment Guidance",
+    "rel_type": "related_to",
+    "description": "Both are supported payment schemes within the bank's operational framework",
+    "properties": {},
+    "context": "Supported Payment Schemes - Faster Payments (FPS) ... BACS",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_001",
+    "source_name": "Faster Payments (FPS) Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_003",
+    "target_name": "CHAPS Payment Guidance",
+    "rel_type": "related_to",
+    "description": "Both are supported payment schemes within the bank's operational framework",
+    "properties": {},
+    "context": "Supported Payment Schemes - Faster Payments (FPS) ... CHAPS",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_001",
+    "source_name": "Faster Payments (FPS) Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_004",
+    "target_name": "Internal Transfers Guidance",
+    "rel_type": "related_to",
+    "description": "Both are supported payment schemes within the bank's operational framework",
+    "properties": {},
+    "context": "Supported Payment Schemes - Faster Payments (FPS) ... Internal transfers",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_002",
+    "source_name": "BACS Payment Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_003",
+    "target_name": "CHAPS Payment Guidance",
+    "rel_type": "related_to",
+    "description": "Both are supported payment schemes within the bank's operational framework",
+    "properties": {},
+    "context": "Supported Payment Schemes - BACS ... CHAPS",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_002",
+    "source_name": "BACS Payment Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_004",
+    "target_name": "Internal Transfers Guidance",
+    "rel_type": "related_to",
+    "description": "Both are supported payment schemes within the bank's operational framework",
+    "properties": {},
+    "context": "Supported Payment Schemes - BACS ... Internal transfers",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_003",
+    "source_name": "CHAPS Payment Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_004",
+    "target_name": "Internal Transfers Guidance",
+    "rel_type": "related_to",
+    "description": "Both are supported payment schemes within the bank's operational framework",
+    "properties": {},
+    "context": "Supported Payment Schemes - CHAPS ... Internal transfers",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_001",
+    "source_name": "Faster Payments (FPS) Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_002",
+    "source_name": "BACS Payment Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_003",
+    "source_name": "CHAPS Payment Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_004",
+    "source_name": "Internal Transfers Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_001",
+    "source_name": "Faster Payments Service (FPS) Settlement Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_002",
+    "target_name": "BACS Settlement Guidance",
+    "rel_type": "related_to",
+    "description": "Both items provide settlement guidance for different payment rails",
+    "properties": {},
+    "context": "FPS: Immediate settlement; BACS: Submitted 20:00, settled next day",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_001",
+    "source_name": "Faster Payments Service (FPS) Settlement Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_003",
+    "target_name": "CHAPS Settlement Guidance",
+    "rel_type": "related_to",
+    "description": "Both items provide settlement guidance for different payment rails",
+    "properties": {},
+    "context": "FPS: Immediate settlement; CHAPS: Real-time (during business hours)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_002",
+    "source_name": "BACS Settlement Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_003",
+    "target_name": "CHAPS Settlement Guidance",
+    "rel_type": "related_to",
+    "description": "Both items provide settlement guidance for different payment rails",
+    "properties": {},
+    "context": "BACS: Submitted 20:00, settled next day; CHAPS: Real-time (during business hours)",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_001",
+    "source_name": "Faster Payments Service (FPS) Settlement Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_002",
+    "source_name": "BACS Settlement Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_003",
+    "source_name": "CHAPS Settlement Guidance",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_037_inc_001",
+    "source_name": "Performance Degradation",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_037_tra_001",
+    "target_name": "FPS Transaction",
+    "rel_type": "disrupts",
+    "description": "Performance degradation affects the processing latency and success rate of FPS Transactions",
+    "properties": {
+      "metric_affected": "processing latency",
+      "threshold": "<15 minutes"
+    },
+    "context": "Processing latency (FPS): <15 minutes",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_037_inc_001",
+    "source_name": "Performance Degradation",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_037_tra_001",
+    "source_name": "FPS Transaction",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_res_001",
+    "source_name": "AMS Payment Instruction",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038_not_001",
+    "target_name": "Bank of England",
+    "rel_type": "notifies",
+    "description": "AMS payment instructions involve settlement with the Bank of England",
+    "properties": {
+      "purpose": "settlement",
+      "method": "integration"
+    },
+    "context": "← AMS (payment instruction) ... → Bank of England (settlement)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_res_001",
+    "source_name": "AMS Payment Instruction",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038_not_002",
+    "target_name": "External banks",
+    "rel_type": "notifies",
+    "description": "AMS payment instructions are used for payment delivery to external banks",
+    "properties": {
+      "purpose": "payment delivery",
+      "method": "integration"
+    },
+    "context": "← AMS (payment instruction) ... → External banks (payment delivery)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_res_002",
+    "source_name": "FDE Fraud Assessment",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038_not_001",
+    "target_name": "Bank of England",
+    "rel_type": "involves",
+    "description": "FDE fraud assessment processes integrate with Bank of England settlement",
+    "properties": {
+      "integration_type": "operational"
+    },
+    "context": "← FDE (fraud assessment) ... → Bank of England (settlement)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_res_002",
+    "source_name": "FDE Fraud Assessment",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038_not_002",
+    "target_name": "External banks",
+    "rel_type": "involves",
+    "description": "FDE fraud assessment processes integrate with external bank payment delivery",
+    "properties": {
+      "integration_type": "operational"
+    },
+    "context": "← FDE (fraud assessment) ... → External banks (payment delivery)",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_not_001",
+    "source_name": "Bank of England",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_not_002",
+    "source_name": "External banks",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_res_001",
+    "source_name": "AMS Payment Instruction",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_038_res_002",
+    "source_name": "FDE Fraud Assessment",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_039_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_039_not_002",
+    "target_name": "Data engineering team",
+    "rel_type": "reports_to",
+    "description": "The Data engineering team reports to the Head of Technology as the system owner.",
+    "properties": {
+      "relationship_type": "managerial",
+      "context": "ownership_and_support"
+    },
+    "context": "Owner: Head of Technology\nSupport Team: Data engineering team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_039_not_002",
+    "source_name": "Data engineering team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_039_not_001",
+    "target_name": "Head of Technology",
+    "rel_type": "escalates_to",
+    "description": "The Data engineering team escalates system issues to the Head of Technology.",
+    "properties": {
+      "escalation_path": "standard",
+      "priority": "high"
+    },
+    "context": "Owner: Head of Technology\nSupport Team: Data engineering team",
+    "bidirectional": false,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_039_not_001",
+    "source_name": "Head of Technology",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_039_not_002",
+    "source_name": "Data engineering team",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_cus_001",
+    "source_name": "Customer Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041_acc_001",
+    "target_name": "Account Mart",
+    "rel_type": "related_to",
+    "description": "Customer demographics in Customer Mart are linked to account balances and product mix in Account Mart",
+    "properties": {
+      "link_type": "customer_to_account"
+    },
+    "context": "Customer Mart: 500 customers, demographics; Account Mart: 800 accounts, balances, product mix",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_acc_001",
+    "source_name": "Account Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041_tra_001",
+    "target_name": "Transaction Mart",
+    "rel_type": "related_to",
+    "description": "Accounts in Account Mart generate the monthly transactions recorded in Transaction Mart",
+    "properties": {
+      "link_type": "account_to_transaction"
+    },
+    "context": "Account Mart: 800 accounts, balances, product mix; Transaction Mart: 2,000+ monthly transactions",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_acc_001",
+    "source_name": "Account Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041_pro_001",
+    "target_name": "Product Mart",
+    "rel_type": "related_to",
+    "description": "Account Mart tracks the product mix which corresponds to the products and KPIs in Product Mart",
+    "properties": {
+      "link_type": "account_to_product"
+    },
+    "context": "Account Mart: 800 accounts, balances, product mix; Product Mart: 5 products, performance KPIs",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_tra_001",
+    "source_name": "Transaction Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041_acc_001",
+    "target_name": "Account Mart",
+    "rel_type": "related_to",
+    "description": "Transactions are associated with specific accounts",
+    "properties": {
+      "link_type": "transaction_to_account"
+    },
+    "context": "Account Mart: 800 accounts, balances, product mix; Transaction Mart: 2,000+ monthly transactions",
+    "bidirectional": true,
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_acc_001",
+    "source_name": "Account Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_cus_001",
+    "source_name": "Customer Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_tra_001",
+    "source_name": "Transaction Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "source_id": "215a8b3734c04ce2ba85c17a957aef46_041_pro_001",
+    "source_name": "Product Mart",
+    "target_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "target_name": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  }
+]

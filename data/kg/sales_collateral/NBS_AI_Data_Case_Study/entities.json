@@ -1,0 +1,1315 @@
+[
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_cli_001",
+    "name": "Large British Building Society",
+    "aliases": [
+      "the organisation",
+      "client",
+      "building society"
+    ],
+    "entity_class": "CLIENT",
+    "type": "anonymous_client",
+    "description": "A UK-based financial services organisation undergoing a comprehensive AI and data transformation programme to modernise its data estate, establish an AI Centre of Excellence, and implement robust data governance to drive measurable business impact and regulatory compliance.",
+    "context": [
+      "Case Study: Large British Building Society",
+      "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly",
+      "The organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_off_001",
+    "name": "AI & Data Transformation Programme",
+    "aliases": [
+      "AI & Data Transformation",
+      "transformation programme"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "transformation_programme",
+    "description": "A comprehensive three-pillar engagement focused on establishing an AI Centre of Excellence, migrating to a modern data platform, and implementing robust data governance to drive measurable business impact, reduce costs, and build a scalable foundation for AI-driven innovation.",
+    "context": [
+      "This case study documents a comprehensive AI and Data transformation programme spanning three strategic pillars",
+      "The programme has delivered measurable business impact across all three pillars, reducing costs, improving compliance, and building a scalable foundation for AI-driven innovation"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_off_002",
+    "name": "AI Centre of Excellence",
+    "aliases": [
+      "AI CoE",
+      "GenAI CoE"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "delivery_model",
+    "description": "A dedicated organisational structure and operating model established to govern AI experimentation, standardise delivery processes, and scale proven use cases into production while embedding responsible AI practices from inception.",
+    "context": [
+      "AI Centre of Excellence - Established GenAI CoE",
+      "The organisation recognised the transformative potential of Generative AI but lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_off_003",
+    "name": "Modern Data Platform",
+    "aliases": [
+      "Modern Data Platform Migration",
+      "cloud data platform"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A cloud-native data architecture built on Azure and Databricks, replacing legacy systems to enable scalable data processing, advanced analytics, and AI initiatives through a medallion lakehouse architecture.",
+    "context": [
+      "Modern Data Platform - Azure + Databricks + dbt",
+      "Cloud-native architecture improving data accessibility & agility"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_cap_001",
+    "name": "Responsible AI Governance",
+    "aliases": [
+      "Responsible AI",
+      "AI risk management"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "security_capability",
+    "description": "Framework and practices ensuring ethical, secure, and compliant AI deployment, including threat modelling, PII redaction, model risk evaluation, and operational governance to mitigate deployment risks.",
+    "context": [
+      "Responsible AI practices embedded from inception: threat modelling, PII redaction, model risk evaluation",
+      "Governance - Operational model - Responsible AI"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_cap_002",
+    "name": "Data Mastering & Analytics",
+    "aliases": [
+      "Customer Data Mastering",
+      "advanced customer analytics"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "Capability to consolidate fragmented customer data into a single authoritative view, enabling advanced segmentation, personalisation, and self-service BI for business consumers and external systems.",
+    "context": [
+      "Customer data mastering",
+      "Foundation for self-service BI and advanced customer analytics"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_cap_003",
+    "name": "Data Lineage & Reconciliation Controls",
+    "aliases": [
+      "CDE tracing",
+      "data governance controls"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "integration_capability",
+    "description": "End-to-end tracing of Critical Data Elements across systems and functional areas to ensure compliance, accuracy, and operational risk mitigation through defined reconciliation controls.",
+    "context": [
+      "205 CDEs traced end-to-end",
+      "Reconciliation controls defined",
+      "inability to trace data lineage end-to-end posed regulatory and operational risks"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_use_001",
+    "name": "Complaints Letter Writing (CRAiG)",
+    "aliases": [
+      "CRAiG",
+      "Complaints Letter Automation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "automation",
+    "description": "GenAI-driven solution that drafts bespoke customer complaint letters, reducing manual drafting time from 40 minutes to under 5 minutes with human review, while ensuring PII redaction and model monitoring.",
+    "context": [
+      "Use Case 1: Complaints Letter Writing (CRAiG)",
+      "GenAI drafts letter, human reviews in <5 mins",
+      "Piloted Feb–Sep 2024, graduated to production"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_use_002",
+    "name": "Call Transcript Analytics",
+    "aliases": [
+      "Call Analytics",
+      "AI Call Summarisation"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "analytics",
+    "description": "AI-powered analysis of customer call recordings for automated summarisation, root cause extraction, and nuanced sentiment/emotion detection beyond traditional NLP/ML capabilities.",
+    "context": [
+      "Use Case 2: Call Transcript Analytics",
+      "Automated call summarisation. Root cause & areas-of-interest extraction",
+      "Emotion detection with detailed reasoning"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_use_003",
+    "name": "QA/QC AI Assist",
+    "aliases": [
+      "Quality Assurance AI",
+      "Automated Compliance Checking"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "automation",
+    "description": "GenAI-enabled call screening and compliance checking that scaled coverage from 5% manual to 100% automated, delivering a step-change in quality assurance and regulatory compliance.",
+    "context": [
+      "Use Case 3: QA/QC AI Assist",
+      "Scaled call screening from 5% manual to 100% GenAI-enabled",
+      "Automated compliance checking"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_use_004",
+    "name": "Fraud Analysis PoC",
+    "aliases": [
+      "Fraud Detection Pilot",
+      "Fraud Analysis"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "fraud_detection",
+    "description": "Proof of concept exploring GenAI applications for identifying and analysing fraudulent activities within customer data, part of a broader pipeline of 10+ use cases across customer and IT operations domains.",
+    "context": [
+      "Fraud Analysis PoC & pilot",
+      "Pipeline of 10+ use cases across Customer, Colleague and IT Operations domains"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_ben_001",
+    "name": "~90% Reduction in Letter Drafting Time",
+    "aliases": [
+      "Letter drafting efficiency",
+      "Time savings on complaints"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "Significant time savings achieved through GenAI automation of complaint letter generation, drastically reducing manual effort and accelerating response times for customer complaints.",
+    "context": [
+      "~90% time savings on complaints letters",
+      "Reduction in letter drafting time"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_ben_002",
+    "name": ">30% Faster Code Development",
+    "aliases": [
+      "Accelerated code build",
+      "Faster development cycles"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "Accelerated development and testing cycles for data pipelines and transformations, validated through GenAI-accelerated techniques and fast-tracked delivery against stringent timelines.",
+    "context": [
+      ">30% faster code development via GenAI",
+      "Reduction in code build & test",
+      "Fast-tracked delivery against stringent timelines"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_ben_003",
+    "name": "Infrastructure Cost Reduction",
+    "aliases": [
+      "Lowered infrastructure costs",
+      "Decommissioning savings"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "cost_saving",
+    "description": "Lowered operational and licensing expenses through decommissioning of legacy mainframe systems and high-cost Teradata infrastructure, freeing budget for innovation and modernisation.",
+    "context": [
+      "Decommissioning of legacy mainframe systems, significantly lowering infrastructure costs",
+      "High licensing costs",
+      "Freed budget for innovation and modernisation"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_ben_004",
+    "name": "100% Call Screening Coverage",
+    "aliases": [
+      "Full call coverage",
+      "Automated QA coverage"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "Complete automation of call quality assurance and compliance checking, replacing limited manual sampling and delivering a step-change in quality assurance coverage.",
+    "context": [
+      "100% Call screening coverage",
+      "Step-change in quality assurance coverage"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_cha_001",
+    "name": "Fragmented Legacy Data Landscape",
+    "aliases": [
+      "Legacy data silos",
+      "Disconnected data warehouses"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "Disconnected data warehouses, marts, and mainframe systems creating silos, technical debt, and limited accessibility for analytics, hindering advanced data processing and AI readiness.",
+    "context": [
+      "The organisation operated a fragmented legacy data landscape comprising MS SQL-based data warehouses, Teradata-based data marts, and mainframe-hosted Customer Information Systems",
+      "Manual, siloed data processes"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_cha_002",
+    "name": "Lack of Centralised AI Governance",
+    "aliases": [
+      "Uncoordinated AI initiatives",
+      "Fragmented AI strategy"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "operational_inefficiency",
+    "description": "Absence of a coordinated structure for responsible AI experimentation, leading to fragmented initiatives, inconsistent quality standards, and inability to demonstrate measurable business value from AI investments.",
+    "context": [
+      "lacked a centralised structure to experiment responsibly, govern AI deployments, and scale proven use cases into production",
+      "risk of fragmented AI initiatives, inconsistent quality standards, and inability to demonstrate measurable business value from AI investments"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_cha_003",
+    "name": "Data Lineage Visibility Gap",
+    "aliases": [
+      "Missing data lineage",
+      "Compliance visibility risk"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "regulatory_burden",
+    "description": "Inability to trace Critical Data Elements across 78+ systems, creating compliance risks and data quality gaps in sensitive areas like Eco Crime and Payments Screening.",
+    "context": [
+      "lacked visibility into how Critical Data Elements (CDEs) flowed across 78+ systems and 6 functional areas",
+      "inability to trace data lineage end-to-end posed regulatory and operational risks"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_tech_001",
+    "name": "Azure",
+    "aliases": [
+      "Microsoft Azure",
+      "Azure cloud"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "Microsoft cloud platform serving as the foundational infrastructure for the modern data lakehouse, data factory orchestration, and AI services enabling scalable data processing.",
+    "context": [
+      "Azure + Databricks + dbt",
+      "Migrated mainframe CIS to modern data lakehouse on Azure"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_tech_002",
+    "name": "Databricks",
+    "aliases": [
+      "Databricks platform",
+      "Lakehouse platform"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "analytics_platform",
+    "description": "Unified data analytics platform used to consolidate Teradata assets and host the medallion architecture for data processing, AI workloads, and accelerated code development.",
+    "context": [
+      "Consolidating all data assets from Teradata Vantage to Databricks on Azure",
+      "Azure + Databricks + dbt"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_tech_003",
+    "name": "dbt",
+    "aliases": [
+      "data build tool",
+      "dbt models"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "integration_tool",
+    "description": "Transformation workflow tool used to build modular, version-controlled, and tested data models within the lakehouse architecture, ensuring rigorous data quality through testing and validation.",
+    "context": [
+      "Modular, reusable, version-controlled dbt models",
+      "Rigorous DQ through testing and validation in dbt"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_tech_004",
+    "name": "GitHub Copilot",
+    "aliases": [
+      "Copilot",
+      "AI coding assistant"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "AI-powered coding assistant leveraged to accelerate Teradata-to-dbt conversion and validate accelerated delivery approaches, enabling faster code build and test cycles.",
+    "context": [
+      "GenAI-based techniques and assets using GitHub CoPilot to accelerate Teradata-to-dbt conversion",
+      "Validated GenAI-accelerated approach for time-to-value"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_tech_005",
+    "name": "Teradata Vantage",
+    "aliases": [
+      "Teradata",
+      "Teradata data warehouse"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "Legacy enterprise data warehouse system containing complex stored procedures and high licensing costs, targeted for migration to Databricks on Azure.",
+    "context": [
+      "Teradata Vantage - Enterprise data warehouses",
+      "Complex stored procedures"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_tech_006",
+    "name": "Unisys Mainframe",
+    "aliases": [
+      "Mainframe CIS",
+      "Unisys"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "legacy_system",
+    "description": "Legacy mainframe infrastructure hosting Customer Information Systems (CIS), targeted for decommissioning and migration to cloud to reduce technical debt and infrastructure costs.",
+    "context": [
+      "Customer Information Systems on Unisys mainframe",
+      "Ending Unisys reliance – migrating customer data and FC/RC feeds to SAP"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_diff_001",
+    "name": "GenAI-Accelerated Migration Approach",
+    "aliases": [
+      "AI-accelerated delivery",
+      "GenAI migration strategy"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "speed",
+    "description": "Use of AI-powered coding assistants and validated PoCs to fast-track complex data migrations, delivering milestones ahead of schedule and validating accelerated approaches for time-to-value.",
+    "context": [
+      "Validated GenAI-accelerated approach for time-to-value",
+      "Medallion Architecture Bronze milestone delivered ahead of schedule"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_diff_002",
+    "name": "Federated Governance Model",
+    "aliases": [
+      "Federated AI governance",
+      "Scalable AI operating model"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "delivery_model",
+    "description": "Scalable AI operating model combining centralised oversight with distributed execution, supported by API management and model monitoring to enable a pipeline of 10+ use cases across multiple domains.",
+    "context": [
+      "Scalable AI platform with federated governance, API management and model monitoring",
+      "Pipeline of 10+ use cases across Customer, Colleague and IT Operations domains"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_org_001",
+    "name": "SAP",
+    "aliases": [
+      "SAP systems",
+      "SAP ERP"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "partner",
+    "description": "Enterprise software vendor whose systems are integrated with the new data lakehouse for customer data feeds and operational systems, replacing legacy mainframe dependencies.",
+    "context": [
+      "Fragmented across CIS, SAP and operational systems",
+      "migrating customer data and FC/RC feeds to SAP"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_org_002",
+    "name": "Control-M",
+    "aliases": [
+      "Control M",
+      "Workload automation"
+    ],
+    "entity_class": "ORGANIZATION",
+    "type": "vendor",
+    "description": "Enterprise workload automation and orchestration tool used alongside Azure Data Factory for pipeline management and data delivery to business consumers.",
+    "context": [
+      "Orchestration via Azure Data Factory & Control-M"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_loc_001",
+    "name": "Pune",
+    "aliases": [
+      "Pune delivery centre",
+      "India delivery"
+    ],
+    "entity_class": "LOCATION",
+    "type": "office",
+    "description": "Delivery location where collaborative workshops with client stakeholders were conducted for migration strategy and architecture evaluation, supporting SME-led evaluation efforts.",
+    "context": [
+      "Collaborative workshops in Pune with client stakeholders"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_evt_001",
+    "name": "Q4 2023 CoE Setup",
+    "aliases": [
+      "CoE Foundations Q4 2023",
+      "AI CoE establishment"
+    ],
+    "entity_class": "EVENT",
+    "type": "proof_of_concept",
+    "description": "Initial phase marking the establishment of the AI Centre of Excellence leadership, team, processes, and governance model to enable responsible AI experimentation and delivery.",
+    "context": [
+      "CoE Foundations (Q4 2023)",
+      "Leadership - Clear accountability",
+      "Team - Cross-functional - Shaped & mobilised"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_001_evt_002",
+    "name": "Feb–Sep 2024 Pilot",
+    "aliases": [
+      "CRAiG Pilot",
+      "Complaints Letter Pilot"
+    ],
+    "entity_class": "EVENT",
+    "type": "pilot",
+    "description": "Execution period for the Complaints Letter Writing use case, transitioning from pilot to production graduation while validating prompt engineering and model monitoring approaches.",
+    "context": [
+      "Piloted Feb–Sep 2024, graduated to production",
+      "REACT-based prompts outperformed few-shot"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_001",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_off_001",
+    "name": "Data Governance Solution",
+    "aliases": [
+      "Data Governance",
+      "Data Governance – Solution"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A comprehensive data governance programme delivered as part of an AI and Data Transformation engagement. It encompasses data lineage mapping, data quality rule implementation, reconciliation controls, and capability transfer to ensure sustainable governance beyond the initial engagement.",
+    "context": [
+      "Data Governance – Solution",
+      "Data Governance: 205 CDEs traced, 400+ DQ rules, and comprehensive reconciliation controls across 78 systems",
+      "ensuring sustainable governance beyond the engagement"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_off_002",
+    "name": "AI CoE",
+    "aliases": [
+      "AI Centre of Excellence",
+      "AI CoE"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A strategic AI Centre of Excellence initiative focused on responsible experimentation and delivering measurable efficiency gains. It serves as a pipeline generator for multiple use cases across customer, colleague, and IT operations.",
+    "context": [
+      "AI CoE: Responsible experimentation delivering ~90% efficiency gains",
+      "with a pipeline of 10+ use cases across Customer, Colleague & IT Operations"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_off_003",
+    "name": "Modern Data Platform",
+    "aliases": [
+      "Modern Data Platform",
+      "Data Platform"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "platform",
+    "description": "A next-generation data infrastructure platform designed to decommission legacy systems and accelerate development. It leverages GenAI-based techniques and assets to drive significant speed improvements in data engineering and delivery.",
+    "context": [
+      "Modern Data Platform: Legacy decommissioning with >30% development acceleration",
+      "through GenAI-based techniques and assets using GitHub CoPilot"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_off_004",
+    "name": "Data Lineage Framework",
+    "aliases": [
+      "Data Lineage",
+      "Data Lineage – Solution"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "A structured framework for mapping end-to-end data flows, visualising critical data elements, and documenting interface contracts. It provides full transparency and serves as the foundation for downstream data quality and reconciliation activities.",
+    "context": [
+      "Data Lineage",
+      "205 CDEs visualised end-to-end",
+      "Comprehensive mapping of areas, CDEs, interfaces & SMEs"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_off_005",
+    "name": "Data Quality Rules Engine",
+    "aliases": [
+      "Data Quality Rules",
+      "DQ Rules"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "framework",
+    "description": "A technical rule engine that derives data quality standards from lineage metadata. It operationalises automated checks across conformity and completeness dimensions to proactively monitor and enforce data standards.",
+    "context": [
+      "Data Quality Rules",
+      "400+ DQ rules & SSDs for 205 CDEs",
+      "SAS tooling configured for automated checks"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_off_006",
+    "name": "Reconciliation Controls",
+    "aliases": [
+      "Reconciliation Controls",
+      "CDE-level & Interface-level Controls"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "solution",
+    "description": "A set of automated controls that validate data at both the critical data element and interface levels. It includes record counting, field matching, error threshold monitoring, and auto-halt mechanisms with detailed logging to ensure data integrity.",
+    "context": [
+      "Reconciliation Controls",
+      "CDE-level: record count, field value & format matching",
+      "Interface-level: job control, error thresholds, alerting"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_off_007",
+    "name": "Capability Transfer Programme",
+    "aliases": [
+      "Capability Transfer",
+      "Capability Building"
+    ],
+    "entity_class": "OFFERING_SOLUTION",
+    "type": "professional_service",
+    "description": "A structured knowledge transfer and coaching engagement designed to embed sustainable capabilities within business-as-usual teams. It ensures operational handover and long-term governance ownership by the client.",
+    "context": [
+      "Capability Transfer",
+      "Active coaching of BAU colleagues",
+      "Sustainable capability building",
+      "Successful handover for ongoing operations"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cap_001",
+    "name": "Data Lineage Computation",
+    "aliases": [
+      "Compute data lineage",
+      "Dataflow mapping"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "technical_capability",
+    "description": "The technical ability to compute and map data lineage for critical data elements, establishing a baseline maturity and creating visual dataflow diagrams and interface contracts.",
+    "context": [
+      "Compute data lineage for CDEs – establishing baseline maturity",
+      "6 dataflow diagrams & 108 interface contracts"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cap_002",
+    "name": "Data Quality Measurement",
+    "aliases": [
+      "Measure data quality",
+      "DQ monitoring"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "analytics_capability",
+    "description": "The capability to systematically measure and monitor data quality across functional areas using derived technical rules and automated checks focused on conformity and completeness.",
+    "context": [
+      "Measure data quality across in-scope functional areas",
+      "Technical rules derived from lineage metadata",
+      "2 DQ dimensions: Conformity & Completeness"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cap_003",
+    "name": "Technical Data Reconciliation",
+    "aliases": [
+      "Review technical data reconciliation",
+      "Reconciliation validation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "integration_capability",
+    "description": "The ability to perform technical reconciliation across systems and interfaces, validating record counts, field values, and formats while managing error thresholds and alerting.",
+    "context": [
+      "Review technical data reconciliation for Payments Screening",
+      "Auto-halt on mismatch with detailed logging",
+      "Payments Screening maturity assessment (20 SMEs)"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cap_004",
+    "name": "Capability Building & Coaching",
+    "aliases": [
+      "Promote capability building",
+      "Active coaching"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "delivery_capability",
+    "description": "A delivery capability focused on upskilling business-as-usual teams through active coaching, knowledge embedding, and sustainable handover processes to ensure long-term operational ownership.",
+    "context": [
+      "Promote capability building within BAU teams",
+      "Active coaching of BAU colleagues",
+      "Knowledge embedded in organisational tooling"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cap_005",
+    "name": "Responsible Experimentation",
+    "aliases": [
+      "Responsible experimentation",
+      "AI experimentation"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "ai_capability",
+    "description": "An AI delivery capability that enables structured, governed experimentation to rapidly validate use cases and deliver high-efficiency gains across customer, colleague, and IT operations.",
+    "context": [
+      "Responsible experimentation delivering ~90% efficiency gains",
+      "with a pipeline of 10+ use cases across Customer, Colleague & IT Operations"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cap_006",
+    "name": "Legacy System Decommissioning",
+    "aliases": [
+      "Legacy decommissioning",
+      "System retirement"
+    ],
+    "entity_class": "CAPABILITY",
+    "type": "migration_capability",
+    "description": "The capability to safely decommission legacy systems and migrate workloads to modern platforms, accelerating development cycles through the application of GenAI-based techniques.",
+    "context": [
+      "Legacy decommissioning with >30% development acceleration",
+      "through GenAI-based techniques and assets using GitHub CoPilot"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_use_001",
+    "name": "Payments Screening",
+    "aliases": [
+      "Payments Screening",
+      "Screening operations"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A specific operational context where data lineage, quality rules, and reconciliation controls are applied to ensure accurate screening processes and meet regulatory requirements.",
+    "context": [
+      "Review technical data reconciliation for Payments Screening",
+      "enabling targeted improvements in Payments Screening",
+      "Payments Screening maturity assessment (20 SMEs)"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_use_002",
+    "name": "Customer Operations",
+    "aliases": [
+      "Customer",
+      "Customer-facing processes"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "customer_experience",
+    "description": "A functional area where AI use cases and data governance improvements are deployed to enhance customer-facing processes and service delivery.",
+    "context": [
+      "pipeline of 10+ use cases across Customer, Colleague & IT Operations",
+      "providing full transparency for regulatory compliance"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_use_003",
+    "name": "Colleague Operations",
+    "aliases": [
+      "Colleague",
+      "Internal workforce processes"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "An internal operational context focused on improving colleague productivity and workflow efficiency through data-driven insights and automated governance.",
+    "context": [
+      "pipeline of 10+ use cases across Customer, Colleague & IT Operations",
+      "augmenting organisational knowledge"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_use_004",
+    "name": "IT Operations",
+    "aliases": [
+      "IT Operations",
+      "Technology operations"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "operational_efficiency",
+    "description": "A technology operations context where data platform modernisation, legacy decommissioning, and automated reconciliation controls are applied to improve system reliability and development speed.",
+    "context": [
+      "pipeline of 10+ use cases across Customer, Colleague & IT Operations",
+      "comprehensive reconciliation controls across 78 systems"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_use_005",
+    "name": "Regulatory Compliance",
+    "aliases": [
+      "regulatory compliance",
+      "compliance reporting"
+    ],
+    "entity_class": "USE_CASE",
+    "type": "compliance",
+    "description": "A compliance use case driven by the need for end-to-end data transparency, auditability, and risk reduction to meet external regulatory standards.",
+    "context": [
+      "providing full transparency for regulatory compliance",
+      "reducing compliance risk",
+      "enabling targeted improvements in Payments Screening"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_ben_001",
+    "name": "Baseline Maturity Establishment",
+    "aliases": [
+      "establishing baseline maturity",
+      "maturity assessment"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "quality_improvement",
+    "description": "The outcome of establishing a clear baseline for data maturity, enabling the organisation to measure progress and target specific areas for improvement.",
+    "context": [
+      "establishing baseline maturity",
+      "Payments Screening maturity assessment (20 SMEs)",
+      "enabling targeted improvements in Payments Screening"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_ben_002",
+    "name": "Compliance Risk Reduction",
+    "aliases": [
+      "reducing compliance risk",
+      "risk mitigation"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "risk_reduction",
+    "description": "A quantified risk outcome achieved through proactive data quality monitoring and automated reconciliation, directly lowering the organisation's exposure to regulatory penalties.",
+    "context": [
+      "Proactive data quality monitoring reducing compliance risk",
+      "Auto-halt on mismatch with detailed logging"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_ben_003",
+    "name": "Targeted Process Improvements",
+    "aliases": [
+      "targeted improvements",
+      "maturity-driven improvements"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "operational_efficiency",
+    "description": "The ability to drive precise, data-backed improvements in specific functional areas based on maturity assessments and reconciliation findings.",
+    "context": [
+      "enabling targeted improvements in Payments Screening",
+      "Comprehensive mapping of areas, CDEs, interfaces & SMEs"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_ben_004",
+    "name": "Organisational Knowledge Augmentation",
+    "aliases": [
+      "augmenting organisational knowledge",
+      "knowledge embedding"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "scale_achievement",
+    "description": "The outcome of embedding critical data mappings and governance rules into existing organisational tooling, creating a lasting knowledge asset beyond the initial engagement.",
+    "context": [
+      "Comprehensive mapping augmenting organisational knowledge",
+      "Knowledge embedded in organisational tooling",
+      "ensuring sustainable governance beyond the engagement"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_ben_005",
+    "name": "Efficiency Gains (~90%)",
+    "aliases": [
+      "~90% efficiency gains",
+      "AI efficiency gains"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "efficiency_gain",
+    "description": "A highly quantified operational benefit delivered through responsible AI experimentation, significantly reducing manual effort and accelerating delivery cycles.",
+    "context": [
+      "Responsible experimentation delivering ~90% efficiency gains",
+      "with a pipeline of 10+ use cases across Customer, Colleague & IT Operations"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_ben_006",
+    "name": "Development Acceleration (>30%)",
+    "aliases": [
+      ">30% development acceleration",
+      "accelerated delivery"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "speed_improvement",
+    "description": "A measurable speed benefit achieved by leveraging GenAI-based techniques and assets to decommission legacy systems and accelerate modern platform development.",
+    "context": [
+      "Legacy decommissioning with >30% development acceleration",
+      "through GenAI-based techniques and assets using GitHub CoPilot"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_ben_007",
+    "name": "Regulatory Transparency",
+    "aliases": [
+      "full transparency",
+      "regulatory transparency"
+    ],
+    "entity_class": "BENEFIT",
+    "type": "compliance_achievement",
+    "description": "A compliance outcome where end-to-end data lineage provides complete visibility into data flows, satisfying regulatory audit requirements and reducing reporting friction.",
+    "context": [
+      "End-to-end data lineage providing full transparency for regulatory compliance",
+      "205 CDEs traced end-to-end",
+      "78 Systems mapped with full lineage"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cha_001",
+    "name": "Compliance Risk",
+    "aliases": [
+      "compliance risk",
+      "regulatory exposure"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "regulatory_burden",
+    "description": "A significant business constraint driven by the need to meet strict regulatory standards, requiring proactive monitoring and transparent data lineage to avoid penalties.",
+    "context": [
+      "Proactive data quality monitoring reducing compliance risk",
+      "providing full transparency for regulatory compliance"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cha_002",
+    "name": "Legacy System Constraints",
+    "aliases": [
+      "legacy systems",
+      "legacy constraint"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "legacy_constraint",
+    "description": "A technical and operational constraint caused by outdated systems that hinder development speed, increase maintenance overhead, and complicate data governance.",
+    "context": [
+      "Legacy decommissioning with >30% development acceleration",
+      "78 Systems reviewed",
+      "78 Systems mapped with full lineage"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_cha_003",
+    "name": "Data Quality Gaps",
+    "aliases": [
+      "data quality issues",
+      "quality gaps"
+    ],
+    "entity_class": "CHALLENGE",
+    "type": "data_quality_issue",
+    "description": "A functional challenge related to inconsistent, incomplete, or non-conforming data across critical data elements, requiring automated rule enforcement and reconciliation.",
+    "context": [
+      "Measure data quality across in-scope functional areas",
+      "2 DQ dimensions: Conformity & Completeness",
+      "CDE-level: record count, field value & format matching"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_tech_001",
+    "name": "Planview",
+    "aliases": [
+      "Planview",
+      "Planview tool"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "cloud_platform",
+    "description": "An existing organisational planning and portfolio management platform that was augmented with additional data governance information and lineage mappings.",
+    "context": [
+      "Augmented existing information in Planview",
+      "Knowledge embedded in organisational tooling"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_tech_002",
+    "name": "SAS",
+    "aliases": [
+      "SAS",
+      "SAS tooling"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "analytics_platform",
+    "description": "A statistical analytics and data management platform configured to execute automated data quality checks and rule validations across critical data elements.",
+    "context": [
+      "SAS tooling configured for automated checks",
+      "400+ DQ rules & SSDs for 205 CDEs"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_tech_003",
+    "name": "GitHub Copilot",
+    "aliases": [
+      "GitHub CoPilot",
+      "Copilot"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "automation_tool",
+    "description": "An AI-powered coding assistant used to accelerate development cycles and support legacy decommissioning efforts through GenAI-based techniques.",
+    "context": [
+      "through GenAI-based techniques and assets using GitHub CoPilot",
+      "Legacy decommissioning with >30% development acceleration"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_tech_004",
+    "name": "GenAI",
+    "aliases": [
+      "GenAI",
+      "Generative AI",
+      "GenAI-based techniques"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "ai_platform",
+    "description": "A generative AI technology layer leveraged to accelerate development, support legacy system decommissioning, and drive responsible experimentation across use cases.",
+    "context": [
+      "through GenAI-based techniques and assets using GitHub CoPilot",
+      "AI & Data Transformation – Case Study",
+      "Responsible experimentation delivering ~90% efficiency gains"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_tech_005",
+    "name": "Critical Data Elements (CDEs)",
+    "aliases": [
+      "CDEs",
+      "Critical Data Elements"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "database",
+    "description": "A core data asset class representing the most important data points for an organisation, serving as the primary focus for lineage mapping, quality rules, and reconciliation controls.",
+    "context": [
+      "205 CDEs visualised end-to-end",
+      "400+ DQ rules & SSDs for 205 CDEs",
+      "CDE-level: record count, field value & format matching"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_tech_006",
+    "name": "Data Quality Rules (DQ Rules)",
+    "aliases": [
+      "DQ rules",
+      "Data Quality Rules",
+      "SSDs"
+    ],
+    "entity_class": "TECHNOLOGY",
+    "type": "analytics_platform",
+    "description": "A set of technical validation rules derived from lineage metadata, operationalised to automatically check data conformity and completeness across systems.",
+    "context": [
+      "400+ DQ rules & SSDs for 205 CDEs",
+      "Technical rules derived from lineage metadata",
+      "400+ DQ rules operationalised"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_diff_001",
+    "name": "Partnership-Driven Approach",
+    "aliases": [
+      "partnership-driven approach",
+      "strategic partnership"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "partnership",
+    "description": "A competitive differentiator highlighting a collaborative, co-delivery methodology that embeds knowledge within the client's teams and ensures sustainable handover beyond the initial engagement.",
+    "context": [
+      "This programme demonstrates the value of a strategic, partnership-driven approach to AI and Data transformation",
+      "ensuring sustainable governance beyond the engagement",
+      "Successful handover for ongoing operations"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_diff_002",
+    "name": "Responsible Experimentation Model",
+    "aliases": [
+      "Responsible experimentation",
+      "Governed AI experimentation"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "A distinctive delivery model that balances rapid AI innovation with strict governance, enabling high-efficiency gains while maintaining compliance and risk controls.",
+    "context": [
+      "Responsible experimentation delivering ~90% efficiency gains",
+      "providing full transparency for regulatory compliance",
+      "reducing compliance risk"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_diff_003",
+    "name": "GenAI-Based Techniques & Assets",
+    "aliases": [
+      "GenAI-based techniques",
+      "GenAI assets"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "innovation",
+    "description": "A proprietary or specialised use of generative AI tools and frameworks that accelerates development cycles by over 30% and supports legacy system decommissioning.",
+    "context": [
+      "Legacy decommissioning with >30% development acceleration",
+      "through GenAI-based techniques and assets using GitHub CoPilot"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_diff_004",
+    "name": "Comprehensive Reconciliation Controls",
+    "aliases": [
+      "comprehensive reconciliation controls",
+      "auto-halt controls"
+    ],
+    "entity_class": "DIFFERENTIATOR",
+    "type": "proprietary_asset",
+    "description": "A distinctive technical capability that combines CDE-level and interface-level validation with automated error thresholding and detailed logging, ensuring data integrity at scale.",
+    "context": [
+      "comprehensive reconciliation controls across 78 systems",
+      "Auto-halt on mismatch with detailed logging",
+      "Interface-level: job control, error thresholds, alerting"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_per_001",
+    "name": "Subject Matter Experts (SMEs)",
+    "aliases": [
+      "SMEs",
+      "Subject Matter Experts",
+      "20 SMEs"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "Key internal stakeholders and domain experts consulted during the engagement to validate data lineage, assess maturity, and define reconciliation controls.",
+    "context": [
+      "150+ SMEs consulted",
+      "Payments Screening maturity assessment (20 SMEs)",
+      "Comprehensive mapping of areas, CDEs, interfaces & SMEs"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  },
+  {
+    "id": "18b692b3ac9142289cd2869ed24114da_002_per_002",
+    "name": "BAU Colleagues",
+    "aliases": [
+      "BAU teams",
+      "Business-as-Usual teams",
+      "BAU colleagues"
+    ],
+    "entity_class": "PERSON",
+    "type": "stakeholder",
+    "description": "The client's internal operational teams who received active coaching and capability transfer to ensure sustainable governance and ongoing system operations.",
+    "context": [
+      "Promote capability building within BAU teams",
+      "Active coaching of BAU colleagues",
+      "Successful handover for ongoing operations"
+    ],
+    "chunk_id": "18b692b3ac9142289cd2869ed24114da_002",
+    "doc_id": "18b692b3ac9142289cd2869ed24114da",
+    "domain": "sales_collateral"
+  }
+]

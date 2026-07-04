@@ -1,0 +1,2172 @@
+[
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_001_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "doc_ras_2026",
+    "target_name": "Risk Appetite Statement 2026",
+    "rel_type": "owned_by",
+    "description": "The Risk Department is the owner of the Risk Appetite Statement 2026",
+    "properties": {
+      "role": "Document Owner",
+      "status": "Active"
+    },
+    "context": "Department | Risk",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_001",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_001_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "091bcb9836824060839190fff58ae95a_001",
+    "target_name": "091bcb9836824060839190fff58ae95a_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_001",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_002_rsk_001",
+    "source_name": "Conservative Risk Appetite",
+    "target_id": "gov_001",
+    "target_name": "FirstUK Bank Executive Governance",
+    "rel_type": "approves_appetite_for",
+    "description": "FirstUK Bank adopts a conservative risk appetite to balance growth with stability and compliance.",
+    "properties": {
+      "decision_outcome": "adopted",
+      "conditions": "balancing customer service delivery, business growth, and regulatory compliance"
+    },
+    "context": "FirstUK Bank adopts a conservative risk appetite balancing customer service delivery, business growth, and regulatory compliance.",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_002",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_002_rsk_001",
+    "source_name": "Conservative Risk Appetite",
+    "target_id": "091bcb9836824060839190fff58ae95a_002",
+    "target_name": "091bcb9836824060839190fff58ae95a_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_002",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_001",
+    "source_name": "High-Quality Customer Service Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_001",
+    "target_name": "High-Quality Customer Service Risk",
+    "rel_type": "related_to",
+    "description": "Defined as a core pillar of the bank's sustainable profitability philosophy focusing on reliable and fair banking services.",
+    "properties": {
+      "philosophy_alignment": "positive",
+      "objective": "sustainable profitability"
+    },
+    "context": "High-Quality Customer Service — Reliable, fair banking services",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_002",
+    "source_name": "Financial Stability Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_002",
+    "target_name": "Financial Stability Risk",
+    "rel_type": "related_to",
+    "description": "Defined as a core pillar of the bank's sustainable profitability philosophy requiring capital above regulatory minimums.",
+    "properties": {
+      "philosophy_alignment": "positive",
+      "requirement": "capital above regulatory minimums with buffers"
+    },
+    "context": "Financial Stability — Capital above regulatory minimums with buffers",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_003",
+    "source_name": "Compliance Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_003",
+    "target_name": "Compliance Risk",
+    "rel_type": "related_to",
+    "description": "Defined as a core pillar of the bank's sustainable profitability philosophy with zero tolerance for willful breaches.",
+    "properties": {
+      "philosophy_alignment": "positive",
+      "tolerance": "zero tolerance for willful regulatory breaches"
+    },
+    "context": "Strong Compliance — Zero tolerance for willful regulatory breaches",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_004",
+    "source_name": "Operational Excellence Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_004",
+    "target_name": "Operational Excellence Risk",
+    "rel_type": "related_to",
+    "description": "Defined as a core pillar of the bank's sustainable profitability philosophy focusing on reliable systems and robust controls.",
+    "properties": {
+      "philosophy_alignment": "positive",
+      "focus": "reliable systems, robust controls, continuous improvement"
+    },
+    "context": "Operational Excellence — Reliable systems, robust controls, continuous improvement",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_005",
+    "source_name": "High-Risk Lending Strategy",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_005",
+    "target_name": "High-Risk Lending Strategy",
+    "rel_type": "related_to",
+    "description": "Explicitly excluded from the bank's risk appetite philosophy.",
+    "properties": {
+      "philosophy_alignment": "negative",
+      "status": "prohibited"
+    },
+    "context": "We will NOT pursue: High-risk lending strategies",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_006",
+    "source_name": "Aggressive Growth in Loss-Making Areas",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_006",
+    "target_name": "Aggressive Growth in Loss-Making Areas",
+    "rel_type": "related_to",
+    "description": "Explicitly excluded from the bank's risk appetite philosophy.",
+    "properties": {
+      "philosophy_alignment": "negative",
+      "status": "prohibited"
+    },
+    "context": "We will NOT pursue: Aggressive growth in loss-making areas",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_007",
+    "source_name": "Compliance and Control Shortcuts",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_007",
+    "target_name": "Compliance and Control Shortcuts",
+    "rel_type": "related_to",
+    "description": "Explicitly excluded from the bank's risk appetite philosophy.",
+    "properties": {
+      "philosophy_alignment": "negative",
+      "status": "prohibited"
+    },
+    "context": "We will NOT pursue: Shortcuts around compliance or controls",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_008",
+    "source_name": "Concentrated Exposure Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_008",
+    "target_name": "Concentrated Exposure Risk",
+    "rel_type": "related_to",
+    "description": "Explicitly excluded from the bank's risk appetite philosophy regarding single customers or sectors.",
+    "properties": {
+      "philosophy_alignment": "negative",
+      "status": "prohibited"
+    },
+    "context": "We will NOT pursue: Concentrated exposure to single customers/sectors",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_009",
+    "source_name": "Excessive Leverage and Capital Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003_rsk_009",
+    "target_name": "Excessive Leverage and Capital Risk",
+    "rel_type": "related_to",
+    "description": "Explicitly excluded from the bank's risk appetite philosophy.",
+    "properties": {
+      "philosophy_alignment": "negative",
+      "status": "prohibited"
+    },
+    "context": "We will NOT pursue: Excessive leverage or capital risk",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_001",
+    "source_name": "High-Quality Customer Service Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_002",
+    "source_name": "Financial Stability Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_003",
+    "source_name": "Compliance Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_004",
+    "source_name": "Operational Excellence Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_005",
+    "source_name": "High-Risk Lending Strategy",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_006",
+    "source_name": "Aggressive Growth in Loss-Making Areas",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_007",
+    "source_name": "Compliance and Control Shortcuts",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_008",
+    "source_name": "Concentrated Exposure Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_003_rsk_009",
+    "source_name": "Excessive Leverage and Capital Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_003",
+    "target_name": "091bcb9836824060839190fff58ae95a_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_004_met_001",
+    "target_name": "Loan Loss Ratio — Threshold <0.5% annually",
+    "rel_type": "quantified_by",
+    "description": "Credit Risk is quantified by the Loan Loss Ratio with an annual threshold of less than 0.5%.",
+    "properties": {
+      "threshold": "<0.5%",
+      "period": "annually"
+    },
+    "context": "Loan Loss Ratio: <0.5% annually",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_004_met_002",
+    "target_name": "Delinquency Rate — Threshold <2% of active accounts",
+    "rel_type": "quantified_by",
+    "description": "Credit Risk is quantified by the Delinquency Rate with a threshold of less than 2% of active accounts.",
+    "properties": {
+      "threshold": "<2%",
+      "scope": "active accounts"
+    },
+    "context": "Delinquency Rate: <2% of active accounts",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_004_met_003",
+    "target_name": "Concentration Limit — No single customer >10% of capital",
+    "rel_type": "quantified_by",
+    "description": "Credit Risk is quantified by a Concentration Limit ensuring no single customer exceeds 10% of capital.",
+    "properties": {
+      "threshold": ">10%",
+      "basis": "capital"
+    },
+    "context": "Concentration: No single customer >10% of capital",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_004_met_004",
+    "target_name": "Mortgage LTV — Maximum <80%",
+    "rel_type": "quantified_by",
+    "description": "Credit Risk is quantified by the Mortgage Loan-to-Value (LTV) ratio with a maximum threshold of 80%.",
+    "properties": {
+      "threshold": "<80%",
+      "type": "maximum"
+    },
+    "context": "Mortgage LTV: <80% (maximum)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_004_prd_001",
+    "target_name": "Mortgages",
+    "rel_type": "pertains_to_accounts",
+    "description": "Credit Risk specifically pertains to the bank's mortgage product portfolio.",
+    "properties": {
+      "focus": "consumer lending"
+    },
+    "context": "FirstUK Bank focuses on consumer lending (mortgages) with strong underwriting.",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_met_004",
+    "source_name": "Mortgage LTV — Maximum <80%",
+    "target_id": "091bcb9836824060839190fff58ae95a_004_prd_001",
+    "target_name": "Mortgages",
+    "rel_type": "measures_performance_of",
+    "description": "The Mortgage LTV metric specifically measures the risk performance of the Mortgage product.",
+    "properties": {
+      "metric_type": "LTV"
+    },
+    "context": "Mortgage LTV: <80% (maximum)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_004",
+    "target_name": "091bcb9836824060839190fff58ae95a_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_met_001",
+    "source_name": "Loan Loss Ratio — Threshold <0.5% annually",
+    "target_id": "091bcb9836824060839190fff58ae95a_004",
+    "target_name": "091bcb9836824060839190fff58ae95a_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_met_002",
+    "source_name": "Delinquency Rate — Threshold <2% of active accounts",
+    "target_id": "091bcb9836824060839190fff58ae95a_004",
+    "target_name": "091bcb9836824060839190fff58ae95a_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_met_003",
+    "source_name": "Concentration Limit — No single customer >10% of capital",
+    "target_id": "091bcb9836824060839190fff58ae95a_004",
+    "target_name": "091bcb9836824060839190fff58ae95a_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_met_004",
+    "source_name": "Mortgage LTV — Maximum <80%",
+    "target_id": "091bcb9836824060839190fff58ae95a_004",
+    "target_name": "091bcb9836824060839190fff58ae95a_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_004_prd_001",
+    "source_name": "Mortgages",
+    "target_id": "091bcb9836824060839190fff58ae95a_004",
+    "target_name": "091bcb9836824060839190fff58ae95a_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_005_met_001",
+    "target_name": "Annual Operational Losses — Tolerance <£50,000",
+    "rel_type": "quantified_by",
+    "description": "Operational Risk is quantified by the annual operational losses metric with a tolerance of less than £50,000.",
+    "properties": {
+      "threshold": "<£50,000",
+      "appetite": "Low"
+    },
+    "context": "Operational Risk Appetite: Low Tolerance: Annual Operational Losses: <£50,000",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_005_met_002",
+    "target_name": "Major Incidents — Tolerance <1 per year",
+    "rel_type": "quantified_by",
+    "description": "Operational Risk is quantified by the number of major incidents with a tolerance of less than 1 per year.",
+    "properties": {
+      "threshold": "<1 per year",
+      "appetite": "Low"
+    },
+    "context": "Operational Risk Appetite: Low Tolerance: Major Incidents: <1 per year",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_005_met_003",
+    "target_name": "System Outages — Tolerance <8 hours per year",
+    "rel_type": "quantified_by",
+    "description": "Operational Risk is quantified by system outage duration with a tolerance of less than 8 hours per year.",
+    "properties": {
+      "threshold": "<8 hours per year",
+      "appetite": "Low"
+    },
+    "context": "Operational Risk Appetite: Low Tolerance: System Outages: <8 hours per year",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_005_met_004",
+    "target_name": "Process Errors — Tolerance <0.5% error rate",
+    "rel_type": "quantified_by",
+    "description": "Operational Risk is quantified by the process error rate with a tolerance of less than 0.5%.",
+    "properties": {
+      "threshold": "<0.5% error rate",
+      "appetite": "Low"
+    },
+    "context": "Operational Risk Appetite: Low Tolerance: Process Errors: <0.5% error rate",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_005",
+    "target_name": "091bcb9836824060839190fff58ae95a_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_met_001",
+    "source_name": "Annual Operational Losses — Tolerance <£50,000",
+    "target_id": "091bcb9836824060839190fff58ae95a_005",
+    "target_name": "091bcb9836824060839190fff58ae95a_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_met_002",
+    "source_name": "Major Incidents — Tolerance <1 per year",
+    "target_id": "091bcb9836824060839190fff58ae95a_005",
+    "target_name": "091bcb9836824060839190fff58ae95a_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_met_003",
+    "source_name": "System Outages — Tolerance <8 hours per year",
+    "target_id": "091bcb9836824060839190fff58ae95a_005",
+    "target_name": "091bcb9836824060839190fff58ae95a_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_005_met_004",
+    "source_name": "Process Errors — Tolerance <0.5% error rate",
+    "target_id": "091bcb9836824060839190fff58ae95a_005",
+    "target_name": "091bcb9836824060839190fff58ae95a_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
+    "source_name": "Compliance & Regulatory Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_006_met_001",
+    "target_name": "Regulatory Breaches Tolerance — Zero willful violations",
+    "rel_type": "quantified_by",
+    "description": "Compliance & Regulatory Risk is quantified by the tolerance for regulatory breaches.",
+    "properties": {
+      "threshold": "Zero willful violations",
+      "appetite_level": "Minimal/Zero"
+    },
+    "context": "Compliance & Regulatory Risk Appetite: Minimal/Zero Tolerance: Regulatory Breaches: Zero willful violations",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
+    "source_name": "Compliance & Regulatory Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_006_met_002",
+    "target_name": "KYC/AML Non-Compliance Tolerance — 0%",
+    "rel_type": "quantified_by",
+    "description": "Compliance & Regulatory Risk is quantified by the tolerance for KYC/AML non-compliance.",
+    "properties": {
+      "threshold": "0%",
+      "appetite_level": "Minimal/Zero"
+    },
+    "context": "Compliance & Regulatory Risk Appetite: Minimal/Zero Tolerance: KYC/AML Non-Compliance: 0% tolerance",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
+    "source_name": "Compliance & Regulatory Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_006_met_003",
+    "target_name": "Customer Protection Breaches Tolerance — 0%",
+    "rel_type": "quantified_by",
+    "description": "Compliance & Regulatory Risk is quantified by the tolerance for customer protection breaches.",
+    "properties": {
+      "threshold": "0%",
+      "appetite_level": "Minimal/Zero"
+    },
+    "context": "Compliance & Regulatory Risk Appetite: Minimal/Zero Tolerance: Customer Protection Breaches: 0% tolerance",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
+    "source_name": "Compliance & Regulatory Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_006_met_004",
+    "target_name": "Disclosure Violations Tolerance — Zero",
+    "rel_type": "quantified_by",
+    "description": "Compliance & Regulatory Risk is quantified by the tolerance for disclosure violations.",
+    "properties": {
+      "threshold": "Zero",
+      "appetite_level": "Minimal/Zero"
+    },
+    "context": "Compliance & Regulatory Risk Appetite: Minimal/Zero Tolerance: Disclosure Violations: Zero",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
+    "source_name": "Compliance & Regulatory Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_006",
+    "target_name": "091bcb9836824060839190fff58ae95a_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_met_001",
+    "source_name": "Regulatory Breaches Tolerance — Zero willful violations",
+    "target_id": "091bcb9836824060839190fff58ae95a_006",
+    "target_name": "091bcb9836824060839190fff58ae95a_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_met_002",
+    "source_name": "KYC/AML Non-Compliance Tolerance — 0%",
+    "target_id": "091bcb9836824060839190fff58ae95a_006",
+    "target_name": "091bcb9836824060839190fff58ae95a_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_met_003",
+    "source_name": "Customer Protection Breaches Tolerance — 0%",
+    "target_id": "091bcb9836824060839190fff58ae95a_006",
+    "target_name": "091bcb9836824060839190fff58ae95a_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_006_met_004",
+    "source_name": "Disclosure Violations Tolerance — Zero",
+    "target_id": "091bcb9836824060839190fff58ae95a_006",
+    "target_name": "091bcb9836824060839190fff58ae95a_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_007_met_001",
+    "target_name": "Annual Fraud Loss — Threshold <£100,000 (0.3% of revenue)",
+    "rel_type": "quantified_by",
+    "description": "Fraud Risk is quantified by the Annual Fraud Loss threshold of <£100,000 or 0.3% of revenue.",
+    "properties": {
+      "threshold": "<£100,000",
+      "percentage_of_S_revenue": "0.3%"
+    },
+    "context": "Annual Fraud Loss: <£100,000 (0.3% of revenue)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_007_met_002",
+    "target_name": "Fraud Detection Rate — Threshold >96S6%",
+    "rel_type": "quantified_by",
+    "description": "Fraud Risk is quantified by a minimum Fraud Detection Rate threshold of >96%.",
+    "properties": "S",
+    "threshold": ">96%",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "context": "Fraud Detection Rate: >96%",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_007_met_003",
+    "target_name": "Customer Reimbursement — Threshold <£30k",
+    "SCC": "quantified_by",
+    "description": "Fraud Risk is quantified by a Customer Reimbursement threshold of <£30k annually.",
+    "properties": {
+      "threshold": "<£30k",
+      " la_periodC": "annually\"\n     a_period\": \"annually\""
+    },
+    "context single_context": "Customer Reimbursement: <£30k annually",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "rsk_0C\": \"rsk_001",
+    "source_name": "Fraud Risk",
+    "target_idC": "met_004",
+    "target_name": "Internal Fraud — Zero Tolerance",
+    "rel_type": "quantified_by",
+    "description": "Fraud Risk has a zero tolerance threshold que_threshold for Internal Fraud.",
+    "properties": {
+      "threshold": "🚆Zero Tolerance"
+    },
+    "context": "Internal Fraud: Zero tolerance",
+    "C": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
+    "source_name": "Fraud Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_007",
+    "target_name": "091bcb9836824060839190fff58ae95a_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_met_001",
+    "source_name": "Annual Fraud Loss — Threshold <£100,000 (0.3% of revenue)",
+    "target_id": "091bcb9836824060839190fff58ae95a_007",
+    "target_name": "091bcb9836824060839190fff58ae95a_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_met_002",
+    "source_name": "Fraud Detection Rate — Threshold >96%",
+    "target_id": "091bcb9836824060839190fff58ae95a_007",
+    "target_name": "091bcb9836824060839190fff58ae95a_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_met_003",
+    "source_name": "Customer Reimbursement — Threshold <£30k annually",
+    "target_id": "091bcb9836824060839190fff58ae95a_007",
+    "target_name": "091bcb9836824060839190fff58ae95a_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_007_met_004",
+    "source_name": "Internal Fraud — Zero Tolerance",
+    "target_id": "091bcb9836824060839190fff58ae95a_007",
+    "target_name": "091bcb9836824060839190fff58ae95a_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
+    "source_name": "Reputational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_008_met_001",
+    "target_name": "Major Complaints — Tolerance <2 per 1,000 accounts",
+    "rel_type": "quantified_by",
+    "description": "Reputational Risk is quantified by the volume of Major Complaints.",
+    "properties": {
+      "threshold": "<2 per 1,000 accounts"
+    },
+    "context": "Major Complaints: <2 per 1,000 accounts",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
+    "source_name": "Reputational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_008_met_002",
+    "target_name": "Regulatory Complaints — Tolerance <1 per 1,000 accounts",
+    "rel_type": "quantified_by",
+    "description": "Reputational Risk is quantified by the volume of Regulatory Complaints.",
+    "properties": {
+      "threshold": "<1 per 1,000 accounts"
+    },
+    "context": "Regulatory Complaints: <1 per 1,000 accounts",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
+    "source_name": "Reputational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_008_met_003",
+    "target_name": "Media Incidents — Tolerance Zero negative incidents",
+    "rel_type": "quantified_by",
+    "description": "Reputational Risk is quantified by the occurrence of negative Media Incidents.",
+    "properties": {
+      "threshold": "Zero negative incidents",
+      "status": "aspirational"
+    },
+    "context": "Media Incidents: Zero negative incidents (aspirational)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
+    "source_name": "Reputational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_008_met_004",
+    "target_name": "Customer Trust (NPS) — Target >70",
+    "rel_type": "quantified_by",
+    "description": "Reputational Risk is quantified by the Customer Trust (NPS) score.",
+    "properties": {
+      "threshold": ">70"
+    },
+    "context": "Customer Trust: NPS >70 (Net Promoter Score)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
+    "source_name": "Reputational Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_008",
+    "target_name": "091bcb9836824060839190fff58ae95a_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_met_001",
+    "source_name": "Major Complaints — Tolerance <2 per 1,000 accounts",
+    "target_id": "091bcb9836824060839190fff58ae95a_008",
+    "target_name": "091bcb9836824060839190fff58ae95a_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_met_002",
+    "source_name": "Regulatory Complaints — Tolerance <1 per 1,000 accounts",
+    "target_id": "091bcb9836824060839190fff58ae95a_008",
+    "target_name": "091bcb9836824060839190fff58ae95a_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_met_003",
+    "source_name": "Media Incidents — Tolerance Zero negative incidents",
+    "target_id": "091bcb9836824060839190fff58ae95a_008",
+    "target_name": "091bcb9836824060839190fff58ae95a_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_008_met_004",
+    "source_name": "Customer Trust (NPS) — Target >70",
+    "target_id": "091bcb9836824060839190fff58ae95a_008",
+    "target_name": "091bcb9836824060839190fff58ae95a_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_idS": "rsk_001",
+    "source_name": "Capital Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_009_met_001",
+    "target_name": "Capital Ratio (Pillar 1)",
+    "rel_type": "quantified_S",
+    "description": "Capital Risk is quantified by the Pillar 1 Capital Ratio with a minimum of 15% and a target of 18S%",
+    "properties": {
+      "SS": "threshold\": \"15%",
+      "S\"target": "18%"
+    },
+    "context": "Capital Ratio (Pillar 1): >15% minimum, 18%+ target",
+    "bidS": "S",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_name": "CapitalL\": \"Capital Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_009_met_002",
+    "target_name": "C\": \"Leverage Ratio",
+    "csc_rel_type": "quantified_by",
+    "description": "Capital Risk is measured by the Leverage Ratio with a threshold of >5%",
+    "properties": {
+      "threshold": ">5%"
+    },
+    "context": "Leverage Ratio: >5% (per Basel III)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_009_rsk_001",
+    "source_name": "Capital Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_009_met_003",
+    "target_name": "Capital Adequacy Buffer",
+    "rel_type": "quantified_by",
+    "description": "Capital Risk is1\": \"is quantified by the Capital Adequacy Buffer requiring 3%+ above minimum",
+    "properties": {
+      "threshold": "3%+"
+    },
+    "context": "Capital Adequacy Buffer: 3%+ above minimum",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_009_rsk_001",
+    "source_name": "Capital Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_009",
+    "target_name": "091bcb9836824060839190fff58ae95a_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_009_met_001",
+    "source_name": "Capital Ratio (Pillar 1) — Minimum >15%, Target 18%+",
+    "target_id": "091bcb9836824060839190fff58ae95a_009",
+    "target_name": "091bcb9836824060839190fff58ae95a_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_009_met_002",
+    "source_name": "Leverage Ratio — >5%",
+    "target_id": "091bcb9836824060839190fff58ae95a_009",
+    "target_name": "091bcb9836824060839190fff58ae95a_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_009_met_003",
+    "source_name": "Capital Adequacy Buffer — 3%+ above minimum",
+    "target_id": "091bcb9836824060839190fff58ae95a_009",
+    "target_name": "091bcb9836824060839190fff58ae95a_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
+    "source_name": "Technology & Cybersecurity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_010_met_001",
+    "target_name": "System Availability — SLA 99.8%",
+    "rel_type": "quantified_by",
+    "description": "Technology & Cybersecurity Risk is quantified by the System Availability SLA of 99.8%",
+    "properties": {
+      "threshold": "99.8%",
+      "appetite": "Low"
+    },
+    "context": "Technology & Cybersecurity Risk... Tolerance: System Availability: 99.8% (SLA)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
+    "source_name": "Technology & Cybersecurity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_010_met_002",
+    "target_name": "Major Data Breach — Zero Tolerance",
+    "rel_type": "quantified_by",
+    "description": "Technology & Cybersecurity Risk is quantified by a zero tolerance policy for Major Data Breaches",
+    "properties": {
+      "threshold": "Zero tolerance",
+      "appetite": "Low"
+    },
+    "context": "Technology & Cybersecurity Risk... Tolerance: Major Data Breach: Zero tolerance",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
+    "source_name": "Technology & Cybersecurity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_010_met_003",
+    "target_name": "Cybersecurity Incidents — <1 per year",
+    "rel_type": "quantified_by",
+    "description": "Technology & Cybersecurity Risk is quantified by a target of fewer than 1 cybersecurity incident per year",
+    "properties": {
+      "threshold": "<1 per year",
+      "appetite": "Low"
+    },
+    "context": "Technology & Cybersecurity Risk... Tolerance: Cybersecurity Incidents: <1 per year",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
+    "source_name": "Technology & Cybersecurity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_010_met_004",
+    "target_name": "Unplanned Downtime — <2 hours per year",
+    "rel_type": "quantified_by",
+    "description": "Technology & Cybersecurity Risk is quantified by a target of less than 2 hours of unplanned downtime per year",
+    "properties": {
+      "threshold": "<2 hours per year",
+      "appetite": "Low"
+    },
+    "context": "Technology & Cybersecurity Risk... Tolerance: Unplanned Downtime: <2 hours per year",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
+    "source_name": "Technology & Cybersecurity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_010",
+    "target_name": "091bcb9836824060839190fff58ae95a_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_met_001",
+    "source_name": "System Availability — SLA 99.8%",
+    "target_id": "091bcb9836824060839190fff58ae95a_010",
+    "target_name": "091bcb9836824060839190fff58ae95a_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_met_002",
+    "source_name": "Major Data Breach — Zero Tolerance",
+    "target_id": "091bcb9836824060839190fff58ae95a_010",
+    "target_name": "091bcb9836824060839190fff58ae95a_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_met_003",
+    "source_name": "Cybersecurity Incidents — <1 per year",
+    "target_id": "091bcb9836824060839190fff58ae95a_010",
+    "target_name": "091bcb9836824060839190fff58ae95a_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_010_met_004",
+    "source_name": "Unplanned Downtime — <2 hours per year",
+    "target_id": "091bcb9836824060839190fff58ae95a_010",
+    "target_name": "091bcb9836824060839190fff58ae95a_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
+    "source_name": "Liquidity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_011_met_001",
+    "target_name": "Loan-to-Deposit Ratio — Tolerance <90%",
+    "rel_type": "quantified_by",
+    "description": "Liquidity Risk is quantified by the Loan-to-Deposit Ratio with a tolerance threshold of less than 90%.",
+    "properties": {
+      "threshold": "<90%",
+      "appetite": "Conservative"
+    },
+    "context": "Liquidity Risk... Tolerance: Loan-to-Deposit Ratio: <90%",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
+    "source_name": "Liquidity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_011_met_002",
+    "target_name": "Liquid Assets Buffer — Tolerance 30 days+ operating expenses",
+    "rel_type": "quantified_by",
+    "description": "Liquidity Risk is quantified by the Liquid Assets Buffer requiring 30 days or more of operating expenses.",
+    "properties": {
+      "threshold": "30 days+ operating expenses",
+      "appetite": "Conservative"
+    },
+    "context": "Liquidity Risk... Tolerance: Liquid Assets Buffer: 30 days+ operating expenses",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
+    "source_name": "Liquidity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_011_met_003",
+    "target_name": "Maturity Mismatch — Tolerance <6 months average",
+    "rel_type": "quantified_by",
+    "description": "Liquidity Risk is quantified by the Maturity Mismatch with a tolerance of less than 6 months average.",
+    "properties": {
+      "threshold": "<6 months average",
+      "appetite": "Conservative"
+    },
+    "context": "Liquidity Risk... Tolerance: Maturity Mismatch: <6 months average",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
+    "source_name": "Liquidity Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_011",
+    "target_name": "091bcb9836824060839190fff58ae95a_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_011_met_001",
+    "source_name": "Loan-to-Deposit Ratio — Tolerance <90%",
+    "target_id": "091bcb9836824060839190fff58ae95a_011",
+    "target_name": "091bcb9836824060839190fff58ae95a_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_011_met_002",
+    "source_name": "Liquid Assets Buffer — Tolerance 30 days+ operating expenses",
+    "target_id": "091bcb9836824060839190fff58ae95a_011",
+    "target_name": "091bcb9836824060839190fff58ae95a_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_011_met_003",
+    "source_name": "Maturity Mismatch — Tolerance <6 months average",
+    "target_id": "091bcb9836824060839190fff58ae95a_011",
+    "target_name": "091bcb9836824060839190fff58ae95a_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_001",
+    "target_name": "KYC and Screening Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Approves account opening provided there is strong KYC and quality screening.",
+    "properties": {
+      "decision_outcome": "accept",
+      "conditions": "strong KYC, quality screening"
+    },
+    "context": "Account opening with strong KYC, quality screening",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_002",
+    "target_name": "Mortgage Lending Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Approves mortgage lending subject to affordability checks and reasonable LTV.",
+    "properties": {
+      "decision_outcome": "accept",
+      "conditions": "affordability checks, reasonable LTV"
+    },
+    "context": "Mortgage lending with affordability checks, reasonable LTV",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_003",
+    "target_name": "Pricing Strategy Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Approves conservative pricing that is competitive but not predatory.",
+    "properties": {
+      "decision_outcome": "accept",
+      "conditions": "competitive, not predatory"
+    },
+    "context": "Conservative pricing (competitive, not predatory)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_004",
+    "target_name": "Compliance and Fraud Systems Investment Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Approves investment in compliance and fraud systems to mitigate risk.",
+    "properties": {
+      "decision_outcome": "accept"
+    },
+    "context": "Investment in compliance and fraud systems",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_005",
+    "target_name": "Capital Stability and Growth Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Approves capital retention to ensure stability and growth.",
+    "properties": {
+      "decision_outcome": "accept"
+    },
+    "context": "Capital retention for stability and growth",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_006",
+    "target_name": "Commercial Lending Risk",
+    "rel_type": "rejects",
+    "description": "Rejects high-risk commercial lending as inconsistent with risk appetite.",
+    "properties": {
+      "decision_outcome": "reject"
+    },
+    "context": "High-risk lending (commercial loans, high LTV mortgages)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_002",
+    "target_name": "Mortgage Lending Risk",
+    "rel_type": "rejects",
+    "description": "Rejects high LTV mortgages as inconsistent with risk appetite.",
+    "properties": {
+      "decision_outcome": "reject",
+      "conditions": "high LTV"
+    },
+    "context": "High-risk lending (commercial loans, high LTV mortgages)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_007",
+    "target_name": "Aggressive Growth Risk",
+    "rel_type": "rejects",
+    "description": "Rejects aggressive growth that sacrifices control or compliance.",
+    "properties": {
+      "decision_outcome": "reject",
+      "conditions": "sacrificing control/compliance"
+    },
+    "context": "Aggressive growth (sacrificing control/compliance)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_008",
+    "target_name": "Regulatory Compliance Risk",
+    "rel_type": "rejects",
+    "description": "Rejects regulatory shortcuts or violations.",
+    "properties": {
+      "decision_outcome": "reject"
+    },
+    "context": "Regulatory shortcuts or violations",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_met_001",
+    "target_name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "rel_type": "approves_threshold_for",
+    "description": "Sets a maximum threshold for customer exposure at 10% of capital; concentrations above this are rejected.",
+    "properties": {
+      "decision_outcome": "reject_if_exceeded",
+      "threshold": "<10% of capital"
+    },
+    "context": "Concentrated customer exposure (>10% capital)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_met_001",
+    "source_name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_005",
+    "target_name": "Capital Stability and Growth Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "Measures the risk of capital instability caused by concentrated customer exposure.",
+    "properties": {
+      "threshold": "10% of capital"
+    },
+    "context": "Concentrated customer exposure (>10% capital)",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_009",
+    "target_name": "Control and Staffing Risk",
+    "rel_type": "rejects",
+    "description": "Rejects weak controls or inadequate staffing levels.",
+    "properties": {
+      "decision_outcome": "reject"
+    },
+    "context": "Weak controls or inadequate staffing",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_001",
+    "source_name": "KYC and Screening Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_002",
+    "source_name": "Mortgage Lending Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_003",
+    "source_name": "Pricing Strategy Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_004",
+    "source_name": "Compliance and Fraud Systems Investment Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_005",
+    "source_name": "Capital Stability and Growth Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_006",
+    "source_name": "Commercial Lending Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_007",
+    "source_name": "Aggressive Growth Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_008",
+    "source_name": "Regulatory Compliance Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_met_001",
+    "source_name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_012_rsk_009",
+    "source_name": "Control and Staffing Risk",
+    "target_id": "091bcb9836824060839190fff58ae95a_012",
+    "target_name": "091bcb9836824060839190fff58ae95a_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_001",
+    "source_name": "Risk Team",
+    "target_id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "target_name": "Risk Appetite Conflict Escalation Process",
+    "rel_type": "owned_by",
+    "description": "Risk team is responsible for flagging issues that conflict with risk appetite to initiate the escalation process",
+    "properties": {
+      "role": "initiator"
+    },
+    "context": "If Proposed Decision Conflicts with Risk Appetite: 1. Risk team flags the issue",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_002",
+    "source_name": "Business Unit",
+    "target_id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "target_name": "Risk Appetite Conflict Escalation Process",
+    "rel_type": "assigned_to",
+    "description": "Business unit provides the necessary rationale for decisions conflicting with risk appetite",
+    "properties": {
+      "contribution": "rationale provision"
+    },
+    "context": "2. Business unit provides rationale (why necessary)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_003",
+    "source_name": "Executive Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "target_name": "Risk Appetite Conflict Escalation Process",
+    "rel_type": "assigned_to",
+    "description": "Executive committee (CRO, CFO, CEO) reviews the conflict and rationale",
+    "properties": {
+      "role": "reviewer",
+      "members": [
+        "CRO",
+        "CFO",
+        "CEO"
+      ]
+    },
+    "context": "3. Executive committee reviews (CRO, CFO, CEO)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_004",
+    "source_name": "Board Risk Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "target_name": "Risk Appetite Conflict Escalation Process",
+    "rel_type": "assigned_to",
+    "description": "Board Risk Committee is notified of significant risk appetite conflicts",
+    "properties": {
+      "condition": "if significant",
+      "role": "oversight"
+    },
+    "context": "4. Board Risk Committee notified (if significant)",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "source_name": "Risk Appetite Conflict Escalation Process",
+    "target_id": "091bcb9836824060839190fff58ae95a_013_dec_001",
+    "target_name": "Documented Decision and Justification Recording",
+    "rel_type": "generates",
+    "description": "The escalation process culminates in a documented decision and justification record",
+    "properties": {
+      "outcome": "audit trail"
+    },
+    "context": "5. Documented decision and justification recorded",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dec_001",
+    "source_name": "Documented Decision and Justification Recording",
+    "target_id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "target_name": "Risk Appetite Conflict Escalation Process",
+    "rel_type": "requires",
+    "description": "The recording of the decision is a requirement of the escalation process",
+    "properties": {},
+    "context": "5. Documented decision and justification recorded",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_001",
+    "source_name": "Risk Team",
+    "target_id": "091bcb9836824060839190fff58ae95a_013",
+    "target_name": "091bcb9836824060839190fff58ae95a_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_002",
+    "source_name": "Business Unit",
+    "target_id": "091bcb9836824060839190fff58ae95a_013",
+    "target_name": "091bcb9836824060839190fff58ae95a_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_003",
+    "source_name": "Executive Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_013",
+    "target_name": "091bcb9836824060839190fff58ae95a_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dept_004",
+    "source_name": "Board Risk Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_013",
+    "target_name": "091bcb9836824060839190fff58ae95a_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "source_name": "Risk Appetite Conflict Escalation Process",
+    "target_id": "091bcb9836824060839190fff58ae95a_013",
+    "target_name": "091bcb9836824060839190fff58ae95a_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_013_dec_001",
+    "source_name": "Documented Decision and Justification Recording",
+    "target_id": "091bcb9836824060839190fff58ae95a_013",
+    "target_name": "091bcb9836824060839190fff58ae95a_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_001",
+    "source_name": "Loan loss ratio",
+    "target_id": "act_001",
+    "target_name": "Review underwriting criteria",
+    "rel_type": "triggers_review_of",
+    "description": "Exceeding the loan loss ratio threshold of 0.5% triggers a review of underwriting criteria",
+    "properties": {
+      "threshold": ">0.5%",
+      "frequency": "Quarterly"
+    },
+    "context": "Loan loss ratio | Quarterly | >0.5% | Review underwriting criteria",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_002",
+    "source_name": "Operational incidents",
+    "target_id": "act_002",
+    "target_name": "Investigate root causes",
+    "rel_type": "triggers_review_of",
+    "description": "Exceeding the operational incidents threshold of 4/month triggers an investigation into root causes",
+    "properties": {
+      "threshold": ">4/month",
+      "frequency": "Monthly"
+    },
+    "context": "Operational incidents | Monthly | >4/month | Investigate root causes",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_003",
+    "source_name": "Compliance violations",
+    "target_id": "act_003",
+    "target_name": "Immediate remediation",
+    "rel_type": "triggers_review_of",
+    "description": "Any compliance violation (>0) triggers immediate remediation actions",
+    "properties": {
+      "threshold": ">0",
+      "frequency": "Monthly"
+    },
+    "context": "Compliance violations | Monthly | >0 | Immediate remediation",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_004",
+    "source_name": "Fraud loss",
+    "target_id": "act_004",
+    "target_name": "Enhance detection rules",
+    "rel_type": "triggers_review_of",
+    "description": "Fraud losses exceeding £25k per quarter trigger an enhancement of detection rules",
+    "properties": {
+      "threshold": ">£25k/q",
+      "frequency": "Quarterly"
+    },
+    "context": "Fraud loss | Quarterly | >£25k/q | Enhance detection rules",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_005",
+    "source_name": "System availability",
+    "target_id": "act_005",
+    "target_name": "Emergency response",
+    "rel_type": "triggers_review_of",
+    "description": "System availability falling below 99.8% triggers an emergency response",
+    "properties": {
+      "threshold": "<99.8%",
+      "frequency": "Daily"
+    },
+    "context": "System availability | Daily | <99.8% | Emergency response",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_006",
+    "source_name": "Capital ratio",
+    "target_id": "act_006",
+    "target_name": "Escalate to Board",
+    "rel_type": "triggers_review_of",
+    "description": "Capital ratio falling below 15% triggers an immediate escalation to the Board",
+    "properties": {
+      "threshold": "<15%",
+      "frequency": "Daily"
+    },
+    "context": "Capital ratio | Daily | <15% | Escalate to Board",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_007",
+    "source_name": "Customer complaints",
+    "target_id": "act_007",
+    "target_name": "Process review",
+    "rel_type": "triggers_review_of",
+    "description": "Customer complaints exceeding 2 per 1000 trigger a process review",
+    "properties": {
+      "threshold": ">2/1000",
+      "frequency": "Monthly"
+    },
+    "context": "Customer complaints | Monthly | >2/1000 | Process review",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_001",
+    "source_name": "Loan loss ratio — Threshold >0.5%",
+    "target_id": "091bcb9836824060839190fff58ae95a_014",
+    "target_name": "091bcb9836824060839190fff58ae95a_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_002",
+    "source_name": "Operational incidents — Threshold >4/month",
+    "target_id": "091bcb9836824060839190fff58ae95a_014",
+    "target_name": "091bcb9836824060839190fff58ae95a_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_003",
+    "source_name": "Compliance violations — Threshold >0",
+    "target_id": "091bcb9836824060839190fff58ae95a_014",
+    "target_name": "091bcb9836824060839190fff58ae95a_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_004",
+    "source_name": "Fraud loss — Threshold >£25k/q",
+    "target_id": "091bcb9836824060839190fff58ae95a_014",
+    "target_name": "091bcb9836824060839190fff58ae95a_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_005",
+    "source_name": "System availability — Threshold <99.8%",
+    "target_id": "091bcb9836824060839190fff58ae95a_014",
+    "target_name": "091bcb9836824060839190fff58ae95a_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_006",
+    "source_name": "Capital ratio — Threshold <15%",
+    "target_id": "091bcb9836824060839190fff58ae95a_014",
+    "target_name": "091bcb9836824060839190fff58ae95a_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_014_met_007",
+    "source_name": "Customer complaints — Threshold >2/1000",
+    "target_id": "091bcb9836824060839190fff58ae95a_014",
+    "target_name": "091bcb9836824060839190fff58ae95a_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_dep_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_015_met_008",
+    "target_name": "Full Risk Dashboard to Board Risk Committee",
+    "rel_type": "reviews",
+    "description": "The Board Risk Committee reviews the Full Risk Dashboard on a quarterly basis.",
+    "properties": {
+      "frequency": "Quarterly"
+    },
+    "context": "Quarterly: Full risk dashboard to Board Risk Committee",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_dep_002",
+    "source_name": "Board",
+    "target_id": "091bcb9836824060839190fff58ae95a_015_met_009",
+    "target_name": "Comprehensive Risk Assessment to Board",
+    "rel_type": "reviews",
+    "description": "The Board reviews the Comprehensive Risk Assessment on an annual basis.",
+    "properties": {
+      "frequency": "Annually"
+    },
+    "context": "Annually: Comprehensive risk assessment to Board",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_001",
+    "source_name": "Capital Ratio",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_002",
+    "source_name": "System Availability",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_003",
+    "source_name": "Fraud Incidents",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_004",
+    "source_name": "Operational Incidents",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_005",
+    "source_name": "Compliance Alerts",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_006",
+    "source_name": "KRI Summary to Management",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_007",
+    "source_name": "Operational Losses",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_008",
+    "source_name": "Full Risk Dashboard to Board Risk Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_met_009",
+    "source_name": "Comprehensive Risk Assessment to Board",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_dep_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_015_dep_002",
+    "source_name": "Board",
+    "target_id": "091bcb9836824060839190fff58ae95a_015",
+    "target_name": "091bcb9836824060839190fff58ae95a_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_016_dec_001",
+    "source_name": "Board of Directors Approval Authority for Review & Updates",
+    "target_id": "dept_bod",
+    "target_name": "Board of Directors",
+    "rel_type": "assigns_ownership_to",
+    "description": "The Board of Directors is designated as the approval authority for the review and update process of the document.",
+    "properties": {
+      "review_frequency": "Annual",
+      "last_reviewed": "2026-01-15",
+      "next_review": "2027-01-15"
+    },
+    "context": "Approval Authority: Board of Directors",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_016",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_016_dec_001",
+    "source_name": "Board of Directors Approval Authority for Review & Updates",
+    "target_id": "091bcb9836824060839190fff58ae95a_016",
+    "target_name": "091bcb9836824060839190fff58ae95a_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_016",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dec_001",
+    "source_name": "Chief Risk Officer Approval of Document",
+    "target_id": "091bcb9836824060839190fff58ae95a_018_dec_002",
+    "target_name": "Board Risk Committee Approval of Document",
+    "rel_type": "related_to",
+    "description": "Concurrent approval of the document by the CRO and Board Risk Committee",
+    "properties": {
+      "approval_date": "2026-01-15"
+    },
+    "context": "Chief Risk Officer — Date: 2026-01-15\nBoard Risk Committee — Date: 2026-01-15",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dec_002",
+    "source_name": "Board Risk Committee Approval of Document",
+    "target_id": "091bcb9836824060839190fff58ae95a_018_dec_003",
+    "target_name": "Board of Directors Approval of Document",
+    "rel_type": "related_to",
+    "description": "Concurrent approval of the document by the Board Risk Committee and Board of Directors",
+    "properties": {
+      "approval_date": "2026-01-15"
+    },
+    "context": "Board Risk Committee — Date: 2026-01-15\nBoard of Directors — Date: 2026-01-15",
+    "bidirectional": true,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dec_002",
+    "source_name": "Board Risk Committee Approval of Document",
+    "target_id": "091bcb9836824060839190fff58ae95a_018_dep_001",
+    "target_name": "Board Risk Committee",
+    "rel_type": "assigns_ownership_to",
+    "description": "The approval decision is issued by the Board Risk Committee",
+    "properties": {
+      "role": "Approver"
+    },
+    "context": "Board Risk Committee — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dec_003",
+    "source_name": "Board of Directors Approval of Document",
+    "target_id": "091bcb9836824060839190fff58ae95a_018_dep_002",
+    "target_name": "Board of Directors",
+    "rel_type": "assigns_ownership_to",
+    "description": "The approval decision is issued by the Board of Directors",
+    "properties": {
+      "role": "Approver"
+    },
+    "context": "Board of Directors — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dec_001",
+    "source_name": "Chief Risk Officer Approval of Document",
+    "target_id": "091bcb9836824060839190fff58ae95a_018",
+    "target_name": "091bcb9836824060839190fff58ae95a_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dec_002",
+    "source_name": "Board Risk Committee Approval of Document",
+    "target_id": "091bcb9836824060839190fff58ae95a_018",
+    "target_name": "091bcb9836824060839190fff58ae95a_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dec_003",
+    "source_name": "Board of Directors Approval of Document",
+    "target_id": "091bcb9836824060839190fff58ae95a_018",
+    "target_name": "091bcb9836824060839190fff58ae95a_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dep_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "091bcb9836824060839190fff58ae95a_018",
+    "target_name": "091bcb9836824060839190fff58ae95a_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "091bcb9836824060839190fff58ae95a_018_dep_002",
+    "source_name": "Board of Directors",
+    "target_id": "091bcb9836824060839190fff58ae95a_018",
+    "target_name": "091bcb9836824060839190fff58ae95a_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  }
+]
