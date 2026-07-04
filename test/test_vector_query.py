@@ -6,7 +6,7 @@ def test_vector_search_shapes_results_and_excludes_embedding(monkeypatch):
 
     class FakeSession:
         def run(self, cypher, **params):
-            assert params["domain"] == "fiction"
+            assert params["domains"] == ["fiction"]
             assert params["topK"] == 2
             call_count["n"] += 1
             if call_count["n"] == 1:  # DocChunk query
@@ -40,6 +40,7 @@ def test_vector_search_shapes_results_and_excludes_embedding(monkeypatch):
     result = vector_query.vector_search("fiction", "Where?", 2)
 
     assert result == {
+        "domains": ["fiction"],
         "domain": "fiction",
         "query_type": "vector",
         "question": "Where?",
@@ -88,7 +89,7 @@ def test_full_text_search_shapes_results(monkeypatch):
 
     class FakeSession:
         def run(self, cypher, **params):
-            assert params["domain"] == "fiction"
+            assert params["domains"] == ["fiction"]
             assert params["topK"] == 2
             call_count["n"] += 1
             if call_count["n"] == 1:  # DocChunk query
