@@ -31,7 +31,26 @@ Every extracted entity carries the `:Entity` label plus a class label (e.g. `PER
 
 Add `--compact` to every command — it halves the JSON you must read.
 
-## The Query Protocol: Discover → Resolve → Retrieve → Ground
+## The Query Protocol: Route → Discover → Resolve → Retrieve → Ground → Adjudicate
+
+### 0. Route — pick the domain set
+
+Policies and the SOPs/matrices about the same subject live in DIFFERENT sibling
+domains by design (e.g. `banking_policy` vs `banking_sop_guides`). Before answering:
+
+```bash
+uv run artmind query domains-overview --compact
+```
+
+- If the user names an exact single small domain, use it and skip to Discover.
+- If the user names an AREA ("banking", "our policies"), or more than one domain
+  is plausible, or listings look large, launch ONE sub-agent that runs
+  `domains-overview` + per-domain `structural-metadata --compact` + `entity-resolve`,
+  and returns ONLY a compact routing report:
+  `{domains, resolved_entities:[{id,name,class,domain}], relevant_classes, relevant_rel_types}`.
+  Main context never sees the raw listings.
+- Pass `--domain` once per selected domain on every subsequent command; a single
+  command call now spans all of them.
 
 ### 1. Discover — learn the domain's shape
 
@@ -82,23 +101,38 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 Routing notes:
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
 - Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text in the Ground step when needed.
-- All commands are domain-rolled-up: querying `fiction` includes `fiction.thriller` etc.
+- All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
+  Rows carry `.domain` on chunks/documents — every fact you state must be attributed
+  to BOTH its document name AND its domain.
 
 ### 4. Ground — pull source text when narrative evidence is needed
 
 ```bash
-uv run artmind query vector-text --domain <domain> --topK 5 --compact "<question>"
+uv run artmind query vector-text --domain <d1> --domain <d2> --topK 5 --compact "<question>"
 ```
 
-Combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text.
+Combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
+
+### 5. Adjudicate — surface disagreements, never blend
+
+After grounding, compare quantitative/authority claims across the retrieved
+documents and domains (no extra LLM calls — the evidence is already in context).
+When two sources disagree, surface BOTH claims with BOTH provenances in this format:
+
+> Sources disagree: policy_complaints.md (banking_policy) says X; escalation_matrix.md
+> (banking_sop_guides) says Y.
+
+Never average, reconcile silently, or drop one side. If retrieval returned only one
+side, re-run Ground with the sibling domains from Route before concluding.
 
 ## Fallback Ladder
 
-1. pattern6 empty → pattern5 `--mode shortest`.
-2. Pattern output empty or too thin → vector-text.
-3. text2cypher returns no rows but data should exist → run `structural-metadata`, then `text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
-4. text2cypher generates invalid Cypher → vector-text.
-5. vector-text sparse or weak → state that the available artmind data does not answer the question.
+1. Thin results in the chosen domain → re-run with sibling domains from Route before concluding data is absent.
+2. pattern6 empty → pattern5 `--mode shortest`.
+3. Pattern output empty or too thin → vector-text.
+4. text2cypher returns no rows but data should exist → run `structural-metadata`, then `text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
+5. text2cypher generates invalid Cypher → vector-text.
+6. vector-text sparse or weak → state that the available artmind data does not answer the question.
 
 ## Answer Style
 
