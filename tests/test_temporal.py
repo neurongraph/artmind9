@@ -51,3 +51,19 @@ def test_lift_document_dates_from_metadata_table():
     assert out["valid_from"] == "2026-06-01"
     assert out["version"] == "3.0"
     assert out["time_source"] == "header"
+
+
+def test_lift_document_dates_ignores_extra_table_columns():
+    # A 3rd column (e.g. "Notes") after the value must not bleed into the
+    # captured value — the table regex must stop at the first closing "|",
+    # not the last one on the line.
+    md = (
+        "| Field | Value | Notes |\n"
+        "|-------|-------|-------|\n"
+        "| Effective Date | 2026-06-01 | Confirmed by legal |\n"
+        "| Version | 3.0 | Draft |\n"
+    )
+    mapping = {"valid_from": ["Effective Date"], "version": ["Version"]}
+    out = lift_document_dates(md, {}, mapping)
+    assert out["valid_from"] == "2026-06-01"
+    assert out["version"] == "3.0"

@@ -58,7 +58,7 @@ def _find_header_value(md_text: str, labels: list[str]) -> str | None:
     """
     for label in labels:
         table_pat = re.compile(
-            r"^\|\s*" + re.escape(label) + r"\s*\|\s*(.+?)\s*\|\s*$",
+            r"^\|\s*" + re.escape(label) + r"\s*\|\s*([^|]+?)\s*\|",
             re.IGNORECASE | re.MULTILINE,
         )
         m = table_pat.search(md_text)
