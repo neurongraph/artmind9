@@ -1,0 +1,3148 @@
+[
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_002_mod_001",
+    "source_name": "Product Portfolio Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_002_obj_001",
+    "target_name": "Accurate and Professional Product Communication",
+    "rel_type": "enables",
+    "description": "The Product Portfolio Training module enables staff to achieve accurate and professional product communication.",
+    "properties": {
+      "assessment_included": false,
+      "focus_area": "communication_skills"
+    },
+    "context": "Train staff on FirstUK Bank's product portfolio, features, benefits, and how to explain them to customers accurately and professionally.",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_002_mod_001",
+    "source_name": "Product Portfolio Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_002_obj_001",
+    "source_name": "Accurate and Professional Product Communication",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_003_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_003_cust_001",
+    "target_name": "Individual Customer",
+    "rel_type": "addressed_to",
+    "description": "The SmartSaver Account is designed for individual customers who want to save money.",
+    "properties": {},
+    "context": "Who It's For: Customers who want to save money... Both individuals and joint account holders",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_003_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_003_cust_002",
+    "target_name": "Joint Account Holder",
+    "rel_type": "addressed_to",
+    "description": "The SmartSaver Account is available for joint account holders.",
+    "properties": {},
+    "context": "Who It's For: ...Both individuals and joint account holders",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_003_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_003_acc_001",
+    "target_name": "SmartSaver Savings Account",
+    "rel_type": "provides_information_about",
+    "description": "The SmartSaver Account product definition describes the SmartSaver Savings Account.",
+    "properties": {
+      "interest_rate_range": "4.50%–4.80% AER",
+      "rate_type": "variable"
+    },
+    "context": "A fully accessible savings account with variable interest rates tied to the Bank of England base rate.",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_003_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_003_cust_001",
+    "source_name": "Individual Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_003_cust_002",
+    "source_name": "Joint Account Holder",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_003_acc_001",
+    "source_name": "SmartSaver Savings Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_004_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_004_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "contains",
+    "description": "The SmartSaver product is implemented as a specific savings account type.",
+    "properties": {
+      "account_type": "savings"
+    },
+    "context": "SmartSaver is a savings account",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_004_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_004_cust_001",
+    "target_name": "SmartSaver Customer",
+    "rel_type": "addressed_to",
+    "description": "The SmartSaver product is marketed and described to the SmartSaver Customer.",
+    "properties": {
+      "communication_goal": "product_explanation"
+    },
+    "context": "How to Describe It to Customers... SmartSaver is a savings account",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_004_cust_001",
+    "source_name": "SmartSaver Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_004_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "references",
+    "description": "The customer deposits money into and manages their SmartSaver account.",
+    "properties": {
+      "action": "deposit"
+    },
+    "context": "You deposit money in your SmartSaver account.",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_004_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_004_acc_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_004_cust_001",
+    "source_name": "SmartSaver Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_005_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_005_acc_001",
+    "target_name": "Joint Account",
+    "rel_type": "provides_information_about",
+    "description": "The SmartSaver Account product offers the option to be opened as a Joint Account.",
+    "properties": {
+      "feature_type": "account_structure",
+      "benefit": "suitable_for_couples_or_family"
+    },
+    "context": "Joint Accounts | Two people per account | Great for couples or family",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_005_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_005_acc_001",
+    "source_name": "Joint Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_006_prd_001",
+    "source_name": "FirstUK Interest Rate Product",
+    "target_id": "boe_base_rate",
+    "target_name": "BoE Base Rate",
+    "rel_type": "references",
+    "description": "The product rate is calculated based on the Bank of England Base Rate",
+    "properties": {
+      "calculation_method": "additive",
+      "margin": "2.5%"
+    },
+    "context": "BoE Base Rate + 2.5% (FirstUK margin) = Your Rate",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_006",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_006_prd_001",
+    "source_name": "FirstUK Interest Rate Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_006",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_006",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_007_prd_001",
+    "source_name": "Tiered Interest Savings Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_007_acc_001",
+    "target_name": "Tiered Savings Account",
+    "rel_type": "provides_information_about",
+    "description": "The Tiered Interest Savings Product defines the structure and interest rates for the Tiered Savings Account.",
+    "properties": {
+      "tier_count": 3,
+      "rate_type": "AER"
+    },
+    "context": "Tier Structure | Balance Range | AER Rate | £0–£10,000 | 4.50% | £10,001–£50,000 | 4.70% | £50,001+ | 4.80%",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_007_cus_001",
+    "source_name": "Savings Product Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_007_acc_001",
+    "target_name": "Tiered Savings Account",
+    "rel_type": "references",
+    "description": "The Savings Product Customer holds or inquires about the balance and rates of a Tiered Savings Account.",
+    "properties": {
+      "interaction_type": "inquiry"
+    },
+    "context": "Customer Question: \"What if I deposit more — does my rate go up immediately?\"",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_007_cus_001",
+    "source_name": "Savings Product Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_007_prd_001",
+    "target_name": "Tiered Interest Savings Product",
+    "rel_type": "personalised_for",
+    "description": "The Tiered Interest Savings Product is the financial offering provided to the Savings Product Customer.",
+    "properties": {
+      "eligibility": "standard"
+    },
+    "context": "Customer Question: \"What if I deposit more — does my rate go up immediately?\"",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_007_prd_001",
+    "source_name": "Tiered Interest Savings Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_007_acc_001",
+    "source_name": "Tiered Savings Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_007_cus_001",
+    "source_name": "Savings Product Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_prd_001",
+    "source_name": "Interest Bearing Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008_acc_001",
+    "target_name": "Interest Bearing Account",
+    "rel_type": "references",
+    "description": "The product definition governs the behavior and calculation of the associated account.",
+    "properties": {},
+    "context": "Interest Bearing Account",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_obl_001",
+    "source_name": "Monthly Interest Payment Processing",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008_acc_001",
+    "target_name": "Interest Bearing Account",
+    "rel_type": "mandates",
+    "description": "The obligation requires interest to be added directly to the account on the last business day of the month.",
+    "properties": {
+      "frequency": "Monthly",
+      "payment_date": "Last business day of month"
+    },
+    "context": "Paid on the last business day of month\n- Added directly to account",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_obl_001",
+    "source_name": "Monthly Interest Payment Processing",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008_cus_001",
+    "target_name": "Account Holder",
+    "rel_type": "covers_obligations_toward",
+    "description": "The processing of interest payments is a service obligation to the account holder that requires no action from them.",
+    "properties": {
+      "customer_action_required": false
+    },
+    "context": "Doesn't require action from customer",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_acc_001",
+    "source_name": "Interest Bearing Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008_cus_001",
+    "target_name": "Account Holder",
+    "rel_type": "associated_with_behaviour_of",
+    "description": "The account is held and owned by the customer.",
+    "properties": {},
+    "context": "Account Holder",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_prd_001",
+    "source_name": "Interest Bearing Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_acc_001",
+    "source_name": "Interest Bearing Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_obl_001",
+    "source_name": "Monthly Interest Payment Processing",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_008_cus_001",
+    "source_name": "Account Holder",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_009_prd_001",
+    "source_name": "FirstUK Savings Product",
+    "target_id": "comp_chase",
+    "target_name": "Chase",
+    "rel_type": "related_to",
+    "description": "FirstUK Savings Product is positioned as having a higher interest rate than Chase",
+    "properties": {
+      "comparison_metric": "interest_rate",
+      "firstuk_value": "4.50%-4.80%",
+      "competitor_value": "4.35%",
+      "advantage": "higher"
+    },
+    "context": "Chase: 4.35% (lower) ... FirstUK: 4.50%–4.80% (highest)",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_009",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_009_prd_001",
+    "source_name": "FirstUK Savings Product",
+    "target_id": "comp_chip",
+    "target_name": "Chip Bank",
+    "rel_type": "related_to",
+    "description": "FirstUK Savings Product is positioned as having a higher interest rate than Chip Bank",
+    "properties": {
+      "comparison_metric": "interest_rate",
+      "firstuk_value": "4.50%-4.80%",
+      "competitor_value": "4.40%",
+      "advantage": "higher"
+    },
+    "context": "Chip Bank: 4.40% (lower) ... FirstUK: 4.50%–4.80% (highest)",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_009",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_009_prd_001",
+    "source_name": "FirstUK Savings Product",
+    "target_id": "comp_santander",
+    "target_name": "Santander",
+    "rel_type": "related_to",
+    "description": "FirstUK Savings Product is positioned as having an equal base interest rate to Santander",
+    "properties": {
+      "comparison_metric": "interest_rate",
+      "firstuk_value": "4.50%",
+      "competitor_value": "4.50%",
+      "advantage": "equal"
+    },
+    "context": "Santander: 4.50% (equal) ... FirstUK: 4.50%–4.80% (highest)",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_009",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_009_prd_001",
+    "source_name": "FirstUK Savings Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_009",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_009",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010_prd_002",
+    "target_name": "Fixed Rate Bonds",
+    "rel_type": "alternative_to",
+    "description": "SmartSaver is a variable rate alternative for customers who do not want the fixed rates offered by Fixed Rate Bonds.",
+    "properties": {
+      "availability_date": "2026",
+      "differentiation": "variable vs fixed"
+    },
+    "context": "If you want a fixed rate, ask about our Fixed Rate Bonds (coming 2026).",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010_prd_003",
+    "target_name": "Current Account",
+    "rel_type": "related_to",
+    "description": "Customers are permitted to hold both a SmartSaver Account and a Current Account simultaneously.",
+    "properties": {
+      "co_existence_allowed": true
+    },
+    "context": "But you can have a SmartSaver AND a Current Account if you want.",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010_cus_001",
+    "target_name": "SmartSaver Customer",
+    "rel_type": "related_to",
+    "description": "There is a strict limit of one SmartSaver account per customer.",
+    "properties": {
+      "limit_per_customer": 1,
+      "constraint": "exclusive"
+    },
+    "context": "No, one account per customer.",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010_acc_001",
+    "target_name": "SmartSaver Account Balance",
+    "rel_type": "references",
+    "description": "The SmartSaver Account calculates and pays interest based on the daily account balance.",
+    "properties": {
+      "interest_calculation_frequency": "daily"
+    },
+    "context": "No, you earn interest on your balance every day.",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_prd_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_prd_002",
+    "source_name": "Fixed Rate Bonds",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_prd_003",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_acc_001",
+    "source_name": "SmartSaver Account Balance",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_010_cus_001",
+    "source_name": "SmartSaver Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_cus_001",
+    "source_name": "Account Applicant",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_prd_001",
+    "target_name": "SmartSaver",
+    "rel_type": "promotes",
+    "description": "The account applicant chooses the SmartSaver product during the opening process.",
+    "properties": {},
+    "context": "Chooses product (SmartSaver)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_cus_001",
+    "source_name": "Account Applicant",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "requires_completion_of",
+    "description": "The applicant must provide ID and address proof to complete KYC verification.",
+    "properties": {
+      "required_documents": [
+        "ID",
+        "address proof"
+      ]
+    },
+    "context": "Provides ID and address proof (KYC)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_cus_001",
+    "source_name": "Account Applicant",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_aml_001",
+    "target_name": "AML Screening Process",
+    "rel_type": "requires_completion_of",
+    "description": "The applicant is subject to AML screening as part of the onboarding process.",
+    "properties": {},
+    "context": "AML screening",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_kyc_001",
+    "source_name": "KYC Verification Process",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "target_name": "New Account Creation",
+    "rel_type": "preceded_by",
+    "description": "KYC verification must be completed before the new account is created.",
+    "properties": {
+      "sequence_order": 3
+    },
+    "context": "3. Provides ID and address proof (KYC) ... 6. Account created",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_aml_001",
+    "source_name": "AML Screening Process",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "target_name": "New Account Creation",
+    "rel_type": "preceded_by",
+    "description": "AML screening must be completed before the new account is created.",
+    "properties": {
+      "sequence_order": 4
+    },
+    "context": "4. AML screening ... 6. Account created",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "source_name": "New Account Creation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_prd_001",
+    "target_name": "SmartSaver",
+    "rel_type": "confirms_opening_of",
+    "description": "The account creation process results in the opening of a SmartSaver account.",
+    "properties": {},
+    "context": "Chooses product (SmartSaver) ... 6. Account created",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "source_name": "New Account Creation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_trn_001",
+    "target_name": "Initial Account Deposit",
+    "rel_type": "triggers",
+    "description": "The creation of the account leads to the first deposit being made.",
+    "properties": {
+      "sequence_order": 8
+    },
+    "context": "6. Account created ... 8. First deposit made",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_trn_001",
+    "source_name": "Initial Account Deposit",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "target_name": "New Account Creation",
+    "rel_type": "references",
+    "description": "The initial deposit is made into the newly created account.",
+    "properties": {},
+    "context": "8. First deposit made",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_kyc_001",
+    "source_name": "KYC Verification Process",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_aml_001",
+    "source_name": "AML Screening Process",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "source_name": "New Account Creation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_cus_001",
+    "source_name": "Account Applicant",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_011_trn_001",
+    "source_name": "Initial Account Deposit",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_012_prd_001",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_012_cust_001",
+    "target_name": "Primary Bank Account Customer",
+    "rel_type": "addressed_to",
+    "description": "The Current Account product is designed for customers who need a primary bank account.",
+    "properties": {
+      "target_segment": "Primary Bank Account Customer"
+    },
+    "context": "Who It's For: Customers who need a primary bank account",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_012_prd_001",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_012_acc_001",
+    "target_name": "Current Account",
+    "rel_type": "references",
+    "description": "The Current Account product is implemented as a Current Account type of account.",
+    "properties": {
+      "account_type": "Checking"
+    },
+    "context": "A checking account for everyday spending",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_012_prd_001",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_012_cust_001",
+    "source_name": "Primary Bank Account Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_012_acc_001",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "target_name": "Online Banking",
+    "rel_type": "related_to",
+    "description": "Debit Card is a product feature offered alongside Online Banking access",
+    "properties": {},
+    "context": "Debit Card | Spend via card or contactless ... Online Banking | 24/7 access",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_002",
+    "source_name": "Standing Orders",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "target_name": "Online Banking",
+    "rel_type": "related_to",
+    "description": "Standing Orders are managed via Online Banking",
+    "properties": {},
+    "context": "Standing Orders | Set up recurring payments ... Online Banking | 24/7 access",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_003",
+    "source_name": "Direct Debits",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "target_name": "Online Banking",
+    "rel_type": "related_to",
+    "description": "Direct Debits are managed via Online Banking",
+    "properties": {},
+    "context": "Direct Debits | Authorize billers to auto-deduct ... Online Banking | 24/7 access",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_004",
+    "source_name": "Transfers",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "target_name": "Online Banking",
+    "rel_type": "related_to",
+    "description": "Transfers are executed via Online Banking",
+    "properties": {},
+    "context": "Transfers | Send money to any UK bank ... Online Banking | 24/7 access",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_005",
+    "source_name": "Overdraft",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "target_name": "Online Banking",
+    "rel_type": "related_to",
+    "description": "Overdraft limits and status are viewed via Online Banking",
+    "properties": {},
+    "context": "Overdraft | Optional, up to £5,000 ... Online Banking | 24/7 access",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_002",
+    "source_name": "Standing Orders",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_003",
+    "source_name": "Direct Debits",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_004",
+    "source_name": "Transfers",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_005",
+    "source_name": "Overdraft",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "source_name": "Online Banking",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_014_prd_001",
+    "source_name": "Savings Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_014_prd_001",
+    "target_name": "Savings Account",
+    "rel_type": "provides_information_about",
+    "description": "Savings Account has an interest rate of 0% AER",
+    "properties": {
+      "interest_rate": "0% AER",
+      "type": "Savings Rate"
+    },
+    "context": "Savings Rate: 0% AER (no interest on balance)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_014_prd_002",
+    "source_name": "Overdraft Facility",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_014_prd_002",
+    "target_name": "Overdraft Facility",
+    "rel_type": "provides_information_about",
+    "description": "Overdraft Facility has an interest rate of 15% AER",
+    "properties": {
+      "interest_rate": "15% AER",
+      "type": "Overdraft Rate"
+    },
+    "context": "Overdraft Rate: 15% AER (if used)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_014_prd_001",
+    "source_name": "Savings Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_014_prd_002",
+    "source_name": "Overdraft Facility",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_016_prd_001",
+    "source_name": "Residential Property Mortgage",
+    "target_id": "attr_001",
+    "target_name": "Loan Terms",
+    "rel_type": "provides_information_about",
+    "description": "The Residential Property Mortgage product specifies loan terms between 2 and 25 years.",
+    "properties": {
+      "value": "2-25 years"
+    },
+    "context": "Loan Terms: 2–25 years",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_016",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_016_prd_001",
+    "source_name": "Residential Property Mortgage",
+    "target_id": "attr_002",
+    "target_name": "Maximum Loan",
+    "rel_type": "provides_information_about",
+    "description": "The Residential Property Mortgage product has a maximum loan limit of £500,000.",
+    "properties": {
+      "value": "£500,000"
+    },
+    "context": "Maximum Loan: £500,000",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_016",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_016_prd_001",
+    "source_name": "Residential Property Mortgage",
+    "target_id": "attr_003",
+    "target_name": "Rate Types",
+    "rel_type": "provides_information_about",
+    "description": "The Residential Property Mortgage product offers Fixed (2/5-year) or Variable rate types.",
+    "properties": {
+      "options": [
+        "Fixed (2-year)",
+        "Fixed (5-year)",
+        "Variable"
+      ]
+    },
+    "context": "Rate Types: Fixed (2/5-year) or Variable",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_016",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_016_prd_001",
+    "source_name": "Residential Property Mortgage",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_016",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_016",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_016",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_017_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "term_001",
+    "target_name": "2-Year Term",
+    "rel_type": "provides_information_about",
+    "description": "Fixed Rate Mortgage offers a 2-Year term option with rates between 4.50% and 5.25%",
+    "properties": {
+      "rate_range": "4.50%–5.25%"
+    },
+    "context": "2-Year | 4.50%–5.25%",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_017",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_017_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "term_002",
+    "target_name": "5-Year Term",
+    "rel_type": "provides_information_about",
+    "description": "Fixed Rate Mortgage offers a 5-Year term option with rates between 5.00% and 5.75%",
+    "properties": {
+      "rate_range": "5.00%–5.75%"
+    },
+    "context": "5-Year | 5.00%–5.75%",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_017",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_017_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "var_001",
+    "target_name": "Loan-to-Value (LTV) Ratio",
+    "rel_type": "provides_information_about",
+    "description": "The interest rates for the Fixed Rate Mortgage are dependent on the Loan-to-Value ratio",
+    "properties": {
+      "dependency_type": "rate_variance"
+    },
+    "context": "LTV Dependency: Rates vary by Loan-to-Value ratio",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_017",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_017_prd_001",
+    "source_name": "Fixed Rate Mortgage",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_017",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_017",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_017",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_018_prod_001",
+    "source_name": "Variable Rate Mortgage Product",
+    "target_id": "attr_001",
+    "target_name": "BoE Base + Margin",
+    "rel_type": "contains",
+    "description": "The Variable Rate Mortgage Product is defined by a BoE Base + Margin pricing structure.",
+    "properties": {
+      "value_range": "1.50%–2.25%",
+      "dependency": "LTV"
+    },
+    "context": "BoE Base + Margin: 1.50%–2.25% depending on LTV",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_018",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_018_prod_001",
+    "source_name": "Variable Rate Mortgage Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_018",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_018",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_018",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "source_name": "Customer Value Proposition",
+    "target_id": "feat_001",
+    "target_name": "Competitive fixed rates",
+    "rel_type": "contains",
+    "description": "The Customer Value Proposition includes competitive fixed rates as a key feature.",
+    "properties": {
+      "feature_type": "pricing"
+    },
+    "context": "Competitive fixed rates",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "source_name": "Customer Value Proposition",
+    "target_id": "feat_002",
+    "target_name": "Clear rate structure by LTV",
+    "rel_type": "contains",
+    "description": "The Customer Value Proposition includes a clear rate structure based on Loan-to-Value (LTV).",
+    "properties": {
+      "feature_type": "pricing_structure"
+    },
+    "context": "Clear rate structure by LTV",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "source_name": "Customer Value Proposition",
+    "target_id": "feat_003",
+    "target_name": "Professional underwriting",
+    "rel_type": "contains",
+    "description": "The Customer Value Proposition highlights professional underwriting as a core service quality.",
+    "properties": {
+      "feature_type": "operational_quality"
+    },
+    "context": "Professional underwriting",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "source_name": "Customer Value Proposition",
+    "target_id": "feat_004",
+    "target_name": "Transparent process",
+    "rel_type": "contains",
+    "description": "The Customer Value Proposition emphasizes a transparent process for the customer.",
+    "properties": {
+      "feature_type": "customer_experience"
+    },
+    "context": "Transparent process",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "source_name": "Customer Value Proposition",
+    "target_id": "feat_005",
+    "target_name": "Local branch support",
+    "rel_type": "contains",
+    "description": "The Customer Value Proposition includes access to local branch support.",
+    "properties": {
+      "feature_type": "service_delivery"
+    },
+    "context": "Local branch support",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "source_name": "Customer Value Proposition",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_019",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_020_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_020_crd_001",
+    "target_name": "Debit Card",
+    "rel_type": "provides_information_about",
+    "description": "The Debit Card product definition provides the specifications and features for the physical/digital Debit Card entity.",
+    "properties": {
+      "scope": "product_specification"
+    },
+    "context": "## PART 4: Debit Card\n### Product Overview\nWhat It Is: Card for spending via contactless, chip, or online.",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_020_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_020_crd_001",
+    "source_name": "Debit Card",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_020",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_021_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "fee_001",
+    "target_name": "New Card Fee",
+    "rel_type": "provides_information_about",
+    "description": "The Debit Card product has a fee of £0 for new cards.",
+    "properties": {
+      "amount": "£0",
+      "currency": "GBP"
+    },
+    "context": "Card (new) | £0",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_021",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_021_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "fee_002",
+    "target_name": "Replacement Card Fee",
+    "rel_type": "provides_information_about",
+    "description": "The Debit Card product has a fee of £15 for replacement cards.",
+    "properties": {
+      "amount": "£15",
+      "currency": "GBP"
+    },
+    "context": "Card (replacement) | £15",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_021",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_021_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "fee_003",
+    "target_name": "Overnight Card Fee",
+    "rel_type": "provides_information_about",
+    "description": "The Debit Card product has a fee of £25 for overnight delivery.",
+    "properties": {
+      "amount": "£25",
+      "currency": "GBP"
+    },
+    "context": "Card (overnight) | £25",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_021",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_021_prd_001",
+    "source_name": "Debit Card",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_021",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_021",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_021",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "source_name": "Part 5 — How to Sell Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022_obj_001",
+    "target_name": "Conducting Product Discovery Interviews",
+    "rel_type": "teaches",
+    "description": "Module 5 teaches the process of conducting product discovery interviews with prospects.",
+    "properties": {
+      "assessment_included": false,
+      "method": "questioning"
+    },
+    "context": "## PART 5: How to Sell Products\n### The Discovery Questions\nBefore recommending a product, ask:",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "source_name": "Part 5 — How to Sell Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022_obl_001",
+    "target_name": "Mandatory Product Discovery Questioning",
+    "rel_type": "teaches",
+    "description": "Module 5 instructs staff on the mandatory requirement to perform discovery questioning before product recommendation.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Before recommending a product, ask:",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_obj_001",
+    "source_name": "Conducting Product Discovery Interviews",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022_obl_001",
+    "target_name": "Mandatory Product Discovery Questioning",
+    "rel_type": "enables_execution_of",
+    "description": "The ability to conduct discovery interviews enables the staff to satisfy the mandatory questioning obligation.",
+    "properties": {},
+    "context": "Before recommending a product, ask:",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "source_name": "Part 5 — How to Sell Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022_prd_001",
+    "target_name": "Savings Product",
+    "rel_type": "covers_features_of",
+    "description": "Module 5 covers the identification of needs related to Savings products.",
+    "properties": {},
+    "context": "(Savings? Checking? Borrowing?)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "source_name": "Part 5 — How to Sell Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022_prd_002",
+    "target_name": "Checking Product",
+    "rel_type": "covers_features_of",
+    "description": "Module 5 covers the identification of needs related to Checking products.",
+    "properties": {},
+    "context": "(Savings? Checking? Borrowing?)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "source_name": "Part 5 — How to Sell Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022_prd_003",
+    "target_name": "Borrowing Product",
+    "rel_type": "covers_features_of",
+    "description": "Module 5 covers the identification of needs related to Borrowing products.",
+    "properties": {},
+    "context": "(Savings? Checking? Borrowing?)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "source_name": "Part 5 — How to Sell Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022_cust_001",
+    "target_name": "Product Prospect",
+    "rel_type": "teaches_how_to_serve",
+    "description": "Module 5 teaches staff how to interview and identify the needs of a product prospect.",
+    "properties": {
+      "interaction_type": "discovery_interview"
+    },
+    "context": "Before recommending a product, ask:",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "source_name": "Part 5 — How to Sell Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_obj_001",
+    "source_name": "Conducting Product Discovery Interviews",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_obl_001",
+    "source_name": "Mandatory Product Discovery Questioning",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_prd_001",
+    "source_name": "Savings Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_prd_002",
+    "source_name": "Checking Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_prd_003",
+    "source_name": "Borrowing Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_022_cust_001",
+    "source_name": "Product Prospect",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_022",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_cust_001",
+    "source_name": "Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023_prd_001",
+    "target_name": "SmartSaver",
+    "rel_type": "promotes",
+    "description": "Customer expresses desire to save money, leading to the recommendation of SmartSaver",
+    "properties": {
+      "trigger_phrase": "I want to save money",
+      "recommendation_type": "upsell/cross-sell"
+    },
+    "context": "If Customer Says \"I want to save money\": → Recommend SmartSaver",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_cust_001",
+    "source_name": "Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023_prd_002",
+    "target_name": "Current Account",
+    "rel_type": "promotes",
+    "description": "Customer expresses need for a main bank account, leading to the recommendation of Current Account",
+    "properties": {
+      "trigger_phrase": "I need a main bank account",
+      "recommendation_type": "upsell/cross-sell"
+    },
+    "context": "If Customer Says \"I need a main bank account\": → Recommend Current Account",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_cust_001",
+    "source_name": "Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023_prd_003",
+    "target_name": "Mortgage",
+    "rel_type": "promotes",
+    "description": "Customer expresses desire to buy a home, leading to the recommendation of Mortgage",
+    "properties": {
+      "trigger_phrase": "I want to buy a home",
+      "recommendation_type": "upsell/cross-sell"
+    },
+    "context": "If Customer Says \"I want to buy a home\": → Recommend Mortgage",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_prd_002",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023_prd_001",
+    "target_name": "SmartSaver",
+    "rel_type": "related_to",
+    "description": "Current Account is pitched as a companion to SmartSaver for a balanced spending and savings strategy",
+    "properties": {
+      "relationship_type": "complementary_product"
+    },
+    "context": "Use your Current Account for everyday spending and bills, and your SmartSaver for savings.",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_prd_002",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_prd_003",
+    "source_name": "Mortgage",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_023_cust_001",
+    "source_name": "Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_023",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_024_tpl_001",
+    "source_name": "Handling Objections Call Script",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_024_prd_001",
+    "target_name": "SmartSaver",
+    "rel_type": "promotes",
+    "description": "The call script suggests opening a SmartSaver account to customers happy with their current bank.",
+    "properties": {
+      "context": "objection_handling",
+      "incentive": "better interest"
+    },
+    "context": "But consider opening a SmartSaver with us — you can keep your main account elsewhere and earn better interest here.",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_024_tpl_001",
+    "source_name": "Handling Objections Call Script",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_024_acc_001",
+    "target_name": "Customer Account",
+    "rel_type": "references",
+    "description": "The script discusses the process of closing a customer account and transferring balances.",
+    "properties": {
+      "action": "closure",
+      "penalty_free": true
+    },
+    "context": "What if I need to close my account? Response: No problem. You can close anytime with no penalty.",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_024_tpl_001",
+    "source_name": "Handling Objections Call Script",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_024_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_024_acc_001",
+    "source_name": "Customer Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_024",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_001",
+    "source_name": "Clear Product Explanation Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025_prod_001",
+    "target_name": "Banking Products",
+    "rel_type": "provides_information_about",
+    "description": "The obligation requires that banking products be explained clearly to the customer.",
+    "properties": {},
+    "context": "Explain products clearly... Always explain what each product is",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_002",
+    "source_name": "Suitability Recommendation Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025_cust_001",
+    "target_name": "Bank Customer",
+    "rel_type": "covers_obligations_toward",
+    "description": "The obligation mandates assessing customer needs before recommending a product to ensure suitability.",
+    "properties": {},
+    "context": "Don't recommend unsuitable products... Ask about customer needs before recommending",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_003",
+    "source_name": "Fee Disclosure Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025_prod_001",
+    "target_name": "Banking Products",
+    "rel_type": "provides_information_about",
+    "description": "The obligation requires clear disclosure of interest rates and fees associated with products.",
+    "properties": {},
+    "context": "Disclose all fees... Show interest rates and fees clearly",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_004",
+    "source_name": "Informed Consent Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025_acc_001",
+    "target_name": "Customer Account",
+    "rel_type": "mandates",
+    "description": "The obligation requires obtaining customer agreement specifically before the opening of an account.",
+    "properties": {},
+    "context": "Obtain informed consent... Get customer agreement before opening account",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_001",
+    "source_name": "Clear Product Explanation Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025_cust_001",
+    "target_name": "Bank Customer",
+    "rel_type": "covers_obligations_toward",
+    "description": "The obligation ensures the customer receives a clear explanation of the product.",
+    "properties": {},
+    "context": "Explain products clearly",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_002",
+    "source_name": "Suitability Recommendation Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025_prod_001",
+    "target_name": "Banking Products",
+    "rel_type": "provides_information_about",
+    "description": "The obligation governs the recommendation process for banking products.",
+    "properties": {},
+    "context": "Don't recommend unsuitable products",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_001",
+    "source_name": "Clear Product Explanation Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_002",
+    "source_name": "Suitability Recommendation Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_003",
+    "source_name": "Fee Disclosure Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_obl_004",
+    "source_name": "Informed Consent Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_cust_001",
+    "source_name": "Bank Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_prod_001",
+    "source_name": "Banking Products",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_025_acc_001",
+    "source_name": "Customer Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_025",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obj_001",
+    "target_name": "Understanding Data Minimisation Principles",
+    "rel_type": "teaches",
+    "description": "Module teaches the principle of only collecting necessary data",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Only collect necessary data",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obj_002",
+    "target_name": "Understanding Purpose Limitation",
+    "rel_type": "teaches",
+    "description": "Module teaches that data must be used only for stated purposes",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Use data only for stated purposes",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obj_003",
+    "target_name": "Data Security and Encryption Knowledge",
+    "rel_type": "teaches",
+    "description": "Module teaches the requirement to protect data with encryption",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Protect data with encryption",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obj_004",
+    "target_name": "Managing Customer Data Rights",
+    "rel_type": "teaches",
+    "description": "Module teaches how to honor customer data rights including access, deletion, and portability",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Honor customer data rights (access, deletion, portability)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_001",
+    "source_name": "Understanding Data Minimisation Principles",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_001",
+    "target_name": "Data Minimisation Obligation",
+    "rel_type": "enables_execution_of",
+    "description": "Understanding minimisation principles enables staff to avoid asking for unnecessary information",
+    "properties": {},
+    "context": "Don't ask for unnecessary information",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_002",
+    "source_name": "Understanding Purpose Limitation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_002",
+    "target_name": "Purpose Disclosure Obligation",
+    "rel_type": "enables_execution_of",
+    "description": "Understanding purpose limitation enables staff to explain how data will be used",
+    "properties": {},
+    "context": "Explain how you'll use their data",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_003",
+    "source_name": "Data Security and Encryption Knowledge",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_003",
+    "target_name": "Data Security Obligation",
+    "rel_type": "enables_execution_of",
+    "description": "Knowledge of security and encryption enables the securing of all documents",
+    "properties": {},
+    "context": "Secure all documents",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_004",
+    "source_name": "Managing Customer Data Rights",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_004",
+    "target_name": "Data Request Response Deadline",
+    "rel_type": "enables_execution_of",
+    "description": "Managing data rights enables staff to meet the 30-day response deadline",
+    "properties": {
+      "timeframe": "30 days"
+    },
+    "context": "Respond to data requests within 30 days",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_001",
+    "target_name": "Data Minimisation Obligation",
+    "rel_type": "explains",
+    "description": "Module explains the obligation to not ask for unnecessary information",
+    "properties": {},
+    "context": "Don't ask for unnecessary information",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_002",
+    "target_name": "Purpose Disclosure Obligation",
+    "rel_type": "explains",
+    "description": "Module explains the obligation to disclose data usage",
+    "properties": {},
+    "context": "Explain how you'll use their data",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_003",
+    "target_name": "Data Security Obligation",
+    "rel_type": "explains",
+    "description": "Module explains the obligation to secure all documents",
+    "properties": {},
+    "context": "Secure all documents",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026_obl_004",
+    "target_name": "Data Request Response Deadline",
+    "rel_type": "explains",
+    "description": "Module explains the 30-day deadline for responding to data requests",
+    "properties": {
+      "timeframe": "30 days"
+    },
+    "context": "Respond to data requests within 30 days",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "source_name": "GDPR & Data Protection Training",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_001",
+    "source_name": "Understanding Data Minimisation Principles",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_002",
+    "source_name": "Understanding Purpose Limitation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_003",
+    "source_name": "Data Security and Encryption Knowledge",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obj_004",
+    "source_name": "Managing Customer Data Rights",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obl_001",
+    "source_name": "Data Minimisation Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obl_002",
+    "source_name": "Purpose Disclosure Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obl_003",
+    "source_name": "Data Security Obligation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_026_obl_004",
+    "source_name": "Data Request Response Deadline",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_026",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_obj_001",
+    "target_name": "Understanding KYC Regulatory Drivers",
+    "rel_type": "teaches",
+    "description": "The KYC module teaches the regulatory drivers behind the requirements.",
+    "properties": {
+      "assessment_included": false,
+      "examples_given": 0
+    },
+    "context": "Why It Matters: Regulatory requirement",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_obl_001",
+    "target_name": "Photo ID Collection Requirement",
+    "rel_type": "teaches",
+    "description": "The KYC module instructs staff on the requirement to collect Photo ID.",
+    "properties": {
+      "mandatory": true,
+      "accepted_documents": [
+        "UK Passport",
+        "Driving License"
+      ]
+    },
+    "context": "What We Need: Photo ID (UK Passport or Driving License)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_obl_002",
+    "target_name": "Proof of Address Collection Requirement",
+    "rel_type": "teaches",
+    "description": "The KYC module instructs staff on the requirement to collect Proof of Address.",
+    "properties": {
+      "mandatory": true,
+      "accepted_documents": [
+        "utility bill",
+        "council tax",
+        "bank statement"
+      ]
+    },
+    "context": "What We Need: Proof of address (utility bill, council tax, or bank statement)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_obl_003",
+    "target_name": "Source of Funds Verification",
+    "rel_type": "teaches",
+    "description": "The KYC module instructs staff on verifying the source of funds when relevant.",
+    "properties": {
+      "mandatory": false,
+      "condition": "if relevant"
+    },
+    "context": "What We Need: Source of funds (if relevant)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_obl_004",
+    "target_name": "Beneficial Ownership Identification",
+    "rel_type": "teaches",
+    "description": "The KYC module instructs staff on identifying beneficial ownership for company accounts.",
+    "properties": {
+      "mandatory": false,
+      "condition": "if account for company"
+    },
+    "context": "What We Need: Beneficial ownership (if account for company)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "teaches_process_of",
+    "description": "The module covers the overall process of KYC verification including document collection.",
+    "properties": {
+      "scope": "documentary evidence"
+    },
+    "context": "What We Need: Photo ID... Proof of address... Source of funds... Beneficial ownership",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_aml_001",
+    "target_name": "AML Regulatory Compliance",
+    "rel_type": "explains",
+    "description": "The KYC module explains how these requirements ensure compliance with AML regulations.",
+    "properties": {
+      "regulatory_link": "direct"
+    },
+    "context": "Why It Matters: Complies with AML regulations",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_aml_001",
+    "source_name": "AML Regulatory Compliance",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_obl_001",
+    "target_name": "Photo ID Collection Requirement",
+    "rel_type": "mandates",
+    "description": "AML compliance mandates the collection of photo identification.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Why It Matters: Regulatory requirement... Complies with AML regulations",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_aml_001",
+    "source_name": "AML Regulatory Compliance",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027_obl_002",
+    "target_name": "Proof of Address Collection Requirement",
+    "rel_type": "mandates",
+    "description": "AML compliance mandates the collection of proof of address.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Why It Matters: Regulatory requirement... Complies with AML regulations",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "source_name": "Know Your Customer (KYC)",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_obl_001",
+    "source_name": "Photo ID Collection Requirement",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_obl_002",
+    "source_name": "Proof of Address Collection Requirement",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_obl_003",
+    "source_name": "Source of Funds Verification",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_obl_004",
+    "source_name": "Beneficial Ownership Identification",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_obj_001",
+    "source_name": "Understanding KYC Regulatory Drivers",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_kyc_001",
+    "source_name": "KYC Verification Process",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_027_aml_001",
+    "source_name": "AML Regulatory Compliance",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_027",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_028_tpl_001",
+    "source_name": "New Customer — Saving Money Response Script",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_028_cust_001",
+    "target_name": "New Customer",
+    "rel_type": "addressed_to",
+    "description": "The response script is designed to be used when communicating with a new customer inquiring about savings.",
+    "properties": {},
+    "context": "Scenario 1: New Customer — Saving Money",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_028_tpl_001",
+    "source_name": "New Customer — Saving Money Response Script",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_028_prod_001",
+    "target_name": "SmartSaver",
+    "rel_type": "provides_information_about",
+    "description": "The script provides specific details regarding the SmartSaver product, including interest rates and withdrawal terms.",
+    "properties": {
+      "interest_rate": "4.70% AER",
+      "feature_mentioned": "no fees, no minimums"
+    },
+    "context": "With £20,000, you'd earn our premium rate of 4.70% AER on SmartSaver.",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_028_cust_001",
+    "source_name": "New Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_028_prod_001",
+    "target_name": "SmartSaver",
+    "rel_type": "related_to",
+    "description": "The new customer is expressing interest in placing funds into the SmartSaver product.",
+    "properties": {
+      "deposit_amount": "£20,000"
+    },
+    "context": "Customer: \"I've got £20,000 to put away. Where should it go?\"",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_028_cust_001",
+    "source_name": "New Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_028_prod_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_028_tpl_001",
+    "source_name": "New Customer — Saving Money Response Script",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_028",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_029_cust_001",
+    "source_name": "Existing Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_029_prd_001",
+    "target_name": "Current Account",
+    "rel_type": "references",
+    "description": "Existing Customer currently holds a Current Account",
+    "properties": {},
+    "context": "I have a Current Account here.",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_029_cust_001",
+    "source_name": "Existing Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_029_prd_002",
+    "target_name": "SmartSaver",
+    "rel_type": "references",
+    "description": "Existing Customer is inquiring about opening a SmartSaver account",
+    "properties": {},
+    "context": "Should I get your savings account too?",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_029_prd_001",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_029_prd_002",
+    "target_name": "SmartSaver",
+    "rel_type": "related_to",
+    "description": "Current Account is recommended to be used in conjunction with SmartSaver for a balanced financial strategy",
+    "properties": {
+      "recommendation_type": "cross_sell",
+      "strategy": "daily_spending_vs_savings"
+    },
+    "context": "Use your Current Account for daily spending and bills, and open a SmartSaver for your savings.",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_029_prd_001",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_029_prd_002",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_029_cust_001",
+    "source_name": "Existing Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_029",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "source_name": "Scenario 3: Rate Question Response",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030_var_001",
+    "target_name": "Current Bank of England Base Rate",
+    "rel_type": "contains",
+    "description": "The template requires the current Bank of England base rate to calculate the customer's rate.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "External Market Data"
+    },
+    "context": "Right now BoE is 4.0%",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "source_name": "Scenario 3: Rate Question Response",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030_var_002",
+    "target_name": "Guaranteed Margin",
+    "rel_type": "contains",
+    "description": "The template specifies the fixed margin added to the base rate.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Product Terms"
+    },
+    "context": "but our 2.5% margin never changes",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "source_name": "Scenario 3: Rate Question Response",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030_var_003",
+    "target_name": "Customer AER",
+    "rel_type": "contains",
+    "description": "The template calculates and displays the final Annual Equivalent Rate for the customer.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Calculated"
+    },
+    "context": "so you get 6.5% AER",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "source_name": "Scenario 3: Rate Question Response",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030_cust_001",
+    "target_name": "Rate Inquiry Customer",
+    "rel_type": "addressed_to",
+    "description": "This communication template is used to respond to customers inquiring about rate guarantees.",
+    "properties": {},
+    "context": "Customer: \"Your 4.50% rate — is that guaranteed?\"",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "source_name": "Scenario 3: Rate Question Response",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030_prod_001",
+    "target_name": "Variable Rate Savings Product",
+    "rel_type": "provides_information_about",
+    "description": "The template explains the rate mechanics of the Variable Rate Savings Product.",
+    "properties": {
+      "info_type": "Rate Structure"
+    },
+    "context": "If BoE rises, so does your rate. If BoE falls, so does yours",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "source_name": "Scenario 3: Rate Question Response",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_var_001",
+    "source_name": "Current Bank of England Base Rate",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_var_002",
+    "source_name": "Guaranteed Margin",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_var_003",
+    "source_name": "Customer AER",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_cust_001",
+    "source_name": "Rate Inquiry Customer",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_030_prod_001",
+    "source_name": "Variable Rate Savings Product",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_030",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_001",
+    "target_name": "SmartSaver Product Knowledge",
+    "rel_type": "teaches",
+    "description": "The program teaches the features, rates, and tiers of the SmartSaver product.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Understand SmartSaver features, rates, and tiers",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_002",
+    "target_name": "Interest Calculation Proficiency",
+    "rel_type": "teaches",
+    "description": "The program teaches how interest is calculated.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Know how interest is calculated",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_003",
+    "target_name": "Variable vs Fixed Rate Differentiation",
+    "rel_type": "teaches",
+    "description": "The program teaches the ability to explain the difference between variable and fixed rates.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Be able to explain variable vs. fixed rates",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_004",
+    "target_name": "Current Account Feature Knowledge",
+    "rel_type": "teaches",
+    "description": "The program teaches the features of the Current Account.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Know Current Account features",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_005",
+    "target_name": "Mortgage Rates and LTV Understanding",
+    "rel_type": "teaches",
+    "description": "The program teaches mortgage rates and Loan-to-Value (LTV) concepts.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Understand mortgage rates and LTV",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_006",
+    "target_name": "Fee Structure Knowledge",
+    "rel_type": "teaches",
+    "description": "The program teaches the knowledge of all applicable fees.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Know all fees",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_007",
+    "target_name": "KYC Requirement Understanding",
+    "rel_type": "teaches",
+    "description": "The program teaches the understanding of Know Your Customer (KYC) requirements.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Understand KYC requirements",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_008",
+    "target_name": "Objection Handling Skill",
+    "rel_type": "teaches",
+    "description": "The program teaches how to handle common customer objections.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Be able to handle common objections",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obl_001",
+    "target_name": "Escalation Duty for High Value or Complex Cases",
+    "rel_type": "teaches",
+    "description": "The program teaches the obligation to escalate cases involving amounts over £5k or complex scenarios.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Know when to escalate (amounts >£5k, complex cases)",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_obj_009",
+    "target_name": "COBS and GDPR Regulatory Basics",
+    "rel_type": "teaches",
+    "description": "The program teaches the basics of COBS and GDPR regulations.",
+    "properties": {
+      "assessment_included": true
+    },
+    "context": "Understand COBS and GDPR basics",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_001",
+    "source_name": "SmartSaver Product Knowledge",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_prod_001",
+    "target_name": "SmartSaver",
+    "rel_type": "covers",
+    "description": "The learning objective specifically covers the SmartSaver product.",
+    "properties": {},
+    "context": "Understand SmartSaver features, rates, and tiers",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_004",
+    "source_name": "Current Account Feature Knowledge",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_prod_002",
+    "target_name": "Current Account",
+    "rel_type": "covers",
+    "description": "The learning objective specifically covers the Current Account product.",
+    "properties": {},
+    "context": "Know Current Account features",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_005",
+    "source_name": "Mortgage Rates and LTV Understanding",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031_prod_003",
+    "target_name": "Mortgage",
+    "rel_type": "covers",
+    "description": "The learning objective specifically covers Mortgage products.",
+    "properties": {},
+    "context": "Understand mortgage rates and LTV",
+    "bidirectional": false,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "source_name": "Product and Compliance Training Program",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_001",
+    "source_name": "SmartSaver Product Knowledge",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_002",
+    "source_name": "Interest Calculation Proficiency",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_003",
+    "source_name": "Variable vs Fixed Rate Differentiation",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_004",
+    "source_name": "Current Account Feature Knowledge",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_005",
+    "source_name": "Mortgage Rates and LTV Understanding",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_006",
+    "source_name": "Fee Structure Knowledge",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_007",
+    "source_name": "KYC Requirement Understanding",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_008",
+    "source_name": "Objection Handling Skill",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obl_001",
+    "source_name": "Escalation Duty for High Value or Complex Cases",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_obj_009",
+    "source_name": "COBS and GDPR Regulatory Basics",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_prod_001",
+    "source_name": "SmartSaver",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_prod_002",
+    "source_name": "Current Account",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_031_prod_003",
+    "source_name": "Mortgage",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_031",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_001",
+    "source_name": "Complete product specifications",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032_prd_002",
+    "target_name": "Rates and fees",
+    "rel_type": "related_to",
+    "description": "Product specifications are related to the pricing and fees guide as part of the useful resources for products.",
+    "properties": {},
+    "context": "Useful Resources - [[products]] — Complete product specifications - [[product_pricing_guide_2026]] — Rates and fees",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_001",
+    "source_name": "Complete product specifications",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032_prd_003",
+    "target_name": "Customer FAQs",
+    "rel_type": "related_to",
+    "description": "Product specifications are related to the customer FAQs as part of the useful resources for products.",
+    "properties": {},
+    "context": "Useful Resources - [[products]] — Complete product specifications - [[product_faq]] — Customer FAQs",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_001",
+    "source_name": "Complete product specifications",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032_prd_004",
+    "target_name": "SmartSaver Terms and Conditions",
+    "rel_type": "related_to",
+    "description": "Product specifications are related to the legal terms and conditions as part of the useful resources for products.",
+    "properties": {},
+    "context": "Useful Resources - [[products]] — Complete product specifications - [[smartsaver_terms_conditions]] — Legal terms",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_002",
+    "source_name": "Rates and fees",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032_prd_003",
+    "target_name": "Customer FAQs",
+    "rel_type": "related_to",
+    "description": "Rates and fees are related to the customer FAQs as part of the useful resources for products.",
+    "properties": {},
+    "context": "Useful Resources - [[product_pricing_guide_2026]] — Rates and fees - [[product_faq]] — Customer FAQs",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_002",
+    "source_name": "Rates and fees",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032_prd_004",
+    "target_name": "SmartSaver Terms and Conditions",
+    "rel_type": "related_to",
+    "description": "Rates and fees are related to the legal terms and conditions as part of the useful resources for products.",
+    "properties": {},
+    "context": "Useful Resources - [[product_pricing_guide_2026]] — Rates and fees - [[smartsaver_terms_conditions]] — Legal terms",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_003",
+    "source_name": "Customer FAQs",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032_prd_004",
+    "target_name": "SmartSaver Terms and Conditions",
+    "rel_type": "related_to",
+    "description": "Customer FAQs are related to the legal terms and conditions as part of the useful resources for products.",
+    "properties": {},
+    "context": "Useful Resources - [[product_faq]] — Customer FAQs - [[smartsaver_terms_conditions]] — Legal terms",
+    "bidirectional": true,
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_001",
+    "source_name": "Complete product specifications",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_002",
+    "source_name": "Rates and fees",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_003",
+    "source_name": "Customer FAQs",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "f0784616e9e2491da73633bcb89ac281_032_prd_004",
+    "source_name": "SmartSaver Terms and Conditions",
+    "target_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "target_name": "f0784616e9e2491da73633bcb89ac281_032",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  }
+]

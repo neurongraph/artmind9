@@ -1,0 +1,1489 @@
+[
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_001_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "smartsaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A banking product referenced in the Interest Rate Schedule 2026 and associated terms and conditions.",
+    "context": [
+      "[[smartsaver_terms_conditions]]"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_001",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_001",
+    "name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000), effective 2026-01-15",
+    "aliases": [
+      "Tier 1",
+      "SAV-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "A variable interest rate for the SmartSaver Account applying to balances between £0 and £10,000. Interest is calculated daily and paid monthly on the last business day. Calculation example for £10,000 over 30 days results in £36.99 interest.",
+    "context": [
+      "Tier 1 | £0–£10,000 | 4.50%",
+      "Balance: £10,000 (Tier 1)",
+      "Daily Rate: 4.50% ÷ 365 days = 0.01233%",
+      "Monthly Interest: £10,000 × 0.01233% × 30 days = £36.99"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_002",
+    "name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15",
+    "aliases": [
+      "Tier 2",
+      "SAV-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "A variable interest rate for the SmartSaver Account applying to balances between £10,001 and £50,000. Interest is calculated daily and paid monthly on the last business day.",
+    "context": [
+      "Tier 2 | £10,001–£50,000 | 4.70%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_rat_003",
+    "name": "SmartSaver Account Tier 3 Rate — 4.80% AER (£50,001+), effective 2026-01-15",
+    "aliases": [
+      "Tier 3",
+      "SAV-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "A variable interest rate for the SmartSaver Account applying to balances exceeding £50,000. Interest is calculated daily and paid monthly on the last business day.",
+    "context": [
+      "Tier 3 | £50,001+ | 4.80%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product with tiered variable interest rates based on the Bank of England Base Rate plus a fixed margin of 2.50%.",
+    "context": [
+      "SmartSaver Account (SAV-001)",
+      "Variable Interest Rates by Balance Tier"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002_acc_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The specific account type associated with the SAV-001 product, featuring daily interest accrual and monthly payments.",
+    "context": [
+      "SmartSaver Account (SAV-001)",
+      "calculated on account balance"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_002",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_rat_001",
+    "name": "SmartSaver Plus Account Premium Tier Rate — 5.25% AER (£50,001+), Variable",
+    "aliases": [
+      "SAV-002",
+      "Premium Tier"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "A variable interest rate for the SmartSaver Plus account applicable to balances of £50,001 and above. The rate is 5.25% AER, calculated daily and paid monthly, based on the Bank of England Base Rate plus a fixed margin of 2.75%.",
+    "context": [
+      "SmartSaver Plus Account (SAV-002)",
+      "Premium Tier (Minimum £50,001)",
+      "SmartSaver Plus | £50,001+ | 5.25%",
+      "Base: Bank of England Base Rate",
+      "Margin: +2.75% (fixed)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_prod_001",
+    "name": "SmartSaver Plus Account",
+    "aliases": [
+      "SAV-002"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A banking product (reference SAV-002) featuring a premium tier for high-balance savings with variable interest rates.",
+    "context": [
+      "SmartSaver Plus Account (SAV-002)",
+      "Product | Minimum Balance | Annual Interest Rate (AER)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003_acc_001",
+    "name": "SmartSaver Plus Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The specific savings account type associated with the SAV-002 product and its corresponding interest rate tiers.",
+    "context": [
+      "SmartSaver Plus Account (SAV-002)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_003",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_001",
+    "name": "Current Account Deposit Interest — £0.00",
+    "aliases": [
+      "Deposit Interest"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The interest rate applied to balances held within the Current Account (CURR-001). No interest is paid on these balances.",
+    "context": [
+      "Deposit Interest: £0.00 (no interest on current account balances)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_002",
+    "name": "Current Account Arranged Overdraft Rate — 15.00% AER",
+    "aliases": [
+      "Arranged Overdraft"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "overdraft_rate",
+    "description": "Interest rate for pre-approved overdraft limits up to £5,000. Calculation example: £1,000 overdraft results in £0.41 daily interest, ~£12.50 monthly, and ~£150.00 annually.",
+    "context": [
+      "Arranged Overdraft | 15.00% AER | Pre-approved limit up to £5,000",
+      "Arranged overdraft: £1,000\nDaily interest: £1,000 × 15% ÷ 365 = £0.41/day\nMonthly interest: ~£12.50\nAnnual interest: ~£150.00"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_rat_003",
+    "name": "Current Account Unarranged Overdraft Rate — 25.00% AER plus £5.00 daily fee",
+    "aliases": [
+      "Unarranged Overdraft"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "overdraft_rate",
+    "description": "Interest rate and associated daily fee applied when a Current Account exceeds its arranged limit or has no approved limit.",
+    "context": [
+      "Unarranged Overdraft | 25.00% AER | + £5.00 daily fee (not recommended)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_prod_001",
+    "name": "Current Account (CURR-001)",
+    "aliases": [
+      "CURR-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A banking product with specific terms for deposit interest and overdraft charges.",
+    "context": [
+      "Current Account (CURR-001)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004_acc_001",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The specific account type subject to the interest and overdraft rates defined in the reference document.",
+    "context": [
+      "no interest on current account balances",
+      "Current Account (CURR-001)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_004",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_001",
+    "name": "Residential Mortgage 2-Year Fixed — 4.50% (<60% LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fixed_rate",
+    "description": "A 2-year fixed interest rate for Residential Mortgages with a Loan-to-Value ratio of less than 60%.",
+    "context": [
+      "Residential Mortgage | <60% LTV | 4.50% | 5.00%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_002",
+    "name": "Residential Mortgage 5-Year Fixed — 5.00% (<60% LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fixed_rate",
+    "description": "A 5-year fixed interest rate for Residential Mortgages with a Loan-to-Value ratio of less than 60%.",
+    "context": [
+      "Residential Mortgage | <60% LTV | 4.50% | 5.00%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_003",
+    "name": "Residential Mortgage 2-Year Fixed — 4.75% (60–80% LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fixed_rate",
+    "description": "A 2-year fixed interest rate for Residential Mortgages with a Loan-to-Value ratio between 60% and 80%.",
+    "context": [
+      "Residential Mortgage | 60–80% LTV | 4.75% | 5.25%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_004",
+    "name": "Residential Mortgage 5-Year Fixed — 5.25% (60–80% LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fixed_rate",
+    "description": "A 5-year fixed interest rate for Residential Mortgages with a Loan-to-Value ratio between 60% and 80%.",
+    "context": [
+      "Residential Mortgage | 60–80% LTV | 4.75% | 5.25%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_005",
+    "name": "Residential Mortgage 2-Year Fixed — 5.25% (80%+ LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fixed_rate",
+    "description": "A 2-year fixed interest rate for Residential Mortgages with a Loan-to-Value ratio of 80% or more.",
+    "context": [
+      "Residential Mortgage | 80%+ LTV | 5.25% | 5.75%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_006",
+    "name": "Residential Mortgage 5-Year Fixed — 5.75% (80%+ LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fixed_rate",
+    "description": "A 5-year fixed interest rate for Residential Mortgages with a Loan-to-Value ratio of 80% or more.",
+    "context": [
+      "Residential Mortgage | 80%+ LTV | 5.25% | 5.75%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_007",
+    "name": "Residential Mortgage Variable Rate (Tracker) — 5.50% (<60% LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "variable_rate",
+    "description": "A variable tracker rate for Residential Mortgages with <60% LTV, calculated as BoE Base + 1.50%.",
+    "context": [
+      "<60% LTV | BoE Base + 1.50% = 5.50%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_008",
+    "name": "Residential Mortgage Variable Rate (Tracker) — 5.75% (60–80% LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "variable_rate",
+    "description": "A variable tracker rate for Residential Mortgages with 60–80% LTV, calculated as BoE Base + 1.75%.",
+    "context": [
+      "60–80% LTV | BoE Base + 1.75% = 5.75%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_009",
+    "name": "Residential Mortgage Variable Rate (Tracker) — 6.25% (80%+ LTV)",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "variable_rate",
+    "description": "A variable tracker rate for Residential Mortgages with 80%+ LTV, calculated as BoE Base + 2.25%.",
+    "context": [
+      "80%+ LTV | BoE Base + 2.25% = 6.25%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_rat_010",
+    "name": "Fixed Rate Early Repayment Penalty — 1–3% of outstanding balance",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fee_table_entry",
+    "description": "A penalty fee applied to fixed rate products for early repayment during the fixed period, typically ranging from 1% to 3% of the balance. No penalty applies when switching rate types.",
+    "context": [
+      "Early Repayment Penalty (Fixed Rate):",
+      "Typically 1–3% of outstanding balance if early repayment during fixed period",
+      "No penalty if switching rate type"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005_prod_001",
+    "name": "Residential Mortgage",
+    "aliases": [
+      "MORT-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A mortgage product offering both fixed-rate (2 and 5 year) and variable tracker options based on LTV tiers.",
+    "context": [
+      "Residential Mortgage"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_005",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_res_001",
+    "name": "Monthly Rate Review Process",
+    "aliases": [
+      "Rate Review"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "A recurring operational process occurring mid-month (around the 15th) to review interest rates. The process is triggered by Bank of England Base Rate changes or FirstUK strategic decisions, with changes becoming effective on the 1st of the following month.",
+    "context": [
+      "Monthly Rate Review Process",
+      "Date: Mid-month (around the 15th)",
+      "Trigger: Bank of England Base Rate change or FirstUK strategic decision",
+      "Effective: 1st of following month"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_001",
+    "name": "Customer Email Notification",
+    "aliases": [
+      "Email alert"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "A communication channel used to notify customers of rate changes, provided the customer has opted in to receive email alerts.",
+    "context": [
+      "Email alert (if opted in)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_002",
+    "name": "Customer SMS Notification",
+    "aliases": [
+      "SMS notification"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "A communication channel used to notify customers of rate changes, provided the customer has opted in to receive SMS notifications.",
+    "context": [
+      "SMS notification (if opted in)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_003",
+    "name": "FirstUK Website",
+    "aliases": [
+      "Website update"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "The official bank website used as a public notification point for updated interest rates.",
+    "context": [
+      "Website update"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_not_004",
+    "name": "Bank Branch",
+    "aliases": [
+      "Branch notification"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "customer",
+    "description": "Physical bank branches that provide rate change notifications to customers upon specific request.",
+    "context": [
+      "Branch notification (upon request)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006_cgi_001",
+    "name": "How Rates Change Guidance",
+    "aliases": [
+      "Rate Change Process"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "account_management",
+    "description": "Customer-facing information explaining the timing, triggers, and notification methods associated with the bank's monthly interest rate review process.",
+    "context": [
+      "HOW RATES CHANGE",
+      "Monthly Rate Review Process",
+      "Customer Notification"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_006",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_001",
+    "name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "aliases": [
+      "SAV-001 Tier 1"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The interest rate for SAV-001 Tier 1, recorded as 4.50% as of the 2026-01-15 rate history update.",
+    "context": [
+      "2026-01-15 | 4.00% | 4.50% | 5.25% | 4.50%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_002",
+    "name": "SAV-002 Rate — 5.25% (effective 2026-01-15)",
+    "aliases": [
+      "SAV-002"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate",
+    "description": "The interest rate for SAV-002, recorded as 5.25% as of the 2026-01-15 rate history update.",
+    "context": [
+      "2026-01-15 | 4.00% | 4.50% | 5.25% | 4.50%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_003",
+    "name": "MORT 2-Yr Rate — 4.50% (effective 2026-01-15)",
+    "aliases": [
+      "MORT 2-Yr"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "mortgage_rate",
+    "description": "The 2-year fixed mortgage rate, recorded as 4.50% as of the 2026-01-15 rate history update.",
+    "context": [
+      "2026-01-15 | 4.00% | 4.50% | 5.25% | 4.50%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_004",
+    "name": "SAV-001 Tier 1 Rate — 4.25% (effective 2025-10-15)",
+    "aliases": [
+      "SAV-001 Tier 1"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The historical interest rate for SAV-001 Tier 1, recorded as 4.25% as of the 2025-10-15 rate history update.",
+    "context": [
+      "2025-10-15 | 3.75% | 4.25% | 5.00% | 4.25%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_005",
+    "name": "SAV-002 Rate — 5.00% (effective 2025-10-15)",
+    "aliases": [
+      "SAV-002"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate",
+    "description": "The historical interest rate for SAV-002, recorded as 5.00% as of the 2025-10-15 rate history update.",
+    "context": [
+      "2025-10-15 | 3.75% | 4.25% | 5.00% | 4.25%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007_rat_006",
+    "name": "MORT 2-Yr Rate — 4.25% (effective 2025-10-15)",
+    "aliases": [
+      "MORT 2-Yr"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "mortgage_rate",
+    "description": "The historical 2-year fixed mortgage rate, recorded as 4.25% as of the 2025-10-15 rate history update.",
+    "context": [
+      "2025-10-15 | 3.75% | 4.25% | 5.00% | 4.25%"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_007",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A banking product offering variable interest rates that fluctuate based on Bank of England decisions, market conditions, and bank strategy.",
+    "context": [
+      "SmartSaver Rates (Variable)",
+      "Our rates change because"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cgi_001",
+    "name": "SmartSaver Variable Rate Guidance",
+    "aliases": [
+      "WHY RATES VARY"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Customer-facing guidance explaining the factors that cause SmartSaver variable rates to change, including BoE decisions and market conditions, as well as the associated benefits and risks.",
+    "context": [
+      "WHY RATES VARY",
+      "Our rates change because:",
+      "Your benefit: If market rates fall, you're not locked into old rate",
+      "Your risk: If rates rise, you keep new higher rate"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_cust_001",
+    "name": "SmartSaver Account Holder",
+    "aliases": [
+      "Your"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "account_holder",
+    "description": "The customer holding a SmartSaver account who is subject to the risks and benefits of variable interest rate changes.",
+    "context": [
+      "Your benefit: If market rates fall, you're not locked into old rate",
+      "Your risk: If rates rise, you keep new higher rate"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008_acc_001",
+    "name": "SmartSaver Variable Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The specific account type associated with the SmartSaver product that utilizes variable interest rates.",
+    "context": [
+      "SmartSaver Rates (Variable)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_008",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_001",
+    "name": "Mortgage Fixed Rate Guidance",
+    "aliases": [
+      "Fixed Rate Benefit",
+      "Fixed Rate Risk"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance explaining the benefits and risks of fixed-rate mortgages, highlighting rate guarantees for 2–5 years and the potential for early repayment penalties.",
+    "context": [
+      "Rate guaranteed for 2–5 years",
+      "Monthly payment predictable",
+      "Protected if BoE raises rates",
+      "Early repayment penalties if you refinance"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_cgi_002",
+    "name": "Mortgage Variable Rate Guidance",
+    "aliases": [
+      "Variable Rate Benefit",
+      "Variable Rate Risk"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance explaining the benefits and risks of variable-rate mortgages, noting lower initial rates and the lack of early repayment penalties, but warning of unpredictable monthly payments.",
+    "context": [
+      "Lower initial rate (usually)",
+      "No early repayment penalties",
+      "Benefit if BoE cuts rates",
+      "Monthly payment unpredictable"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009_prod_001",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "Banking product offering both fixed and variable rate options for borrowers.",
+    "context": [
+      "Mortgage Rates (Fixed vs. Variable)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_009",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_001",
+    "name": "SmartSaver Account Tier 1 Rate — 4.50% (<£10k)",
+    "aliases": [
+      "SAV-001 Tier 1"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The interest rate for the SmartSaver account for balances less than £10,000, positioned as the highest in the market compared to Competitor A and B.",
+    "context": [
+      "Tier 1 Rate (<£10k) | 4.50%",
+      "FirstUK SAV-001"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_002",
+    "name": "SmartSaver Account Tier 2 Rate — 4.70% (£10k–£50k)",
+    "aliases": [
+      "SAV-001 Tier 2"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The interest rate for the SmartSaver account for balances between £10,000 and £50,000, positioned as the highest in the market.",
+    "context": [
+      "Tier 2 Rate (£10k–£50k) | 4.70%",
+      "FirstUK SAV-001"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_rat_003",
+    "name": "SmartSaver Account Tier 3 Rate — 4.80% (£50k+)",
+    "aliases": [
+      "SAV-001 Tier 3"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The interest rate for the SmartSaver account for balances exceeding £50,000, positioned as the highest in the market.",
+    "context": [
+      "Tier 3 Rate (£50k+) | 4.80%",
+      "FirstUK SAV-001"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SAV-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product offered by FirstUK that features a tiered interest rate structure based on the account balance.",
+    "context": [
+      "SmartSaver vs. Market",
+      "FirstUK SAV-001"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_010",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_001",
+    "name": "SmartSaver Account Tier 1 Rate",
+    "aliases": [
+      "Tier 1"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The entry-level interest rate tier for the SmartSaver account. Increasing the balance allows a customer to move from this tier to higher-paying tiers.",
+    "context": [
+      "Move from Tier 1 to Tier 2/3 (higher rate)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_002",
+    "name": "SmartSaver Account Tier 2/3 Rate",
+    "aliases": [
+      "Tier 2",
+      "Tier 3"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "Higher interest rate tiers for the SmartSaver account accessible by increasing the account balance.",
+    "context": [
+      "Move from Tier 1 to Tier 2/3 (higher rate)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_003",
+    "name": "SmartSaver Plus Rate — 5.25% (Balance £50k+)",
+    "aliases": [
+      "Switch to Plus"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "A premium interest rate of 5.25% available to customers who switch to the SmartSaver Plus product and maintain a balance of £50,000 or more.",
+    "context": [
+      "SmartSaver Plus earns 5.25% if £50k+ balance"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_rat_004",
+    "name": "BoE Linked Rate — 2.5% Margin",
+    "aliases": [
+      "BoE Rate Rise"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "variable_rate",
+    "description": "A variable rate mechanism where an increase in the Bank of England (BoE) rate triggers an automatic rate rise, maintaining a 2.5% margin.",
+    "context": [
+      "BoE Rate Rise: Automatic rate rise (2.5% margin maintained)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product with tiered interest rates based on the account balance.",
+    "context": [
+      "Move from Tier 1 to Tier 2/3 (higher rate)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_prod_002",
+    "name": "SmartSaver Plus",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A premium version of the SmartSaver account offering a higher interest rate for balances over £50k.",
+    "context": [
+      "SmartSaver Plus earns 5.25% if £50k+ balance"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011_cgi_001",
+    "name": "Factors Affecting Your Interest Guidance",
+    "aliases": [
+      "What INCREASES Your Interest Earned"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Customer-facing guidance explaining the specific actions and external factors that lead to an increase in interest earned on their accounts.",
+    "context": [
+      "FACTORS AFFECTING YOUR INTEREST",
+      "What INCREASES Your Interest Earned"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_011",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_rat_001",
+    "name": "SmartSaver Account Tier 1 Threshold — £10,000",
+    "aliases": [
+      "£10,000 threshold"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "A balance threshold of £10,000 that, if dropped below, results in a decrease of interest earned for the customer.",
+    "context": [
+      "Decrease Balance: Drop below £10,000 threshold"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012_cgi_001",
+    "name": "Factors Decreasing Interest Earned",
+    "aliases": [
+      "What DECREASES Your Interest Earned"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance provided to customers explaining the specific conditions and external factors that lead to a reduction in the interest earned on their account, including balance drops and BoE rate changes.",
+    "context": [
+      "What DECREASES Your Interest Earned",
+      "Decrease Balance: Drop below £10,000 threshold",
+      "BoE Rate Cut: Automatic rate cut",
+      "Market Competition: If competitors raise rates, FirstUK may follow suit"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_012",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013_rat_001",
+    "name": "SmartSaver Tier 1 Rate — 5.0% (December 2025)",
+    "aliases": [
+      "SmartSaver Tier 1",
+      "12-Month Rate Trend"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The interest rate for the SmartSaver Tier 1 product, which reached a peak of 5.0% by December 2025 following BoE base rate increases in Q4 2025.",
+    "context": [
+      "12-Month Rate Trend (SmartSaver Tier 1)",
+      "5.0% │                    ╱──",
+      "Rates increased Q4 2025 due to BoE base rate increases"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A banking product with tiered interest rates, specifically referenced in the 12-month rate trend analysis.",
+    "context": [
+      "12-Month Rate Trend (SmartSaver Tier 1)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_013",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_001",
+    "name": "SmartSaver Account Tier 1 Rate — 4.50% AER (< £10,000)",
+    "aliases": [
+      "Tier 1"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "Interest rate for balances under £10,000. For a balance of £10,000, the interest earned is £450 per year.",
+    "context": [
+      "If kept in Tier 1 (< £10k):",
+      "Only first £10,000 earns 4.50%",
+      "Interest earned: £450/year"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_rat_002",
+    "name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,000–£50,000)",
+    "aliases": [
+      "Tier 2"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "Interest rate for balances between £10,000 and £50,000. For a balance of £11,000, the interest earned is £517 per year, providing a gain of £67/year over Tier 1.",
+    "context": [
+      "If moved to Tier 2 (£10k–£50k):",
+      "All £11,000 earns 4.70%",
+      "Interest earned: £517/year",
+      "Gain: +£67/year (just by moving to correct tier)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cgi_001",
+    "name": "How to Maximize Interest Earned — Strategy 1: Move Funds to Higher Tier",
+    "aliases": [
+      "Maximize Interest Strategy"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance for customers on how to increase their interest earnings by moving funds into a higher balance tier, illustrated with a scenario involving £11,000.",
+    "context": [
+      "HOW TO MAXIMIZE INTEREST EARNED",
+      "Strategy 1: Move Funds to Higher Tier",
+      "Scenario: You have £11,000"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_acc_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The savings account product featuring tiered interest rates based on the balance held.",
+    "context": [
+      "If kept in Tier 1 (< £10k)",
+      "If moved to Tier 2 (£10k–£50k)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014_cus_001",
+    "name": "Account Holder",
+    "aliases": [
+      "You"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "account_holder",
+    "description": "The customer who holds the account and is being advised on how to maximize their interest earnings.",
+    "context": [
+      "Scenario: You have £11,000"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_014",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_001",
+    "name": "SmartSaver Tier 3 Rate — 4.80% (£50k+)",
+    "aliases": [
+      "SmartSaver Tier 3"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "Interest rate for the SmartSaver account Tier 3 for balances of £50k or more, earning 4.80% with an annual interest example of £3,600 for a £75,000 balance.",
+    "context": [
+      "SmartSaver Tier 3 (£50k+):",
+      "Earns 4.80%",
+      "Annual interest: £3,600"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_rat_002",
+    "name": "SmartSaver Plus Rate — 5.25% (£50k+)",
+    "aliases": [
+      "SmartSaver Plus"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "Interest rate for the SmartSaver Plus account for balances of £50k or more, earning 5.25% with an annual interest example of £3,937.50 for a £75,000 balance, providing a gain of £337.50/year over Tier 3.",
+    "context": [
+      "SmartSaver Plus (£50k+):",
+      "Earns 5.25%",
+      "Annual interest: £3,937.50",
+      "Gain: +£337.50/year"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product with tiered interest rates, including a Tier 3 level for balances over £50,000.",
+    "context": [
+      "SmartSaver Tier 3 (£50k+)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015_prod_002",
+    "name": "SmartSaver Plus Account",
+    "aliases": [
+      "SmartSaver Plus"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A premium savings product for eligible customers with balances over £50,000 offering a higher interest rate than the standard SmartSaver Tier 3.",
+    "context": [
+      "SmartSaver Plus (£50k+)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_015",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_001",
+    "name": "Track BoE base rate decisions",
+    "aliases": [
+      "BoE monitoring"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "A monthly operational procedure to monitor Bank of England base rate decisions to anticipate potential changes to FirstUK rates.",
+    "context": [
+      "Track BoE base rate decisions (monthly)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_res_002",
+    "name": "Monitor FirstUK email alerts for rate changes",
+    "aliases": [
+      "rate alert monitoring"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "The process of monitoring official email notifications from FirstUK to identify when interest rate changes have been implemented.",
+    "context": [
+      "Monitor FirstUK email alerts for rate changes"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016_cgi_001",
+    "name": "Watch Rate Changes Strategy",
+    "aliases": [
+      "Strategy 3"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "account_management",
+    "description": "Guidance on how to track and anticipate interest rate changes by monitoring the Bank of England and FirstUK communications.",
+    "context": [
+      "Strategy 3: Watch Rate Changes",
+      "When BoE raises rates, FirstUK typically follows within 1 month",
+      "Never assume rates stay the same"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_016",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_001",
+    "name": "SmartSaver Account Rate — 4.50% AER",
+    "aliases": [
+      "Gross Interest Earned"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The gross interest rate for the SmartSaver account, stated as 4.50% per annum. In the provided scenario, this generates £450/year on a specific balance.",
+    "context": [
+      "Gross Interest Earned (SmartSaver): £450/year (4.50%)",
+      "Effective rate: 4.20% (vs. stated 4.50%)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_rat_002",
+    "name": "International ATM Withdrawal Fee — £2.50 per withdrawal",
+    "aliases": [
+      "International ATM fees"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "fee_table_entry",
+    "description": "A flat fee of £2.50 charged for each ATM withdrawal made abroad. This fee reduces the net interest earned on the account.",
+    "context": [
+      "Less: International ATM fees: £2.50 per withdrawal",
+      "Monthly ATM fees: £2.50 × 12 = £30/year"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_cgi_001",
+    "name": "International ATM Usage Guidance",
+    "aliases": [
+      "Tip"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance advising customers to use domestic ATMs to avoid fees and maintain the full stated interest rate on their accounts.",
+    "context": [
+      "Tip: Use domestic ATMs only (no fee) to keep full interest rate"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product that earns interest, which can be offset by operational fees such as international ATM charges.",
+    "context": [
+      "Gross Interest Earned (SmartSaver): £450/year (4.50%)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017_tra_001",
+    "name": "International ATM Withdrawal",
+    "aliases": [
+      "Withdraw £500 abroad"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "A financial event involving the withdrawal of funds from an ATM located outside the domestic region, triggering a specific fee.",
+    "context": [
+      "Scenario: Withdraw £500 abroad",
+      "International ATM Withdrawal"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_017",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_001",
+    "name": "Rate Change Notification Process",
+    "aliases": [
+      "Customer Notification"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "regulatory_protection",
+    "description": "Guidance on how customers are informed of rate changes, utilizing Email, SMS (for opted-in users), and the bank website. It specifies that rates are typically reviewed monthly.",
+    "context": [
+      "Customer Notification: Email + SMS (if opted in) + website",
+      "Typical Review Cycle: Monthly"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_002",
+    "name": "Rate Review and Effective Date Policy",
+    "aliases": [
+      "Next Rate Review",
+      "Effective Date"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "account_management",
+    "description": "Policy stating the next scheduled rate review is February 15, 2026, with changes becoming effective on the 1st of the month following the review.",
+    "context": [
+      "Next Rate Review: February 15, 2026",
+      "Effective Date: 1st of month following review"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018_cgi_003",
+    "name": "FirstUK Rate Change Reservation",
+    "aliases": [
+      "No Guarantee"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "regulatory_protection",
+    "description": "A disclaimer stating that FirstUK reserves the right to change rates without notice, provided such changes remain within regulatory limits.",
+    "context": [
+      "No Guarantee: FirstUK reserves right to change rates without notice (within regulatory limits)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_018",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_001",
+    "name": "SmartSaver Account Tier 1 Rate — 4.50% AER (£0–£10,000)",
+    "aliases": [
+      "Tier 1 rate"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "Interest rate applicable to SmartSaver accounts with a balance below £10,000. The rate is 4.50% and is subject to monthly adjustments as a variable rate product.",
+    "context": [
+      "If your balance is below £10,000, you earn Tier 1 rate (4.50%)",
+      "SmartSaver is a variable rate product"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_002",
+    "name": "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001+)",
+    "aliases": [
+      "Tier 2 rate"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "Interest rate applicable to SmartSaver accounts with a balance of £10,001 or more. The rate is 4.70% and is subject to monthly adjustments.",
+    "context": [
+      "Your friend earning 4.70% likely has £10,001+ in their account"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_rat_003",
+    "name": "SmartSaver Variable Rate Basis — 2.5% margin over BoE",
+    "aliases": [
+      "variable_rate",
+      "rate_basis"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "rate_basis",
+    "description": "The pricing mechanism for the SmartSaver variable rate, which maintains a 2.5% margin over the Bank of England base rate. Rates decline if the BoE cuts its base rate.",
+    "context": [
+      "If Bank of England cuts its base rate, your rate will decline (we maintain 2.5% margin over BoE)"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_cgi_001",
+    "name": "SmartSaver Interest Payment Guidance",
+    "aliases": [
+      "interest_payment_schedule"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance explaining the timing and method of interest payments for the SmartSaver account. Interest is calculated daily and paid as a lump sum on the last business day of each month.",
+    "context": [
+      "When is interest paid?",
+      "Last business day of each month. Interest calculated daily and paid as lump sum each month."
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_prod_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A variable rate savings product with tiered interest rates based on account balance.",
+    "context": [
+      "SmartSaver is a variable rate product"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019_acc_001",
+    "name": "SmartSaver Account Holder",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "account_holder",
+    "description": "The customer holding a SmartSaver account who earns interest based on their specific balance tier.",
+    "context": [
+      "Why is my interest rate lower than my friend's?"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_019",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_cgi_001",
+    "name": "Annual Percentage Rate (APR) Disclosure",
+    "aliases": [
+      "APR Disclosure"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "regulatory_protection",
+    "description": "Guidance explaining that the Annual Percentage Rate is the interest rate shown as AER and that it includes the effect of compounding.",
+    "context": [
+      "Annual Percentage Rate (APR) Disclosure:",
+      "The Annual Percentage Rate is the interest rate shown (AER), which includes compounding."
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_cgi_002",
+    "name": "Gross Interest Guidance",
+    "aliases": [
+      "Gross Interest"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "regulatory_protection",
+    "description": "Guidance clarifying that interest is paid without tax withholding and that the customer is responsible for reporting this to HMRC if applicable.",
+    "context": [
+      "Gross Interest:",
+      "Interest paid without tax withholding.",
+      "You're responsible for reporting to HMRC if applicable."
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020_not_001",
+    "name": "HM Revenue and Customs (HMRC)",
+    "aliases": [
+      "HMRC"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "The UK tax authority to which customers are responsible for reporting their gross interest earnings.",
+    "context": [
+      "You're responsible for reporting to HMRC if applicable."
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_020",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021_rat_001",
+    "name": "SAV-001 Tier 1 Rate — 4.50% (effective 2026-01-15)",
+    "aliases": [
+      "SAV-001 T1"
+    ],
+    "entity_class": "RATE_ENTRY",
+    "type": "savings_rate_tier",
+    "description": "The initial published interest rate for the SAV-001 product Tier 1, set at 4.50% as of the initial schedule date.",
+    "context": [
+      "SAV-001 T1",
+      "4.50%",
+      "2026-01-15"
+    ],
+    "chunk_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4_021",
+    "doc_id": "6aeb8a7aa50d4416b6b5d36f86c5c3e4",
+    "domain": "banking_reference"
+  }
+]

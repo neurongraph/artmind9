@@ -1,0 +1,3825 @@
+[
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_pol_001",
+    "name": "FirstUK Bank — Information Security Policy",
+    "properties": {
+      "document_id": "SEC-POL-002",
+      "version": "2.0",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "owner": "Chief Information Security Officer",
+      "owning_department": "Technology",
+      "audience": [
+        "All Staff",
+        "Technology",
+        "Risk",
+        "Board"
+      ],
+      "regulatory_basis": [
+        "FCA COBS Part 5",
+        "PRA Operational Resilience"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_reg_001",
+    "name": "FCA Conduct of Business Sourcebook Part 5",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "how_cited": "FCA COBS Part 5"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_reg_002",
+    "name": "PRA Operational Resilience",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_001",
+    "name": "Chief Information Security Officer",
+    "properties": {
+      "role_title": "Chief Information Security Officer",
+      "department": "Technology",
+      "authority": "Policy Owner"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_002",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Compliance with Information Security Policy"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_003",
+    "name": "Technology",
+    "properties": {
+      "role_title": "Technology",
+      "department": "Technology",
+      "specific_obligations": [
+        "Compliance with Information Security Policy"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_004",
+    "name": "Risk",
+    "properties": {
+      "role_title": "Risk",
+      "department": "Risk",
+      "specific_obligations": [
+        "Compliance with Information Security Policy"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_001_rol_005",
+    "name": "Board",
+    "properties": {
+      "role_title": "Board",
+      "specific_obligations": [
+        "Compliance with Information Security Policy"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_001",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_pol_001",
+    "name": "Information Security Policy",
+    "properties": {
+      "core_policy_statement": "Protect confidentiality, integrity, and availability of customer data, systems, and intellectual property against threats."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_rsk_001",
+    "name": "Cyberattacks",
+    "properties": {
+      "risk_definition": "Threats targeting the confidentiality, integrity, and availability of customer data, systems, and intellectual property."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_rsk_002",
+    "name": "Unauthorized Access",
+    "properties": {
+      "risk_definition": "Threats targeting the confidentiality, integrity, and availability of customer data, systems, and intellectual property."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_002_rsk_003",
+    "name": "Data Breaches",
+    "properties": {
+      "risk_definition": "Threats targeting the confidentiality, integrity, and availability of customer data, systems, and intellectual property."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_002",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_pol_001",
+    "name": "Information Security Policy",
+    "properties": {
+      "core_policy_statement": "Establish security procedures to prevent unauthorized access, protect customer data, ensure system availability, respond to security incidents, and meet regulatory security standards."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_001",
+    "name": "Prevention of Unauthorized Access to Systems and Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "systems",
+        "data"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_002",
+    "name": "Protection of Customer Data Against Breaches",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "customer data"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_003",
+    "name": "Ensuring System Availability and Reliability",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "systems"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_004",
+    "name": "Rapid Response to Security Incidents",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "security incidents"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_prv_005",
+    "name": "Compliance with Regulatory Security Standards",
+    "properties": {
+      "provision_type": "mandatory",
+      "regulatory_source": [
+        "PRA Operational Resilience",
+        "FCA"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_reg_001",
+    "name": "Prudential Regulation Authority Operational Resilience",
+    "properties": {
+      "issuing_authority": "Prudential Regulation Authority",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_reg_002",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "Financial Conduct Authority",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_001",
+    "name": "Unauthorized Access",
+    "properties": {
+      "risk_definition": "Unauthorized access to systems and data"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_002",
+    "name": "Data Breach",
+    "properties": {
+      "risk_definition": "Breaches of customer data"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_003",
+    "name": "System Unavailability",
+    "properties": {
+      "risk_definition": "Lack of system availability and reliability"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_003_rsk_004",
+    "name": "Security Incident",
+    "properties": {
+      "risk_definition": "Security incidents requiring rapid response"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_003",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_pol_001",
+    "name": "Information Security Policy",
+    "properties": {
+      "scope_summary": "Applies to all customer data (personal, financial), all systems and infrastructure, all staff, contractors, third parties, all physical and digital assets, and all geographic locations."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "accountability_for": "Compliance with Information Security Policy across all physical and digital assets and geographic locations"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_rol_002",
+    "name": "Contractors",
+    "properties": {
+      "accountability_for": "Compliance with Information Security Policy across all physical and digital assets and geographic locations"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_rol_003",
+    "name": "Third Parties",
+    "properties": {
+      "accountability_for": "Compliance with Information Security Policy across all physical and digital assets and geographic locations"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_ctl_001",
+    "name": "Customer Data Protection",
+    "properties": {
+      "applies_to": [
+        "personal customer data",
+        "financial customer data"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_004_ctl_002",
+    "name": "Systems and Infrastructure Security",
+    "properties": {
+      "applies_to": [
+        "all systems",
+        "all infrastructure",
+        "all physical assets",
+        "all digital assets"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_004",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_pol_001",
+    "name": "FirstUK Bank Information Security Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank protects customer data and systems through defense-in-depth security controls, incident response, and continuous threat monitoring."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_prv_001",
+    "name": "Requirement for Defense-in-Depth Security Controls",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_prv_002",
+    "name": "Requirement for Incident Response",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_prv_003",
+    "name": "Requirement for Continuous Threat Monitoring",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_ctl_001",
+    "name": "Defense-in-Depth Security Controls",
+    "properties": {
+      "control_type": "preventive"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_ctl_002",
+    "name": "Incident Response Mechanism",
+    "properties": {
+      "control_type": "corrective"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_ctl_003",
+    "name": "Continuous Threat Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_005_rsk_001",
+    "name": "Information Security Risk",
+    "properties": {
+      "risk_definition": "Threats to the protection of customer data and bank systems"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_005",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_001",
+    "name": "Security Principles",
+    "properties": {
+      "core_policy_statement": "The bank adopts a security framework based on Zero-Trust, Defense-in-Depth, and the CIA Triad to ensure proactive defense and data protection."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_002",
+    "name": "Zero-Trust Security Principle",
+    "properties": {
+      "core_policy_statement": "No implicit trust is granted to users, devices, or networks; the bank assumes breach and defends proactively.",
+      "scope_summary": "Applies to all users, devices, and networks accessing bank systems."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_003",
+    "name": "Defense-in-Depth Principle",
+    "properties": {
+      "core_policy_statement": "Implementation of multiple layers of security controls to ensure no single point of failure exists.",
+      "scope_summary": "Protections applied across network, system, data, and process layers."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_pol_004",
+    "name": "Confidentiality-Integrity-Availability (CIA Triad) Principle",
+    "properties": {
+      "core_policy_statement": "Ensuring data is encrypted and access-controlled (Confidentiality), cannot be modified without authorization (Integrity), and systems remain accessible when needed (Availability)."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_prv_001",
+    "name": "Mandatory Verification of Every Access Request",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "every access request"
+      ],
+      "regulatory_source": "Zero-Trust Security Principle"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_prv_002",
+    "name": "Requirement for Continuous Authentication and Authorization",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "continuous",
+      "regulatory_source": "Zero-Trust Security Principle"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_prv_003",
+    "name": "Prohibition of Single Points of Failure in Security",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "security controls"
+      ],
+      "regulatory_source": "Defense-in-Depth Principle"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_ctl_001",
+    "name": "Data Encryption",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Confidentiality"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_ctl_002",
+    "name": "Access Control",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Confidentiality"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_rsk_001",
+    "name": "Unauthorized Access",
+    "properties": {
+      "risk_definition": "Access to systems or data by entities without proper authorization",
+      "required_response": "Continuous authentication and authorization; verification of every access request"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_006_rsk_002",
+    "name": "System Breach",
+    "properties": {
+      "risk_definition": "The compromise of security layers leading to unauthorized system entry",
+      "required_response": "Assume breach and defend proactively; implement layered protections (network, system, data, process)"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_006",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_001",
+    "name": "Cyberattacks",
+    "properties": {
+      "examples": [
+        "Ransomware",
+        "malware",
+        "phishing"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_002",
+    "name": "Unauthorized Access",
+    "properties": {
+      "examples": [
+        "Hacking",
+        "credential theft",
+        "social engineering"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_003",
+    "name": "Data Breaches",
+    "properties": {
+      "examples": [
+        "Sensitive data theft",
+        "exposure"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_004",
+    "name": "Insider Threats",
+    "properties": {
+      "examples": [
+        "Disgruntled staff",
+        "inadvertent disclosure"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_005",
+    "name": "Third-Party Risk",
+    "properties": {
+      "examples": [
+        "Vendor compromise",
+        "supply chain attacks"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_007_rsk_006",
+    "name": "Natural Disasters",
+    "properties": {
+      "examples": [
+        "Power outages",
+        "fire",
+        "flooding"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_007",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_pol_001",
+    "name": "Access Control Policy",
+    "properties": {
+      "policy_domain": "access_control",
+      "core_policy_statement": "Establishment of authentication requirements for customers and staff across digital, physical, and remote access channels to ensure secure identity verification."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_001",
+    "name": "Customer Online Banking Authentication Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ],
+      "verification_method": "Username/password and One-Time Password (OTP) via email or SMS"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_002",
+    "name": "Customer Mobile App Authentication Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ],
+      "verification_method": "Biometric (fingerprint/face) with optional PIN"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_003",
+    "name": "Customer Branch Authentication Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ],
+      "verification_method": "Photo ID verification"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_004",
+    "name": "Staff General Authentication Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Staff"
+      ],
+      "verification_method": "LDAP/Active Directory username and password"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_005",
+    "name": "Privileged Access MFA Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Privileged Access Users",
+        "Admin",
+        "Compliance"
+      ],
+      "verification_method": "Multi-Factor Authentication (MFA)"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_006",
+    "name": "Physical Facility Access Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Staff"
+      ],
+      "verification_method": "Physical badges"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_prv_007",
+    "name": "Remote Access VPN Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Staff"
+      ],
+      "verification_method": "Virtual Private Network (VPN)"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_001",
+    "name": "Multi-Factor Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Privileged Access"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_002",
+    "name": "Biometric Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Mobile App Access"
+      ],
+      "technology_used": [
+        "Fingerprint",
+        "Face recognition"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_003",
+    "name": "LDAP/Active Directory",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "System",
+      "applies_to": [
+        "Staff Authentication"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_ctl_004",
+    "name": "Virtual Private Network",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Remote Access"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_rol_001",
+    "name": "Customer",
+    "properties": {
+      "specific_obligations": [
+        "Provide photo ID for branch visits",
+        "Use MFA (OTP) for online banking",
+        "Use biometrics/PIN for mobile app"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_rol_002",
+    "name": "Staff",
+    "properties": {
+      "specific_obligations": [
+        "Use LDAP/AD credentials for system access",
+        "Use physical badges for facility entry",
+        "Use VPN for remote work"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_008_rol_003",
+    "name": "Privileged Access Users",
+    "properties": {
+      "role_title": "Admin, Compliance",
+      "specific_obligations": [
+        "Complete Multi-Factor Authentication (MFA) for system access"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_008",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_pol_001",
+    "name": "Authorization Policy",
+    "properties": {
+      "policy_domain": "access_control",
+      "core_policy_statement": "Governs what users can access based on their roles, ensuring segregation of duties and comprehensive logging of system access."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_001",
+    "name": "Implementation of Role-Based Access Control",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer-facing staff",
+        "Compliance staff",
+        "Technology staff",
+        "Executives",
+        "Developers"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_002",
+    "name": "Segregation of Duties Requirements",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "Account opening/approval",
+        "Transaction initiation/approval",
+        "System administration/Application development",
+        "Audit/System ownership"
+      ],
+      "core_policy_statement": "Prevents a single individual from having control over all stages of a critical process."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_003",
+    "name": "Access Logging and Monitoring Mandate",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Audit logs",
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_004",
+    "name": "Audit Log Retention Period",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "1 year"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_prv_005",
+    "name": "Quarterly Access Review Schedule",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "quarterly"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_ctl_001",
+    "name": "Role-Based Access Control (RBAC)",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "User access management"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_ctl_002",
+    "name": "Audit Logging",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "evidence_required": "Logs containing who, what, when, and where",
+      "frequency": "real-time"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_001",
+    "name": "Customer-facing staff",
+    "properties": {
+      "authority": "Limited customer data access",
+      "specific_obligations": [
+        "Access only their own customers' data"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_002",
+    "name": "Compliance staff",
+    "properties": {
+      "authority": "Full data access",
+      "specific_obligations": [
+        "Maintain audit logging"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_003",
+    "name": "Technology staff",
+    "properties": {
+      "authority": "System access",
+      "specific_obligations": [
+        "Ensure access is captured in audit trail"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_004",
+    "name": "Executives",
+    "properties": {
+      "authority": "Aggregated reports only"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_009_rol_005",
+    "name": "Developers",
+    "properties": {
+      "authority": "Pre-production environments only"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_009",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_pol_001",
+    "name": "Data Encryption Policy",
+    "properties": {
+      "policy_domain": "security",
+      "scope_summary": "Encryption of data in transit for internet-facing connections, internal service communication, and remote access."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_001",
+    "name": "Mandatory Encryption of Internet-Facing Connections",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "internet-facing connections"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_002",
+    "name": "Enforcement of HTTPS and HTTP Redirection",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "HTTP redirects to HTTPS"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_003",
+    "name": "Mandatory mTLS for Internal Service Communication",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "internal service-to-service communication"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_004",
+    "name": "Certificate Management Obligations",
+    "properties": {
+      "provision_type": "periodic",
+      "verification_method": [
+        "auto-renewal",
+        "monitoring"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_005",
+    "name": "Mandatory VPN Usage for Remote Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Remote Staff"
+      ],
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_006",
+    "name": "Encryption of Remote Access Traffic",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "secure tunnel"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_prv_007",
+    "name": "Multi-factor Authentication for VPN Access",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "VPN Access"
+      ],
+      "linked_control": "ctl_004"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_001",
+    "name": "Transport Layer Security 1.3",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "internet-facing connections"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_002",
+    "name": "Mutual TLS",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "internal service-to-service communication"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_003",
+    "name": "Virtual Private Network",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "remote access traffic"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_ctl_004",
+    "name": "Multi-factor Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "VPN access"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_010_rol_001",
+    "name": "Remote Staff",
+    "properties": {
+      "role_title": "Remote Staff",
+      "specific_obligations": [
+        "Use VPN for remote work",
+        "Utilize multi-factor authentication for VPN access"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_010",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_pol_001",
+    "name": "Information Security Policy - Data at Rest",
+    "properties": {
+      "policy_domain": "information_security",
+      "scope_summary": "Encryption and sanitization requirements for databases, backups, and file storage across on-premises and cloud environments.",
+      "core_policy_statement": "All sensitive data at rest, including database columns, backups to S3, and file storage, must be encrypted using approved standards and securely deleted when no longer required."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_001",
+    "name": "Mandatory AES-256 Encryption for Sensitive Database Columns",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "sensitive database columns"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_002",
+    "name": "Separation of Encryption Keys from Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "encryption keys"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_003",
+    "name": "Mandatory Encryption for Backups to S3",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "S3 backups"
+      ],
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_prv_004",
+    "name": "Secure Deletion of Files via DoD Standard",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "files"
+      ],
+      "regulatory_source": "reg_001",
+      "linked_control": "ctl_005"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_reg_001",
+    "name": "Department of Defense (DoD) Data Sanitization Standard",
+    "properties": {
+      "issuing_authority": "US Department of Defense",
+      "jurisdiction": "international",
+      "regulation_type": "industry_standard",
+      "key_obligation": "Ensure data is irrecoverable through secure overwriting during deletion."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_rsk_001",
+    "name": "Unauthorized Data Access",
+    "properties": {
+      "risk_definition": "Unauthorized access to sensitive data stored in databases, backups, or file systems.",
+      "required_response": "Implementation of AES-256 encryption and secure key management."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_001",
+    "name": "AES-256 Encryption",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "sensitive database columns",
+        "S3 backups"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_002",
+    "name": "Hardware Security Module (HSM)",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "performed_by": "HSM system",
+      "applies_to": [
+        "encryption key storage"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_003",
+    "name": "AWS Key Management Service (KMS)",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "technology_used": "AWS KMS",
+      "applies_to": [
+        "S3 backup keys"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_004",
+    "name": "Transparent Application-Level Encryption",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "database encryption"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_011_ctl_005",
+    "name": "Secure Overwriting",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "file deletion"
+      ],
+      "evidence_required": "Compliance with DoD standard"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_011",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_pol_001",
+    "name": "Network Security Policy",
+    "properties": {
+      "policy_domain": "network security",
+      "scope_summary": "Perimeter security including firewalls, DDoS protection, and intrusion detection/prevention systems."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_001",
+    "name": "Stateful Inspection Firewall Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "network perimeter",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_002",
+    "name": "Public API Ingress Restriction",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "public APIs",
+      "verification_method": "Port restriction to 443 (HTTPS) only"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_003",
+    "name": "Whitelist-Based Egress Control",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "outbound traffic",
+      "verification_method": "Whitelist validation"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_004",
+    "name": "Firewall Rule Logging and Monitoring",
+    "properties": {
+      "provision_type": "periodic",
+      "verification_method": "Log review and monitoring"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_005",
+    "name": "DDoS Protection Implementation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "network perimeter",
+      "linked_control": [
+        "ctl_002",
+        "ctl_003"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_prv_006",
+    "name": "Intrusion Detection and Prevention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "network perimeter",
+        "critical systems"
+      ],
+      "linked_control": [
+        "ctl_004",
+        "ctl_005",
+        "ctl_006"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_rsk_001",
+    "name": "Distributed Denial of Service (DDoS)",
+    "properties": {
+      "detection_mechanism": "Anomalous traffic detection",
+      "required_response": "Traffic rerouting"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_rsk_002",
+    "name": "Network Intrusion",
+    "properties": {
+      "detection_mechanism": [
+        "Network-based IDS",
+        "Host-based IDS"
+      ],
+      "required_response": "Automated blocking of malicious IPs"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_001",
+    "name": "Stateful Inspection Firewall",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "network perimeter"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_002",
+    "name": "AWS Shield",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "AWS Shield",
+      "applies_to": "DDoS protection"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_003",
+    "name": "API Rate Limiting",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": "public APIs"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_004",
+    "name": "Network-based IDS",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": "Snort-like rules",
+      "applies_to": "network traffic"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_005",
+    "name": "Host-based IDS",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": "critical systems"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_012_ctl_006",
+    "name": "Automated IP Blocking",
+    "properties": {
+      "control_type": "corrective",
+      "frequency": "real-time",
+      "applies_to": "malicious IPs"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_012",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_pol_001",
+    "name": "Internal Network Segmentation Policy",
+    "properties": {
+      "policy_domain": "network security",
+      "scope_summary": "Defines the segregation of customer-facing systems, internal staff systems, database tiers, and development environments."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_prv_001",
+    "name": "Mandatory Network Segregation of System Tiers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer-facing systems",
+        "Internal staff systems",
+        "Database tier",
+        "Development systems"
+      ],
+      "verification_method": "Network subnetting"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_prv_002",
+    "name": "Mandatory Remote Access Controls",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Remote access",
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_prv_003",
+    "name": "Administrative Session Security Requirements",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Administrative access",
+      "linked_control": [
+        "ctl_003",
+        "ctl_004",
+        "ctl_005"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_rsk_001",
+    "name": "Unauthorized Access",
+    "properties": {
+      "risk_definition": "Unauthorized entry into restricted network tiers or administrative sessions",
+      "detection_mechanism": "Session logging"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_001",
+    "name": "Network Subnetting",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Customer-facing systems",
+        "Internal staff systems",
+        "Database tier",
+        "Development systems"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_002",
+    "name": "Virtual Private Network (VPN)",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Remote access"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_003",
+    "name": "Bastion Host",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Administrative access"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_004",
+    "name": "Multi-hop Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Administrative access"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_013_ctl_005",
+    "name": "Session Logging and Timeout",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "applies_to": "Administrative sessions",
+      "evidence_required": "Session logs"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_013",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_pol_001",
+    "name": "Endpoint Security Policy",
+    "properties": {
+      "policy_domain": "cybersecurity",
+      "scope_summary": "Laptops, desktops, phones, and tablets used within the bank, specifically those with customer data access",
+      "core_policy_statement": "Ensure all endpoints are secured via EDR, MDM, encryption, and timely patching to prevent malware and unauthorized data access."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_001",
+    "name": "Mandatory EDR Deployment and Real-time Scanning",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Laptops",
+        "Desktops"
+      ],
+      "verification_method": "EDR tool deployment check"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_002",
+    "name": "Daily Virus Definition Updates",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "daily",
+      "applies_to": [
+        "Laptops",
+        "Desktops"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_003",
+    "name": "Automatic Isolation of Suspicious Behavior",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Laptops",
+        "Desktops"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_004",
+    "name": "Mandatory Mobile Device Management",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "phones",
+        "tablets"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_005",
+    "name": "Universal Device Encryption",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "all devices"
+      ],
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_006",
+    "name": "Remote Wipe Capability for Lost Devices",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "all devices"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_007",
+    "name": "OS Patching Timeframes",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": [
+        "30 days for standard patches",
+        "7 days for critical patches"
+      ],
+      "applies_to": [
+        "all devices"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_prv_008",
+    "name": "Encryption Key Escrow",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "all encrypted devices"
+      ],
+      "verification_method": "recovery key escrow check"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_rsk_001",
+    "name": "Malware Risk",
+    "properties": {
+      "detection_mechanism": "Real-time scanning and EDR suspicious behavior monitoring",
+      "required_response": "Automatic isolation of suspicious behavior"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_rsk_002",
+    "name": "Unauthorized Data Access",
+    "properties": {
+      "risk_definition": "Access to customer data on lost or stolen devices",
+      "required_response": [
+        "Full-disk encryption",
+        "Remote wipe"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_ctl_001",
+    "name": "Endpoint Detection and Response (EDR)",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "real-time",
+      "applies_to": [
+        "Laptops",
+        "Desktops"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_ctl_002",
+    "name": "Mobile Device Management (MDM)",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "applies_to": [
+        "phones",
+        "tablets"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_014_ctl_003",
+    "name": "Full-Disk Encryption",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "technology_used": [
+        "BitLocker",
+        "FileVault"
+      ],
+      "applies_to": [
+        "all devices with customer data access"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_014",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_pol_001",
+    "name": "Application Security Policy",
+    "properties": {
+      "policy_domain": "application_security",
+      "scope_summary": "Covers the Secure Software Development Life Cycle (SDLC) including code review, testing, and deployment processes.",
+      "core_policy_statement": "Establishment of a secure SDLC to ensure application security through mandatory peer reviews, multi-stage testing, and controlled production deployments."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_001",
+    "name": "Mandatory Peer Code Review",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Developers"
+      ],
+      "timeframe": "before deployment"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_002",
+    "name": "Security-Focused Code Review Standards",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "security-focused code review checklist",
+      "applies_to": [
+        "Authorization controls",
+        "SQL injection prevention",
+        "XSS prevention"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_003",
+    "name": "Multi-Stage Testing Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Unit testing",
+        "Integration testing",
+        "Security testing",
+        "Load testing"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_004",
+    "name": "Security Testing Mandate",
+    "properties": {
+      "provision_type": "mandatory",
+      "linked_control": [
+        "ctl_001",
+        "ctl_002"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_005",
+    "name": "Automated Deployment Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "core_policy_statement": "No manual production changes allowed"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_006",
+    "name": "Production Change Approval Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "changes to prod"
+      ],
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_prv_007",
+    "name": "Deployment Rollback and Monitoring Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "evidence_required": "documented rollback plan",
+      "linked_control": "ctl_004"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rsk_001",
+    "name": "SQL Injection",
+    "properties": {
+      "detection_mechanism": "security-focused code review checks",
+      "required_response": "prevention checks during code review"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rsk_002",
+    "name": "Cross-Site Scripting (XSS)",
+    "properties": {
+      "detection_mechanism": "security-focused code review checks",
+      "required_response": "prevention checks during code review"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_001",
+    "name": "Penetration Testing",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "applies_to": "Security testing"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_002",
+    "name": "Vulnerability Scanning",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "applies_to": "Security testing"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_003",
+    "name": "Change Advisory Board Approval",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "performed_by": "Change Advisory Board",
+      "applies_to": "production changes"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_ctl_004",
+    "name": "Production Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "real-time"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rol_001",
+    "name": "Developers",
+    "properties": {
+      "specific_obligations": [
+        "Perform peer reviews before deployment",
+        "Conduct unit testing"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rol_002",
+    "name": "Quality Assurance (QA)",
+    "properties": {
+      "specific_obligations": [
+        "Conduct integration testing"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_015_rol_003",
+    "name": "Change Advisory Board",
+    "properties": {
+      "authority": "Approval of changes to production",
+      "accountability_for": "Production change governance"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_015",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_pol_001",
+    "name": "API Security Policy",
+    "properties": {
+      "policy_domain": "security",
+      "scope_summary": "Security requirements for API Gateway implementation and API Design"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_ctl_001",
+    "name": "Kong API Gateway",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "Kong",
+      "applies_to": [
+        "Authentication",
+        "Rate limiting",
+        "Request validation",
+        "Monitoring and alerting"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_001",
+    "name": "Mandatory API Authentication",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "API key + JWT"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_002",
+    "name": "API Rate Limiting Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "API Gateway",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_003",
+    "name": "API Request Validation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "API Gateway",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_004",
+    "name": "API Monitoring and Alerting",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "API Gateway",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_005",
+    "name": "API Input Sanitization",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "API Design"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_006",
+    "name": "API Output Encoding",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "API Design"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_007",
+    "name": "Role-Based API Authorization",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "API Design"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_prv_008",
+    "name": "API Call Audit Logging",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "API Design"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_rsk_001",
+    "name": "API Abuse",
+    "properties": {
+      "detection_mechanism": "Rate limiting",
+      "required_response": "Implement rate limiting via API Gateway"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_rsk_002",
+    "name": "Injection Attack",
+    "properties": {
+      "detection_mechanism": "Request validation",
+      "required_response": "Implement request validation and input sanitization"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_rsk_003",
+    "name": "Cross-Site Scripting (XSS)",
+    "properties": {
+      "required_response": "Implement output encoding"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_016_ctl_002",
+    "name": "Audit Logging",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": "API calls"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_016",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_pol_001",
+    "name": "Vulnerability Management Policy",
+    "properties": {
+      "policy_domain": "information_security",
+      "scope_summary": "Management of vulnerabilities across production systems, pre-deployment releases, and third-party libraries."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_prv_001",
+    "name": "Weekly Production System Vulnerability Scanning",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Production systems"
+      ],
+      "timeframe": "Weekly"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_prv_002",
+    "name": "Pre-deployment Vulnerability Scanning",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Releases"
+      ],
+      "timeframe": "Every release"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_prv_003",
+    "name": "Continuous Third-party Library Scanning",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Third-party libraries"
+      ],
+      "timeframe": "Continuous"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_001",
+    "name": "Nessus Network Vulnerability Scanner",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": "Nessus",
+      "applies_to": [
+        "Network vulnerability"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_002",
+    "name": "Burp Suite Web Application Scanner",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": "Burp Suite",
+      "applies_to": [
+        "Web applications"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_003",
+    "name": "Trivy Container Image Scanner",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": "Trivy",
+      "applies_to": [
+        "Container images"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_ctl_004",
+    "name": "Dependency Checker",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": [
+        "npm audit"
+      ],
+      "applies_to": [
+        "Third-party libraries",
+        "Dependencies"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_017_rsk_001",
+    "name": "Information Security Vulnerability",
+    "properties": {
+      "detection_mechanism": [
+        "Network scanning",
+        "Web application scanning",
+        "Container image scanning",
+        "Dependency checking"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_017",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_pol_001",
+    "name": "Patch Management Policy",
+    "properties": {
+      "policy_domain": "IT Security",
+      "scope_summary": "Management and deployment of software patches based on criticality timelines."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_001",
+    "name": "Critical Patch Deployment Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "7 days"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_002",
+    "name": "High Patch Deployment Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_003",
+    "name": "Medium Patch Deployment Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "60 days"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_004",
+    "name": "Low Patch Deployment Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "90 days"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_prv_005",
+    "name": "Patch Deployment Process Sequence",
+    "properties": {
+      "provision_type": "mandatory",
+      "process_steps": [
+        "Vulnerability identified",
+        "Patch released by vendor",
+        "Testing in non-prod",
+        "Production deployment per timeline",
+        "Verification and monitoring"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_rsk_001",
+    "name": "Vulnerability Risk",
+    "properties": {
+      "detection_mechanism": "Vulnerability identification",
+      "required_response": "Deployment of vendor-released patches within criticality timelines"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_ctl_001",
+    "name": "Non-Production Testing",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "per patch release",
+      "applies_to": "Patch Deployment Process"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_018_ctl_002",
+    "name": "Post-Deployment Verification and Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "post-deployment",
+      "applies_to": "Patch Deployment Process"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_018",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_pol_001",
+    "name": "Third-Party Risk Policy",
+    "properties": {
+      "policy_domain": "third-party risk",
+      "scope_summary": "Management and assessment of security risks associated with third-party vendors"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_001",
+    "name": "Mandatory Pre-Assessment Security Questionnaire",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Third-Party Vendors"
+      ],
+      "timeframe": "pre-assessment"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_002",
+    "name": "SOC 2 Type II Audit Review",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Third-Party Vendors"
+      ],
+      "timeframe": "pre-assessment",
+      "exceptions": "only if available"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_003",
+    "name": "Penetration Test Result Review",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Third-Party Vendors"
+      ],
+      "timeframe": "pre-assessment",
+      "exceptions": "if applicable"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_004",
+    "name": "Vendor Reference Checks",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Third-Party Vendors"
+      ],
+      "timeframe": "pre-assessment",
+      "verification_method": "checks with other customers"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_005",
+    "name": "Annual Vendor Re-assessment",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Third-Party Vendors"
+      ],
+      "timeframe": "annual"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_006",
+    "name": "Vendor Incident Notification Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Third-Party Vendors"
+      ],
+      "timeframe": "24 hours"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_007",
+    "name": "Right to Audit Third-Party Vendors",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Third-Party Vendors"
+      ],
+      "authority": "FirstUK Bank"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_prv_008",
+    "name": "Security Service Level Agreement Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Third-Party Vendors"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_rsk_001",
+    "name": "Third-Party Risk",
+    "properties": {
+      "risk_definition": "Risks introduced by the use of third-party vendors"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_ctl_001",
+    "name": "Vendor Security Questionnaire",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "at_onboarding",
+      "performed_by": "FirstUK Bank"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_ctl_002",
+    "name": "SOC 2 Type II Audit Review",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "at_onboarding",
+      "performed_by": "FirstUK Bank"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_ctl_003",
+    "name": "Penetration Testing Review",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "at_onboarding",
+      "performed_by": "FirstUK Bank"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_rol_001",
+    "name": "Third-Party Vendor",
+    "properties": {
+      "specific_obligations": [
+        "Complete security questionnaire",
+        "Provide SOC 2 Type II audit if available",
+        "Provide penetration test results if applicable",
+        "Notify of incidents within 24 hours",
+        "Submit to audits by FirstUK Bank"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_019_rol_002",
+    "name": "FirstUK Bank",
+    "properties": {
+      "authority": [
+        "Audit third-party vendors"
+      ],
+      "specific_obligations": [
+        "Conduct pre-assessment security reviews",
+        "Perform annual vendor re-assessments"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_019",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_pol_001",
+    "name": "Third-Party Access Policy",
+    "properties": {
+      "policy_domain": "access_management",
+      "scope_summary": "Governs the access granted to contractors and vendors to bank systems",
+      "core_policy_statement": "Third-party access must be limited, time-bound, monitored, and secured via MFA and legal agreements."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_001",
+    "name": "Principle of Least Privilege for Third Parties",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Contractor",
+        "Vendor"
+      ],
+      "core_obligation": "Access is limited to systems needed for the specific task"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_002",
+    "name": "Time-Bound Access and Auto-Revocation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Contractor",
+        "Vendor"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_003",
+    "name": "Mandatory Activity Logging for Third Parties",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Contractor",
+        "Vendor"
+      ],
+      "verification_method": "Log review",
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_004",
+    "name": "Multi-Factor Authentication Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Contractor",
+        "Vendor"
+      ],
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_prv_005",
+    "name": "Third-Party Legal and Security Agreement Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Contractor",
+        "Vendor"
+      ],
+      "evidence_required": [
+        "NDA",
+        "Security Agreement"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_ctl_001",
+    "name": "Auto-Revocation Mechanism",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Time-bound access for third parties"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_ctl_002",
+    "name": "Activity Logging",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "real-time",
+      "evidence_required": "Logs of all actions performed by third parties"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_ctl_003",
+    "name": "Multi-Factor Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Third-party system access"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_020_rol_001",
+    "name": "Contractor/Vendor",
+    "properties": {
+      "role_title": "Contractor/Vendor",
+      "specific_obligations": [
+        "Limit access to necessary systems",
+        "Adhere to time-bound access limits",
+        "Submit to activity monitoring",
+        "Use MFA for authentication",
+        "Sign NDA and security agreements"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_020",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_pol_001",
+    "name": "Physical Security Policy",
+    "properties": {
+      "scope_summary": "Physical security requirements for Data Centers, focusing on access control and environmental safeguards."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_001",
+    "name": "Mandatory Badge and Biometric Access for Data Centers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Center personnel"
+      ],
+      "verification_method": "Biometric scan at main entrance and badge verification"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_002",
+    "name": "Visitor Logging and Escort Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "non-staff visitors"
+      ],
+      "verification_method": "Visitor log maintenance and physical escort"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_003",
+    "name": "Continuous CCTV Monitoring",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "24/7"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_prv_004",
+    "name": "Environmental Safeguard Requirements",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Center infrastructure"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_001",
+    "name": "Biometric Access Control",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "real-time",
+      "applies_to": [
+        "main entrance access"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_002",
+    "name": "Visitor Log",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "at_onboarding",
+      "evidence_required": "Maintained visitor log"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_003",
+    "name": "CCTV Surveillance",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "timeframe": "24/7"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_004",
+    "name": "Fire Suppression System",
+    "properties": {
+      "control_type": "corrective",
+      "technology_used": "sprinkler system"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_005",
+    "name": "Power Backup Systems",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": [
+        "generators",
+        "UPS"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_006",
+    "name": "Climate Control System",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "temperature",
+        "humidity"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_ctl_007",
+    "name": "Water Detection System",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "flooding prevention"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_rsk_001",
+    "name": "Unauthorized Physical Access",
+    "properties": {
+      "risk_definition": "Unauthorized entry into Data Centers",
+      "detection_mechanism": [
+        "CCTV monitoring",
+        "Visitor logs"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_021_rsk_002",
+    "name": "Environmental Hazard",
+    "properties": {
+      "risk_definition": "Physical threats to infrastructure including fire, power failure, climate instability, and flooding",
+      "examples": [
+        "flooding",
+        "overheating",
+        "power outage",
+        "fire"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_021",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_pol_001",
+    "name": "Offices & Branches Security Policy",
+    "properties": {
+      "policy_domain": "physical security",
+      "scope_summary": "Security standards for bank offices and branch locations, focusing on access control and data privacy."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_prv_001",
+    "name": "Physical Access Control Requirements",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Offices",
+        "Branches"
+      ],
+      "core_requirement": "Restriction of physical entry via badge systems and visitor management."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_prv_002",
+    "name": "Screen Privacy and Data Protection Standards",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Staff",
+        "Laptops"
+      ],
+      "core_requirement": "Prevention of unauthorized viewing of sensitive data on screens."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_rsk_001",
+    "name": "Unauthorized Physical Access",
+    "properties": {
+      "risk_definition": "Unauthorised entry into bank offices or branches.",
+      "detection_mechanism": "Badge access logs and visitor sign-in records"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_rsk_002",
+    "name": "Shoulder-Surfing",
+    "properties": {
+      "risk_definition": "Unauthorized viewing of sensitive information on a screen by a person standing nearby.",
+      "examples": [
+        "Viewing data in public spaces"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_001",
+    "name": "Badge Access System",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "real-time",
+      "applies_to": [
+        "Office/Branch Doors"
+      ],
+      "specific_function": "Locks doors after hours"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_002",
+    "name": "Visitor Sign-in Process",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "at_entry",
+      "performed_by": "Visitors/Reception"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_003",
+    "name": "Secure Document Storage",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Physical Documents"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_004",
+    "name": "Laptop Privacy Filters",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Laptops in public spaces"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_022_ctl_005",
+    "name": "Automatic Screen Lock",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "periodic",
+      "timeframe": "15 minutes",
+      "technology_used": "Screen saver"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_022",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_pol_001",
+    "name": "Incident Response Policy",
+    "properties": {
+      "policy_domain": "incident response",
+      "core_policy_statement": "Establishment of a structured workflow for the detection, reporting, escalation, and classification of security incidents to ensure rapid response and mitigation."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_prv_001",
+    "name": "Mandatory Incident Reporting Workflow",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff",
+        "Information Security Officer",
+        "CTO",
+        "CRO"
+      ],
+      "verification_method": "Incident reports and escalation logs",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_prv_002",
+    "name": "Incident Severity Classification Standard",
+    "properties": {
+      "provision_type": "directive",
+      "applies_to": [
+        "Incident Response Team",
+        "Information Security Officer"
+      ],
+      "verification_method": "Incident classification logs"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "risk_level": "critical",
+      "required_response": "Severity 1 classification and immediate activation of incident response team"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_002",
+    "name": "Ransomware",
+    "properties": {
+      "risk_level": "critical",
+      "required_response": "Severity 1 classification and immediate activation of incident response team"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_003",
+    "name": "Unauthorized Access",
+    "properties": {
+      "risk_level": "high",
+      "required_response": "Severity 2 classification"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rsk_004",
+    "name": "Malware",
+    "properties": {
+      "risk_level": "medium",
+      "required_response": "Severity 3 classification"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_ctl_001",
+    "name": "Automated Incident Alerts",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "applies_to": [
+        "Incident detection"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_001",
+    "name": "Information Security Officer",
+    "properties": {
+      "role_title": "Information Security Officer",
+      "specific_obligations": [
+        "Receive initial incident reports",
+        "Confirm incident validity",
+        "Escalate confirmed incidents to CTO and CRO"
+      ],
+      "reporting_to": [
+        "Chief Technology Officer",
+        "Chief Risk Officer"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_002",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "role_title": "Chief Technology Officer",
+      "specific_obligations": [
+        "Receive escalations for confirmed security incidents"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_003",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_title": "Chief Risk Officer",
+      "specific_obligations": [
+        "Receive escalations for confirmed security incidents"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_023_rol_004",
+    "name": "Incident Response Team",
+    "properties": {
+      "role_title": "Incident Response Team",
+      "specific_obligations": [
+        "Execute response actions upon activation"
+      ],
+      "authority": "Incident mitigation and resolution"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_023",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_pol_001",
+    "name": "Incident Investigation Policy",
+    "properties": {
+      "core_policy_statement": "Establishes the mandatory timelines and required elements for investigating operational incidents based on severity levels."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_001",
+    "name": "Severity 1 Investigation Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "immediately",
+      "applies_to": "Severity 1 incidents"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_002",
+    "name": "Severity 2 Investigation Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "within 2 hours",
+      "applies_to": "Severity 2 incidents"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_003",
+    "name": "Severity 3 Investigation Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "within 24 hours",
+      "applies_to": "Severity 3 incidents"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_004",
+    "name": "Severity 4 Investigation Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "within 1 week",
+      "applies_to": "Severity 4 incidents"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_prv_005",
+    "name": "Mandatory Investigation Elements",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Investigation report review",
+      "required_elements": [
+        "Timeline of events",
+        "Root cause analysis",
+        "Affected data identification",
+        "Customer impact count",
+        "Extent of compromise"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_rsk_001",
+    "name": "Operational Incident Risk",
+    "properties": {
+      "risk_definition": "Risks arising from operational failures requiring investigation and remediation based on severity."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_ctl_001",
+    "name": "Incident Investigation Process",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "per incident",
+      "applies_to": "Operational Incident Risk"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_024_cus_001",
+    "name": "Impacted Customers",
+    "properties": {
+      "obligations_under_policy": "Must be quantified as part of the mandatory investigation elements."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_024",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_pol_001",
+    "name": "Notification & Reporting Policy",
+    "properties": {
+      "policy_domain": "incident_reporting",
+      "core_policy_statement": "Establishes the timelines and protocols for internal, regulatory, and customer notifications following security or data breaches."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_001",
+    "name": "Immediate Internal Notification for High Severity Incidents",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Severity 1",
+        "Severity 2"
+      ],
+      "timeframe": "Immediately",
+      "verification_method": "Internal communication logs"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_002",
+    "name": "Board Notification Timeline for High Severity Incidents",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Severity 1",
+        "Severity 2"
+      ],
+      "timeframe": "Within 24 hours"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_003",
+    "name": "FCA Suspicious Breach Notification",
+    "properties": {
+      "provision_type": "conditional",
+      "timeframe": "Within 24 hours",
+      "regulatory_source": "Financial Conduct Authority",
+      "exceptions": "Only if breach is confirmed"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_004",
+    "name": "ICO Personal Data Breach Reporting",
+    "properties": {
+      "provision_type": "conditional",
+      "timeframe": "Within 72 hours",
+      "regulatory_source": "Information Commissioner's Office",
+      "applies_to": "Personal data breaches"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_prv_005",
+    "name": "Customer Notification for Personal Data Breaches",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Without undue delay",
+      "regulatory_source": "GDPR",
+      "verification_method": "Email/letter records",
+      "applies_to": "Affected customers"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Notification of suspicious breaches within 24 hours"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_reg_002",
+    "name": "Information Commissioner's Office",
+    "properties": {
+      "issuing_authority": "ICO",
+      "jurisdiction": "UK",
+      "key_obligation": "Reporting of personal data breaches within 72 hours"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_reg_003",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "EU/UK",
+      "jurisdiction": "International/UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Notify customers of personal data breaches without undue delay"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "risk_definition": "Unauthorized access or disclosure of personal data",
+      "required_response": "Notify ICO and affected customers"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_001",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "role_title": "CTO",
+      "specific_obligations": [
+        "Receive immediate notification of Severity 1-2 incidents"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_002",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "role_title": "CRO",
+      "specific_obligations": [
+        "Receive immediate notification of Severity 1-2 incidents"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_003",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "role_title": "CEO",
+      "specific_obligations": [
+        "Receive immediate notification of Severity 1-2 incidents"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_rol_004",
+    "name": "Board",
+    "properties": {
+      "role_title": "Board of Directors",
+      "specific_obligations": [
+        "Be notified of Severity 1-2 incidents within 24 hours"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_026_cus_001",
+    "name": "Affected Customers",
+    "properties": {
+      "rights_under_policy": [
+        "Right to be notified of personal data breaches without undue delay",
+        "Right to receive details and mitigation steps via email/letter"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_026",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_pol_001",
+    "name": "Security Training Policy",
+    "properties": {
+      "policy_domain": "security_training",
+      "core_policy_statement": "Mandatory security awareness and responsibility training for all staff and management to mitigate security risks and ensure regulatory compliance."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_001",
+    "name": "Mandatory Annual Security Awareness Training for All Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "Annual",
+      "verification_method": "1-hour training session"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_002",
+    "name": "Monthly Phishing Simulation Testing",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "Monthly",
+      "verification_method": "Test emails"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_003",
+    "name": "Training Certification via Quiz",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "verification_method": "Quiz completion"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_004",
+    "name": "Mandatory Security Responsibility Training for Management",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Management"
+      ],
+      "verification_method": "2-hour training session"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_005",
+    "name": "Disciplinary Action for Training Non-Compliance",
+    "properties": {
+      "provision_type": "conditional",
+      "consequence_of_breach": "Disciplinary action",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_prv_006",
+    "name": "Termination for Repeated Policy Violations",
+    "properties": {
+      "provision_type": "conditional",
+      "consequence_of_breach": "Termination",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_001",
+    "name": "Phishing and Social Engineering",
+    "properties": {
+      "risk_definition": "Threats involving deceptive emails or social manipulation to gain unauthorized access or information."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_002",
+    "name": "Password Security Risk",
+    "properties": {
+      "risk_definition": "Risks associated with weak, compromised, or poorly managed authentication credentials."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_003",
+    "name": "Data Protection Risk",
+    "properties": {
+      "risk_definition": "Risks related to the unauthorized access, loss, or misuse of sensitive data."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rsk_004",
+    "name": "Physical Security Risk",
+    "properties": {
+      "risk_definition": "Risks involving unauthorized physical access to bank premises or hardware."
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_ctl_001",
+    "name": "Security Awareness Training",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "Annual",
+      "performed_by": "All Staff",
+      "evidence_required": "Quiz certification"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_ctl_002",
+    "name": "Phishing Simulations",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "Monthly",
+      "performed_by": "Security Team",
+      "applies_to": [
+        "Phishing and Social Engineering"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Complete 1-hour annual security awareness training",
+        "Participate in monthly phishing simulations",
+        "Complete certification quiz"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_027_rol_002",
+    "name": "Management",
+    "properties": {
+      "role_title": "Management",
+      "specific_obligations": [
+        "Complete 2-hour security responsibility training"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_027",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_001",
+    "name": "Annual Security Assessment",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "annual",
+      "performed_by": "Internal Audit"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_002",
+    "name": "Annual Penetration Testing",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "annual",
+      "performed_by": "Internal Audit"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_003",
+    "name": "Quarterly Access Control Review",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "quarterly",
+      "performed_by": "Internal Audit"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_004",
+    "name": "Vulnerability Scanning Validation",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Internal Audit"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_rol_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "role_title": "Financial Conduct Authority",
+      "authority": "Conducting periodic operational resilience reviews"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_prv_001",
+    "name": "FCA Periodic Operational Resilience Review",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "Operational Resilience",
+      "verification_method": "Regulatory Audit"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_rol_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "role_title": "Prudential Regulation Authority",
+      "authority": "Conducting operational resilience assessments"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_prv_002",
+    "name": "PRA Operational Resilience Assessment",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "Operational Resilience",
+      "verification_method": "Regulatory Audit"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_005",
+    "name": "Security Information and Event Management",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "technology_used": "SIEM"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_006",
+    "name": "Real-time Threat Detection",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_007",
+    "name": "Anomalous Behavior Alerts",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_ctl_008",
+    "name": "Suspicious Access Attempt Logging",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "evidence_required": "Access logs"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_028_rsk_001",
+    "name": "Unauthorized Access",
+    "properties": {
+      "detection_mechanism": [
+        "Quarterly Access Control Review",
+        "Anomalous behavior alerts",
+        "Suspicious access attempts logged"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_028",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_001",
+    "name": "FCA COBS Part 5 (Cybersecurity)",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "how_cited": "FCA COBS Part 5 (Cybersecurity)"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_002",
+    "name": "PRA Operational Resilience",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "how_cited": "PRA Operational Resilience"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_003",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU/UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "data protection",
+      "how_cited": "GDPR (data protection)"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_029_reg_004",
+    "name": "ISO 27001",
+    "properties": {
+      "regulation_type": "industry_standard",
+      "key_obligation": "information security standard",
+      "how_cited": "ISO 27001 (information security standard)"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_029",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_030_pol_001",
+    "name": "Policy Review & Updates",
+    "properties": {
+      "review_date": "2027-01-15",
+      "effective_date": "2026-01-15"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_030",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_030_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "exceptions": [
+        "threat change",
+        "regulatory change"
+      ]
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_030",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_001",
+    "name": "Technology architecture, security measures",
+    "properties": {},
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_002",
+    "name": "Operational risk management",
+    "properties": {},
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_003",
+    "name": "Incident Response Plan",
+    "properties": {
+      "scope_summary": "detailed procedures"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_031_pol_004",
+    "name": "Security Control Framework",
+    "properties": {
+      "scope_summary": "detailed controls"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_031",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_001",
+    "name": "Chief Information Security Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_002",
+    "name": "Chief Technology Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_003",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  },
+  {
+    "id": "34bae6ec2fc843b89e4ed5022171d9bd_032_rol_004",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "34bae6ec2fc843b89e4ed5022171d9bd_032",
+    "doc_id": "34bae6ec2fc843b89e4ed5022171d9bd"
+  }
+]

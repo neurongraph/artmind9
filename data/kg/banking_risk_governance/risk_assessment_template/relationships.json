@@ -1,0 +1,1714 @@
+[
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "doc_001",
+    "target_name": "RISK-ASSESS-TEMPLATE-001",
+    "rel_type": "owned_by",
+    "description": "The Risk Department is the owner of the Risk Assessment Template & Guidance document.",
+    "properties": {
+      "role": "Owner"
+    },
+    "context": "Owner | Head of Risk | Department | Risk, Compliance",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_002",
+    "source_name": "Compliance Department",
+    "target_id": "doc_001",
+    "target_name": "RISK-ASSESS-TEMPLATE-001",
+    "rel_type": "owned_by",
+    "description": "The Compliance Department is a joint owner/responsible party for the Risk Assessment Template & Guidance document.",
+    "properties": {
+      "role": "Owner"
+    },
+    "context": "Owner | Head of Risk | Department | Risk, Compliance",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_001_dep_002",
+    "source_name": "Compliance Department",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_001",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_001",
+    "target_name": "Customer Service Department",
+    "rel_type": "managed_by",
+    "description": "Operational risks associated with the account opening process are managed by the Customer Service Department",
+    "properties": {},
+    "context": "Process involves 4 systems (IBP, AMS, FDE, DW) and 2 staff departments (Customer Service, Compliance).",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_002",
+    "source_name": "Compliance Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_002",
+    "target_name": "Compliance Department",
+    "rel_type": "managed_by",
+    "description": "Compliance risks associated with the account opening process are managed by the Compliance Department",
+    "properties": {},
+    "context": "Process involves 4 systems (IBP, AMS, FDE, DW) and 2 staff departments (Customer Service, Compliance).",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_002",
+    "source_name": "Compliance Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_kyc_001",
+    "target_name": "KYC Verification Process",
+    "rel_type": "relies_on_effectiveness_of",
+    "description": "Compliance risk is mitigated by the effectiveness of the KYC verification process to prevent fraud from forged documents",
+    "properties": {
+      "risk_factor": "Fraud",
+      "threat": "Forged document submitted"
+    },
+    "context": "KYC Verification | Fraud | Forged document submitted | Compliance",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_002",
+    "source_name": "Compliance Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_aml_001",
+    "target_name": "AML Screening Process",
+    "rel_type": "relies_on_effectiveness_of",
+    "description": "Compliance risk is mitigated by the effectiveness of the AML screening process to manage false positives",
+    "properties": {
+      "risk_factor": "False Positive",
+      "threat": "Legitimate customer matches sanctions list"
+    },
+    "context": "AML Screening | False Positive | Legitimate customer matches sanctions list | Compliance",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_003",
+    "source_name": "Technology Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_prod_001",
+    "target_name": "Online Account Opening Product",
+    "rel_type": "pertains_to_accounts",
+    "description": "Technology risk pertains to the availability of systems supporting the Online Account Opening Product",
+    "properties": {
+      "risk_factor": "System Failure",
+      "impact": "AMS unavailable, account not created"
+    },
+    "context": "Account Creation | System Failure | AMS unavailable, account not created | Technology",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_prod_001",
+    "target_name": "Online Account Opening Product",
+    "rel_type": "pertains_to_accounts",
+    "description": "Operational risk pertains to data entry errors and mail loss within the Online Account Opening Product flow",
+    "properties": {
+      "risk_factors": [
+        "Data Entry Error",
+        "Mail Loss"
+      ]
+    },
+    "context": "Application Form | Data Entry Error | Incorrect customer name captured | Operational ... Statement Delivery | Mail Loss | Physical statement lost in post | Operational",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_002",
+    "source_name": "Compliance Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_rsk_003",
+    "source_name": "Technology Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_001",
+    "source_name": "Customer Service Department",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_dept_002",
+    "source_name": "Compliance Department",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_prod_001",
+    "source_name": "Online Account Opening Product",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_kyc_001",
+    "source_name": "KYC Verification Process",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_004_aml_001",
+    "source_name": "AML Screening Process",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_004",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_001",
+    "target_name": "Credit Risk Loss Ratio — Threshold <0.5%",
+    "rel_type": "quantified_by",
+    "description": "Credit Risk is quantified by the Credit Risk Loss Ratio with a threshold of less than 0.5%.",
+    "properties": {
+      "threshold": "<0.5%",
+      "metric_type": "loss ratio"
+    },
+    "context": "Credit Risk: <0.5% loss ratio",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_002",
+    "source_name": "Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_002",
+    "target_name": "Operational Risk Annual Loss — Threshold <£50k/year",
+    "rel_type": "quantified_by",
+    "description": "Operational Risk is quantified by the Annual Loss metric with a threshold of less than £50k per year.",
+    "properties": {
+      "threshold": "<£50k/year",
+      "metric_type": "annual loss"
+    },
+    "context": "Operational Risk: <£50k/year",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_003",
+    "source_name": "Compliance Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_003",
+    "target_name": "Compliance Violation Count — Threshold 0",
+    "rel_type": "quantified_by",
+    "description": "Compliance Risk is quantified by the number of violations with a zero-tolerance threshold.",
+    "properties": {
+      "threshold": "0",
+      "metric_type": "violation count"
+    },
+    "context": "Compliance Risk: 0 violations",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_005",
+    "source_name": "Fraud Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_004",
+    "target_name": "Fraud Risk Annual Loss — Threshold <£100k/year",
+    "rel_type": "quantified_by",
+    "description": "Fraud Risk is quantified by the Annual Loss metric with a threshold of less than £100k per year.",
+    "properties": {
+      "threshold": "<£100k/year",
+      "metric_type": "annual loss"
+    },
+    "context": "Fraud Risk: <£100k/year",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_004",
+    "source_name": "Technology Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_005",
+    "target_name": "Technology Uptime — Threshold 99.9%",
+    "rel_type": "quantified_by",
+    "description": "Technology Risk is quantified by the system uptime metric with a threshold of 99.9%.",
+    "properties": {
+      "threshold": "99.9%",
+      "metric_type": "uptime percentage"
+    },
+    "context": "Technology Risk: 99.9% uptime",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_002",
+    "source_name": "Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_003",
+    "source_name": "Compliance Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_004",
+    "source_name": "Technology Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_005",
+    "source_name": "Fraud Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_006",
+    "source_name": "Reputational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_007",
+    "source_name": "Liquidity Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_rsk_008",
+    "source_name": "Market Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_001",
+    "source_name": "Credit Risk Loss Ratio — Threshold <0.5%",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_002",
+    "source_name": "Operational Risk Annual Loss — Threshold <£50k/year",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_003",
+    "source_name": "Compliance Violation Count — Threshold 0",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_004",
+    "source_name": "Fraud Risk Annual Loss — Threshold <£100k/year",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_005_met_005",
+    "source_name": "Technology Uptime — Threshold 99.9%",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_005",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_prod_001",
+    "target_name": "Online Account Opening",
+    "rel_type": "pertains_to_accounts",
+    "description": "The operational risk of data entry errors occurs within the Online Account Opening process",
+    "properties": {},
+    "context": "Process Name: Online Account Opening... RISK #1: Customer Data Entry Error",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_001",
+    "target_name": "Retail Banking",
+    "rel_type": "owned_by",
+    "description": "The risk is situated within the Retail Banking business unit",
+    "properties": {},
+    "context": "Business Unit: Retail Banking",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_003",
+    "target_name": "Customer Service",
+    "rel_type": "owned_by",
+    "description": "The Head of Customer Service is the designated Risk Owner",
+    "properties": {},
+    "context": "Risk Owner: Head of Customer Service",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_met_001",
+    "target_name": "Operational Risk Target — Target <£50k/year, Current ~£20k/year",
+    "rel_type": "quantified_by",
+    "description": "The risk impact is measured against the operational risk financial target",
+    "properties": {
+      "threshold": "<£50k/year",
+      "actual": "~£20k/year",
+      "status": "Within tolerance"
+    },
+    "context": "Operational Risk Target: <£50k/year\nCurrent Impact: ~£20k/year ✅ (Within tolerance)",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_001",
+    "target_name": "Implement client-side form validation (real-time)",
+    "rel_type": "addressed_by",
+    "description": "Risk is mitigated by implementing real-time client-side validation to catch errors pre-submission",
+    "properties": {
+      "expected_impact": "Catch 90% of errors pre-submission",
+      "deadline": "2026-02-28"
+    },
+    "context": "Implement client-side form validation (real-time) | Technology | 2026-02-28 | Catch 90% of errors pre-submission",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_002",
+    "target_name": "Require confirmation of key fields (name, DOB)",
+    "rel_type": "addressed_by",
+    "description": "Risk is mitigated by requiring confirmation of key fields to reduce entry errors",
+    "properties": {
+      "expected_impact": "Reduce entry errors by 50%",
+      "deadline": "2026-02-28"
+    },
+    "context": "Require confirmation of key fields (name, DOB) | Technology | 2026-02-28 | Reduce entry errors by 50%",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_003",
+    "target_name": "Automated post-opening verification call (IVR)",
+    "rel_type": "addressed_by",
+    "description": "Risk is mitigated by automated IVR calls to catch remaining errors",
+    "properties": {
+      "expected_impact": "Catch 100% of remaining errors",
+      "deadline": "2026-03-31"
+    },
+    "context": "Automated post-opening verification call (IVR) | Customer Service | 2026-03-31 | Catch 100% of remaining errors",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_001",
+    "source_name": "Implement client-side form validation (real-time)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_002",
+    "target_name": "Technology",
+    "rel_type": "assigned_to",
+    "description": "The implementation of real-time validation is assigned to the Technology department",
+    "properties": {
+      "deadline": "2026-02-28"
+    },
+    "context": "Implement client-side form validation (real-time) | Technology | 2026-02-28",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_002",
+    "source_name": "Require confirmation of key fields (name, DOB)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_002",
+    "target_name": "Technology",
+    "rel_type": "assigned_to",
+    "description": "The requirement for key field confirmation is assigned to the Technology department",
+    "properties": {
+      "deadline": "2026-02-28"
+    },
+    "context": "Require confirmation of key fields (name, DOB) | Technology | 2026-02-28",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_003",
+    "source_name": "Automated post-opening verification call (IVR)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_003",
+    "target_name": "Customer Service",
+    "rel_type": "assigned_to",
+    "description": "The automated IVR verification call is assigned to the Customer Service department",
+    "properties": {
+      "deadline": "2026-03-31"
+    },
+    "context": "Automated post-opening verification call (IVR) | Customer Service | 2026-03-31",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_rsk_001",
+    "source_name": "Customer Data Entry Error — Operational Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_met_001",
+    "source_name": "Operational Risk Target — Target <£50k/year, Current ~£20k/year",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_001",
+    "source_name": "Implement client-side form validation (real-time)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_002",
+    "source_name": "Require confirmation of key fields (name, DOB)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_act_003",
+    "source_name": "Automated post-opening verification call (IVR)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_001",
+    "source_name": "Retail Banking",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_002",
+    "source_name": "Technology",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_dep_003",
+    "source_name": "Customer Service",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_006_prod_001",
+    "source_name": "Online Account Opening",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_006",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_001",
+    "target_name": "Mandatory Risk Assessment for New Process Implementation",
+    "rel_type": "requires",
+    "description": "The framework mandates a risk assessment for any new process implementation.",
+    "properties": {
+      "requirement_level": "Mandatory"
+    },
+    "context": "Mandatory: New process implementation",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_002",
+    "target_name": "Mandatory Risk Assessment for New Product Launch",
+    "rel_type": "requires",
+    "description": "The framework mandates a risk assessment for any new product launch.",
+    "properties": {
+      "requirement_level": "Mandatory"
+    },
+    "context": "Mandatory: New product launch",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_003",
+    "target_name": "Mandatory Risk Assessment for Major System Change",
+    "rel_type": "requires",
+    "description": "The framework mandates a risk assessment for major system changes.",
+    "properties": {
+      "requirement_level": "Mandatory"
+    },
+    "context": "Mandatory: Major system change",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_004",
+    "target_name": "Mandatory Risk Assessment for Regulatory Requirement Change",
+    "rel_type": "requires",
+    "description": "The framework mandates a risk assessment when regulatory requirements change.",
+    "properties": {
+      "requirement_level": "Mandatory"
+    },
+    "context": "Mandatory: Regulatory requirement change",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_005",
+    "target_name": "Annual Risk Assessment for Critical Processes",
+    "rel_type": "requires",
+    "description": "The framework mandates annual risk assessments for all critical processes.",
+    "properties": {
+      "requirement_level": "Mandatory",
+      "frequency": "Annual"
+    },
+    "context": "Mandatory: Annually for all critical processes",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_006",
+    "target_name": "Recommended Risk Assessment After Significant Incident",
+    "rel_type": "requires",
+    "description": "The framework recommends a risk assessment following a significant incident.",
+    "properties": {
+      "requirement_level": "Recommended"
+    },
+    "context": "Recommended: After significant incident",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_007",
+    "target_name": "Recommended Risk Assessment Upon Process Metric Degradation",
+    "rel_type": "requires",
+    "description": "The framework recommends a risk assessment when process metrics degrade.",
+    "properties": {
+      "requirement_level": "Recommended"
+    },
+    "context": "Recommended: When process metrics degrade",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_008",
+    "target_name": "Recommended Risk Assessment Upon Management Request",
+    "rel_type": "requires",
+    "description": "The framework recommends a risk assessment upon request from management.",
+    "properties": {
+      "requirement_level": "Recommended"
+    },
+    "context": "Recommended: Upon management request",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_009",
+    "target_name": "Recommended Risk Assessment After External Audit Finding",
+    "rel_type": "requires",
+    "description": "The framework recommends a risk assessment following an external audit finding.",
+    "properties": {
+      "requirement_level": "Recommended"
+    },
+    "context": "Recommended: After external audit finding",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_rsk_001",
+    "source_name": "Risk Assessment Governance Framework",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_001",
+    "source_name": "Mandatory Risk Assessment for New Process Implementation",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_002",
+    "source_name": "Mandatory Risk Assessment for New Product Launch",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_003",
+    "source_name": "Mandatory Risk Assessment for Major System Change",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_004",
+    "source_name": "Mandatory Risk Assessment for Regulatory Requirement Change",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_005",
+    "source_name": "Annual Risk Assessment for Critical Processes",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_006",
+    "source_name": "Recommended Risk Assessment After Significant Incident",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_007",
+    "source_name": "Recommended Risk Assessment Upon Process Metric Degradation",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_008",
+    "source_name": "Recommended Risk Assessment Upon Management Request",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_007_act_009",
+    "source_name": "Recommended Risk Assessment After External Audit Finding",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_007",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_001",
+    "source_name": "Department Head",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_001",
+    "target_name": "Risk Score Threshold — Low (1–5)",
+    "rel_type": "approves_threshold_for",
+    "description": "Department Head is the required approval authority for risks within the Low threshold (1-5).",
+    "properties": {
+      "approval_timeline": "10 days"
+    },
+    "context": "1–5 (Low) | Department Head | 10 days",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_002",
+    "source_name": "Head of Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_002",
+    "target_name": "Risk Score Threshold — Medium (6–12)",
+    "rel_type": "approves_threshold_for",
+    "description": "Head of Risk is the required approval authority for risks within the Medium threshold (6-12).",
+    "properties": {
+      "approval_timeline": "5 days"
+    },
+    "context": "6–12 (Medium) | Head of Risk | 5 days",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_003",
+    "source_name": "Risk Committee",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_003",
+    "target_name": "Risk Score Threshold — High (13–18)",
+    "rel_type": "approves_threshold_for",
+    "description": "Risk Committee (along with Exec) is the required approval authority for risks within the High threshold (13-18).",
+    "properties": {
+      "approval_timeline": "2 days",
+      "joint_approver": "Exec"
+    },
+    "context": "13–18 (High) | Risk Committee + Exec | 2 days",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_004",
+    "source_name": "Board",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_004",
+    "target_name": "Risk Score Threshold — Critical (19–25)",
+    "rel_type": "approves_threshold_for",
+    "description": "Board (along with CEO) is the required approval authority for risks within the Critical threshold (19-25).",
+    "properties": {
+      "approval_timeline": "24 hours",
+      "joint_approver": "CEO"
+    },
+    "context": "19–25 (Critical) | Board + CEO | 24 hours",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_001",
+    "source_name": "Risk Score Threshold — Low (1–5)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_002",
+    "source_name": "Risk Score Threshold — Medium (6–12)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_003",
+    "source_name": "Risk Score Threshold — High (13–18)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_met_004",
+    "source_name": "Risk Score Threshold — Critical (19–25)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_001",
+    "source_name": "Department Head",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_002",
+    "source_name": "Head of Risk",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_003",
+    "source_name": "Risk Committee",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_008_dep_004",
+    "source_name": "Board",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_008",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_001",
+    "source_name": "Risk Reporting Distribution Frequency — Low Level: Quarterly",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_001",
+    "target_name": "Risk Team",
+    "rel_type": "tracks",
+    "description": "Low level risk reporting is distributed to the Risk Team on a quarterly basis",
+    "properties": {
+      "frequency": "Quarterly",
+      "risk_level": "Low"
+    },
+    "context": "Low | Department Head, Risk Team | Quarterly",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_002",
+    "source_name": "Risk Reporting Distribution Frequency — Medium Level: Monthly",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_002",
+    "target_name": "Exec Committee",
+    "rel_type": "tracks",
+    "description": "Medium level risk reporting is distributed to the Exec Committee on a monthly basis",
+    "properties": {
+      "frequency": "Monthly",
+      "risk_level": "Medium"
+    },
+    "context": "Medium | Exec Committee | Monthly",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_003",
+    "source_name": "Risk Reporting Distribution Frequency — High Level: Weekly",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_003",
+    "target_name": "Risk Committee",
+    "rel_type": "tracks",
+    "description": "High level risk reporting is distributed to the Risk Committee on a weekly basis",
+    "properties": {
+      "frequency": "Weekly",
+      "risk_level": "High"
+    },
+    "context": "High | Risk Committee | Weekly",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_004",
+    "source_name": "Risk Reporting Distribution Frequency — Critical Level: Immediate",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_004",
+    "target_name": "Board",
+    "rel_type": "tracks",
+    "description": "Critical level risk reporting is distributed to the Board immediately",
+    "properties": {
+      "frequency": "Immediate",
+      "risk_level": "Critical"
+    },
+    "context": "Critical | Board | Immediate",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_001",
+    "source_name": "Risk Reporting Distribution Frequency — Low Level: Quarterly",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_002",
+    "source_name": "Risk Reporting Distribution Frequency — Medium Level: Monthly",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_003",
+    "source_name": "Risk Reporting Distribution Frequency — High Level: Weekly",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_met_004",
+    "source_name": "Risk Reporting Distribution Frequency — Critical Level: Immediate",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_001",
+    "source_name": "Risk Team",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_002",
+    "source_name": "Exec Committee",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_003",
+    "source_name": "Risk Committee",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_009_dep_004",
+    "source_name": "Board",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_009",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_001",
+    "source_name": "Likelihood Scale - Remote (1)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_002",
+    "target_name": "Likelihood Scale - Low (2)",
+    "rel_type": "related_to",
+    "description": "Sequential step in the risk likelihood scoring scale",
+    "properties": {
+      "scale_order": "ascending",
+      "increment": 1
+    },
+    "context": "Likelihood Scale (1–5) 1 = Remote... 2 = Low",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_002",
+    "source_name": "Likelihood Scale - Low (2)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_003",
+    "target_name": "Likelihood Scale - Medium (3)",
+    "rel_type": "related_to",
+    "description": "Sequential step in the risk likelihood scoring scale",
+    "properties": {
+      "scale_order": "ascending",
+      "increment": 1
+    },
+    "context": "2 = Low... 3 = Medium",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_003",
+    "source_name": "Likelihood Scale - Medium (3)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_004",
+    "target_name": "Likelihood Scale - High (4)",
+    "rel_type": "related_to",
+    "description": "Sequential step in the risk likelihood scoring scale",
+    "properties": {
+      "scale_order": "ascending",
+      "increment": 1
+    },
+    "context": "3 = Medium... 4 = High",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_004",
+    "source_name": "Likelihood Scale - High (4)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_005",
+    "target_name": "Likelihood Scale - Very High (5)",
+    "rel_type": "related_to",
+    "description": "Sequential step in the risk likelihood scoring scale",
+    "properties": {
+      "scale_order": "ascending",
+      "increment": 1
+    },
+    "context": "4 = High... 5 = Very High",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_001",
+    "source_name": "Likelihood Scale - Remote (1)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_002",
+    "source_name": "Likelihood Scale - Low (2)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_003",
+    "source_name": "Likelihood Scale - Medium (3)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_004",
+    "source_name": "Likelihood Scale - High (4)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_010_met_005",
+    "source_name": "Likelihood Scale - Very High (5)",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_010",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_001",
+    "source_name": "Impact Scale Level 1 — Negligible",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_002",
+    "target_name": "Impact Scale Level 2 — Minor",
+    "rel_type": "related_to",
+    "description": "Sequential level in the risk impact scale",
+    "properties": {
+      "sequence": "incremental"
+    },
+    "context": "1 = Negligible ... 2 = Minor",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_002",
+    "source_name": "Impact Scale Level 2 — Minor",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_003",
+    "target_name": "Impact Scale Level 3 — Moderate",
+    "rel_type": "related_to",
+    "description": "Sequential level in the risk impact scale",
+    "properties": {
+      "sequence": "incremental"
+    },
+    "context": "2 = Minor ... 3 = Moderate",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_003",
+    "source_name": "Impact Scale Level 3 — Moderate",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_004",
+    "target_name": "Impact Scale Level 4 — Major",
+    "rel_type": "related_to",
+    "description": "Sequential level in the risk impact scale",
+    "properties": {
+      "sequence": "incremental"
+    },
+    "context": "3 = Moderate ... 4 = Major",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_004",
+    "source_name": "Impact Scale Level 4 — Major",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_005",
+    "target_name": "Impact Scale Level 5 — Critical",
+    "rel_type": "related_to",
+    "description": "Sequential level in the risk impact scale",
+    "properties": {
+      "sequence": "incremental"
+    },
+    "context": "4 = Major ... 5 = Critical",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_001",
+    "source_name": "Impact Scale Level 1 — Negligible",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_002",
+    "source_name": "Impact Scale Level 2 — Minor",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_003",
+    "source_name": "Impact Scale Level 3 — Moderate",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_004",
+    "source_name": "Impact Scale Level 4 — Major",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_011_met_005",
+    "source_name": "Impact Scale Level 5 — Critical",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_011",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_012_act_001",
+    "source_name": "Risk Assessment Documentation Filing Requirement",
+    "target_id": "risk_assessment_process",
+    "target_name": "Risk Assessment Process",
+    "rel_type": "requires",
+    "description": "The risk assessment process requires the filing of specific documentation including signed forms, evidence, and approval signatures.",
+    "properties": {
+      "required_documents": [
+        "Original risk assessment form",
+        "Supporting evidence",
+        "Control evaluation documentation",
+        "Mitigation action plan",
+        "Approval signatures",
+        "Implementation tracking"
+      ]
+    },
+    "context": "For each risk assessment, keep on file: - Original risk assessment form (signed) - Supporting evidence (test results, incident logs) - Control evaluation documentation - Mitigation action plan - Approval signatures - Implementation tracking",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_012",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_012_act_001",
+    "source_name": "Risk Assessment Documentation Filing Requirement",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_012",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_012",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_rsk_001",
+    "source_name": "Risk Data Retention Policy",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_met_001",
+    "target_name": "Data Retention Period — 7 Years",
+    "rel_type": "quantified_by",
+    "description": "The Risk Data Retention Policy is quantified by a specific retention period of 7 years to support audit trails and regulatory inquiries.",
+    "properties": {
+      "threshold": "7 years",
+      "purpose": "audit trail, regulatory inquiries"
+    },
+    "context": "Keep: 7 years (supports audit trail, regulatory inquiries)",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_rsk_001",
+    "source_name": "Risk Data Retention Policy",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_dep_001",
+    "target_name": "Risk Team",
+    "rel_type": "managed_by",
+    "description": "The Risk Data Retention Policy and its associated repository access are managed by the Risk Team.",
+    "properties": {
+      "access_level": "restricted"
+    },
+    "context": "Access: Risk team + process owner only",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_met_001",
+    "source_name": "Data Retention Period — 7 Years",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_dep_001",
+    "target_name": "Risk Team",
+    "rel_type": "tracks",
+    "description": "The Risk Team is responsible for tracking and maintaining the 7-year data retention period.",
+    "properties": {
+      "monitoring_frequency": "not specified"
+    },
+    "context": "Keep: 7 years... Access: Risk team + process owner only",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_rsk_001",
+    "source_name": "Risk Data Retention Policy",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_met_001",
+    "source_name": "Data Retention Period — 7 Years",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_013_dep_001",
+    "source_name": "Risk Team",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_013",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dec_001",
+    "source_name": "Risk Assessment Centralisation Policy",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dep_001",
+    "target_name": "Risk Team",
+    "rel_type": "assigns_ownership_to",
+    "description": "The policy requires risk assessments to be filed with the Risk team for a consolidated view.",
+    "properties": {
+      "purpose": "consolidated view"
+    },
+    "context": "File with Risk team for consolidated view",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_001",
+    "source_name": "Mitigation Action Assignment Standard",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dep_001",
+    "target_name": "Risk Team",
+    "rel_type": "owned_by",
+    "description": "Mitigation actions must be assigned to an owner as per the standard.",
+    "properties": {
+      "requirement": "must have owner, target date, expected impact"
+    },
+    "context": "Each action must have owner, target date, expected impact",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_002",
+    "source_name": "Quarterly Control Retesting and Risk Recalculation",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_rsk_001",
+    "target_name": "Residual Risk Calculation",
+    "rel_type": "aims_to_improve",
+    "description": "Quarterly retesting of controls is used to recalculate the residual risk.",
+    "properties": {
+      "frequency": "quarterly"
+    },
+    "context": "Retest controls and recalculate residual risk quarterly",
+    "bidirectional": false,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_rsk_001",
+    "source_name": "Residual Risk Calculation",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_002",
+    "target_name": "Quarterly Control Retesting and Risk Recalculation",
+    "rel_type": "triggers_review_of",
+    "description": "The need to maintain an accurate residual risk calculation triggers the quarterly retesting process.",
+    "properties": {
+      "trigger_type": "periodic_review"
+    },
+    "context": "Retest controls and recalculate residual risk quarterly",
+    "bidirectional": true,
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_rsk_001",
+    "source_name": "Residual Risk Calculation",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_001",
+    "source_name": "Mitigation Action Assignment Standard",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_act_002",
+    "source_name": "Quarterly Control Retesting and Risk Recalculation",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dec_001",
+    "source_name": "Risk Assessment Centralisation Policy",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "34c49ff7e5894683acdf7a8b5625eaf0_015_dep_001",
+    "source_name": "Risk Team",
+    "target_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "target_name": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "34c49ff7e5894683acdf7a8b5625eaf0_015",
+    "doc_id": "34c49ff7e5894683acdf7a8b5625eaf0",
+    "domain": "banking_risk_governance"
+  }
+]

@@ -1,0 +1,1348 @@
+[
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_001_dep_001",
+    "name": "Board Office",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "board_office",
+    "description": "The organisational department responsible for the ownership and maintenance of the Governance Framework Overview document.",
+    "context": [
+      "Department | Board Office"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_001",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_001",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "board",
+    "description": "The highest governance body of FirstUK Bank, responsible for providing strategic direction and risk oversight.",
+    "context": [
+      "Board provides strategic direction and risk oversight",
+      "Defined responsibilities at each level (Board, Executive, Managers)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_002",
+    "name": "Executive",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "executive_management",
+    "description": "The executive management level of the bank with defined responsibilities as part of the governance framework.",
+    "context": [
+      "Defined responsibilities at each level (Board, Executive, Managers)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_003",
+    "name": "Managers",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "management",
+    "description": "The management level of the bank with defined responsibilities as part of the governance framework.",
+    "context": [
+      "Defined responsibilities at each level (Board, Executive, Managers)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_004",
+    "name": "Risk Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk_committee",
+    "description": "A governance committee tasked with providing independent assurance and challenge to the bank's risk management.",
+    "context": [
+      "Risk and Audit committees provide independent assurance"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_dept_005",
+    "name": "Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "audit_committee",
+    "description": "A governance committee tasked with providing independent assurance and challenge to the bank's internal controls and audits.",
+    "context": [
+      "Risk and Audit committees provide independent assurance"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_upd_001",
+    "name": "FCA Regulatory Requirements",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "The regulatory requirements set forth by the Financial Conduct Authority that FirstUK Bank is committed to fully complying with.",
+    "context": [
+      "Full compliance with FCA, PRA, and legal requirements"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_003_upd_002",
+    "name": "PRA Regulatory Requirements",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "The regulatory requirements set forth by the Prudential Regulation Authority that FirstUK Bank is committed to fully complying with.",
+    "context": [
+      "Full compliance with FCA, PRA, and legal requirements"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_003",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_004_met_001",
+    "name": "Board Composition — Target 5–7 Directors",
+    "aliases": [
+      "Number of Directors"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The target number of directors for the Board of Directors is set between 5 and 7, aligned with FCA guidance.",
+    "context": [
+      "Number of Directors: 5–7 (per FCA guidance)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_004",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_004_upd_001",
+    "name": "FCA Guidance on Board Composition",
+    "aliases": [
+      "FCA guidance"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Regulatory guidance provided by the FCA regarding the appropriate number of directors for the bank's Board.",
+    "context": [
+      "(per FCA guidance)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_004",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_001",
+    "name": "Board Approval of Business Strategy",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Board is responsible for the formal approval of the bank's overall business strategy.",
+    "context": [
+      "Approve business strategy"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_002",
+    "name": "Board Approval of Annual Budget and Capital Plan",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "budget_decision",
+    "description": "The Board holds the authority to approve the annual budget and the associated capital plan.",
+    "context": [
+      "Approve annual budget and capital plan"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_003",
+    "name": "Board Approval of Material Acquisitions and Disposals",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Board is responsible for approving any material acquisitions or disposals of assets.",
+    "context": [
+      "Approve material acquisitions/disposals"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_004",
+    "name": "Board Setting of Risk Appetite",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "risk_appetite_approval",
+    "description": "The Board is tasked with the formal setting of the bank's risk appetite.",
+    "context": [
+      "Set risk appetite"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_005",
+    "name": "Board Approval of Policies and Procedures",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Board is responsible for the approval of the bank's internal policies and procedures.",
+    "context": [
+      "Approve policies and procedures"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_006",
+    "name": "Board Approval of Committee Charters",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "charter_amendment",
+    "description": "The Board is responsible for the approval of charters governing the bank's committees.",
+    "context": [
+      "Approve committee charters"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dec_007",
+    "name": "Board Appointment of Executives",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The Board is responsible for the formal appointment of the bank's executive leadership.",
+    "context": [
+      "Appoint executives"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_005_dept_001",
+    "name": "Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body of FirstUK Bank responsible for strategic, governance, risk, and stakeholder oversight.",
+    "context": [
+      "Board Responsibilities"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_005",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_006_dec_001",
+    "name": "Board Meeting Minutes Approval Process",
+    "aliases": [
+      "Minutes"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The formal requirement that Board meeting minutes must be approved and retained as a permanent record to ensure governance accountability.",
+    "context": [
+      "Minutes: Approved and retained (permanent record)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_006",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_007_dep_001",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "A board-level committee responsible for overseeing risk strategy, appetite, capital adequacy, audit findings, and regulatory compliance. The committee meets on a quarterly basis.",
+    "context": [
+      "Board Risk Committee",
+      "Responsibilities: Risk strategy and appetite, Capital adequacy, Audit findings, Regulatory compliance",
+      "Frequency: Quarterly"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_007",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_008_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "A quarterly meeting body composed primarily of Independent Non-Executive Directors responsible for internal and external audit oversight, financial reporting, and the control environment.",
+    "context": [
+      "Board Audit Committee",
+      "Responsibilities: Internal audit oversight, External audit coordination, Financial reporting, Control environment",
+      "Frequency: Quarterly",
+      "Members: Independent NEDs (majority)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_008",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_009_dep_001",
+    "name": "Board Remuneration Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "A board-level committee responsible for executive compensation, staff incentive schemes, and the management of conflicts of interest. The committee meets on a quarterly basis and is composed primarily of Independent Non-Executive Directors (NEDs).",
+    "context": [
+      "Board Remuneration Committee",
+      "Responsibilities: Executive compensation, Staff incentive schemes, Conflict of interest management",
+      "Frequency: Quarterly",
+      "Members: Independent NEDs (majority)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_009",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_010_emp_001",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "chief_executive_officer",
+    "description": "The executive responsible for chief executive responsibility, business performance, regulatory interface, and crisis management. The role reports directly to the Board.",
+    "context": [
+      "Chief Executive Officer (CEO)",
+      "Chief executive responsibility",
+      "Business performance",
+      "Regulatory interface",
+      "Crisis management"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_010",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_010_dep_001",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "board",
+    "description": "The primary governance body to which the Chief Executive Officer reports.",
+    "context": [
+      "Reports to: Board"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_010",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_011_dep_001",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "financial_management",
+    "description": "The executive function responsible for financial management, reporting, treasury, funding, capital management, and investment decisions. This role reports directly to the CEO and the Board.",
+    "context": [
+      "Chief Financial Officer (CFO)",
+      "Financial management and reporting",
+      "Treasury and funding",
+      "Capital management",
+      "Investment decisions"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_011",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_012_emp_001",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The executive responsible for enterprise risk management, capital and liquidity management, risk policy approval, and regulatory compliance oversight. The role reports functionally to the Board Risk Committee and administratively to the CEO.",
+    "context": [
+      "Chief Risk Officer (CRO)",
+      "Reports to: Board Risk Committee (functionally), CEO (administratively)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_012",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_012_dep_001",
+    "name": "Board Risk Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The governance body to which the Chief Risk Officer reports functionally.",
+    "context": [
+      "Reports to: Board Risk Committee (functionally)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_012",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_013_emp_001",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "executive_management",
+    "description": "The Chief Operating Officer is responsible for business operations, process management, operational efficiency, and customer service, reporting directly to the CEO.",
+    "context": [
+      "Chief Operating Officer (COO)",
+      "Reports to: CEO"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_013",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_013_dep_001",
+    "name": "Business Operations",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "operations",
+    "description": "The operational area of the bank under the authority of the Chief Operating Officer.",
+    "context": [
+      "Business operations"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_013",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_014_emp_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "executive_management",
+    "description": "The Chief Technology Officer is responsible for technology strategy, infrastructure, system availability, security, investment decisions, and cybersecurity. The role reports directly to the CEO.",
+    "context": [
+      "Chief Technology Officer (CTO)",
+      "Reports to: CEO"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_014",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_014_dep_001",
+    "name": "Technology Department",
+    "aliases": [
+      "Technology"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "The organizational unit responsible for technology strategy, infrastructure, and cybersecurity, led by the CTO.",
+    "context": [
+      "Technology strategy and infrastructure",
+      "Technology investment decisions"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_014",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_015_emp_001",
+    "name": "Chief Information Security Officer",
+    "aliases": [
+      "CISO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "ciso",
+    "description": "The executive responsible for information security policy, cybersecurity incident response, data protection, and security risk assessment. The role reports functionally to the CTO and to the Board Risk Committee for security risk matters.",
+    "context": [
+      "Chief Information Security Officer (CISO)",
+      "Reports to: CTO (functionally), Board Risk Committee (for security risk)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_015",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_015_dep_001",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The governance body to which the Chief Information Security Officer reports specifically regarding security risk.",
+    "context": [
+      "Board Risk Committee (for security risk)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_015",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_015_emp_002",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "cto",
+    "description": "The executive to whom the Chief Information Security Officer reports functionally.",
+    "context": [
+      "Reports to: CTO (functionally)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_015",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_001",
+    "name": "Business Units",
+    "aliases": [
+      "Line 1"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "business_units",
+    "description": "The first line of defense responsible for day-to-day risk management, daily monitoring, escalation, and the ownership of their own controls.",
+    "context": [
+      "Line 1: Business Units",
+      "Responsible for their own controls",
+      "Day-to-day risk management",
+      "Daily monitoring and escalation"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_002",
+    "name": "Risk & Compliance",
+    "aliases": [
+      "Line 2"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk_and_compliance",
+    "description": "The second line of defense providing independent risk oversight, compliance testing, control design review, and key control monitoring.",
+    "context": [
+      "Line 2: Risk & Compliance",
+      "Independent risk oversight",
+      "Compliance testing",
+      "Control design review",
+      "Key control monitoring"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_003",
+    "name": "Internal Audit",
+    "aliases": [
+      "Line 3"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The third line of defense providing independent assurance through a risk-based annual audit plan, finding identification, and follow-up, reporting directly to the Board Audit Committee.",
+    "context": [
+      "Line 3: Internal Audit",
+      "Independent assurance",
+      "Annual audit plan (risk-based)",
+      "Finding identification and follow-up",
+      "Reports to Board Audit Committee"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_016_dep_004",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_committee",
+    "description": "The governance body to which the Internal Audit function reports its findings and assurance activities.",
+    "context": [
+      "Reports to Board Audit Committee"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_016",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_017_dec_001",
+    "name": "Board Risk Committee Charter",
+    "aliases": [
+      "board_risk_committee_charter"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "charter_amendment",
+    "description": "The formal charter governing the Board Risk Committee, defining its mandate and governance responsibilities within the bank's corporate governance framework.",
+    "context": [
+      "board_risk_committee_charter — Board Risk Committee"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_017",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_017_dec_002",
+    "name": "Internal Audit Charter",
+    "aliases": [
+      "internal_audit_charter"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "charter_amendment",
+    "description": "The formal charter establishing the Internal Audit function, outlining its authority, scope, and independence within the organization.",
+    "context": [
+      "internal_audit_charter — Internal Audit function"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_017",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_017_dec_003",
+    "name": "Corporate Organizational Model",
+    "aliases": [
+      "organisation_model"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The approved organizational structure defining the hierarchy and reporting lines of FirstUK Bank.",
+    "context": [
+      "organisation_model — Organizational structure"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_017",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_018_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [
+      "policy_operational_risk"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Operational risk as governed by the Operational Risk Policy.",
+    "context": [
+      "[[policy_operational_risk]] — Operational Risk Policy"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_018",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_018_rsk_002",
+    "name": "Risk Appetite Statement 2026",
+    "aliases": [
+      "risk_appetite_statement_2026"
+    ],
+    "entity_class": "RISK",
+    "type": "risk_appetite_threshold",
+    "description": "The formal Risk Appetite Statement for the year 2026 defining the bank's risk tolerance.",
+    "context": [
+      "[[risk_appetite_statement_2026]] — Risk Appetite Statement"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_018",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_018_rsk_003",
+    "name": "Anti-Money Laundering Risk",
+    "aliases": [
+      "policy_aml"
+    ],
+    "entity_class": "RISK",
+    "type": "aml_risk",
+    "description": "AML risk as governed by the Anti-Money Laundering Policy.",
+    "context": [
+      "[[policy_aml]] — Anti-Money Laundering Policy"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_018",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_019_upd_001",
+    "name": "Customer Identification (KYC) Policy",
+    "aliases": [
+      "policy_customer_identification"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "The bank's internal policy governing customer identification and Know Your Customer (KYC) requirements.",
+    "context": [
+      "[[policy_customer_identification]] — Customer Identification (KYC)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_019",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_019_upd_002",
+    "name": "Privacy and Data Protection (GDPR) Policy",
+    "aliases": [
+      "policy_privacy"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "The bank's internal policy regarding privacy and data protection, specifically aligned with GDPR requirements.",
+    "context": [
+      "[[policy_privacy]] — Privacy and Data Protection (GDPR)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_019",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_019_upd_003",
+    "name": "Complaint Handling Policy",
+    "aliases": [
+      "policy_complaints"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "The bank's internal policy defining the procedures for handling customer complaints.",
+    "context": [
+      "[[policy_complaints]] — Complaint Handling Policy"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_019",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_020_dec_001",
+    "name": "Escalation Matrix Operational Procedures",
+    "aliases": [
+      "escalation_matrix"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "escalation",
+    "description": "Formal operational procedures defining the escalation matrix for the bank's risk and governance framework.",
+    "context": [
+      "[[escalation_matrix]] — Escalation procedures"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_020",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_020_dec_002",
+    "name": "Incident Response Plan Operational Procedures",
+    "aliases": [
+      "incident_response_plan"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "escalation",
+    "description": "Formal operational procedures outlining the incident response plan for managing and mitigating operational disruptions.",
+    "context": [
+      "[[incident_response_plan]] — Incident response procedures"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_020",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_021_rsk_001",
+    "name": "Information Security Risk",
+    "aliases": [
+      "policy_information_security"
+    ],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "Risk area governed by the Information Security Policy, focusing on the protection of the bank's information assets and systems.",
+    "context": [
+      "[[policy_information_security]] — Information Security Policy"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_021",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_021_rsk_002",
+    "name": "Fraud Risk",
+    "aliases": [
+      "policy_fraud"
+    ],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "Risk area governed by the Fraud Prevention Policy, focusing on the detection and prevention of fraudulent activities within the bank.",
+    "context": [
+      "[[policy_fraud]] — Fraud Prevention Policy"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_021",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_001",
+    "name": "FCA Conduct of Business Sourcebook (COBS)",
+    "aliases": [
+      "COBS"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "The Conduct of Business (COBS) framework established by the Financial Conduct Authority governing how the bank conducts its business with customers.",
+    "context": [
+      "COBS (Conduct of Business)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_002",
+    "name": "FCA Systems and Controls Sourcebook (SYSC)",
+    "aliases": [
+      "SYSC"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "The Systems and Controls (SYSC) framework established by the Financial Conduct Authority regarding the bank's internal governance and control structures.",
+    "context": [
+      "SYSC (Systems and Controls)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_003",
+    "name": "FCA Dispute Resolution Sourcebook (DISP)",
+    "aliases": [
+      "DISP"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "The Dispute Resolution (DISP) framework established by the Financial Conduct Authority governing the handling of customer complaints.",
+    "context": [
+      "DISP (Dispute Resolution)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_upd_004",
+    "name": "FCA Supervision Sourcebook (SUP)",
+    "aliases": [
+      "SUP"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "The Supervision (SUP) framework established by the Financial Conduct Authority regarding the bank's supervisory obligations.",
+    "context": [
+      "SUP (Supervision)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_001",
+    "name": "Customer Identification and KYC Risk",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Compliance risk associated with the requirement for proper customer identification and Know Your Customer (KYC) procedures.",
+    "context": [
+      "Customer identification (KYC)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_002",
+    "name": "Anti-Money Laundering (AML) Risk",
+    "aliases": [
+      "AML"
+    ],
+    "entity_class": "RISK",
+    "type": "aml_risk",
+    "description": "Compliance risk associated with the bank's obligations to prevent money laundering activities.",
+    "context": [
+      "Anti-money laundering (AML)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_003",
+    "name": "Fair Treatment and Complaints Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk related to the fair treatment of customers and the effective management of customer complaints.",
+    "context": [
+      "Fair treatment and complaints"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_004",
+    "name": "Market Conduct Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk associated with the bank's adherence to market conduct standards and regulations.",
+    "context": [
+      "Market conduct"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_022_rsk_005",
+    "name": "Financial Crime Prevention Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "Broad risk category encompassing the bank's ability to prevent and detect financial crime.",
+    "context": [
+      "Financial crime prevention"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_022",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_upd_001",
+    "name": "Prudential Regulation Authority (PRA) Rulebook",
+    "aliases": [
+      "PRA Rulebook"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "The regulatory framework established by the Prudential Regulation Authority covering capital adequacy, risk management, operational resilience, and liquidity management.",
+    "context": [
+      "Prudential Regulation Authority (PRA) Rulebook Areas",
+      "Capital adequacy (Pillar 1)",
+      "Risk management (Pillar 2)",
+      "Operational resilience (Pillar 2)",
+      "Liquidity management"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_001",
+    "name": "Capital Adequacy Risk",
+    "aliases": [
+      "Pillar 1"
+    ],
+    "entity_class": "RISK",
+    "type": "capital_risk",
+    "description": "Risk associated with maintaining sufficient capital to cover potential losses, governed under Pillar 1 of the PRA Rulebook.",
+    "context": [
+      "Capital adequacy (Pillar 1)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_002",
+    "name": "Risk Management Governance Risk",
+    "aliases": [
+      "Pillar 2"
+    ],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk related to the bank's internal risk management frameworks and governance structures as defined under Pillar 2.",
+    "context": [
+      "Risk management (Pillar 2)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_003",
+    "name": "Operational Resilience Risk",
+    "aliases": [
+      "Pillar 2"
+    ],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "Risk concerning the bank's ability to prevent, adapt to, and recover from operational disruptions, governed under Pillar 2.",
+    "context": [
+      "Operational resilience (Pillar 2)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_rsk_004",
+    "name": "Liquidity Management Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "liquidity_risk",
+    "description": "Risk associated with the bank's ability to meet its financial obligations as they fall due.",
+    "context": [
+      "Liquidity management"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_met_001",
+    "name": "Minimum Capital Ratios",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "Quantitative compliance requirement for the minimum amount of capital the bank must hold relative to its risk-weighted assets.",
+    "context": [
+      "Minimum capital ratios"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_023_met_002",
+    "name": "System Availability (RTO/RPO)",
+    "aliases": [
+      "RTO",
+      "RPO"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "Quantitative metrics for Recovery Time Objective (RTO) and Recovery Point Objective (RPO) to ensure operational resilience.",
+    "context": [
+      "System availability (RTO/RPO)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_023",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_dep_001",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "The department responsible for compliance monitoring, regulatory engagement, and reporting to the FCA and PRA.",
+    "context": [
+      "Compliance Monitoring",
+      "Compliance data to FCA"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_upd_001",
+    "name": "FCA/PRA Supervisory Engagement Framework",
+    "aliases": [
+      "Supervisory Contact"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "The established framework for engagement with designated FCA/PRA supervisors, including quarterly meetings and annual reporting requirements.",
+    "context": [
+      "Designated FCA/PRA supervisor",
+      "Quarterly Meetings: With supervisory team",
+      "Annual Reporting: Compliance data to FCA"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_act_001",
+    "name": "Annual Compliance Data Reporting to FCA",
+    "aliases": [
+      "Annual Reporting"
+    ],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "A recurring requirement to provide compliance data to the Financial Conduct Authority (FCA) on an annual basis.",
+    "context": [
+      "Annual Reporting: Compliance data to FCA"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_024_act_002",
+    "name": "Voluntary Breach Reporting",
+    "aliases": [
+      "Self-Disclosure"
+    ],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "The process of self-disclosing regulatory breaches to the supervisory authorities.",
+    "context": [
+      "Self-Disclosure: Voluntary breach reporting"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_024",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_met_001",
+    "name": "Compliance Dashboard Key Metrics",
+    "aliases": [
+      "Monthly Compliance Dashboard"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "A set of key metrics monitored on a monthly basis via the Compliance dashboard to track ongoing adherence to regulatory and internal standards.",
+    "context": [
+      "Monthly: Compliance dashboard (key metrics)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_dec_001",
+    "name": "Quarterly Risk Committee Review",
+    "aliases": [
+      "Risk committee review"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "risk_appetite_approval",
+    "description": "A formal quarterly governance process where the Risk Committee reviews risk profiles and management approaches.",
+    "context": [
+      "Quarterly: Risk committee review"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_fnd_001",
+    "name": "Semi-Annual Control Testing Audit",
+    "aliases": [
+      "Control testing"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "observation",
+    "description": "A semi-annual audit process focused on control testing to identify gaps or strengths in the bank's operational environment.",
+    "context": [
+      "Semi-Annual: Control testing (audit)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_025_dec_002",
+    "name": "Annual Full Governance Review",
+    "aliases": [
+      "Full governance review"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "A comprehensive annual review of the bank's governance framework to ensure effectiveness and alignment with regulatory expectations.",
+    "context": [
+      "Annual: Full governance review"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_025",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_026_dep_001",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The internal audit function responsible for the annual audit plan and quarterly reporting.",
+    "context": [
+      "Internal Audit: Annual audit plan, quarterly reporting"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_026",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_026_dep_002",
+    "name": "External Audit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "external_audit",
+    "description": "The external audit entity responsible for conducting the annual financial audit.",
+    "context": [
+      "External Audit: Annual financial audit"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_026",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_026_dep_003",
+    "name": "Regulatory Audit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "regulatory_audit",
+    "description": "The regulatory audit function involving periodic examinations by the FCA and PRA.",
+    "context": [
+      "Regulatory Audit: FCA/PRA periodic examinations"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_026",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_027_rsk_001",
+    "name": "Conflicts of Interest Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk associated with ethics and conflicts of interest, managed through a formal policy requiring declarations, regular reviews, and escalation procedures.",
+    "context": [
+      "Ethics & Conflicts of Interest",
+      "Conflict of Interest Policy"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_027",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_027_emp_001",
+    "name": "All Staff and Directors",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "all_staff",
+    "description": "The group of bank employees and directors required to submit declarations under the Conflict of Interest Policy.",
+    "context": [
+      "Declaration required (all staff/directors)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_027",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_028_rsk_001",
+    "name": "Ethics Standards and Customer Interest Risk",
+    "aliases": [
+      "Ethics Standards"
+    ],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "The bank's framework for ensuring all decisions are made in the customer's best interest, preventing conflicts of interest, and maintaining transparency and fair dealing with stakeholders.",
+    "context": [
+      "All decisions made in customer's best interest",
+      "No conflicts override customer interests",
+      "Transparency in communications",
+      "Fair dealing with stakeholders"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_028",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_029_upd_001",
+    "name": "Regulatory Circulars",
+    "aliases": [],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Updates on regulatory changes provided via regulatory circulars as part of the bank's external reporting and transparency framework.",
+    "context": [
+      "Regulatory Circulars: Updates on regulatory changes"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_029",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_030_dept_001",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governance body receiving quarterly financial, risk, and governance reports.",
+    "context": [
+      "Board Reports: Quarterly (financial, risk, governance)"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_030",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_033_dec_001",
+    "name": "Board Approval of Document Sign-Off",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal approval and sign-off of the document granted by the Board of Directors and the Company Secretary on 2026-01-15.",
+    "context": [
+      "Approved by: Board of Directors — Date: 2026-01-15",
+      "Company Secretary — Date: 2026-01-15"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_033",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "63b7574805504a94ad6fe7acc418a047_033_dep_001",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body of FirstUK Bank responsible for the final approval and sign-off of the document.",
+    "context": [
+      "Approved by: Board of Directors"
+    ],
+    "chunk_id": "63b7574805504a94ad6fe7acc418a047_033",
+    "doc_id": "63b7574805504a94ad6fe7acc418a047",
+    "domain": "banking_risk_governance"
+  }
+]

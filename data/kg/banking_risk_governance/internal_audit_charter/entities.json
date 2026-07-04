@@ -1,0 +1,1271 @@
+[
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_001_dep_001",
+    "name": "Internal Audit Department",
+    "aliases": [
+      "Internal Audit"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The organisational department responsible for the ownership and execution of the Internal Audit Charter.",
+    "context": [
+      "Department | Internal Audit",
+      "Owner | Head of Internal Audit"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_001",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_002_dec_001",
+    "name": "Approval of Internal Audit Charter",
+    "aliases": [
+      "Internal Audit Charter"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The formal establishment and definition of the Internal Audit function's independence, authority, scope, and responsibility within FirstUK Bank.",
+    "context": [
+      "The Internal Audit Charter defines FirstUK Bank's Internal Audit function's independence, authority, scope, and responsibility"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_002",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_002_dep_001",
+    "name": "Internal Audit Function",
+    "aliases": [
+      "Internal Audit"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The organizational function responsible for providing independent assurance over risk management and control effectiveness at FirstUK Bank.",
+    "context": [
+      "FirstUK Bank's Internal Audit function's independence, authority, scope, and responsibility for providing independent assurance over risk management and control effectiveness."
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_002",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_003_dep_001",
+    "name": "Internal Audit",
+    "aliases": [
+      "IA"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "An independent and objective function within FirstUK Bank responsible for evaluating the adequacy and effectiveness of risk management, control, and governance processes.",
+    "context": [
+      "Internal Audit: An independent, objective function that evaluates the adequacy and effectiveness of FirstUK Bank's risk management, control, and governance processes."
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_003",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_003_dep_002",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The governance body to which the Internal Audit function reports directly to ensure impartiality and independence from management.",
+    "context": [
+      "Internal Audit reports directly to Board Audit Committee, not to management, ensuring impartiality."
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_003",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_006_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The governance body that provides the internal audit function with a direct reporting line, ensuring there is no management filter between the auditors and the committee.",
+    "context": [
+      "Right to access Board Audit Committee directly (no management filter)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_006",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_006_emp_001",
+    "name": "Employee or Contractor",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "all_staff",
+    "description": "Personnel within the bank or external contractors who are subject to the authority of the audit function for the purpose of interviews.",
+    "context": [
+      "Authority to interview any employee or contractor"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_006",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_prd_001",
+    "name": "Account Opening Process",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account_product",
+    "description": "The business process for opening accounts, identified as being within the scope of the audit review.",
+    "context": [
+      "Business processes (account opening, payment processing, etc.)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_001",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Compliance controls, specifically including KYC and AML, are listed as a primary area within the audit scope.",
+    "context": [
+      "Compliance controls (KYC, AML, regulatory)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_kyc_001",
+    "name": "KYC Compliance Controls",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "kyc_gap",
+    "description": "Know Your Customer (KYC) controls are explicitly included in the audit scope for review.",
+    "context": [
+      "Compliance controls (KYC, AML, regulatory)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_aml_001",
+    "name": "AML Compliance Controls",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "aml_gap",
+    "description": "Anti-Money Laundering (AML) controls are explicitly included in the audit scope for review.",
+    "context": [
+      "Compliance controls (KYC, AML, regulatory)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_002",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Operational controls, including segregation of duties and authorization, are within the audit scope.",
+    "context": [
+      "Operational controls (segregation of duties, authorization, etc.)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_003",
+    "name": "Technology Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "Technology controls covering access, change management, and backups are included in the audit scope.",
+    "context": [
+      "Technology controls (access, change management, backups)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_004",
+    "name": "Fraud and Misconduct Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "Investigations into fraud and misconduct are listed as an in-scope area for the audit.",
+    "context": [
+      "Fraud and misconduct investigations"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_005",
+    "name": "Third-Party Vendor Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The audit scope extends to the review of third-party vendors and service providers.",
+    "context": [
+      "Third-party vendors and service providers"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_007_rsk_006",
+    "name": "General Risk Management",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The audit includes a review of risk assessment and mitigation processes.",
+    "context": [
+      "Risk management (risk assessment, mitigation)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_007",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_upd_001",
+    "name": "International Standards for the Professional Practice of Internal Auditing (ISPPIA)",
+    "aliases": [
+      "ISPPIA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "The professional standards for internal auditing that FirstUK Bank's Internal Audit function follows to ensure quality and consistency.",
+    "context": [
+      "Internal Audit follows: - International Standards for the Professional Practice of Internal Auditing (ISPPIA)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_upd_002",
+    "name": "IIA Code of Ethics",
+    "aliases": [
+      "IIA Code"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "The ethical framework governing Internal Audit, specifically focusing on Integrity, Objectivity, Confidentiality, and Competency.",
+    "context": [
+      "IIA Code of Ethics (Integrity, Objectivity, Confidentiality, Competency)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_upd_003",
+    "name": "FCA and PRA Expectations for Internal Audit Function",
+    "aliases": [
+      "FCA Expectations",
+      "PRA Expectations"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "supervisory_letter",
+    "description": "The regulatory requirements and expectations set by the Financial Conduct Authority (FCA) and Prudential Regulation Authority (PRA) regarding the bank's internal audit function.",
+    "context": [
+      "FCA and PRA Expectations for internal audit function"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_008_dec_001",
+    "name": "FirstUK Bank Audit Charter",
+    "aliases": [
+      "Audit Charter"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The formal governing document that defines the purpose, authority, and responsibility of the internal audit function at FirstUK Bank.",
+    "context": [
+      "FirstUK Bank Audit Charter (this document)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_008",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary functional reporting line for Internal Audit, meeting at least quarterly to oversee audit activities and review regulatory examination findings.",
+    "context": [
+      "Reports functionally to Board Audit Committee (primary reporting line)",
+      "Board Audit Committee meetings quarterly minimum",
+      "Regulatory examination findings shared with Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_002",
+    "name": "Internal Audit",
+    "aliases": [
+      "IA"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "An organizationally independent department separate from operational functions, responsible for auditing the bank without operational conflicts.",
+    "context": [
+      "Internal Audit separate from operational departments",
+      "No operational responsibilities or conflicts",
+      "FCA/PRA may communicate with Head of Internal Audit directly"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_003",
+    "name": "Chief Operating Officer",
+    "aliases": [
+      "COO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "operations",
+    "description": "The executive role to whom Internal Audit reports administratively for matters concerning budgeting, HR, and facilities.",
+    "context": [
+      "Reports administratively to Chief Operating Officer (for budgeting, HR, facilities)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_004",
+    "name": "Chief Executive Officer",
+    "aliases": [
+      "CEO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "executive_management",
+    "description": "The executive role providing a direct escalation path for the Internal Audit function.",
+    "context": [
+      "Direct access to Chief Executive Officer (escalation)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_005",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "regulator",
+    "description": "External regulatory body that may communicate directly with the Head of Internal Audit.",
+    "context": [
+      "FCA/PRA may communicate with Head of Internal Audit directly"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_009_dep_006",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "regulator",
+    "description": "External regulatory body that may communicate directly with the Head of Internal Audit.",
+    "context": [
+      "FCA/PRA may communicate with Head of Internal Audit directly"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_009",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_dec_001",
+    "name": "Board Audit Committee Approval of Annual Audit Plan",
+    "aliases": [
+      "BAC Approval"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "audit_plan_approval",
+    "description": "The formal approval process by the Board Audit Committee required for the finalisation of the Annual Audit Plan.",
+    "context": [
+      "Board Audit Committee approval"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_dec_002",
+    "name": "Board Audit Committee Reporting of In-Year Plan Changes",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "escalation",
+    "description": "The governance requirement to report any adjustments or changes made to the audit plan during the year to the Board Audit Committee.",
+    "context": [
+      "In-year changes reported to Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_dept_001",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The oversight committee responsible for approving the annual audit plan and reviewing in-year adjustments.",
+    "context": [
+      "Board Audit Committee approval",
+      "In-year changes reported to Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_011_upd_001",
+    "name": "FCA and PRA Regulatory Guidance on Audit Planning",
+    "aliases": [
+      "FCA guidance",
+      "PRA guidance"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Regulatory expectations provided by the Financial Conduct Authority (FCA) and Prudential Regulation Authority (PRA) that inform the development of the Annual Audit Plan.",
+    "context": [
+      "Regulatory expectations (FCA, PRA guidance)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_011",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_001",
+    "name": "AML/KYC Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "aml_risk",
+    "description": "A high-risk category requiring an annual audit cycle due to its risk profile.",
+    "context": [
+      "High Risk (Annual Audit): AML/KYC"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_002",
+    "name": "Payment Processing Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A high-risk area identified as a critical process requiring annual audit oversight.",
+    "context": [
+      "High Risk (Annual Audit): Payment Processing",
+      "Payment Processing (Critical process)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_003",
+    "name": "Fraud Detection Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "A high-risk category requiring annual audit review to ensure detection effectiveness.",
+    "context": [
+      "High Risk (Annual Audit): Fraud Detection",
+      "Fraud Detection (High-risk)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_004",
+    "name": "Technology Controls Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "A high-risk area encompassing IT General Controls that requires an annual audit.",
+    "context": [
+      "High Risk (Annual Audit): Technology Controls",
+      "IT General Controls (Annual standard)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_005",
+    "name": "Complaint Handling Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "A medium-risk category subject to a biennial audit cycle.",
+    "context": [
+      "Medium Risk (Biennial Audit): Complaint Handling"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_006",
+    "name": "Account Opening Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A medium-risk area with a regulatory focus, subject to a biennial audit cycle.",
+    "context": [
+      "Medium Risk (Biennial Audit): Account Opening",
+      "Account Opening & KYC (Regulatory focus)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_007",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A risk category classified as medium risk for biennial audit, though listed as an annual standard in the 2026 plan.",
+    "context": [
+      "Medium Risk (Biennial Audit): Operational Risk",
+      "Operational Risk (Annual standard)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_008",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "A risk category classified as medium risk for biennial audit, though listed as an annual standard in the 2026 plan.",
+    "context": [
+      "Medium Risk (Biennial Audit): Compliance",
+      "Compliance Controls (Annual standard)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_009",
+    "name": "Facilities Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A low-risk category subject to a triennial audit cycle.",
+    "context": [
+      "Low Risk (Triennial Audit): Facilities"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_010",
+    "name": "Payroll Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A low-risk category subject to a triennial audit cycle.",
+    "context": [
+      "Low Risk (Triennial Audit): Payroll"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_rsk_011",
+    "name": "Travel & Expenses Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A low-risk category subject to a triennial audit cycle.",
+    "context": [
+      "Low Risk (Triennial Audit): Travel & Expenses"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_012_dec_001",
+    "name": "Approval of 2026 Audit Plan",
+    "aliases": [
+      "2026 Audit Plan"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "audit_plan_approval",
+    "description": "The establishment of the 2026 Audit Plan, prioritizing high-risk areas such as KYC, Payment Processing, and Fraud Detection.",
+    "context": [
+      "2026 Audit Plan (Illustrative):",
+      "1. Account Opening & KYC (Regulatory focus)",
+      "2. Payment Processing (Critical process)",
+      "3. Fraud Detection (High-risk)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_012",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_014_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The oversight committee responsible for receiving executive summaries of final audit reports and monitoring management's remediation progress via quarterly status updates.",
+    "context": [
+      "Executive summary to Board Audit Committee",
+      "Quarterly status update to Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_014",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_001",
+    "name": "Critical Finding Remediation Timeframe — 30 Days",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The required timeframe for remediating audit findings classified as Critical, which are defined as control failures causing financial loss or regulatory breaches.",
+    "context": [
+      "Critical | Control failure causing financial loss/regulatory breach | Remediate within 30 days"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_002",
+    "name": "High Finding Remediation Timeframe — 90 Days",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The required timeframe for remediating audit findings classified as High, which are defined as control weaknesses with significant risk.",
+    "context": [
+      "High | Control weakness with significant risk | Remediate within 90 days"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_003",
+    "name": "Medium Finding Remediation Timeframe — 180 Days",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The required timeframe for remediating audit findings classified as Medium, which are defined as control gaps with moderate impact.",
+    "context": [
+      "Medium | Control gap with moderate impact | Remediate within 180 days"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_met_004",
+    "name": "Low Finding Remediation Timeframe — 1 Year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The required timeframe for remediating audit findings classified as Low, which are defined as control improvement opportunities.",
+    "context": [
+      "Low | Control improvement opportunity | Remediate within 1 year"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The governance body responsible for the quarterly review of remediation action plans submitted by management.",
+    "context": [
+      "Board Audit Committee reviews quarterly"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_015_dep_002",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The department responsible for following up on remediation efforts and re-testing controls to verify closure.",
+    "context": [
+      "Internal Audit follows up (re-test controls)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_015",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dec_001",
+    "name": "Board Audit Committee Approval of Annual Audit Plan",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "audit_plan_approval",
+    "description": "A formal responsibility of the Board Audit Committee to approve the annual audit plan to ensure comprehensive oversight of the bank's risk and control environment.",
+    "context": [
+      "Approve annual audit plan"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dec_002",
+    "name": "Board Audit Committee Approval of Audit Budget",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "budget_decision",
+    "description": "A formal responsibility of the Board Audit Committee to approve the budget allocated for audit activities.",
+    "context": [
+      "Approve audit budget"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dept_001",
+    "name": "Board Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The governance body responsible for overseeing the audit process, approving plans and budgets, and monitoring management remediation.",
+    "context": [
+      "Board Audit Committee Responsibilities",
+      "Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_016_dept_002",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The department responsible for executing the audit plan and reporting findings to the Board Audit Committee.",
+    "context": [
+      "Assess Internal Audit effectiveness",
+      "Meet separately with Internal Audit",
+      "Executive session with Head of Internal Audit"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_016",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_dep_001",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The bank's internal audit function, which is governed by strict independence safeguards to ensure objective oversight and reporting directly to the Board Audit Committee.",
+    "context": [
+      "Internal Audit staff cannot audit departments where recently managed",
+      "Internal Audit staff cannot audit their own work",
+      "Internal Audit cannot advise on strategy"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_dep_002",
+    "name": "Board Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The governance body to which the Internal Audit function reports separately to maintain independence from management.",
+    "context": [
+      "Separate reporting to Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_dep_003",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The primary governing body responsible for approving the Internal Audit budget and reviewing staff appraisals via the Board chair.",
+    "context": [
+      "Budget approved by Board (not management)",
+      "Staff appraisals reviewed by Board chair"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_rsk_001",
+    "name": "Conflict of Interest Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The risk that Internal Audit independence is compromised through operational responsibilities, decision-making authority, or auditing areas previously managed by staff.",
+    "context": [
+      "No conflict of interest roles",
+      "Internal Audit staff cannot audit departments where recently managed",
+      "Internal Audit staff cannot audit their own work"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_018_emp_001",
+    "name": "Internal Audit Staff",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "internal_audit_staff",
+    "description": "Personnel within the Internal Audit department subject to prohibited activities to ensure the integrity of the audit process.",
+    "context": [
+      "Internal Audit staff cannot audit departments where recently managed",
+      "Internal Audit staff cannot audit their own work",
+      "Internal Audit staff cannot approve transactions or controls they audit"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_018",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_act_001",
+    "name": "Escalation of Identified Conflict to Head of Internal Audit",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "escalation",
+    "description": "Immediate escalation of any identified conflict to the Head of Internal Audit for review and reporting.",
+    "context": [
+      "Escalate to Head of Internal Audit immediately"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_act_002",
+    "name": "Head of Internal Audit Reporting to Board Audit Committee",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "The Head of Internal Audit is required to report identified conflicts to the Board Audit Committee.",
+    "context": [
+      "Head of Internal Audit reports to Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_dec_001",
+    "name": "Board Audit Committee Conflict Resolution Decision",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "escalation",
+    "description": "The Board Audit Committee is responsible for deciding the resolution of a conflict, which may include reassigning the audit or appointing an external auditor.",
+    "context": [
+      "Committee decides resolution (reassign audit, external auditor, etc.)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_act_003",
+    "name": "Documentation of Conflict and Resolution",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "Requirement to formally document the identified conflict and the subsequent resolution reached.",
+    "context": [
+      "Documentation of conflict and resolution"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_emp_001",
+    "name": "Head of Internal Audit",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The individual responsible for receiving conflict escalations and reporting them to the Board Audit Committee.",
+    "context": [
+      "Escalate to Head of Internal Audit immediately",
+      "Head of Internal Audit reports to Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_019_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The governance body responsible for deciding the resolution of conflicts identified during the audit process.",
+    "context": [
+      "Head of Internal Audit reports to Board Audit Committee",
+      "Committee decides resolution (reassign audit, external auditor, etc.)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_019",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_dep_001",
+    "name": "Internal Audit Department",
+    "aliases": [
+      "Internal Audit"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The department responsible for executing the audit plan, requiring specific staffing levels including a Head of Internal Audit and Internal Auditors.",
+    "context": [
+      "Head of Internal Audit (1 FTE)",
+      "Internal Auditors (1–2 FTE, depending on scope)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_emp_001",
+    "name": "Head of Internal Audit",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "A leadership role within the Internal Audit function requiring 1 Full-Time Equivalent (FTE).",
+    "context": [
+      "Head of Internal Audit (1 FTE)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_emp_002",
+    "name": "Internal Auditors",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "Staff members responsible for audit execution, with a requirement of 1–2 FTE depending on the scope of work.",
+    "context": [
+      "Internal Auditors (1–2 FTE, depending on scope)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_020_dec_001",
+    "name": "Board Approval of Internal Audit Salaries and Benefits",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "budget_decision",
+    "description": "A formal governance decision by the Board to approve the budget for salaries and benefits for the audit function.",
+    "context": [
+      "Salaries and benefits (approved by Board)"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_020",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_021_dep_001",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The department responsible for coordinating with external auditors and regulators, sharing findings, and providing documentation for examinations.",
+    "context": [
+      "Internal audit findings inform external audit risk assessment",
+      "Internal Audit provides cooperation and documentation",
+      "Internal Audit findings shared with regulators"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_021",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_021_dep_002",
+    "name": "Board Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The governance body that is kept informed of feedback received from regulatory examinations.",
+    "context": [
+      "Board Audit Committee informed of regulatory feedback"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_021",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_021_upd_001",
+    "name": "FCA/PRA Regulatory Examinations",
+    "aliases": [
+      "FCA",
+      "PRA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "supervisory_letter",
+    "description": "Examinations conducted by the Financial Conduct Authority (FCA) and Prudential Regulation Authority (PRA) requiring cooperation and documentation from Internal Audit.",
+    "context": [
+      "FCA/PRA may conduct examinations",
+      "Internal Audit provides cooperation and documentation"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_021",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_dec_001",
+    "name": "Board Approval of Charter - 2026-01-15",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Board of Directors formally approved the Charter on 2026-01-15. The charter is subject to annual review or updates upon regulatory change.",
+    "context": [
+      "Approval Authority: Board of Directors",
+      "Last Approved: 2026-01-15"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_act_001",
+    "name": "Annual Charter Review - Due 2027-01-15",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A scheduled review of the Charter is required by 2027-01-15 to ensure continued alignment with regulatory requirements and internal governance.",
+    "context": [
+      "Review Frequency: Annually (or upon regulatory change)",
+      "Next Review: 2027-01-15"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_dep_001",
+    "name": "Board of Directors",
+    "aliases": [
+      "Board"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The highest governance body responsible for the final ratification of Charter changes and overall approval authority.",
+    "context": [
+      "Approval Authority: Board of Directors",
+      "Ratified by Board of Directors"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_dep_002",
+    "name": "Board Audit Committee",
+    "aliases": [
+      "BAC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance_body",
+    "description": "The committee responsible for approving proposed changes to the Charter before they are ratified by the Board of Directors.",
+    "context": [
+      "Proposed by Head of Internal Audit or Board Audit Committee",
+      "Approved by Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_022_emp_001",
+    "name": "Head of Internal Audit",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "internal_audit_lead",
+    "description": "The individual role authorized to propose changes to the Charter for review by the Board Audit Committee.",
+    "context": [
+      "Proposed by Head of Internal Audit or Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_022",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_023_dec_001",
+    "name": "Board Approval of Initial Charter Version 1.0",
+    "aliases": [
+      "v1.0"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Board formally approved the initial version of the charter on 2025-01-01.",
+    "context": [
+      "1.0 | 2025-01-01 | Initial charter | Board"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_023",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_023_dec_002",
+    "name": "Board Approval of Charter Version 1.1 — External Auditor Coordination",
+    "aliases": [
+      "v1.1"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Board approved version 1.1 of the charter on 2026-01-15, which included clarifications regarding the coordination of external auditors.",
+    "context": [
+      "1.1 | 2026-01-15 | Clarified external auditor coordination | Board"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_023",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dec_001",
+    "name": "Board Audit Committee Approval of Document",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal approval of the document granted by the Board Audit Committee on 2026-01-15.",
+    "context": [
+      "Approved by: Board Audit Committee — Date: 2026-01-15"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dec_002",
+    "name": "Board of Directors Approval of Document",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal approval of the document granted by the Board of Directors on 2026-01-15.",
+    "context": [
+      "Approved by: Board of Directors — Date: 2026-01-15"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dec_003",
+    "name": "Head of Internal Audit Approval of Document",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal approval of the document granted by the Head of Internal Audit on 2026-01-15.",
+    "context": [
+      "Approved by: Head of Internal Audit — Date: 2026-01-15"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dep_001",
+    "name": "Board Audit Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "internal_audit",
+    "description": "The governance body responsible for the audit oversight and approval of the document.",
+    "context": [
+      "Approved by: Board Audit Committee"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_dep_002",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance",
+    "description": "The primary governing body of the bank that provided formal sign-off for the document.",
+    "context": [
+      "Approved by: Board of Directors"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "e9a347560b094df5aea377b49b057fac_024_emp_001",
+    "name": "Head of Internal Audit",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The senior executive responsible for internal audit who provided formal sign-off for the document.",
+    "context": [
+      "Approved by: Head of Internal Audit"
+    ],
+    "chunk_id": "e9a347560b094df5aea377b49b057fac_024",
+    "doc_id": "e9a347560b094df5aea377b49b057fac",
+    "domain": "banking_risk_governance"
+  }
+]

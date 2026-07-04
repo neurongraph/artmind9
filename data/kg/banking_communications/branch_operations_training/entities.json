@@ -1,0 +1,2164 @@
+[
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_001_mod_001",
+    "name": "FirstUK Bank — Branch Operations Training Manual",
+    "aliases": [
+      "TRAIN-BRANCH-001"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "The primary training manual for branch staff, managers, and tellers covering operational procedures within the retail banking department.",
+    "context": [
+      "FirstUK Bank — Branch Operations Training Manual",
+      "Audience: Branch Staff, Managers, Tellers"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_001",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_002_mod_001",
+    "name": "Branch Operations and Management Training",
+    "aliases": [],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A training program designed to instruct branch staff on the essential requirements of daily operations, customer service excellence, and the standards for opening procedures and general branch management.",
+    "context": [
+      "Train branch staff on daily operations, customer service, opening procedures, and branch management standards."
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_002",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_001",
+    "name": "Physical Security Opening Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A mandatory set of security checks that must be performed 30 minutes before the branch opens to ensure the premises are secure.",
+    "context": [
+      "Check entrance/exit doors locked",
+      "Disarm alarm system",
+      "Check for any signs of break-in",
+      "Turn on lights and CCTV"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_002",
+    "name": "Cash Vault Verification and Loading",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The required process for counting vault cash, verifying it against reports, and distributing standard amounts to teller drawers.",
+    "context": [
+      "Count cash in vault (report to manager)",
+      "Verify amount matches overnight report",
+      "Load cash drawers for tellers (standard: £5,000 per drawer)",
+      "Lock vault"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_003",
+    "name": "System Startup and Access Verification",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The operational requirement to boot systems, verify the status dashboard, and ensure teller access to customer accounts is functional.",
+    "context": [
+      "Check system status dashboard (green = ready)",
+      "Log into teller systems with credentials",
+      "Verify ability to access customer accounts"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_004",
+    "name": "Branch Readiness and Staffing Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The obligation to ensure the physical environment is clean and professional and that staff are present by the designated time.",
+    "context": [
+      "Check waiting area (seating, magazines, temperature)",
+      "Verify reception area is clean",
+      "Confirm staff are at their desks by 08:50 AM"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_acc_001",
+    "name": "Customer Accounts",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "Customer accounts that tellers must be able to access as part of the system startup and readiness process.",
+    "context": [
+      "Verify ability to access customer accounts"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_001",
+    "name": "Customer Greeting Standard",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A service level requirement ensuring customers are acknowledged promptly upon arrival during business hours.",
+    "context": [
+      "Greet customers within 2 minutes"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_002",
+    "name": "Transaction Accuracy Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "An operational obligation requiring staff to process financial transactions without errors.",
+    "context": [
+      "Handle transactions with accuracy"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_003",
+    "name": "New Account KYC/AML Procedure Compliance",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A regulatory obligation requiring staff to apply Know Your Customer and Anti-Money Laundering checks when opening new accounts.",
+    "context": [
+      "Follow KYC/AML procedures for new accounts"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_004",
+    "name": "Cash Drawer Security Maintenance",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A security obligation to ensure the physical and procedural safety of cash drawers at teller stations.",
+    "context": [
+      "Maintain cash drawer security"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_005",
+    "name": "Customer Queue Monitoring and Backup Trigger",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "An operational requirement to monitor the customer queue and trigger backup staffing when the queue exceeds 10 people.",
+    "context": [
+      "Customer queue monitored (>10 people = call backup)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_006",
+    "name": "Teller Station Staffing Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "An operational obligation to ensure all teller stations are staffed during business hours.",
+    "context": [
+      "All teller stations staffed"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_007",
+    "name": "Cash Drawer Balance Monitoring",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A financial control requirement to regularly monitor the balances of cash drawers.",
+    "context": [
+      "Cash drawer balances monitored"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_008",
+    "name": "System Performance Monitoring",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A technical obligation to ensure banking systems are running smoothly during operational hours.",
+    "context": [
+      "Systems running smoothly"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_009",
+    "name": "Customer Complaint Resolution",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A service obligation to ensure no customer complaints remain pending.",
+    "context": [
+      "No customer complaints pending"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_cust_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "Individuals interacting with the bank at teller stations or within the branch queue.",
+    "context": [
+      "Customer queue monitored",
+      "Greet customers within 2 minutes",
+      "No customer complaints pending"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_acc_001",
+    "name": "New Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "Accounts being opened by customers, which trigger mandatory KYC and AML procedures.",
+    "context": [
+      "Follow KYC/AML procedures for new accounts"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_txn_001",
+    "name": "Teller Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transaction_alert",
+    "description": "Financial transactions handled by staff at teller stations that must be processed accurately.",
+    "context": [
+      "Handle transactions with accuracy"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_001",
+    "name": "Transaction Cut-off Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A strict operational requirement to cease the initiation of new customer transactions before the branch closes.",
+    "context": [
+      "Do not start new transactions after 16:55 PM"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_002",
+    "name": "Cash Verification and Vault Security Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to collect, verify, and secure all teller cash in the vault, ensuring counts match previous records.",
+    "context": [
+      "Collect cash from all teller drawers",
+      "Count and verify (must match previous count)",
+      "Secure cash in vault",
+      "Lock vault"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_003",
+    "name": "High-Value Night Deposit Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A specific requirement to count and seal cash for night deposit when the amount exceeds £10,000.",
+    "context": [
+      "Count and seal cash for night deposit (if >£10,000)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_004",
+    "name": "System Security and Data Protection Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "data_handling_rule",
+    "description": "The duty to log out of systems, ensure no transactions are pending, and verify that no sensitive customer data remains visible on screens.",
+    "context": [
+      "Log out of all customer systems",
+      "Verify no transactions pending",
+      "Verify no sensitive data on screens"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_005",
+    "name": "Physical Security and Document Disposal Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to secure customer files, shred waste, lock all doors, and arm the alarm system.",
+    "context": [
+      "Collect all customer files",
+      "File papers in secure location",
+      "Empty and shred trash",
+      "Lock all office doors",
+      "Arm alarm system"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_006",
+    "name": "Closure Documentation Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The requirement to record the exact time of closure and the names of the staff members present.",
+    "context": [
+      "Record closure time and staff names"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_007",
+    "name": "Managerial Sign-Off Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The final verification step where a manager must confirm the branch is closed and cash is reconciled.",
+    "context": [
+      "Manager Sign-Off: Verify branch closed properly and all cash reconciled"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_var_001",
+    "name": "Security Code Placeholder",
+    "aliases": [
+      "[SECURITY CODE]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A dynamic placeholder for the specific alarm system security code used during the physical closure process.",
+    "context": [
+      "Arm alarm system (code: [SECURITY CODE])"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_tpl_001",
+    "name": "Closing Announcement Script",
+    "aliases": [],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A short, standardized verbal announcement to inform customers of the imminent branch closure.",
+    "context": [
+      "Announce closing: \"We close in 10 minutes\""
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_mod_001",
+    "name": "Part 2 — Customer Service Standards",
+    "aliases": [
+      "Part 2"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A training section focused on the standards of customer interaction and service delivery at FirstUK Bank, specifically covering the initial greeting process.",
+    "context": [
+      "PART 2: Customer Service Standards",
+      "Customer Greeting"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_obj_001",
+    "name": "Standardised Customer Greeting Procedure",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "Staff must be able to execute the correct greeting sequence upon a customer's arrival, including timing, verbal phrasing, and non-verbal cues.",
+    "context": [
+      "Greet within 2 minutes: \"Good morning/afternoon, welcome to FirstUK Bank\"",
+      "Smile, make eye contact",
+      "Ask how you can help"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_obl_001",
+    "name": "Customer Greeting Time Limit",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff are required to greet customers within a specific timeframe of two minutes upon their arrival at the bank.",
+    "context": [
+      "Greet within 2 minutes"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_obl_002",
+    "name": "Customer Mood Assessment",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff must observe and note the emotional state of the customer (e.g., whether they are upset or have an urgent need) during the initial interaction.",
+    "context": [
+      "Note customer mood (upset? urgent?)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_cus_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The individual visiting the bank branch who is the recipient of the customer service standards and greeting procedures.",
+    "context": [
+      "welcome to FirstUK Bank",
+      "Note customer mood"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_007_tpl_001",
+    "name": "Waiting Customer Management Script",
+    "aliases": [
+      "Waiting Customer Management"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A set of scripted responses and actions for staff to manage customers experiencing delays in a physical or virtual queue. The template provides specific phrasing based on the duration of the wait time.",
+    "context": [
+      "If Wait > 5 Minutes: Apologize: \"Sorry for the wait, we'll be with you shortly\"",
+      "Offer refreshment: \"Can I get you a coffee or water?\"",
+      "Keep updated: \"About 3 more minutes\"",
+      "If Wait > 15 Minutes: Escalate to manager"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_007",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_007_cust_001",
+    "name": "Waiting Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer who is currently waiting for service and is the recipient of the waiting management communication scripts.",
+    "context": [
+      "Waiting Customer Management",
+      "Offer refreshment: \"Can I get you a coffee or water?\"",
+      "Take contact info for callback"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_007",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_007_obl_001",
+    "name": "Manager Escalation Duty for Extended Wait",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "A mandatory operational requirement to escalate the situation to a manager when a customer's wait time exceeds 15 minutes.",
+    "context": [
+      "If Wait > 15 Minutes: Escalate to manager"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_007",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_mod_001",
+    "name": "Handling Difficult Customers Training",
+    "aliases": [],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A training unit focused on managing interactions with angry customers and identifying specific triggers that require the escalation of a situation to management.",
+    "context": [
+      "Handling Difficult Customers",
+      "Angry Customer:",
+      "Escalation Triggers:"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_obj_001",
+    "name": "De-escalation of Angry Customers",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "The ability to manage an angry customer through active listening, emotional acknowledgement, apology, and clear communication of next steps.",
+    "context": [
+      "Listen without interrupting",
+      "Acknowledge their emotion: \"I understand you're frustrated\"",
+      "Apologize: \"I'm sorry we let you down\"",
+      "Explain next steps: \"Here's what we'll do...\""
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_001",
+    "name": "Customer Voice Elevation or Profanity",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "misconduct_signal",
+    "description": "A behavioral indicator where the customer becomes verbally aggressive, triggering an immediate escalation process.",
+    "context": [
+      "Customer raises voice or uses profanity"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_002",
+    "name": "High Value Complaint (>£1,000)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "A financial threshold trigger where any complaint involving an amount greater than £1,000 requires management intervention.",
+    "context": [
+      "Complaint involves >£1,000"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_003",
+    "name": "Explicit Request for Management",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "misconduct_signal",
+    "description": "A direct request from the customer to speak with a manager, serving as a trigger for escalation.",
+    "context": [
+      "Customer requests manager"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_004",
+    "name": "Regulatory or Compliance Issue",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "data_protection_concern",
+    "description": "A scenario where the customer's complaint involves a potential breach of regulatory or compliance standards.",
+    "context": [
+      "Regulatory/compliance issue"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_005",
+    "name": "Potential Fraud Indicator",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "The identification of signs suggesting that a customer interaction or transaction may be fraudulent.",
+    "context": [
+      "Potential fraud"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_obl_001",
+    "name": "Immediate Escalation and Transaction Halt",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "A mandatory requirement for staff to stop any current transaction and contact a manager immediately upon the occurrence of an escalation trigger.",
+    "context": [
+      "Action: Stop transaction, call manager immediately"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_cust_001",
+    "name": "Angry Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "at_risk_customer",
+    "description": "A customer exhibiting frustration or anger who requires specific de-escalation techniques and potential management intervention.",
+    "context": [
+      "Angry Customer:",
+      "I understand you're frustrated"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_txn_001",
+    "name": "Escalated Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A financial transaction that must be halted due to the presence of escalation triggers such as potential fraud or high-value complaints.",
+    "context": [
+      "Stop transaction, call manager immediately"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_mod_001",
+    "name": "PART 3: Account Opening in Branch",
+    "aliases": [
+      "Part 3"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A comprehensive training unit detailing the end-to-end 45-minute process for opening a new bank account within a branch setting, covering discovery through to account closure.",
+    "context": [
+      "PART 3: Account Opening in Branch",
+      "Complete Process (45 Minutes)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_kyc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The identity and address verification stage of account opening, requiring the examination and filing of government-issued photo ID and proof of residency.",
+    "context": [
+      "Step 3: KYC Verification (15 min)",
+      "Request photo ID (UK Passport or Driving License)",
+      "Request proof of address (utility bill, council tax, bank statement)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_aml_001",
+    "name": "AML Screening Process",
+    "aliases": [
+      "Step 4"
+    ],
+    "entity_class": "AML_SCREENING",
+    "type": "screening_process",
+    "description": "The mandatory anti-money laundering check where customers are screened against international sanctions lists including OFAC, EU, and HMT.",
+    "context": [
+      "Step 4: AML Screening (5 min)",
+      "Run customer through OFAC/EU/HMT screening"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_001",
+    "name": "ID Validity and Tampering Check",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff are required to physically examine original identification documents to ensure they are valid and have not been tampered with.",
+    "context": [
+      "Examine original (check for validity, tampering)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_002",
+    "name": "KYC Document Filing Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "A mandatory requirement to create photocopies of both the photo ID and proof of address and store them in the customer file.",
+    "context": [
+      "Photocopy and file"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_003",
+    "name": "Mandatory Sanctions Screening",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The obligation to run every new customer through the OFAC, EU, and HMT screening lists during the account opening process.",
+    "context": [
+      "Run customer through OFAC/EU/HMT screening"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_004",
+    "name": "AML Hit Escalation Duty",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "The requirement to immediately escalate the application to the Compliance department if the AML screening returns a 'hit'.",
+    "context": [
+      "If hit: Escalate to Compliance"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_005",
+    "name": "AML Result Documentation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The requirement to formally record the outcome of the AML screening process.",
+    "context": [
+      "Document result"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_cus_001",
+    "name": "Branch Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "new_customer",
+    "description": "The individual visiting the branch to open a new account, subject to discovery, KYC, and AML processes.",
+    "context": [
+      "Welcome customer",
+      "Understand product need"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_acc_001",
+    "name": "New Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The financial account created in the system following successful KYC and AML verification.",
+    "context": [
+      "System creates account",
+      "Generate account number"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_crd_001",
+    "name": "Debit Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "The payment card offered to the customer during the account creation process, including a specific application and security briefing.",
+    "context": [
+      "Provide debit card application (if applicable)",
+      "Explain card features and security"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_prd_001",
+    "name": "Savings Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A banking product identified during the discovery phase to meet the customer's specific financial needs.",
+    "context": [
+      "Understand product need (savings? checking?)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_prd_002",
+    "name": "Checking Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A banking product identified during the discovery phase to meet the customer's specific financial needs.",
+    "context": [
+      "Understand product need (savings? checking?)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_var_001",
+    "name": "ID Type",
+    "aliases": [
+      "[Type]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder used in the KYC record to specify the type of identification document verified (e.g., Passport).",
+    "context": [
+      "Record: \"ID verified: [Type], [Document Number]\""
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_var_002",
+    "name": "Document Number",
+    "aliases": [
+      "[Document Number]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder used in the KYC record to capture the unique identification number of the verified document.",
+    "context": [
+      "Record: \"ID verified: [Type], [Document Number]\""
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_mod_001",
+    "name": "Part 4 — Common Branch Transactions",
+    "aliases": [
+      "Part 4"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A training section focusing on the standard operational procedures for handling routine transactions within a bank branch, specifically detailing the cash deposit process.",
+    "context": [
+      "PART 4: Common Branch Transactions",
+      "Cash Deposit"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_obj_001",
+    "name": "Cash Deposit Process Execution",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "The ability for staff to correctly execute the six-step sequence for processing a customer cash deposit, from account verification to closing the transaction.",
+    "context": [
+      "Verify customer account",
+      "Count cash in front of customer",
+      "Verify count matches their receipt",
+      "Update account in system",
+      "Provide receipt",
+      "Close transaction"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_wrn_001",
+    "name": "Cash Deposit Exceeding £1,000 (Suspicious Activity)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "aml_red_flag",
+    "description": "A red flag triggered when a customer deposits more than £1,000 in cash, which is categorized as suspicious activity requiring further compliance action.",
+    "context": [
+      "Suspicious Activity: >£1,000 in cash"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_obl_001",
+    "name": "Currency Transaction Report (CTR) Filing Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "The mandatory requirement for staff to file a Currency Transaction Report (CTR) and consult compliance when a cash deposit exceeds the £1,000 threshold.",
+    "context": [
+      "file CTR, see compliance"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_cust_001",
+    "name": "Branch Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The individual visiting the branch to perform a cash deposit transaction.",
+    "context": [
+      "Verify customer account",
+      "Count cash in front of customer"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_acc_001",
+    "name": "Customer Deposit Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The specific account being credited during the cash deposit process.",
+    "context": [
+      "Verify customer account",
+      "Update account in system"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_txn_001",
+    "name": "Cash Deposit Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "large_transaction",
+    "description": "The financial event of depositing cash into an account, specifically noted for monitoring when it exceeds £1,000.",
+    "context": [
+      "Cash Deposit",
+      "Suspicious Activity: >£1,000 in cash"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_obl_001",
+    "name": "Customer Identity Verification Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff are required to verify the identity of the customer before proceeding with a cash withdrawal using either an account card or a valid ID.",
+    "context": [
+      "Verify customer identity (account card or ID)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_obl_002",
+    "name": "Cash Withdrawal Limit Approval Process",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "Withdrawals exceeding £5,000 are prohibited without obtaining manager approval and ensuring prior notice has been given.",
+    "context": [
+      "Withdrawal limit: £5,000 max (above requires manager approval + notice)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_wrn_001",
+    "name": "Cash Withdrawal Exceeding £1,000 (Suspicious Activity)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "aml_red_flag",
+    "description": "A cash withdrawal of more than £1,000 is flagged as suspicious activity requiring a Currency Transaction Report (CTR).",
+    "context": [
+      "Suspicious Activity: >£1,000 withdrawal"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_obl_003",
+    "name": "Currency Transaction Report (CTR) Filing Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "Staff must file a Currency Transaction Report (CTR) and consult compliance when a withdrawal exceeds £1,000.",
+    "context": [
+      "Suspicious Activity: >£1,000 withdrawal (file CTR, see compliance)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_cust_001",
+    "name": "Cash Withdrawal Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer performing a cash withdrawal transaction who must undergo identity verification.",
+    "context": [
+      "Verify customer identity (account card or ID)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_acc_001",
+    "name": "Withdrawal Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The account from which funds are being withdrawn, which must be verified for sufficient balance.",
+    "context": [
+      "Verify account has funds"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_txn_001",
+    "name": "Cash Withdrawal Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "large_transaction",
+    "description": "The financial event of withdrawing cash, subject to specific limits and reporting thresholds.",
+    "context": [
+      "Cash Withdrawal",
+      "Close transaction"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_card_001",
+    "name": "Account Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "A card used as a means of verifying the customer's identity during the withdrawal process.",
+    "context": [
+      "Verify customer identity (account card or ID)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_001",
+    "name": "Customer Identity Verification for Account Closure",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A mandatory step in the account closure process requiring staff to verify the identity of the customer before proceeding with the closure.",
+    "context": [
+      "Verify customer identity"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_002",
+    "name": "Confirmation of Account Closure Request",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff must explicitly confirm the customer's request to close the account as part of the standard closure procedure.",
+    "context": [
+      "Confirm closure request"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_003",
+    "name": "Final Balance Calculation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The requirement to calculate the final account balance, ensuring all pending interest and fees are accounted for prior to closure.",
+    "context": [
+      "Calculate final balance (pending interest, fees)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_004",
+    "name": "Final Statement Issuance",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The obligation to print and provide a final statement to the customer during the account closure process.",
+    "context": [
+      "Print final statement"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_005",
+    "name": "Payout Method Arrangement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff must arrange a method for the customer to receive their remaining funds, with options including transfer, cheque, or cash.",
+    "context": [
+      "Arrange payout method (transfer, cheque, cash)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_006",
+    "name": "System Account Deactivation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to formally deactivate the customer's account within the bank's internal systems.",
+    "context": [
+      "Deactivate account in system"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_007",
+    "name": "Provision of Closure Receipt",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The final step in the closure process where staff must provide the customer with a receipt confirming the account has been closed.",
+    "context": [
+      "Provide closure receipt"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_acc_001",
+    "name": "Account for Closure",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "A customer account that is undergoing the formal closure process as described in the training manual.",
+    "context": [
+      "Account Closure",
+      "Deactivate account in system"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_cus_001",
+    "name": "Customer Requesting Closure",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is initiating the request to close their account and whose identity must be verified.",
+    "context": [
+      "Verify customer identity",
+      "Confirm closure request"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_mod_001",
+    "name": "Standing Order Setup Training",
+    "aliases": [
+      "Standing Order Setup"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A procedural training unit detailing the step-by-step process for staff to set up a standing order for a customer. It covers the collection of recipient data, payment terms, and the final confirmation steps.",
+    "context": [
+      "Standing Order Setup",
+      "Process:",
+      "Obtain recipient details (name, account number, sort code)",
+      "Provide receipt"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obj_001",
+    "name": "Standing Order Setup Process Execution",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "The ability for staff to correctly execute the six-step sequence required to establish a standing order, from obtaining recipient details to providing a receipt.",
+    "context": [
+      "Obtain recipient details (name, account number, sort code)",
+      "Confirm payment amount and frequency",
+      "Confirm start date",
+      "Enter in system"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obl_001",
+    "name": "Recipient Detail Collection Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "Staff are required to obtain specific recipient identification data, including name, account number, and sort code, before proceeding with a standing order setup.",
+    "context": [
+      "Obtain recipient details (name, account number, sort code)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obl_002",
+    "name": "Payment Terms Confirmation Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff must confirm the specific payment amount, the frequency of the payments, and the start date with the customer.",
+    "context": [
+      "Confirm payment amount and frequency",
+      "Confirm start date"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obl_003",
+    "name": "Standing Order Receipt Provision Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff must generate a confirmation and provide a receipt to the customer upon completion of the standing order setup.",
+    "context": [
+      "Generate confirmation",
+      "Provide receipt"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_acc_001",
+    "name": "Recipient Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The destination account for the standing order, identified by an account number and sort code.",
+    "context": [
+      "Obtain recipient details (name, account number, sort code)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_txn_001",
+    "name": "Standing Order Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "statement_entry",
+    "description": "A recurring financial transfer characterized by a specific amount, frequency, and start date.",
+    "context": [
+      "Confirm payment amount and frequency",
+      "Confirm start date"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_obl_001",
+    "name": "Direct Debit Mandate Collection Process",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A mandatory sequence of steps staff must follow to ensure the correct collection and processing of Direct Debit mandates, including verification and secure filing.",
+    "context": [
+      "Obtain signed DD mandate form",
+      "Verify account details",
+      "Verify biller DDIC",
+      "File mandate securely"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_obl_002",
+    "name": "Biller Notification Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "The requirement to notify the biller upon receipt of a Direct Debit mandate, which is handled via an automated process.",
+    "context": [
+      "Notify biller of receipt (automated)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_obl_003",
+    "name": "Customer Copy Provision",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The obligation to provide the customer with a copy of the Direct Debit mandate form.",
+    "context": [
+      "Provide customer copy"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_acc_001",
+    "name": "Direct Debit Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The customer account associated with the Direct Debit mandate that requires detail verification.",
+    "context": [
+      "Verify account details"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_cus_001",
+    "name": "Direct Debit Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer providing the signed mandate and receiving a copy of the documentation.",
+    "context": [
+      "Provide customer copy"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_mod_001",
+    "name": "Part 5 — Security Procedures",
+    "aliases": [
+      "Part 5"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "security_module",
+    "description": "A training section focused on the physical and operational security of cash handling, including vault access, teller drawer management, and thresholds for large transactions.",
+    "context": [
+      "PART 5: Security Procedures",
+      "Cash Security"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_001",
+    "name": "Vault Two-Person Rule",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A mandatory security requirement ensuring that vault access is never performed by a single individual, requiring both a manager and a teller.",
+    "context": [
+      "Two-person rule: Manager + teller together"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_002",
+    "name": "Vault Attendance Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "prohibition",
+    "description": "A strict prohibition against leaving the bank vault open without supervision.",
+    "context": [
+      "Never leave vault open unattended"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_003",
+    "name": "Secure Cash Counting Protocol",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Requirement to count cash on a designated secure counter rather than a standard desk to maintain security.",
+    "context": [
+      "Count cash on secure counter (not desk)"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_004",
+    "name": "Teller Drawer Security and Reporting",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "Obligation to keep teller drawers locked during absence, perform daily counts, and immediately report any financial discrepancies.",
+    "context": [
+      "Locked when teller absent",
+      "Counted daily",
+      "Discrepancies reported immediately"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_005",
+    "name": "Manager Approval for Large Transactions",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Requirement for manager authorization for any deposit or withdrawal exceeding £1,000.",
+    "context": [
+      ">£1,000: Manager approval"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_006",
+    "name": "CTR Filing Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "Mandatory filing of a Currency Transaction Report (CTR) form for deposits or withdrawals exceeding £5,000.",
+    "context": [
+      ">£5,000: CTR form filed"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_007",
+    "name": "Internal Controls Check for High-Value Transactions",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Requirement to perform an internal controls check for any transaction exceeding £10,000.",
+    "context": [
+      ">£10,000: Internal controls check"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_trn_001",
+    "name": "Large Deposit/Withdrawal Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "large_transaction",
+    "description": "Financial events involving high-value cash movements that trigger specific approval and reporting obligations.",
+    "context": [
+      "Large Deposits/Withdrawals",
+      ">£1,000",
+      ">£5,000",
+      ">£10,000"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_obl_001",
+    "name": "Confidentiality of Customer Personal Information",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "confidentiality_obligation",
+    "description": "A set of mandatory rules regarding the handling and discussion of customer personal information to ensure data security. Staff are prohibited from discussing sensitive data in public areas and must secure physical documents.",
+    "context": [
+      "Never discuss on phone where customers can hear",
+      "Don't leave documents on desk",
+      "File customer documents in locked cabinet",
+      "Shred documents when no longer needed"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_obl_002",
+    "name": "Secure System Access Protocol",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "data_handling_rule",
+    "description": "Mandatory security requirements for staff accessing bank systems. This includes strict rules on password sharing, session management, and workstation security.",
+    "context": [
+      "Log out when leaving desk",
+      "Never share passwords",
+      "Lock computer when absent"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_obl_003",
+    "name": "Immediate Reporting of Suspicious Activity",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement for staff to notify the bank immediately upon detecting any suspicious activity related to system access or security.",
+    "context": [
+      "Report suspicious activity immediately"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_cust_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The individual whose personal information must be protected and kept confidential by bank staff.",
+    "context": [
+      "Never discuss on phone where customers can hear",
+      "File customer documents in locked cabinet"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_001",
+    "name": "Customer unusually nervous/evasive (Fraud Red Flag)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "A behavioral indicator where a customer exhibits unusual nervousness or evasiveness during interactions, signaling potential fraudulent activity.",
+    "context": [
+      "Customer unusually nervous/evasive"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_002",
+    "name": "Requesting large unusual transaction (Fraud Red Flag)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "A scenario where a customer requests a transaction that is atypically large or unusual for their profile.",
+    "context": [
+      "Requesting large unusual transaction"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_003",
+    "name": "Using multiple accounts for same purpose (Fraud Red Flag)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "A pattern where a customer utilizes several different accounts to achieve a single objective, which may indicate layering or fraud.",
+    "context": [
+      "Using multiple accounts for same purpose"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_004",
+    "name": "Inconsistent personal information (Fraud Red Flag)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "A red flag triggered when the personal information provided by a customer is contradictory or inconsistent.",
+    "context": [
+      "Inconsistent personal information"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_005",
+    "name": "Third party insisting customer transfer funds (Fraud Red Flag)",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "social_engineering_attempt",
+    "description": "A high-risk scenario where an external third party is pressuring a customer to move funds, often indicative of a scam or social engineering.",
+    "context": [
+      "Third party insisting customer transfer funds"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_obl_001",
+    "name": "Escalation of Fraud Concerns",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "The mandatory requirement for staff to escalate concerns to a manager or the compliance department when fraud red flags are identified.",
+    "context": [
+      "escalate to manager/compliance if concerned"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_001",
+    "name": "Physical Accessibility Provisioning",
+    "aliases": [
+      "Physical Accessibility"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to ensure bank premises are equipped with specific accessibility features to support inclusive customer service. This includes physical infrastructure for mobility, hearing, and visual impairments, as well as privacy needs.",
+    "context": [
+      "Wheelchair access: Ramps, accessible toilets",
+      "Hearing loop: Available at teller counter",
+      "Large print: Forms, information available",
+      "Quiet area: Private space for sensitive discussions"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_002",
+    "name": "Wheelchair Access Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The obligation to provide physical access for wheelchair users through the provision of ramps and accessible toilets.",
+    "context": [
+      "Wheelchair access: Ramps, accessible toilets"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_003",
+    "name": "Hearing Loop Provision",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to have a hearing loop available at the teller counter to assist customers with hearing impairments.",
+    "context": [
+      "Hearing loop: Available at teller counter"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_004",
+    "name": "Large Print Documentation Provision",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The obligation to make forms and information available in large print for visually impaired customers.",
+    "context": [
+      "Large print: Forms, information available"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_005",
+    "name": "Quiet Area Provision",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to provide a private quiet area for customers who need to conduct sensitive discussions.",
+    "context": [
+      "Quiet area: Private space for sensitive discussions"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_cus_001",
+    "name": "Customer with Accessibility Needs",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "at_risk_customer",
+    "description": "Customers requiring specific physical or sensory accommodations to access banking services, including those using wheelchairs, hearing loops, or large print materials.",
+    "context": [
+      "Wheelchair access",
+      "Hearing loop",
+      "Large print",
+      "Private space for sensitive discussions"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_019_obl_001",
+    "name": "Clear and Accessible Customer Communication Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A set of mandatory communication standards for staff when interacting with customers to ensure clarity and accessibility. This includes specific requirements for vulnerable customers and the avoidance of technical jargon.",
+    "context": [
+      "Speak clearly and face customer",
+      "Allow extra time for older/vulnerable customers",
+      "Use plain language (no jargon)",
+      "Offer written information",
+      "Arrange interpreter if needed"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_019",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_019_cust_001",
+    "name": "Vulnerable Customer",
+    "aliases": [
+      "older/vulnerable customers"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "at_risk_customer",
+    "description": "Customers who may require additional support or adjustments during communication, specifically including older individuals.",
+    "context": [
+      "Allow extra time for older/vulnerable customers"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_019",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_001",
+    "name": "Elderly or Mentally Incapacitated Customers",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "at_risk_customer",
+    "description": "Customers who may have cognitive impairments or age-related vulnerabilities requiring staff to adjust their communication pace and patience.",
+    "context": [
+      "Elderly or mentally incapacitated: Slow down, be patient"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_002",
+    "name": "Customers with Language Barriers",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "at_risk_customer",
+    "description": "Customers who cannot communicate effectively in the primary language of the bank, requiring the arrangement of an interpreter.",
+    "context": [
+      "Language barriers: Arrange interpreter"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_003",
+    "name": "Abuse Victims",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "at_risk_customer",
+    "description": "Customers experiencing abuse who require a safe environment and confidential assistance from bank staff.",
+    "context": [
+      "Abuse victims: Offer safe space, confidential help"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_004",
+    "name": "Victims of Financial Abuse",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "at_risk_customer",
+    "description": "Customers who are being subjected to financial exploitation, triggering a mandatory escalation to the compliance department.",
+    "context": [
+      "Financial abuse: Escalate to compliance"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_obl_001",
+    "name": "Provision of Safe Space and Confidential Help for Abuse Victims",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement for staff to provide a secure environment and confidential support when dealing with customers who are victims of abuse.",
+    "context": [
+      "Abuse victims: Offer safe space, confidential help"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_obl_002",
+    "name": "Escalation of Financial Abuse to Compliance",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "The mandatory requirement to report and escalate suspected cases of financial abuse to the bank's compliance department.",
+    "context": [
+      "Financial abuse: Escalate to compliance"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_wrn_001",
+    "name": "Indicators of Financial Abuse",
+    "aliases": [],
+    "entity_class": "WARNING_SIGN",
+    "type": "fraud_indicator",
+    "description": "Signs or scenarios suggesting a customer is a victim of financial abuse, which necessitates immediate escalation.",
+    "context": [
+      "Financial abuse: Escalate to compliance"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_001",
+    "name": "KYC Completion Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "A performance standard requiring that 100% of Know Your Customer (KYC) processes are completed accurately.",
+    "context": [
+      "KYC completion: 100%"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_002",
+    "name": "AML Screening Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A mandatory performance standard ensuring that 100% of required Anti-Money Laundering (AML) screenings are performed.",
+    "context": [
+      "AML screening: 100%"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_003",
+    "name": "Fraud and Security Incident Reporting Timeline",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "A security obligation requiring that all fraud or security incidents be reported within a 24-hour window.",
+    "context": [
+      "Fraud/security incidents: Reported <24 hours"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_004",
+    "name": "Immediate Customer Data Breach Reporting",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "A critical security obligation requiring the immediate reporting of any breaches involving customer data.",
+    "context": [
+      "Customer data breaches: Reported immediately"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_005",
+    "name": "Suspicious Transaction Reporting Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "reporting_obligation",
+    "description": "A strict compliance requirement that 100% of all identified suspicious transactions must be reported.",
+    "context": [
+      "Suspicious transactions: 100% reported"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_006",
+    "name": "Vault Discrepancy Zero Tolerance",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "prohibition",
+    "description": "A security standard establishing a zero-tolerance policy for any discrepancies found within the bank vault.",
+    "context": [
+      "Vault discrepancies: Zero tolerance"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_001",
+    "name": "Escalation of Customer Disputes exceeding £1,000",
+    "aliases": [
+      "Customer dispute >£1,000"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "A mandatory requirement to escalate customer disputes that exceed the value of £1,000 to the Area Manager.",
+    "context": [
+      "Customer dispute >£1,000 | Area Manager | ext. 5001"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_002",
+    "name": "Escalation of Fraud and AML Concerns",
+    "aliases": [
+      "Fraud/AML concern"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "A mandatory requirement to report any concerns regarding Fraud or Anti-Money Laundering (AML) to the Compliance department.",
+    "context": [
+      "Fraud/AML concern | Compliance | ext. 5010"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_003",
+    "name": "Escalation of Security Breaches",
+    "aliases": [
+      "Security breach"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "A mandatory requirement to report security breaches to the Security department.",
+    "context": [
+      "Security breach | Security | ext. 5020"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_004",
+    "name": "Escalation of Technical Problems",
+    "aliases": [
+      "Technical problem"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to contact the IT Help Desk when encountering technical problems.",
+    "context": [
+      "Technical problem | IT Help Desk | ext. 5000"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_mod_001",
+    "name": "Mandatory Branch Staff Onboarding Training",
+    "aliases": [
+      "Mandatory Training"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "operations_module",
+    "description": "A mandatory training program that all branch staff must complete prior to commencing their roles. It serves as the foundational requirement for staff entry.",
+    "context": [
+      "Mandatory Training: All branch staff before starting"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_obl_001",
+    "name": "Mandatory Training Completion for Branch Staff",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "training_completion",
+    "description": "The requirement that all branch staff must complete the mandatory training before they are permitted to start their duties.",
+    "context": [
+      "Mandatory Training: All branch staff before starting"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_obl_002",
+    "name": "Annual Training Refresher Requirement",
+    "aliases": [
+      "Refresher"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "training_completion",
+    "description": "The obligation for staff to undergo training refreshers on an annual basis or whenever there are changes to operational procedures.",
+    "context": [
+      "Refresher: Annually or when procedures change"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_obl_003",
+    "name": "Manager Certification Requirement",
+    "aliases": [
+      "Manager Certification"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A mandatory certification process that must be completed by individuals before they are eligible to manage a branch.",
+    "context": [
+      "Manager Certification: Must complete before managing branch"
+    ],
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539",
+    "domain": "banking_communications"
+  }
+]

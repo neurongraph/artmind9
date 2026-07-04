@@ -1,0 +1,2552 @@
+[
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_pol_001",
+    "name": "FirstUK Bank Document Retention Policy",
+    "properties": {
+      "document_id": "RET-POL-005",
+      "version": "1.2",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "owner": "Head of Compliance",
+      "owning_department": "Compliance",
+      "audience": [
+        "All Staff",
+        "Compliance",
+        "Legal",
+        "Audit"
+      ],
+      "regulatory_basis": [
+        "POCA 2002",
+        "AML Regulations",
+        "GDPR",
+        "FCA COBS"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_001",
+    "name": "Proceeds of Crime Act 2002",
+    "properties": {
+      "how_cited": "POCA 2002"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_002",
+    "name": "Anti-Money Laundering Regulations",
+    "properties": {
+      "how_cited": "AML Regulations"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_003",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "how_cited": "GDPR"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_reg_004",
+    "name": "FCA Conduct of Business Sourcebook",
+    "properties": {
+      "how_cited": "FCA COBS"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_title": "Head of Compliance",
+      "department": "Compliance",
+      "authority": "Policy Owner"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_002",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_003",
+    "name": "Compliance",
+    "properties": {
+      "role_title": "Compliance",
+      "department": "Compliance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_004",
+    "name": "Legal",
+    "properties": {
+      "role_title": "Legal"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001_rol_005",
+    "name": "Audit",
+    "properties": {
+      "role_title": "Audit"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_001",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_pol_001",
+    "name": "FirstUK Bank Data Retention Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank retains customer and operational documents for periods mandated by law and business need, then destroys records securely to minimize data breach risk and compliance burden."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_prv_001",
+    "name": "Mandatory Retention of Documents",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "customer documents",
+        "operational documents"
+      ],
+      "timeframe": "periods mandated by law and business need"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_prv_002",
+    "name": "Secure Destruction of Records",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_rsk_001",
+    "name": "Data Breach Risk",
+    "properties": {
+      "required_response": "secure destruction of records"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_rsk_002",
+    "name": "Compliance Burden",
+    "properties": {
+      "required_response": "secure destruction of records"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002_ctl_001",
+    "name": "Secure Record Destruction",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Data Breach Risk",
+        "Compliance Burden"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_002",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_pol_001",
+    "name": "Data Retention Policy",
+    "properties": {
+      "core_policy_statement": "To establish retention schedules that comply with legal and regulatory obligations, support dispute resolution and audits, minimize data retention risk, ensure secure destruction, and maintain audit trails."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_001",
+    "name": "Compliance with Legal and Regulatory Obligations",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Audit"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_002",
+    "name": "Support for Dispute Resolution and Audits",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Dispute Resolution",
+        "Audits"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_003",
+    "name": "Data Minimization and Risk Reduction",
+    "properties": {
+      "provision_type": "mandatory",
+      "regulatory_source": "GDPR",
+      "core_obligation": "data minimization"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_004",
+    "name": "Secure Destruction of Data",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_prv_005",
+    "name": "Maintenance of Audit Trail",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU",
+      "key_obligation": "data minimization"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_rsk_001",
+    "name": "Data Retention Risk",
+    "properties": {
+      "risk_definition": "Risks associated with the retention of data beyond necessary periods, specifically linked to GDPR data minimization requirements."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_ctl_001",
+    "name": "Retention Schedules",
+    "properties": {
+      "control_type": "directive",
+      "applies_to": [
+        "Legal obligations",
+        "Regulatory obligations"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_ctl_002",
+    "name": "Secure Destruction",
+    "properties": {
+      "control_type": "preventive"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003_ctl_003",
+    "name": "Audit Trail",
+    "properties": {
+      "control_type": "detective"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_003",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_pol_001",
+    "name": "Data Retention Policy",
+    "properties": {
+      "scope_summary": "Applies to all customer documents, transaction records, policy/procedure documentation, audit and compliance files, and all physical and digital records."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_001",
+    "name": "Mandatory Retention of Customer Documentation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "customer documents"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_002",
+    "name": "Mandatory Retention of Transaction Records",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "transaction records"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_003",
+    "name": "Mandatory Retention of Policy and Procedure Documentation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "policy documentation",
+        "procedure documentation"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_004",
+    "name": "Mandatory Retention of Audit and Compliance Files",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "audit files",
+        "compliance files"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_prv_005",
+    "name": "Mandatory Retention of Physical and Digital Records",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "physical records",
+        "digital records"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004_ctl_001",
+    "name": "Record Keeping",
+    "properties": {
+      "control_type": "directive",
+      "applies_to": [
+        "customer documents",
+        "transaction records",
+        "policy/procedure documentation",
+        "audit and compliance files",
+        "physical and digital records"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_004",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_pol_001",
+    "name": "FirstUK Bank Data Retention Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank retains documents only as long as legally required or business-justified, then destroys them securely."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_prv_001",
+    "name": "Limited Document Retention Period",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "all documents",
+      "core_requirement": "Documents must be retained only as long as legally required or business-justified"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_prv_002",
+    "name": "Secure Document Destruction",
+    "properties": {
+      "provision_type": "mandatory",
+      "core_requirement": "Documents must be destroyed securely once the retention period expires"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005_ctl_001",
+    "name": "Secure Destruction Mechanism",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "document destruction process"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_005",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_pol_001",
+    "name": "Retention Schedule by Document Type",
+    "properties": {
+      "policy_domain": "data_retention",
+      "scope_summary": "Defines the mandatory retention periods and destruction methods for customer and account documentation based on legal and regulatory requirements."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_reg_001",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Mandates the retention of records to support investigations into criminal proceeds."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_reg_002",
+    "name": "Money Laundering Regulations 2017",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "secondary_legislation",
+      "key_obligation": "Requires the retention of KYC and CDD records for a specified period post-relationship."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_reg_003",
+    "name": "Direct Debit Scheme Rules",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "industry_standard",
+      "key_obligation": "Governs the retention period for Direct Debit mandates following cancellation."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_rsk_001",
+    "name": "Money Laundering",
+    "properties": {
+      "risk_treatment": "Mitigated through strict adherence to KYC/CDD record retention periods."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_rsk_002",
+    "name": "Fraud",
+    "properties": {
+      "risk_treatment": "Mitigated by retaining identification documents and transaction records for audit and dispute resolution."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_ctl_001",
+    "name": "Secure Document Destruction",
+    "properties": {
+      "control_type": "corrective",
+      "mandatory": "yes",
+      "performed_by": "Operations/Data Management",
+      "evidence_required": "Destruction logs",
+      "technology_used": [
+        "Shredding",
+        "Secure Deletion"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_001",
+    "name": "Customer Profile Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Account tenure + 6 years",
+      "regulatory_source": [
+        "POCA",
+        "AML"
+      ],
+      "verification_method": "Audit of profile deletion dates",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_002",
+    "name": "KYC/CDD Records Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years post-closure",
+      "regulatory_source": [
+        "Money Laundering Regs 2017"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_003",
+    "name": "Identification Documents Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years post-closure",
+      "regulatory_source": [
+        "POCA"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_004",
+    "name": "Address Verification Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years post-closure",
+      "regulatory_source": [
+        "KYC requirements"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_005",
+    "name": "Account Opening Forms Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years post-closure",
+      "regulatory_source": [
+        "Contract evidence"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_006",
+    "name": "Statements Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Account tenure + 6 years",
+      "regulatory_source": [
+        "Customer service",
+        "disputes"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_007",
+    "name": "Transaction Records Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years minimum",
+      "regulatory_source": [
+        "POCA",
+        "audit",
+        "disputes"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_008",
+    "name": "Standing Orders Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Account tenure + 2 years",
+      "regulatory_source": [
+        "Contract evidence"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_prv_009",
+    "name": "Direct Debit Mandates Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years post-cancellation",
+      "regulatory_source": [
+        "DD scheme rules"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_id_001",
+    "name": "Identification Documents",
+    "properties": {
+      "retention_period": "6 years post-closure",
+      "verification_method": "Shred/delete"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006_id_002",
+    "name": "Address Verification",
+    "properties": {
+      "retention_period": "6 years post-closure",
+      "verification_method": "Shred/delete"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_006",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_pol_001",
+    "name": "Compliance & Regulatory Documents Retention Policy",
+    "properties": {
+      "policy_domain": "compliance",
+      "scope_summary": "Defines the mandatory retention periods for various compliance and regulatory documents based on legal and regulatory requirements."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_001",
+    "name": "Complaint Files Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years from resolution",
+      "regulatory_source": "FCA COBS Part 2"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_001",
+    "name": "FCA Conduct of Business Sourcebook Part 2",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_002",
+    "name": "Regulatory Reports Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years",
+      "regulatory_source": [
+        "PRA Rulebook",
+        "audit"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_002",
+    "name": "PRA Rulebook",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_003",
+    "name": "AML Screening Results Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years post-closure",
+      "regulatory_source": "Money Laundering Regs"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_003",
+    "name": "Money Laundering Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_004",
+    "name": "SAR Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years",
+      "regulatory_source": "Proceeds of Crime Act"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_004",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_005",
+    "name": "Audit Reports Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "7 years",
+      "regulatory_source": "Statutory audit"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_005",
+    "name": "Statutory Audit Requirements",
+    "properties": {
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_006",
+    "name": "Board and Committee Minutes Permanent Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Permanent",
+      "regulatory_source": "Corporate governance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_006",
+    "name": "Corporate Governance Standards",
+    "properties": {
+      "regulation_type": "industry_standard"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_007",
+    "name": "Compliance Bulletins Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "3 years",
+      "regulatory_source": "Regulatory reference"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_007",
+    "name": "Regulatory Reference Standards",
+    "properties": {
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_prv_008",
+    "name": "Regulatory Circulars Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "3–5 years",
+      "regulatory_source": "Regulatory guidance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_reg_008",
+    "name": "Regulatory Guidance",
+    "properties": {
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007_ctl_001",
+    "name": "Compliance Record Keeping",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Complaint Files",
+        "Regulatory Reports",
+        "AML Screening Results",
+        "SAR",
+        "Audit Reports",
+        "Board/Committee Minutes",
+        "Compliance Bulletins",
+        "Regulatory Circulars"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_007",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_pol_001",
+    "name": "Operational & Support Documents Retention Policy",
+    "properties": {
+      "policy_domain": "records_management",
+      "scope_summary": "Retention periods for operational and support documents including SOPs, policies, training, disciplinary records, logs, backups, and emails."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_001",
+    "name": "SOP and Procedure Version Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Current version plus 2 prior versions",
+      "verification_method": "Audit trail",
+      "applies_to": [
+        "SOPs",
+        "Procedures"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_002",
+    "name": "Permanent Policy Document Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Permanent",
+      "applies_to": [
+        "Policy Documents"
+      ],
+      "regulatory_source": [
+        "Governance",
+        "Legal"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_003",
+    "name": "Compliance Training Record Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "3 years",
+      "verification_method": "Compliance training verification"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_004",
+    "name": "Staff Disciplinary Record Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years from action",
+      "regulatory_source": "Employment law"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_005",
+    "name": "System Access Log Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "1 year",
+      "verification_method": "Audit",
+      "applies_to": [
+        "System Access Logs"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_006",
+    "name": "Backup Tape Rotation Retention",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "30 days",
+      "applies_to": [
+        "Backup Tapes"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_007",
+    "name": "General Email Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "1–3 years",
+      "applies_to": [
+        "General Email"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_prv_008",
+    "name": "Legal and Compliance Email Retention",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "7 years",
+      "applies_to": [
+        "Legal Email",
+        "Compliance Email"
+      ],
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_reg_001",
+    "name": "Employment Law",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Retention of staff disciplinary records for 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_ctl_001",
+    "name": "Audit Trail Maintenance",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "SOPs",
+        "Procedures",
+        "System Access Logs"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_ctl_002",
+    "name": "Disaster Recovery Backups",
+    "properties": {
+      "control_type": "corrective",
+      "frequency": "30 days (rotating)",
+      "applies_to": [
+        "Backup Tapes"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008_ctl_003",
+    "name": "Legal Hold",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Legal and Compliance Email"
+      ],
+      "evidence_required": "Email archives retained for 7 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_008",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_pol_001",
+    "name": "Data Retention Policy",
+    "properties": {
+      "policy_domain": "data_retention",
+      "scope_summary": "Retention periods for financial and risk-related documents including ledgers, risk assessments, incident reports, fraud investigations, and vendor contracts."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_001",
+    "name": "General Ledger Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years",
+      "regulatory_source": "Accounting standards"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_002",
+    "name": "Transaction Ledger Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years",
+      "regulatory_source": [
+        "Regulatory",
+        "audit"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_003",
+    "name": "Risk Assessment Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years",
+      "regulatory_source": "Risk framework"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_004",
+    "name": "Incident Report Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years",
+      "regulatory_source": [
+        "Loss data",
+        "patterns"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_005",
+    "name": "Fraud Investigation Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5 years",
+      "regulatory_source": "Fraud prevention"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_prv_006",
+    "name": "Third-Party Vendor Contract Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years post-termination",
+      "regulatory_source": [
+        "Contractual",
+        "compliance"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_reg_001",
+    "name": "Accounting Standards",
+    "properties": {
+      "key_obligation": "Mandates a 6-year retention period for General Ledger documents"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "required_response": "Maintain investigation records for 5 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009_ctl_001",
+    "name": "Record Keeping",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "evidence_required": [
+        "General Ledger",
+        "Transaction Ledger",
+        "Risk Assessments",
+        "Incident Reports",
+        "Fraud Investigations",
+        "Third-Party Vendor Contracts"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_009",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_pol_001",
+    "name": "Mortgage Data Retention Policy",
+    "properties": {
+      "policy_domain": "data retention",
+      "scope_summary": "Retention requirements for mortgage-specific documents to ensure security of property liens."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_rsk_001",
+    "name": "Property Lien Security Risk",
+    "properties": {
+      "risk_definition": "Risk associated with the security of the property lien requiring extended document retention."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_001",
+    "name": "Retention of Mortgage Application",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_002",
+    "name": "Retention of Underwriting File",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_003",
+    "name": "Retention of Property Valuation",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_004",
+    "name": "Retention of Legal Charge or Deed",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_prv_005",
+    "name": "Retention of Payment Records",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_ctl_001",
+    "name": "Mortgage Document Record Keeping",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Mortgage Application",
+        "Underwriting File",
+        "Property Valuation",
+        "Legal Charge/Deed",
+        "Payment Records"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_001",
+    "name": "Mortgage Application",
+    "properties": {
+      "retention_period": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_002",
+    "name": "Underwriting File",
+    "properties": {
+      "retention_period": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_003",
+    "name": "Property Valuation",
+    "properties": {
+      "retention_period": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_004",
+    "name": "Legal Charge/Deed",
+    "properties": {
+      "retention_period": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010_doc_005",
+    "name": "Payment Records",
+    "properties": {
+      "retention_period": "Life of loan + 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_010",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_pol_001",
+    "name": "Extended Retention Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Guidelines for extending the retention period of documents beyond standard schedules due to disputes, investigations, or legal requirements.",
+      "core_policy_statement": "Documents must be retained beyond standard periods if they are subject to active disputes, regulatory investigations, pending legal action, customer requests, or specific regulatory requirements."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_001",
+    "name": "Retention Extension for Active Customer Disputes",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customer documents"
+      ],
+      "timeframe": "Until resolution plus 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_002",
+    "name": "Retention Extension for Regulatory Investigations",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Documents relevant to regulatory inquiries"
+      ],
+      "timeframe": "Until conclusion of investigation"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_003",
+    "name": "Retention Extension for Pending Legal Action",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Documents relevant to legal proceedings"
+      ],
+      "timeframe": "Until conclusion plus 6 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_004",
+    "name": "Retention Extension upon Customer Request",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customer documents"
+      ],
+      "verification_method": "Must be documented"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_005",
+    "name": "Retention Extension for Regulatory Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "regulatory_source": [
+        "GDPR",
+        "POCA"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_prv_006",
+    "name": "Annual Reassessment of Legal Holds",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "verification_method": "Reassessment process"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "EU Commission",
+      "jurisdiction": "EU",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Data retention and privacy compliance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_reg_002",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "issuing_authority": "UK Government",
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Retention of records for financial crime investigation"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_ctl_001",
+    "name": "Legal Hold Implementation",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Documents subject to extended retention"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_ctl_002",
+    "name": "Do Not Destroy Marking",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "evidence_required": "Do Not Destroy mark on document"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to request retention of documents"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_011",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_pol_001",
+    "name": "Early Destruction Policy",
+    "properties": {
+      "scope_summary": "Guidelines for the early destruction of non-compliance emails and system logs based on specific retention periods.",
+      "core_policy_statement": "Documents may be destroyed early based on their categorization and the absence of a legal hold."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_001",
+    "name": "Retention Period for Routine Operational Emails",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "Routine operational emails",
+      "timeframe": "1 year"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_002",
+    "name": "Retention Period for Archived Non-Compliance Emails",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "Non-compliance emails archived to external storage",
+      "timeframe": "3 years"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_003",
+    "name": "Retention Period for Compliance Emails",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Compliance emails",
+      "timeframe": "7 years",
+      "exceptions": "Subject to legal hold"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_004",
+    "name": "Retention Period for General Transaction Logs",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "General transaction logs",
+      "timeframe": "1 year"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_005",
+    "name": "Retention Period for Backup System Logs",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "System logs archived for backup",
+      "timeframe": "30 days"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_006",
+    "name": "Retention Period for Compliance and Audit Logs",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": "Compliance/audit logs",
+      "timeframe": "1 year minimum"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_prv_007",
+    "name": "Secure Destruction Process Workflow",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Confirm and document",
+      "steps": [
+        "Categorize document",
+        "Confirm no legal hold",
+        "Schedule for destruction",
+        "Destroy securely",
+        "Confirm and document"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_ctl_001",
+    "name": "Secure Destruction Mechanism",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": "Confirmation and documentation of destruction"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012_ctl_002",
+    "name": "Legal Hold Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "All documents scheduled for destruction",
+      "evidence_required": "Confirmation that no legal hold exists"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_012",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_pol_001",
+    "name": "Data Retention and Destruction Policy",
+    "properties": {
+      "scope_summary": "Guidelines for the secure disposal of physical documents via on-site or professional shredding."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_001",
+    "name": "On-site Shredding Requirements",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Physical documents",
+      "timeframe": "Daily",
+      "exceptions": "Only permitted if volume is less than 10 pages per day"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_002",
+    "name": "Document Destruction Logging",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Document destruction log"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_003",
+    "name": "Professional Shredding Standards",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Certificate of destruction",
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_prv_004",
+    "name": "Professional Shredding Pickup Schedule",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": [
+        "monthly",
+        "quarterly"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_ctl_001",
+    "name": "Secure Shredding",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Physical documents",
+      "evidence_required": "Shredding before recycling"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_ctl_002",
+    "name": "Destruction Certification and Logging",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "evidence_required": [
+        "Certificate of destruction",
+        "Document destruction log"
+      ],
+      "performed_by": "Third-party Secure Destruction Company"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013_rol_001",
+    "name": "Third-party Secure Destruction Company",
+    "properties": {
+      "specific_obligations": [
+        "Provide certificate of destruction",
+        "Maintain chain of custody",
+        "Perform scheduled pickups"
+      ],
+      "accountability_for": "Secure destruction of physical documents"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_013",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_pol_001",
+    "name": "Digital Records Policy",
+    "properties": {
+      "policy_domain": "data_management",
+      "scope_summary": "Governs the secure deletion and destruction of digital records to prevent unauthorized recovery."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_prv_001",
+    "name": "Mandatory Secure Deletion of Digital Records",
+    "properties": {
+      "provision_type": "mandatory",
+      "core_requirement": "Digital records must be securely deleted rather than simply moved to a recycle bin."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_prv_002",
+    "name": "Digital Destruction Process Sequence",
+    "properties": {
+      "provision_type": "mandatory",
+      "process_steps": [
+        "Identify files to destroy",
+        "Quarantine to destruction folder",
+        "Secure delete",
+        "Verify deletion",
+        "Certificate generated"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_001",
+    "name": "DoD Standard 3-Pass Data Overwriting",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "DoD standard 3-pass overwriting",
+      "applies_to": "Digital records deletion"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_002",
+    "name": "AES-256 Encrypted Deletion",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "AES-256 encryption",
+      "applies_to": "Digital records deletion"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_003",
+    "name": "Physical Hard Drive Destruction",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": "Hard drives",
+      "method": "Physical destruction"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_ctl_004",
+    "name": "Destruction Certification",
+    "properties": {
+      "control_type": "detective",
+      "evidence_required": "Certificate of destruction",
+      "frequency": "per destruction event"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014_rsk_001",
+    "name": "Unauthorized Data Recovery",
+    "properties": {
+      "risk_definition": "The potential for deleted digital records to be recovered by unauthorized parties.",
+      "required_response": "Implementation of secure deletion standards (DoD, AES-256, or physical destruction)."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_014",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_pol_001",
+    "name": "Records Management System Policy",
+    "properties": {
+      "scope_summary": "Management and tracking of digital record retention and destruction"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_001",
+    "name": "Automated Retention Date Tracking",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days before destruction",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_002",
+    "name": "Pre-Destruction Notification Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days before destruction"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_003",
+    "name": "Mandatory Destruction Logging",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Destruction log",
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_prv_004",
+    "name": "Audit Trail Maintenance",
+    "properties": {
+      "provision_type": "mandatory",
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_ctl_001",
+    "name": "Document Storage System (DMS-001)",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "DMS-001",
+      "applies_to": "retention date tracking"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_ctl_002",
+    "name": "Destruction Log",
+    "properties": {
+      "control_type": "detective",
+      "evidence_required": "records of all deletions"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015_ctl_003",
+    "name": "Audit Trail",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_015",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_pol_001",
+    "name": "FirstUK Bank Data Deletion Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Governs the process and conditions under which FirstUK Bank handles customer requests for data erasure, balancing the Right to be Forgotten against statutory retention obligations.",
+      "regulatory_basis": [
+        "General Data Protection Regulation",
+        "Proceeds of Crime Act",
+        "Anti-Money Laundering Regulations"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "EU Commission / UK Government",
+      "jurisdiction": "UK | EU",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Right to Erasure ('Right to be Forgotten')",
+      "how_cited": "GDPR Right to Erasure"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_reg_002",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Mandatory retention of records related to criminal proceeds",
+      "how_cited": "POCA"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_reg_003",
+    "name": "Anti-Money Laundering Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Mandatory retention of AML records",
+      "how_cited": "AML records"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_001",
+    "name": "Customer Right to Request Data Erasure",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Requesting Customer"
+      ],
+      "regulatory_source": "General Data Protection Regulation"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_002",
+    "name": "Refusal of Deletion Based on Legal Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "exceptions": [
+        "POCA",
+        "AML records"
+      ],
+      "regulatory_source": [
+        "Proceeds of Crime Act",
+        "Anti-Money Laundering Regulations"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_003",
+    "name": "Written Request Requirement for Deletion",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Requesting Customer"
+      ],
+      "verification_method": "Written request"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_004",
+    "name": "Legal Hold Assessment Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_005",
+    "name": "Data Destruction and Confirmation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "conditional_trigger": "No legal hold identified"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_prv_006",
+    "name": "Notification Obligation for Deletion Refusal",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "conditional_trigger": "Legal hold identified",
+      "required_response": "Explain reason and timeframe"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_rol_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "specific_obligations": [
+        "Assess legal holds upon deletion request",
+        "Destroy data if no hold exists",
+        "Provide explanation and timeframe if deletion is refused"
+      ],
+      "accountability_for": "Compliance with GDPR and statutory record retention"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_cus_001",
+    "name": "Requesting Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to request data erasure"
+      ],
+      "obligations_under_policy": [
+        "Must submit request in writing"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016_ctl_001",
+    "name": "Legal Hold Assessment",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_request",
+      "performed_by": "FirstUK Bank",
+      "applies_to": "Data deletion requests"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_016",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_pol_001",
+    "name": "Dispute & Legal Holds Policy",
+    "properties": {
+      "policy_domain": "legal",
+      "scope_summary": "Management of document retention and destruction during customer disputes, legal actions, and regulatory investigations."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_prv_001",
+    "name": "Mandatory Document Retention during Litigation Hold",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer dispute",
+        "Legal action"
+      ],
+      "timeframe": "Duration of the dispute",
+      "verification_method": "Document marked 'Legal Hold'"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_prv_002",
+    "name": "Post-Resolution Document Destruction Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years after resolution",
+      "applies_to": "Documents held under litigation hold"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_prv_003",
+    "name": "Regulatory Investigation Hold Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Regulatory investigations",
+      "timeframe": "Per regulator timeline",
+      "exceptions": "Destruction only per regulator instruction"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_rsk_001",
+    "name": "Legal and Regulatory Risk",
+    "properties": {
+      "risk_definition": "Risk associated with failure to retain documents during legal disputes or regulatory investigations",
+      "required_response": "Implementation of legal holds and adherence to regulator timelines"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_ctl_001",
+    "name": "Legal Hold Marking",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": "Documents marked 'Legal Hold'",
+      "applies_to": "Litigation hold documents"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_rol_001",
+    "name": "Regulator",
+    "properties": {
+      "authority": [
+        "Request document holds",
+        "Specify documents for retention",
+        "Define retention timelines",
+        "Instruct document destruction"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017_cus_001",
+    "name": "Disputing Customer",
+    "properties": {
+      "risk_treatment": "Triggers mandatory litigation hold on all relevant documents"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_017",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_pol_001",
+    "name": "Audit & Compliance Policy",
+    "properties": {
+      "policy_domain": "compliance",
+      "core_policy_statement": "The bank maintains a framework for the audit and compliance of record retention practices, including internal audits and regulatory reviews to ensure adherence to retention schedules and legal obligations."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_001",
+    "name": "Annual Audit of Retention Practices",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "annual",
+      "verification_method": "audit"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_002",
+    "name": "Sample File Review of Destruction Logs",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "sample file review",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_003",
+    "name": "Compliance with Retention Schedule",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "audit"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_prv_004",
+    "name": "Unauthorized Destruction Assessment",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "assessment"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "how_cited": "FCA periodic reviews"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_reg_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "how_cited": "PRA periodic reviews"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_reg_003",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "issuing_authority": "UK Government",
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "POCA compliance assessment"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_rsk_001",
+    "name": "Unauthorized Record Destruction",
+    "properties": {
+      "risk_definition": "The destruction of records outside of the approved retention schedule or without proper authorization",
+      "detection_mechanism": "Unauthorized destruction assessment"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_ctl_001",
+    "name": "Destruction Logs",
+    "properties": {
+      "control_type": "detective",
+      "evidence_required": "destruction logs",
+      "performed_by": "Compliance/Audit"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_ctl_002",
+    "name": "Document Retention Sampling",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "periodic",
+      "performed_by": "External Regulator"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018_rol_001",
+    "name": "External Regulator",
+    "properties": {
+      "role_title": "External Regulator",
+      "specific_obligations": [
+        "Conduct periodic reviews",
+        "Perform document retention sampling",
+        "Conduct POCA compliance assessments"
+      ],
+      "authority": "Regulatory audit and review"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_018",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_rol_001",
+    "name": "Document Owners",
+    "properties": {
+      "role_title": "Document Owners",
+      "specific_obligations": [
+        "Know retention period for documents",
+        "Comply with destruction schedule",
+        "Flag legal holds",
+        "Document customer requests"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_001",
+    "name": "Knowledge of Document Retention Periods",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Document Owners"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_002",
+    "name": "Compliance with Document Destruction Schedule",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Document Owners"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_003",
+    "name": "Identification and Flagging of Legal Holds",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Document Owners"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_prv_004",
+    "name": "Documentation of Customer Requests",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Document Owners"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_ctl_001",
+    "name": "Destruction Schedule",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "performed_by": "Document Owners"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019_ctl_002",
+    "name": "Legal Hold Flagging",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "performed_by": "Document Owners"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_019",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_pol_001",
+    "name": "Compliance and Records Policy",
+    "properties": {
+      "policy_domain": "compliance",
+      "core_policy_statement": "The bank must maintain a retention schedule, monitor the destruction of records, verify compliance, and audit records management."
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_001",
+    "name": "Maintenance of Retention Schedule",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_002",
+    "name": "Monitoring of Record Destruction",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_003",
+    "name": "Verification of Compliance",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_prv_004",
+    "name": "Audit of Records Management",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_ctl_001",
+    "name": "Records Management Audit",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020_ctl_002",
+    "name": "Retention Schedule Management",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_020",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_pol_001",
+    "name": "FirstUK Bank Data Retention Policy",
+    "properties": {
+      "policy_domain": "data retention",
+      "audience": [
+        "All Staff",
+        "Managers",
+        "Compliance"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_prv_001",
+    "name": "Mandatory Annual Training for All Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "annual",
+      "verification_method": "30 min training completion"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_prv_002",
+    "name": "Mandatory Annual Training for Managers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Managers"
+      ],
+      "timeframe": "annual",
+      "verification_method": "60 min training completion"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_prv_003",
+    "name": "Mandatory Annual Training for Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance"
+      ],
+      "timeframe": "annual",
+      "verification_method": "2 hour training completion"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Complete 30 min document retention awareness training annually"
+      ],
+      "training_required": "Document retention awareness"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_rol_002",
+    "name": "Managers",
+    "properties": {
+      "role_title": "Managers",
+      "specific_obligations": [
+        "Complete 60 min retention responsibility training annually"
+      ],
+      "training_required": "Retention responsibility"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_rol_003",
+    "name": "Compliance",
+    "properties": {
+      "role_title": "Compliance",
+      "specific_obligations": [
+        "Complete 2 hour advanced retention governance training annually"
+      ],
+      "training_required": "Advanced retention governance"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021_ctl_001",
+    "name": "Annual Retention Training Program",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "frequency": "annual",
+      "applies_to": [
+        "All Staff",
+        "Managers",
+        "Compliance"
+      ]
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_021",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022_pol_001",
+    "name": "FirstUK Bank Policy Document",
+    "properties": {
+      "review_date": "2027-01-15",
+      "effective_date": "2026-01-15"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual (or upon regulatory change)"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_022",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_pol_001",
+    "name": "GDPR Data Retention Policy",
+    "properties": {
+      "policy_domain": "privacy"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_ctl_001",
+    "name": "Document Management System",
+    "properties": {
+      "technology_used": "DMS-001"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023_ctl_002",
+    "name": "Destruction Certificate",
+    "properties": {
+      "evidence_required": "template"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_023",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024_rol_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024_rol_002",
+    "name": "Data Protection Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  },
+  {
+    "id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024_rol_003",
+    "name": "General Counsel",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "a4aa9d3bc59144d88c8ebbaefb635ed6_024",
+    "doc_id": "a4aa9d3bc59144d88c8ebbaefb635ed6"
+  }
+]

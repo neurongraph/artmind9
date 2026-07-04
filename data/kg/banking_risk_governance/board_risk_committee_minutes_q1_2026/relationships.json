@@ -1,0 +1,2806 @@
+[
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_002",
+    "target_name": "Michael Chen",
+    "rel_type": "related_to",
+    "description": "Fellow voting member of the governance committee",
+    "properties": {
+      "relationship_type": "peer",
+      "committee_role": "Voting Member"
+    },
+    "context": "Voting Members: Angela Sterling (Chair, Independent NED) — Present, Michael Chen (Independent NED) — Present",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_003",
+    "target_name": "Sarah Thompson",
+    "rel_type": "related_to",
+    "description": "Fellow voting member of the governance committee",
+    "properties": {
+      "relationship_type": "peer",
+      "committee_role": "Voting Member"
+    },
+    "context": "Voting Members: Angela Sterling (Chair, Independent NED) — Present, Sarah Thompson (Independent NED) — Present",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_002",
+    "source_name": "Michael Chen",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_003",
+    "target_name": "Sarah Thompson",
+    "rel_type": "related_to",
+    "description": "Fellow voting member of the governance committee",
+    "properties": {
+      "relationship_type": "peer",
+      "committee_role": "Voting Member"
+    },
+    "context": "Voting Members: Michael Chen (Independent NED) — Present, Sarah Thompson (Independent NED) — Present",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_004",
+    "target_name": "Chief Risk Officer",
+    "rel_type": "related_to",
+    "description": "Chair of committee overseeing Executive Observer",
+    "properties": {
+      "relationship_type": "oversight",
+      "committee_role": "Chair"
+    },
+    "context": "Angela Sterling (Chair, Independent NED) — Present ... Executive Observers: Chief Risk Officer (CRO) — Present",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_005",
+    "target_name": "Chief Financial Officer",
+    "rel_type": "related_to",
+    "description": "Chair of committee overseeing Executive Observer",
+    "properties": {
+      "relationship_type": "oversight",
+      "committee_role": "Chair"
+    },
+    "context": "Angela Sterling (Chair, Independent NED) — Present ... Executive Observers: Chief Financial Officer (CFO) — Present",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_006",
+    "target_name": "Chief Technology Officer",
+    "rel_type": "related_to",
+    "description": "Chair of committee overseeing Executive Observer",
+    "properties": {
+      "relationship_type": "oversight",
+      "committee_role": "Chair"
+    },
+    "context": "Angela Sterling (Chair, Independent NED) — Present ... Executive Observers: Chief Technology Officer (CTO) — Present",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_007",
+    "target_name": "Head of Compliance",
+    "rel_type": "related_to",
+    "description": "Chair of committee overseeing Executive Observer",
+    "properties": {
+      "relationship_type": "oversight",
+      "committee_role": "Chair"
+    },
+    "context": "Angela Sterling (Chair, Independent NED) — Present ... Executive Observers: Head of Compliance — Present",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_008",
+    "target_name": "Head of Internal Audit",
+    "rel_type": "related_to",
+    "description": "Chair of committee overseeing Executive Observer",
+    "properties": {
+      "relationship_type": "oversight",
+      "committee_role": "Chair"
+    },
+    "context": "Angela Sterling (Chair, Independent NED) — Present ... Executive Observers: Head of Internal Audit — Present",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002_emp_009",
+    "target_name": "Chief Executive Officer",
+    "rel_type": "related_to",
+    "description": "Chair of committee providing briefing to CEO",
+    "properties": {
+      "relationship_type": "oversight",
+      "status": "briefed_post_meeting"
+    },
+    "context": "Angela Sterling (Chair, Independent NED) — Present ... Apologies: CEO (business commitment, briefed post-meeting)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_002",
+    "source_name": "Michael Chen",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_003",
+    "source_name": "Sarah Thompson",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_004",
+    "source_name": "Chief Risk Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_005",
+    "source_name": "Chief Financial Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_006",
+    "source_name": "Chief Technology Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_007",
+    "source_name": "Head of Compliance",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_008",
+    "source_name": "Head of Internal Audit",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_002_emp_009",
+    "source_name": "Chief Executive Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_002",
+    "target_name": "981aa243a164434fb77f111966f81b58_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_002",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_dec_001",
+    "source_name": "Risk Appetite Statement Review",
+    "target_id": "981aa243a164434fb77f111966f81b58_003_met_001",
+    "target_name": "Q4 2025 Risk Dashboard & KRIs",
+    "rel_type": "reviews",
+    "description": "The Risk Appetite Statement Review governance decision involves the review of the Q4 2025 Risk Dashboard and KRIs.",
+    "properties": {},
+    "context": "1. Risk Appetite Statement Review\n2. Q4 2025 Risk Dashboard & KRIs",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_dec_001",
+    "source_name": "Risk Appetite Statement Review",
+    "target_id": "981aa243a164434fb77f111966f81b58_003_met_002",
+    "target_name": "Capital Adequacy & Stress Testing",
+    "rel_type": "reviews",
+    "description": "The Risk Appetite Statement Review governance decision involves the review of Capital Adequacy & Stress Testing metrics.",
+    "properties": {},
+    "context": "1. Risk Appetite Statement Review\n3. Capital Adequacy & Stress Testing",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_dec_001",
+    "source_name": "Risk Appetite Statement Review",
+    "target_id": "981aa243a164434fb77f111966f81b58_003_upd_001",
+    "target_name": "FCA Circulars Regulatory Updates",
+    "rel_type": "responds_to",
+    "description": "The Risk Appetite Statement Review is conducted in response to FCA Circulars Regulatory Updates.",
+    "properties": {
+      "response_type": "implement"
+    },
+    "context": "1. Risk Appetite Statement Review\n4. Regulatory Updates (FCA Circulars)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_dec_002",
+    "source_name": "Internal Audit Plan 2026 Approval",
+    "target_id": "981aa243a164434fb77f111966f81b58_003_rsk_001",
+    "target_name": "Fraud & AML Performance",
+    "rel_type": "elevates_concern_about",
+    "description": "The Internal Audit Plan 2026 Approval process addresses risks associated with Fraud & AML Performance.",
+    "properties": {},
+    "context": "5. Internal Audit Plan 2026\n6. Fraud & AML Performance",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_dec_002",
+    "source_name": "Internal Audit Plan 2026 Approval",
+    "target_id": "981aa243a164434fb77f111966f81b58_003_rsk_002",
+    "target_name": "Technology Risk Assessment",
+    "rel_type": "elevates_concern_about",
+    "description": "The Internal Audit Plan 2026 Approval process addresses risks associated with the Technology Risk Assessment.",
+    "properties": {},
+    "context": "5. Internal Audit Plan 2026\n7. Technology Risk Assessment",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_rsk_001",
+    "source_name": "Fraud & AML Performance",
+    "target_id": "981aa243a164434fb77f111966f81b58_003_met_001",
+    "target_name": "Q4 2025 Risk Dashboard & KRIs",
+    "rel_type": "quantified_by",
+    "description": "Fraud & AML Performance risk is quantified by the Q4 2025 Risk Dashboard & KRIs.",
+    "properties": {},
+    "context": "2. Q4 2025 Risk Dashboard & KRIs\n6. Fraud & AML Performance",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_rsk_002",
+    "source_name": "Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_003_met_001",
+    "target_name": "Q4 2025 Risk Dashboard & KRIs",
+    "rel_type": "quantified_by",
+    "description": "Technology Risk Assessment is quantified by the Q4 2025 Risk Dashboard & KRIs.",
+    "properties": {},
+    "context": "2. Q4 2025 Risk Dashboard & KRIs\n7. Technology Risk Assessment",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_dec_001",
+    "source_name": "Risk Appetite Statement Review",
+    "target_id": "981aa243a164434fb77f111966f81b58_003",
+    "target_name": "981aa243a164434fb77f111966f81b58_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_met_001",
+    "source_name": "Q4 2025 Risk Dashboard & KRIs",
+    "target_id": "981aa243a164434fb77f111966f81b58_003",
+    "target_name": "981aa243a164434fb77f111966f81b58_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_met_002",
+    "source_name": "Capital Adequacy & Stress Testing",
+    "target_id": "981aa243a164434fb77f111966f81b58_003",
+    "target_name": "981aa243a164434fb77f111966f81b58_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_upd_001",
+    "source_name": "FCA Circulars Regulatory Updates",
+    "target_id": "981aa243a164434fb77f111966f81b58_003",
+    "target_name": "981aa243a164434fb77f111966f81b58_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_dec_002",
+    "source_name": "Internal Audit Plan 2026 Approval",
+    "target_id": "981aa243a164434fb77f111966f81b58_003",
+    "target_name": "981aa243a164434fb77f111966f81b58_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_rsk_001",
+    "source_name": "Fraud & AML Performance",
+    "target_id": "981aa243a164434fb77f111966f81b58_003",
+    "target_name": "981aa243a164434fb77f111966f81b58_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_003_rsk_002",
+    "source_name": "Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_003",
+    "target_name": "981aa243a164434fb77f111966f81b58_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_003",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_dec_001",
+    "source_name": "Board Approval of 2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_rsk_001",
+    "target_name": "2026 Risk Appetite Statement",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board approved the 2026 Risk Appetite Statement as presented by the CRO.",
+    "properties": {
+      "decision_outcome": "APPROVED",
+      "conditions": "as presented"
+    },
+    "context": "APPROVED 2026 Risk Appetite Statement as presented.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_rsk_001",
+    "source_name": "2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_met_001",
+    "target_name": "Capital Ratio — Target >15%, Actual 18.2%",
+    "rel_type": "quantified_by",
+    "description": "The 2026 Risk Appetite Statement is quantified by the Capital Ratio metric.",
+    "properties": {
+      "threshold": ">15%",
+      "actual": "18.2%"
+    },
+    "context": "Capital Ratio Target: >15% (actual: 18.2%)",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_rsk_001",
+    "source_name": "2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_met_002",
+    "target_name": "Operational Loss Tolerance — Target <£50k/year, Actual YTD £8.2k",
+    "rel_type": "quantified_by",
+    "description": "The 2026 Risk Appetite Statement is quantified by the Operational Loss Tolerance metric.",
+    "properties": {
+      "threshold": "<£50k/year",
+      "actual": "£8.2k"
+    },
+    "context": "Operational Loss Tolerance: <£50k/year (actual YTD: £8.2k)",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_rsk_001",
+    "source_name": "2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_met_003",
+    "target_name": "Credit Loss Ratio — Target <0.5%, Actual 0.2%",
+    "rel_type": "quantified_by",
+    "description": "The 2026 Risk Appetite Statement is quantified by the Credit Loss Ratio metric.",
+    "properties": {
+      "threshold": "<0.5%",
+      "actual": "0.2%"
+    },
+    "context": "Credit Loss Ratio: <0.5% (actual: 0.2%)",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_rsk_001",
+    "source_name": "2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_met_004",
+    "target_name": "Compliance Violations — Target Zero, Actual 0",
+    "rel_type": "quantified_by",
+    "description": "The 2026 Risk Appetite Statement is quantified by the Compliance Violations metric.",
+    "properties": {
+      "threshold": "Zero",
+      "actual": "0"
+    },
+    "context": "Compliance Violations: Zero tolerated (actual: 0)",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_dec_001",
+    "source_name": "Board Approval of 2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_act_001",
+    "target_name": "Communicate Risk Appetite to Business Units",
+    "rel_type": "generates",
+    "description": "The Board approval decision generated an action item for the CRO to communicate the appetite to business units.",
+    "properties": {
+      "priority": "Medium",
+      "deadline": "March 31",
+      "assigned_to": "CRO"
+    },
+    "context": "CRO to communicate Risk Appetite to business units (by March 31)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_dec_001",
+    "source_name": "Board Approval of 2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_act_002",
+    "target_name": "Embed Capital Targets in Budget Process",
+    "rel_type": "generates",
+    "description": "The Board approval decision generated an action item for the CFO to embed capital targets in the budget process.",
+    "properties": {
+      "priority": "Medium",
+      "deadline": "April 15",
+      "assigned_to": "CFO"
+    },
+    "context": "CFO to embed capital targets in budget process (by April 15)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_dec_001",
+    "source_name": "Board Approval of 2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_met_001",
+    "target_name": "Capital Ratio — Target >15%, Actual 18.2%",
+    "rel_type": "approves_threshold_for",
+    "description": "The Board approved the target threshold for the Capital Ratio metric.",
+    "properties": {
+      "approved_threshold": ">15%"
+    },
+    "context": "Capital Ratio Target: >15% (actual: 18.2%) ... APPROVED 2026 Risk Appetite Statement",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_act_002",
+    "source_name": "Embed Capital Targets in Budget Process",
+    "target_id": "981aa243a164434fb77f111966f81b58_004_met_001",
+    "target_name": "Capital Ratio — Target >15%, Actual 18.2%",
+    "rel_type": "aims_to_improve",
+    "description": "Embedding capital targets in the budget process aims to maintain or improve the Capital Ratio.",
+    "properties": {
+      "target_metric": "met_001"
+    },
+    "context": "CFO to embed capital targets in budget process (by April 15)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_met_001",
+    "source_name": "Capital Ratio — Target >15%, Actual 18.2%",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_met_002",
+    "source_name": "Operational Loss Tolerance — Target <£50k/year, Actual YTD £8.2k",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_met_003",
+    "source_name": "Credit Loss Ratio — Target <0.5%, Actual 0.2%",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_met_004",
+    "source_name": "Compliance Violations — Target Zero, Actual 0",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_dec_001",
+    "source_name": "Board Approval of 2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_act_001",
+    "source_name": "Communicate Risk Appetite to Business Units",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_act_002",
+    "source_name": "Embed Capital Targets in Budget Process",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_004_rsk_001",
+    "source_name": "2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_004",
+    "target_name": "981aa243a164434fb77f111966f81b58_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_004",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_004",
+    "source_name": "Technology Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005_met_001",
+    "target_name": "System Availability — Target 99.8%, Actual 99.85%",
+    "rel_type": "quantified_by",
+    "description": "Technology risk is quantified by the system availability metric.",
+    "properties": {
+      "threshold": "99.8%",
+      "actual": "99.85%",
+      "period": "Q4 2025"
+    },
+    "context": "System Availability | 99.8% | 99.85% | ✅ Above",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005_met_002",
+    "target_name": "Fraud Detection Rate — Target 97%, Actual 97.1%",
+    "rel_type": "quantified_by",
+    "description": "Operational risk is quantified by the fraud detection rate.",
+    "properties": {
+      "threshold": "97%",
+      "actual": "97.1%",
+      "period": "Q4 2025"
+    },
+    "context": "Fraud Detection Rate | 97% | 97.1% | ✅ Above",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005_met_003",
+    "target_name": "Reconciliation Errors — Target <1 per day, Actual 0.8 per day",
+    "rel_type": "quantified_by",
+    "description": "Operational risk is quantified by the volume of reconciliation errors.",
+    "properties": {
+      "threshold": "<1 per day",
+      "actual": "0.8 per day",
+      "period": "Q4 2025"
+    },
+    "context": "Reconciliation Errors | <1 per day | 0.8 per day | ✅ Below",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_003",
+    "source_name": "Compliance Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005_met_004",
+    "target_name": "AML False Positives — Target <2%, Actual 1.8%",
+    "rel_type": "quantified_by",
+    "description": "Compliance risk is quantified by the AML false positive rate.",
+    "properties": {
+      "threshold": "<2%",
+      "actual": "1.8%",
+      "period": "Q4 2025"
+    },
+    "context": "AML False Positives | <2% | 1.8% | ✅ Below",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005_met_005",
+    "target_name": "Account Opening Errors — Target <0.5%, Actual 0.3%",
+    "rel_type": "quantified_by",
+    "description": "Operational risk is quantified by the account opening error rate.",
+    "properties": {
+      "threshold": "<0.5%",
+      "actual": "0.3%",
+      "period": "Q4 2025"
+    },
+    "context": "Account Opening Errors | <0.5% | 0.3% | ✅ Below",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_001",
+    "source_name": "Operational Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_002",
+    "source_name": "Credit Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_003",
+    "source_name": "Compliance Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_rsk_004",
+    "source_name": "Technology Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_met_001",
+    "source_name": "System Availability — Target 99.8%, Actual 99.85%",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_met_002",
+    "source_name": "Fraud Detection Rate — Target 97%, Actual 97.1%",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_met_003",
+    "source_name": "Reconciliation Errors — Target <1 per day, Actual 0.8 per day",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_met_004",
+    "source_name": "AML False Positives — Target <2%, Actual 1.8%",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_005_met_005",
+    "source_name": "Account Opening Errors — Target <0.5%, Actual 0.3%",
+    "target_id": "981aa243a164434fb77f111966f81b58_005",
+    "target_name": "981aa243a164434fb77f111966f81b58_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_005",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_rsk_001",
+    "source_name": "Recession Scenario Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_met_001",
+    "target_name": "Capital Ratio — Actual 18.2%, Pillar 1 Minimum 15%",
+    "rel_type": "quantified_by",
+    "description": "Recession scenario is quantified by the expected impact on the Capital Ratio",
+    "properties": {
+      "expected_impact": "-2.1%",
+      "projected_ratio": "16.1%",
+      "assessment": "Resilient"
+    },
+    "context": "Recession Scenario: 2% economic contraction - Expected capital impact: -2.1% (ratio falls to 16.1%)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_rsk_002",
+    "source_name": "Fraud Shock Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_met_001",
+    "target_name": "Capital Ratio — Actual 18.2%, Pillar 1 Minimum 15%",
+    "rel_type": "quantified_by",
+    "description": "Fraud shock is quantified by the expected impact on the Capital Ratio",
+    "properties": {
+      "expected_impact": "-0.3%",
+      "projected_ratio": "17.9%",
+      "assessment": "Manageable"
+    },
+    "context": "Fraud Shock: £250k fraud incident - Expected capital impact: -0.3% (ratio falls to 17.9%)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_rsk_003",
+    "source_name": "Operational Loss Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_met_001",
+    "target_name": "Capital Ratio — Actual 18.2%, Pillar 1 Minimum 15%",
+    "rel_type": "quantified_by",
+    "description": "Operational loss is quantified by the expected impact on the Capital Ratio",
+    "properties": {
+      "expected_impact": "-0.8%",
+      "projected_ratio": "17.4%",
+      "assessment": "Absorbed"
+    },
+    "context": "Operational Loss: Major system outage, customer losses - Expected capital impact: -0.8% (ratio falls to 17.4%)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_dec_001",
+    "source_name": "Approval of 2026 Stress Testing Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_rsk_001",
+    "target_name": "Recession Scenario Risk",
+    "rel_type": "accepts",
+    "description": "Committee approved the stress testing plan covering the recession scenario",
+    "properties": {
+      "decision_outcome": "APPROVED"
+    },
+    "context": "APPROVED 2026 stress testing plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_dec_001",
+    "source_name": "Approval of 2026 Stress Testing Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_rsk_002",
+    "target_name": "Fraud Shock Risk",
+    "rel_type": "accepts",
+    "description": "Committee approved the stress testing plan covering the fraud shock scenario",
+    "properties": {
+      "decision_outcome": "APPROVED"
+    },
+    "context": "APPROVED 2026 stress testing plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_dec_001",
+    "source_name": "Approval of 2026 Stress Testing Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_rsk_003",
+    "target_name": "Operational Loss Risk",
+    "rel_type": "accepts",
+    "description": "Committee approved the stress testing plan covering the operational loss scenario",
+    "properties": {
+      "decision_outcome": "APPROVED"
+    },
+    "context": "APPROVED 2026 stress testing plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_dec_001",
+    "source_name": "Approval of 2026 Stress Testing Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_act_001",
+    "target_name": "Conduct 2026 Stress Tests",
+    "rel_type": "generates",
+    "description": "Approval of the plan generates the requirement to conduct the tests",
+    "properties": {
+      "deadline": "end of Q2 2026"
+    },
+    "context": "APPROVED 2026 stress testing plan. Action Items: CFO to conduct stress tests by end of Q2 2026",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_dec_001",
+    "source_name": "Approval of 2026 Stress Testing Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_act_002",
+    "target_name": "Report Stress Test Findings to Committee",
+    "rel_type": "generates",
+    "description": "Approval of the plan generates the requirement to report findings",
+    "properties": {
+      "deadline": "June 2026 meeting"
+    },
+    "context": "APPROVED 2026 stress testing plan. Action Items: Report findings to committee in June 2026 meeting",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_act_001",
+    "source_name": "Conduct 2026 Stress Tests",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_emp_001",
+    "target_name": "Chief Financial Officer",
+    "rel_type": "assigned_to",
+    "description": "The CFO is responsible for conducting the stress tests",
+    "properties": {},
+    "context": "CFO to conduct stress tests by end of Q2 2026",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_act_002",
+    "source_name": "Report Stress Test Findings to Committee",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_act_001",
+    "target_name": "Conduct 2026 Stress Tests",
+    "rel_type": "depends_on",
+    "description": "Reporting findings depends on the completion of the stress tests",
+    "properties": {},
+    "context": "CFO to conduct stress tests by end of Q2 2026; Report findings to committee in June 2026 meeting",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_met_001",
+    "source_name": "Capital Ratio — Actual 18.2%, Pillar 1 Minimum 15%",
+    "target_id": "981aa243a164434fb77f111966f81b58_006_met_002",
+    "target_name": "Capital Buffer — 3.2% above minimum",
+    "rel_type": "related_to",
+    "description": "The capital buffer is derived from the difference between the actual capital ratio and the minimum",
+    "properties": {},
+    "context": "Capital Ratio: 18.2% (Pillar 1: 15% minimum) - Capital Buffer: 3.2% above minimum",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_met_001",
+    "source_name": "Capital Ratio — Actual 18.2%, Pillar 1 Minimum 15%",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_met_002",
+    "source_name": "Capital Buffer — 3.2% above minimum",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_rsk_001",
+    "source_name": "Recession Scenario Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_rsk_002",
+    "source_name": "Fraud Shock Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_rsk_003",
+    "source_name": "Operational Loss Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_dec_001",
+    "source_name": "Approval of 2026 Stress Testing Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_act_001",
+    "source_name": "Conduct 2026 Stress Tests",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_act_002",
+    "source_name": "Report Stress Test Findings to Committee",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_006_emp_001",
+    "source_name": "Chief Financial Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_006",
+    "target_name": "981aa243a164434fb77f111966f81b58_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_006",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_upd_001",
+    "source_name": "FCA-COBS-2026-03: Enhanced KYC for high-risk customers",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_act_001",
+    "target_name": "Ongoing monitoring of FCA-COBS-2026-03 implementation effectiveness",
+    "rel_type": "generates",
+    "description": "The regulatory update on Enhanced KYC requires ongoing monitoring of its implementation effectiveness.",
+    "properties": {
+      "deadline": "2026-03-01",
+      "status": "Compliant"
+    },
+    "context": "FCA-COBS-2026-03: Enhanced KYC for high-risk customers... Action: Ongoing monitoring of implementation effectiveness",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_act_001",
+    "source_name": "Ongoing monitoring of FCA-COBS-2026-03 implementation effectiveness",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_upd_001",
+    "target_name": "FCA-COBS-2026-03: Enhanced KYC for high-risk customers",
+    "rel_type": "implements",
+    "description": "Ongoing monitoring is used to ensure the implementation of the Enhanced KYC regulatory update.",
+    "properties": {},
+    "context": "FCA-COBS-2026-03: Enhanced KYC for high-risk customers... Action: Ongoing monitoring of implementation effectiveness",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_upd_002",
+    "source_name": "FCA-OP-2026-01: Open Banking API extension",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_act_002",
+    "target_name": "CTO reporting on Open Banking API extension in June 2026",
+    "rel_type": "generates",
+    "description": "The Open Banking API extension update requires a progress report from the CTO.",
+    "properties": {
+      "deadline": "2026-06-30",
+      "status": "In Progress"
+    },
+    "context": "FCA-OP-2026-01: Open Banking API extension... Action: CTO to report in June 2026 meeting",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_act_002",
+    "source_name": "CTO reporting on Open Banking API extension in June 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_upd_002",
+    "target_name": "FCA-OP-2026-01: Open Banking API extension",
+    "rel_type": "responds_to",
+    "description": "The CTO report is a response to the requirements of the Open Banking API extension update.",
+    "properties": {
+      "reporting_date": "June 2026"
+    },
+    "context": "FCA-OP-2026-01: Open Banking API extension... Action: CTO to report in June 2026 meeting",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_act_002",
+    "source_name": "CTO reporting on Open Banking API extension in June 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_emp_002",
+    "target_name": "Chief Technology Officer",
+    "rel_type": "assigned_to",
+    "description": "The reporting action for the Open Banking API extension is assigned to the CTO.",
+    "properties": {},
+    "context": "Action: CTO to report in June 2026 meeting",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_upd_003",
+    "source_name": "FCA-OPER-2026-04: Operational Resilience standards",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_act_003",
+    "target_name": "Annual documentation review for Operational Resilience in Q4 2026",
+    "rel_type": "generates",
+    "description": "The Operational Resilience standards update requires an annual documentation review.",
+    "properties": {
+      "deadline": "Ongoing",
+      "status": "Compliant"
+    },
+    "context": "FCA-OPER-2026-04: Operational Resilience standards... Action: Annual documentation review in Q4 2026",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_act_003",
+    "source_name": "Annual documentation review for Operational Resilience in Q4 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_upd_003",
+    "target_name": "FCA-OPER-2026-04: Operational Resilience standards",
+    "rel_type": "implements",
+    "description": "The annual documentation review ensures continued compliance with Operational Resilience standards.",
+    "properties": {
+      "review_period": "Q4 2026"
+    },
+    "context": "FCA-OPER-2026-04: Operational Resilience standards... Action: Annual documentation review in Q4 2026",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_emp_001",
+    "source_name": "Head of Compliance",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_upd_001",
+    "target_name": "FCA-COBS-2026-03: Enhanced KYC for high-risk customers",
+    "rel_type": "responds_to",
+    "description": "Head of Compliance briefed the committee on the Enhanced KYC update.",
+    "properties": {
+      "action": "briefing"
+    },
+    "context": "Head of Compliance briefed committee on FCA Circulars issued in Q1 2026.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_emp_001",
+    "source_name": "Head of Compliance",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_upd_002",
+    "target_name": "FCA-OP-2026-01: Open Banking API extension",
+    "rel_type": "responds_to",
+    "description": "Head of Compliance briefed the committee on the Open Banking API extension update.",
+    "properties": {
+      "action": "briefing"
+    },
+    "context": "Head of Compliance briefed committee on FCA Circulars issued in Q1 2026.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_emp_001",
+    "source_name": "Head of Compliance",
+    "target_id": "981aa243a164434fb77f111966f81b58_007_upd_003",
+    "target_name": "FCA-OPER-2026-04: Operational Resilience standards",
+    "rel_type": "responds_to",
+    "description": "Head of Compliance briefed the committee on the Operational Resilience standards update.",
+    "properties": {
+      "action": "briefing"
+    },
+    "context": "Head of Compliance briefed committee on FCA Circulars issued in Q1 2026.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_upd_001",
+    "source_name": "FCA-COBS-2026-03: Enhanced KYC for high-risk customers",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_act_001",
+    "source_name": "Ongoing monitoring of FCA-COBS-2026-03 implementation effectiveness",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_upd_002",
+    "source_name": "FCA-OP-2026-01: Open Banking API extension",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_act_002",
+    "source_name": "CTO reporting on Open Banking API extension in June 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_upd_003",
+    "source_name": "FCA-OPER-2026-04: Operational Resilience standards",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_act_003",
+    "source_name": "Annual documentation review for Operational Resilience in Q4 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_emp_001",
+    "source_name": "Head of Compliance",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_007_emp_002",
+    "source_name": "Chief Technology Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_007",
+    "target_name": "981aa243a164434fb77f111966f81b58_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_007",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_met_001",
+    "target_name": "Total Estimated Audit Effort — 160 hours (within budget)",
+    "rel_type": "reviews",
+    "description": "The Board reviewed and approved the total estimated audit effort for the 2026 plan.",
+    "properties": {
+      "outcome": "approved",
+      "budget_status": "within budget"
+    },
+    "context": "Total Estimated Effort: 160 hours (within budget) Committee Decision: APPROVED 2026 Audit Plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_act_001",
+    "target_name": "Q1 Audit Update Provision",
+    "rel_type": "generates",
+    "description": "The approval of the audit plan includes a requirement for a quarterly progress update.",
+    "properties": {
+      "frequency": "quarterly",
+      "deadline": "next meeting"
+    },
+    "context": "Committee Decision: APPROVED 2026 Audit Plan. Note: Will report quarterly on execution progress Action Items: Head of Internal Audit to provide Q1 audit update to next meeting",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_rsk_001",
+    "target_name": "Account Opening & KYC Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board approved the audit focus on Account Opening & KYC Risk as part of the 2026 plan.",
+    "properties": {
+      "risk_rating": "High",
+      "planned_date": "Q2"
+    },
+    "context": "Account Opening & KYC | High | Q2 | 40 ... Committee Decision: APPROVED 2026 Audit Plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_rsk_002",
+    "target_name": "Payment Processing Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board approved the audit focus on Payment Processing Risk as part of the 2026 plan.",
+    "properties": {
+      "risk_rating": "High",
+      "planned_date": "Q3"
+    },
+    "context": "Payment Processing | High | Q3 | 35 ... Committee Decision: APPROVED 2026 Audit Plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_rsk_003",
+    "target_name": "IT General Controls Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board approved the audit focus on IT General Controls Risk as part of the 2026 plan.",
+    "properties": {
+      "risk_rating": "Medium",
+      "planned_date": "Q4"
+    },
+    "context": "IT General Controls | Medium | Q4 | 30 ... Committee Decision: APPROVED 2026 Audit Plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_rsk_004",
+    "target_name": "Fraud Detection Systems Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board approved the audit focus on Fraud Detection Systems Risk as part of the 2026 plan.",
+    "properties": {
+      "risk_rating": "High",
+      "planned_date": "Q2"
+    },
+    "context": "Fraud Detection Systems | High | Q2 | 30 ... Committee Decision: APPROVED 2026 Audit Plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_rsk_005",
+    "target_name": "Operational Risk Management Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board approved the audit focus on Operational Risk Management Risk as part of the 2026 plan.",
+    "properties": {
+      "risk_rating": "Medium",
+      "planned_date": "Q1"
+    },
+    "context": "Operational Risk Mgmt | Medium | Q1 | 25 ... Committee Decision: APPROVED 2026 Audit Plan.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_act_001",
+    "source_name": "Q1 Audit Update Provision",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_emp_001",
+    "target_name": "Head of Internal Audit",
+    "rel_type": "assigned_to",
+    "description": "The Head of Internal Audit is responsible for providing the Q1 audit update.",
+    "properties": {
+      "deadline": "next meeting"
+    },
+    "context": "Head of Internal Audit to provide Q1 audit update to next meeting",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_emp_001",
+    "source_name": "Head of Internal Audit",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_dep_001",
+    "target_name": "Internal Audit",
+    "rel_type": "owned_by",
+    "description": "The Head of Internal Audit leads the Internal Audit department.",
+    "properties": {},
+    "context": "Head of Internal Audit presented annual audit plan for 2026",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_act_001",
+    "source_name": "Q1 Audit Update Provision",
+    "target_id": "981aa243a164434fb77f111966f81b58_008_dep_001",
+    "target_name": "Internal Audit",
+    "rel_type": "assigned_to",
+    "description": "The Q1 audit update is an action item owned by the Internal Audit department.",
+    "properties": {},
+    "context": "Head of Internal Audit to provide Q1 audit update to next meeting",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dec_001",
+    "source_name": "Board Approval of 2026 Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_act_001",
+    "source_name": "Q1 Audit Update Provision",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_met_001",
+    "source_name": "Total Estimated Audit Effort — 160 hours (within budget)",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_rsk_001",
+    "source_name": "Account Opening & KYC Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_rsk_002",
+    "source_name": "Payment Processing Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_rsk_003",
+    "source_name": "IT General Controls Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_rsk_004",
+    "source_name": "Fraud Detection Systems Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_rsk_005",
+    "source_name": "Operational Risk Management Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_emp_001",
+    "source_name": "Head of Internal Audit",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_008_dep_001",
+    "source_name": "Internal Audit",
+    "target_id": "981aa243a164434fb77f111966f81b58_008",
+    "target_name": "981aa243a164434fb77f111966f81b58_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_008",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "target_name": "Financial Crime Department",
+    "rel_type": "managed_by",
+    "description": "Head of Financial Crime manages the Financial Crime Department",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_001",
+    "target_name": "Fraud Detection Rate — 97.1%",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the Fraud Detection Rate metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_002",
+    "target_name": "Fraud Incidents — 5 (All Blocked)",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the Fraud Incidents metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_003",
+    "target_name": "Fraud Prevented — ~£47,000",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the Fraud Prevented metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_004",
+    "target_name": "Customer Reimbursement — £0",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the Customer Reimbursement metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_005",
+    "target_name": "Customers Screened — 180",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the Customers Screened metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_006",
+    "target_name": "PEP Matches — 2 (False Positives)",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the PEP Matches metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_007",
+    "target_name": "SARs Filed — 3 (Compliant)",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the SARs Filed metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_008",
+    "target_name": "High-risk Accounts — 12",
+    "rel_type": "reviews",
+    "description": "Head of Financial Crime presented the High-risk Accounts metric",
+    "properties": {
+      "period": "Q4 2025"
+    },
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_fnd_001",
+    "source_name": "Fraud Prevention Effectiveness — Strength",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_001",
+    "target_name": "Fraud Detection Rate — 97.1%",
+    "rel_type": "demonstrates",
+    "description": "The strength of fraud prevention is demonstrated by the 97.1% detection rate",
+    "properties": {
+      "metric_value": "97.1%"
+    },
+    "context": "Strong fraud prevention (97% detection rate)",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_fnd_002",
+    "source_name": "AML Control Effectiveness — Strength",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_007",
+    "target_name": "SARs Filed — 3 (Compliant)",
+    "rel_type": "demonstrates",
+    "description": "Effective AML controls are demonstrated by proactive SAR filing",
+    "properties": {
+      "compliance_status": "compliant"
+    },
+    "context": "Effective AML controls (proactive SAR filing)",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_fnd_003",
+    "source_name": "Compliance Status — No Violations",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "target_name": "Financial Crime Department",
+    "rel_type": "implicates",
+    "description": "Compliance status of no violations applies to the Financial Crime Department",
+    "properties": {
+      "status": "no violations"
+    },
+    "context": "No compliance violations detected",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_001",
+    "target_name": "Fraud Detection Rate — 97.1%",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks the Fraud Detection Rate",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_002",
+    "target_name": "Fraud Incidents — 5 (All Blocked)",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks Fraud Incidents",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_003",
+    "target_name": "Fraud Prevented — ~£47,000",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks Fraud Prevented amounts",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_004",
+    "target_name": "Customer Reimbursement — £0",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks Customer Reimbursements",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_005",
+    "target_name": "Customers Screened — 180",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks the number of Customers Screened",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_006",
+    "target_name": "PEP Matches — 2 (False Positives)",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks PEP Matches",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_007",
+    "target_name": "SARs Filed — 3 (Compliant)",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks SARs Filed",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009_met_008",
+    "target_name": "High-risk Accounts — 12",
+    "rel_type": "tracks",
+    "description": "Financial Crime Department tracks High-risk Accounts",
+    "properties": {},
+    "context": "Head of Financial Crime presented Q4 2025 fraud and AML metrics.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_emp_001",
+    "source_name": "Head of Financial Crime",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_001",
+    "source_name": "Fraud Detection Rate — 97.1%",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_002",
+    "source_name": "Fraud Incidents — 5 (All Blocked)",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_003",
+    "source_name": "Fraud Prevented — ~£47,000",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_004",
+    "source_name": "Customer Reimbursement — £0",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_005",
+    "source_name": "Customers Screened — 180",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_006",
+    "source_name": "PEP Matches — 2 (False Positives)",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_007",
+    "source_name": "SARs Filed — 3 (Compliant)",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_met_008",
+    "source_name": "High-risk Accounts — 12",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_fnd_001",
+    "source_name": "Fraud Prevention Effectiveness — Strength",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_fnd_002",
+    "source_name": "AML Control Effectiveness — Strength",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_fnd_003",
+    "source_name": "Compliance Status — No Violations",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_009_dept_001",
+    "source_name": "Financial Crime Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_009",
+    "target_name": "981aa243a164434fb77f111966f81b58_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_009",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_dec_001",
+    "source_name": "Approval of Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_rsk_001",
+    "target_name": "Legacy Payment System Risk",
+    "rel_type": "accepts",
+    "description": "The committee approved the risk assessment which includes the Legacy Payment System Risk",
+    "properties": {
+      "decision_outcome": "APPROVED",
+      "risk_level": "Medium"
+    },
+    "context": "Committee Decision: APPROVED technology risk assessment. Risk 1: Legacy Payment System Medium Risk",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_dec_001",
+    "source_name": "Approval of Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_rsk_002",
+    "target_name": "Third-Party Vendor Reliance Risk",
+    "rel_type": "accepts",
+    "description": "The committee approved the risk assessment which includes the Third-Party Vendor Reliance Risk",
+    "properties": {
+      "decision_outcome": "APPROVED",
+      "risk_level": "Low"
+    },
+    "context": "Committee Decision: APPROVED technology risk assessment. Risk 2: Third-Party Vendor Reliance Low Risk",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_dec_001",
+    "source_name": "Approval of Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_rsk_003",
+    "target_name": "Cybersecurity Threat Landscape Risk",
+    "rel_type": "accepts",
+    "description": "The committee approved the risk assessment which includes the Cybersecurity Threat Landscape Risk",
+    "properties": {
+      "decision_outcome": "APPROVED",
+      "risk_level": "Emerging"
+    },
+    "context": "Committee Decision: APPROVED technology risk assessment. Risk 3: Cybersecurity Threat Landscape Emerging",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_dec_001",
+    "source_name": "Approval of Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_act_001",
+    "target_name": "Accelerate Legacy Payment System Replacement",
+    "rel_type": "generates",
+    "description": "The committee recommendation to accelerate the replacement project creates a formal action item",
+    "properties": {
+      "priority": "High",
+      "deadline": "early 2027"
+    },
+    "context": "Recommendation: Accelerate legacy payment system replacement (tentatively 2027 → early 2027)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_dec_001",
+    "source_name": "Approval of Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_act_002",
+    "target_name": "Continue Cybersecurity Investment and Awareness Training",
+    "rel_type": "generates",
+    "description": "The committee recommendation to continue investment and training creates a formal action item",
+    "properties": {
+      "priority": "Medium",
+      "status": "Ongoing"
+    },
+    "context": "Recommendation: Continue cybersecurity investment and awareness training",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_001",
+    "source_name": "Legacy Payment System Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_act_001",
+    "target_name": "Accelerate Legacy Payment System Replacement",
+    "rel_type": "addressed_by",
+    "description": "The risk of legacy system failure is mitigated by accelerating the replacement project",
+    "properties": {
+      "mitigation_strategy": "Replacement",
+      "target_date": "early 2027"
+    },
+    "context": "Risk 1: Legacy Payment System... Mitigation: Replacement project planned 2027... Recommendation: Accelerate legacy payment system replacement",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_003",
+    "source_name": "Cybersecurity Threat Landscape Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_act_002",
+    "target_name": "Continue Cybersecurity Investment and Awareness Training",
+    "rel_type": "addressed_by",
+    "description": "The emerging cybersecurity threat is mitigated through ongoing investment and staff training",
+    "properties": {
+      "mitigation_strategy": "Training and Filtering",
+      "status": "Ongoing"
+    },
+    "context": "Risk 3: Cybersecurity Threat Landscape... Mitigation: Staff training, advanced email filtering... Recommendation: Continue cybersecurity investment and awareness training",
+    "bidirectional": true,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_001",
+    "source_name": "Legacy Payment System Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_dep_001",
+    "target_name": "Technology Department",
+    "rel_type": "owned_by",
+    "description": "The legacy payment system risk is managed by the Technology Department",
+    "properties": {},
+    "context": "CTO presented technology risk assessment including cybersecurity posture and system availability.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_002",
+    "source_name": "Third-Party Vendor Reliance Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_dep_001",
+    "target_name": "Technology Department",
+    "rel_type": "owned_by",
+    "description": "The third-party vendor reliance risk (AWS) is managed by the Technology Department",
+    "properties": {},
+    "context": "CTO presented technology risk assessment including cybersecurity posture and system availability.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_003",
+    "source_name": "Cybersecurity Threat Landscape Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_dep_001",
+    "target_name": "Technology Department",
+    "rel_type": "owned_by",
+    "description": "The cybersecurity threat landscape risk is managed by the Technology Department",
+    "properties": {},
+    "context": "CTO presented technology risk assessment including cybersecurity posture and system availability.",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_act_001",
+    "source_name": "Accelerate Legacy Payment System Replacement",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_dep_001",
+    "target_name": "Technology Department",
+    "rel_type": "assigned_to",
+    "description": "The replacement of the legacy payment system is the responsibility of the Technology Department",
+    "properties": {},
+    "context": "CTO presented technology risk assessment... Recommendation: Accelerate legacy payment system replacement",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_act_002",
+    "source_name": "Continue Cybersecurity Investment and Awareness Training",
+    "target_id": "981aa243a164434fb77f111966f81b58_010_dep_001",
+    "target_name": "Technology Department",
+    "rel_type": "assigned_to",
+    "description": "The cybersecurity investment and training is the responsibility of the Technology Department",
+    "properties": {},
+    "context": "CTO presented technology risk assessment... Recommendation: Continue cybersecurity investment and awareness training",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_001",
+    "source_name": "Legacy Payment System Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010",
+    "target_name": "981aa243a164434fb77f111966f81b58_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_002",
+    "source_name": "Third-Party Vendor Reliance Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010",
+    "target_name": "981aa243a164434fb77f111966f81b58_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_rsk_003",
+    "source_name": "Cybersecurity Threat Landscape Risk",
+    "target_id": "981aa243a164434fb77f111966f81b58_010",
+    "target_name": "981aa243a164434fb77f111966f81b58_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_dec_001",
+    "source_name": "Approval of Technology Risk Assessment",
+    "target_id": "981aa243a164434fb77f111966f81b58_010",
+    "target_name": "981aa243a164434fb77f111966f81b58_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_act_001",
+    "source_name": "Accelerate Legacy Payment System Replacement",
+    "target_id": "981aa243a164434fb77f111966f81b58_010",
+    "target_name": "981aa243a164434fb77f111966f81b58_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_act_002",
+    "source_name": "Continue Cybersecurity Investment and Awareness Training",
+    "target_id": "981aa243a164434fb77f111966f81b58_010",
+    "target_name": "981aa243a164434fb77f111966f81b58_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_010_dep_001",
+    "source_name": "Technology Department",
+    "target_id": "981aa243a164434fb77f111966f81b58_010",
+    "target_name": "981aa243a164434fb77f111966f81b58_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_010",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_001",
+    "source_name": "Board Approval of 2026 Risk Appetite Statement",
+    "target_id": "risk_appetite_2026",
+    "target_name": "2026 Risk Appetite Statement",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board formally approved the risk appetite statement for the 2026 period.",
+    "properties": {
+      "decision_outcome": "approved"
+    },
+    "context": "Approved 2026 Risk Appetite Statement",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_002",
+    "source_name": "Board Approval of 2026 Stress Testing Plan",
+    "target_id": "stress_test_plan_2026",
+    "target_name": "2026 Stress Testing Plan",
+    "rel_type": "approves_implementation_of",
+    "description": "The Board formally approved the stress testing plan for 2026.",
+    "properties": {
+      "decision_outcome": "approved"
+    },
+    "context": "Approved 2026 Stress Testing Plan",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_003",
+    "source_name": "Board Approval of 2026 Internal Audit Plan",
+    "target_id": "audit_plan_2026",
+    "target_name": "2026 Internal Audit Plan",
+    "rel_type": "approves_implementation_of",
+    "description": "The Board formally approved the internal audit plan for 2026.",
+    "properties": {
+      "decision_outcome": "approved"
+    },
+    "context": "Approved 2026 Internal Audit Plan",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_004",
+    "source_name": "Acknowledgement of Regulatory Compliance Status",
+    "target_id": "reg_compliance_status",
+    "target_name": "Regulatory Compliance Status",
+    "rel_type": "reviews",
+    "description": "The Board noted and acknowledged that the bank is currently compliant with all regulatory requirements.",
+    "properties": {
+      "status": "compliant"
+    },
+    "context": "Noted regulatory compliance status (all compliant)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_005",
+    "source_name": "Acknowledgement of Fraud Detection and AML Performance",
+    "target_id": "fraud_aml_performance",
+    "target_name": "Fraud Detection and AML Performance",
+    "rel_type": "reviews",
+    "description": "The Board noted the strong performance of fraud detection and AML systems.",
+    "properties": {
+      "performance_rating": "strong"
+    },
+    "context": "Noted strong fraud detection and AML performance",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_001",
+    "source_name": "Board Approval of 2026 Risk Appetite Statement",
+    "target_id": "981aa243a164434fb77f111966f81b58_011",
+    "target_name": "981aa243a164434fb77f111966f81b58_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_002",
+    "source_name": "Board Approval of 2026 Stress Testing Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_011",
+    "target_name": "981aa243a164434fb77f111966f81b58_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_003",
+    "source_name": "Board Approval of 2026 Internal Audit Plan",
+    "target_id": "981aa243a164434fb77f111966f81b58_011",
+    "target_name": "981aa243a164434fb77f111966f81b58_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_004",
+    "source_name": "Acknowledgement of Regulatory Compliance Status",
+    "target_id": "981aa243a164434fb77f111966f81b58_011",
+    "target_name": "981aa243a164434fb77f111966f81b58_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_011_dec_005",
+    "source_name": "Acknowledgement of Fraud Detection and AML Performance",
+    "target_id": "981aa243a164434fb77f111966f81b58_011",
+    "target_name": "981aa243a164434fb77f111966f81b58_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_011",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_001",
+    "source_name": "Communicate Risk Appetite to business units",
+    "target_id": "981aa243a164434fb77f111966f81b58_012_emp_001",
+    "target_name": "Chief Risk Officer",
+    "rel_type": "assigned_to",
+    "description": "The Chief Risk Officer is responsible for communicating the Risk Appetite to business units.",
+    "properties": {
+      "deadline": "2026-03-31"
+    },
+    "context": "Communicate Risk Appetite to business units | CRO | 2026-03-31",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_002",
+    "source_name": "Embed capital targets in budget",
+    "target_id": "981aa243a164434fb77f111966f81b58_012_emp_002",
+    "target_name": "Chief Financial Officer",
+    "rel_type": "assigned_to",
+    "description": "The Chief Financial Officer is responsible for embedding capital targets into the budget.",
+    "properties": {
+      "deadline": "2026-04-15"
+    },
+    "context": "Embed capital targets in budget | CFO | 2026-04-15",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_003",
+    "source_name": "Conduct 2026 stress tests",
+    "target_id": "981aa243a164434fb77f111966f81b58_012_emp_002",
+    "target_name": "Chief Financial Officer",
+    "rel_type": "assigned_to",
+    "description": "The Chief Financial Officer is responsible for conducting the 2026 stress tests.",
+    "properties": {
+      "deadline": "2026-06-30"
+    },
+    "context": "Conduct 2026 stress tests | CFO | 2026-06-30",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_004",
+    "source_name": "Report Open Banking progress",
+    "target_id": "981aa243a164434fb77f111966f81b58_012_emp_003",
+    "target_name": "Chief Technology Officer",
+    "rel_type": "assigned_to",
+    "description": "The Chief Technology Officer is responsible for reporting Open Banking progress.",
+    "properties": {
+      "deadline": "2026-06-17"
+    },
+    "context": "Report Open Banking progress | CTO | 2026-06-17 (next meeting)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_005",
+    "source_name": "Provide Q1 audit update",
+    "target_id": "981aa243a164434fb77f111966f81b58_012_emp_004",
+    "target_name": "Head of Audit",
+    "rel_type": "assigned_to",
+    "description": "The Head of Audit is responsible for providing the Q1 audit update.",
+    "properties": {
+      "deadline": "2026-06-17"
+    },
+    "context": "Provide Q1 audit update | Head of Audit | 2026-06-17 (next meeting)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_006",
+    "source_name": "Monitor legacy payment system",
+    "target_id": "981aa243a164434fb77f111966f81b58_012_emp_003",
+    "target_name": "Chief Technology Officer",
+    "rel_type": "assigned_to",
+    "description": "The Chief Technology Officer is responsible for the ongoing monitoring of the legacy payment system.",
+    "properties": {
+      "deadline": "Ongoing"
+    },
+    "context": "Monitor legacy payment system | CTO | Ongoing",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_001",
+    "source_name": "Communicate Risk Appetite to business units",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_002",
+    "source_name": "Embed capital targets in budget",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_003",
+    "source_name": "Conduct 2026 stress tests",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_004",
+    "source_name": "Report Open Banking progress",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_005",
+    "source_name": "Provide Q1 audit update",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_act_006",
+    "source_name": "Monitor legacy payment system",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_emp_001",
+    "source_name": "Chief Risk Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_emp_002",
+    "source_name": "Chief Financial Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_emp_003",
+    "source_name": "Chief Technology Officer",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_012_emp_004",
+    "source_name": "Head of Audit",
+    "target_id": "981aa243a164434fb77f111966f81b58_012",
+    "target_name": "981aa243a164434fb77f111966f81b58_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_012",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_013_dec_001",
+    "source_name": "Next Governance Meeting Schedule - June 17, 2026",
+    "target_id": "risk_stress_testing",
+    "target_name": "Stress testing results",
+    "rel_type": "reviews",
+    "description": "The governance meeting is scheduled to review the results of stress testing.",
+    "properties": {
+      "agenda_item": "Stress testing results"
+    },
+    "context": "Anticipated Agenda: - Stress testing results",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_013",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_013_dec_001",
+    "source_name": "Next Governance Meeting Schedule - June 17, 2026",
+    "target_id": "audit_q1_findings",
+    "target_name": "Q1 audit findings",
+    "rel_type": "reviews",
+    "description": "The governance meeting is scheduled to review the audit findings from Q1.",
+    "properties": {
+      "agenda_item": "Q1 audit findings"
+    },
+    "context": "Anticipated Agenda: - Q1 audit findings",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_013",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_013_dec_001",
+    "source_name": "Next Governance Meeting Schedule - June 17, 2026",
+    "target_id": "risk_dashboard_midyear",
+    "target_name": "Midyear risk dashboard",
+    "rel_type": "reviews",
+    "description": "The governance meeting is scheduled to review the midyear risk dashboard.",
+    "properties": {
+      "agenda_item": "Midyear risk dashboard"
+    },
+    "context": "Anticipated Agenda: - Midyear risk dashboard",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_013",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_013_dec_001",
+    "source_name": "Next Governance Meeting Schedule - June 17, 2026",
+    "target_id": "action_open_banking",
+    "target_name": "Open Banking progress update",
+    "rel_type": "reviews",
+    "description": "The governance meeting is scheduled to review the progress update on Open Banking.",
+    "properties": {
+      "agenda_item": "Open Banking progress update"
+    },
+    "context": "Anticipated Agenda: - Open Banking progress update",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_013",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_013_dec_001",
+    "source_name": "Next Governance Meeting Schedule - June 17, 2026",
+    "target_id": "reg_updates_general",
+    "target_name": "Regulatory updates",
+    "rel_type": "responds_to",
+    "description": "The governance meeting is scheduled to address any applicable regulatory updates.",
+    "properties": {
+      "agenda_item": "Regulatory updates (if any)"
+    },
+    "context": "Anticipated Agenda: - Regulatory updates (if any)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_013",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_013_dec_001",
+    "source_name": "Next Governance Meeting Schedule - June 17, 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_013",
+    "target_name": "981aa243a164434fb77f111966f81b58_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_013",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dec_001",
+    "source_name": "Approval of Committee Minutes - March 18, 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_014_emp_001",
+    "target_name": "Angela Sterling",
+    "rel_type": "assigns_accountability_to",
+    "description": "Angela Sterling, as Committee Chair, provided the formal approval for the committee minutes.",
+    "properties": {
+      "role": "Committee Chair",
+      "approval_date": "March 19, 2026"
+    },
+    "context": "Approved by: Angela Sterling (Committee Chair) Date: March 19, 2026",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dec_001",
+    "source_name": "Approval of Committee Minutes - March 18, 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_014_dep_001",
+    "target_name": "Board of Directors",
+    "rel_type": "assigns_ownership_to",
+    "description": "The approved minutes are distributed to the Board of Directors for oversight.",
+    "properties": {
+      "distribution_type": "formal_distribution"
+    },
+    "context": "Distribution: - Board of Directors",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dec_001",
+    "source_name": "Approval of Committee Minutes - March 18, 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_014_dep_002",
+    "target_name": "Risk Committee",
+    "rel_type": "assigns_ownership_to",
+    "description": "The approved minutes are distributed to the Risk Committee members.",
+    "properties": {
+      "distribution_type": "formal_distribution"
+    },
+    "context": "Distribution: - Risk Committee Members",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dec_001",
+    "source_name": "Approval of Committee Minutes - March 18, 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_014_dep_003",
+    "target_name": "Internal Audit",
+    "rel_type": "assigns_ownership_to",
+    "description": "The approved minutes are distributed to the Head of Internal Audit for filing.",
+    "properties": {
+      "distribution_type": "filing"
+    },
+    "context": "Distribution: - Head of Internal Audit (file)",
+    "bidirectional": false,
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dec_001",
+    "source_name": "Approval of Committee Minutes - March 18, 2026",
+    "target_id": "981aa243a164434fb77f111966f81b58_014",
+    "target_name": "981aa243a164434fb77f111966f81b58_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_emp_001",
+    "source_name": "Angela Sterling",
+    "target_id": "981aa243a164434fb77f111966f81b58_014",
+    "target_name": "981aa243a164434fb77f111966f81b58_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dep_001",
+    "source_name": "Board of Directors",
+    "target_id": "981aa243a164434fb77f111966f81b58_014",
+    "target_name": "981aa243a164434fb77f111966f81b58_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dep_002",
+    "source_name": "Risk Committee",
+    "target_id": "981aa243a164434fb77f111966f81b58_014",
+    "target_name": "981aa243a164434fb77f111966f81b58_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "981aa243a164434fb77f111966f81b58_014_dep_003",
+    "source_name": "Internal Audit",
+    "target_id": "981aa243a164434fb77f111966f81b58_014",
+    "target_name": "981aa243a164434fb77f111966f81b58_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "981aa243a164434fb77f111966f81b58_014",
+    "doc_id": "981aa243a164434fb77f111966f81b58",
+    "domain": "banking_risk_governance"
+  }
+]

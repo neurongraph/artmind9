@@ -1,0 +1,4417 @@
+[
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_pol_001",
+    "name": "FirstUK Bank — Fraud Prevention Policy",
+    "aliases": [
+      "FRAUD-POL-007"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The formal governing instrument for fraud prevention at FirstUK Bank, version 1.1, effective from 2026-01-15. It is owned by the Head of Financial Crime and applies to all staff, including Financial Crime, Risk, and Retail Banking departments.",
+    "context": [
+      "FirstUK Bank — Fraud Prevention Policy",
+      "Document ID | FRAUD-POL-007",
+      "Version | 1.1"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_reg_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA COBS"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "Regulatory guidance issued by the Financial Conduct Authority (FCA) that serves as a regulatory reference for the Fraud Prevention Policy.",
+    "context": [
+      "Regulatory Reference | FCA COBS"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_reg_002",
+    "name": "Payment Services Regulations 2017",
+    "aliases": [
+      "PSR 2017"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Legislation governing payment services that provides the regulatory basis for the bank's fraud prevention requirements.",
+    "context": [
+      "Regulatory Reference | Payment Services Regulations 2017"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The abstract role designated as the owner of the Fraud Prevention Policy, responsible for its maintenance and governance.",
+    "context": [
+      "Owner | Head of Financial Crime"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_002",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of bank employees to whom the Fraud Prevention Policy is addressed and applies.",
+    "context": [
+      "Audience | All Staff, Financial Crime, Risk, Retail Banking"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_003",
+    "name": "Financial Crime Department",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The specific organizational collective responsible for the execution and oversight of fraud prevention measures.",
+    "context": [
+      "Department | Financial Crime",
+      "Audience | All Staff, Financial Crime, Risk, Retail Banking"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_004",
+    "name": "Risk Department",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The organizational collective included in the target audience for the Fraud Prevention Policy.",
+    "context": [
+      "Audience | All Staff, Financial Crime, Risk, Retail Banking"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_005",
+    "name": "Retail Banking Department",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The organizational collective included in the target audience for the Fraud Prevention Policy.",
+    "context": [
+      "Audience | All Staff, Financial Crime, Risk, Retail Banking"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_pol_001",
+    "name": "Fraud Prevention Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing instrument used by FirstUK Bank to detect, prevent, and respond to fraudulent transactions and account takeover. It establishes the overarching procedures for detection, reimbursement, and investigation.",
+    "context": [
+      "FirstUK Bank maintains a Fraud Prevention Policy to detect, prevent, and respond to fraudulent transactions and account takeover.",
+      "The policy establishes procedures for fraud detection, customer reimbursement, and investigation."
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_rsk_001",
+    "name": "Fraudulent Transactions",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of financial loss or illicit activity resulting from fraudulent transactions that the bank seeks to detect and prevent.",
+    "context": [
+      "detect, prevent, and respond to fraudulent transactions"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_rsk_002",
+    "name": "Account Takeover",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "A specific fraud scenario where an unauthorized party gains control of a customer account, which the policy is designed to mitigate.",
+    "context": [
+      "detect, prevent, and respond to fraudulent transactions and account takeover."
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_prv_001",
+    "name": "Fraud Detection Procedures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the bank to maintain and implement established procedures for the detection of fraud.",
+    "context": [
+      "The policy establishes procedures for fraud detection"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_prv_002",
+    "name": "Customer Reimbursement Procedures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the bank to follow established procedures regarding the reimbursement of customers affected by fraud.",
+    "context": [
+      "The policy establishes procedures for... customer reimbursement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_prv_003",
+    "name": "Fraud Investigation Procedures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the bank to conduct investigations into fraudulent activity according to established procedures.",
+    "context": [
+      "The policy establishes procedures for... investigation."
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_pol_001",
+    "name": "Fraud Prevention Policy",
+    "aliases": [
+      "Purpose & Scope"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A formal policy document establishing procedures to detect, block, investigate, and prevent fraudulent activity, as well as managing customer reimbursement for fraud losses.",
+    "context": [
+      "To establish fraud prevention procedures that:",
+      "Detect unauthorized transactions (fraud)",
+      "Block fraudulent activity before settlement",
+      "Reimburse customers fairly for fraud losses"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_rsk_001",
+    "name": "Fraud",
+    "aliases": [
+      "unauthorized transactions"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of unauthorized transactions and fraudulent activity that the policy is designed to detect, block, and investigate.",
+    "context": [
+      "Detect unauthorized transactions (fraud)",
+      "Block fraudulent activity before settlement",
+      "Prevent repeat fraud by same perpetrator"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_001",
+    "name": "Detection of Unauthorized Transactions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to implement procedures that detect unauthorized transactions characterized as fraud.",
+    "context": [
+      "Detect unauthorized transactions (fraud)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_002",
+    "name": "Blocking of Fraudulent Activity Before Settlement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to block fraudulent activity specifically before the settlement process occurs.",
+    "context": [
+      "Block fraudulent activity before settlement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_003",
+    "name": "Fair Customer Reimbursement for Fraud Losses",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "An obligation to ensure that customers are reimbursed fairly for losses incurred due to fraud.",
+    "context": [
+      "Reimburse customers fairly for fraud losses"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_004",
+    "name": "Investigation of Fraud Cases",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to conduct investigations into fraud cases.",
+    "context": [
+      "Investigate fraud cases"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_005",
+    "name": "Prevention of Repeat Fraud by Same Perpetrator",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to implement measures that prevent the same perpetrator from committing repeat fraud.",
+    "context": [
+      "Prevent repeat fraud by same perpetrator"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_cus_001",
+    "name": "Fraud Victim Customer",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Bank customers who are subject to fair reimbursement for losses resulting from fraud.",
+    "context": [
+      "Reimburse customers fairly for fraud losses"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_pol_001",
+    "name": "FirstUK Bank Fraud Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing policy document defining the scope of fraud prevention and management across all bank accounts, transaction types, and delivery channels.",
+    "context": [
+      "Applies to: All customer accounts (savings, current, mortgages)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_acc_001",
+    "name": "Savings Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "A type of customer account subject to the scope of the fraud policy.",
+    "context": [
+      "All customer accounts (savings, current, mortgages)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_acc_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "A type of customer account subject to the scope of the fraud policy.",
+    "context": [
+      "All customer accounts (savings, current, mortgages)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_acc_003",
+    "name": "Mortgage Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "mortgage_account",
+    "description": "A type of customer account subject to the scope of the fraud policy.",
+    "context": [
+      "All customer accounts (savings, current, mortgages)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_001",
+    "name": "Deposits",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "Financial events involving deposits that fall under the scope of the fraud policy.",
+    "context": [
+      "All transaction types (deposits, withdrawals, transfers, card payments)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_002",
+    "name": "Withdrawals",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "Financial events involving withdrawals that fall under the scope of the fraud policy.",
+    "context": [
+      "All transaction types (deposits, withdrawals, transfers, card payments)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_003",
+    "name": "Transfers",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "Financial events involving transfers that fall under the scope of the fraud policy.",
+    "context": [
+      "All transaction types (deposits, withdrawals, transfers, card payments)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_004",
+    "name": "Card Payments",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "Financial events involving card payments that fall under the scope of the fraud policy.",
+    "context": [
+      "All transaction types (deposits, withdrawals, transfers, card payments)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_rsk_001",
+    "name": "Card Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario involving the unauthorized use of payment cards, identified as within the policy scope.",
+    "context": [
+      "All fraud scenarios (card fraud, account takeover, check fraud, etc.)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_rsk_002",
+    "name": "Account Takeover",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario where an unauthorized party gains control of a customer account, identified as within the policy scope.",
+    "context": [
+      "All fraud scenarios (card fraud, account takeover, check fraud, etc.)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_rsk_003",
+    "name": "Check Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario involving the manipulation or forgery of checks, identified as within the policy scope.",
+    "context": [
+      "All fraud scenarios (card fraud, account takeover, check fraud, etc.)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_pol_001",
+    "name": "FirstUK Bank Fraud Protection Policy",
+    "aliases": [
+      "Policy Statement"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A governing policy establishing FirstUK Bank's commitment to protecting customers from fraud. It defines the bank's stance on utilizing detection systems, real-time monitoring, and the fair allocation of liability.",
+    "context": [
+      "FirstUK Bank protects customers from fraud through detection systems, real-time transaction monitoring, and fair liability allocation."
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The primary risk category the policy is designed to mitigate, involving unauthorized or deceptive activities targeting bank customers.",
+    "context": [
+      "FirstUK Bank protects customers from fraud"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_ctl_001",
+    "name": "Fraud Detection Systems",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "fraud_detection_obligation",
+    "description": "Operational safeguards used by the bank to identify fraudulent activity.",
+    "context": [
+      "protects customers from fraud through detection systems"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_ctl_002",
+    "name": "Real-time Transaction Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "A continuous monitoring mechanism used to detect and prevent fraud as transactions occur in real-time.",
+    "context": [
+      "real-time transaction monitoring"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_prv_001",
+    "name": "Fair Liability Allocation for Fraud",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A policy requirement ensuring that the responsibility for fraud losses is allocated fairly between the bank and the customer.",
+    "context": [
+      "fair liability allocation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_rol_001",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individuals protected by the bank's fraud detection and monitoring systems.",
+    "context": [
+      "FirstUK Bank protects customers from fraud"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_pol_001",
+    "name": "Fraud Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A formal policy governing the categorization of fraud and the determination of customer liability in fraud scenarios.",
+    "context": [
+      "Fraud Categories"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_rsk_001",
+    "name": "Authorized Fraud",
+    "aliases": [
+      "Customer Liability Fraud"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario where a customer authorizes a transaction but subsequently claims fraud. This typically involves customer negligence or the provision of details to a criminal.",
+    "context": [
+      "Authorized Fraud (Customer Liability)",
+      "Customer authorizes transaction but later claims fraud",
+      "Customer knew of transaction",
+      "Customer provided details to criminal"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_prv_001",
+    "name": "Customer Liability for Negligent Authorized Fraud",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that the customer is held liable for financial losses resulting from authorized fraud if the customer was negligent.",
+    "context": [
+      "Customer liable for loss IF customer negligent"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_prv_002",
+    "name": "Exemption from Customer Liability for Internal Fraud or Unauthorized Use",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Provides an exception to customer liability in cases where the fraud was perpetrated by a bank staff member or involved unauthorized card use.",
+    "context": [
+      "Exception: Fraud by staff member or unauthorized card use"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who authorizes transactions and may be held liable for losses if negligence is proven in fraud scenarios.",
+    "context": [
+      "Customer authorizes transaction but later claims fraud",
+      "Customer liable for loss IF customer negligent"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_cus_001",
+    "name": "Negligent Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A customer who has provided details to a criminal or acted with negligence, making them liable for losses under the fraud policy.",
+    "context": [
+      "Customer provided details to criminal",
+      "Negligence by customer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_trn_001",
+    "name": "Authorized Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "monitored_transaction",
+    "description": "A financial transaction authorized by the customer which is later disputed as fraud.",
+    "context": [
+      "Customer authorizes transaction but later claims fraud",
+      "Customer wire transfers to criminal \"investment opportunity\""
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_card_001",
+    "name": "Payment Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "A payment instrument whose details may be provided to criminals or used without authorization.",
+    "context": [
+      "Customer gives card details to stranger claiming to be support",
+      "unauthorized card use"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_pol_001",
+    "name": "Unauthorized Fraud Policy",
+    "aliases": [
+      "Section 2",
+      "Unauthorized Fraud (Bank Liable)"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "Governing policy regarding unauthorized fraud where the bank is liable. It defines the characteristics of unauthorized access and the bank's obligations for reimbursement.",
+    "context": [
+      "Unauthorized Fraud (Bank Liable)",
+      "Criminal uses account without customer authorization"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_rsk_001",
+    "name": "Unauthorized Fraud",
+    "aliases": [
+      "Unauthorized access"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A risk scenario where a criminal accesses a customer's account without authorization via stolen credentials, card theft, phishing, or cloning to perform transactions.",
+    "context": [
+      "Criminal uses account without customer authorization",
+      "Criminal obtained access (stolen password, card, etc.)",
+      "Account takeover via phishing",
+      "Card cloning at ATM"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_prv_001",
+    "name": "Customer Reporting Deadline for Zero Liability",
+    "aliases": [
+      "24 hour reporting rule"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Requirement that a customer must report unauthorized fraud within 24 hours to ensure their liability is reduced to £0.",
+    "context": [
+      "Customer's liability: £0 (if reported within 24 hours)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_prv_002",
+    "name": "Mandatory Full Reimbursement of Unauthorized Loss",
+    "aliases": [
+      "100% reimbursement"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Obligation for FirstUK Bank to reimburse 100% of losses resulting from unauthorized fraud, provided there is no gross negligence by the customer.",
+    "context": [
+      "FirstUK Bank reimburses 100% of unauthorized loss",
+      "No customer liability (unless gross negligence)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_prv_003",
+    "name": "Fraud Reimbursement Timeframe",
+    "aliases": [
+      "10 business day limit"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandate that the bank must complete the reimbursement of unauthorized losses within 10 business days.",
+    "context": [
+      "Reimbursement within 10 business days"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "The Bank"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The entity responsible for reimbursing unauthorized losses and adhering to the defined reimbursement timeframes.",
+    "context": [
+      "FirstUK Bank reimburses 100% of unauthorized loss"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_cus_001",
+    "name": "Fraud Victim Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A customer whose account has been accessed without authorization and who may be eligible for reimbursement based on reporting speed and conduct.",
+    "context": [
+      "Customer did not authorize transaction",
+      "Customer's liability: £0 (if reported within 24 hours)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_acc_001",
+    "name": "Compromised Account",
+    "aliases": [
+      "account"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "A customer account that has been accessed by a criminal without authorization.",
+    "context": [
+      "Criminal uses account without customer authorization"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_trn_001",
+    "name": "Unauthorized Transaction",
+    "aliases": [
+      "unauthorized online transfer"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "A financial transaction performed by a criminal without the account holder's authorization.",
+    "context": [
+      "Customer did not authorize transaction",
+      "unauthorized online transfer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_crd_001",
+    "name": "Payment Card",
+    "aliases": [
+      "card"
+    ],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "A physical or digital card that may be stolen, cloned, or used without authorization.",
+    "context": [
+      "Criminal obtained access (stolen password, card, etc.)",
+      "Card stolen, used by criminal",
+      "Card cloning at ATM"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_pol_001",
+    "name": "Card Fraud Policy",
+    "aliases": [
+      "Section 3"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the bank's approach to card-based fraud, defining different fraud scenarios and the associated liability of the bank.",
+    "context": [
+      "3. Card Fraud"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_rsk_001",
+    "name": "Card Not Present (CNP) Fraud",
+    "aliases": [
+      "CNP Fraud"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "card_fraud_scenario",
+    "description": "A fraud risk involving online purchases where card details have been stolen, often resulting from website hacking or data breaches.",
+    "context": [
+      "Card Not Present (CNP) Fraud:",
+      "Online purchase, card details stolen",
+      "E.g., website hacking, data breach"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_prv_001",
+    "name": "Bank Liability for CNP Fraud based on Authentication",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The bank's liability for losses resulting from Card Not Present fraud is determined by the strength of the authentication used during the transaction.",
+    "context": [
+      "Bank liability depends on authentication strength"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_rsk_002",
+    "name": "Card Present Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "card_fraud_scenario",
+    "description": "A fraud risk where a physical card is stolen from a customer and used by a thief.",
+    "context": [
+      "Card Present Fraud:",
+      "Physical card used by thief",
+      "E.g., card stolen from customer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_prv_002",
+    "name": "Bank Liability for Card Present Fraud",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The bank is liable for losses resulting from Card Present fraud, except in cases where the customer was negligent.",
+    "context": [
+      "Bank liable (unless customer negligent)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_rsk_003",
+    "name": "Card Cloning",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "card_fraud_scenario",
+    "description": "A fraud risk where details are copied from a legitimate card to create a counterfeit card.",
+    "context": [
+      "Card Cloning:",
+      "Card details copied from legitimate card",
+      "Counterfeit card created"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_prv_003",
+    "name": "Bank Liability for Card Cloning post-report",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The bank is liable for financial losses resulting from card cloning after the fraud has been reported.",
+    "context": [
+      "Bank liable for losses post-report"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_rsk_001",
+    "name": "Account Takeover",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario where a criminal gains unauthorized access to a legitimate customer account by compromising credentials such as passwords or security questions.",
+    "context": [
+      "Account Takeover",
+      "Criminal gains access to legitimate account (password, security questions)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_001",
+    "name": "Immediate Account Freeze",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "account_freeze",
+    "description": "An operational safeguard requiring the bank to immediately freeze an account upon detection or report of an account takeover to prevent further unauthorized activity.",
+    "context": [
+      "Immediate account freeze"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_002",
+    "name": "Forced Password Reset",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A security control that mandates the resetting of account passwords to terminate unauthorized access and secure the account.",
+    "context": [
+      "Password reset forced"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_003",
+    "name": "Credential Review",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A review process focusing on security questions to ensure account credentials have not been permanently compromised.",
+    "context": [
+      "Credential review (security questions)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_004",
+    "name": "MFA Re-verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A requirement to re-verify the customer's identity using Multi-Factor Authentication to restore secure access to the account.",
+    "context": [
+      "MFA re-verification"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_prv_001",
+    "name": "Full Reimbursement of Account Takeover Losses",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A mandatory requirement for the bank to provide full reimbursement to customers for financial losses resulting from an account takeover.",
+    "context": [
+      "Full reimbursement of losses"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_pol_001",
+    "name": "Fraud Detection Framework",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A formal framework governing the methods and processes used by FirstUK Bank to detect fraudulent activity. It defines real-time monitoring rules, manual review triggers, and advanced pattern analysis mechanisms.",
+    "context": [
+      "Fraud Detection Framework"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The primary risk addressed by the framework, encompassing unauthorized transactions, fraudulent patterns, and activity by fraud perpetrators.",
+    "context": [
+      "Fraud Detection Framework",
+      "Customer reports suspected fraud",
+      "Confirmed fraud updates model",
+      "Fraud perpetrators tracked across customers"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_ctl_001",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "FDE-001"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "A technical system used for real-time transaction monitoring based on specific rules such as transaction amount, velocity, and geographic anomalies.",
+    "context": [
+      "Real-Time Transaction Monitoring (Fraud Detection Engine)",
+      "See: [[systems]] Fraud Detection Engine (FDE-001)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_001",
+    "name": "Real-Time Transaction Monitoring Rules",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates the monitoring of transactions for specific triggers including amounts over £5,000, velocity checks (>5 per hour), geographic anomalies, and failed authentication attempts.",
+    "context": [
+      "Large transaction amount (>£5,000)",
+      "Velocity checks (>5 transactions in 1 hour)",
+      "Geographic anomaly (transaction in different country within 2 hours)",
+      "Multiple failed authentication attempts"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_002",
+    "name": "Fraud Alert Transaction Hold",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Requires that when a fraud alert is generated by the monitoring engine, the transaction must be placed on hold for a period of up to 5 days.",
+    "context": [
+      "Action: Alert generated, transaction placed on hold (up to 5 days)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_003",
+    "name": "Manual Fraud Investigation Triggers",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Defines the specific events that must trigger a manual review, including customer reports, unusual activity, pattern changes, high-value transactions, and regulatory alerts.",
+    "context": [
+      "Triggers for Manual Investigation:",
+      "Customer reports suspected fraud",
+      "Unusual account activity",
+      "Pattern changes (normal behavior deviation)",
+      "High-value transaction",
+      "Regulatory alert (sanctions, AML)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_rol_001",
+    "name": "Financial Crime Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "risk_committee",
+    "description": "The collective responsible for analyzing activity during manual reviews and deciding whether transactions should be approved or blocked based on risk.",
+    "context": [
+      "Financial Crime team analyzes activity",
+      "Transaction approved or blocked based on risk"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_ctl_002",
+    "name": "Machine Learning Behavior Modeling",
+    "aliases": [
+      "Advanced Analytics"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "An advanced analytical control that learns normal customer behavior to flag anomalies and identify recurring fraud patterns.",
+    "context": [
+      "Machine learning model learns normal customer behavior",
+      "Anomalies flagged for review",
+      "Recurring fraud patterns identified"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_004",
+    "name": "Fraud Model Feedback Loop",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that confirmed fraud cases be used to update the machine learning model and refine false positives for continuous improvement.",
+    "context": [
+      "Confirmed fraud updates model",
+      "False positives refined",
+      "Model continuously improves"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_cus_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer who may report suspected fraud or be contacted for explanations regarding unusual account activity.",
+    "context": [
+      "Customer reports suspected fraud",
+      "Customer contacted for explanation (if safe)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The account subject to monitoring for unusual activity and pattern changes.",
+    "context": [
+      "Unusual account activity"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_tra_001",
+    "name": "High-Value Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "high_value_transaction",
+    "description": "Transactions exceeding £5,000 or otherwise categorized as high-value that trigger real-time alerts or manual investigation.",
+    "context": [
+      "Large transaction amount (>£5,000)",
+      "High-value transaction"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_pol_001",
+    "name": "Customer Fraud Reporting Policy",
+    "aliases": [
+      "Customer Fraud Reporting"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A formal policy governing the procedure for reporting, investigating, and resolving suspected customer fraud. It defines the operational workflow from initial report to reimbursement decision.",
+    "context": [
+      "Customer Fraud Reporting",
+      "Reporting Procedure"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_001",
+    "name": "Mandatory Capture of Fraud Report Details",
+    "aliases": [
+      "Section 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to capture full details, timeline, and amounts when a customer reports suspected fraud via phone, email, branch, or online.",
+    "context": [
+      "Capture: Full details, timeline, amounts"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_002",
+    "name": "Immediate Account Freeze for Account Takeover",
+    "aliases": [
+      "Immediate Actions"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandate to freeze the customer account immediately if the suspected fraud is identified as an account takeover.",
+    "context": [
+      "Freeze account (if account takeover)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_003",
+    "name": "Immediate Card Block for Card Fraud",
+    "aliases": [
+      "Immediate Actions"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandate to block the affected payment card immediately in instances of card fraud.",
+    "context": [
+      "Block affected card (if card fraud)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_004",
+    "name": "Fraud Investigation Timeframe",
+    "aliases": [
+      "Investigation (24–48 hours)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Requirement to complete the fraud investigation, including transaction review and liability determination, within a window of 24 to 48 hours.",
+    "context": [
+      "Investigation (24–48 hours)",
+      "Review transaction details",
+      "Assess fraud likelihood",
+      "Check payment status",
+      "Determine liability",
+      "Document findings"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_005",
+    "name": "Confirmed Fraud Reimbursement Deadline",
+    "aliases": [
+      "Reimbursement Decision"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Obligation to provide full reimbursement to the customer within 10 days once fraud has been confirmed.",
+    "context": [
+      "If Fraud Confirmed: Full reimbursement within 10 days"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_006",
+    "name": "Disputed Fraud Decision Escalation",
+    "aliases": [
+      "Reimbursement Decision"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "Requirement to escalate the case to the Head of Financial Crime if a reimbursement decision is disputed by the customer.",
+    "context": [
+      "If Disputed: Escalate to Head of Financial Crime + follow-up"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rsk_001",
+    "name": "Customer Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The general risk of fraudulent activity affecting customers, including specific scenarios such as account takeover and card fraud.",
+    "context": [
+      "Customer Reports Suspected Fraud",
+      "if account takeover",
+      "if card fraud"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rsk_002",
+    "name": "Account Takeover",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "unauthorized_access",
+    "description": "A specific fraud scenario where an unauthorized party gains control of a customer's account.",
+    "context": [
+      "Freeze account (if account takeover)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rsk_003",
+    "name": "Card Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Fraudulent activity specifically targeting payment cards.",
+    "context": [
+      "Block affected card (if card fraud)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_ctl_001",
+    "name": "Account Freezing",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The operational action of freezing an account to prevent further unauthorized transactions during a suspected account takeover.",
+    "context": [
+      "Freeze account (if account takeover)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_ctl_002",
+    "name": "Card Blocking",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "The operational action of blocking a payment card to mitigate losses from card fraud.",
+    "context": [
+      "Block affected card (if card fraud)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rol_001",
+    "name": "Financial Crime Team",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "The collective body responsible for receiving escalated fraud reports and conducting investigations.",
+    "context": [
+      "Escalate to Financial Crime team"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rol_002",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The senior role responsible for reviewing and resolving disputed fraud reimbursement decisions.",
+    "context": [
+      "Escalate to Head of Financial Crime + follow-up"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_cus_001",
+    "name": "Fraud Reporting Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A bank customer who reports suspected fraud and is subject to the investigation and reimbursement process.",
+    "context": [
+      "Customer Reports Suspected Fraud",
+      "educate customer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_acc_001",
+    "name": "Fraud-Affected Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "frozen_account",
+    "description": "A customer account that is subject to freezing or temporary access provisions during a fraud investigation.",
+    "context": [
+      "Freeze account (if account takeover)",
+      "Provide temporary access (alternate card/account)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_tr_001",
+    "name": "Fraudulent Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Financial events that are reviewed during the 24-48 hour investigation period to assess fraud likelihood.",
+    "context": [
+      "Review transaction details"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_crd_001",
+    "name": "Affected Payment Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "The payment card subject to blocking in the event of card fraud.",
+    "context": [
+      "Block affected card (if card fraud)",
+      "Provide temporary access (alternate card/account)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_pol_001",
+    "name": "Liability & Reimbursement Policy",
+    "aliases": [
+      "Liability & Reimbursement"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the allocation of financial liability between FirstUK Bank and its customers in the event of unauthorized transactions, scams, or security breaches.",
+    "context": [
+      "Liability & Reimbursement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_001",
+    "name": "Zero Liability for Timely Reported Unauthorized Card Use",
+    "aliases": [
+      "Zero Liability (Bank Pays All)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank assumes full financial liability for unauthorized card use provided the customer reports the incident within 24 hours.",
+    "context": [
+      "Zero Liability (Bank Pays All):",
+      "Unauthorized card use (if reported within 24 hours)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_002",
+    "name": "Zero Liability for Non-Fault Account Takeover",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank assumes full financial liability for account takeovers where the incident was not the fault of the customer.",
+    "context": [
+      "Account takeover (not customer's fault)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_003",
+    "name": "Zero Liability for Stolen Account Details",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank assumes full financial liability when stolen checks or account details are used by unauthorized parties.",
+    "context": [
+      "Stolen check/account details used"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_004",
+    "name": "Zero Liability for Bank Impersonation Scams",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank assumes full financial liability for scams where the customer was tricked by a fraudster impersonating the bank.",
+    "context": [
+      "Scam (customer tricked by fraudster impersonating bank)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_005",
+    "name": "Reduced Liability for Gross Negligence or Delayed Reporting",
+    "aliases": [
+      "Reduced Liability (Customer Pays Part)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The customer is responsible for a portion of the loss in cases of gross negligence, known fraudsters, or reporting delays exceeding 24 hours after discovery.",
+    "context": [
+      "Reduced Liability (Customer Pays Part):",
+      "Gross negligence (e.g., writing password on card)",
+      "Customer knew fraudster",
+      "Delayed reporting (>24 hours after discovery)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_006",
+    "name": "Full Customer Liability for Authorized Transactions and Security Breaches",
+    "aliases": [
+      "Full Customer Liability (Customer Pays All)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The customer bears full financial liability for transactions they authorized, general negligence such as sharing cards/passwords, or granting unauthorized persons access to security.",
+    "context": [
+      "Full Customer Liability (Customer Pays All):",
+      "Authorized transaction (customer authorized but later regrets)",
+      "Negligence (wrote password down, shared card)",
+      "Breach of security (unauthorized person given access)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rsk_001",
+    "name": "Unauthorized Card Use",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of financial loss resulting from the use of a payment card by a person other than the authorized holder.",
+    "context": [
+      "Unauthorized card use (if reported within 24 hours)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rsk_002",
+    "name": "Account Takeover",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of a fraudster gaining full control of a customer's bank account.",
+    "context": [
+      "Account takeover (not customer's fault)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rsk_003",
+    "name": "Impersonation Scam",
+    "aliases": [
+      "Scam"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario where a criminal impersonates a bank official to trick a customer into transferring funds or revealing data.",
+    "context": [
+      "Scam (customer tricked by fraudster impersonating bank)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The bank client who holds liability for account security and is required to report unauthorized activity within specific timeframes.",
+    "context": [
+      "Customer Liability",
+      "Delayed reporting (>24 hours after discovery)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_cust_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The individual subject to the liability and reimbursement terms defined in the policy.",
+    "context": [
+      "Customer Liability",
+      "customer tricked by fraudster"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_pol_001",
+    "name": "Fraud Reimbursement Policy",
+    "aliases": [
+      "Reimbursement Timeline"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the liability and timelines for reimbursing customers who have been victims of various types of fraud.",
+    "context": [
+      "Reimbursement Timeline"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_prv_001",
+    "name": "Standard Fraud Reimbursement Timeline",
+    "aliases": [
+      "10 business days"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "The bank is obligated to provide reimbursement within 10 business days for unauthorized card use, account takeovers, fraudulent transfers (if FPS not settled), and scams.",
+    "context": [
+      "Unauthorized card | Bank | 10 business days",
+      "Account takeover | Bank | 10 business days",
+      "Fraudulent transfer | Bank (if FPS not settled) | 10 business days",
+      "Scam (tricked customer) | Bank | 10 business days"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_prv_002",
+    "name": "Exclusion of Reimbursement for Customer Negligence",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "Reimbursement is prohibited in cases where the fraud is attributed to customer negligence, leaving the customer as the liable party.",
+    "context": [
+      "Customer negligence | Customer | No reimbursement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_001",
+    "name": "Unauthorized Card Use",
+    "aliases": [
+      "Unauthorized card"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario involving the use of a customer's payment card without their authorization.",
+    "context": [
+      "Unauthorized card"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_002",
+    "name": "Account Takeover",
+    "aliases": [
+      "Account takeover"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario where an unauthorized party gains full control of a customer's bank account.",
+    "context": [
+      "Account takeover"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_003",
+    "name": "Fraudulent Transfer",
+    "aliases": [
+      "Fraudulent transfer"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario involving the unauthorized transfer of funds, specifically referencing Faster Payments Service (FPS) settlement status.",
+    "context": [
+      "Fraudulent transfer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_004",
+    "name": "Customer Scam",
+    "aliases": [
+      "Scam (tricked customer)"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A fraud scenario where a customer is deceived or tricked into authorizing a payment.",
+    "context": [
+      "Scam (tricked customer)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_005",
+    "name": "Customer Negligence",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A scenario where the customer's own failure to exercise reasonable care contributes to the fraud loss.",
+    "context": [
+      "Customer negligence"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rol_001",
+    "name": "FirstUK Bank",
+    "aliases": [
+      "Bank"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The entity responsible for the liability and reimbursement of funds in most fraud scenarios, provided specific conditions are met.",
+    "context": [
+      "Liable Party | Bank"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rol_002",
+    "name": "Bank Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The individual who may be eligible for reimbursement or may be held liable in cases of negligence.",
+    "context": [
+      "Liable Party | Customer",
+      "Scam (tricked customer)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_pol_001",
+    "name": "Fraud Investigation Policy",
+    "aliases": [
+      "Fraud Investigation"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A formal policy governing the triggers, team composition, and procedural elements required for conducting fraud investigations within FirstUK Bank.",
+    "context": [
+      "## Fraud Investigation",
+      "### Investigation Process"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_001",
+    "name": "Mandatory Investigation Trigger for High Value Fraud",
+    "aliases": [
+      "Triggers"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An investigation must be triggered when unauthorized fraud is confirmed and the value exceeds £1,000.",
+    "context": [
+      "Confirmed unauthorized fraud (>£1,000)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_002",
+    "name": "Mandatory Investigation Trigger for Multiple Incidents",
+    "aliases": [
+      "Triggers"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An investigation must be triggered when multiple fraud incidents are identified involving the same customer or merchant.",
+    "context": [
+      "Multiple fraud incidents (same customer/merchant)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_003",
+    "name": "Mandatory Investigation Trigger for Systemic Fraud Patterns",
+    "aliases": [
+      "Triggers"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An investigation must be triggered when a systemic fraud pattern is identified.",
+    "context": [
+      "Fraud pattern identified (systemic issue)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_004",
+    "name": "Mandatory Investigation Trigger for Law Enforcement Referrals",
+    "aliases": [
+      "Triggers"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An investigation must be triggered upon receipt of a law enforcement referral, specifically where a police report has been filed.",
+    "context": [
+      "Law enforcement referral (police report filed)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_005",
+    "name": "Evidence Preservation Requirements",
+    "aliases": [
+      "Evidence Preservation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandates the retention of system logs, protection of transaction records, and archiving of customer communications to support investigations and law enforcement cooperation.",
+    "context": [
+      "System logs retained",
+      "Transaction records protected",
+      "Customer communications archived",
+      "Cooperation with law enforcement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rsk_001",
+    "name": "Unauthorized Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of unauthorized fraudulent activity, specifically those exceeding £1,000 or exhibiting systemic patterns.",
+    "context": [
+      "Confirmed unauthorized fraud (>£1,000)",
+      "Fraud pattern identified (systemic issue)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rsk_002",
+    "name": "Data Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "data_breach",
+    "description": "The risk of a data breach, which triggers the involvement of external forensics during a fraud investigation.",
+    "context": [
+      "External forensics (if data breach suspected)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_ctl_001",
+    "name": "System Log Retention",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational safeguard of retaining system logs to preserve evidence during fraud investigations.",
+    "context": [
+      "System logs retained"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_ctl_002",
+    "name": "Transaction Record Protection",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The mechanism of protecting transaction records to ensure evidence integrity for fraud analysis.",
+    "context": [
+      "Transaction records protected"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_ctl_003",
+    "name": "Customer Communication Archiving",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The process of archiving communications with customers as part of the evidence preservation mandate.",
+    "context": [
+      "Customer communications archived"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_001",
+    "name": "Lead Investigator",
+    "aliases": [
+      "Financial Crime staff"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Financial Crime staff acting as the lead investigator responsible for managing the fraud investigation process.",
+    "context": [
+      "Financial Crime staff (lead investigator)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_002",
+    "name": "System Analysis Team",
+    "aliases": [
+      "Technology team"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The technology team responsible for providing system analysis and extracting logs during an investigation.",
+    "context": [
+      "Technology team (system analysis, logs)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_003",
+    "name": "Legal Counsel",
+    "aliases": [
+      "Legal"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Legal staff involved in the investigation process specifically when law enforcement is engaged.",
+    "context": [
+      "Legal (if law enforcement involved)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_004",
+    "name": "External Forensics Specialists",
+    "aliases": [
+      "External forensics"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "third_party_processor",
+    "description": "External forensic experts engaged when a data breach is suspected as part of a fraud investigation.",
+    "context": [
+      "External forensics (if data breach suspected)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_005",
+    "name": "Law Enforcement",
+    "aliases": [
+      "police"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "External police or regulatory bodies that provide referrals or cooperate in the preservation of evidence.",
+    "context": [
+      "Law enforcement referral (police report filed)",
+      "Cooperation with law enforcement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_cus_001",
+    "name": "Fraud-Impacted Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Customers who are the subject of multiple fraud incidents or whose communications are archived for evidence.",
+    "context": [
+      "Multiple fraud incidents (same customer/merchant)",
+      "Customer communications archived"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_tra_001",
+    "name": "Fraudulent Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "suspicious_transaction",
+    "description": "Transactions identified as fraudulent, requiring a timeline analysis and loss quantification.",
+    "context": [
+      "Timeline of fraudulent transactions"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_pol_001",
+    "name": "Prevention & Controls Policy",
+    "aliases": [
+      "Prevention & Controls"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the prevention and control mechanisms for fraud, specifically focusing on system controls, authentication, and transaction limits.",
+    "context": [
+      "Prevention & Controls"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_001",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "System Controls"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "An automated system used to detect and manage fraud risk through real-time blocking and risk-based transaction handling.",
+    "context": [
+      "System Controls (Fraud Detection Engine)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_001",
+    "name": "Real-Time Blocking of High-Risk Transactions",
+    "aliases": [
+      "Real-Time Blocking"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that transactions identified as high-risk must be automatically blocked by the system.",
+    "context": [
+      "High-risk transactions auto-blocked"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_002",
+    "name": "OTP Verification for Risky Transactions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "Requires that transactions categorized as risky must undergo One-Time Password (OTP) verification before proceeding.",
+    "context": [
+      "Risky transactions require OTP verification"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_003",
+    "name": "Manual Review for Medium-Risk Transactions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "Requires that transactions categorized as medium-risk be held for manual review by staff.",
+    "context": [
+      "Medium-risk transactions held for manual review"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_002",
+    "name": "Multi-factor Authentication",
+    "aliases": [
+      "MFA"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A security control requiring multiple forms of verification for accessing online banking services.",
+    "context": [
+      "Multi-factor authentication (MFA) for online banking"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_003",
+    "name": "Biometric Authentication",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A security control utilizing biological characteristics for authentication on mobile platforms.",
+    "context": [
+      "Biometric authentication for mobile"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_004",
+    "name": "Transfer Confirmation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A control requiring confirmation via SMS or email for financial transfers.",
+    "context": [
+      "SMS/email confirmation for transfers"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_004",
+    "name": "Daily ATM Withdrawal Limit",
+    "aliases": [
+      "Transaction Limits"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Sets a mandatory maximum daily withdrawal limit of £500 per card at ATMs.",
+    "context": [
+      "Daily withdrawal limit (per card): £500 ATM"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_005",
+    "name": "Daily Transfer Limit Configuration",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Establishes a default daily transfer limit of £50k, which is configurable by the customer.",
+    "context": [
+      "Daily transfer limit: Configurable by customer (default £50k)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_006",
+    "name": "New Beneficiary First Transfer Limit",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Restricts the first transfer to a new beneficiary to a maximum amount of £1k.",
+    "context": [
+      "New beneficiary limits: £1k for first transfer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity, mitigated through system controls, authentication strengthening, and transaction limits.",
+    "context": [
+      "System Controls (Fraud Detection Engine)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_rol_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "The bank customer who has the authority to configure their own daily transfer limits.",
+    "context": [
+      "Configurable by customer (default £50k)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_card_001",
+    "name": "Payment Card",
+    "aliases": [
+      "card"
+    ],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "A payment card subject to daily ATM withdrawal limits.",
+    "context": [
+      "Daily withdrawal limit (per card): £500 ATM"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_pol_001",
+    "name": "Customer Education Policy",
+    "aliases": [
+      "Customer Education"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy framework focused on enhancing customer awareness regarding security and providing clear channels for reporting fraudulent activity.",
+    "context": [
+      "Customer Education"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_001",
+    "name": "Provision of Security Tips in Welcome Pack",
+    "aliases": [
+      "Customer Awareness"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to provide security tips to customers as part of their initial welcome pack to ensure early awareness of security practices.",
+    "context": [
+      "Security tips in welcome pack"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_002",
+    "name": "Provision of Phishing Examples in Communications",
+    "aliases": [
+      "Customer Awareness"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to include examples of phishing emails within bank communications to educate customers on how to identify fraudulent messages.",
+    "context": [
+      "Phishing email examples in communications"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_003",
+    "name": "Password Confidentiality Messaging",
+    "aliases": [
+      "Customer Awareness"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to communicate the explicit instruction that passwords must never be shared with anyone.",
+    "context": [
+      "\"Never give password to anyone\" messages"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_004",
+    "name": "Call-Back Verification Advice",
+    "aliases": [
+      "Customer Awareness"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to advise customers to verify the identity of the bank by calling back using a known, official number if they receive a call from the bank.",
+    "context": [
+      "Advice: \"If bank calls, call bank back using known number\""
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_005",
+    "name": "Provision of Clear Fraud Reporting Channels",
+    "aliases": [
+      "Reporting Encouragement"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Requirement to maintain and provide clear channels for customers to report fraud, including a dedicated phone line and an online form.",
+    "context": [
+      "Clear fraud reporting channel (0800-555-2265)",
+      "Online fraud form available"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_006",
+    "name": "Fraud Response Timeframe Requirement",
+    "aliases": [
+      "Reporting Encouragement"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Requirement for the bank to provide a rapid response to fraud reports submitted by customers.",
+    "context": [
+      "Rapid response to fraud reports"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_rsk_001",
+    "name": "Phishing",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of customers being deceived by fraudulent emails to reveal sensitive information.",
+    "context": [
+      "Phishing email examples in communications"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_ctl_001",
+    "name": "Fraud Reporting Phone Line",
+    "aliases": [
+      "0800-555-2265"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A dedicated telephone channel used by customers to report suspected fraudulent activity.",
+    "context": [
+      "Clear fraud reporting channel (0800-555-2265)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_ctl_002",
+    "name": "Online Fraud Reporting Form",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A digital form provided to customers to facilitate the reporting of fraud.",
+    "context": [
+      "Online fraud form available"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_ctl_003",
+    "name": "Branch Staff Fraud Training",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "Training provided to staff working in branches to ensure they can effectively handle customer questions regarding fraud.",
+    "context": [
+      "Branch staff trained on fraud questions"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_rol_001",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members located in bank branches who are responsible for being trained to answer customer questions regarding fraud.",
+    "context": [
+      "Branch staff trained on fraud questions"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_cus_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The recipient of security education and the subject of fraud reporting procedures.",
+    "context": [
+      "Customer Awareness",
+      "Reporting Encouragement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_pol_001",
+    "name": "Staff Controls Policy",
+    "aliases": [
+      "Staff Controls"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the internal controls, training requirements, and operational safeguards for staff to prevent and detect fraud within FirstUK Bank.",
+    "context": [
+      "### Staff Controls"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_001",
+    "name": "Mandatory Annual Fraud Awareness Training",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for all staff to undergo fraud awareness training on an annual basis.",
+    "context": [
+      "Annual fraud awareness (all staff)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_002",
+    "name": "Fraud Scenario and Red Flag Training",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "Staff are required to be trained in specific fraud scenarios and the identification of red flags to ensure proper detection.",
+    "context": [
+      "Fraud scenario training",
+      "Red flags identification"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_003",
+    "name": "Proper Documentation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for staff to maintain proper documentation as part of the fraud control framework.",
+    "context": [
+      "Proper documentation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_004",
+    "name": "Segregation of Fraud Detection and Transaction Processing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate ensuring that the function of detecting fraud is kept separate from the function of processing transactions.",
+    "context": [
+      "Fraud detection separate from transaction processing"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_005",
+    "name": "Segregation of Investigation and Approval",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate ensuring that the investigation of a fraud event is conducted by a different party than the one providing the final approval.",
+    "context": [
+      "Investigation separate from approval"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_006",
+    "name": "Prohibition of Single-Person Block and Approval",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "prohibition",
+    "description": "A strict prohibition preventing any single individual from having the authority to both block and approve a transaction.",
+    "context": [
+      "No single person can block and approve transaction"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity which the staff controls and training are designed to mitigate.",
+    "context": [
+      "Annual fraud awareness",
+      "Fraud scenario training",
+      "Fraud detection separate from transaction processing"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_ctl_001",
+    "name": "Staff Training Program",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The operational mechanism of providing annual awareness, scenario-based training, and red flag identification to staff.",
+    "context": [
+      "Staff Training:",
+      "Annual fraud awareness (all staff)",
+      "Fraud scenario training",
+      "Red flags identification"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_ctl_002",
+    "name": "Segregation of Duties",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "dual_authorisation",
+    "description": "The operational safeguard of splitting critical tasks (detection, processing, investigation, and approval) between different staff members to prevent collusion or error.",
+    "context": [
+      "Segregation of Duties:",
+      "Fraud detection separate from transaction processing",
+      "Investigation separate from approval",
+      "No single person can block and approve transaction"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are obligated to complete annual fraud awareness training.",
+    "context": [
+      "Annual fraud awareness (all staff)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_pol_001",
+    "name": "Law Enforcement Coordination Policy",
+    "aliases": [
+      "Law Enforcement Coordination"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the bank's interaction and cooperation with law enforcement agencies, specifically regarding police reports filed by customers and the preservation of evidence.",
+    "context": [
+      "Law Enforcement Coordination",
+      "Police Involvement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_001",
+    "name": "Obligation to Cooperate with Police",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Mandates that FirstUK Bank must provide full cooperation to law enforcement agencies when a customer has filed a police report.",
+    "context": [
+      "FirstUK Bank cooperates fully"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_002",
+    "name": "Provision of Transaction Records to Police",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "Requires the bank to provide relevant transaction records to the police as part of their cooperation during an investigation.",
+    "context": [
+      "Provides transaction records to police"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_003",
+    "name": "Evidence Preservation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Obligates the bank to preserve digital evidence, specifically logs and screenshots, for use in police investigations.",
+    "context": [
+      "Preserves evidence (logs, screenshots)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_004",
+    "name": "Adherence to Police Investigation Protocol",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires the bank to follow the specific protocols established by the police during the course of an investigation.",
+    "context": [
+      "Follows police investigation protocol"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_005",
+    "name": "Conditional Delay of Reimbursement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "Allows the bank to delay the reimbursement of funds to a customer if the police investigation indicates such a delay is necessary.",
+    "context": [
+      "May delay reimbursement pending investigation (if indicated)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_ctl_001",
+    "name": "Evidence Logging and Capture",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of capturing and preserving logs and screenshots to serve as evidence for law enforcement.",
+    "context": [
+      "Preserves evidence (logs, screenshots)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_rol_001",
+    "name": "Police",
+    "aliases": [
+      "law enforcement"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "External law enforcement body that conducts investigations and defines the protocols the bank must follow.",
+    "context": [
+      "Provides transaction records to police",
+      "Follows police investigation protocol"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_cus_001",
+    "name": "Reporting Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A bank customer who has filed a police report regarding a potential crime or fraud.",
+    "context": [
+      "When Customer Files Police Report"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_pol_001",
+    "name": "Information Sharing Policy",
+    "aliases": [
+      "Information Sharing"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the notification and sharing of fraud losses, patterns, and suspicious activities with regulatory bodies and industry partners.",
+    "context": [
+      "Information Sharing"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_prv_001",
+    "name": "Reporting Large Fraud Losses to FCA",
+    "aliases": [
+      "FCA/Regulatory Notification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to report large fraud losses to the Financial Conduct Authority (FCA).",
+    "context": [
+      "Large fraud losses reported to FCA"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_prv_002",
+    "name": "Industry Sharing of Fraud Patterns",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A requirement to share identified fraud patterns with the wider industry to mitigate systemic risk.",
+    "context": [
+      "Fraud patterns shared with industry"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_prv_003",
+    "name": "Suspicious Activity Referral to NCA",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "An obligation to refer suspicious activity to the National Crime Agency (NCA) specifically in cases where money laundering is suspected.",
+    "context": [
+      "Suspicious activity referral to NCA (if ML suspected)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body to which large fraud losses must be reported.",
+    "context": [
+      "FCA/Regulatory Notification",
+      "Large fraud losses reported to FCA"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_reg_002",
+    "name": "National Crime Agency",
+    "aliases": [
+      "NCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The authority responsible for receiving referrals of suspicious activity when money laundering is suspected.",
+    "context": [
+      "Suspicious activity referral to NCA (if ML suspected)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of financial loss or systemic patterns resulting from fraudulent activity.",
+    "context": [
+      "Large fraud losses reported to FCA",
+      "Fraud patterns shared with industry"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_rsk_002",
+    "name": "Money Laundering",
+    "aliases": [
+      "ML"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "money_laundering",
+    "description": "The risk of illicit funds being processed through the bank, triggering a referral to the NCA.",
+    "context": [
+      "Suspicious activity referral to NCA (if ML suspected)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_pol_001",
+    "name": "Fraud Statistics & Monitoring Policy",
+    "aliases": [
+      "Fraud Statistics & Monitoring"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A governing instrument focused on the tracking of fraud metrics, detection rates, and financial loss targets for the year 2025.",
+    "context": [
+      "Fraud Statistics & Monitoring"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_001",
+    "name": "Fraud Detection Rate Target",
+    "aliases": [
+      "Metric: Fraud detection rate"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to maintain a fraud detection rate of 97% or higher.",
+    "context": [
+      "Fraud detection rate | 97%+"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_002",
+    "name": "False Positive Rate Limit",
+    "aliases": [
+      "Metric: False positive rate"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to keep the false positive rate below 2%.",
+    "context": [
+      "False positive rate | <2%"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_003",
+    "name": "Average Fraud Loss Per Incident Limit",
+    "aliases": [
+      "Metric: Average fraud loss per incident"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to limit the average fraud loss per incident to less than £5,000.",
+    "context": [
+      "Average fraud loss per incident | <£5k"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_004",
+    "name": "Annual Fraud Loss Revenue Percentage Limit",
+    "aliases": [
+      "Metric: Annual fraud loss % of revenue"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that annual fraud losses must represent less than 0.5% of revenue.",
+    "context": [
+      "Annual fraud loss % of revenue | <0.5%"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_005",
+    "name": "Reimbursement Timeliness Standard",
+    "aliases": [
+      "Metric: Reimbursement timeliness"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "A requirement to ensure 100% of reimbursements are processed within 10 days.",
+    "context": [
+      "Reimbursement timeliness | 100% within 10 days"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of financial loss and operational failure resulting from fraudulent activity, measured by detection rates and loss percentages.",
+    "context": [
+      "Fraud detection rate",
+      "Average fraud loss per incident",
+      "Annual fraud loss % of revenue"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_ctl_001",
+    "name": "Fraud Metrics Monitoring",
+    "aliases": [
+      "Metrics Tracked"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The operational mechanism of tracking specific KPIs (detection rate, false positives, and loss) to monitor the effectiveness of fraud controls.",
+    "context": [
+      "Metrics Tracked",
+      "Fraud detection rate",
+      "False positive rate"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_pol_001",
+    "name": "Fraud Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing policy document establishing the reporting requirements and risk assessment frameworks for fraud management within FirstUK Bank.",
+    "context": [
+      "Reporting",
+      "Monthly Report",
+      "Quarterly Report to Risk Committee"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_prv_001",
+    "name": "Monthly Fraud Incident Reporting Requirement",
+    "aliases": [
+      "Monthly Report"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to produce a monthly report detailing fraud incidents, including the total loss amount, the method of detection, and an analysis of trends.",
+    "context": [
+      "Monthly Report: - Fraud incidents reported - Loss amount - Detection method - Trend analysis"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_prv_002",
+    "name": "Quarterly Fraud Risk Reporting to Risk Committee",
+    "aliases": [
+      "Quarterly Report to Risk Committee"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement to provide a quarterly report to the Risk Committee covering fraud risk assessments, top fraud patterns, implemented process improvements, and the effectiveness of prevention measures.",
+    "context": [
+      "Quarterly Report to Risk Committee: - Fraud risk assessment - Top fraud types/patterns - Process improvements implemented - Fraud prevention effectiveness"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_rsk_001",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of financial loss or operational disruption resulting from fraudulent activity, subject to monthly trend analysis and quarterly risk assessments.",
+    "context": [
+      "Fraud incidents reported",
+      "Fraud risk assessment",
+      "Top fraud types/patterns"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_ctl_001",
+    "name": "Fraud Detection and Prevention Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "The operational mechanism of tracking detection methods and measuring the effectiveness of fraud prevention to drive process improvements.",
+    "context": [
+      "Detection method",
+      "Process improvements implemented",
+      "Fraud prevention effectiveness"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_rol_001",
+    "name": "Risk Committee",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "risk_committee",
+    "description": "The governing body responsible for receiving and reviewing quarterly reports on fraud risk assessments, patterns, and the effectiveness of prevention controls.",
+    "context": [
+      "Quarterly Report to Risk Committee"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_pol_001",
+    "name": "Industry Collaboration Policy",
+    "aliases": [
+      "Industry Collaboration"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the sharing of fraud-related information and alerts between FirstUK Bank and its industry peers to mitigate emerging threats.",
+    "context": [
+      "## Industry Collaboration",
+      "Fraud information shared among banks"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_ctl_001",
+    "name": "Customer Information System",
+    "aliases": [
+      "CIS"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A shared industry system used by banks to exchange fraud information regarding customers.",
+    "context": [
+      "Customer Information System (CIS) — Fraud information shared among banks"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_ctl_002",
+    "name": "Early Warning System",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "incident_reporting",
+    "description": "A mechanism for receiving and disseminating alerts regarding emerging fraud trends, including payment scams and telecommunications fraud.",
+    "context": [
+      "Early Warning System:",
+      "NewPay alerts (payment scams emerging)",
+      "Telecommunications fraud alerts",
+      "Emerging fraud trends"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_rsk_001",
+    "name": "Card Fraud",
+    "aliases": [
+      "Card fraud networks"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Fraudulent activity specifically targeting payment cards and the networks associated with them.",
+    "context": [
+      "Card fraud networks (if applicable)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_rsk_002",
+    "name": "Payment Scams",
+    "aliases": [
+      "NewPay alerts"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Emerging fraudulent schemes targeting payment systems, identified via NewPay alerts.",
+    "context": [
+      "NewPay alerts (payment scams emerging)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_rsk_003",
+    "name": "Telecommunications Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Fraudulent activities leveraging telecommunications channels, monitored via industry alerts.",
+    "context": [
+      "Telecommunications fraud alerts"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_prv_001",
+    "name": "Industry Fraud Information Sharing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The requirement to share fraud information, including customer data via CIS and fraud patterns, with industry peers.",
+    "context": [
+      "Fraud information shared among banks",
+      "Fraud patterns shared with industry peers"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_pol_001",
+    "name": "Regulatory Compliance Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A governing instrument outlining the bank's stance on regulatory compliance regarding fraud prevention, liability, and dispute resolution.",
+    "context": [
+      "Regulatory Compliance"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_reg_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA COBS"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Regulatory framework governing fraud prevention and the fair allocation of liability.",
+    "context": [
+      "FCA COBS (fraud prevention, fair liability)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_reg_002",
+    "name": "Payment Services Regulations",
+    "aliases": [
+      "PSR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "Regulations governing the authorization of transactions and the resolution of disputes.",
+    "context": [
+      "Payment Services Regulations (transaction authorization, dispute resolution)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_reg_003",
+    "name": "Chargeback Rights",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "industry_code",
+    "description": "Rights applicable to credit cards regarding the reversal of transactions.",
+    "context": [
+      "Chargeback rights (credit cards, if applicable)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_001",
+    "name": "Fair Liability Allocation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to ensure that liability for fraud is allocated fairly and does not unfairly favor the bank.",
+    "context": [
+      "Fair liability allocation (not favoring bank)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_002",
+    "name": "Prompt Dispute Investigation Timeframe",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "response_timeframe",
+    "description": "Mandatory requirement to investigate disputes promptly, specifically within a 30-day window.",
+    "context": [
+      "Prompt investigation (within 30 days for disputes)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_003",
+    "name": "Immediate Fraud Reimbursement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Obligation to reimburse the customer without delay once fraud has been confirmed.",
+    "context": [
+      "Reimbursement without delay (if fraud confirmed)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_004",
+    "name": "Evidence-Based Decision Documentation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requirement that all decisions must be based on evidence and supported by documented reasoning.",
+    "context": [
+      "Evidence-based decisions (documented reasoning)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity affecting transactions and customer accounts, requiring prevention and reimbursement controls.",
+    "context": [
+      "fraud prevention",
+      "if fraud confirmed"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_ctl_001",
+    "name": "Documented Reasoning",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational mechanism of documenting the reasoning behind decisions to ensure they are evidence-based.",
+    "context": [
+      "Evidence-based decisions (documented reasoning)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_pol_001",
+    "name": "Fraud Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing policy document outlining the responsibilities of staff regarding the detection, reporting, and prevention of fraud within FirstUK Bank.",
+    "context": [
+      "## Staff Responsibilities"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "A collective role encompassing all bank employees who are mandated to report fraud, educate customers, and follow established fraud procedures.",
+    "context": [
+      "### All Staff",
+      "Report suspected fraud immediately",
+      "Educate customers about fraud prevention",
+      "Verify suspicious customer contacts",
+      "Follow fraud procedures",
+      "Document suspicions"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_001",
+    "name": "Immediate Reporting of Suspected Fraud",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "A mandatory requirement for all staff to report any suspected fraud without delay.",
+    "context": [
+      "Report suspected fraud immediately"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_002",
+    "name": "Customer Fraud Prevention Education",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "An obligation for all staff to provide education to customers regarding the prevention of fraud.",
+    "context": [
+      "Educate customers about fraud prevention"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_003",
+    "name": "Verification of Suspicious Customer Contacts",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for all staff to perform verification procedures when customer contacts are deemed suspicious.",
+    "context": [
+      "Verify suspicious customer contacts"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_004",
+    "name": "Adherence to Fraud Procedures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate requiring all staff to strictly follow the bank's established fraud procedures.",
+    "context": [
+      "Follow fraud procedures"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_005",
+    "name": "Documentation of Fraud Suspicions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A requirement for all staff to maintain a written record of their suspicions regarding fraudulent activity.",
+    "context": [
+      "Document suspicions"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity which the policy seeks to mitigate through staff reporting, customer education, and verification procedures.",
+    "context": [
+      "Report suspected fraud immediately",
+      "Educate customers about fraud prevention",
+      "Follow fraud procedures"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_ctl_001",
+    "name": "Customer Contact Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "An operational safeguard used by staff to verify the identity or legitimacy of a customer contact when suspicion is raised.",
+    "context": [
+      "Verify suspicious customer contacts"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_ctl_002",
+    "name": "Fraud Documentation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The process of documenting suspicions to create an audit trail of potential fraud detection.",
+    "context": [
+      "Document suspicions"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_pol_001",
+    "name": "Customer Service Fraud Policy",
+    "aliases": [
+      "Customer Service"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the customer service response and operational handling of reported fraud cases, including communication and reimbursement.",
+    "context": [
+      "Customer Service"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_001",
+    "name": "Prompt Acknowledgement of Fraud Reports",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A mandatory requirement for customer service staff to acknowledge reports of fraud from customers in a prompt manner.",
+    "context": [
+      "Acknowledge fraud reports promptly"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_002",
+    "name": "Mandatory Initiation of Fraud Investigation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to start a formal investigation process upon the receipt of a fraud report.",
+    "context": [
+      "Initiate investigation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_003",
+    "name": "Customer Progress Updates on Fraud Cases",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A requirement to keep customers informed regarding the status and progress of their fraud investigations.",
+    "context": [
+      "Update customers on progress"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_004",
+    "name": "Fraud Reimbursement Processing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The obligation to process the reimbursement of funds to customers affected by fraud.",
+    "context": [
+      "Process reimbursements"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_005",
+    "name": "Provision of Fraud Prevention Advice",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A requirement to provide customers with guidance and advice on how to prevent future fraud occurrences.",
+    "context": [
+      "Provide fraud prevention advice"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_rol_001",
+    "name": "Customer Service Staff",
+    "aliases": [
+      "Customer Service"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The staff collective responsible for the front-end handling of fraud reports, customer communication, and the initiation of the reimbursement process.",
+    "context": [
+      "Customer Service"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity affecting customers, which triggers the reporting, investigation, and reimbursement processes defined in the policy.",
+    "context": [
+      "Acknowledge fraud reports promptly",
+      "Provide fraud prevention advice"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_ctl_001",
+    "name": "Fraud Investigation Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "fraud_investigation",
+    "description": "The operational mechanism used to investigate reported fraud to determine validity and facilitate reimbursement.",
+    "context": [
+      "Initiate investigation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_dep_001",
+    "name": "Financial Crime Team",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "financial_crime_department",
+    "description": "The internal department responsible for the investigation of fraud claims, determination of liability, and the oversight of the reimbursement process. They are also tasked with identifying fraud patterns and recommending preventative measures.",
+    "context": [
+      "Financial Crime Team",
+      "Investigate fraud claims",
+      "Determine liability",
+      "Oversee reimbursement",
+      "Identify fraud patterns",
+      "Recommend prevention measures"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_001",
+    "name": "Investigation of Fraud Claims",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Financial Crime Team to conduct investigations into claims of fraud.",
+    "context": [
+      "Investigate fraud claims"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_002",
+    "name": "Determination of Fraud Liability",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Financial Crime Team to determine the liability associated with fraud claims.",
+    "context": [
+      "Determine liability"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_003",
+    "name": "Oversight of Fraud Reimbursement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Financial Crime Team to oversee the process of reimbursing victims of fraud.",
+    "context": [
+      "Oversee reimbursement"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_004",
+    "name": "Identification of Fraud Patterns",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Financial Crime Team to identify recurring patterns of fraudulent activity.",
+    "context": [
+      "Identify fraud patterns"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_005",
+    "name": "Recommendation of Fraud Prevention Measures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for the Financial Crime Team to recommend measures to prevent future fraud occurrences.",
+    "context": [
+      "Recommend prevention measures"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity that necessitates investigation, liability determination, and the implementation of prevention measures.",
+    "context": [
+      "Investigate fraud claims",
+      "Identify fraud patterns",
+      "Recommend prevention measures"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_pol_001",
+    "name": "Fraud Compliance Policy",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A policy governing the compliance requirements for fraud management, including monitoring, reporting, and auditing processes to ensure regulatory adherence.",
+    "context": [
+      "Compliance"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_001",
+    "name": "Fraud Trend Monitoring Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement to actively monitor trends related to fraud to ensure the bank remains aware of evolving threats.",
+    "context": [
+      "Monitor fraud trends"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_002",
+    "name": "Regulatory Statistics Reporting Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "An obligation to report fraud-related statistics to the relevant regulatory authorities.",
+    "context": [
+      "Report statistics to regulators"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_003",
+    "name": "Fraud Process Audit Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement to conduct audits of the bank's fraud processes to ensure operational effectiveness and compliance.",
+    "context": [
+      "Audit fraud processes"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_004",
+    "name": "General Regulatory Compliance Mandate",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A broad mandate to ensure that all fraud-related activities and processes comply with applicable regulations.",
+    "context": [
+      "Ensure compliance with regulations"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity which the policy seeks to mitigate through monitoring, auditing, and regulatory reporting.",
+    "context": [
+      "Monitor fraud trends",
+      "Audit fraud processes"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_ctl_001",
+    "name": "Fraud Process Auditing",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of auditing fraud processes to verify compliance and effectiveness.",
+    "context": [
+      "Audit fraud processes"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_rol_001",
+    "name": "Regulators",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "External regulatory bodies that receive fraud statistics and mandate compliance standards.",
+    "context": [
+      "Report statistics to regulators"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_pol_001",
+    "name": "Training & Awareness Policy",
+    "aliases": [
+      "Training & Awareness"
+    ],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing framework establishing the mandatory training and awareness requirements for various staff categories to mitigate fraud risk.",
+    "context": [
+      "## Training & Awareness"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_001",
+    "name": "Mandatory Annual Fraud Awareness Training for All Staff",
+    "aliases": [
+      "All staff: 1-hour fraud awareness training"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for all staff members to complete one hour of fraud awareness training on an annual basis.",
+    "context": [
+      "Mandatory Annual Training:",
+      "All staff: 1-hour fraud awareness training"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_002",
+    "name": "Quarterly Specialist Training for Financial Crime Staff",
+    "aliases": [
+      "Financial Crime staff: Quarterly specialist training"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for staff within the Financial Crime function to undergo specialist training every quarter.",
+    "context": [
+      "Mandatory Annual Training:",
+      "Financial Crime staff: Quarterly specialist training"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_003",
+    "name": "Fraud Investigation and Communication Training for Customer Service",
+    "aliases": [
+      "Customer Service: 2 hours fraud investigation and customer communication"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for Customer Service staff to complete two hours of training specifically focused on fraud investigation and customer communication.",
+    "context": [
+      "Mandatory Annual Training:",
+      "Customer Service: 2 hours fraud investigation and customer communication"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_004",
+    "name": "Fraud Governance and Escalation Training for Management",
+    "aliases": [
+      "Management: Fraud governance and escalation"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for management to receive training on fraud governance and the associated escalation procedures.",
+    "context": [
+      "Mandatory Annual Training:",
+      "Management: Fraud governance and escalation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The primary risk category addressed by the training requirements, encompassing fraud awareness, investigation, and governance.",
+    "context": [
+      "1-hour fraud awareness training",
+      "2 hours fraud investigation",
+      "Fraud governance and escalation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_ctl_001",
+    "name": "Staff Training",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The operational safeguard of mandatory training used to ensure staff are equipped to detect, investigate, and escalate fraud.",
+    "context": [
+      "Mandatory Annual Training:",
+      "Quarterly specialist training"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_001",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective of all bank employees who are obligated to complete annual fraud awareness training.",
+    "context": [
+      "All staff: 1-hour fraud awareness training"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_002",
+    "name": "Financial Crime Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Specialist staff responsible for financial crime who are obligated to undergo quarterly specialist training.",
+    "context": [
+      "Financial Crime staff: Quarterly specialist training"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_003",
+    "name": "Customer Service",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff in customer-facing roles obligated to complete training on fraud investigation and customer communication.",
+    "context": [
+      "Customer Service: 2 hours fraud investigation and customer communication"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_004",
+    "name": "Management",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff in management positions obligated to undergo training on fraud governance and escalation.",
+    "context": [
+      "Management: Fraud governance and escalation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_pol_001",
+    "name": "Fraud Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing policy document establishing the framework for fraud control testing, investigation auditing, and regulatory compliance regarding fraud prevention.",
+    "context": [
+      "Audit & Monitoring",
+      "Internal Audit",
+      "Regulatory Audit"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_001",
+    "name": "Annual Fraud Control Testing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement to conduct testing of fraud controls on an annual basis to ensure operational effectiveness.",
+    "context": [
+      "Annual fraud control testing"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_002",
+    "name": "Fraud Investigation File Sampling",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform sampling of files related to fraud investigations as part of the internal audit process.",
+    "context": [
+      "File sampling (fraud investigations)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_003",
+    "name": "Reimbursement Accuracy and Timeliness Verification",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to audit and verify that customer reimbursements are processed accurately and within the required timeframes.",
+    "context": [
+      "Reimbursement accuracy and timeliness"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_004",
+    "name": "Evidence Documentation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "A mandate to maintain proper evidence documentation for audit and monitoring purposes.",
+    "context": [
+      "Evidence documentation"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_reg_001",
+    "name": "Financial Conduct Authority Periodic Fraud Prevention Reviews",
+    "aliases": [
+      "FCA reviews"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "Periodic reviews conducted by the Financial Conduct Authority to ensure the bank's fraud prevention measures are adequate.",
+    "context": [
+      "FCA periodic fraud prevention reviews"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_reg_002",
+    "name": "Payment Services Regulations",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The external regulatory framework governing payment services that the bank must comply with in relation to fraud and payments.",
+    "context": [
+      "Compliance with payment services regulations"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_rsk_001",
+    "name": "Fraud",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "The risk of fraudulent activity which the policy seeks to mitigate through internal audit, control testing, and regulatory reviews.",
+    "context": [
+      "Annual fraud control testing",
+      "fraud investigations",
+      "FCA periodic fraud prevention reviews"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_ctl_001",
+    "name": "Internal Audit Monitoring",
+    "aliases": [
+      "Internal Audit"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of internal auditing used to test fraud controls, sample investigation files, and verify reimbursement accuracy.",
+    "context": [
+      "Internal Audit:",
+      "Annual fraud control testing",
+      "File sampling (fraud investigations)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_rol_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "external_regulator",
+    "description": "The external regulatory body responsible for conducting periodic fraud prevention reviews of the bank.",
+    "context": [
+      "FCA periodic fraud prevention reviews"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "aliases": [
+      "policy_aml"
+    ],
+    "entity_class": "POLICY",
+    "type": "aml_policy",
+    "description": "A formal policy document governing anti-money laundering measures, which is noted to have overlapping scope with fraud prevention.",
+    "context": [
+      "[[policy_aml]] — Anti-Money Laundering (overlaps with fraud)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_ctl_001",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "systems"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "A technical system used by the bank for the detection of fraudulent activity.",
+    "context": [
+      "[[systems]] — Fraud Detection Engine"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_rol_001",
+    "name": "Financial Crime Department",
+    "aliases": [
+      "departments"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The organisational body responsible for the oversight and management of financial crime, including fraud and money laundering.",
+    "context": [
+      "[[departments]] — Financial Crime Department"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_pol_002",
+    "name": "Fraud Investigation Procedure",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "A governing document providing the detailed operational steps required to conduct fraud investigations.",
+    "context": [
+      "Fraud Investigation Procedure (detailed steps)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_031_pol_001",
+    "name": "Fraud Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "fraud_policy",
+    "description": "The governing instrument managing fraud risk at FirstUK Bank, subject to annual reviews or updates triggered by the emergence of new fraud types.",
+    "context": [
+      "Policy Review & Updates"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_031",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_031_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement that the policy must be reviewed on an annual basis, or more frequently if a new type of fraud emerges.",
+    "context": [
+      "Review Frequency: Annual (or upon emerging fraud type)"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_031",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_032_rol_001",
+    "name": "Head of Financial Crime",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the approval and oversight of the financial crime policy framework.",
+    "context": [
+      "Approved by: Head of Financial Crime"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_032",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_032_rol_002",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for ensuring the policy aligns with the bank's overall risk appetite and approval.",
+    "context": [
+      "Approved by: Chief Risk Officer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_032",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_032_rol_003",
+    "name": "Chief Executive Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The highest-ranking executive providing final institutional approval for the policy document.",
+    "context": [
+      "Approved by: Chief Executive Officer"
+    ],
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_032",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb",
+    "domain": "banking_policy"
+  }
+]

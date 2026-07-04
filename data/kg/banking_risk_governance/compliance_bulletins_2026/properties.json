@@ -1,0 +1,510 @@
+[
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_001_dep_001",
+    "name": "Compliance Department",
+    "properties": {
+      "department_name": "Compliance",
+      "ownership": "Compliance Bulletins 2026"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_001",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_001_emp_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Document Owner for COMP-BULL-2026"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_001",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_001_emp_002",
+    "name": "All Staff",
+    "properties": {
+      "role_type": "frontline",
+      "accountability": "Target audience for Compliance Bulletins 2026"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_001",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_002_emp_001",
+    "name": "All Staff",
+    "properties": {
+      "role_type": "all_staff",
+      "accountability": "Recipient of internal compliance bulletins regarding regulatory changes, policy updates, and compliance alerts for 2026"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_002",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_003_upd_001",
+    "name": "FCA Enhanced KYC Requirements Effective March 1, 2026",
+    "properties": {
+      "issuing_authority": "FCA",
+      "effective_date": "2026-03-01",
+      "implementation_deadline": "2026-03-01",
+      "key_requirement": "Enhanced KYC procedures for high-risk customers, including beneficial ownership verification and source of funds explanation",
+      "affected_departments": [
+        "Compliance",
+        "Customer-Facing Staff"
+      ]
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_003",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_003_rsk_001",
+    "name": "High-Risk Customer Compliance Risk",
+    "properties": {
+      "risk_category": "compliance",
+      "regulatory_drivers": [
+        "FCA Enhanced KYC Requirements"
+      ],
+      "controls_in_place": [
+        "Quarterly reviews for PEP, foreign, and high-value customers",
+        "Source of funds verification for deposits >£10,000",
+        "Beneficial ownership verification for companies/trusts"
+      ]
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_003",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_003_met_001",
+    "name": "Source of Funds Verification Threshold — >£10,000",
+    "properties": {
+      "metric_name": "Source of Funds Verification Threshold",
+      "target_threshold": ">£10,000",
+      "context": "Large deposits requiring explanation of origin to meet FCA KYC guidance"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_003",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_003_met_002",
+    "name": "Beneficial Ownership Verification Threshold — >25% ownership",
+    "properties": {
+      "metric_name": "Beneficial Ownership Verification Threshold",
+      "target_threshold": ">25% ownership",
+      "context": "Verification of actual owners for company or trust customers"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_003",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_003_act_001",
+    "name": "Mandatory KYC Training Session",
+    "properties": {
+      "action_description": "90-minute mandatory training session on enhanced KYC requirements",
+      "deadline": "2026-02-15",
+      "triggered_by": "FCA Enhanced KYC Requirements Effective March 1, 2026",
+      "priority": "high"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_003",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_003_dept_001",
+    "name": "Compliance Department",
+    "properties": {
+      "department_name": "Compliance",
+      "ownership": "KYC procedure guidance and oversight",
+      "accountability_finding": "Point of contact for unclear ownership structures"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_003",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_003_emp_001",
+    "name": "Customer-Facing Staff",
+    "properties": {
+      "role_type": "frontline",
+      "accountability": [
+        "Collect source of funds info for large deposits",
+        "Identify beneficial owners for company customers",
+        "Flag unclear ownership structures to Compliance"
+      ],
+      "training_gap": "Must complete mandatory training by February 15, 2026"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_003",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_upd_001",
+    "name": "ICO Subject Access Request (SAR) Handling Procedure Update",
+    "properties": {
+      "issuing_authority": "ICO",
+      "effective_date": "2026-01-25",
+      "key_requirement": "Respond to SARs within 30 days instead of 60; data must be provided in electronic format; fees prohibited unless request is clearly unfounded",
+      "impact_assessment": "Reduction of response window from 60 to 30 days; stricter rules on extensions",
+      "affected_departments": [
+        "Operations Department",
+        "Compliance Department"
+      ]
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_met_001",
+    "name": "SAR Response Deadline — Target 30 Days",
+    "properties": {
+      "metric_name": "SAR Response Deadline",
+      "target_threshold": "30 days",
+      "context": "Compliance with ICO clarified handling procedures for Subject Access Requests"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_act_001",
+    "name": "SAR Data Compilation and Management",
+    "properties": {
+      "action_description": "Compile personal data requested by customer",
+      "owner": "Operations Manager",
+      "deadline": "Day 25 (for draft submission)",
+      "triggered_by": "ICO Subject Access Request (SAR) Handling Procedure Update",
+      "status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_act_002",
+    "name": "Compliance Review of SAR Drafts",
+    "properties": {
+      "action_description": "Review and approve SAR drafts before they are sent to the customer",
+      "owner": "Compliance Department",
+      "deadline": "Between Day 25 and Day 30",
+      "triggered_by": "ICO Subject Access Request (SAR) Handling Procedure Update",
+      "status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_emp_001",
+    "name": "All Staff",
+    "properties": {
+      "role_type": "frontline",
+      "accountability": "Log SAR requests immediately upon receipt"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_emp_002",
+    "name": "Operations Manager",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Compile requested data within the 30-day window"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_dep_001",
+    "name": "Operations Department",
+    "properties": {
+      "department_name": "Operations",
+      "ownership": "SAR data compilation and initial logging"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_004_dep_002",
+    "name": "Compliance Department",
+    "properties": {
+      "department_name": "Compliance",
+      "accountability_finding": "Final approval of SAR drafts before customer dispatch"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_004",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_fnd_001",
+    "name": "Account Opening Errors — Audit Finding",
+    "properties": {
+      "affected_area": "Account Opening Process",
+      "finding_summary": "15 account opening errors identified in January, including wrong interest rates, missing KYC documentation, and incorrect addresses",
+      "evidence": "15 errors found in January sample",
+      "resolution_status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_met_001",
+    "name": "Account Opening Error Rate — Actual 0.5%, Target <0.25%",
+    "properties": {
+      "metric_name": "Account Opening Error Rate",
+      "actual_value": "0.5%",
+      "target_threshold": "<0.25%",
+      "period": "January 2026",
+      "trend": "deteriorating"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_act_001",
+    "name": "Review Account Opening Checklist",
+    "properties": {
+      "action_description": "Review account opening checklist to confirm ID and address before processing application",
+      "owner": "Customer Service Staff",
+      "priority": "high",
+      "triggered_by": "fnd_001"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_act_002",
+    "name": "Manager Sign-off for High Value Deposits",
+    "properties": {
+      "action_description": "Obtain manager sign-off on all applications with opening deposits greater than £10,000",
+      "owner": "Branch Managers",
+      "priority": "high",
+      "triggered_by": "fnd_001",
+      "tolerance_thresholds": [
+        "£10,000"
+      ]
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_act_003",
+    "name": "Daily Operations Manager Spot-checks",
+    "properties": {
+      "action_description": "Perform daily spot-checks of 5 applications before submission",
+      "owner": "Operations Manager",
+      "reporting_frequency": "Daily",
+      "triggered_by": "fnd_001"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_act_004",
+    "name": "Weekly Customer Service Manager Audits",
+    "properties": {
+      "action_description": "Audit sample files on a weekly basis",
+      "owner": "Customer Service Manager",
+      "reporting_frequency": "Weekly",
+      "triggered_by": "fnd_001"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_kyc_001",
+    "name": "KYC Documentation Gap",
+    "properties": {
+      "gap_type": "Missing KYC documentation",
+      "remediation_required": "yes",
+      "finding_context": "One of the key errors identified in the January audit"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_emp_001",
+    "name": "Branch Managers",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Sign-off on high value deposits (>£10,000)"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_emp_002",
+    "name": "Customer Service Staff",
+    "properties": {
+      "role_type": "frontline",
+      "accountability": "Review account opening checklist and ensure ID/address match"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_emp_003",
+    "name": "Operations Manager",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Daily spot-checks of 5 applications"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_emp_004",
+    "name": "Customer Service Manager",
+    "properties": {
+      "role_type": "manager",
+      "accountability": "Weekly audits of sample files"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_005_acc_001",
+    "name": "New Customer Accounts",
+    "properties": {
+      "finding_context": "Subject of audit finding regarding opening errors (interest rates, KYC, address)",
+      "sample_size": "January applications"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_005",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_006_rsk_001",
+    "name": "Social Engineering and Phishing Risk",
+    "properties": {
+      "risk_category": "fraud",
+      "stated_prohibitions": [
+        "Sharing customer data without proper authorization",
+        "Sharing staff login credentials"
+      ],
+      "controls_in_place": [
+        "Identity verification via known callback numbers",
+        "Immediate reporting to managers",
+        "Dedicated security alert email reporting"
+      ]
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_006",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_006_fnd_001",
+    "name": "Successful Defense Against Social Engineering Attempt — London Canary Wharf Branch",
+    "properties": {
+      "severity": "low",
+      "affected_area": "London Canary Wharf Branch",
+      "finding_summary": "A customer attempted a social engineering attack by posing as a member of the security team to gain unauthorized account access; staff successfully identified and declined the request",
+      "evidence": "Incident occurred on February 8, 2026, where a visitor claimed to be 'security team' requesting account access to 'verify fraud'",
+      "resolution_status": "resolved"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_006",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_006_emp_001",
+    "name": "All Staff",
+    "properties": {
+      "role_type": "frontline",
+      "accountability": "Responsible for identifying red flags, verifying identities via known numbers, and reporting suspicious activity to managers"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_006",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_006_act_001",
+    "name": "Identity Verification and Reporting Protocol Implementation",
+    "properties": {
+      "action_description": "Verify identity by calling back using known numbers and report suspicious activity to managers or the security alert email",
+      "deadline": "2026-02-10",
+      "priority": "high",
+      "triggered_by": "Social engineering attempt at London Canary Wharf branch",
+      "status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_006",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_006_dep_001",
+    "name": "Security Team",
+    "properties": {
+      "department_name": "Security Team",
+      "ownership": "Security alert monitoring and incident response via security@firstuk.bank"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_006",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_007_act_001",
+    "name": "Issuance of Q2 2026 Bulletins",
+    "properties": {
+      "action_description": "Issue Q2 bulletins covering Open Banking API checklist, summer staffing coverage, and fraud detection system upgrades",
+      "deadline": "2026-04-01",
+      "status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_007",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_007_prd_001",
+    "name": "Open Banking API",
+    "properties": {
+      "finding_context": "Subject of a go-live checklist for Q2 2026 bulletins"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_007",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_007_rsk_001",
+    "name": "Summer Staffing Coverage Risk",
+    "properties": {
+      "risk_category": "operational",
+      "finding_context": "Subject of a coverage plan to be issued in Q2 2026 bulletins"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_007",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_007_frd_001",
+    "name": "Fraud Detection System",
+    "properties": {
+      "finding_context": "Undergoing upgrades to be detailed in Q2 2026 bulletins"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_007",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_010_emp_001",
+    "name": "All Staff",
+    "properties": {
+      "role_type": "frontline",
+      "accountability": "Required to read and sign acknowledgment of distributed bulletins"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_010",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_010_act_001",
+    "name": "Staff Acknowledgment of Distribution",
+    "properties": {
+      "action_description": "Staff must read and sign acknowledgment of distributed bulletins",
+      "success_criteria": "Signed acknowledgment on file",
+      "status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_010",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_010_act_002",
+    "name": "Training Sessions for Key Bulletins",
+    "properties": {
+      "action_description": "Conduct training sessions for key bulletins",
+      "status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_010",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  },
+  {
+    "id": "016201b025fb4156a87790b95deecd6b_010_act_003",
+    "name": "Quiz and Assessment for Important Updates",
+    "properties": {
+      "action_description": "Administer quiz and assessment for important updates",
+      "success_criteria": "Completion of assessment",
+      "status": "open"
+    },
+    "chunk_id": "016201b025fb4156a87790b95deecd6b_010",
+    "doc_id": "016201b025fb4156a87790b95deecd6b"
+  }
+]

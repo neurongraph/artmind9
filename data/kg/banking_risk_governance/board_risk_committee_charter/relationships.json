@@ -1,0 +1,1953 @@
+[
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001_dep_002",
+    "source_name": "Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001_dep_001",
+    "target_name": "Board Office",
+    "rel_type": "managed_by",
+    "description": "The Board of Directors' governance activities and charter are administratively managed by the Board Office.",
+    "properties": {
+      "relationship_nature": "administrative_support"
+    },
+    "context": "Owner | Board of Directors\n| Department | Board Office",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001_dep_001",
+    "source_name": "Board Office",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001_dep_002",
+    "source_name": "Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_001",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002_dep_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002_dep_002",
+    "target_name": "Board of Directors",
+    "rel_type": "part_of",
+    "description": "The Board Risk Committee is a standing committee of the Board of Directors",
+    "properties": {
+      "committee_type": "standing"
+    },
+    "context": "The Board Risk Committee (BRC) is a standing committee of the Board of Directors",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002_dep_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002_dep_002",
+    "source_name": "Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_002",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_dep_001",
+    "source_name": "Board",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_005",
+    "target_name": "Committee Secretary",
+    "rel_type": "assigns_accountability_to",
+    "description": "The Board is responsible for the appointment of the Committee Secretary",
+    "properties": {
+      "appointment_type": "direct"
+    },
+    "context": "Committee Secretary: Appointed by Board",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_001",
+    "source_name": "Independent Non-Executive Director (Chair)",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_upd_001",
+    "target_name": "FCA/PRA Independence Definition",
+    "rel_type": "regulated_by",
+    "description": "The Chair must meet the independence criteria defined by the FCA/PRA",
+    "properties": {
+      "requirement": "mandatory_independence"
+    },
+    "context": "Chair must be independent (per FCA/PRA definition)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_002",
+    "source_name": "Independent Non-Executive Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_upd_001",
+    "target_name": "FCA/PRA Independence Definition",
+    "rel_type": "regulated_by",
+    "description": "The majority of committee members must be independent according to FCA/PRA definitions",
+    "properties": {
+      "requirement": "majority_independence"
+    },
+    "context": "Majority of members must be independent (per FCA/PRA definition)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_003",
+    "source_name": "Chief Risk Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_dep_001",
+    "target_name": "Board",
+    "rel_type": "managed_by",
+    "description": "The Chief Risk Officer serves as an executive member of the committee reporting to the Board",
+    "properties": {
+      "voting_status": "non-voting"
+    },
+    "context": "Chief Risk Officer (executive, non-voting in deliberations)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_004",
+    "source_name": "Chief Financial Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_dep_001",
+    "target_name": "Board",
+    "rel_type": "managed_by",
+    "description": "The Chief Financial Officer serves as an executive member of the committee reporting to the Board",
+    "properties": {
+      "voting_status": "non-voting"
+    },
+    "context": "Chief Financial Officer (executive, non-voting in deliberations)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_dep_001",
+    "source_name": "Board",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_001",
+    "source_name": "Independent Non-Executive Director (Chair)",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_002",
+    "source_name": "Independent Non-Executive Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_003",
+    "source_name": "Chief Risk Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_004",
+    "source_name": "Chief Financial Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_emp_005",
+    "source_name": "Committee Secretary",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003_upd_001",
+    "source_name": "FCA/PRA Independence Definition",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_003",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_001",
+    "target_name": "Enterprise Risk Management Framework",
+    "rel_type": "approves",
+    "description": "The Board Risk Committee is responsible for approving the enterprise risk management framework",
+    "properties": {
+      "decision_outcome": "approved"
+    },
+    "context": "Approve enterprise risk management framework",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_002",
+    "target_name": "Risk Appetite Statement",
+    "rel_type": "approves_appetite_for",
+    "description": "The Board Risk Committee reviews and approves the Risk Appetite Statement",
+    "properties": {
+      "decision_outcome": "approved"
+    },
+    "context": "Review and approve Risk Appetite Statement",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_met_001",
+    "target_name": "Pillar 1 Capital Ratio — Minimum >15%",
+    "rel_type": "approves_threshold_for",
+    "description": "The Board Risk Committee monitors and approves the Pillar 1 capital ratio minimum threshold",
+    "properties": {
+      "threshold": ">15%",
+      "monitoring_frequency": "ongoing"
+    },
+    "context": "Monitor capital ratios (Pillar 1 minimum >15%)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_003",
+    "source_name": "Credit Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_prod_001",
+    "target_name": "Mortgages",
+    "rel_type": "governs_controls_for",
+    "description": "Credit risk oversight includes reviewing major lending decisions specifically for mortgages over £500k",
+    "properties": {
+      "threshold": ">£500k"
+    },
+    "context": "Review major lending decisions (mortgages >£500k)",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_003",
+    "target_name": "Credit Risk",
+    "rel_type": "reviews",
+    "description": "The Board Risk Committee reviews credit strategy, risk limits, and loan portfolio quality",
+    "properties": {
+      "scope": "strategy, limits, portfolio quality"
+    },
+    "context": "Review credit strategy and risk limits; Monitor loan portfolio quality",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_004",
+    "target_name": "Operational Risk",
+    "rel_type": "reviews",
+    "description": "The Board Risk Committee reviews operational risk incidents and the control environment",
+    "properties": {
+      "scope": "incidents, control environment, KRIs"
+    },
+    "context": "Review operational risk incidents; Assess control environment; Monitor operational risk KRIs",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_005",
+    "target_name": "Compliance and Regulatory Risk",
+    "rel_type": "reviews",
+    "description": "The Board Risk Committee monitors regulatory compliance and reviews audit findings",
+    "properties": {
+      "scope": "compliance, audit remediation"
+    },
+    "context": "Monitor regulatory compliance; Review audit findings and remediation",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_006",
+    "target_name": "Fraud and Financial Crime Risk",
+    "rel_type": "reviews",
+    "description": "The Board Risk Committee reviews fraud incidents and monitors AML/KYC effectiveness",
+    "properties": {
+      "scope": "fraud, AML/KYC, SARs"
+    },
+    "context": "Review fraud incidents and investigations; Monitor AML/KYC effectiveness",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_006",
+    "source_name": "Fraud and Financial Crime Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_aml_001",
+    "target_name": "AML/KYC Effectiveness",
+    "rel_type": "relies_on_effectiveness_of",
+    "description": "Fraud and Financial Crime risk is mitigated by the effectiveness of AML/KYC screening",
+    "properties": {
+      "control_type": "screening"
+    },
+    "context": "Monitor AML/KYC effectiveness",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_006",
+    "source_name": "Fraud and Financial Crime Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_sar_001",
+    "target_name": "SAR Filings",
+    "rel_type": "relies_on_effectiveness_of",
+    "description": "Fraud and Financial Crime risk management involves the review of Suspicious Activity Report filings",
+    "properties": {
+      "control_type": "reporting"
+    },
+    "context": "Review SAR (Suspicious Activity Report) filings",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Board Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_007",
+    "target_name": "Cybersecurity and Technology Risk",
+    "rel_type": "reviews",
+    "description": "The Board Risk Committee reviews cybersecurity risks and system availability",
+    "properties": {
+      "scope": "cyber risks, availability, investments"
+    },
+    "context": "Review cybersecurity risks; Monitor system availability",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_001",
+    "source_name": "Enterprise Risk Management Framework",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_002",
+    "source_name": "Risk Appetite Statement",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_met_001",
+    "source_name": "Pillar 1 Capital Ratio — Minimum >15%",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_003",
+    "source_name": "Credit Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_004",
+    "source_name": "Operational Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_005",
+    "source_name": "Compliance and Regulatory Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_006",
+    "source_name": "Fraud and Financial Crime Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_rsk_007",
+    "source_name": "Cybersecurity and Technology Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_prod_001",
+    "source_name": "Mortgages",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_aml_001",
+    "source_name": "AML/KYC Effectiveness",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004_sar_001",
+    "source_name": "SAR Filings",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_004",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_002",
+    "source_name": "Chief Risk Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "target_name": "Full Board of Directors",
+    "rel_type": "reports_to",
+    "description": "Chief Risk Officer provides risk management updates to the Full Board of Directors",
+    "properties": {
+      "report_type": "risk management updates"
+    },
+    "context": "Receives from: Chief Risk Officer (risk management updates)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_003",
+    "source_name": "Chief Financial Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "target_name": "Full Board of Directors",
+    "rel_type": "reports_to",
+    "description": "Chief Financial Officer provides capital and financial risk updates to the Full Board of Directors",
+    "properties": {
+      "report_type": "capital, financial risk"
+    },
+    "context": "Receives from: Chief Financial Officer (capital, financial risk)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_004",
+    "source_name": "Compliance Head",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "target_name": "Full Board of Directors",
+    "rel_type": "reports_to",
+    "description": "Compliance Head provides regulatory, AML/KYC updates to the Full Board of Directors",
+    "properties": {
+      "report_type": "regulatory, AML/KYC"
+    },
+    "context": "Receives from: Compliance Head (regulatory, AML/KYC)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_005",
+    "source_name": "Head of Internal Audit",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "target_name": "Full Board of Directors",
+    "rel_type": "reports_to",
+    "description": "Head of Internal Audit provides audit findings to the Full Board of Directors",
+    "properties": {
+      "report_type": "audit findings"
+    },
+    "context": "Receives from: Head of Internal Audit (audit findings)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_006",
+    "source_name": "Chief Technology Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "target_name": "Full Board of Directors",
+    "rel_type": "reports_to",
+    "description": "Chief Technology Officer provides technology risk updates to the Full Board of Directors",
+    "properties": {
+      "report_type": "technology risk"
+    },
+    "context": "Receives from: Chief Technology Officer (technology risk)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "source_name": "Full Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_upd_001",
+    "target_name": "Financial Conduct Authority",
+    "rel_type": "accountable_to",
+    "description": "The Full Board of Directors is accountable to the Financial Conduct Authority",
+    "properties": {
+      "accountability_level": "regulatory"
+    },
+    "context": "Board accountable to regulators (FCA, PRA)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "source_name": "Full Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_upd_002",
+    "target_name": "Prudential Regulation Authority",
+    "rel_type": "accountable_to",
+    "description": "The Full Board of Directors is accountable to the Prudential Regulation Authority",
+    "properties": {
+      "accountability_level": "regulatory"
+    },
+    "context": "Board accountable to regulators (FCA, PRA)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_001",
+    "source_name": "Full Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_002",
+    "source_name": "Chief Risk Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_003",
+    "source_name": "Chief Financial Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_004",
+    "source_name": "Compliance Head",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_005",
+    "source_name": "Head of Internal Audit",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_dep_006",
+    "source_name": "Chief Technology Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_upd_001",
+    "source_name": "Financial Conduct Authority",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005_upd_002",
+    "source_name": "Prudential Regulation Authority",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_005",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_rsk_001",
+    "target_name": "Risk Appetite",
+    "rel_type": "reviews",
+    "description": "Risk appetite is a standing item for review during scheduled committee meetings.",
+    "properties": {
+      "frequency": "Quarterly"
+    },
+    "context": "Standing items: Risk appetite, capital ratios, incidents, KRIs",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_met_001",
+    "target_name": "Capital Ratios",
+    "rel_type": "reviews",
+    "description": "Capital ratios are a standing item for review during scheduled committee meetings.",
+    "properties": {
+      "frequency": "Quarterly"
+    },
+    "context": "Standing items: Risk appetite, capital ratios, incidents, KRIs",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "gov_001",
+    "source_name": "Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_met_002",
+    "target_name": "Key Risk Indicators (KRIs)",
+    "rel_type": "reviews",
+    "description": "KRIs are a standing item for review during scheduled committee meetings.",
+    "properties": {
+      "frequency": "Quarterly"
+    },
+    "context": "Standing items: Risk appetite, capital ratios, incidents, KRIs",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_001",
+    "source_name": "Chief Risk Officer",
+    "target_id": "gov_001",
+    "target_name": "Risk Committee",
+    "rel_type": "provides_input_to",
+    "description": "The CRO provides input to the Chair for setting the committee agenda.",
+    "properties": {
+      "role": "Agenda Contributor"
+    },
+    "context": "Chair sets agenda (input from CRO, CFO, Compliance)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_002",
+    "source_name": "Chief Financial Officer",
+    "target_id": "gov_001",
+    "target_name": "Risk Committee",
+    "rel_type": "provides_input_to",
+    "description": "The CFO provides input to the Chair for setting the committee agenda.",
+    "properties": {
+      "role": "Agenda Contributor"
+    },
+    "context": "Chair sets agenda (input from CRO, CFO, Compliance)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_003",
+    "source_name": "Compliance Department",
+    "target_id": "gov_001",
+    "target_name": "Risk Committee",
+    "rel_type": "provides_input_to",
+    "description": "The Compliance Department provides input to the Chair for setting the committee agenda.",
+    "properties": {
+      "role": "Agenda Contributor"
+    },
+    "context": "Chair sets agenda (input from CRO, CFO, Compliance)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_004",
+    "source_name": "Internal Audit",
+    "target_id": "gov_001",
+    "target_name": "Risk Committee",
+    "rel_type": "attends",
+    "description": "Internal auditors are invited to attend committee meetings at least quarterly.",
+    "properties": {
+      "frequency": "Quarterly"
+    },
+    "context": "Internal auditors invited (at least quarterly)",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_001",
+    "source_name": "Chief Risk Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_002",
+    "source_name": "Chief Financial Officer",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_003",
+    "source_name": "Compliance Department",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_dept_004",
+    "source_name": "Internal Audit",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_met_001",
+    "source_name": "Capital Ratios",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_met_002",
+    "source_name": "Key Risk Indicators (KRIs)",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006_rsk_001",
+    "source_name": "Risk Appetite",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_006",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_001",
+    "source_name": "Annual Review of Risk Appetite Statement",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_met_001",
+    "target_name": "Quarterly Capital Ratio Monitoring",
+    "rel_type": "approves_threshold_for",
+    "description": "The annual review of the Risk Appetite Statement defines the capital tolerances monitored by the quarterly capital ratio.",
+    "properties": {
+      "scope": "capital tolerances"
+    },
+    "context": "Risk Appetite Statement: Review annually... Define tolerances (capital, losses, regulatory)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_002",
+    "source_name": "Annual Capital Plan Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_met_001",
+    "target_name": "Quarterly Capital Ratio Monitoring",
+    "rel_type": "reviews",
+    "description": "The annual capital plan review incorporates and evaluates the quarterly capital ratio monitoring data.",
+    "properties": {
+      "frequency": "annual review of quarterly data"
+    },
+    "context": "Capital Planning: Annual capital plan review... Capital ratio monitoring (quarterly)",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_002",
+    "source_name": "Annual Capital Plan Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_003",
+    "target_name": "Dividend and Distribution Approval",
+    "rel_type": "related_to",
+    "description": "The capital plan review informs the approval of dividends and distributions.",
+    "properties": {
+      "dependency": "capital adequacy"
+    },
+    "context": "Capital Planning: Annual capital plan review... Dividend/distribution approval (if applicable)",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_004",
+    "source_name": "Annual Internal Audit Plan Review and Approval",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_001",
+    "target_name": "Audit Findings Remediation Monitoring",
+    "rel_type": "generates",
+    "description": "The audit plan review process establishes the requirement to monitor the remediation of audit findings.",
+    "properties": {
+      "priority": "high"
+    },
+    "context": "Audit Oversight: Review Internal Audit plan (annual)... Monitor audit findings and remediation",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_005",
+    "source_name": "Internal Audit Independence Assessment",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_004",
+    "target_name": "Annual Internal Audit Plan Review and Approval",
+    "rel_type": "related_to",
+    "description": "The assessment of audit independence is a prerequisite or companion to the approval of the audit plan.",
+    "properties": {
+      "governance_layer": "oversight"
+    },
+    "context": "Audit Oversight: Review Internal Audit plan (annual)... Assess Internal Audit independence",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_006",
+    "source_name": "Regulatory Response Approval",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_002",
+    "target_name": "Regulatory Finding Remediation Planning",
+    "rel_type": "generates",
+    "description": "Approval of regulatory responses triggers the planning of remediation for the identified findings.",
+    "properties": {
+      "trigger": "FCA/PRA feedback"
+    },
+    "context": "Regulatory Engagement: Approve regulatory responses... Plan remediation for findings",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_006",
+    "source_name": "Regulatory Response Approval",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_005",
+    "target_name": "Emerging Risk and Regulatory Change Briefings",
+    "rel_type": "responds_to",
+    "description": "Regulatory response approvals are informed by briefings on regulatory changes.",
+    "properties": {
+      "response_type": "implement"
+    },
+    "context": "Regulatory Engagement: Approve regulatory responses... Regulatory change updates",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_003",
+    "source_name": "Annual Risk Management Training",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_001",
+    "target_name": "Annual Review of Risk Appetite Statement",
+    "rel_type": "aims_to_improve",
+    "description": "Annual training ensures the organization understands the Risk Appetite Statement and its tolerances.",
+    "properties": {
+      "target_audience": "Board/Staff"
+    },
+    "context": "Board Education: Annual risk management training... Risk Appetite Statement: Communicate to business units",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_004",
+    "source_name": "Quarterly Market Risk Overview",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_002",
+    "target_name": "Annual Capital Plan Review",
+    "rel_type": "supports",
+    "description": "Quarterly market risk overviews provide the data necessary for the annual capital plan review.",
+    "properties": {
+      "frequency": "quarterly"
+    },
+    "context": "Board Education: Market risk overview (quarterly)... Capital Planning: Annual capital plan review",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_005",
+    "source_name": "Emerging Risk and Regulatory Change Briefings",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_001",
+    "target_name": "Annual Review of Risk Appetite Statement",
+    "rel_type": "triggers_review_of",
+    "description": "Briefings on emerging risks and regulatory changes trigger updates to the Risk Appetite Statement.",
+    "properties": {
+      "impact": "strategic alignment"
+    },
+    "context": "Board Education: Emerging risk briefings... Risk Appetite Statement: Review annually",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_001",
+    "source_name": "Annual Review of Risk Appetite Statement",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_002",
+    "source_name": "Annual Capital Plan Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_met_001",
+    "source_name": "Quarterly Capital Ratio Monitoring",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_003",
+    "source_name": "Dividend and Distribution Approval",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_004",
+    "source_name": "Annual Internal Audit Plan Review and Approval",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_001",
+    "source_name": "Audit Findings Remediation Monitoring",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_005",
+    "source_name": "Internal Audit Independence Assessment",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_dec_006",
+    "source_name": "Regulatory Response Approval",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_002",
+    "source_name": "Regulatory Finding Remediation Planning",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_003",
+    "source_name": "Annual Risk Management Training",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_004",
+    "source_name": "Quarterly Market Risk Overview",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007_act_005",
+    "source_name": "Emerging Risk and Regulatory Change Briefings",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_007",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_001",
+    "source_name": "Committee Approval of Risk Appetite Statement",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_001",
+    "target_name": "Credit Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Committee approves the overall Risk Appetite Statement which governs Credit Risk",
+    "properties": {
+      "decision_outcome": "approved",
+      "scope": "Enterprise-wide"
+    },
+    "context": "Risk Appetite Statement (approval)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_001",
+    "source_name": "Committee Approval of Risk Appetite Statement",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_002",
+    "target_name": "Operational Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Committee approves the overall Risk Appetite Statement which governs Operational Risk",
+    "properties": {
+      "decision_outcome": "approved",
+      "scope": "Enterprise-wide"
+    },
+    "context": "Risk Appetite Statement (approval)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_002",
+    "source_name": "Committee Approval of Major Risk Policy Changes",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_001",
+    "target_name": "Credit Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Committee approves major changes to risk policies, specifically citing credit policy",
+    "properties": {
+      "policy_type": "Credit Policy"
+    },
+    "context": "Major risk policy changes (e.g., credit policy)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_003",
+    "source_name": "Committee Approval of Risk Limits and KRIs",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_001",
+    "target_name": "Operational Risk Incident Threshold — Executive Authority <£10k",
+    "rel_type": "approves_threshold_for",
+    "description": "Committee approves the risk limits and KRIs that define executive authority thresholds",
+    "properties": {
+      "threshold_value": "<£10k"
+    },
+    "context": "Risk limits and KRIs (approval)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_003",
+    "source_name": "Committee Approval of Risk Limits and KRIs",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_002",
+    "target_name": "Fraud Reimbursement Threshold — Executive Authority <£5,000",
+    "rel_type": "approves_threshold_for",
+    "description": "Committee approves the risk limits and KRIs that define fraud reimbursement thresholds",
+    "properties": {
+      "threshold_value": "<£5,000"
+    },
+    "context": "Risk limits and KRIs (approval)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_003",
+    "source_name": "Committee Approval of Risk Limits and KRIs",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_003",
+    "target_name": "Technology Investment Threshold — Executive Authority <£100k",
+    "rel_type": "approves_threshold_for",
+    "description": "Committee approves the risk limits and KRIs that define technology investment thresholds",
+    "properties": {
+      "threshold_value": "<£100k"
+    },
+    "context": "Risk limits and KRIs (approval)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_004",
+    "source_name": "Committee Approval of Risk Remediation Strategies >£500k",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_002",
+    "target_name": "Operational Risk",
+    "rel_type": "elevates_concern_about",
+    "description": "Committee reviews and approves remediation strategies for high-cost risk issues",
+    "properties": {
+      "spend_threshold": ">£500k"
+    },
+    "context": "Risk remediation strategies (approval if >£500k spend)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_005",
+    "source_name": "Committee Approval of Large Lending Decisions (Mortgages >£500k)",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_001",
+    "target_name": "Credit Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Committee approves large mortgage lending decisions, managing credit risk exposure",
+    "properties": {
+      "loan_threshold": ">£500k",
+      "product": "Mortgages"
+    },
+    "context": "Large lending decisions (mortgages >£500k)",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_006",
+    "source_name": "Committee Approval of Stress Testing Scenarios",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_001",
+    "target_name": "Credit Risk",
+    "rel_type": "reviews",
+    "description": "Committee approves stress testing scenarios to evaluate credit risk resilience",
+    "properties": {
+      "analysis_type": "Stress Testing"
+    },
+    "context": "Stress testing scenarios",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_008",
+    "source_name": "Board Approval of Regulatory Capital Requirements Compliance",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_001",
+    "target_name": "Credit Risk",
+    "rel_type": "responds_to",
+    "description": "Board ensures compliance with regulatory capital requirements, primarily driven by credit risk",
+    "properties": {
+      "compliance_type": "Regulatory Capital"
+    },
+    "context": "Regulatory capital requirements compliance",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_009",
+    "source_name": "Board Approval of Significant Strategic Risk Changes",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_005",
+    "target_name": "Technology Risk",
+    "rel_type": "approves_appetite_for",
+    "description": "Board approves significant changes to strategic risk, including technology transformation",
+    "properties": {
+      "impact": "Strategic"
+    },
+    "context": "Significant strategic risk changes",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_001",
+    "source_name": "Operational Risk Incident Threshold — Executive Authority <£10k",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_002",
+    "target_name": "Operational Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "The £10k threshold defines the executive authority limit for operational risk incidents",
+    "properties": {
+      "limit": "10000",
+      "currency": "GBP"
+    },
+    "context": "Operational risk incidents <£10k",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_002",
+    "source_name": "Fraud Reimbursement Threshold — Executive Authority <£5,000",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_003",
+    "target_name": "Fraud Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "The £5,000 threshold defines the executive authority limit for fraud reimbursements",
+    "properties": {
+      "limit": "5000",
+      "currency": "GBP"
+    },
+    "context": "Fraud reimbursement <£5,000",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_003",
+    "source_name": "Technology Investment Threshold — Executive Authority <£100k",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_005",
+    "target_name": "Technology Risk",
+    "rel_type": "measures_appetite_of",
+    "description": "The £100k threshold defines the executive authority limit for technology investments",
+    "properties": {
+      "limit": "100000",
+      "currency": "GBP"
+    },
+    "context": "Technology investments <£100k",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_001",
+    "source_name": "Committee Approval of Risk Appetite Statement",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_002",
+    "source_name": "Committee Approval of Major Risk Policy Changes",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_003",
+    "source_name": "Committee Approval of Risk Limits and KRIs",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_004",
+    "source_name": "Committee Approval of Risk Remediation Strategies >£500k",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_005",
+    "source_name": "Committee Approval of Large Lending Decisions (Mortgages >£500k)",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_006",
+    "source_name": "Committee Approval of Stress Testing Scenarios",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_007",
+    "source_name": "Board Approval of Capital Raising and Deployment",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_008",
+    "source_name": "Board Approval of Regulatory Capital Requirements Compliance",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_009",
+    "source_name": "Board Approval of Significant Strategic Risk Changes",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_010",
+    "source_name": "Board Approval of Major Acquisitions",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_dec_011",
+    "source_name": "Board Approval of Large Financial Provisions and Write-offs",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_001",
+    "source_name": "Operational Risk Incident Threshold — Executive Authority <£10k",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_002",
+    "source_name": "Fraud Reimbursement Threshold — Executive Authority <£5,000",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_met_003",
+    "source_name": "Technology Investment Threshold — Executive Authority <£100k",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_001",
+    "source_name": "Credit Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_002",
+    "source_name": "Operational Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_003",
+    "source_name": "Fraud Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_004",
+    "source_name": "AML/KYC Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008_rsk_005",
+    "source_name": "Technology Risk",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_008",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_dec_001",
+    "source_name": "Annual Committee Effectiveness and Self-Assessment Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_001",
+    "target_name": "Reporting of Self-Assessment Results to the Board",
+    "rel_type": "generates",
+    "description": "The annual effectiveness review generates a requirement to report the results to the Board.",
+    "properties": {
+      "priority": "High",
+      "outcome": "Board reporting"
+    },
+    "context": "Annual Assessment: Committee effectiveness review... Actions: Results reported to Board",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_dec_001",
+    "source_name": "Annual Committee Effectiveness and Self-Assessment Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_002",
+    "target_name": "Provision of Identified Committee Training",
+    "rel_type": "generates",
+    "description": "The assessment of member skills and experience leads to the identification and provision of training.",
+    "properties": {
+      "priority": "Medium",
+      "focus": "Skills and experience gap"
+    },
+    "context": "Annual Assessment: Member skills and experience assessment... Actions: Training identified and provided",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_dec_001",
+    "source_name": "Annual Committee Effectiveness and Self-Assessment Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_003",
+    "target_name": "Implementation of Committee Process Improvements",
+    "rel_type": "generates",
+    "description": "The evaluation of meetings and processes generates recommendations for and implementation of process improvements.",
+    "properties": {
+      "priority": "Medium",
+      "focus": "Meeting effectiveness and processes"
+    },
+    "context": "Annual Assessment: Meetings and processes evaluation... Recommendations for improvements... Actions: Process improvements implemented",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_dec_001",
+    "source_name": "Annual Committee Effectiveness and Self-Assessment Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_001",
+    "source_name": "Reporting of Self-Assessment Results to the Board",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_002",
+    "source_name": "Provision of Identified Committee Training",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009_act_003",
+    "source_name": "Implementation of Committee Process Improvements",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_009",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_dept_001",
+    "source_name": "Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_upd_001",
+    "target_name": "FCA/PRA Regulatory Standards for Committee Governance",
+    "rel_type": "responds_to",
+    "description": "The Risk Committee ensures its composition, meeting frequency, and oversight detail align with FCA/PRA regulatory standards.",
+    "properties": {
+      "response_type": "implement",
+      "compliance_areas": [
+        "composition",
+        "frequency",
+        "oversight_detail",
+        "documentation"
+      ]
+    },
+    "context": "Committee composition meets regulatory standards; Meeting frequency meets regulatory expectations; Risk oversight sufficiently detailed per regulations; Documentation complete and retained",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_upd_001",
+    "source_name": "FCA/PRA Regulatory Standards for Committee Governance",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_dept_001",
+    "target_name": "Risk Committee",
+    "rel_type": "regulates",
+    "description": "FCA/PRA standards dictate the governance requirements for the Risk Committee.",
+    "properties": {
+      "scope": "Committee Governance"
+    },
+    "context": "Committee composition meets regulatory standards; Meeting frequency meets regulatory expectations",
+    "bidirectional": true,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_dept_001",
+    "source_name": "Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010_upd_001",
+    "source_name": "FCA/PRA Regulatory Standards for Committee Governance",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_010",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "policy_operational_risk",
+    "target_name": "Operational Risk Policy",
+    "rel_type": "owned_by",
+    "description": "The Risk Department is responsible for the ownership and maintenance of the Operational Risk Policy",
+    "properties": {
+      "responsibility": "policy_governance"
+    },
+    "context": "[[departments]] — Risk Department ... [[policy_operational_risk]] — Operational Risk Policy",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "policy_customer_identification",
+    "target_name": "KYC Policy",
+    "rel_type": "owned_by",
+    "description": "The Risk Department is responsible for the ownership and maintenance of the KYC Policy",
+    "properties": {
+      "responsibility": "policy_governance"
+    },
+    "context": "[[departments]] — Risk Department ... [[policy_customer_identification]] — KYC Policy",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "policy_aml",
+    "target_name": "AML Policy",
+    "rel_type": "owned_by",
+    "description": "The Risk Department is responsible for the ownership and maintenance of the AML Policy",
+    "properties": {
+      "responsibility": "policy_governance"
+    },
+    "context": "[[departments]] — Risk Department ... [[policy_aml]] — AML Policy",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011_dep_001",
+    "source_name": "Risk Department",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_011",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012_dec_001",
+    "source_name": "Board Approval of Committee Charter Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012_dep_001",
+    "target_name": "Full Board of Directors",
+    "rel_type": "assigns_ownership_to",
+    "description": "The Full Board of Directors is the body responsible for approving the changes within the Committee Charter Review.",
+    "properties": {
+      "approval_date": "2026-01-15",
+      "review_frequency": "Annual"
+    },
+    "context": "Changes Approved By: Full Board of Directors",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012_dec_001",
+    "source_name": "Board Approval of Committee Charter Review",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012_dep_001",
+    "source_name": "Full Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_012",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013_dec_001",
+    "source_name": "Board Approval of Initial Charter",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013_dep_001",
+    "target_name": "Board",
+    "rel_type": "assigns_ownership_to",
+    "description": "The Board is the governing body that approved the initial charter.",
+    "properties": {
+      "approval_date": "2026-01-15",
+      "version": "1.0"
+    },
+    "context": "Version 1.0 | 2026-01-15 | Initial charter | Board",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013_dec_001",
+    "source_name": "Board Approval of Initial Charter",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013_dep_001",
+    "source_name": "Board",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_013",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dec_001",
+    "source_name": "Board Adoption of Document",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dep_001",
+    "target_name": "Board of Directors",
+    "rel_type": "assigns_ownership_to",
+    "description": "The Board of Directors is the governing body that adopted the document.",
+    "properties": {
+      "adoption_date": "2026-01-15"
+    },
+    "context": "Adopted by: Board of Directors — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dec_002",
+    "source_name": "Risk Committee Chair Sign-Off",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dep_002",
+    "target_name": "Risk Committee",
+    "rel_type": "assigns_ownership_to",
+    "description": "The Risk Committee Chair provided the necessary sign-off for the document.",
+    "properties": {
+      "sign_off_date": "2026-01-15"
+    },
+    "context": "Risk Committee Chair — Date: 2026-01-15",
+    "bidirectional": false,
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dec_001",
+    "source_name": "Board Adoption of Document",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dec_002",
+    "source_name": "Risk Committee Chair Sign-Off",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dep_001",
+    "source_name": "Board of Directors",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "source_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014_dep_002",
+    "source_name": "Risk Committee",
+    "target_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "target_name": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "9d86cba3fdf1406a89cf7a0d9860aa41_014",
+    "doc_id": "9d86cba3fdf1406a89cf7a0d9860aa41",
+    "domain": "banking_risk_governance"
+  }
+]

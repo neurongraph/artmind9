@@ -1,0 +1,3845 @@
+[
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_pol_001",
+    "name": "FirstUK Bank Privacy Policy",
+    "properties": {
+      "document_id": "PRI-POL-004",
+      "version": "2.1",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "owner": "Data Protection Officer",
+      "owning_department": "Compliance",
+      "audience": [
+        "All Staff",
+        "Customers"
+      ],
+      "regulatory_basis": [
+        "GDPR (EU 2016/679)",
+        "Data Protection Act 2018"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "how_cited": "GDPR (EU 2016/679)",
+      "jurisdiction": "EU"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_reg_002",
+    "name": "Data Protection Act 2018",
+    "properties": {
+      "jurisdiction": "UK"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_rol_001",
+    "name": "Data Protection Officer",
+    "properties": {
+      "role_title": "Data Protection Officer",
+      "department": "Compliance",
+      "accountability_for": "FirstUK Bank Privacy Policy"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_rol_002",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Compliance with FirstUK Bank Privacy Policy"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_001_rol_003",
+    "name": "Customers",
+    "properties": {
+      "role_title": "Customers",
+      "rights_under_policy": [
+        "Subject to the terms of the FirstUK Bank Privacy Policy"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_001",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_pol_001",
+    "name": "FirstUK Bank Data Protection Policy",
+    "properties": {
+      "regulatory_basis": [
+        "General Data Protection Regulation",
+        "UK Data Protection Act 2018"
+      ],
+      "core_policy_statement": "FirstUK Bank is committed to protecting customer personal data in compliance with GDPR and UK Data Protection Act 2018.",
+      "scope_summary": "Establishes procedures for data collection, processing, storage, and customer rights management."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU",
+      "key_obligation": "Protection of personal data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_reg_002",
+    "name": "UK Data Protection Act 2018",
+    "properties": {
+      "jurisdiction": "UK",
+      "key_obligation": "Protection of personal data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_rsk_001",
+    "name": "Personal Data Breach",
+    "properties": {},
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Data rights management"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_001",
+    "name": "Data Collection Procedure Requirement",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_002",
+    "name": "Data Processing Procedure Requirement",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_003",
+    "name": "Data Storage Procedure Requirement",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_002_prv_004",
+    "name": "Customer Rights Management Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_002",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_pol_001",
+    "name": "Personal Data Protection Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "regulatory_basis": [
+        "General Data Protection Regulation",
+        "UK Data Protection Act"
+      ],
+      "core_policy_statement": "To establish procedures for personal data protection that comply with legislation, respect customer privacy, secure data against unauthorized access, and manage data subject rights."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Establishment of procedures for personal data protection"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_reg_002",
+    "name": "UK Data Protection Act",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Establishment of procedures for personal data protection"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_rsk_001",
+    "name": "Unauthorized Access",
+    "properties": {
+      "risk_definition": "The risk of personal data being accessed by unauthorized parties",
+      "required_response": "Secure personal data against such access"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_001",
+    "name": "Compliance with Data Protection Legislation",
+    "properties": {
+      "provision_type": "mandatory",
+      "regulatory_source": [
+        "GDPR",
+        "UK Data Protection Act"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_002",
+    "name": "Respect for Customer Privacy Rights",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_003",
+    "name": "Securing Personal Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Personal Data",
+      "risk_addressed": "Unauthorized Access"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_004",
+    "name": "Management of Subject Access Requests",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Customer"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_prv_005",
+    "name": "Implementation of Data Subject Rights",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Data Subject",
+      "specific_rights": [
+        "access",
+        "erasure",
+        "portability"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_rol_001",
+    "name": "Data Subject",
+    "properties": {
+      "specific_obligations": [],
+      "authority": [
+        "Right to access",
+        "Right to erasure",
+        "Right to portability"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_003_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Privacy rights",
+        "Subject access requests"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_003",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_004_pol_001",
+    "name": "Data Privacy Policy",
+    "properties": {
+      "scope_summary": "Applies to all customer personal data, all staff and contractors, all data processing activities, and all systems and storage"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_004",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_004_rol_001",
+    "name": "All Staff and Contractors",
+    "properties": {
+      "specific_obligations": [
+        "Compliance with the Data Privacy Policy regarding the handling of customer personal data"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_004",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_004_rsk_001",
+    "name": "Customer Personal Data Exposure",
+    "properties": {
+      "risk_definition": "Unauthorized exposure or processing of customer personal data across bank systems and storage"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_004",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_pol_001",
+    "name": "FirstUK Bank Data Processing Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank processes customer personal data only where necessary for banking services, with proper safeguards and customer control."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_prv_001",
+    "name": "Necessity Requirement for Personal Data Processing",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Personal Data Processing"
+      ],
+      "core_obligation": "Data must be processed only where necessary for banking services"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_prv_002",
+    "name": "Requirement for Data Safeguards and Customer Control",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Personal Data Processing"
+      ],
+      "core_obligation": "Processing must be accompanied by proper safeguards and customer control"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_rol_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Control over personal data processing"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_005_ctl_001",
+    "name": "Data Safeguards",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Customer personal data processing"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_005",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_pol_001",
+    "name": "FirstUK Bank Data Privacy Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Ensuring data is processed only for banking/regulatory purposes, maintaining transparency through privacy notices, upholding data security, and respecting customer rights regarding access, retention, and consent."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_001",
+    "name": "Lawful Basis for Data Processing",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Processing Activities"
+      ],
+      "core_obligation": "Data must be processed only for banking or regulatory purposes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_002",
+    "name": "Transparency and Privacy Notification",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customers"
+      ],
+      "verification_method": "Provision of clear privacy notices"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_003",
+    "name": "Data Security Standards",
+    "properties": {
+      "provision_type": "mandatory",
+      "linked_control": [
+        "ctl_001",
+        "ctl_002"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_004",
+    "name": "Subject Access Request Response Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days",
+      "applies_to": [
+        "Subject Access Requests"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_005",
+    "name": "Data Retention Limitation",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "As long as necessary"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_prv_006",
+    "name": "Marketing Consent Management",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Marketing Communications"
+      ],
+      "verification_method": "Explicit consent"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_ctl_001",
+    "name": "Data Encryption",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_ctl_002",
+    "name": "Access Controls",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_rol_001",
+    "name": "Customers",
+    "properties": {
+      "role_title": "Customer",
+      "specific_obligations": [
+        "Provide consent for marketing communications"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_006_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Receive clear privacy notices",
+        "Submit subject access requests with a 30-day response guarantee",
+        "Provide explicit consent for marketing"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_006",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_pol_001",
+    "name": "FirstUK Bank Data Processing and Retention Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Defines the lawful bases and retention periods for various data processing activities including account management, compliance, fraud, and marketing."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_001",
+    "name": "Data Retention for Account Opening and Management",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Account Opening",
+        "Account Management"
+      ],
+      "timeframe": "Account tenure + 6 years",
+      "regulatory_source": "Contractual necessity"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_002",
+    "name": "Data Retention for KYC and AML Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "KYC",
+        "AML Compliance"
+      ],
+      "timeframe": "5-6 years post-closure",
+      "regulatory_source": "Legal obligation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_003",
+    "name": "Data Retention for Fraud Detection",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Fraud Detection"
+      ],
+      "timeframe": "3 years",
+      "regulatory_source": "Legitimate interest"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_004",
+    "name": "Data Retention for Marketing",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Marketing"
+      ],
+      "timeframe": "Until withdrawal",
+      "regulatory_source": "Explicit consent"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_005",
+    "name": "Data Retention for Regulatory Reporting",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Regulatory Reporting"
+      ],
+      "timeframe": "5-7 years",
+      "regulatory_source": "Legal obligation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_prv_006",
+    "name": "Complaint Handling Response and Retention Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Complaint Handling"
+      ],
+      "timeframe": "8 weeks",
+      "regulatory_source": "Contractual & legal",
+      "linked_control": "reg_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_reg_001",
+    "name": "Financial Conduct Authority Requirements",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Complaint handling response within 8 weeks"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_rsk_001",
+    "name": "Money Laundering and Terrorist Financing",
+    "properties": {
+      "required_response": "Retention of KYC/AML data for 5-6 years post-closure"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_rsk_002",
+    "name": "Fraud",
+    "properties": {
+      "required_response": "Retention of fraud detection data for 3 years"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_ctl_001",
+    "name": "KYC/AML Compliance Monitoring",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "evidence_required": "KYC/AML records retained for 5-6 years post-closure"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_007_ctl_002",
+    "name": "Fraud Detection System",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "evidence_required": "Fraud detection data retained for 3 years"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_007",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_pol_001",
+    "name": "FirstUK Bank Data Collection Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Defines the categories of data collected by FirstUK Bank, including identity, financial, behavioral, and device data."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_001",
+    "name": "Collection of Identity Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "collected_fields": [
+        "Full name",
+        "Date of birth",
+        "Nationality",
+        "Email",
+        "Phone",
+        "Address",
+        "Identification documents"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_002",
+    "name": "Collection of Financial Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "collected_fields": [
+        "Account balances",
+        "Transaction history",
+        "Income/employment information",
+        "Credit information"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_003",
+    "name": "Collection of Behavioral Data for Fraud Detection",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "collected_fields": [
+        "Transaction patterns",
+        "Product usage",
+        "Customer service interactions",
+        "Website/app usage (cookies)"
+      ],
+      "purpose": "Fraud detection"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_prv_004",
+    "name": "Collection of Device Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "collected_fields": [
+        "IP address",
+        "Device type",
+        "Location",
+        "Device identifiers"
+      ],
+      "conditional_collection": "Location is collected if mobile app is used"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": "Analysis of transaction patterns and behavioral data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_ctl_001",
+    "name": "Transaction Pattern Analysis",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "Fraud"
+      ],
+      "evidence_required": "Behavioral data and transaction history"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_id_001",
+    "name": "Identification Documents",
+    "properties": {
+      "accepted_types": [
+        "Identification documents"
+      ],
+      "verification_method": "Collection as part of Identity Data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_008_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Provision of identity data",
+        "Provision of financial data",
+        "Submission to behavioral and device data collection"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_008",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_ctl_001",
+    "name": "Customer Data Collection",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "at_onboarding",
+      "evidence_required": [
+        "account forms",
+        "online signup records",
+        "verification documents",
+        "credit bureau reports"
+      ],
+      "technology_used": [
+        "online signup portal",
+        "cookies",
+        "analytics"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_id_001",
+    "name": "Passport",
+    "properties": {
+      "accepted_types": [
+        "Passport"
+      ],
+      "verification_method": "verification document"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_id_002",
+    "name": "Utility Bill",
+    "properties": {
+      "accepted_types": [
+        "Utility Bill"
+      ],
+      "verification_method": "verification document"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_rol_001",
+    "name": "Customer",
+    "properties": {
+      "specific_obligations": [
+        "provide data via account forms",
+        "complete online signup",
+        "provide verification documents"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_rol_002",
+    "name": "Third Parties",
+    "properties": {
+      "specific_obligations": [
+        "provide data for mortgage applications"
+      ],
+      "examples": [
+        "credit bureaus"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_009_prd_001",
+    "name": "Mortgage",
+    "properties": {
+      "kyc_requirement": "mandatory",
+      "verification_source": "third parties (credit bureaus)"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_009",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_pol_001",
+    "name": "FirstUK Bank Privacy Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "FirstUK Bank ensures transparency by providing privacy notices at account opening, via digital channels, on its website, and upon request, detailing data controller identity, processing purposes, lawful basis, retention periods, and customer rights."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_001",
+    "name": "Mandatory Provision of Privacy Notice at Account Opening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "New Account opening"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_002",
+    "name": "Provision of Privacy Notice via Digital Channels",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Online signup",
+        "Mobile app signup",
+        "Website visitors"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_003",
+    "name": "Provision of Privacy Notice Upon Request",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Bank Customers"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_prv_004",
+    "name": "Mandatory Privacy Notice Content Standards",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Content audit of Privacy Notice",
+      "required_content": [
+        "Data controller identity",
+        "Processing purposes",
+        "Lawful basis",
+        "Data retention period",
+        "Customer rights",
+        "Contact for data queries"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_rol_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "role_title": "Data Controller",
+      "specific_obligations": [
+        "Provide privacy notices at account opening",
+        "Maintain public notice on website",
+        "Disclose data processing purposes and lawful basis"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to receive privacy notice at account opening",
+        "Right to request privacy notice",
+        "Right to know data retention periods",
+        "Right to contact bank for data queries"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_acc_001",
+    "name": "New Account",
+    "properties": {
+      "policy_controls": [
+        "Mandatory provision of Privacy Notice during the opening process"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_010_ctl_001",
+    "name": "Privacy Notice Disclosure",
+    "properties": {
+      "control_type": "directive",
+      "frequency": "at_onboarding",
+      "performed_by": "FirstUK Bank",
+      "applies_to": [
+        "Account opening",
+        "Digital signup"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_010",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_pol_001",
+    "name": "Data Subject Rights Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "regulatory_basis": [
+        "General Data Protection Regulation"
+      ],
+      "core_policy_statement": "Ensuring customers can exercise their right of access to personal data held by FirstUK Bank in accordance with GDPR."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_001",
+    "name": "Customer Right to Request Copy of Personal Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "core_obligation": "Allow customers to request a copy of their personal data held by the bank."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_002",
+    "name": "Right of Access Request Submission Process",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "verification_method": "Written request sent to privacy@firstuk.bank"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_003",
+    "name": "Identity Verification for Data Access",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "verification_method": "Identity verification for security purposes",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_004",
+    "name": "Data Access Response Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days (standard) or 60 days (complex requests)"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_005",
+    "name": "Electronic Format Data Provision",
+    "properties": {
+      "provision_type": "mandatory",
+      "delivery_method": "electronic format"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_prv_006",
+    "name": "Fee Waiver for Data Access Requests",
+    "properties": {
+      "provision_type": "conditional",
+      "exceptions": [
+        "excessive requests"
+      ],
+      "core_obligation": "No fee to be charged for data access requests"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "EU Commission",
+      "jurisdiction": "EU",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Granting data subjects the right to access and receive copies of their personal data."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_ctl_001",
+    "name": "Identity Verification Control",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_request",
+      "applies_to": [
+        "Right of Access requests"
+      ],
+      "evidence_required": "Verified identity documentation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_rol_001",
+    "name": "Data Subject",
+    "properties": {
+      "role_title": "Data Subject",
+      "authority": [
+        "Request copy of personal data"
+      ],
+      "specific_obligations": [
+        "Submit written request to privacy@firstuk.bank",
+        "Undergo identity verification"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_011_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to request copy of personal data",
+        "Right to receive data in electronic format",
+        "Right to free data access (subject to request volume)"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_011",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_pol_001",
+    "name": "Right to Erasure Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Outlines the conditions under which customer data may be erased and the specific exceptions where the bank is required or permitted to retain data despite a request for erasure."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_prv_001",
+    "name": "Conditions for Data Erasure",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customer Data"
+      ],
+      "verification_method": "Assessment of necessity, legal obligations, legitimate interest, and consent status"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_prv_002",
+    "name": "Exceptions to Right to Erasure",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "AML/KYC records",
+        "Dispute records",
+        "Fraud investigation data",
+        "Financial claims",
+        "Active accounts/products"
+      ],
+      "exceptions": "Data is retained regardless of erasure request if a legal/regulatory obligation exists or if the account/product remains active"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_reg_001",
+    "name": "Anti-Money Laundering Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Mandatory retention of records to prevent money laundering, overriding the right to erasure"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_reg_002",
+    "name": "Know Your Customer Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "key_obligation": "Requirement to maintain customer identification and verification records"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "required_response": "Retention of relevant data for investigation purposes, overriding erasure requests"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_rol_001",
+    "name": "Customer",
+    "properties": {
+      "specific_obligations": [
+        "Withdrawal of consent for data processing"
+      ],
+      "authority": "Can request the erasure of personal data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to be forgotten/Right to erasure subject to legal and operational exceptions"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_acc_001",
+    "name": "Active Account",
+    "properties": {
+      "closure_conditions": "Existence of an active account serves as a trigger to deny data erasure requests"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_012_prd_001",
+    "name": "Active Product",
+    "properties": {
+      "applicable_policy": "Right to Erasure Policy",
+      "risk_classification": "Retention required while product is active"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_012",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_pol_001",
+    "name": "Right to Rectification Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Customers have the right to have inaccurate personal data corrected by FirstUK Bank."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_rol_001",
+    "name": "Customer",
+    "properties": {
+      "specific_obligations": [
+        "Submit correction request to initiate data rectification"
+      ],
+      "rights_under_policy": [
+        "Right to correct inaccurate data"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_rol_002",
+    "name": "FirstUK Bank",
+    "properties": {
+      "specific_obligations": [
+        "Verify requested data changes",
+        "Update systems within 30 days",
+        "Notify third parties of data corrections"
+      ],
+      "accountability_for": "Ensuring accuracy of customer data and timely rectification"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_001",
+    "name": "Customer Right to Correct Inaccurate Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_002",
+    "name": "Verification of Data Correction Requests",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "verification_method": "Verification of requested change"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_003",
+    "name": "Data Update Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days",
+      "applies_to": [
+        "FirstUK Bank"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_prv_004",
+    "name": "Third Party Notification Obligation",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "exceptions": "Only required if data was previously shared with third parties"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_013_ctl_001",
+    "name": "Correction Request Submission Process",
+    "properties": {
+      "control_type": "directive",
+      "performed_by": "Customer",
+      "evidence_required": "Correction request submission"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_013",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_pol_001",
+    "name": "Right to Restrict Processing Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Customers have the right to limit how their data is used, specifically in scenarios where they dispute the accuracy of the data, without requiring the total deletion of said data."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_prv_001",
+    "name": "Obligation to Limit Data Usage upon Customer Request",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ],
+      "core_obligation": "Limit the use of data upon customer request without deleting the data."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_prv_002",
+    "name": "Restriction of Processing During Accuracy Disputes",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customer Data"
+      ],
+      "trigger": "Customer disputes accuracy of data",
+      "required_action": "Restrict processing of the disputed data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_prv_003",
+    "name": "Permitted Processing for Legal Obligations",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Restricted Data"
+      ],
+      "exceptions": [
+        "Processing required for legal obligations"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_ctl_001",
+    "name": "Systemic Data Restriction Marking",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "Internal System",
+      "evidence_required": "Data marked as 'restricted' in system",
+      "applies_to": [
+        "Data processing during accuracy disputes"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_title": "Customer",
+      "authority": [
+        "Request limitation of data usage",
+        "Dispute data accuracy"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_014_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to restrict processing",
+        "Right to dispute data accuracy"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_014",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_pol_001",
+    "name": "Right to Data Portability Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Customers have the right to obtain their data in a portable format for transfer to another provider."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_001",
+    "name": "Customer Right to Data Portability",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ],
+      "core_obligation": "Allow customers to obtain data in portable format for transfer to another provider"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_002",
+    "name": "Data Portability Request Process",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Written request specifying data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_003",
+    "name": "Data Portability Format Standard",
+    "properties": {
+      "provision_type": "mandatory",
+      "required_formats": [
+        "CSV",
+        "JSON"
+      ],
+      "format_description": "Common electronic format"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_004",
+    "name": "Data Portability Response Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_prv_005",
+    "name": "Scope of Portable Data",
+    "properties": {
+      "provision_type": "conditional",
+      "scope_summary": "Data provided by the customer or data generated through the use of the service"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_ctl_001",
+    "name": "Electronic Data Export",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": [
+        "CSV",
+        "JSON"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_title": "Customer",
+      "specific_obligations": [
+        "Submit written request specifying the data required for portability"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_015_cus_001",
+    "name": "Data Portability Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to receive data in a common electronic format",
+        "Right to data transfer to another provider",
+        "Right to a response within 30 days"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_015",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_pol_001",
+    "name": "Right to Object Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Governs the customer's right to object to various types of data processing, including direct marketing, profiling, automated decisions, and processing based on legitimate interests.",
+      "core_policy_statement": "Customers have the right to object to the processing of their data for direct marketing, profiling, automated decision-making, and legitimate interest processing."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_001",
+    "name": "Mandatory Direct Marketing Opt-Out",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer"
+      ],
+      "core_obligation": "Customers must be allowed to opt out of direct marketing."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_002",
+    "name": "Right to Object to Profiling and Automated Decisions",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customer"
+      ],
+      "core_obligation": "Customers can object to processing involving profiling or automated decisions."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_003",
+    "name": "Right to Object to Legitimate Interest Processing",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customer"
+      ],
+      "exceptions": [
+        "Compelling reasons for processing"
+      ],
+      "core_obligation": "Customers can object to processing based on legitimate interest unless the bank can demonstrate compelling grounds."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_prv_004",
+    "name": "Immediate Recording of Marketing Preferences",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "immediately",
+      "verification_method": "System record check",
+      "core_obligation": "Marketing preference changes must be recorded in the system immediately."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_ctl_001",
+    "name": "Email Marketing Opt-Out Link",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "per email",
+      "applies_to": [
+        "Direct marketing"
+      ],
+      "evidence_required": "Opt-out link present in every marketing email"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_ctl_002",
+    "name": "Phone Preference Support Request",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "Support Team",
+      "applies_to": [
+        "Direct marketing"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_ctl_003",
+    "name": "SMS STOP Keyword Mechanism",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "real-time",
+      "applies_to": [
+        "Direct marketing"
+      ],
+      "technology_used": "SMS keyword trigger ('STOP')"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_rol_001",
+    "name": "Support Team",
+    "properties": {
+      "role_title": "Support Team",
+      "specific_obligations": [
+        "Process phone preference requests for marketing opt-outs"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_016_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to opt out of direct marketing",
+        "Right to object to profiling and automated decisions",
+        "Right to object to legitimate interest processing"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_016",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_pol_001",
+    "name": "Right to Not Be Subject to Automated Decisions Policy",
+    "properties": {
+      "core_policy_statement": "High-impact automated decisions require human review to protect data subjects from solely automated processing."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_001",
+    "name": "Requirement for Human Review of High-Impact Automated Decisions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "High-impact automated decisions"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_002",
+    "name": "Right to be Informed of Automated Decisions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Subject"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_003",
+    "name": "Right to Request Human Review",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Data Subject"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_004",
+    "name": "Right to Provide Perspective on Automated Decisions",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Data Subject"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_prv_005",
+    "name": "Right to Appeal Automated Decisions",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Data Subject"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rsk_001",
+    "name": "Automated Lending Risk",
+    "properties": {
+      "examples": [
+        "Mortgage application rejection"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rsk_002",
+    "name": "Automated Fraud Detection Risk",
+    "properties": {
+      "examples": [
+        "Account freeze"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rsk_003",
+    "name": "Automated Credit Scoring Risk",
+    "properties": {
+      "risk_definition": "Risks associated with automated credit scoring decisions"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_ctl_001",
+    "name": "Human Review Process",
+    "properties": {
+      "control_type": "corrective",
+      "mandatory": "yes",
+      "applies_to": [
+        "High-impact automated decisions"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_rol_001",
+    "name": "Data Subject",
+    "properties": {
+      "specific_obligations": [],
+      "authority": [
+        "Request human review",
+        "Provide perspective",
+        "Appeal automated decisions"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_017_acc_001",
+    "name": "Frozen Account",
+    "properties": {
+      "freeze_conditions": [
+        "Automated fraud detection"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_017",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_pol_001",
+    "name": "Data Security Policy",
+    "properties": {
+      "policy_domain": "security",
+      "scope_summary": "Encryption standards for data in transit and data at rest across web, mobile, staff remote access, databases, backups, file storage, and portable devices."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_001",
+    "name": "Mandatory TLS 1.3 for Data Transmission",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "web",
+        "mobile"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_002",
+    "name": "Enforcement of HTTPS on Customer-Facing Systems",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "customer-facing systems"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_003",
+    "name": "Mandatory VPN for Staff Remote Access",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "staff remote access"
+      ],
+      "linked_control": "ctl_003"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_004",
+    "name": "Mandatory AES-256 Encryption for Databases",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "databases"
+      ],
+      "linked_control": "ctl_004"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_005",
+    "name": "Mandatory Encryption of Backups",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "S3",
+        "off-site backups"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_006",
+    "name": "Mandatory Encryption of File Storage",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "file storage"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_prv_007",
+    "name": "Mandatory Encryption of Portable Devices",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "USB",
+        "portable devices"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_001",
+    "name": "TLS 1.3",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "data transmission"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_002",
+    "name": "HTTPS",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "customer-facing systems"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_003",
+    "name": "VPN",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "staff remote access"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_ctl_004",
+    "name": "AES-256",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "databases"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_018_rsk_001",
+    "name": "Information Security Risk",
+    "properties": {
+      "risk_definition": "Risks associated with the unauthorized access or exposure of data in transit or at rest.",
+      "examples": [
+        "unencrypted data transmission",
+        "unencrypted database storage",
+        "unsecured portable devices"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_018",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_pol_001",
+    "name": "Access Control Policy",
+    "properties": {
+      "policy_domain": "access_control",
+      "core_policy_statement": "Implementation of role-based access controls and authentication measures to ensure data is accessed only by authorized personnel based on their professional requirements."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_001",
+    "name": "Role-Based Access Limitation for Customer-facing Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer-facing staff"
+      ],
+      "scope_summary": "Access is limited to customer data strictly needed for service delivery."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_002",
+    "name": "Full Data Access for Compliance Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance staff"
+      ],
+      "regulatory_source": "regulatory purposes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_003",
+    "name": "Database Access and Audit Logging for Technology Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Technology staff"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_004",
+    "name": "Aggregated Data Access Restriction for Executives",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "Executives"
+      ],
+      "scope_summary": "Access is restricted to aggregated data; personal details are prohibited."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_005",
+    "name": "Multi-factor Authentication for Privileged Access",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "admin",
+        "compliance access"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_prv_006",
+    "name": "Mandatory Audit Logging of All Access",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All users"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_ctl_001",
+    "name": "Multi-factor Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "technology_used": [
+        "Username/password",
+        "OTP"
+      ],
+      "applies_to": [
+        "admin access",
+        "compliance access"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_ctl_002",
+    "name": "Audit Logging",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "real-time",
+      "applies_to": [
+        "All access",
+        "Technology staff database access"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_001",
+    "name": "Customer-facing Staff",
+    "properties": {
+      "role_title": "Customer-facing staff",
+      "specific_obligations": [
+        "Access only customer data needed for service"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_002",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_title": "Compliance staff",
+      "authority": "Full data access",
+      "specific_obligations": [
+        "Use data for regulatory purposes",
+        "Use multi-factor authentication for access"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_003",
+    "name": "Technology Staff",
+    "properties": {
+      "role_title": "Technology staff",
+      "authority": "Database access",
+      "specific_obligations": [
+        "Ensure access is subject to audit logging"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_019_rol_004",
+    "name": "Executives",
+    "properties": {
+      "role_title": "Executives",
+      "specific_obligations": [
+        "Access aggregated data only",
+        "No access to personal details"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_019",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_pol_001",
+    "name": "Data Breach Response Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Establishment of procedures for the identification, escalation, investigation, and notification of data breaches to ensure regulatory compliance and risk mitigation."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "EU Commission",
+      "jurisdiction": "EU/UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Mandatory notification of individuals within 72 hours if a breach is likely to cause high risk."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_reg_002",
+    "name": "Information Commissioner's Office",
+    "properties": {
+      "issuing_authority": "ICO",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "how_cited": "Recipient of regulatory notifications"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "risk_definition": "Unauthorized access, loss, or disclosure of data",
+      "risk_level": "high",
+      "required_response": "Escalation to Data Protection Officer and risk assessment"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_rol_001",
+    "name": "Data Protection Officer",
+    "properties": {
+      "role_title": "Data Protection Officer",
+      "specific_obligations": [
+        "Receive breach escalations",
+        "Oversee risk assessment",
+        "Determine notification decisions"
+      ],
+      "authority": "Notification decision maker"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_prv_001",
+    "name": "Mandatory Individual Notification for High Risk Breaches",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Individuals affected by high-risk breaches",
+      "timeframe": "Within 72 hours",
+      "regulatory_source": "GDPR",
+      "verification_method": "Notification records containing event details, data types, mitigation steps, and contact info"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_prv_002",
+    "name": "Internal Breach Escalation and Investigation Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Investigation within 24 hours of identification",
+      "applies_to": "Internal breach response team"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_prv_003",
+    "name": "Breach Risk Assessment and Notification Decision",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Data Protection Officer",
+      "verification_method": "Risk assessment documentation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_020_ctl_001",
+    "name": "Internal Escalation Process",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "frequency": "at_occurrence",
+      "performed_by": "Staff identifying the breach",
+      "escalation_path": "Data Protection Officer"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_020",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_pol_001",
+    "name": "Cookies & Web Tracking Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Governs the use of essential and optional cookies and web tracking mechanisms on FirstUK Bank digital platforms."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_prv_001",
+    "name": "Consent Exemption for Essential Cookies",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Session cookies",
+        "Security cookies",
+        "Performance cookies"
+      ],
+      "exceptions": "Consent is not required for cookies deemed essential for site functionality, security, or error tracking."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_prv_002",
+    "name": "Mandatory Consent for Optional Cookies",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Analytics cookies",
+        "Marketing cookies"
+      ],
+      "core_policy_statement": "User consent must be obtained before deploying cookies used for behavior tracking or personalized advertising."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_001",
+    "name": "Session Cookies",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": "User login and session management",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_002",
+    "name": "Security Cookies",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": "Fraud prevention",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_003",
+    "name": "Performance Cookies",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": "Error tracking",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_004",
+    "name": "Analytics Cookies",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": "User behavior tracking",
+      "mandatory": "no"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_ctl_005",
+    "name": "Marketing Cookies",
+    "properties": {
+      "control_type": "directive",
+      "applies_to": [
+        "Personalized ads",
+        "Retargeting"
+      ],
+      "mandatory": "no"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_021_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": "Security cookies",
+      "required_response": "Deployment of essential security cookies to prevent fraudulent activity"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_021",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_pol_001",
+    "name": "Cookie Management Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "FirstUK Bank provides customers with choice and control over the use of cookies on its website, including the ability to manage preferences and the anonymization of third-party analytics data."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_001",
+    "name": "Provision of Cookie Consent Banner",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "website visitors"
+      ],
+      "verification_method": "visual inspection of website landing page"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_002",
+    "name": "Option to Reject Non-Essential Cookies",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "non-essential cookies"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_003",
+    "name": "Provision of Cookie Preference Center",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "cookie management"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_004",
+    "name": "Right to Withdraw Cookie Consent",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "anytime"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_005",
+    "name": "Third-Party Analytics IP Anonymization",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "third-party analytics"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_prv_006",
+    "name": "Analytics Data Retention Period",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "14 months"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_ctl_001",
+    "name": "Cookie Preference Center",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "applies_to": [
+        "cookie management"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_ctl_002",
+    "name": "IP Anonymization",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "technology_used": "Google Analytics privacy settings"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_rol_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "accept or reject non-essential cookies",
+        "manage cookie preferences",
+        "withdraw consent at any time"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_022_ctl_003",
+    "name": "Google Analytics",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": "Google Analytics",
+      "applies_to": [
+        "third-party analytics"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_022",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_pol_001",
+    "name": "Third-Party Data Processing Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Governs the engagement and management of third-party data processors handling bank data."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_prv_001",
+    "name": "Requirement for Data Processing Agreements with Processors",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Processor"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_prv_002",
+    "name": "Requirement for GDPR-Compliant Terms",
+    "properties": {
+      "provision_type": "mandatory",
+      "regulatory_source": "General Data Protection Regulation",
+      "applies_to": [
+        "Data Processor"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_prv_003",
+    "name": "Subprocessor Notification Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Processor"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "EU Commission",
+      "jurisdiction": "EU",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_001",
+    "name": "Data Processor",
+    "properties": {
+      "role_title": "Data Processor",
+      "specific_obligations": [
+        "Handle data on behalf of FirstUK Bank",
+        "Enter into Data Processing Agreements",
+        "Adhere to GDPR-compliant terms",
+        "Provide subprocessor notifications"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_ctl_001",
+    "name": "Data Processing Agreement",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding",
+      "evidence_required": "Signed DPA document"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_002",
+    "name": "Email service provider",
+    "properties": {
+      "role_title": "Email service provider",
+      "specific_obligations": [
+        "Manage campaign communications"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_003",
+    "name": "Analytics provider",
+    "properties": {
+      "role_title": "Analytics provider",
+      "specific_obligations": [
+        "Manage website tracking"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_004",
+    "name": "Cloud storage provider",
+    "properties": {
+      "role_title": "Cloud storage provider",
+      "technology_used": "AWS",
+      "specific_obligations": [
+        "Manage backups"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_023_rol_005",
+    "name": "Payment processor",
+    "properties": {
+      "role_title": "Payment processor",
+      "specific_obligations": [
+        "Manage settlement"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_023",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_pol_001",
+    "name": "FirstUK Bank Data Privacy Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Governs the sharing of customer data with regulatory authorities, law enforcement, credit agencies, and third-party providers."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prv_001",
+    "name": "Lawful Basis Requirement for Data Sharing",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All data sharing activities"
+      ],
+      "core_policy_statement": "Data is only shared where a lawful basis exists."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prv_002",
+    "name": "Data Minimisation for Recipients",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Recipients of customer data"
+      ],
+      "core_policy_statement": "Data is shared only with necessary recipients."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prv_003",
+    "name": "International Data Transfer Restriction",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "International data transfers"
+      ],
+      "exceptions": [
+        "EEA countries"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "role_title": "Regulatory Authority",
+      "specific_obligations": [
+        "Recipient of customer data"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "role_title": "Regulatory Authority",
+      "specific_obligations": [
+        "Recipient of customer data"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_003",
+    "name": "National Crime Agency",
+    "properties": {
+      "role_title": "Regulatory Authority",
+      "specific_obligations": [
+        "Recipient of customer data"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_004",
+    "name": "Law Enforcement",
+    "properties": {
+      "role_title": "Law Enforcement",
+      "specific_obligations": [
+        "Recipient of customer data subject to court order"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_005",
+    "name": "Credit Reference Agencies",
+    "properties": {
+      "role_title": "Credit Reference Agency",
+      "specific_obligations": [
+        "Recipient of customer data for credit products"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_rol_006",
+    "name": "Third-party Service Providers",
+    "properties": {
+      "role_title": "Third-party Service Provider",
+      "specific_obligations": [
+        "Recipient of customer data subject to Data Processing Agreement"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_ctl_001",
+    "name": "Data Processing Agreement",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Third-party service providers"
+      ],
+      "evidence_required": "Signed DPA"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_ctl_002",
+    "name": "Court Order Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Law enforcement data requests"
+      ],
+      "evidence_required": "Court order"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_cus_001",
+    "name": "Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Data shared only on lawful basis",
+        "Data shared only with necessary recipients",
+        "International transfer restrictions"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_024_prod_001",
+    "name": "Credit Product",
+    "properties": {
+      "applicable_policy": "FirstUK Bank Data Privacy Policy",
+      "risk_classification": "Triggers data sharing with Credit Reference Agencies"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_024",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_pol_001",
+    "name": "Retention Policy",
+    "properties": {
+      "scope_summary": "Defines retention periods for various data types including customer profiles, transactions, KYC/AML, complaints, marketing consent, and website cookies."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_001",
+    "name": "Customer Profile Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Account tenure + 6 years",
+      "regulatory_source": [
+        "Proceeds of Crime Act",
+        "anti-fraud"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_002",
+    "name": "Transaction Records Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years minimum",
+      "regulatory_source": [
+        "Regulatory",
+        "dispute"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_003",
+    "name": "KYC/AML Records Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "5-6 years post-closure",
+      "regulatory_source": [
+        "AML regulations"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_004",
+    "name": "Complaint Records Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years minimum",
+      "regulatory_source": [
+        "Regulatory"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_005",
+    "name": "Marketing Consent Retention Requirement",
+    "properties": {
+      "provision_type": "conditional",
+      "timeframe": "Until withdrawal",
+      "regulatory_source": [
+        "GDPR consent"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_prv_006",
+    "name": "Website Cookies Retention Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Session (+ 14 months analytics)",
+      "regulatory_source": [
+        "Cookie consent"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_reg_001",
+    "name": "Proceeds of Crime Act",
+    "properties": {
+      "key_obligation": "Mandates retention of customer profile data for 6 years beyond account tenure."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_reg_002",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "key_obligation": "Governs the retention of marketing consent until it is withdrawn."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_reg_003",
+    "name": "AML Regulations",
+    "properties": {
+      "key_obligation": "Requires KYC/AML records to be kept for 5-6 years after account closure."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "required_response": "Retention of customer profile data for 6 years post-tenure to support anti-fraud efforts."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_025_ctl_001",
+    "name": "Record Keeping",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Customer profiles",
+        "Transaction records",
+        "KYC/AML records",
+        "Complaint records",
+        "Marketing consent",
+        "Website cookies"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_025",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_pol_001",
+    "name": "International Data Transfers Policy",
+    "properties": {
+      "scope_summary": "Governs the transfer of data outside the UK and EEA",
+      "core_policy_statement": "Current data transfers are restricted to UK and EU only; any future non-EEA transfers must meet specific legal and safeguard requirements."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_prv_001",
+    "name": "Requirement for Standard Contractual Clauses for Non-EEA Transfers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Non-EEA Transfers",
+      "verification_method": "Review of signed Standard Contractual Clauses (SCC)"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_prv_002",
+    "name": "Requirement for UK Government Adequacy Decision",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Non-EEA Transfers"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_prv_003",
+    "name": "Requirement for Supplementary Safeguards Assessment",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Non-EEA Transfers",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_reg_001",
+    "name": "Standard Contractual Clauses",
+    "properties": {
+      "regulation_type": "industry_standard",
+      "key_obligation": "Provide a legal framework for data transfers to countries without an adequacy decision"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_rol_001",
+    "name": "UK Government",
+    "properties": {
+      "authority": "Issuing adequacy decisions for non-EEA jurisdictions"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_026_ctl_001",
+    "name": "Supplementary Safeguards Assessment",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Non-EEA Transfers"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_026",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_rol_001",
+    "name": "Data Protection Officer",
+    "properties": {
+      "role_title": "Data Protection Officer (DPO)",
+      "specific_obligations": [
+        "Privacy policy oversight",
+        "GDPR compliance monitoring",
+        "Subject access request processing",
+        "Data breach investigation",
+        "Staff training",
+        "Regulatory liaison"
+      ],
+      "contact_email": "privacy@firstuk.bank"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "European Union",
+      "jurisdiction": "EU",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_pol_001",
+    "name": "Privacy Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "owner": "Data Protection Officer"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "required_response": "Investigation by the Data Protection Officer"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_prv_001",
+    "name": "Obligation to Process Subject Access Requests",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Protection Officer"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_prv_002",
+    "name": "Obligation to Provide Staff Training on Data Protection",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Protection Officer"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_027_ctl_001",
+    "name": "GDPR Compliance Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Data Protection Officer",
+      "applies_to": [
+        "General Data Protection Regulation"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_027",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_rol_001",
+    "name": "Data Processors (Staff)",
+    "properties": {
+      "role_title": "Data Processors (Staff)",
+      "specific_obligations": [
+        "Handle customer data securely",
+        "Report breaches immediately",
+        "Respect customer privacy",
+        "Follow security procedures",
+        "Complete training"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_001",
+    "name": "Secure Handling of Customer Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Processors (Staff)"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_002",
+    "name": "Immediate Breach Reporting",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "immediately",
+      "applies_to": [
+        "Data Processors (Staff)"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_003",
+    "name": "Respect for Customer Privacy",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Processors (Staff)"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_004",
+    "name": "Adherence to Security Procedures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Processors (Staff)"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_prv_005",
+    "name": "Mandatory Security Training Completion",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Processors (Staff)"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_ctl_001",
+    "name": "Security Procedures",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "performed_by": "Data Processors (Staff)"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_ctl_002",
+    "name": "Staff Training",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "performed_by": "Data Processors (Staff)"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_028_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "required_response": "Immediate reporting by staff"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_028",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_rol_001",
+    "name": "Data Controller",
+    "properties": {
+      "role_title": "Data Controller",
+      "specific_obligations": [
+        "Determine purposes of processing",
+        "Implement GDPR safeguards",
+        "Process customer requests",
+        "Maintain privacy notices",
+        "Notify authorities if breach"
+      ],
+      "accountability_for": "Compliance with data protection regulations and customer privacy rights"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "issuing_authority": "EU Commission",
+      "jurisdiction": "EU",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Protection of personal data and privacy of individuals within the EU and EEA"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_001",
+    "name": "Obligation to Determine Processing Purposes",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Controller"
+      ],
+      "verification_method": "Review of data processing records and purpose specifications"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_002",
+    "name": "Obligation to Implement GDPR Safeguards",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Controller"
+      ],
+      "regulatory_source": "General Data Protection Regulation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_003",
+    "name": "Obligation to Process Customer Requests",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Controller"
+      ],
+      "verification_method": "Audit of customer request logs and response timeframes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_004",
+    "name": "Obligation to Maintain Privacy Notices",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Controller"
+      ],
+      "verification_method": "Periodic review of published privacy notices"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_prv_005",
+    "name": "Obligation to Notify Authorities of Data Breaches",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Data Controller"
+      ],
+      "timeframe": "As specified by regulatory requirements upon discovery of breach",
+      "consequence_of_breach": "Regulatory penalties and legal action"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_029_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "required_response": "Notify authorities",
+      "reporting_obligation": "Regulatory authorities"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_029",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_pol_001",
+    "name": "Subject Access Request (SAR) Process",
+    "properties": {
+      "policy_domain": "privacy",
+      "core_policy_statement": "Customers have the right to obtain a copy of their personal data held by FirstUK Bank through a structured request and verification process.",
+      "scope_summary": "Covers the submission, verification, compilation, and delivery of personal data to requesting customers."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_001",
+    "name": "Customer Right to Personal Data Access",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customers"
+      ],
+      "core_obligation": "Obtain copy of personal data"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_002",
+    "name": "Customer Identity Verification for SAR",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "SAR Requesting Customer"
+      ],
+      "verification_method": "Identity verification and security checks",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_003",
+    "name": "Data Compilation and Third-Party Redaction",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Internal Data Systems"
+      ],
+      "verification_method": "Removal of third-party personal data",
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_004",
+    "name": "SAR Response Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "30 days",
+      "exceptions": "May extend by 2 months for complex requests"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_prv_005",
+    "name": "Mandatory Redaction of Privileged and Confidential Information",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compiled SAR Data"
+      ],
+      "exceptions": [
+        "Legal professional privilege",
+        "Third-party confidential data",
+        "Trade secrets"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "risk_definition": "Unauthorized access to personal data via fraudulent SAR requests",
+      "detection_mechanism": "Security check during verification phase"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_ctl_001",
+    "name": "Identity Verification Check",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding",
+      "applies_to": [
+        "rsk_001"
+      ],
+      "evidence_required": "Additional identification documents"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_ctl_002",
+    "name": "Data Redaction",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Third-party personal data",
+        "Privileged information"
+      ],
+      "evidence_required": "Redacted data set"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_title": "Customer",
+      "authority": "Request access to personal data via email, phone, or branch"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_030_cust_001",
+    "name": "SAR Requesting Customer",
+    "properties": {
+      "eligibility_status": "existing",
+      "obligations_under_policy": [
+        "Undergo identity verification",
+        "Provide additional identification if requested"
+      ],
+      "rights_under_policy": [
+        "Receive personal data within 30 days",
+        "Receive data in electronic format (CSV, PDF)"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_030",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_pol_001",
+    "name": "Staff Privacy Training Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "audience": [
+        "All Staff"
+      ],
+      "core_policy_statement": "All staff must undergo mandatory annual GDPR training and obtain certification to ensure proper data handling and breach reporting."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_prv_001",
+    "name": "Mandatory Annual GDPR Training for All Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "Annual",
+      "verification_method": "Certification",
+      "core_requirements": [
+        "1-hour training duration",
+        "Coverage of privacy rights",
+        "Coverage of data handling",
+        "Coverage of breach reporting"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_prv_002",
+    "name": "Disciplinary Action for Training Non-Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "consequence_of_breach": "disciplinary action"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU/UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Ensuring staff are trained in privacy rights, data handling, and breach reporting."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "required_response": "Breach reporting",
+      "detection_mechanism": "Staff training on breach reporting"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_ctl_001",
+    "name": "Staff Privacy Training and Certification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "annual",
+      "performed_by": "All Staff",
+      "evidence_required": "Certification"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_031_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Complete 1-hour annual GDPR training",
+        "Obtain training certification"
+      ],
+      "training_required": "Annual GDPR training"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_031",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_pol_001",
+    "name": "Data Protection Policy",
+    "properties": {
+      "policy_domain": "privacy",
+      "scope_summary": "Covers internal audit and regulatory compliance requirements for data protection and GDPR."
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_001",
+    "name": "Annual GDPR Compliance Testing",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "verification_method": "Internal Audit",
+      "regulatory_source": "General Data Protection Regulation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_002",
+    "name": "Data Protection Control Testing",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Internal Audit"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_003",
+    "name": "Subject Access Request Sampling",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Internal Audit sampling"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_prv_004",
+    "name": "Breach Response Procedure Validation",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Internal Audit"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU/UK",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_rol_001",
+    "name": "Information Commissioner's Office",
+    "properties": {
+      "role_title": "Information Commissioner's Office (ICO)",
+      "authority": "Conducting regulatory examinations and periodic data protection inspections"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_rsk_001",
+    "name": "Data Breach",
+    "properties": {
+      "required_response": "Execution of breach response procedures",
+      "detection_mechanism": "Internal Audit validation and regulatory inspection"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_ctl_001",
+    "name": "Privacy by Design Assessments",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "Regulatory Audit / ICO",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_032_ctl_002",
+    "name": "Data Protection Controls",
+    "properties": {
+      "control_type": "directive",
+      "frequency": "Periodic",
+      "performed_by": "Internal Audit"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_032",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rsk_001",
+    "name": "Regulatory Breach",
+    "properties": {
+      "risk_definition": "Failure to comply with regulatory requirements leading to enforcement actions",
+      "required_response": "Internal disciplinary action",
+      "consequences": [
+        "ICO fine up to £20 million or 4% of annual turnover"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rsk_002",
+    "name": "Reputational Damage",
+    "properties": {
+      "risk_definition": "Negative public perception resulting from regulatory breaches"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rsk_003",
+    "name": "Customer Trust Loss",
+    "properties": {
+      "risk_definition": "Erosion of customer confidence following a regulatory failure"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_rol_001",
+    "name": "Information Commissioner's Office",
+    "properties": {
+      "role_title": "Information Commissioner's Office",
+      "authority": "Imposing financial penalties for regulatory breaches"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_reg_001",
+    "name": "ICO Regulatory Framework",
+    "properties": {
+      "issuing_authority": "Information Commissioner's Office",
+      "jurisdiction": "UK",
+      "consequences_of_breach": "Fines up to £20 million or 4% of annual turnover (whichever is higher)"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_033_prv_001",
+    "name": "Internal Disciplinary Action for Breaches",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Staff responsible for regulatory breaches",
+      "consequence_of_breach": "Internal disciplinary action"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_033",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_pol_001",
+    "name": "FirstUK Bank Privacy Policy",
+    "properties": {
+      "review_date": "2027-01-15",
+      "effective_date": "2026-01-15"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_prv_001",
+    "name": "Annual Privacy Policy Review Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_prv_002",
+    "name": "GDPR-Triggered Policy Update Requirement",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Privacy Policy",
+      "regulatory_source": "General Data Protection Regulation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_034_reg_001",
+    "name": "General Data Protection Regulation",
+    "properties": {
+      "jurisdiction": "EU/UK",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_034",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_pol_001",
+    "name": "Data Retention Policy",
+    "properties": {},
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_pol_002",
+    "name": "Cookie Policy",
+    "properties": {
+      "audience": [
+        "public"
+      ]
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_ctl_001",
+    "name": "Data Security Architecture",
+    "properties": {},
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_035_reg_001",
+    "name": "Data Processing Agreement",
+    "properties": {
+      "how_cited": "DPA template"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_035",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_036_rol_001",
+    "name": "Data Protection Officer",
+    "properties": {
+      "authority": "Policy Approval"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_036",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_036_rol_002",
+    "name": "Head of Compliance",
+    "properties": {
+      "authority": "Policy Approval"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_036",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  },
+  {
+    "id": "f0e93490a87649d2b6e83106dee853b9_036_rol_003",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "authority": "Policy Approval"
+    },
+    "chunk_id": "f0e93490a87649d2b6e83106dee853b9_036",
+    "doc_id": "f0e93490a87649d2b6e83106dee853b9"
+  }
+]

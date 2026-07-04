@@ -1,0 +1,1758 @@
+[
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_001_dept_001",
+    "name": "Risk Department",
+    "aliases": [
+      "Risk"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The organisational department responsible for the ownership and oversight of the Credit Risk Assessment Guide for Mortgage Underwriting.",
+    "context": [
+      "Owner | Head of Risk",
+      "Department | Risk, Lending"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_001_dept_002",
+    "name": "Lending Department",
+    "aliases": [
+      "Lending"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "retail_banking",
+    "description": "The organisational department involved in the ownership and application of mortgage underwriting risk assessments.",
+    "context": [
+      "Department | Risk, Lending"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_001_prod_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "Mortgage Underwriting"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product subject to the credit risk assessment and underwriting guidelines defined in this document.",
+    "context": [
+      "FirstUK Bank — Credit Risk Assessment Guide (Mortgage Underwriting)",
+      "Audience | Mortgage Underwriters, Risk Analysts, Lending Team"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_001_rsk_001",
+    "name": "Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The primary risk category addressed in the assessment guide, specifically focusing on the underwriting process for mortgages.",
+    "context": [
+      "FirstUK Bank — Credit Risk Assessment Guide (Mortgage Underwriting)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_001",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_002_rsk_001",
+    "name": "Credit Risk — Residential Mortgage Applications",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with residential mortgage applications, managed through standardized assessment procedures to ensure consistent lending decisions.",
+    "context": [
+      "assessing credit risk on residential mortgage applications",
+      "ensuring consistent lending decisions aligned with FirstUK Bank's risk appetite"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_002_met_001",
+    "name": "Loss Ratio — Risk Appetite Threshold <0.5%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "loss_ratio",
+    "description": "The quantitative risk appetite threshold for the loss ratio, set at less than 0.5%.",
+    "context": [
+      "FirstUK Bank's risk appetite (<0.5% loss ratio)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_002_prd_001",
+    "name": "Residential Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A banking product subject to standardized credit risk assessment procedures.",
+    "context": [
+      "residential mortgage applications"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_002",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_003_rsk_001",
+    "name": "Mortgage Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with mortgage lending at FirstUK Bank, governed by specific appetite targets regarding loss ratios, default rates, and borrower constraints.",
+    "context": [
+      "FirstUK Bank Mortgage Credit Risk Target"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_003_met_001",
+    "name": "Maximum Loss Ratio — Target 0.5% annually (max £2.5k loss per £500k portfolio)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "loss_ratio",
+    "description": "The annual maximum allowable loss ratio for the mortgage portfolio, capped at 0.5% or £2.5k per £500k of the portfolio.",
+    "context": [
+      "Maximum Loss Ratio: 0.5% annually (max £2.5k loss per £500k portfolio)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_003_met_002",
+    "name": "Default Rate Target — <2%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "delinquency_rate",
+    "description": "The target threshold for active mortgages in default, which must remain below 2% at any given time.",
+    "context": [
+      "Default Rate Target: <2% (max 2% of active mortgages in default at any time)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_003_met_003",
+    "name": "LTV Limit — Max 95%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "The maximum Loan-to-Value (LTV) limit permitted to prevent negative equity scenarios.",
+    "context": [
+      "LTV Limit: Max 95% (no negative equity scenarios)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_003_met_004",
+    "name": "Debt-to-Income Limit — Max 45%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "The maximum allowable debt-to-income ratio acting as a constraint on borrower income.",
+    "context": [
+      "Debt-to-Income Limit: Max 45% (borrower income constraint)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_003_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product subject to the credit risk framework and appetite targets described in the document.",
+    "context": [
+      "FirstUK Bank Mortgage Credit Risk Target"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_003",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_004_met_001",
+    "name": "Loss Ratio — Target <0.5%, Actual 0.23%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "loss_ratio",
+    "description": "A quantitative risk indicator measuring the loss ratio for Q4 2025. The actual value of 0.23% is within the defined risk appetite threshold of less than 0.5%.",
+    "context": [
+      "Loss Ratio | <0.5% | 0.23% | ✅ Within Appetite"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_004_met_002",
+    "name": "Default Rate — Target <2%, Actual 1.2%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "delinquency_rate",
+    "description": "A quantitative risk indicator measuring the default rate for Q4 2025. The actual value of 1.2% is within the defined risk appetite threshold of less than 2%.",
+    "context": [
+      "Default Rate | <2% | 1.2% | ✅ Within Appetite"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_004_met_003",
+    "name": "Average LTV — Target <80%, Actual 72%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "A quantitative risk indicator measuring the Average Loan-to-Value (LTV) for Q4 2025. The actual value of 72% is considered conservative against the target of less than 80%.",
+    "context": [
+      "Average LTV | <80% | 72% | ✅ Conservative"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_004_met_004",
+    "name": "Debt-to-Income — Target <45%, Actual 38%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "A quantitative risk indicator measuring the Debt-to-Income ratio for Q4 2025. The actual value of 38% is considered conservative against the target of less than 45%.",
+    "context": [
+      "Debt-to-Income | <45% | 38% | ✅ Conservative"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_004",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_005_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "Mortgage Application"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product subject to the underwriting process, involving borrower assessment and property valuation.",
+    "context": [
+      "For Each Mortgage Application",
+      "Mortgage amount requested"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_005",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_005_cust_001",
+    "name": "Mortgage Borrower",
+    "aliases": [
+      "Borrower"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The customer applying for a mortgage, whose identity, employment, income, and credit history are assessed during the application process.",
+    "context": [
+      "Borrower Information",
+      "Name, DOB, marital status",
+      "Employment (employer, position, length of service)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_005",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_006_rsk_001",
+    "name": "Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with borrower creditworthiness, managed through an automated credit scoring system (0–100) that evaluates payment history, utilization, credit age, inquiries, and defaults.",
+    "context": [
+      "Step 2: Borrower Credit Scoring",
+      "Automated Credit Score (0–100)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_006_met_001",
+    "name": "Credit Score Range — 90–100 (Excellent/Very Low Risk)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A credit score threshold between 90 and 100 indicating very low risk, which triggers an Auto-Approve action if other criteria are met.",
+    "context": [
+      "90–100 | Excellent | Very Low | Auto-Approve (if other criteria met)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_006_met_002",
+    "name": "Credit Score Range — 80–89 (Good/Low Risk)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A credit score threshold between 80 and 89 indicating low risk, requiring Standard Underwriting.",
+    "context": [
+      "80–89 | Good | Low | Standard Underwriting"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_006_met_003",
+    "name": "Credit Score Range — 70–79 (Fair/Medium Risk)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A credit score threshold between 70 and 79 indicating medium risk, requiring Enhanced Review.",
+    "context": [
+      "70–79 | Fair | Medium | Enhanced Review"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_006_met_004",
+    "name": "Credit Score Range — 60–69 (Poor/High Risk)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A credit score threshold between 60 and 69 indicating high risk, requiring Manager Review and potential decline.",
+    "context": [
+      "60–69 | Poor | High | Manager Review (may decline)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_006_met_005",
+    "name": "Credit Score Range — <60 (Very Poor/Very High Risk)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A credit score threshold below 60 indicating very high risk, resulting in an automatic decline.",
+    "context": [
+      "<60 | Very Poor | Very High | Decline"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_006_prod_001",
+    "name": "Credit Scoring Product/Process",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The automated credit scoring mechanism used to assess borrower risk based on weighted factors including payment history and credit utilization.",
+    "context": [
+      "Automated Credit Score (0–100)",
+      "Borrower Credit Scoring"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_006",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_001",
+    "name": "Permanent Employment Qualification Factor — 2+ years: 100% of stated salary",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The qualifying income factor for employees in permanent roles with two or more years of history is set at 100% of their stated salary.",
+    "context": [
+      "Permanent, 2+ years | 100% of stated salary"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_002",
+    "name": "Permanent Employment Qualification Factor — <2 years: 75% of stated salary",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The qualifying income factor for employees in permanent roles with less than two years of history is reduced to 75% of their stated salary.",
+    "context": [
+      "Permanent, <2 years | 75% of stated salary"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_003",
+    "name": "Contract Employment Qualification Factor — >1 year remaining: 75% of stated salary",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Contract employees with more than one year remaining on their contract are qualified at 75% of their stated salary.",
+    "context": [
+      "Contract, >1 year remaining | 75% of stated salary"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_004",
+    "name": "Self-Employed Qualification Factor — 2+ years: 75% of average last 2 years",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Self-employed individuals with at least two years of history are qualified based on 75% of their average income over the last two years.",
+    "context": [
+      "Self-employed, 2+ years | 75% of average last 2 years"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_005",
+    "name": "Self-Employed Qualification Factor — <2 years: Not acceptable",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Self-employment with less than two years of history is deemed not acceptable for income qualification purposes.",
+    "context": [
+      "Self-employed, <2 years | Not acceptable"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_006",
+    "name": "Bonus and Commission Qualification Factor: 50% of average last 2 years",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Income derived from bonuses or commissions is qualified at 50% of the average amount received over the last two years.",
+    "context": [
+      "Bonus/Commission | 50% of average last 2 years"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_007",
+    "name": "Rental Income Qualification Factor: 75%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Rental income is qualified at 75% to account for potential vacancy risks.",
+    "context": [
+      "Rental income: 75% (accounts for vacancy)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_008",
+    "name": "Dividend Income Qualification Factor: 100% (>2 years history)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Dividend income is qualified at 100% provided it is sustainable and has a history of more than two years.",
+    "context": [
+      "Dividend income: 100% (if sustainable, >2 years history)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_met_009",
+    "name": "Pension and Benefits Qualification Factor: 100%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Pensions and benefits are qualified at 100% if they are guaranteed and stable.",
+    "context": [
+      "Pension/benefits: 100% (if guaranteed, stable)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_007_rsk_001",
+    "name": "Credit Risk — Income Stability and Qualification",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with the stability and verification of a customer's income used to determine qualifying income for lending.",
+    "context": [
+      "Assess income stability (stable job vs. new employment)",
+      "Calculate qualifying income (conservative estimate)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_007",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_008_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "Proposed Mortgage"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A mortgage product with a principal amount of £300,000, an interest rate of 4.5%, and a loan term of 25 years.",
+    "context": [
+      "Proposed Mortgage",
+      "Mortgage Amount: £300,000",
+      "Interest Rate: 4.5% (current offer)",
+      "Loan Term: 25 years (300 months)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_008_met_001",
+    "name": "Debt-to-Income Ratio — Actual 41.5%",
+    "aliases": [
+      "DTI"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "loss_ratio",
+    "description": "The calculated debt-to-income ratio for the assessment, derived from monthly debt obligations and gross income.",
+    "context": [
+      "Debt-to-Income Ratio = (Monthly Debt + Mortgage) / Monthly Income",
+      "= (£500 other debt + £1,519 mortgage) / £4,875 gross income",
+      "= 41.5%"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_008_rsk_001",
+    "name": "Credit Risk — Debt Assessment",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The assessment of a customer's ability to service debt, specifically evaluating monthly obligations against gross income to determine creditworthiness.",
+    "context": [
+      "Step 4: Debt Assessment",
+      "Calculate Total Monthly Debt Obligations"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_008",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_009_rsk_001",
+    "name": "Mortgage Loan-to-Value (LTV) Risk",
+    "aliases": [
+      "LTV Risk"
+    ],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with the ratio of the mortgage amount to the property value. Risk levels are categorized from Low to Very High based on the LTV percentage, with ratios above 95% considered Very High Risk and likely to be declined.",
+    "context": [
+      "LTV Risk Assessment:",
+      "≤70% = Low Risk (strong equity buffer)",
+      "70–80% = Moderate Risk (acceptable)",
+      "80–90% = Higher Risk (more careful review)",
+      "90–95% = High Risk (requires strong credit/income)",
+      ">95% = Very High Risk (likely decline)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_009_met_001",
+    "name": "Max LTV for Excellent Credit Grade — Limit 95%",
+    "aliases": [
+      "Excellent Credit LTV"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "The maximum allowable Loan-to-Value ratio for customers with an Excellent credit grade (90+), set at 95% with standard pricing.",
+    "context": [
+      "Excellent (90+) | 95% | Standard rate"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_009_met_002",
+    "name": "Max LTV for Good Credit Grade — Limit 90%",
+    "aliases": [
+      "Good Credit LTV"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "The maximum allowable Loan-to-Value ratio for customers with a Good credit grade (80–89), set at 90% with a +0.25% rate premium.",
+    "context": [
+      "Good (80–89) | 90% | +0.25% rate premium"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_009_met_003",
+    "name": "Max LTV for Fair Credit Grade — Limit 85%",
+    "aliases": [
+      "Fair Credit LTV"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "The maximum allowable Loan-to-Value ratio for customers with a Fair credit grade (70–79), set at 85% with a +0.50% rate premium.",
+    "context": [
+      "Fair (70–79) | 85% | +0.50% rate premium"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_009_met_004",
+    "name": "Max LTV for Poor Credit Grade — Limit 80%",
+    "aliases": [
+      "Poor Credit LTV"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "The maximum allowable Loan-to-Value ratio for customers with a Poor credit grade (60–69), set at 80%, though applications may be declined.",
+    "context": [
+      "Poor (60–69) | 80% | May decline"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_009_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "Mortgage"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product subject to LTV assessment and credit grade limits at FirstUK Bank.",
+    "context": [
+      "LTV = Mortgage Amount / Property Value × 100%",
+      "FirstUK Bank LTV Limits by Credit Grade"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_009",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_001",
+    "name": "Property Location Risk",
+    "aliases": [
+      "Location"
+    ],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with the geographic location of the property, categorized by stability of values ranging from prime areas (low risk) to declining areas (high risk).",
+    "context": [
+      "Location | Prime area, stable values | Growing suburban | Declining area"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_002",
+    "name": "Property Type Risk",
+    "aliases": [
+      "Property Type"
+    ],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk based on the nature of the property, where houses and flats are considered low risk, while listed buildings or unusual properties are high risk.",
+    "context": [
+      "Property Type | House, flat | Newer construction | Listed building, unusual"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_003",
+    "name": "Property Condition Risk",
+    "aliases": [
+      "Condition"
+    ],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk related to the physical state of the property, ranging from modern/good repair (low risk) to poor condition requiring repairs (high risk).",
+    "context": [
+      "Condition | Modern, good repair | Average condition | Poor, repairs needed"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_010_rsk_004",
+    "name": "Market Liquidity Risk",
+    "aliases": [
+      "Market Liquidity"
+    ],
+    "entity_class": "RISK",
+    "type": "liquidity_risk",
+    "description": "Risk concerning the ease of selling the property, with high risk assigned to properties that are hard to sell with few buyers.",
+    "context": [
+      "Market Liquidity | Easy to sell, buyers | Moderate sales | Hard to sell, few buyers"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_010_met_001",
+    "name": "Loan-to-Value (LTV) Ratio",
+    "aliases": [
+      "LTV"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "A quantitative metric used to confirm that the property valuation supports the loan amount; a valuation lower than the purchase price triggers a higher LTV.",
+    "context": [
+      "Confirm valuation supports LTV ratio",
+      "Reduction triggers higher LTV"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_010_prod_001",
+    "name": "Mortgage Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product subject to property valuation and risk assessment processes, involving LTV ratios and purchase price validations.",
+    "context": [
+      "Confirm valuation supports LTV ratio",
+      "If Valuation < Purchase Price"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_010",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_011_met_001",
+    "name": "Composite Risk Score — Actual 81.1",
+    "aliases": [
+      "Total Score"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The final calculated composite risk score derived from weighted components including credit score, income stability, debt-to-income, and LTV ratio. The current calculated value is 81.1.",
+    "context": [
+      "Calculate Composite Risk Score (0–100)",
+      "TOTAL SCORE | 100% | — | 81.1"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_011_met_002",
+    "name": "Credit Score — Actual 82",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A component of the composite risk score with a 40% weighting, currently scoring 82.",
+    "context": [
+      "Credit Score | 40% | 82 | 32.8"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_011_met_003",
+    "name": "Income Stability — Actual 85",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A component of the composite risk score with a 25% weighting, currently scoring 85.",
+    "context": [
+      "Income Stability | 25% | 85 | 21.3"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_011_met_004",
+    "name": "Debt-to-Income — Actual 75",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A component of the composite risk score with a 20% weighting, currently scoring 75.",
+    "context": [
+      "Debt-to-Income | 20% | 75 | 15.0"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_011_met_005",
+    "name": "LTV Ratio — Actual 80",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A component of the composite risk score with a 15% weighting, currently scoring 80.",
+    "context": [
+      "LTV Ratio | 15% | 80 | 12.0"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_011_rsk_001",
+    "name": "Credit Risk Rating Framework",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "A risk interpretation framework that categorizes composite scores into ratings (Excellent, Good, Fair, Poor, Very Poor) to determine the required approval authority.",
+    "context": [
+      "Risk Score Interpretation",
+      "85–100 | Excellent | Auto-Approve",
+      "75–84 | Good | Standard Approval",
+      "65–74 | Fair | Enhanced Review",
+      "55–64 | Poor | Senior Review",
+      "<55 | Very Poor | Decline"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_011",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_012_rsk_001",
+    "name": "Credit Risk — Underwriting Decision Matrix",
+    "aliases": [
+      "Underwriting Decision Matrix"
+    ],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The bank's formal framework for managing credit risk through a decision matrix based on Credit Score, Income DTI, and LTV. It defines the thresholds for approval, conditional approval, and decline to mitigate default risk.",
+    "context": [
+      "Use This Matrix to Make Lending Decisions",
+      "Underwriting Decision Matrix"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_012_met_001",
+    "name": "Credit Score Thresholds for Lending Decisions",
+    "aliases": [
+      "Credit Score"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Quantitative credit score thresholds used to determine loan eligibility, ranging from 'Strong candidate' (90+) to 'Very high risk' (<60).",
+    "context": [
+      "Credit Score",
+      "90+",
+      "80–89",
+      "70–79",
+      "60–69",
+      "<60"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_012_met_002",
+    "name": "Income Debt-to-Income (DTI) Thresholds",
+    "aliases": [
+      "Income DTI"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Income DTI percentage limits used in the underwriting matrix to assess borrower affordability, with thresholds ranging from <35% to 45%.",
+    "context": [
+      "Income DTI",
+      "<35%",
+      "35–45%",
+      "<40%",
+      "40–45%"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_012_met_003",
+    "name": "Loan-to-Value (LTV) Thresholds",
+    "aliases": [
+      "LTV"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "LTV percentage thresholds used to determine the collateral adequacy for lending decisions, with limits ranging from <75% to <90%.",
+    "context": [
+      "LTV",
+      "<80%",
+      "<85%",
+      "<90%",
+      "<75%",
+      ">75%"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_012_dec_001",
+    "name": "Underwriting Approval and Decline Logic",
+    "aliases": [
+      "Decision"
+    ],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The formal governance logic for lending decisions, categorizing outcomes as APPROVE, CONDITIONAL, or DECLINE based on the intersection of credit score, DTI, and LTV.",
+    "context": [
+      "Decision",
+      "APPROVE",
+      "CONDITIONAL",
+      "DECLINE"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_012",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_013_act_001",
+    "name": "Communicate conditions to borrower",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "communication",
+    "description": "A required task within the condition management process to ensure the borrower is informed of the requirements for conditional approval.",
+    "context": [
+      "Communicate conditions to borrower"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_013_act_002",
+    "name": "Set deadline for condition satisfaction",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A task to establish a timeframe for the borrower to meet approval conditions, typically set to 10 days.",
+    "context": [
+      "Set deadline for condition satisfaction (typically 10 days)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_013_act_003",
+    "name": "Track conditions in system",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A requirement to maintain a systemic record of the conditions associated with a conditional approval.",
+    "context": [
+      "Track conditions in system"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_013_act_004",
+    "name": "Release funds only after all conditions met",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "A critical control action ensuring that funds are not disbursed until all specified conditional approval requirements are satisfied.",
+    "context": [
+      "Release funds only after all conditions met"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_013_act_005",
+    "name": "Document condition satisfaction",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "A task to formally record that the conditions for approval have been successfully met.",
+    "context": [
+      "Document condition satisfaction"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_013_rsk_001",
+    "name": "Mortgage Credit Risk — Conditional Approval Process",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with lending where approval is contingent upon the verification of financial documentation, property reports, and debt reduction.",
+    "context": [
+      "Approved upon receipt of recent bank statements",
+      "Approved upon satisfactory building/structural report",
+      "Approved upon payoff of auto loan"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_013_prod_001",
+    "name": "Mortgage Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product subject to the conditional approval process, involving property reports and down payments.",
+    "context": [
+      "Approved upon satisfactory building/structural report",
+      "Approved upon borrower increasing down payment"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_013",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_001",
+    "name": "Credit Default Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with borrowers having a very high probability of default, specifically triggered by a credit score below 60.",
+    "context": [
+      "Credit score <60 (very high default risk)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_met_001",
+    "name": "Minimum Credit Score Threshold — Mandatory Decline <60",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The minimum acceptable credit score for mortgage applications; scores below 60 result in a mandatory decline without review.",
+    "context": [
+      "Credit score <60 (very high default risk)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_met_002",
+    "name": "Debt-to-Income (DTI) Ratio Threshold — Mandatory Decline >45%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The maximum allowable Debt-to-Income ratio; applications exceeding 45% are deemed unaffordable and mandatorily declined.",
+    "context": [
+      "DTI >45% (unaffordable)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_met_003",
+    "name": "Loan-to-Value (LTV) Ratio Threshold — Mandatory Decline >95%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The maximum allowable Loan-to-Value ratio; applications exceeding 95% are declined due to lack of an equity cushion.",
+    "context": [
+      "LTV >95% (no equity cushion)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_002",
+    "name": "Fraud and Misrepresentation Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "Risk of application fraud or misrepresentation of facts by the borrower, leading to mandatory application decline.",
+    "context": [
+      "Fraud/misrepresentation detected"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_003",
+    "name": "Criminal History Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk associated with the adverse criminal history of an applicant, resulting in a mandatory decline.",
+    "context": [
+      "Adverse criminal history"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_004",
+    "name": "Bankruptcy Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with recent bankruptcy filings within the last 2 years, leading to mandatory application decline.",
+    "context": [
+      "Recent bankruptcy (<2 years)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_met_004",
+    "name": "Discretionary Credit Score Range — 60–69",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A credit score range where decline is discretionary and may be waived with senior approval if exceptional other credentials are provided.",
+    "context": [
+      "Credit score 60–69 (requires exceptional other credentials)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_005",
+    "name": "Employment Stability Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with applicants having less than one year of employment in an unstable field, categorized as a discretionary decline factor.",
+    "context": [
+      "Employment <1 year in unstable field"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_006",
+    "name": "Market Decline Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "market_risk",
+    "description": "Risk associated with properties located in high-risk declining markets, categorized as a discretionary decline factor.",
+    "context": [
+      "Property in high-risk declining market"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_rsk_007",
+    "name": "Self-Employment Data Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with self-employed applicants with less than 2 years of history, resulting in marginal data for assessment.",
+    "context": [
+      "Self-employed <2 years (marginal data)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product subject to the decline scenarios and application review process described in the document.",
+    "context": [
+      "We have reviewed your mortgage application",
+      "Decline scenarios"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_014_dep_001",
+    "name": "Lending Team",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "retail_banking",
+    "description": "The department responsible for reviewing mortgage applications and issuing decline notifications.",
+    "context": [
+      "Best regards, Lending Team"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_014",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_act_001",
+    "name": "Final Walkthrough by Borrower and Appraiser",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "A pre-disbursement requirement ensuring the borrower and appraiser conduct a final walkthrough to confirm no major changes have occurred to the property.",
+    "context": [
+      "Final walkthrough by borrower and appraiser (no major changes)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_act_002",
+    "name": "Final Verification of Employment",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A mandatory pre-disbursement check requiring a phone call to verify employment 1–2 days before the closing date.",
+    "context": [
+      "Final verification of employment (phone call 1–2 days before closing)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_act_003",
+    "name": "Final Credit Check",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A final review of the borrower's credit to ensure no new derogatory marks or additional debt have been incurred prior to fund release.",
+    "context": [
+      "Final credit check (no new derogatory marks, new debt)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_act_004",
+    "name": "Title Search Confirmation",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "investigation",
+    "description": "Verification that the title search confirms a clear title, specifically ensuring there are no liens or claims against the property.",
+    "context": [
+      "Title search confirms clear title (no liens, claims)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_act_005",
+    "name": "Insurance Policy Procurement",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Requirement to ensure that the necessary insurance policy has been both obtained and paid for before funds are released.",
+    "context": [
+      "Insurance policy obtained and paid"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_act_006",
+    "name": "Satisfaction of All Conditions",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "follow_up",
+    "description": "A comprehensive check to ensure that all conditions precedent to the loan disbursement have been fully satisfied.",
+    "context": [
+      "All conditions satisfied"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_act_007",
+    "name": "Closing Disclosure Review and Signature",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "The final step in the pre-disbursement process requiring the closing disclosure to be reviewed and signed.",
+    "context": [
+      "Closing disclosure reviewed and signed"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_015_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The banking product associated with the disbursement and post-approval process, involving appraisers, title searches, and closing disclosures.",
+    "context": [
+      "Final walkthrough by borrower and appraiser",
+      "Title search confirms clear title",
+      "Closing disclosure reviewed and signed"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_015",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_016_prd_001",
+    "name": "Mortgage Product",
+    "aliases": [
+      "Mortgage Servicing"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The bank's mortgage product, specifically regarding the servicing and post-approval monitoring phase of the product lifecycle.",
+    "context": [
+      "Mortgage Servicing"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_016_rsk_001",
+    "name": "Mortgage Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with mortgage creditworthiness, managed through annual re-scoring and ongoing credit monitoring.",
+    "context": [
+      "Ongoing credit monitoring (re-score annually)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_016_met_001",
+    "name": "Property Valuation Frequency — Every 3 Years",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "A quantitative requirement for property value tracking, specifying that valuations must be conducted every 3 years.",
+    "context": [
+      "Property value tracking (valuation every 3 years)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_016_met_002",
+    "name": "Credit Re-score Frequency — Annually",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A quantitative monitoring requirement for credit risk, specifying that re-scoring must occur on an annual basis.",
+    "context": [
+      "Ongoing credit monitoring (re-score annually)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_016_act_001",
+    "name": "Default Early Warning Action",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "A specific trigger-based action where a missed payment initiates a default early warning process.",
+    "context": [
+      "Default early warning (missed payment triggers action)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_016",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_017_rsk_001",
+    "name": "Credit Risk — Borrower Default",
+    "aliases": [
+      "Default"
+    ],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk of financial loss occurring when a borrower fails to make scheduled payments, leading to a formal declaration of default and potential foreclosure proceedings.",
+    "context": [
+      "If Borrower Enters Default:",
+      "Day 90: Default declared (cascade proceedings initiated)",
+      "If Sale Price < Loan Balance: FirstUK Bank absorbs loss"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_017_met_001",
+    "name": "Loss Calculation Metric — Loan Balance minus Sale Proceeds",
+    "aliases": [
+      "Loss"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "A quantitative measure used to determine the bank's absorbed loss when the net proceeds from a property sale are insufficient to cover the remaining loan balance.",
+    "context": [
+      "Loss = Loan Balance – Sale Proceeds",
+      "If Sale Price < Loan Balance: FirstUK Bank absorbs loss"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_017_prd_001",
+    "name": "Mortgage Loan Product",
+    "aliases": [
+      "Loan"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A lending product secured by property, subject to a specific loss mitigation timeline and foreclosure process upon borrower default.",
+    "context": [
+      "Loan Balance: £290,000 (remaining principal)",
+      "Loan Modification — Change terms (extend, reduce rate)",
+      "Foreclosure/sale begins"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_017",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_018_rsk_001",
+    "name": "Fair Lending Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "The risk associated with ensuring lending decisions are based on credit criteria and not on protected characteristics such as race, religion, or gender identity.",
+    "context": [
+      "Fair Lending Compliance",
+      "FirstUK Bank Does NOT Consider: Race, color, national origin Religion Sex, gender identity Age (except as required by law) Marital status Disability (must accommodate)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_018_act_001",
+    "name": "Fair Lending Documentation Maintenance",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "monitoring",
+    "description": "Requirement to maintain records that demonstrate lending decisions are based on credit criteria rather than protected characteristics.",
+    "context": [
+      "Documentation: Keep records demonstrating decisions based on credit criteria, not protected characteristics."
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_018",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_019_rsk_001",
+    "name": "Default Risk related to Debt-to-Income (DTI) Ratio",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk of loan default associated with high Debt-to-Income (DTI) ratios, which persists regardless of the applicant's credit score.",
+    "context": [
+      "High DTI increases default risk regardless of credit score"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_019_rsk_002",
+    "name": "Loan-to-Value (LTV) Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The risk associated with approving loans at maximum Loan-to-Value (LTV) ratios without corresponding strength in the applicant's credit and income profile.",
+    "context": [
+      "Approve at max LTV without strong credit and income",
+      "Higher LTV requires stronger credit and income profile"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_019_fnd_001",
+    "name": "Failure to Weight Recent Payment History",
+    "aliases": [
+      "Mistake 1"
+    ],
+    "entity_class": "AUDIT_FINDING",
+    "type": "gap",
+    "description": "An identified weakness where recent late payments are overlooked. The correct procedure requires weighting activity from the last 24 months more heavily.",
+    "context": [
+      "Overlook recent late payments (weight of"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_019",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_met_001",
+    "name": "Standard Approval Credit Score Threshold — Score 75+",
+    "aliases": [
+      "Score 75+"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The minimum credit score required for a loan application to qualify for Standard Approval processing.",
+    "context": [
+      "Standard Approval (Score 75+, DTI <40%, LTV <85%)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_met_002",
+    "name": "Standard Approval Debt-to-Income (DTI) Threshold — DTI <40%",
+    "aliases": [
+      "DTI <40%"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The maximum Debt-to-Income ratio permitted for a loan application to be processed under the Standard Approval workflow.",
+    "context": [
+      "Standard Approval (Score 75+, DTI <40%, LTV <85%)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_met_003",
+    "name": "Standard Approval Loan-to-Value (LTV) Threshold — LTV <85%",
+    "aliases": [
+      "LTV <85%"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The maximum Loan-to-Value ratio permitted for a loan application to be processed under the Standard Approval workflow.",
+    "context": [
+      "Standard Approval (Score 75+, DTI <40%, LTV <85%)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_rsk_001",
+    "name": "Credit Risk — Lending Approval Scenarios",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "The management of credit risk through a tiered approval authority structure based on borrower profiles, including standard, conditional, and enhanced reviews.",
+    "context": [
+      "Standard Approval (Score 75+, DTI <40%, LTV <85%)",
+      "Conditional Approval (Minor conditions, good credit)",
+      "Enhanced Review (Fair credit, edge cases)",
+      "Decline (Weak profile)"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_dec_001",
+    "name": "Standard Approval Authority Decision",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal authority granted to CSRs and Underwriters to approve loans meeting specific credit, DTI, and LTV criteria within a 2–3 day timeline.",
+    "context": [
+      "Standard Approval (Score 75+, DTI <40%, LTV <85%) | CSR/Underwriter | 2–3 days"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_dec_002",
+    "name": "Conditional Approval Authority Decision",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal authority granted to Managers to approve loans with minor conditions and good credit within a 3–5 day timeline.",
+    "context": [
+      "Conditional Approval (Minor conditions, good credit) | Manager | 3–5 days"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_dec_003",
+    "name": "Enhanced Review and Decline Authority Decision",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal authority granted to the Risk Manager to handle enhanced reviews for fair credit/edge cases and to issue declines for weak profiles.",
+    "context": [
+      "Enhanced Review (Fair credit, edge cases) | Risk Manager | 5–7 days",
+      "Decline (Weak profile) | Risk Manager | 2–3 days"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_020_dec_004",
+    "name": "Appeal Authority Decision",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "escalation",
+    "description": "Formal authority granted to the Head of Lending to resolve borrower disputes regarding loan declines within a 10-day timeline.",
+    "context": [
+      "Appeal (Borrower disputes decline) | Head of Lending | 10 days"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_020",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_022_dept_001",
+    "name": "Risk Department",
+    "aliases": [
+      "Head of Risk"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The department responsible for the creation and authorship of the initial credit risk guide.",
+    "context": [
+      "Author | Head of Risk"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_022",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_023_dec_001",
+    "name": "Approval of Document by Head of Risk, Chief Lending Officer, and Compliance Officer",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "Formal sign-off and approval of the document granted on 2026-01-15 by the Head of Risk, Chief Lending Officer, and Compliance Officer.",
+    "context": [
+      "Approved by: Head of Risk — Date: 2026-01-15",
+      "Chief Lending Officer — Date: 2026-01-15",
+      "Compliance Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_023_emp_001",
+    "name": "Head of Risk",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "risk_officer",
+    "description": "The individual holding the Head of Risk position who provided formal approval for the document on 2026-01-15.",
+    "context": [
+      "Approved by: Head of Risk — Date: 2026-01-15"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_023_emp_002",
+    "name": "Chief Lending Officer",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "lending_officer",
+    "description": "The individual holding the Chief Lending Officer position who provided formal approval for the document on 2026-01-15.",
+    "context": [
+      "Chief Lending Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "1fe36fdb8530477da41f1007dc227fae_023_emp_003",
+    "name": "Compliance Officer",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The individual holding the Compliance Officer position who provided formal approval for the document on 2026-01-15.",
+    "context": [
+      "Compliance Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "1fe36fdb8530477da41f1007dc227fae_023",
+    "doc_id": "1fe36fdb8530477da41f1007dc227fae",
+    "domain": "banking_risk_governance"
+  }
+]

@@ -1,0 +1,1587 @@
+[
+  {
+    "id": "98782666fb3043c79166e706617138b4_001_tpl_001",
+    "name": "Email Template Suite",
+    "aliases": [
+      "EMAIL-TEMPLATE-001"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "A comprehensive suite of email templates managed by the Head of Marketing for use by Customer Service Staff and the Support Team. This document serves as the master repository for standardized customer email communications.",
+    "context": [
+      "FirstUK Bank — Email Template Suite",
+      "Document ID | EMAIL-TEMPLATE-001",
+      "Audience | Customer Service Staff, Support Team"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_001",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "name": "Account Opening Confirmation",
+    "aliases": [
+      "Template 1"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "confirmation",
+    "description": "An email template sent to new customers to notify them that their SmartSaver account is open and ready for use. It provides essential account details, next steps for onboarding, and current interest rate information.",
+    "context": [
+      "Template 1: Account Opening Confirmation",
+      "Subject: Your FirstUK Bank Account Is Ready! 🎉",
+      "Your SmartSaver account with FirstUK Bank is now open and ready to use."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the full name of the customer receiving the account opening confirmation.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_var_002",
+    "name": "Account Number",
+    "aliases": [
+      "[ACC-XXXXX]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "A placeholder for the unique account number assigned to the customer's new SmartSaver account.",
+    "context": [
+      "Account Number: [ACC-XXXXX]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_var_003",
+    "name": "Current Balance",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A placeholder for the initial or current monetary balance of the account at the time of confirmation.",
+    "context": [
+      "Current Balance: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_prd_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A banking product offered by FirstUK Bank that earns interest (4.50% AER) and is the subject of the account opening confirmation template.",
+    "context": [
+      "Your SmartSaver account with FirstUK Bank is now open",
+      "you're earning 4.50% AER on your SmartSaver"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_acc_001",
+    "name": "New SmartSaver Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The specific customer account being opened and confirmed via the communication template.",
+    "context": [
+      "Your SmartSaver account with FirstUK Bank is now open and ready to use.",
+      "Account Details: - Account Number: [ACC-XXXXX]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_cust_001",
+    "name": "New Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "new_customer",
+    "description": "The recipient of the account opening confirmation email who has just joined FirstUK Bank.",
+    "context": [
+      "Dear [Customer Name],",
+      "Welcome to FirstUK Bank! We're delighted to have you."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "name": "Interest Payment Notification",
+    "aliases": [
+      "Template 2"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "A monthly notification email sent to customers to inform them that interest has been credited to their account. It provides a breakdown of the interest calculation, the current AER, and tiered rate incentives for higher balances.",
+    "context": [
+      "Template 2: Interest Payment Notification",
+      "Your monthly interest has been added to your account.",
+      "If you'd like to increase your rate, consider depositing more"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "The dynamic placeholder for the recipient's full name used in the email salutation.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_002",
+    "name": "Interest Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "The specific monetary value of the interest payment being credited to the account, appearing in both the subject line and the details section.",
+    "context": [
+      "Your Monthly Interest Payment — £[amount]",
+      "Amount: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_003",
+    "name": "Account Balance",
+    "aliases": [
+      "[Balance]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "The balance used as the basis for the interest calculation.",
+    "context": [
+      "Calculation: [Balance] × 4.50% AER ÷ 365 × [days]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_004",
+    "name": "Calculation Days",
+    "aliases": [
+      "[days]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The number of days in the period for which interest was calculated.",
+    "context": [
+      "Calculation: [Balance] × 4.50% AER ÷ 365 × [days]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_005",
+    "name": "Effective Date",
+    "aliases": [
+      "[date]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The date on which the interest payment was applied to the account.",
+    "context": [
+      "Effective Date: [date]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_006",
+    "name": "New Balance",
+    "aliases": [
+      "[new balance]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "The total account balance after the interest payment has been added.",
+    "context": [
+      "New Balance: £[new balance]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_acc_001",
+    "name": "Interest-Bearing Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "A customer account that earns interest based on tiered AER rates (4.50% to 4.80%) depending on the balance.",
+    "context": [
+      "Your monthly interest has been added to your account.",
+      "Your Current Rate: 4.50% AER (applies to balances £0–£10,000)"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_cus_001",
+    "name": "Interest Recipient",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "An existing bank customer who holds an interest-bearing account and is the recipient of the monthly payment notification.",
+    "context": [
+      "Dear [Customer Name],",
+      "Thank you for banking with us!"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "name": "Template 3: Rate Change Notification",
+    "aliases": [
+      "Template 3"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "An email template used to notify customers when their interest rate has been updated following a change in the Bank of England base rate. It explains the reason for the change, provides the new rate, and offers an example calculation of the impact on monthly interest.",
+    "context": [
+      "Subject: Your Interest Rate Has Changed",
+      "The Bank of England has changed its base rate, and your FirstUK Bank interest rate has been updated.",
+      "Your SmartSaver rate is variable, which means it moves with the Bank of England base rate."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the recipient's full name used in the greeting of the Rate Change Notification.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_002",
+    "name": "Old Interest Rate",
+    "aliases": [
+      "[old rate]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "rate_field",
+    "description": "A placeholder for the interest rate applied to the account prior to the current update.",
+    "context": [
+      "Previous Rate: [old rate]%"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_003",
+    "name": "New Interest Rate",
+    "aliases": [
+      "[new rate]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "rate_field",
+    "description": "A placeholder for the updated interest rate being applied to the customer's account.",
+    "context": [
+      "New Rate: [new rate]%"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_004",
+    "name": "Effective Date",
+    "aliases": [
+      "[date]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "A placeholder for the date on which the new interest rate becomes active.",
+    "context": [
+      "Effective Date: [date]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_005",
+    "name": "New Monthly Interest Amount",
+    "aliases": [
+      "[new amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A placeholder used in the example calculation to show the customer the estimated monthly interest they will earn under the new rate.",
+    "context": [
+      "New Interest: ~[new amount]/month"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_prod_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A variable-rate savings account that tracks the Bank of England base rate with a fixed 2.5% margin.",
+    "context": [
+      "Your SmartSaver rate is variable, which means it moves with the Bank of England base rate."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_prod_002",
+    "name": "Fixed Rate Bonds",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A fixed-rate product recommended to customers who prefer stability over variable rates, scheduled for release in 2026.",
+    "context": [
+      "If you'd prefer a fixed rate, we recommend our Fixed Rate Bonds (coming 2026)."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_cust_001",
+    "name": "FirstUK Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The recipient of the rate change notification who holds a variable rate account.",
+    "context": [
+      "Thank you for being a FirstUK Bank customer."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "name": "Template 4: Successful Transfer Confirmation",
+    "aliases": [
+      "Template 4"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "confirmation",
+    "description": "An email template sent to customers to confirm that a fund transfer has been successfully processed. It provides a summary of the transaction details, the updated account balance, and instructions for reporting unauthorized activity.",
+    "context": [
+      "Template 4: Successful Transfer Confirmation",
+      "Your Transfer of £[amount] Is Complete ✓",
+      "Your transfer has been successfully processed."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_001",
+    "name": "Transfer Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A dynamic placeholder representing the specific monetary value of the transfer being confirmed.",
+    "context": [
+      "Your Transfer of £[amount] Is Complete ✓",
+      "Amount: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_002",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A dynamic placeholder for the name of the bank customer receiving the confirmation email.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_003",
+    "name": "Account Identifier",
+    "aliases": [
+      "[XXXX]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "A dynamic placeholder representing the masked account number of the sender's SmartSaver account.",
+    "context": [
+      "From: Your SmartSaver (ending in [XXXX])"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_004",
+    "name": "Recipient Name",
+    "aliases": [
+      "[Recipient Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A dynamic placeholder for the name of the person or entity receiving the funds.",
+    "context": [
+      "To: [Recipient Name] ([Bank] Account)"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_005",
+    "name": "Recipient Bank",
+    "aliases": [
+      "[Bank]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "A dynamic placeholder for the name of the receiving financial institution.",
+    "context": [
+      "To: [Recipient Name] ([Bank] Account)"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_006",
+    "name": "Transfer Date and Time",
+    "aliases": [
+      "[date and time]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "A dynamic placeholder indicating when the transfer was executed.",
+    "context": [
+      "Date Sent: [date and time]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_007",
+    "name": "New Account Balance",
+    "aliases": [
+      "[new balance]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A dynamic placeholder showing the remaining balance in the customer's account after the transfer has been deducted.",
+    "context": [
+      "Your New Balance: £[new balance] (after this transfer)"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_prod_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A specific banking product used as the source of funds in the transfer confirmation template.",
+    "context": [
+      "From: Your SmartSaver (ending in [XXXX])"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_cust_001",
+    "name": "Individual Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The recipient of the transfer confirmation email who holds a SmartSaver account.",
+    "context": [
+      "Dear [Customer Name],",
+      "If you didn't authorize this transfer or have concerns, contact us immediately"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_acc_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The specific account from which funds are being transferred in the confirmation template.",
+    "context": [
+      "From: Your SmartSaver (ending in [XXXX])"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_txn_001",
+    "name": "Successful Fund Transfer",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transaction_alert",
+    "description": "A completed financial transfer event that triggers the sending of the confirmation template.",
+    "context": [
+      "Your transfer has been successfully processed.",
+      "Status: COMPLETED"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "name": "Failed Transaction Notification",
+    "aliases": [
+      "Template 5"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "An email template used to notify customers when a transfer has failed. It provides specific reasons for the failure (insufficient funds, invalid account, or closed account) and offers tailored solutions for each scenario.",
+    "context": [
+      "Template 5: Failed Transaction Notification",
+      "Your transfer of £[amount] to [recipient] could not be completed.",
+      "Reason: [Insufficient funds / Invalid account / Account closed / Other]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the name of the customer receiving the notification.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_002",
+    "name": "Transfer Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A placeholder for the monetary value of the failed transaction.",
+    "context": [
+      "Your transfer of £[amount] to [recipient] could not be completed.",
+      "Transfer Amount: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_003",
+    "name": "Recipient",
+    "aliases": [
+      "[recipient]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the name or identifier of the intended recipient of the funds.",
+    "context": [
+      "Your transfer of £[amount] to [recipient] could not be completed."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_004",
+    "name": "Failure Reason",
+    "aliases": [
+      "[Insufficient funds / Invalid account / Account closed / Other]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A dynamic field indicating the specific cause of the transaction failure.",
+    "context": [
+      "Reason: [Insufficient funds / Invalid account / Account closed / Other]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_005",
+    "name": "Reason Explanation",
+    "aliases": [
+      "[Explanation tailored to reason - see below]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A placeholder for a detailed explanation of the failure, tailored to the specific reason selected.",
+    "context": [
+      "[Explanation tailored to reason - see below]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_006",
+    "name": "Reason Solution",
+    "aliases": [
+      "[Solution tailored to reason - see below]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A placeholder for the recommended next steps or solution, tailored to the specific reason for failure.",
+    "context": [
+      "[Solution tailored to reason - see below]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_007",
+    "name": "Current Balance",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A placeholder for the customer's current account balance, used specifically in the insufficient funds scenario.",
+    "context": [
+      "Current Balance: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_008",
+    "name": "Shortfall Amount",
+    "aliases": [
+      "[shortfall]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "A placeholder for the additional amount required to complete the transfer in the event of insufficient funds.",
+    "context": [
+      "You need: £[shortfall] more"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_009",
+    "name": "Recipient Account Number",
+    "aliases": [
+      "[number provided]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "A placeholder for the incorrect account number provided by the customer in the invalid account scenario.",
+    "context": [
+      "Account Number: [number provided]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_cust_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is the recipient of the failed transaction notification.",
+    "context": [
+      "Dear [Customer Name]",
+      "Your transfer of £[amount] to [recipient] could not be completed."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The account from which the customer attempted to transfer funds.",
+    "context": [
+      "The transfer failed because your account balance is too low.",
+      "Current Balance: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_txn_001",
+    "name": "Failed Transfer",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "disputed_transaction",
+    "description": "A financial transfer event that could not be completed due to various errors or insufficient funds.",
+    "context": [
+      "Your transfer of £[amount] to [recipient] could not be completed.",
+      "The transfer failed because your account balance is too low."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "name": "Template 6: Card Replacement Confirmation",
+    "aliases": [
+      "Template 6"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "confirmation",
+    "description": "A customer notification template used to confirm that a replacement debit or credit card has been issued and is in transit. It provides card details, explains the status of the old card, and provides activation instructions.",
+    "context": [
+      "Template 6: Card Replacement Confirmation",
+      "Your replacement card has been issued and is on its way.",
+      "When it arrives, activate it by logging into your account at www.firstuk.bank/login and clicking \"Activate Card.\""
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the full name of the customer receiving the replacement card.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_002",
+    "name": "Card Type",
+    "aliases": [
+      "[Debit/Credit Card]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "product_data",
+    "description": "A placeholder specifying whether the replacement card is a debit or credit card.",
+    "context": [
+      "Card Type: [Debit/Credit Card]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_003",
+    "name": "Last 4 Digits",
+    "aliases": [
+      "[XXXX]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "A placeholder for the last four digits of the new card number for identification purposes.",
+    "context": [
+      "Last 4 Digits: [XXXX]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_004",
+    "name": "Replacement Reason",
+    "aliases": [
+      "[Lost / Damaged / Expired / Other]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A placeholder indicating the reason why the card replacement was triggered.",
+    "context": [
+      "Replacement Reason: [Lost / Damaged / Expired / Other]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_005",
+    "name": "Estimated Arrival",
+    "aliases": [
+      "[date range, 3–5 business days]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "A placeholder for the expected delivery timeframe of the replacement card.",
+    "context": [
+      "Estimated Arrival: [date range, 3–5 business days]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_cust_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The recipient of the card replacement confirmation who is awaiting a new physical card.",
+    "context": [
+      "Dear [Customer Name],",
+      "Your replacement card has been issued and is on its way."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_card_001",
+    "name": "Replacement Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "The physical payment card (Debit or Credit) being issued to the customer to replace a previous one.",
+    "context": [
+      "Your replacement card has been issued and is on its way.",
+      "Your old card is blocked and can no longer be used."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "name": "Template 7: Complaint Acknowledgment",
+    "aliases": [
+      "Template 7"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "A formal acknowledgment communication sent to customers after a complaint has been received. It provides a reference number, sets expectations for the investigation timeline (8 calendar days), and informs the customer of their right to escalate to the Financial Ombudsman Service.",
+    "context": [
+      "Template 7: Complaint Acknowledgment",
+      "We've Received Your Complaint — Reference [EXC-XXXXX]",
+      "We will respond with our findings within 8 calendar days",
+      "If you're unhappy with our response, you have the right to escalate to the Financial Ombudsman Service"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the full name of the customer who submitted the complaint.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_002",
+    "name": "Complaint Reference Number",
+    "aliases": [
+      "[EXC-XXXXX]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A unique alphanumeric identifier assigned to the specific complaint for tracking and reference purposes.",
+    "context": [
+      "Reference [EXC-XXXXX]",
+      "Your Complaint Reference: [EXC-XXXXX]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_003",
+    "name": "Date and Time Received",
+    "aliases": [
+      "[date and time]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The timestamp indicating exactly when the bank received the customer's complaint.",
+    "context": [
+      "Date Received: [date and time]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_004",
+    "name": "Investigator Name",
+    "aliases": [
+      "[Investigator Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "contact_field",
+    "description": "The name of the staff member assigned to investigate and resolve the customer's complaint.",
+    "context": [
+      "Assigned To: [Investigator Name]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_cust_001",
+    "name": "Complaint Recipient",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who has filed a complaint and is the recipient of the acknowledgment template.",
+    "context": [
+      "Dear [Customer Name]",
+      "Thank you for bringing this matter to our attention."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "name": "Template 8: Complaint Resolution",
+    "aliases": [
+      "Template 8"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "An email template used to communicate the outcome of a complaint investigation to a customer. It includes the investigation findings, the bank's decision, the resolution action, and instructions for escalating the matter to the Financial Ombudsman Service.",
+    "context": [
+      "Subject: Resolution to Your Complaint [EXC-XXXXX]",
+      "We have completed our investigation into your complaint dated [date].",
+      "If You Disagree With Our Decision: You have the right to escalate to the Financial Ombudsman Service"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the full name of the customer receiving the complaint resolution notification.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_002",
+    "name": "Complaint Reference",
+    "aliases": [
+      "[EXC-XXXXX]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "A unique identifier for the specific complaint case, used in the subject line and body of the email.",
+    "context": [
+      "Subject: Resolution to Your Complaint [EXC-XXXXX]",
+      "Complaint Reference: [EXC-XXXXX]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_003",
+    "name": "Complaint Date",
+    "aliases": [
+      "[date]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The date on which the customer originally submitted their complaint.",
+    "context": [
+      "We have completed our investigation into your complaint dated [date]."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_004",
+    "name": "Investigation Findings Summary",
+    "aliases": [
+      "[Summary of investigation findings]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "transaction_data",
+    "description": "A dynamic text field providing a summary of what the bank discovered during the investigation of the complaint.",
+    "context": [
+      "What We Found: [Summary of investigation findings]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_005",
+    "name": "Decision Outcome",
+    "aliases": [
+      "[Uphold / Partially uphold / Reject]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "product_data",
+    "description": "The formal decision reached by the bank regarding the complaint, categorized as upheld, partially upheld, or rejected.",
+    "context": [
+      "Our Decision: [Uphold / Partially uphold / Reject]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_006",
+    "name": "Resolution Action",
+    "aliases": [
+      "[Action taken - refund, explanation, etc.]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "product_data",
+    "description": "The specific action the bank is taking to resolve the complaint, such as issuing a refund or providing an explanation.",
+    "context": [
+      "Resolution: [Action taken - refund, explanation, etc.]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_007",
+    "name": "Resolution Details",
+    "aliases": [
+      "[Specific details of resolution - refund amount, dates, etc.]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "Detailed information regarding the resolution, including specific monetary amounts or relevant dates.",
+    "context": [
+      "Details: [Specific details of resolution - refund amount, dates, etc.]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_008",
+    "name": "Refund Timeframe",
+    "aliases": [
+      "[timeframe]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The expected period of time before a refund appears in the customer's account.",
+    "context": [
+      "Your refund (if applicable) has been processed and will appear in your account within [timeframe]."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_cust_001",
+    "name": "Complaint Recipient",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who has filed a complaint and is receiving the resolution notification.",
+    "context": [
+      "Dear [Customer Name]",
+      "We have completed our investigation into your complaint"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_011_tpl_001",
+    "name": "Template 9: Password Reset Confirmation",
+    "aliases": [
+      "Template 9"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "security_alert",
+    "description": "A security notification sent to customers to confirm that their online banking password has been successfully reset. It provides security reminders and urgent contact instructions if the reset was unauthorized.",
+    "context": [
+      "Template 9: Password Reset Confirmation",
+      "Your online banking password has been successfully reset.",
+      "If you didn't reset your password, contact us immediately"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_011_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A dynamic placeholder used to personalize the password reset confirmation email with the recipient's name.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_011_cust_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The recipient of the password reset confirmation who holds an online banking account with FirstUK Bank.",
+    "context": [
+      "Dear [Customer Name],",
+      "Your online banking password has been successfully reset."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "name": "Template 10: KYC Document Request",
+    "aliases": [
+      "Template 10"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "A customer-facing communication template used to request necessary identity and address documentation to complete the Know Your Customer (KYC) account verification process. It outlines acceptable documents, submission methods, and a specific deadline for compliance.",
+    "context": [
+      "Template 10: KYC Document Request",
+      "Subject: Action Needed: Please Provide Your Identity Documents",
+      "We need you to provide some documentation to complete your account verification (KYC - Know Your Customer)."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A dynamic placeholder used to personalize the KYC document request by inserting the specific customer's name.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_var_002",
+    "name": "Submission Deadline Date",
+    "aliases": [
+      "[date - typically 30 days]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "A dynamic placeholder specifying the date by which the customer must submit their KYC documentation, typically set to 30 days from the request date.",
+    "context": [
+      "Deadline: [date - typically 30 days]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_cust_001",
+    "name": "KYC Request Recipient",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is required to provide identity and address verification documents to satisfy regulatory requirements.",
+    "context": [
+      "Dear [Customer Name],",
+      "We need you to provide some documentation to complete your account verification"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_acc_001",
+    "name": "Customer Account for Verification",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The customer account that is currently undergoing the KYC verification process to ensure regulatory compliance.",
+    "context": [
+      "complete your account verification (KYC - Know Your Customer)",
+      "protecting your account"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_kyc_001",
+    "name": "KYC Document Collection Process",
+    "aliases": [
+      "KYC",
+      "Know Your Customer"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "document_collection",
+    "description": "The process of collecting identity documents (Passport or Driving License) and address verification (Utility bill, Council tax letter, or Bank statement) from the customer.",
+    "context": [
+      "complete your account verification (KYC - Know Your Customer)",
+      "Choose one: - UK Passport (copy is fine) - UK Driving License (copy is fine) PLUS one of these for your address: - Utility bill (dated within 3 months) - Council tax letter - Bank statement"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_obl_001",
+    "name": "Regulatory KYC Documentation Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "The mandatory requirement for the bank to collect specific identity and address documentation from customers to meet regulatory standards for responsible banking.",
+    "context": [
+      "Regulatory requirements ensure we're banking responsibly and protecting your account.",
+      "We need you to provide some documentation to complete your account verification"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "name": "Template 11: Account Closure Confirmation",
+    "aliases": [
+      "Template 11"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "service_notification",
+    "description": "A formal communication sent to customers to confirm the closure of their FirstUK Bank account. It provides final balance details, payout methods, and notifies the customer of the cancellation of associated services like online banking and cards.",
+    "context": [
+      "Template 11: Account Closure Confirmation",
+      "Your FirstUK Bank account has been closed, effective [date].",
+      "All standing orders and Direct Debits have been canceled",
+      "Your online banking access has been deactivated"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_001",
+    "name": "Customer Name",
+    "aliases": [
+      "[Customer Name]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "customer_data",
+    "description": "A placeholder for the full name of the customer whose account is being closed.",
+    "context": [
+      "Dear [Customer Name],"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_002",
+    "name": "Closure Date",
+    "aliases": [
+      "[date]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The specific date on which the account closure becomes effective.",
+    "context": [
+      "Your FirstUK Bank account has been closed, effective [date]."
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_003",
+    "name": "Account Number",
+    "aliases": [
+      "[ACC-XXXXX]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "account_data",
+    "description": "The unique identifier for the bank account being closed.",
+    "context": [
+      "Account Number: [ACC-XXXXX]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_004",
+    "name": "Final Balance Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "The remaining monetary balance in the account at the time of closure.",
+    "context": [
+      "Final Balance: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_005",
+    "name": "Final Interest Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "The amount of interest accrued and payable upon account closure.",
+    "context": [
+      "Final Interest: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_006",
+    "name": "Fees Applied Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "Any fees charged to the account during the closure process.",
+    "context": [
+      "Fees Applied: £[amount] (if any)"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_007",
+    "name": "Net Payout Amount",
+    "aliases": [
+      "[amount]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "amount_field",
+    "description": "The final total amount to be paid out to the customer after interest and fees.",
+    "context": [
+      "Net Payout: £[amount]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_008",
+    "name": "Payout Method",
+    "aliases": [
+      "[Selected method: transfer to new bank / cheque / cash at branch]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "transaction_data",
+    "description": "The chosen method for delivering the final balance to the customer.",
+    "context": [
+      "[Selected method: transfer to new bank / cheque / cash at branch]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_009",
+    "name": "Payout Timeframe",
+    "aliases": [
+      "[3–5 business days]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "date_field",
+    "description": "The expected duration for the customer to receive their final balance.",
+    "context": [
+      "Timeframe: [3–5 business days]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_010",
+    "name": "Transaction ID",
+    "aliases": [
+      "[Transaction ID]"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "reference_field",
+    "description": "The unique reference number associated with the final payout transaction.",
+    "context": [
+      "Reference: [Transaction ID]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_cust_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The bank customer who is the recipient of the account closure confirmation and whose account is being terminated.",
+    "context": [
+      "Dear [Customer Name],",
+      "Your FirstUK Bank account has been closed"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_acc_001",
+    "name": "FirstUK Bank Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The specific bank account held by the customer that is the subject of the closure process.",
+    "context": [
+      "Your FirstUK Bank account has been closed",
+      "Account Number: [ACC-XXXXX]"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_crd_001",
+    "name": "Customer Payment Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "The payment card issued to the customer which becomes invalid upon account closure.",
+    "context": [
+      "Your card (if issued) is no longer valid"
+    ],
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  }
+]

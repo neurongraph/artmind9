@@ -1,0 +1,2488 @@
+[
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_001_tpl_001",
+    "source_name": "Email Template Suite",
+    "target_id": "call_centre_script",
+    "target_name": "Call Centre Script",
+    "rel_type": "related_to",
+    "description": "The Email Template Suite is linked to the Call Centre Script as a related document for consistent communication.",
+    "properties": {},
+    "context": "Related Documents | [[call_centre_script]]",
+    "bidirectional": true,
+    "chunk_id": "98782666fb3043c79166e706617138b4_001",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_001_tpl_001",
+    "source_name": "Email Template Suite",
+    "target_id": "policy_complaints",
+    "target_name": "Policy Complaints",
+    "rel_type": "related_to",
+    "description": "The Email Template Suite is linked to the Policy Complaints document to ensure alignment with complaint handling policies.",
+    "properties": {},
+    "context": "Related Documents | [[policy_complaints]]",
+    "bidirectional": true,
+    "chunk_id": "98782666fb3043c79166e706617138b4_001",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_001_tpl_001",
+    "source_name": "Email Template Suite",
+    "target_id": "sop_account_opening",
+    "target_name": "SOP Account Opening",
+    "rel_type": "related_to",
+    "description": "The Email Template Suite is linked to the SOP Account Opening to provide templates for the account opening process.",
+    "properties": {},
+    "context": "Related Documents | [[sop_account_opening]]",
+    "bidirectional": true,
+    "chunk_id": "98782666fb3043c79166e706617138b4_001",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_001_tpl_001",
+    "source_name": "Email Template Suite",
+    "target_id": "98782666fb3043c79166e706617138b4_001",
+    "target_name": "98782666fb3043c79166e706617138b4_001",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_001",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "source_name": "Account Opening Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_003_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the customer's name to personalise the greeting.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "source_name": "Account Opening Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_003_var_002",
+    "target_name": "Account Number",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the specific account number assigned to the customer.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking System"
+    },
+    "context": "Account Number: [ACC-XXXXX]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "source_name": "Account Opening Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_003_var_003",
+    "target_name": "Current Balance",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the initial balance of the account.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking System"
+    },
+    "context": "Current Balance: £[amount]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "source_name": "Account Opening Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_003_prd_001",
+    "target_name": "SmartSaver",
+    "rel_type": "provides_information_about",
+    "description": "The communication confirms the opening and details of the SmartSaver product.",
+    "properties": {
+      "detail_level": "high",
+      "includes_rates": true
+    },
+    "context": "Your SmartSaver account with FirstUK Bank is now open and ready to use.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "source_name": "Account Opening Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_003_acc_001",
+    "target_name": "New SmartSaver Account",
+    "rel_type": "confirms",
+    "description": "The template serves as the official confirmation that the new account has been opened.",
+    "properties": {
+      "confirmation_type": "Account Opening"
+    },
+    "context": "Your SmartSaver account with FirstUK Bank is now open and ready to use.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "source_name": "Account Opening Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_003_cust_001",
+    "target_name": "New Customer",
+    "rel_type": "addressed_to",
+    "description": "The communication is sent to the customer who has just opened an account.",
+    "properties": {
+      "channel": "Email"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "source_name": "Account Opening Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_003",
+    "target_name": "98782666fb3043c79166e706617138b4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_003",
+    "target_name": "98782666fb3043c79166e706617138b4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_var_002",
+    "source_name": "Account Number",
+    "target_id": "98782666fb3043c79166e706617138b4_003",
+    "target_name": "98782666fb3043c79166e706617138b4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_var_003",
+    "source_name": "Current Balance",
+    "target_id": "98782666fb3043c79166e706617138b4_003",
+    "target_name": "98782666fb3043c79166e706617138b4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_prd_001",
+    "source_name": "SmartSaver",
+    "target_id": "98782666fb3043c79166e706617138b4_003",
+    "target_name": "98782666fb3043c79166e706617138b4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_acc_001",
+    "source_name": "New SmartSaver Account",
+    "target_id": "98782666fb3043c79166e706617138b4_003",
+    "target_name": "98782666fb3043c79166e706617138b4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_003_cust_001",
+    "source_name": "New Customer",
+    "target_id": "98782666fb3043c79166e706617138b4_003",
+    "target_name": "98782666fb3043c79166e706617138b4_003",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the customer's name to personalise the greeting.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_var_002",
+    "target_name": "Interest Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the specific interest amount paid.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Your Monthly Interest Payment — £[amount]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_var_003",
+    "target_name": "Account Balance",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the balance used in the interest calculation.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Calculation: [Balance] × 4.50% AER",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_var_004",
+    "target_name": "Calculation Days",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the number of days used to calculate interest.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "÷ 365 × [days]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_var_005",
+    "target_name": "Effective Date",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the date the interest was applied.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Effective Date: [date]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_var_006",
+    "target_name": "New Balance",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the account balance after interest is added.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "New Balance: £[new balance]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_cus_001",
+    "target_name": "Interest Recipient",
+    "rel_type": "addressed_to",
+    "description": "The notification is sent to the customer who is the recipient of the interest payment.",
+    "properties": {},
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004_acc_001",
+    "target_name": "Interest-Bearing Account",
+    "rel_type": "references",
+    "description": "The notification refers to the specific interest-bearing account where funds were added.",
+    "properties": {},
+    "context": "Your monthly interest has been added to your account.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "source_name": "Interest Payment Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_var_002",
+    "source_name": "Interest Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_var_003",
+    "source_name": "Account Balance",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_var_004",
+    "source_name": "Calculation Days",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_var_005",
+    "source_name": "Effective Date",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_var_006",
+    "source_name": "New Balance",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_acc_001",
+    "source_name": "Interest-Bearing Account",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_004_cus_001",
+    "source_name": "Interest Recipient",
+    "target_id": "98782666fb3043c79166e706617138b4_004",
+    "target_name": "98782666fb3043c79166e706617138b4_004",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "Template contains a placeholder for the customer's name",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_var_002",
+    "target_name": "Old Interest Rate",
+    "rel_type": "contains",
+    "description": "Template contains a placeholder for the previous interest rate",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Previous Rate: [old rate]%",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_var_003",
+    "target_name": "New Interest Rate",
+    "rel_type": "contains",
+    "description": "Template contains a placeholder for the updated interest rate",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "New Rate: [new rate]%",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_var_004",
+    "target_name": "Effective Date",
+    "rel_type": "contains",
+    "description": "Template contains a placeholder for the date the rate change takes effect",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Effective Date: [date]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_var_005",
+    "target_name": "New Monthly Interest Amount",
+    "rel_type": "contains",
+    "description": "Template contains a placeholder for the calculated new monthly interest amount",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Calculation Engine"
+    },
+    "context": "New Interest: ~[new amount]/month",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_cust_001",
+    "target_name": "FirstUK Bank Customer",
+    "rel_type": "addressed_to",
+    "description": "The notification is sent to the bank's customers",
+    "properties": {},
+    "context": "Thank you for being a FirstUK Bank customer.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_prod_001",
+    "target_name": "SmartSaver",
+    "rel_type": "provides_information_about",
+    "description": "The template informs the customer about rate changes specifically for the SmartSaver product",
+    "properties": {},
+    "context": "Your SmartSaver rate is variable",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005_prod_002",
+    "target_name": "Fixed Rate Bonds",
+    "rel_type": "promotes",
+    "description": "The template suggests Fixed Rate Bonds as an alternative to variable rates",
+    "properties": {
+      "availability_date": "2026"
+    },
+    "context": "If you'd prefer a fixed rate, we recommend our Fixed Rate Bonds (coming 2026).",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "source_name": "Template 3: Rate Change Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_var_002",
+    "source_name": "Old Interest Rate",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_var_003",
+    "source_name": "New Interest Rate",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_var_004",
+    "source_name": "Effective Date",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_var_005",
+    "source_name": "New Monthly Interest Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_prod_001",
+    "source_name": "SmartSaver",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_prod_002",
+    "source_name": "Fixed Rate Bonds",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_005_cust_001",
+    "source_name": "FirstUK Bank Customer",
+    "target_id": "98782666fb3043c79166e706617138b4_005",
+    "target_name": "98782666fb3043c79166e706617138b4_005",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_var_001",
+    "target_name": "Transfer Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the transfer amount in the subject line and details section.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking Ledger"
+    },
+    "context": "Your Transfer of £[amount] Is Complete ✓ ... Amount: £[amount]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_var_002",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the customer's name in the salutation.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_var_003",
+    "target_name": "Account Identifier",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the masked account number.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking Ledger"
+    },
+    "context": "From: Your SmartSaver (ending in [XXXX])",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_var_004",
+    "target_name": "Recipient Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the name of the transfer recipient.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payment Gateway"
+    },
+    "context": "To: [Recipient Name]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_var_005",
+    "target_name": "Recipient Bank",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the recipient's banking institution.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payment Gateway"
+    },
+    "context": "([Bank] Account)",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_var_006",
+    "target_name": "Transfer Date and Time",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the timestamp of the transaction.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking Ledger"
+    },
+    "context": "Date Sent: [date and time]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_var_007",
+    "target_name": "New Account Balance",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the account balance after the transfer.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking Ledger"
+    },
+    "context": "Your New Balance: £[new balance]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_cust_001",
+    "target_name": "Individual Customer",
+    "rel_type": "addressed_to",
+    "description": "The communication is addressed to the individual customer who performed the transfer.",
+    "properties": {},
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_acc_001",
+    "target_name": "SmartSaver Account",
+    "rel_type": "references",
+    "description": "The template references the specific SmartSaver account from which funds were sent.",
+    "properties": {},
+    "context": "From: Your SmartSaver (ending in [XXXX])",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_txn_001",
+    "target_name": "Successful Fund Transfer",
+    "rel_type": "notifies_about",
+    "description": "The template is used to notify the customer that a fund transfer has been successfully completed.",
+    "properties": {},
+    "context": "Your transfer has been successfully processed.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006_prod_001",
+    "target_name": "SmartSaver",
+    "rel_type": "provides_information_about",
+    "description": "The template provides confirmation of a transaction associated with the SmartSaver product.",
+    "properties": {},
+    "context": "From: Your SmartSaver",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "source_name": "Template 4: Successful Transfer Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_var_001",
+    "source_name": "Transfer Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_var_002",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_var_003",
+    "source_name": "Account Identifier",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_var_004",
+    "source_name": "Recipient Name",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_var_005",
+    "source_name": "Recipient Bank",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_var_006",
+    "source_name": "Transfer Date and Time",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_var_007",
+    "source_name": "New Account Balance",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_prod_001",
+    "source_name": "SmartSaver",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_cust_001",
+    "source_name": "Individual Customer",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_acc_001",
+    "source_name": "SmartSaver Account",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_006_txn_001",
+    "source_name": "Successful Fund Transfer",
+    "target_id": "98782666fb3043c79166e706617138b4_006",
+    "target_name": "98782666fb3043c79166e706617138b4_006",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the customer's name.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_002",
+    "target_name": "Transfer Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the amount of the failed transfer.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Your transfer of £[amount] to [recipient] could not be completed.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_003",
+    "target_name": "Recipient",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the recipient's name.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Your transfer of £[amount] to [recipient] could not be completed.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_004",
+    "target_name": "Failure Reason",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the specific reason the transaction failed.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Transaction Engine"
+    },
+    "context": "Reason: [Insufficient funds / Invalid account / Account closed / Other]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_005",
+    "target_name": "Reason Explanation",
+    "rel_type": "contains",
+    "description": "The template contains a section for a tailored explanation based on the failure reason.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Template Logic"
+    },
+    "context": "[Explanation tailored to reason - see below]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_006",
+    "target_name": "Reason Solution",
+    "rel_type": "contains",
+    "description": "The template contains a section for a tailored solution based on the failure reason.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Template Logic"
+    },
+    "context": "[Solution tailored to reason - see below]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_007",
+    "target_name": "Current Balance",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the current account balance, used specifically for insufficient funds cases.",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Core Banking"
+    },
+    "context": "Current Balance: £[amount]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_008",
+    "target_name": "Shortfall Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the amount missing to complete the transfer.",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Core Banking"
+    },
+    "context": "You need: £[shortfall] more",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_var_009",
+    "target_name": "Recipient Account Number",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the recipient's account number, used for invalid account cases.",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Core Banking"
+    },
+    "context": "Account Number: [number provided]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_cust_001",
+    "target_name": "Customer",
+    "rel_type": "addressed_to",
+    "description": "The notification is addressed to the customer whose transaction failed.",
+    "properties": {},
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_acc_001",
+    "target_name": "Customer Account",
+    "rel_type": "references",
+    "description": "The notification references the customer's account balance and status.",
+    "properties": {},
+    "context": "The transfer failed because your account balance is too low.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007_txn_001",
+    "target_name": "Failed Transfer",
+    "rel_type": "notifies_about",
+    "description": "The notification informs the customer about a failed transfer transaction.",
+    "properties": {},
+    "context": "Your transfer of £[amount] to [recipient] could not be completed.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "source_name": "Failed Transaction Notification",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_002",
+    "source_name": "Transfer Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_003",
+    "source_name": "Recipient",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_004",
+    "source_name": "Failure Reason",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_005",
+    "source_name": "Reason Explanation",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_006",
+    "source_name": "Reason Solution",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_007",
+    "source_name": "Current Balance",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_008",
+    "source_name": "Shortfall Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_var_009",
+    "source_name": "Recipient Account Number",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_cust_001",
+    "source_name": "Customer",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_acc_001",
+    "source_name": "Customer Account",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_007_txn_001",
+    "source_name": "Failed Transfer",
+    "target_id": "98782666fb3043c79166e706617138b4_007",
+    "target_name": "98782666fb3043c79166e706617138b4_007",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "Template 6 contains a placeholder for the customer's name to personalise the greeting.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008_var_002",
+    "target_name": "Card Type",
+    "rel_type": "contains",
+    "description": "Template 6 contains a placeholder to specify if the replacement is a Debit or Credit card.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Card Management System"
+    },
+    "context": "Card Type: [Debit/Credit Card]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008_var_003",
+    "target_name": "Last 4 Digits",
+    "rel_type": "contains",
+    "description": "Template 6 contains a placeholder for the last four digits of the card for identification.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Card Management System"
+    },
+    "context": "Last 4 Digits: [XXXX]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008_var_004",
+    "target_name": "Replacement Reason",
+    "rel_type": "contains",
+    "description": "Template 6 contains a placeholder to explain why the card was replaced (e.g., Lost, Damaged).",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Card Management System"
+    },
+    "context": "Replacement Reason: [Lost / Damaged / Expired / Other]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008_var_005",
+    "target_name": "Estimated Arrival",
+    "rel_type": "contains",
+    "description": "Template 6 contains a placeholder for the expected delivery date range of the card.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Logistics/Courier System"
+    },
+    "context": "Estimated Arrival: [date range, 3–5 business days]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008_cust_001",
+    "target_name": "Customer",
+    "rel_type": "addressed_to",
+    "description": "The communication template is sent to the customer to notify them of their card status.",
+    "properties": {},
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008_card_001",
+    "target_name": "Replacement Card",
+    "rel_type": "confirms_issuance_of",
+    "description": "The template serves as a formal confirmation that a replacement card has been issued.",
+    "properties": {},
+    "context": "Your replacement card has been issued and is on its way.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "source_name": "Template 6: Card Replacement Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_var_002",
+    "source_name": "Card Type",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_var_003",
+    "source_name": "Last 4 Digits",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_var_004",
+    "source_name": "Replacement Reason",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_var_005",
+    "source_name": "Estimated Arrival",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_cust_001",
+    "source_name": "Customer",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_008_card_001",
+    "source_name": "Replacement Card",
+    "target_id": "98782666fb3043c79166e706617138b4_008",
+    "target_name": "98782666fb3043c79166e706617138b4_008",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "source_name": "Template 7: Complaint Acknowledgment",
+    "target_id": "98782666fb3043c79166e706617138b4_009_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the customer's name to personalise the greeting.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "source_name": "Template 7: Complaint Acknowledgment",
+    "target_id": "98782666fb3043c79166e706617138b4_009_var_002",
+    "target_name": "Complaint Reference Number",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the unique complaint reference number.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Complaints Management System"
+    },
+    "context": "Your Complaint Reference: [EXC-XXXXX]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "source_name": "Template 7: Complaint Acknowledgment",
+    "target_id": "98782666fb3043c79166e706617138b4_009_var_003",
+    "target_name": "Date and Time Received",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the timestamp when the complaint was received.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Complaints Management System"
+    },
+    "context": "Date Received: [date and time]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "source_name": "Template 7: Complaint Acknowledgment",
+    "target_id": "98782666fb3043c79166e706617138b4_009_var_004",
+    "target_name": "Investigator Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the name of the staff member assigned to the case.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "HR/Staff Directory"
+    },
+    "context": "Assigned To: [Investigator Name]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "source_name": "Template 7: Complaint Acknowledgment",
+    "target_id": "98782666fb3043c79166e706617138b4_009_cust_001",
+    "target_name": "Complaint Recipient",
+    "rel_type": "addressed_to",
+    "description": "The communication template is sent to the customer who filed the complaint.",
+    "properties": {
+      "channel": "Email/Letter"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": true,
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "source_name": "Template 7: Complaint Acknowledgment",
+    "target_id": "98782666fb3043c79166e706617138b4_009",
+    "target_name": "98782666fb3043c79166e706617138b4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_009",
+    "target_name": "98782666fb3043c79166e706617138b4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_var_002",
+    "source_name": "Complaint Reference Number",
+    "target_id": "98782666fb3043c79166e706617138b4_009",
+    "target_name": "98782666fb3043c79166e706617138b4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_var_003",
+    "source_name": "Date and Time Received",
+    "target_id": "98782666fb3043c79166e706617138b4_009",
+    "target_name": "98782666fb3043c79166e706617138b4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_var_004",
+    "source_name": "Investigator Name",
+    "target_id": "98782666fb3043c79166e706617138b4_009",
+    "target_name": "98782666fb3043c79166e706617138b4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_009_cust_001",
+    "source_name": "Complaint Recipient",
+    "target_id": "98782666fb3043c79166e706617138b4_009",
+    "target_name": "98782666fb3043c79166e706617138b4_009",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for the customer's name",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_002",
+    "target_name": "Complaint Reference",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for the unique complaint reference ID",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Complaints Management System"
+    },
+    "context": "Complaint Reference: [EXC-XXXXX]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_003",
+    "target_name": "Complaint Date",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for the date the complaint was filed",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Complaints Management System"
+    },
+    "context": "your complaint dated [date].",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_004",
+    "target_name": "Investigation Findings Summary",
+    "rel_type": "contains",
+    "description": "Template 8 contains a section for the summary of investigation findings",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Case Notes"
+    },
+    "context": "What We Found:\n[Summary of investigation findings]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_005",
+    "target_name": "Decision Outcome",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for the final decision outcome",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Case Notes"
+    },
+    "context": "Our Decision:\n[Uphold / Partially uphold / Reject]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_006",
+    "target_name": "Resolution Action",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for the action taken to resolve the complaint",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Case Notes"
+    },
+    "context": "Resolution:\n[Action taken - refund, explanation, etc.]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_007",
+    "target_name": "Resolution Details",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for specific details of the resolution",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Case Notes"
+    },
+    "context": "Details:\n[Specific details of resolution - refund amount, dates, etc.]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_var_008",
+    "target_name": "Refund Timeframe",
+    "rel_type": "contains",
+    "description": "Template 8 contains a placeholder for the expected refund timeframe",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Payments System"
+    },
+    "context": "will appear in your account within [timeframe].",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010_cust_001",
+    "target_name": "Complaint Recipient",
+    "rel_type": "addressed_to",
+    "description": "The communication template is addressed to the customer who filed the complaint",
+    "properties": {},
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "source_name": "Template 8: Complaint Resolution",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_002",
+    "source_name": "Complaint Reference",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_003",
+    "source_name": "Complaint Date",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_004",
+    "source_name": "Investigation Findings Summary",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_005",
+    "source_name": "Decision Outcome",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_006",
+    "source_name": "Resolution Action",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_007",
+    "source_name": "Resolution Details",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_var_008",
+    "source_name": "Refund Timeframe",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_010_cust_001",
+    "source_name": "Complaint Recipient",
+    "target_id": "98782666fb3043c79166e706617138b4_010",
+    "target_name": "98782666fb3043c79166e706617138b4_010",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_011_tpl_001",
+    "source_name": "Template 9: Password Reset Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_011_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "Template 9 contains a placeholder for the customer's name to personalise the communication.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Customer CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_011_tpl_001",
+    "source_name": "Template 9: Password Reset Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_011_cust_001",
+    "target_name": "Bank Customer",
+    "rel_type": "addressed_to",
+    "description": "The password reset confirmation template is sent to the bank customer whose password was changed.",
+    "properties": {
+      "delivery_channel": "Email"
+    },
+    "context": "Your online banking password has been successfully reset.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_011_tpl_001",
+    "source_name": "Template 9: Password Reset Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_011_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "personalises_via",
+    "description": "The template is personalised for the recipient using the Customer Name variable.",
+    "properties": {
+      "position": "Salutation"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_011_tpl_001",
+    "source_name": "Template 9: Password Reset Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_011",
+    "target_name": "98782666fb3043c79166e706617138b4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_011_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_011",
+    "target_name": "98782666fb3043c79166e706617138b4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_011_cust_001",
+    "source_name": "Bank Customer",
+    "target_id": "98782666fb3043c79166e706617138b4_011",
+    "target_name": "98782666fb3043c79166e706617138b4_011",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "source_name": "Template 10: KYC Document Request",
+    "target_id": "98782666fb3043c79166e706617138b4_012_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the customer's name to personalise the greeting.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "source_name": "Template 10: KYC Document Request",
+    "target_id": "98782666fb3043c79166e706617138b4_012_var_002",
+    "target_name": "Submission Deadline Date",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the date by which documents must be submitted.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Compliance Engine"
+    },
+    "context": "Deadline: [date - typically 30 days]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "source_name": "Template 10: KYC Document Request",
+    "target_id": "98782666fb3043c79166e706617138b4_012_cust_001",
+    "target_name": "KYC Request Recipient",
+    "rel_type": "addressed_to",
+    "description": "The communication is sent to the customer who needs to provide identity verification.",
+    "properties": {},
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "source_name": "Template 10: KYC Document Request",
+    "target_id": "98782666fb3043c79166e706617138b4_012_acc_001",
+    "target_name": "Customer Account for Verification",
+    "rel_type": "references",
+    "description": "The template refers to the account that requires verification.",
+    "properties": {},
+    "context": "complete your account verification (KYC - Know Your Customer)",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "source_name": "Template 10: KYC Document Request",
+    "target_id": "98782666fb3043c79166e706617138b4_012_kyc_001",
+    "target_name": "KYC Document Collection Process",
+    "rel_type": "triggers",
+    "description": "Sending this template initiates the process of collecting KYC documents from the customer.",
+    "properties": {
+      "channel": "Email/Letter"
+    },
+    "context": "We need you to provide some documentation to complete your account verification (KYC - Know Your Customer).",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "source_name": "Template 10: KYC Document Request",
+    "target_id": "98782666fb3043c79166e706617138b4_012_obl_001",
+    "target_name": "Regulatory KYC Documentation Requirement",
+    "rel_type": "satisfies",
+    "description": "The template is used to fulfill the regulatory obligation to collect identity and address documentation.",
+    "properties": {
+      "compliance_category": "AML/KYC"
+    },
+    "context": "Regulatory requirements ensure we're banking responsibly and protecting your account.",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_obl_001",
+    "source_name": "Regulatory KYC Documentation Requirement",
+    "target_id": "98782666fb3043c79166e706617138b4_012_kyc_001",
+    "target_name": "KYC Document Collection Process",
+    "rel_type": "requires_completion_of",
+    "description": "The regulatory obligation mandates that the KYC document collection process be completed.",
+    "properties": {
+      "mandatory": true
+    },
+    "context": "Regulatory requirements ensure we're banking responsibly",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "source_name": "Template 10: KYC Document Request",
+    "target_id": "98782666fb3043c79166e706617138b4_012",
+    "target_name": "98782666fb3043c79166e706617138b4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_012",
+    "target_name": "98782666fb3043c79166e706617138b4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_var_002",
+    "source_name": "Submission Deadline Date",
+    "target_id": "98782666fb3043c79166e706617138b4_012",
+    "target_name": "98782666fb3043c79166e706617138b4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_cust_001",
+    "source_name": "KYC Request Recipient",
+    "target_id": "98782666fb3043c79166e706617138b4_012",
+    "target_name": "98782666fb3043c79166e706617138b4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_acc_001",
+    "source_name": "Customer Account for Verification",
+    "target_id": "98782666fb3043c79166e706617138b4_012",
+    "target_name": "98782666fb3043c79166e706617138b4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_kyc_001",
+    "source_name": "KYC Document Collection Process",
+    "target_id": "98782666fb3043c79166e706617138b4_012",
+    "target_name": "98782666fb3043c79166e706617138b4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_012_obl_001",
+    "source_name": "Regulatory KYC Documentation Requirement",
+    "target_id": "98782666fb3043c79166e706617138b4_012",
+    "target_name": "98782666fb3043c79166e706617138b4_012",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_001",
+    "target_name": "Customer Name",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the customer's name to personalise the greeting.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "CRM"
+    },
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_002",
+    "target_name": "Closure Date",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the effective date of account closure.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Your FirstUK Bank account has been closed, effective [date].",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_003",
+    "target_name": "Account Number",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the closed account number.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Account Number: [ACC-XXXXX]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_004",
+    "target_name": "Final Balance Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the final balance of the account.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Final Balance: £[amount]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_005",
+    "target_name": "Final Interest Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the final interest accrued.",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Core Banking"
+    },
+    "context": "Final Interest: £[amount]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_006",
+    "target_name": "Fees Applied Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for any fees applied during closure.",
+    "properties": {
+      "mandatory_field": false,
+      "source_system": "Core Banking"
+    },
+    "context": "Fees Applied: £[amount] (if any)",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_007",
+    "target_name": "Net Payout Amount",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the final net payout amount.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "Net Payout: £[amount]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_008",
+    "target_name": "Payout Method",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the selected method of balance payout.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Core Banking"
+    },
+    "context": "[Selected method: transfer to new bank / cheque / cash at branch]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_009",
+    "target_name": "Payout Timeframe",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the expected payout timeframe.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Operations"
+    },
+    "context": "Timeframe: [3–5 business days]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_var_010",
+    "target_name": "Transaction ID",
+    "rel_type": "contains",
+    "description": "The template contains a placeholder for the payout transaction reference.",
+    "properties": {
+      "mandatory_field": true,
+      "source_system": "Payment Gateway"
+    },
+    "context": "Reference: [Transaction ID]",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_cust_001",
+    "target_name": "Customer",
+    "rel_type": "addressed_to",
+    "description": "The communication is sent to the customer to confirm their account has been closed.",
+    "properties": {},
+    "context": "Dear [Customer Name],",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_acc_001",
+    "target_name": "FirstUK Bank Account",
+    "rel_type": "confirms",
+    "description": "The template confirms the closure of the specific bank account.",
+    "properties": {},
+    "context": "Your FirstUK Bank account has been closed",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013_crd_001",
+    "target_name": "Customer Payment Card",
+    "rel_type": "alerts_about",
+    "description": "The template notifies the customer that their associated payment card is no longer valid.",
+    "properties": {},
+    "context": "Your card (if issued) is no longer valid",
+    "bidirectional": false,
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "source_name": "Template 11: Account Closure Confirmation",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_001",
+    "source_name": "Customer Name",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_002",
+    "source_name": "Closure Date",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_003",
+    "source_name": "Account Number",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_004",
+    "source_name": "Final Balance Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_005",
+    "source_name": "Final Interest Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_006",
+    "source_name": "Fees Applied Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_007",
+    "source_name": "Net Payout Amount",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_008",
+    "source_name": "Payout Method",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_009",
+    "source_name": "Payout Timeframe",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_var_010",
+    "source_name": "Transaction ID",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_cust_001",
+    "source_name": "Customer",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_acc_001",
+    "source_name": "FirstUK Bank Account",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  },
+  {
+    "source_id": "98782666fb3043c79166e706617138b4_013_crd_001",
+    "source_name": "Customer Payment Card",
+    "target_id": "98782666fb3043c79166e706617138b4_013",
+    "target_name": "98782666fb3043c79166e706617138b4_013",
+    "rel_type": "EXTRACTED_FROM",
+    "description": "Entity extracted from this document chunk",
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4",
+    "domain": "banking_communications"
+  }
+]

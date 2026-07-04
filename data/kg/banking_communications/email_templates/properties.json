@@ -1,0 +1,1511 @@
+[
+  {
+    "id": "98782666fb3043c79166e706617138b4_001_tpl_001",
+    "name": "Email Template Suite",
+    "properties": {
+      "document_id": "EMAIL-TEMPLATE-001",
+      "owner": "Head of Marketing",
+      "channel": "email",
+      "recipient": "Customer",
+      "audience": [
+        "Customer Service Staff",
+        "Support Team"
+      ],
+      "department": [
+        "Marketing",
+        "Customer Service"
+      ],
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "status": "Active",
+      "classification": "Internal"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_001",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_tpl_001",
+    "name": "Account Opening Confirmation",
+    "properties": {
+      "document_id": "Template 1",
+      "trigger_event": "Account opening completion",
+      "channel": "email",
+      "subject_line": "Your FirstUK Bank Account Is Ready! 🎉",
+      "recipient": "New Customer",
+      "key_content": [
+        "Account opening confirmation",
+        "Account details (Number, Sort Code, Balance)",
+        "Onboarding steps (Login, 2FA, First deposit, App download)",
+        "Interest rate information",
+        "Contact support details"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[ACC-XXXXX]",
+        "[amount]"
+      ],
+      "tone": "friendly",
+      "owner": "FirstUK Bank Customer Service"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Account Opening Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_var_002",
+    "name": "Account Number",
+    "properties": {
+      "variable_placeholder": "[ACC-XXXXX]",
+      "data_type": "account_number",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Account Opening Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_var_003",
+    "name": "Current Balance",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Account Opening Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_prd_001",
+    "name": "SmartSaver",
+    "properties": {
+      "communication_template": [
+        "Account Opening Confirmation"
+      ],
+      "key_features_taught": [
+        "4.50% AER interest rate",
+        "Monthly interest payments"
+      ],
+      "customer_facing_messaging": "Welcoming and encouraging, highlighting ease of access and earnings"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_acc_001",
+    "name": "New SmartSaver Account",
+    "properties": {
+      "account_type": "savings",
+      "communication_context": "account confirmation"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_003_cust_001",
+    "name": "New Customer",
+    "properties": {
+      "communication_context": "Account opening confirmation and onboarding",
+      "customer_type": "new"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_003",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_tpl_001",
+    "name": "Interest Payment Notification",
+    "properties": {
+      "document_id": "Template 2",
+      "trigger_event": "Monthly interest payment addition",
+      "channel": "email",
+      "subject_line": "Your Monthly Interest Payment — £[amount]",
+      "recipient": "Interest Recipient",
+      "key_content": [
+        "Interest amount added",
+        "Calculation breakdown",
+        "Effective date",
+        "New account balance",
+        "Current AER rate",
+        "Tiered interest rate incentives",
+        "Login call to action"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[amount]",
+        "[Balance]",
+        "[days]",
+        "[date]",
+        "[new balance]"
+      ],
+      "tone": "friendly",
+      "owner": "FirstUK Bank Team"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_002",
+    "name": "Interest Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_003",
+    "name": "Account Balance",
+    "properties": {
+      "variable_placeholder": "[Balance]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_004",
+    "name": "Calculation Days",
+    "properties": {
+      "variable_placeholder": "[days]",
+      "data_type": "integer",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_005",
+    "name": "Effective Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_var_006",
+    "name": "New Balance",
+    "properties": {
+      "variable_placeholder": "[new balance]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Interest Payment Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_acc_001",
+    "name": "Interest-Bearing Account",
+    "properties": {
+      "account_type": "savings",
+      "communication_context": "Interest Payment Notification",
+      "key_features": {
+        "base_rate": "4.50% AER for balances £0–£10,000",
+        "tier_2_rate": "4.70% AER for balances £10,001–£50,000",
+        "tier_3_rate": "4.80% AER for balances £50,001+"
+      }
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_004_cus_001",
+    "name": "Interest Recipient",
+    "properties": {
+      "communication_context": "Receives monthly interest payment notifications",
+      "customer_type": "existing"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_004",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_tpl_001",
+    "name": "Template 3: Rate Change Notification",
+    "properties": {
+      "document_id": "Template 3",
+      "trigger_event": "Bank of England base rate change",
+      "channel": "email",
+      "subject_line": "Your Interest Rate Has Changed",
+      "recipient": "FirstUK Bank Customer",
+      "key_content": [
+        "Notification of interest rate update",
+        "Comparison of old vs new rates",
+        "Effective date of change",
+        "Explanation of variable rate margin (2.5% above BoE)",
+        "Impact on monthly interest",
+        "Cross-sell for Fixed Rate Bonds"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[old rate]",
+        "[new rate]",
+        "[date]",
+        "[new amount]"
+      ],
+      "tone": "formal",
+      "owner": "FirstUK Bank Team"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 3: Rate Change Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_002",
+    "name": "Old Interest Rate",
+    "properties": {
+      "variable_placeholder": "[old rate]",
+      "data_type": "percentage",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 3: Rate Change Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_003",
+    "name": "New Interest Rate",
+    "properties": {
+      "variable_placeholder": "[new rate]",
+      "data_type": "percentage",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 3: Rate Change Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_004",
+    "name": "Effective Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 3: Rate Change Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_var_005",
+    "name": "New Monthly Interest Amount",
+    "properties": {
+      "variable_placeholder": "[new amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 3: Rate Change Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_prod_001",
+    "name": "SmartSaver",
+    "properties": {
+      "communication_template": "Template 3: Rate Change Notification",
+      "key_features_taught": [
+        "Variable interest rate",
+        "Linked to Bank of England base rate",
+        "Fixed 2.5% margin above BoE"
+      ],
+      "customer_facing_messaging": "Competitive variable rates that move with the BoE base rate"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_prod_002",
+    "name": "Fixed Rate Bonds",
+    "properties": {
+      "communication_template": "Template 3: Rate Change Notification",
+      "key_features_taught": [
+        "Fixed rate alternative to variable accounts"
+      ],
+      "availability": "Coming 2026"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_005_cust_001",
+    "name": "FirstUK Bank Customer",
+    "properties": {
+      "communication_context": "Recipient of interest rate change notifications",
+      "customer_type": "existing"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_005",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_tpl_001",
+    "name": "Template 4: Successful Transfer Confirmation",
+    "properties": {
+      "document_id": "Template 4",
+      "trigger_event": "Successful fund transfer completion",
+      "channel": "email",
+      "subject_line": "Your Transfer of £[amount] Is Complete ✓",
+      "recipient": "Individual Customer",
+      "key_content": [
+        "Confirmation of successful processing",
+        "Transfer details (amount, source, recipient, date)",
+        "Updated account balance",
+        "Fraud reporting contact details",
+        "Link to account login"
+      ],
+      "variables_used": [
+        "[amount]",
+        "[Customer Name]",
+        "[XXXX]",
+        "[Recipient Name]",
+        "[Bank]",
+        "[date and time]",
+        "[new balance]"
+      ],
+      "tone": "formal",
+      "compliance_disclosures": [
+        "Fraud line contact: 0800-555-2265"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_001",
+    "name": "Transfer Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 4: Successful Transfer Confirmation"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_002",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 4: Successful Transfer Confirmation"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_003",
+    "name": "Account Identifier",
+    "properties": {
+      "variable_placeholder": "[XXXX]",
+      "data_type": "account_number",
+      "description": "Last four digits of the account",
+      "appears_in_templates": [
+        "Template 4: Successful Transfer Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_004",
+    "name": "Recipient Name",
+    "properties": {
+      "variable_placeholder": "[Recipient Name]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 4: Successful Transfer Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_005",
+    "name": "Recipient Bank",
+    "properties": {
+      "variable_placeholder": "[Bank]",
+      "data_type": "string",
+      "appears_in_templates": [
+        "Template 4: Successful Transfer Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_006",
+    "name": "Transfer Date and Time",
+    "properties": {
+      "variable_placeholder": "[date and time]",
+      "data_type": "date",
+      "appears_in_templates": [
+        "Template 4: Successful Transfer Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_var_007",
+    "name": "New Account Balance",
+    "properties": {
+      "variable_placeholder": "[new balance]",
+      "data_type": "currency",
+      "appears_in_templates": [
+        "Template 4: Successful Transfer Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_prod_001",
+    "name": "SmartSaver",
+    "properties": {
+      "communication_template": [
+        "Template 4: Successful Transfer Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_cust_001",
+    "name": "Individual Customer",
+    "properties": {
+      "communication_context": "Recipient of transfer confirmation notifications"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_acc_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "account_type": "savings",
+      "communication_context": "Transfer confirmation and balance update"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_006_txn_001",
+    "name": "Successful Fund Transfer",
+    "properties": {
+      "transaction_context": "Triggers a confirmation communication to the customer",
+      "communication_trigger": "Template 4: Successful Transfer Confirmation"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_006",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_tpl_001",
+    "name": "Failed Transaction Notification",
+    "properties": {
+      "document_id": "Template 5",
+      "trigger_event": "A transfer could not be completed",
+      "channel": "email",
+      "subject_line": "Your Transfer Failed — Here's Why",
+      "recipient": "Customer",
+      "key_content": [
+        "Notification of failed transfer",
+        "Reason for failure",
+        "Explanation of the issue",
+        "Required next steps/solutions",
+        "Contact details for support"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[amount]",
+        "[recipient]",
+        "[Insufficient funds / Invalid account / Account closed / Other]",
+        "[Explanation tailored to reason]",
+        "[Solution tailored to reason]",
+        "[shortfall]",
+        "[number provided]"
+      ],
+      "tone": "helpful",
+      "owner": "FirstUK Bank Team"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_002",
+    "name": "Transfer Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_003",
+    "name": "Recipient",
+    "properties": {
+      "variable_placeholder": "[recipient]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_004",
+    "name": "Failure Reason",
+    "properties": {
+      "variable_placeholder": "[Insufficient funds / Invalid account / Account closed / Other]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_005",
+    "name": "Reason Explanation",
+    "properties": {
+      "variable_placeholder": "[Explanation tailored to reason]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_006",
+    "name": "Reason Solution",
+    "properties": {
+      "variable_placeholder": "[Solution tailored to reason]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_007",
+    "name": "Current Balance",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "communication_context": "Insufficient funds scenario",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_008",
+    "name": "Shortfall Amount",
+    "properties": {
+      "variable_placeholder": "[shortfall]",
+      "data_type": "currency",
+      "communication_context": "Insufficient funds scenario",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_var_009",
+    "name": "Recipient Account Number",
+    "properties": {
+      "variable_placeholder": "[number provided]",
+      "data_type": "account_number",
+      "communication_context": "Invalid account scenario",
+      "appears_in_templates": [
+        "Failed Transaction Notification"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "Recipient of failed transaction notification"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "communication_context": "Source of funds for failed transfer"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_007_txn_001",
+    "name": "Failed Transfer",
+    "properties": {
+      "transaction_context": "Transfer failure due to insufficient funds, invalid account, or closed account",
+      "communication_trigger": "Failed Transaction Notification"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_007",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_tpl_001",
+    "name": "Template 6: Card Replacement Confirmation",
+    "properties": {
+      "document_id": "Template 6",
+      "trigger_event": "Issuance of a replacement card",
+      "channel": "email",
+      "subject_line": "Your Replacement Card Is On Its Way",
+      "recipient": "Customer",
+      "key_content": [
+        "Confirmation of card issuance",
+        "Card details (type, last 4 digits, reason)",
+        "Estimated arrival date",
+        "Notification that old card is blocked",
+        "Guidance on available services while waiting",
+        "Activation instructions",
+        "Expedited delivery option"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[Debit/Credit Card]",
+        "[XXXX]",
+        "[Lost / Damaged / Expired / Other]",
+        "[date range, 3–5 business days]"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Activation URL (www.firstuk.bank/login)",
+        "Contact phone and email"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 6: Card Replacement Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_002",
+    "name": "Card Type",
+    "properties": {
+      "variable_placeholder": "[Debit/Credit Card]",
+      "data_type": "string",
+      "example_value": "Debit/Credit Card",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 6: Card Replacement Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_003",
+    "name": "Last 4 Digits",
+    "properties": {
+      "variable_placeholder": "[XXXX]",
+      "data_type": "account_number",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 6: Card Replacement Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_004",
+    "name": "Replacement Reason",
+    "properties": {
+      "variable_placeholder": "[Lost / Damaged / Expired / Other]",
+      "data_type": "string",
+      "example_value": "Lost / Damaged / Expired / Other",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 6: Card Replacement Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_var_005",
+    "name": "Estimated Arrival",
+    "properties": {
+      "variable_placeholder": "[date range, 3–5 business days]",
+      "data_type": "date",
+      "example_value": "3–5 business days",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 6: Card Replacement Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "Receiving confirmation of a replacement card issuance"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_008_card_001",
+    "name": "Replacement Card",
+    "properties": {
+      "card_event": "issuance",
+      "communication_trigger": "Template 6: Card Replacement Confirmation"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_008",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_tpl_001",
+    "name": "Template 7: Complaint Acknowledgment",
+    "properties": {
+      "document_id": "Template 7",
+      "trigger_event": "Receipt of a customer complaint",
+      "channel": "email",
+      "subject_line": "We've Received Your Complaint — Reference [EXC-XXXXX]",
+      "recipient": "Customer who filed a complaint",
+      "key_content": [
+        "Acknowledgment of complaint",
+        "Complaint reference number",
+        "Date and time of receipt",
+        "Assigned investigator",
+        "Investigation timeline (8 calendar days)",
+        "Financial Ombudsman Service escalation rights"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[EXC-XXXXX]",
+        "[date and time]",
+        "[Investigator Name]"
+      ],
+      "tone": "formal",
+      "compliance_disclosures": [
+        "Right to escalate to the Financial Ombudsman Service"
+      ],
+      "owner": "FirstUK Bank Complaints Team"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 7: Complaint Acknowledgment"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_002",
+    "name": "Complaint Reference Number",
+    "properties": {
+      "variable_placeholder": "[EXC-XXXXX]",
+      "data_type": "string",
+      "example_value": "EXC-XXXXX",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 7: Complaint Acknowledgment"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_003",
+    "name": "Date and Time Received",
+    "properties": {
+      "variable_placeholder": "[date and time]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 7: Complaint Acknowledgment"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_var_004",
+    "name": "Investigator Name",
+    "properties": {
+      "variable_placeholder": "[Investigator Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 7: Complaint Acknowledgment"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_009_cust_001",
+    "name": "Complaint Recipient",
+    "properties": {
+      "communication_context": "Complaint Acknowledgment",
+      "customer_type": "existing",
+      "protection_taught": "Right to escalate to the Financial Ombudsman Service"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_009",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_tpl_001",
+    "name": "Template 8: Complaint Resolution",
+    "properties": {
+      "document_id": "Template 8",
+      "trigger_event": "Completion of complaint investigation",
+      "channel": "email",
+      "subject_line": "Resolution to Your Complaint [EXC-XXXXX]",
+      "recipient": "Customer who filed a complaint",
+      "key_content": [
+        "Investigation findings summary",
+        "Decision outcome",
+        "Resolution action and details",
+        "Refund timeframe",
+        "Escalation rights to Financial Ombudsman Service",
+        "Contact information"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[date]",
+        "[EXC-XXXXX]",
+        "[Summary of investigation findings]",
+        "[Uphold / Partially uphold / Reject]",
+        "[Action taken - refund, explanation, etc.]",
+        "[Specific details of resolution - refund amount, dates, etc.]",
+        "[timeframe]"
+      ],
+      "tone": "formal",
+      "compliance_disclosures": [
+        "Right to escalate to Financial Ombudsman Service",
+        "6 month escalation window"
+      ],
+      "owner": "FirstUK Bank Complaints Resolution Team"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_002",
+    "name": "Complaint Reference",
+    "properties": {
+      "variable_placeholder": "[EXC-XXXXX]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_003",
+    "name": "Complaint Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_004",
+    "name": "Investigation Findings Summary",
+    "properties": {
+      "variable_placeholder": "[Summary of investigation findings]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_005",
+    "name": "Decision Outcome",
+    "properties": {
+      "variable_placeholder": "[Uphold / Partially uphold / Reject]",
+      "data_type": "string",
+      "example_value": "Uphold",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_006",
+    "name": "Resolution Action",
+    "properties": {
+      "variable_placeholder": "[Action taken - refund, explanation, etc.]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_007",
+    "name": "Resolution Details",
+    "properties": {
+      "variable_placeholder": "[Specific details of resolution - refund amount, dates, etc.]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_var_008",
+    "name": "Refund Timeframe",
+    "properties": {
+      "variable_placeholder": "[timeframe]",
+      "data_type": "string",
+      "mandatory": "no",
+      "appears_in_templates": [
+        "Template 8: Complaint Resolution"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_010_cust_001",
+    "name": "Complaint Recipient",
+    "properties": {
+      "communication_context": "Complaint Resolution",
+      "customer_type": "existing",
+      "protection_taught": "Right to escalate to Financial Ombudsman Service within 6 months"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_010",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_011_tpl_001",
+    "name": "Template 9: Password Reset Confirmation",
+    "properties": {
+      "document_id": "Template 9",
+      "trigger_event": "Successful online banking password reset",
+      "channel": "email",
+      "subject_line": "Your Password Has Been Reset Successfully",
+      "recipient": "Bank Customer",
+      "key_content": [
+        "Confirmation of password reset",
+        "Login URL",
+        "Security warnings against sharing passwords",
+        "Instructions for unauthorized reset (Phone/Email contact)",
+        "Password strength and rotation guidelines"
+      ],
+      "variables_used": [
+        "[Customer Name]"
+      ],
+      "tone": "formal",
+      "owner": "FirstUK Bank Security Team"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_011_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 9: Password Reset Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_011_cust_001",
+    "name": "Bank Customer",
+    "properties": {
+      "communication_context": "Password reset confirmation and security guidance"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_011",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_tpl_001",
+    "name": "Template 10: KYC Document Request",
+    "properties": {
+      "document_id": "Template 10",
+      "trigger_event": "KYC account verification requirement",
+      "channel": "email",
+      "subject_line": "Action Needed: Please Provide Your Identity Documents",
+      "recipient": "KYC Request Recipient",
+      "key_content": [
+        "Request for identity documents",
+        "Accepted ID options (Passport or Driving License)",
+        "Accepted address verification options (Utility bill, Council tax letter, Bank statement)",
+        "Submission methods (Secure upload, Email, Branch visit)",
+        "Submission deadline",
+        "Regulatory justification"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[date - typically 30 days]"
+      ],
+      "tone": "formal",
+      "compliance_disclosures": [
+        "Regulatory requirements ensure we're banking responsibly and protecting your account"
+      ],
+      "owner": "FirstUK Bank Compliance Team"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 10: KYC Document Request"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_var_002",
+    "name": "Submission Deadline Date",
+    "properties": {
+      "variable_placeholder": "[date - typically 30 days]",
+      "data_type": "date",
+      "example_value": "typically 30 days",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 10: KYC Document Request"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_cust_001",
+    "name": "KYC Request Recipient",
+    "properties": {
+      "communication_context": "KYC Document Request",
+      "customer_type": "existing"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_acc_001",
+    "name": "Customer Account for Verification",
+    "properties": {
+      "communication_context": "account verification",
+      "training_context": "KYC - Know Your Customer"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_kyc_001",
+    "name": "KYC Document Collection Process",
+    "properties": {
+      "required_documents": [
+        "UK Passport",
+        "UK Driving License",
+        "Utility bill",
+        "Council tax letter",
+        "Bank statement"
+      ],
+      "submission_channels": [
+        "Secure upload portal",
+        "Email",
+        "Branch visit"
+      ],
+      "document_validity_period": "Utility bills must be dated within 3 months"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_012_obl_001",
+    "name": "Regulatory KYC Documentation Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "typically 30 days",
+      "regulatory_source": "KYC - Know Your Customer regulations"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_012",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_tpl_001",
+    "name": "Template 11: Account Closure Confirmation",
+    "properties": {
+      "document_id": "Template 11",
+      "trigger_event": "Account closure",
+      "channel": "email",
+      "subject_line": "Your FirstUK Bank Account Is Closed",
+      "recipient": "Customer",
+      "key_content": [
+        "Confirmation of account closure date",
+        "Final balance breakdown",
+        "Payout method and timeframe",
+        "Notification of cancelled standing orders and Direct Debits",
+        "Deactivation of online banking and card",
+        "Reopening contact details"
+      ],
+      "variables_used": [
+        "[Customer Name]",
+        "[date]",
+        "[ACC-XXXXX]",
+        "[amount]",
+        "[Selected method: transfer to new bank / cheque / cash at branch]",
+        "[3–5 business days]",
+        "[Transaction ID]"
+      ],
+      "tone": "formal",
+      "owner": "FirstUK Bank Customer Service"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_001",
+    "name": "Customer Name",
+    "properties": {
+      "variable_placeholder": "[Customer Name]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_002",
+    "name": "Closure Date",
+    "properties": {
+      "variable_placeholder": "[date]",
+      "data_type": "date",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_003",
+    "name": "Account Number",
+    "properties": {
+      "variable_placeholder": "[ACC-XXXXX]",
+      "data_type": "account_number",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_004",
+    "name": "Final Balance Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_005",
+    "name": "Final Interest Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_006",
+    "name": "Fees Applied Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "no",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_007",
+    "name": "Net Payout Amount",
+    "properties": {
+      "variable_placeholder": "[amount]",
+      "data_type": "currency",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_008",
+    "name": "Payout Method",
+    "properties": {
+      "variable_placeholder": "[Selected method: transfer to new bank / cheque / cash at branch]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_009",
+    "name": "Payout Timeframe",
+    "properties": {
+      "variable_placeholder": "[3–5 business days]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_var_010",
+    "name": "Transaction ID",
+    "properties": {
+      "variable_placeholder": "[Transaction ID]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Template 11: Account Closure Confirmation"
+      ]
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "Account closure confirmation",
+      "customer_type": "existing"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_acc_001",
+    "name": "FirstUK Bank Account",
+    "properties": {
+      "communication_context": "Account closure confirmation",
+      "training_context": "Account closure process"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  },
+  {
+    "id": "98782666fb3043c79166e706617138b4_013_crd_001",
+    "name": "Customer Payment Card",
+    "properties": {
+      "card_event": "deactivation",
+      "communication_trigger": "Account closure"
+    },
+    "chunk_id": "98782666fb3043c79166e706617138b4_013",
+    "doc_id": "98782666fb3043c79166e706617138b4"
+  }
+]

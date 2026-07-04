@@ -1,0 +1,4307 @@
+[
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_pol_001",
+    "name": "Customer Identification Policy",
+    "aliases": [
+      "CID-POL-001"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "The formal governing instrument for customer identification at FirstUK Bank, version 2.1, effective from 2026-01-15. It is owned by the Head of Compliance and applies to all staff, branch managers, compliance, and risk personnel.",
+    "context": [
+      "FirstUK Bank — Customer Identification Policy",
+      "Document ID | CID-POL-001",
+      "Version | 2.1"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_reg_001",
+    "name": "FCA COBS Part 10",
+    "aliases": [
+      "COBS Part 10"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "A regulatory reference from the Financial Conduct Authority (FCA) Conduct of Business Sourcebook, Part 10, which informs the requirements of the Customer Identification Policy.",
+    "context": [
+      "Regulatory Reference | FCA COBS Part 10"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_reg_002",
+    "name": "Money Laundering Regulations 2017",
+    "aliases": [
+      "MLR 2017"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "The primary UK legislation governing money laundering prevention that serves as a regulatory basis for the bank's customer identification procedures.",
+    "context": [
+      "Regulatory Reference | Money Laundering Regulations 2017"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The abstract role designated as the owner of the Customer Identification Policy, responsible for its maintenance and oversight.",
+    "context": [
+      "Owner | Head of Compliance"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_002",
+    "name": "All Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of bank employees to whom the Customer Identification Policy is applicable.",
+    "context": [
+      "Audience | All Staff, Branch Managers, Compliance, Risk"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_003",
+    "name": "Branch Managers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members in management positions at bank branches who are subject to the requirements of the Customer Identification Policy.",
+    "context": [
+      "Audience | All Staff, Branch Managers, Compliance, Risk"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_004",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The compliance function/staff members responsible for ensuring adherence to the Customer Identification Policy.",
+    "context": [
+      "Audience | All Staff, Branch Managers, Compliance, Risk"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_005",
+    "name": "Risk",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The risk management function/staff members who are part of the target audience for the Customer Identification Policy.",
+    "context": [
+      "Audience | All Staff, Branch Managers, Compliance, Risk"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_pol_001",
+    "name": "Customer Identification Policy (KYC)",
+    "aliases": [
+      "KYC Policy"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A comprehensive governing instrument designed to ensure customer legitimacy and prevent financial crime. It establishes the mandatory procedures for identity and address verification at account opening and during periodic reviews.",
+    "context": [
+      "FirstUK Bank maintains a comprehensive Customer Identification Policy (KYC)",
+      "This policy establishes mandatory procedures for verifying customer identity and address at account opening and periodically thereafter."
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_prv_001",
+    "name": "Mandatory Identity and Address Verification at Account Opening",
+    "aliases": [
+      "Account Opening Verification"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that the bank must verify both the identity and the address of a customer at the point of account opening.",
+    "context": [
+      "establishes mandatory procedures for verifying customer identity and address at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_prv_002",
+    "name": "Periodic Customer Identity and Address Refresh",
+    "aliases": [
+      "Periodic Review"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement to perform identity and address verification on a periodic basis following the initial account opening.",
+    "context": [
+      "verifying customer identity and address at account opening and periodically thereafter."
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_rsk_001",
+    "name": "Financial Crime",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The broad category of financial crime that the Customer Identification Policy is designed to prevent through the verification of customer legitimacy.",
+    "context": [
+      "prevent financial crime"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_ctl_001",
+    "name": "Customer Identity Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "The operational process of verifying a customer's identity to ensure legitimacy and regulatory compliance.",
+    "context": [
+      "verifying customer identity and address at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_ctl_002",
+    "name": "Customer Address Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "The operational process of verifying a customer's residential or business address as part of the KYC requirements.",
+    "context": [
+      "verifying customer identity and address at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_pol_001",
+    "name": "Know Your Customer (KYC) Verification Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A formal policy establishing the procedures for verifying customer identity, address, and risk profiles. Its primary objective is to ensure compliance with regulatory requirements and prevent the onboarding of sanctioned individuals or entities.",
+    "context": [
+      "To establish procedures for Know Your Customer (KYC) verification",
+      "Prevent opening accounts for sanctioned individuals or entities"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_prv_001",
+    "name": "Mandatory Customer Identity Confirmation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement within the KYC verification process to confirm the identity of the customer.",
+    "context": [
+      "Confirm customer identity"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_prv_002",
+    "name": "Mandatory Customer Address Verification",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement within the KYC verification process to verify the customer's address.",
+    "context": [
+      "Verify customer address"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_prv_003",
+    "name": "Mandatory Customer Risk Profile Assessment",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to assess the risk profile of the customer as part of the KYC verification procedures.",
+    "context": [
+      "Assess customer risk profile"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_reg_001",
+    "name": "Financial Conduct Authority Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA COBS"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The regulatory framework issued by the FCA that the bank's KYC verification procedures must meet.",
+    "context": [
+      "Meet FCA COBS and Money Laundering Regulations requirements"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_reg_002",
+    "name": "Money Laundering Regulations",
+    "aliases": [
+      "MLR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "legislation",
+    "description": "The statutory regulations regarding money laundering that the bank's KYC verification procedures must comply with.",
+    "context": [
+      "Meet FCA COBS and Money Laundering Regulations requirements"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_rsk_001",
+    "name": "Sanctions Violation Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "sanctions_violation",
+    "description": "The risk of opening accounts for individuals or entities that are subject to sanctions.",
+    "context": [
+      "Prevent opening accounts for sanctioned individuals or entities"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_kyc_001",
+    "name": "KYC Verification Process",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_verification",
+    "description": "The overarching process of confirming identity, verifying address, and assessing risk profiles for customers.",
+    "context": [
+      "establish procedures for Know Your Customer (KYC) verification",
+      "Confirm customer identity",
+      "Verify customer address",
+      "Assess customer risk profile"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_pol_001",
+    "name": "Customer Onboarding and KYC Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A formal policy governing the requirements for opening customer accounts, establishing new customer relationships, and performing periodic re-verification. It defines the scope of application for retail and joint accounts and specifies the staff involved in onboarding.",
+    "context": [
+      "Applies to: All customer account openings (retail, joint accounts)",
+      "All new customer relationships",
+      "All staff involved in customer onboarding"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_prv_001",
+    "name": "Mandatory KYC for New Customer Account Openings",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all new customer account openings, specifically including retail and joint accounts, must undergo the onboarding process.",
+    "context": [
+      "Applies to: All customer account openings (retail, joint accounts)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_prv_002",
+    "name": "Mandatory KYC for New Customer Relationships",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all new customer relationships established with the bank are subject to the policy's onboarding and verification standards.",
+    "context": [
+      "Applies to: All new customer relationships"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_prv_003",
+    "name": "Periodic Customer Re-verification Requirement",
+    "aliases": [
+      "business_ontology"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "An obligation to perform periodic re-verification of customer identities and information as defined by the bank's business ontology.",
+    "context": [
+      "Periodic re-verification (per [[business_ontology]] KYC Verification entity)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_rol_001",
+    "name": "Onboarding Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "All bank staff involved in the customer onboarding process who are responsible for implementing the requirements of the policy.",
+    "context": [
+      "All staff involved in customer onboarding"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_acc_001",
+    "name": "Retail Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "Individual retail customer accounts subject to the onboarding and KYC requirements of the policy.",
+    "context": [
+      "All customer account openings (retail, joint accounts)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_acc_002",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "joint_account",
+    "description": "Accounts held by multiple customers that are explicitly within the scope of the onboarding and KYC policy.",
+    "context": [
+      "All customer account openings (retail, joint accounts)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_cus_001",
+    "name": "New Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "prospective_customer",
+    "description": "Individuals or entities establishing a new relationship with the bank and therefore subject to the onboarding policy.",
+    "context": [
+      "All new customer relationships"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_kyc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "business_ontology"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "periodic_refresh",
+    "description": "The process of verifying customer identity, including the specific requirement for periodic re-verification.",
+    "context": [
+      "Periodic re-verification (per [[business_ontology]] KYC Verification entity)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_pol_001",
+    "name": "FirstUK Bank Customer Identification and Verification Policy",
+    "aliases": [
+      "Policy Statement"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "The governing policy establishing the bank's requirement for the positive identification and verification of all customers prior to the commencement of a business relationship.",
+    "context": [
+      "FirstUK Bank requires that all customers be positively identified and verified before account opening or product provision."
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_prv_001",
+    "name": "Mandatory Customer Identification and Verification Prior to Onboarding",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandatory requirement stating that all customers must undergo positive identification and verification processes before an account can be opened or a product provided.",
+    "context": [
+      "FirstUK Bank requires that all customers be positively identified and verified before account opening or product provision."
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_rol_001",
+    "name": "All Customers",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "data_subject",
+    "description": "Individuals or entities seeking to open an account or obtain a product who are subject to the bank's identification and verification requirements.",
+    "context": [
+      "FirstUK Bank requires that all customers be positively identified and verified"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_cus_001",
+    "name": "Bank Customer",
+    "aliases": [
+      "customers"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "prospective_customer",
+    "description": "Any person or entity attempting to access bank services who must be verified before account opening.",
+    "context": [
+      "FirstUK Bank requires that all customers be positively identified and verified"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_acc_001",
+    "name": "Bank Account",
+    "aliases": [
+      "account opening"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "A customer account whose opening is contingent upon the successful completion of identification and verification processes.",
+    "context": [
+      "before account opening or product provision"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_prd_001",
+    "name": "Banking Product",
+    "aliases": [
+      "product provision"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "banking_product",
+    "description": "Any financial product provided by FirstUK Bank that requires the customer to be positively identified and verified prior to provision.",
+    "context": [
+      "before account opening or product provision"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_kyc_001",
+    "name": "Customer Identification and Verification Process",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_verification",
+    "description": "The process of positively identifying and verifying a customer's identity as a prerequisite for account opening or product provision.",
+    "context": [
+      "all customers be positively identified and verified"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_pol_001",
+    "name": "Core Requirements Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A governing instrument defining the mandatory identity, address, and documentation standards for account opening and maintenance, including retention and review schedules.",
+    "context": [
+      "Core Requirements"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_001",
+    "name": "Mandatory Identity Verification at Account Opening",
+    "aliases": [
+      "1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that identity verification must be performed for all customers at the time of account opening.",
+    "context": [
+      "Identity Verification: Mandatory at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_002",
+    "name": "Mandatory Address Verification at Account Opening",
+    "aliases": [
+      "2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that address verification must be performed for all customers at the time of account opening.",
+    "context": [
+      "Address Verification: Mandatory at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_003",
+    "name": "Physical Evidence Documentation Requirement",
+    "aliases": [
+      "3"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A mandate requiring that physical evidence be provided and collected as part of the documentation process.",
+    "context": [
+      "Documentation: Physical evidence required"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_004",
+    "name": "Six Year Record Retention Rule",
+    "aliases": [
+      "4",
+      "policy_retention"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "An obligation to retain records for a period of 6 years following the closure of a customer account.",
+    "context": [
+      "Record Retention: 6 years post-account closure (see [[policy_retention]])"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_005",
+    "name": "Periodic KYC Review Schedule",
+    "aliases": [
+      "5"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement for periodic reviews of customer data, occurring every 3–5 years for lower-risk customers and annually for high-risk customers.",
+    "context": [
+      "Periodic Review: Every 3–5 years for lower-risk customers; annually for high-risk customers"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_006",
+    "name": "Non-Standard Scenario Exception Process",
+    "aliases": [
+      "6"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "A requirement that any non-standard scenarios must be escalated to the Compliance Head for approval.",
+    "context": [
+      "Exception Process: Escalation to Compliance Head for non-standard scenarios"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_ctl_001",
+    "name": "Identity Verification Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "The operational mechanism used to verify the identity of a customer during the account opening process.",
+    "context": [
+      "Identity Verification: Mandatory at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_ctl_002",
+    "name": "Address Verification Process",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "The operational mechanism used to verify the residential or business address of a customer during account opening.",
+    "context": [
+      "Address Verification: Mandatory at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_ctl_003",
+    "name": "Physical Document Collection",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The requirement to obtain and store physical evidence as part of the KYC documentation process.",
+    "context": [
+      "Documentation: Physical evidence required"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for reviewing and approving exceptions for non-standard KYC scenarios.",
+    "context": [
+      "Escalation to Compliance Head for non-standard scenarios"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_rsk_001",
+    "name": "High-Risk Customer Profile",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A customer classification that triggers more frequent (annual) periodic reviews due to a higher risk profile.",
+    "context": [
+      "annually for high-risk customers"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_rsk_002",
+    "name": "Lower-Risk Customer Profile",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A customer classification that allows for a longer periodic review cycle of 3–5 years.",
+    "context": [
+      "Every 3–5 years for lower-risk customers"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_acc_001",
+    "name": "New Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "An account in the process of being opened, subject to mandatory identity and address verification.",
+    "context": [
+      "Mandatory at account opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_acc_002",
+    "name": "Closed Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closed_account",
+    "description": "An account that has been terminated, triggering the 6-year record retention clock.",
+    "context": [
+      "6 years post-account closure"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_pol_001",
+    "name": "Identity Verification Procedures",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A formal policy document outlining the acceptable documentation and verification methods required to establish the identity of both UK and Non-UK customers.",
+    "context": [
+      "## Identity Verification Procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_prv_001",
+    "name": "Primary Identity Document Verification for UK Customers",
+    "aliases": [
+      "Acceptable Documents (Primary)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that UK customers must provide a valid, non-expired primary identity document, such as a passport, driving license, or national ID card, subject to specific check and verification methods.",
+    "context": [
+      "UK Customers:",
+      "UK Passport — Valid, not expired",
+      "UK Driving License — Valid, not expired, photocard",
+      "UK National ID Card — Valid, not expired (when introduced)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_prv_002",
+    "name": "Primary Identity Document Verification for Non-UK Customers",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires Non-UK customers to provide a foreign passport (with a preference for English-speaking countries), an EU equivalent driving license, or an EU equivalent national ID card.",
+    "context": [
+      "Non-UK Customers:",
+      "Foreign passport (English-speaking country preference)",
+      "Driving license (EU equivalent)",
+      "National ID card (EU equivalent)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_ctl_001",
+    "name": "DVLA Online Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "An operational verification method used specifically for UK Driving Licenses to validate the document via an online check with the DVLA.",
+    "context": [
+      "Verification method: DVLA verification (online check)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_ctl_002",
+    "name": "Direct Examination or Certified Copy Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "The approved method for verifying UK Passports, requiring either the physical examination of the original document or a certified copy.",
+    "context": [
+      "Verification method: Direct examination or certified copy"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_cus_001",
+    "name": "UK Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Customers residing or based in the UK who are subject to specific primary identity document requirements including UK Passports and Driving Licenses.",
+    "context": [
+      "UK Customers:"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_cus_002",
+    "name": "Non-UK Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Customers from outside the UK who must provide foreign or EU-equivalent identity documentation for verification.",
+    "context": [
+      "Non-UK Customers:"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_kyc_001",
+    "name": "Identity Verification Process",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_verification",
+    "description": "The overall process of collecting and verifying primary identity documents to ensure customers are who they claim to be.",
+    "context": [
+      "## Identity Verification Procedures",
+      "Document check: Signature, photo, personal details",
+      "Document check: Photo, signature, address, driving record"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_001",
+    "name": "UK Passport",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport",
+    "description": "An acceptable primary identity document for UK customers, provided it is valid and not expired.",
+    "context": [
+      "UK Passport — Valid, not expired"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_002",
+    "name": "UK Driving License",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "driving_licence",
+    "description": "An acceptable primary identity document for UK customers, provided it is a valid, non-expired photocard.",
+    "context": [
+      "UK Driving License — Valid, not expired, photocard"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_003",
+    "name": "UK National ID Card",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "national_id",
+    "description": "An acceptable primary identity document for UK customers, provided it is valid and not expired.",
+    "context": [
+      "UK National ID Card — Valid, not expired (when introduced)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_004",
+    "name": "Foreign Passport",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport",
+    "description": "An acceptable primary identity document for Non-UK customers, with a stated preference for those from English-speaking countries.",
+    "context": [
+      "Foreign passport (English-speaking country preference)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_005",
+    "name": "EU Equivalent Driving License",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "driving_licence",
+    "description": "An acceptable primary identity document for Non-UK customers that is equivalent to the EU standard.",
+    "context": [
+      "Driving license (EU equivalent)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_006",
+    "name": "EU Equivalent National ID Card",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "national_id",
+    "description": "An acceptable primary identity document for Non-UK customers that is equivalent to the EU standard.",
+    "context": [
+      "National ID card (EU equivalent)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_pol_001",
+    "name": "Identification Process Policy",
+    "aliases": [
+      "Identification Process"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A formal policy governing the identification process for customers, detailing the steps for document collection, physical verification, and system recording across different onboarding channels.",
+    "context": [
+      "### Identification Process",
+      "Step 1: Document Collection",
+      "Step 2: Physical Verification",
+      "Step 3: System Recording"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_001",
+    "name": "Mandatory Primary Document Collection",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement to request a primary document from the customer and collect specific metadata including document ID, issue date, and expiry date, while assessing for tampering.",
+    "context": [
+      "Request primary document from customer",
+      "Collect document ID, issue date, expiry date",
+      "Assess document integrity (no tampering, alterations)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_002",
+    "name": "Physical Document Verification Standards",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Obligation to examine original documents or certified copies, verify photo and signature matches, and ensure the document is not expired.",
+    "context": [
+      "Examine original document in person (branch opening) or certified copy (postal)",
+      "Verify photo matches customer appearance (if in-person)",
+      "Check signature matches customer specimen",
+      "Confirm document not expired"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_003",
+    "name": "System Recording of Identification Data",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requirement to record document details in the Account Management System (AMS), link to the identification document entity, and flag concerns for manual review.",
+    "context": [
+      "Record document type, number, issue/expiry dates in AMS (Account Management System)",
+      "Link to [[business_ontology]] Identification Document entity",
+      "Flag any concerns for manual review"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_004",
+    "name": "Branch Opening Verification Requirements",
+    "aliases": [
+      "Branch Opening (Highest Assurance)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Highest assurance verification requiring physical examination of original documents, in-person photo verification, and specific recording of staff name and date.",
+    "context": [
+      "Physical examination of original document",
+      "Staff verify photo against customer",
+      "Record: \"In-branch verified\" + staff name + date"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_005",
+    "name": "Online Opening Verification Requirements",
+    "aliases": [
+      "Online Opening (Medium Assurance)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Medium assurance verification requiring notarized certified copies, automated validation where available, and manual review by Compliance staff.",
+    "context": [
+      "Customer uploads certified copy (notarized)",
+      "Automated document validation (if available)",
+      "Manual review by Compliance staff",
+      "Record: \"Document-based verification\" + reviewer name + date"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_006",
+    "name": "Postal Opening Verification Requirements",
+    "aliases": [
+      "Postal Opening (Lower Assurance)"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Lower assurance verification requiring certified copies via registered mail, manual Compliance review, address cross-referencing, and recommended follow-up calls.",
+    "context": [
+      "Customer sends certified copy by registered mail",
+      "Manual review by Compliance",
+      "Cross-reference with address verification",
+      "Follow-up verification call recommended",
+      "Record: \"Postal verification\" + reviewer name + date"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_ctl_001",
+    "name": "Account Management System (AMS)",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The technical system used to record document types, numbers, and dates, and to flag identification concerns for review.",
+    "context": [
+      "Record document type, number, issue/expiry dates in AMS (Account Management System)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_ctl_002",
+    "name": "Automated Document Validation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A technical tool used during online account opening to validate uploaded documents.",
+    "context": [
+      "Automated document validation (if available)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_rol_001",
+    "name": "Compliance Staff",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "Staff responsible for the manual review of identification documents for online and postal account openings.",
+    "context": [
+      "Manual review by Compliance staff",
+      "Manual review by Compliance"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_cus_001",
+    "name": "Prospective Customer",
+    "aliases": [
+      "customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "prospective_customer",
+    "description": "The individual undergoing the identification process during account opening who must provide primary documentation.",
+    "context": [
+      "Request primary document from customer",
+      "Verify photo matches customer appearance"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_kyc_001",
+    "name": "Identity Verification Process",
+    "aliases": [
+      "Identification Process"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_verification",
+    "description": "The end-to-end process of collecting, verifying, and recording customer identification documents across branch, online, and postal channels.",
+    "context": [
+      "Step 1: Document Collection",
+      "Step 2: Physical Verification",
+      "Step 4: Verification Method by Channel"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_doc_001",
+    "name": "Primary Identification Document",
+    "aliases": [
+      "primary document",
+      "original document",
+      "certified copy"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "national_id",
+    "description": "The official document required from the customer, which must be checked for integrity, validity (expiry), and authenticity (photo/signature).",
+    "context": [
+      "Request primary document from customer",
+      "Examine original document in person",
+      "Customer uploads certified copy (notarized)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_pol_001",
+    "name": "Address Verification Procedures",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A formal set of procedures governing the acceptable documentation and verification standards for confirming a customer's residential address. It defines the hierarchy of primary and secondary evidence and the specific validity requirements for each.",
+    "context": [
+      "Address Verification Procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_prv_001",
+    "name": "Utility Bill Validity Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Mandates that utility bills used for address verification must be current, dated within the last 3 months, match the customer's name and address, and be issued by major suppliers.",
+    "context": [
+      "Requirement: Current bill (dated within last 3 months)",
+      "Check: Matches customer name and address",
+      "Acceptable providers: Major suppliers only"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_prv_002",
+    "name": "Council Tax Document Validity Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires that council tax bills or banding notices must be for the current year and must match the customer's name and address.",
+    "context": [
+      "Requirement: Current year",
+      "Check: Matches name and address"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_prv_003",
+    "name": "Bank Statement Validity and Limitation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requires bank statements from other institutions to be current (within 3 months) and show the name and address. It explicitly prohibits the use of a bank statement as sole evidence if the customer already holds an account with FirstUK Bank.",
+    "context": [
+      "Requirement: Current (within 3 months)",
+      "Check: Shows name and address",
+      "Limitation: Not accepted as sole evidence if customer has account with us"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_001",
+    "name": "Utility Bill",
+    "aliases": [
+      "Gas bill",
+      "electricity bill",
+      "water bill",
+      "telephone bill"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A primary preferred document for address verification, including gas, electricity, water, or telephone bills.",
+    "context": [
+      "Utility Bill — Gas, electricity, water, telephone"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_002",
+    "name": "Council Tax Document",
+    "aliases": [
+      "Council tax bill",
+      "banding notice"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A primary preferred document for address verification consisting of a council tax bill or a banding notice.",
+    "context": [
+      "Council Tax Document — Council tax bill or banding notice"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_003",
+    "name": "Bank Statement",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A primary preferred document for address verification, specifically statements from another bank.",
+    "context": [
+      "Bank Statement — Another bank's statement"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_004",
+    "name": "Mortgage Statement",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification if primary documents are unavailable.",
+    "context": [
+      "Mortgage statement"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_005",
+    "name": "Tenancy Agreement",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification; must be signed and include landlord details.",
+    "context": [
+      "Tenancy agreement (signed, with landlord details)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_006",
+    "name": "Insurance Policy",
+    "aliases": [
+      "buildings insurance",
+      "contents insurance"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification, specifically buildings or contents insurance policies.",
+    "context": [
+      "Insurance policy (buildings/contents)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_007",
+    "name": "HM Revenue & Customs Correspondence",
+    "aliases": [
+      "HMRC correspondence"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification consisting of official correspondence from HMRC.",
+    "context": [
+      "HM Revenue & Customs correspondence"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_008",
+    "name": "Electoral Register Extract",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "A secondary document used for address verification consisting of an extract from the electoral register.",
+    "context": [
+      "Electoral register extract"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_kyc_001",
+    "name": "Address Verification Process",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "address_verification",
+    "description": "The process of verifying a customer's residential address through the collection and checking of primary and secondary identification documents.",
+    "context": [
+      "Address Verification Procedures",
+      "Acceptable Address Documents"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_pol_001",
+    "name": "Address Verification Process",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A formal procedure governing the steps required to verify a customer's address, including document collection, validation, and system recording.",
+    "context": [
+      "Address Verification Process"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_kyc_001",
+    "name": "Address Verification",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "address_verification",
+    "description": "The specific KYC process used to validate a customer's residency through document collection and format checking.",
+    "context": [
+      "Address Verification Process",
+      "Step 2: Verification"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_id_001",
+    "name": "Address Verification Document",
+    "aliases": [
+      "supporting document"
+    ],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "An official document requested from the customer to verify their residential address.",
+    "context": [
+      "Request address verification document",
+      "Compare address on ID document with address on supporting document"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_id_002",
+    "name": "ID Document",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "national_id",
+    "description": "A primary identity document used to cross-reference and compare address details against supporting documentation.",
+    "context": [
+      "Compare address on ID document with address on supporting document"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_001",
+    "name": "Mandatory Request for Address Verification Document",
+    "aliases": [
+      "Step 1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff are required to request a document from the customer specifically for the purpose of address verification.",
+    "context": [
+      "Request address verification document"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_002",
+    "name": "Mandatory Recording of Document Metadata",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must record the specific type of document provided, the date of the document, and the address as it appears on the document.",
+    "context": [
+      "Record document type, date, address shown"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_003",
+    "name": "Address Cross-Verification Requirement",
+    "aliases": [
+      "Step 2"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must perform a comparison between the address listed on the primary ID document and the address listed on the supporting address document.",
+    "context": [
+      "Compare address on ID document with address on supporting document"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_004",
+    "name": "Jurisdictional Validation Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must confirm that the customer's address is located within the United Kingdom or another approved jurisdiction.",
+    "context": [
+      "Confirm address is within UK (or approved jurisdiction)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_005",
+    "name": "UK Postcode Format Validation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Staff must verify that UK postcodes adhere to the specific format: A(1,2)9(1,2)A 9A(2).",
+    "context": [
+      "Check postcode format (UK postcode: A(1,2)9(1,2)A 9A(2))"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_006",
+    "name": "System Recording of Address Verification",
+    "aliases": [
+      "Step 3"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The type and date of the address verification document must be formally recorded in the bank's system.",
+    "context": [
+      "Record address document type and date in system"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_007",
+    "name": "Business Ontology Linking Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The recorded address must be linked to the Address entity within the bank's business ontology.",
+    "context": [
+      "Link to [[business_ontology]] Address entity"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_008",
+    "name": "Discrepancy Flagging Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Any inconsistencies or discrepancies found during the address verification process must be flagged in the system.",
+    "context": [
+      "Flag any discrepancies"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_ctl_001",
+    "name": "Address Recording System",
+    "aliases": [
+      "system"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The technical system used to store address document metadata, link to the business ontology, and flag discrepancies.",
+    "context": [
+      "Record address document type and date in system",
+      "Link to [[business_ontology]] Address entity",
+      "Flag any discrepancies"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_pol_001",
+    "name": "Risk-Based Customer Assessment",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "The governing framework for categorising customers into risk tiers based on demographic, geographic, and financial profiles to determine the level of due diligence required.",
+    "context": [
+      "Risk-Based Customer Assessment"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prv_001",
+    "name": "Low Risk Customer Classification Criteria",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Defines the specific criteria for a customer to be classified as Low Risk, including age (18-65), UK nationality/address, use of standard products, and absence of adverse media, PEP status, or high-value transactions.",
+    "context": [
+      "Low Risk:\n- Age 18–65\n- UK national\n- UK address\n- Standard products (savings, current account)\n- No adverse media\n- Not PEP\n- No high-value transactions"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prv_002",
+    "name": "Medium Risk Customer Classification Criteria",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Defines the criteria for Medium Risk classification, including age outliers, non-resident UK citizens, accounts exceeding £100k, professional/business status, or minor PEP connections.",
+    "context": [
+      "Medium Risk:\n- Age >65 or <18 (>16 allowed for limited products)\n- Non-UK resident but UK citizen\n- Higher-value account (>£100k)\n- Professional or business customer\n- Minor PEP connections"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prv_003",
+    "name": "High Risk Customer Classification Criteria",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Defines the criteria for High Risk classification, including non-UK citizenship/address, significant PEP exposure, unclear beneficial ownership, risky transaction patterns, sanctions list matches, adverse media, or Compliance referral.",
+    "context": [
+      "High Risk:\n- Non-UK citizen with foreign address\n- Significant PEP exposure\n- Beneficial owner unclear\n- Transaction pattern suggests higher risk\n- Country of residence on OFAC/sanctions list\n- Adverse media identified\n- Referred by Compliance"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rsk_001",
+    "name": "Low Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk tier assigned to customers meeting standard UK-based profiles with no red flags.",
+    "context": [
+      "Low Risk:"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rsk_002",
+    "name": "Medium Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk tier assigned to customers with specific attributes such as high account value or professional status that require moderate scrutiny.",
+    "context": [
+      "Medium Risk:"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rsk_003",
+    "name": "High Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk tier assigned to customers with significant red flags, including sanctions list matches or PEP exposure, requiring enhanced scrutiny.",
+    "context": [
+      "High Risk:"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_reg_001",
+    "name": "OFAC Sanctions List",
+    "aliases": [
+      "OFAC"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "sanctions_list",
+    "description": "The sanctions list issued by the Office of Foreign Assets Control used to identify high-risk jurisdictions and individuals.",
+    "context": [
+      "Country of residence on OFAC/sanctions list"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rol_001",
+    "name": "Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The function responsible for reviewing customer profiles and referring them for High Risk classification.",
+    "context": [
+      "Referred by Compliance"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_001",
+    "name": "UK National",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A customer holding UK nationality, which is a criterion for Low Risk classification.",
+    "context": [
+      "UK national"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_002",
+    "name": "Non-UK Citizen",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "A customer who is not a citizen of the UK and possesses a foreign address, triggering a High Risk classification.",
+    "context": [
+      "Non-UK citizen with foreign address"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_003",
+    "name": "Politically Exposed Person",
+    "aliases": [
+      "PEP"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "pep_customer",
+    "description": "A customer with political exposure; minor connections lead to Medium Risk, while significant exposure leads to High Risk.",
+    "context": [
+      "Not PEP",
+      "Minor PEP connections",
+      "Significant PEP exposure"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_004",
+    "name": "Professional or Business Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Customers operating in a professional or business capacity, classified as Medium Risk.",
+    "context": [
+      "Professional or business customer"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_acc_001",
+    "name": "Higher-value Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "An account with a balance exceeding £100,000, which triggers a Medium Risk classification.",
+    "context": [
+      "Higher-value account (>£100k)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_tra_001",
+    "name": "High-value Transaction",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "high_value_transaction",
+    "description": "Transactions of a significant value; the absence of these is required for Low Risk classification.",
+    "context": [
+      "No high-value transactions"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prd_001",
+    "name": "Savings Account Product",
+    "aliases": [
+      "savings"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "savings_account_product",
+    "description": "A standard banking product that, when used exclusively, supports a Low Risk classification.",
+    "context": [
+      "Standard products (savings, current account)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prd_002",
+    "name": "Current Account Product",
+    "aliases": [
+      "current account"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account_product",
+    "description": "A standard banking product that, when used exclusively, supports a Low Risk classification.",
+    "context": [
+      "Standard products (savings, current account)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_aml_001",
+    "name": "Adverse Media Check",
+    "aliases": [
+      "adverse media"
+    ],
+    "entity_class": "AML_SCREENING",
+    "type": "adverse_media_check",
+    "description": "The process of screening for negative news; identification of adverse media triggers a High Risk classification.",
+    "context": [
+      "No adverse media",
+      "Adverse media identified"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_ach_001",
+    "name": "Beneficial Owner",
+    "aliases": [],
+    "entity_class": "ACCOUNT_HOLDER",
+    "type": "beneficial_owner",
+    "description": "The ultimate owner of the funds; if the identity of the beneficial owner is unclear, the customer is classified as High Risk.",
+    "context": [
+      "Beneficial owner unclear"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_pol_001",
+    "name": "Risk-Based Re-verification Policy",
+    "aliases": [
+      "Risk-Based Re-verification Schedule"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A policy governing the frequency of customer re-verification based on the assigned risk level of the customer.",
+    "context": [
+      "Risk-Based Re-verification Schedule"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_prv_001",
+    "name": "Low Risk Customer Re-verification Frequency",
+    "aliases": [
+      "Low Risk Schedule"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Mandates that customers classified as Low risk must undergo re-verification every 5 years.",
+    "context": [
+      "Low | Every 5 years"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_prv_002",
+    "name": "Medium Risk Customer Re-verification Frequency",
+    "aliases": [
+      "Medium Risk Schedule"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Mandates that customers classified as Medium risk must undergo re-verification every 3 years.",
+    "context": [
+      "Medium | Every 3 years"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_prv_003",
+    "name": "High Risk Customer Re-verification Frequency",
+    "aliases": [
+      "High Risk Schedule"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "Mandates that customers classified as High risk must undergo re-verification annually or on a transaction basis.",
+    "context": [
+      "High | Annually or on-transaction basis"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_rsk_001",
+    "name": "Low Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A customer risk classification that requires the least frequent re-verification cycle.",
+    "context": [
+      "Customer Risk | Low"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_rsk_002",
+    "name": "Medium Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A customer risk classification requiring re-verification every 3 years.",
+    "context": [
+      "Customer Risk | Medium"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_rsk_003",
+    "name": "High Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A customer risk classification requiring the most frequent re-verification, either annually or triggered by transactions.",
+    "context": [
+      "Customer Risk | High"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_kyc_001",
+    "name": "Periodic Re-verification",
+    "aliases": [
+      "Re-verification Frequency"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "periodic_refresh",
+    "description": "The process of refreshing customer verification data at set intervals based on the customer's risk profile.",
+    "context": [
+      "Re-verification Frequency",
+      "Every 5 years",
+      "Every 3 years",
+      "Annually or on-transaction basis"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_cus_001",
+    "name": "Risk-Rated Customer",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "Bank customers who are subject to different re-verification schedules based on their assigned risk level (Low, Medium, or High).",
+    "context": [
+      "Customer Risk"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "aliases": [
+      "policy_aml"
+    ],
+    "entity_class": "POLICY",
+    "type": "aml_policy",
+    "description": "The governing policy document that defines the bank's requirements for AML screening and overall anti-money laundering frameworks.",
+    "context": [
+      "See: [[policy_aml]] for AML screening requirements"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_001",
+    "name": "High-Risk Customer",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A category of customer that triggers mandatory Enhanced Due Diligence due to increased risk profiles, such as residency in high-risk countries or PEP status.",
+    "context": [
+      "Mandatory for high-risk customers and certain scenarios"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_002",
+    "name": "Politically Exposed Person (PEP)",
+    "aliases": [
+      "PEP"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A specific risk scenario where a customer is identified as a Politically Exposed Person, necessitating Enhanced Due Diligence.",
+    "context": [
+      "PEP (Politically Exposed Person) identified"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_003",
+    "name": "Unclear Beneficial Ownership",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk scenario where the ultimate beneficial ownership of a customer entity cannot be clearly established.",
+    "context": [
+      "Beneficial ownership unclear"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_004",
+    "name": "Unusual Transaction Patterns",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "money_laundering",
+    "description": "A risk trigger based on financial activity that deviates from expected patterns, requiring enhanced scrutiny.",
+    "context": [
+      "Transaction pattern unusual"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_005",
+    "name": "Fraud or Complaint History",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "A risk trigger based on a customer's previous history of fraud or formal complaints.",
+    "context": [
+      "Complaint or fraud history"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_006",
+    "name": "Regulatory Concern",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk trigger arising from specific concerns identified by regulatory bodies.",
+    "context": [
+      "Regulatory concern identified"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_prv_001",
+    "name": "Mandatory Enhanced Due Diligence for High-Risk Scenarios",
+    "aliases": [
+      "EDD"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that Enhanced Due Diligence (EDD) must be performed for customers identified as high-risk or those meeting specific trigger scenarios.",
+    "context": [
+      "Enhanced Due Diligence (EDD) Mandatory for high-risk customers and certain scenarios"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_prv_002",
+    "name": "EDD Approval Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "A mandate that the Compliance Head must provide formal approval for customers subject to Enhanced Due Diligence.",
+    "context": [
+      "Escalation: Compliance Head approval required for EDD customers"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_prv_003",
+    "name": "EDD Periodic Review Schedule",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A requirement that EDD customers must undergo a periodic review at a minimum frequency of once per year.",
+    "context": [
+      "Periodic review (annual minimum)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_001",
+    "name": "Enhanced Identity Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "The operational process of verifying a customer's identity using multiple documents as part of the EDD procedure.",
+    "context": [
+      "Enhanced identity verification (multiple documents)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_002",
+    "name": "Beneficial Ownership Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The process of verifying the beneficial owners when the customer is an entity.",
+    "context": [
+      "Beneficial ownership verification (if customer is entity)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_003",
+    "name": "Source of Funds Verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational requirement to verify the origin of the funds provided by the customer.",
+    "context": [
+      "Source of funds verification"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_004",
+    "name": "Ongoing Transaction Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The continuous monitoring of transactions for EDD customers to detect suspicious activity.",
+    "context": [
+      "Ongoing transaction monitoring"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_005",
+    "name": "Risk Assessment Documentation",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The requirement to formally document the risk assessment performed for the customer.",
+    "context": [
+      "Documentation of risk assessment"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The role responsible for providing the final approval for customers designated as EDD.",
+    "context": [
+      "Escalation: Compliance Head approval required for EDD customers"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_cus_001",
+    "name": "High-Risk Customer",
+    "aliases": [
+      "EDD customers"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "Customers who meet trigger scenarios such as being a PEP or from a high-risk country, and are thus subject to EDD.",
+    "context": [
+      "Mandatory for high-risk customers and certain scenarios",
+      "Compliance Head approval required for EDD customers"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_kyc_001",
+    "name": "Enhanced Due Diligence (EDD) Process",
+    "aliases": [
+      "EDD Procedures"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "enhanced_due_diligence",
+    "description": "The comprehensive verification process including identity, beneficial ownership, and source of funds verification for high-risk customers.",
+    "context": [
+      "EDD Procedures:",
+      "Enhanced identity verification (multiple documents)",
+      "Beneficial ownership verification (if customer is entity)",
+      "Source of funds verification"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_pol_001",
+    "name": "PEP Screening Policy",
+    "aliases": [
+      "PEP Screening"
+    ],
+    "entity_class": "POLICY",
+    "type": "aml_policy",
+    "description": "A formal policy governing the identification, screening, and management of Politically Exposed Persons (PEPs) to mitigate financial crime risks. It defines the scope of screening and the mandatory actions required upon PEP identification.",
+    "context": [
+      "## PEP Screening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_rsk_001",
+    "name": "Politically Exposed Person Risk",
+    "aliases": [
+      "PEP"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk associated with customers who hold prominent public functions, including government officials, senior politicians, and military leaders, which may increase the susceptibility to bribery or corruption.",
+    "context": [
+      "PEP = Politically Exposed Person (government official, senior politician, military leader, etc.)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_001",
+    "name": "Mandatory Screening of New Customers for PEP Status",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to screen all new customers against PEP databases to identify politically exposed persons at the onset of the relationship.",
+    "context": [
+      "Screen all new customers against PEP databases"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_002",
+    "name": "Screening of PEP Family and Associates",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation to extend PEP screening to include the immediate family members and close associates of any identified Politically Exposed Person.",
+    "context": [
+      "Screen immediate family of PEP",
+      "Screen close associates of PEP"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_003",
+    "name": "Ongoing Monitoring of PEP Status",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "monitoring_obligation",
+    "description": "A requirement to perform continuous monitoring to detect changes in a customer's PEP status over time.",
+    "context": [
+      "Ongoing monitoring for PEP status changes"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_ctl_001",
+    "name": "PEP Database Screening",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The operational use of FCA/PRA lists, sanctions cross-references, and third-party data providers to identify PEPs.",
+    "context": [
+      "FCA/PRA PEP lists",
+      "Sanctions list cross-references",
+      "Third-party data providers"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_reg_001",
+    "name": "Financial Conduct Authority PEP Lists",
+    "aliases": [
+      "FCA PEP lists"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "Lists provided by the Financial Conduct Authority used as a source for identifying Politically Exposed Persons.",
+    "context": [
+      "FCA/PRA PEP lists"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_reg_002",
+    "name": "Prudential Regulation Authority PEP Lists",
+    "aliases": [
+      "PRA PEP lists"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "Lists provided by the Prudential Regulation Authority used as a source for identifying Politically Exposed Persons.",
+    "context": [
+      "FCA/PRA PEP lists"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_004",
+    "name": "Mandatory PEP Identification Actions",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A set of mandatory steps to be taken once a PEP is identified, including system flagging, enhanced due diligence, and escalation.",
+    "context": [
+      "Flag customer in system as PEP",
+      "Enhanced due diligence mandatory",
+      "Escalate to Compliance Head",
+      "Enhanced ongoing monitoring",
+      "Consider transaction restrictions"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The senior official responsible for receiving escalations when a Politically Exposed Person is identified.",
+    "context": [
+      "Escalate to Compliance Head"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_kyc_001",
+    "name": "Enhanced Due Diligence for PEPs",
+    "aliases": [
+      "EDD"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "enhanced_due_diligence",
+    "description": "A mandatory, more rigorous verification process applied to customers identified as Politically Exposed Persons.",
+    "context": [
+      "Enhanced due diligence mandatory"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_aml_001",
+    "name": "PEP Screening Process",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "pep_screening",
+    "description": "The process of checking new customers, their families, and associates against PEP databases and maintaining ongoing monitoring.",
+    "context": [
+      "Screen all new customers against PEP databases",
+      "Ongoing monitoring for PEP status changes"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_cus_001",
+    "name": "PEP Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "pep_customer",
+    "description": "A customer identified as a Politically Exposed Person, including their immediate family and close associates.",
+    "context": [
+      "Screen all new customers against PEP databases",
+      "Flag customer in system as PEP"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_pol_001",
+    "name": "Adverse Media Screening Policy",
+    "aliases": [
+      "Adverse Media Screening"
+    ],
+    "entity_class": "POLICY",
+    "type": "aml_policy",
+    "description": "A policy governing the screening of all customers for adverse media, including criminal convictions and fraud allegations, to determine the materiality of the risk to the banking relationship.",
+    "context": [
+      "## Adverse Media Screening",
+      "Scope: Screen all customers for adverse media (criminal convictions, fraud allegations, sanctions violations, etc.)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_prv_001",
+    "name": "Mandatory Adverse Media Screening for All Customers",
+    "aliases": [
+      "Scope"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that all customers must be screened for adverse media, specifically looking for criminal convictions, fraud allegations, and sanctions violations.",
+    "context": [
+      "Scope: Screen all customers for adverse media (criminal convictions, fraud allegations, sanctions violations, etc.)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_prv_002",
+    "name": "Adverse Media Response and Escalation Process",
+    "aliases": [
+      "Action if Adverse Media Found"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "notification_rule",
+    "description": "A mandatory four-step process when adverse media is identified: flagging for manual review, assessing materiality, escalating to the Compliance Head if material, and considering account rejection or enhanced monitoring.",
+    "context": [
+      "Action if Adverse Media Found:",
+      "1. Flag for manual review",
+      "2. Assess materiality (relevance to banking relationship)",
+      "3. If material: Escalate to Compliance Head",
+      "4. Consider account rejection or enhanced monitoring"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rsk_001",
+    "name": "Criminal Convictions",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "Risk associated with customers who have a history of criminal convictions as identified through adverse media screening.",
+    "context": [
+      "Screen all customers for adverse media (criminal convictions, fraud allegations, sanctions violations, etc.)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rsk_002",
+    "name": "Fraud Allegations",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "fraud",
+    "description": "Risk associated with customers linked to fraud allegations discovered during adverse media screening.",
+    "context": [
+      "Screen all customers for adverse media (criminal convictions, fraud allegations, sanctions violations, etc.)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rsk_003",
+    "name": "Sanctions Violations",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "sanctions_violation",
+    "description": "Risk associated with customers involved in sanctions violations as identified through adverse media screening.",
+    "context": [
+      "Screen all customers for adverse media (criminal convictions, fraud allegations, sanctions violations, etc.)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_ctl_001",
+    "name": "Adverse Media Screening Sources",
+    "aliases": [
+      "Sources"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The operational use of news databases, third-party screening providers, and regulatory announcements to identify adverse media.",
+    "context": [
+      "Sources:",
+      "News databases",
+      "Third-party screening providers",
+      "Regulatory announcements"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_ctl_002",
+    "name": "Manual Review and Materiality Assessment",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "approval_gate",
+    "description": "A manual control process to review flagged adverse media and assess its relevance and materiality to the bank's relationship with the customer.",
+    "context": [
+      "1. Flag for manual review",
+      "2. Assess materiality (relevance to banking relationship)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The senior role responsible for receiving escalations when material adverse media is identified during the screening process.",
+    "context": [
+      "3. If material: Escalate to Compliance Head"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_cus_001",
+    "name": "All Customers",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The entire customer base of the bank subject to mandatory adverse media screening.",
+    "context": [
+      "Scope: Screen all customers for adverse media"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_aml_001",
+    "name": "Adverse Media Check",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "adverse_media_check",
+    "description": "The specific AML screening process used to identify criminal, fraud, or sanctions-related news regarding customers.",
+    "context": [
+      "## Adverse Media Screening",
+      "Screen all customers for adverse media (criminal convictions, fraud allegations, sanctions violations, etc.)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_pol_001",
+    "name": "Documentation & Record Retention Policy",
+    "aliases": [
+      "policy_retention"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "A policy governing the types of records that must be maintained for each customer, their storage location, access controls, and the mandatory retention period.",
+    "context": [
+      "Documentation & Record Retention",
+      "Retention: 6 years post-account closure (see [[policy_retention]])"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_prv_001",
+    "name": "Mandatory Customer Record Collection",
+    "aliases": [
+      "Required Records"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Requirement to maintain a comprehensive set of documents for every customer, including identity, address, KYC verification, risk assessments, and various screening results.",
+    "context": [
+      "For each customer: Copy of identity document, Copy of address verification document, KYC verification record (date, method, approver), Risk assessment (if high-risk), PEP screening result, Adverse media screening result, AML screening result"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_prv_002",
+    "name": "Customer Record Retention Period",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Mandate that all required customer records must be retained for a period of 6 years following the closure of the account.",
+    "context": [
+      "Retention: 6 years post-account closure"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_ctl_001",
+    "name": "Secure Document Management System",
+    "aliases": [
+      "DMS-001"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The designated secure technical system used for the storage of mandatory customer documentation.",
+    "context": [
+      "Storage Location: Secure document management system (DMS-001)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_ctl_002",
+    "name": "Role-Based Access Control for Compliance",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "access_control",
+    "description": "A security mechanism restricting access to the document management system exclusively to Compliance staff.",
+    "context": [
+      "Access Control: Role-based (Compliance staff only)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_ctl_003",
+    "name": "Access Audit Logging",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "A monitoring control ensuring that all access to customer records is logged for audit purposes.",
+    "context": [
+      "Audit Trail: All access logged"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_rol_001",
+    "name": "Compliance Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The specific staff collective granted authorized access to the secure document management system.",
+    "context": [
+      "Access Control: Role-based (Compliance staff only)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_id_001",
+    "name": "Identity Document",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport",
+    "description": "An official document required to be copied and retained for every customer as part of the KYC process.",
+    "context": [
+      "Copy of identity document"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_id_002",
+    "name": "Address Verification Document",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "An official document required to be copied and retained for every customer to verify their residential address.",
+    "context": [
+      "Copy of address verification document"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_kyc_001",
+    "name": "KYC Verification Record",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_verification",
+    "description": "The record of the KYC process, which must specifically include the date of verification, the method used, and the identity of the approver.",
+    "context": [
+      "KYC verification record (date, method, approver)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_aml_001",
+    "name": "PEP Screening",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "pep_screening",
+    "description": "The process of screening customers for Politically Exposed Person status, the results of which must be retained.",
+    "context": [
+      "PEP screening result"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_aml_002",
+    "name": "Adverse Media Screening",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "adverse_media_check",
+    "description": "The process of checking for negative news or media regarding a customer, the results of which must be retained.",
+    "context": [
+      "Adverse media screening result"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_aml_003",
+    "name": "AML Screening",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "sanctions_screening",
+    "description": "General Anti-Money Laundering screening conducted on customers, the results of which must be retained.",
+    "context": [
+      "AML screening result"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_rsk_001",
+    "name": "High-Risk Customer Status",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "A risk classification that triggers the mandatory requirement to maintain a formal risk assessment record.",
+    "context": [
+      "Risk assessment (if high-risk)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_acc_001",
+    "name": "Closed Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closed_account",
+    "description": "An account that has been terminated, serving as the trigger event for the 6-year record retention countdown.",
+    "context": [
+      "Retention: 6 years post-account closure"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_pol_001",
+    "name": "Exceptions & Escalation Policy",
+    "aliases": [
+      "Exceptions & Escalation"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A policy governing the handling of non-standard customer scenarios, the process for requesting exceptions to standard documentation, and the mandatory escalation paths for high-risk profiles.",
+    "context": [
+      "Exceptions & Escalation",
+      "Non-Standard Scenarios Requiring Escalation"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The authority responsible for reviewing and providing written approval for KYC exceptions, including cases involving refugees, foreign customers, and PEPs.",
+    "context": [
+      "Escalation: Compliance Head approval",
+      "Obtain written approval from Compliance Head"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rol_002",
+    "name": "Legal Review",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "board_committee",
+    "description": "A functional role required to provide review and oversight for high-value customers with complex structures such as trusts or investment vehicles.",
+    "context": [
+      "Escalation: Compliance Head + Legal review"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rsk_001",
+    "name": "Politically Exposed Person Risk",
+    "aliases": [
+      "PEP"
+    ],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk associated with customers who hold prominent public functions, requiring mandatory escalation and enhanced due diligence.",
+    "context": [
+      "Politically Exposed Person (PEP)",
+      "Escalation: Compliance Head mandatory"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rsk_002",
+    "name": "Complex Customer Structure Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "money_laundering",
+    "description": "Risk associated with high-value customers utilizing complex legal structures like trusts or investment vehicles to obscure ownership.",
+    "context": [
+      "High-Value Customer with Complex Structure",
+      "Example: Trust, investment vehicle"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_001",
+    "name": "Mandatory Escalation for PEPs",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement that all Politically Exposed Persons (PEPs) must be escalated to the Compliance Head and undergo enhanced due diligence and senior approval.",
+    "context": [
+      "Politically Exposed Person (PEP)",
+      "Escalation: Compliance Head mandatory",
+      "Requirement: Enhanced due diligence, senior approval"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_002",
+    "name": "Beneficial Ownership Verification for Complex Structures",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for high-value customers with complex structures to undergo beneficial ownership verification and enhanced due diligence, subject to Compliance Head and Legal review.",
+    "context": [
+      "Requirement: Beneficial ownership verification + enhanced due diligence",
+      "Escalation: Compliance Head + Legal review"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_003",
+    "name": "Alternative Verification for Limited Documentation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Provision allowing the use of notarized statements or passport alternatives for refugees, and foreign equivalent documents for foreign customers, subject to Compliance Head approval.",
+    "context": [
+      "Alternative verification: Notarized statement, passport alternative",
+      "Alternative: Foreign equivalent documents + additional address verification"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_004",
+    "name": "Exception Documentation and Approval Process",
+    "aliases": [
+      "Escalation Process"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A four-step mandatory process for exceptions: documenting reasoning, obtaining written Compliance Head approval, recording the decision in the system, and applying higher-risk monitoring.",
+    "context": [
+      "Document reasoning for exception",
+      "Obtain written approval from Compliance Head",
+      "Record decision and rationale in system",
+      "Higher-risk monitoring applied"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_ctl_001",
+    "name": "Enhanced Due Diligence",
+    "aliases": [
+      "EDD"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "An intensified verification process applied to PEPs and complex customer structures to mitigate higher risk levels.",
+    "context": [
+      "Requirement: Beneficial ownership verification + enhanced due diligence",
+      "Requirement: Enhanced due diligence, senior approval"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_ctl_002",
+    "name": "Higher-Risk Monitoring",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "transaction_monitoring",
+    "description": "The application of increased monitoring levels to accounts that have been granted a policy exception.",
+    "context": [
+      "Higher-risk monitoring applied"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_kyc_001",
+    "name": "Beneficial Ownership Verification",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "enhanced_due_diligence",
+    "description": "The process of identifying and verifying the natural persons who ultimately own or control a complex customer structure.",
+    "context": [
+      "Requirement: Beneficial ownership verification + enhanced due diligence"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_001",
+    "name": "Refugee Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "Customers with limited standard documentation who require alternative verification methods and escalation.",
+    "context": [
+      "Example: Refugee with limited documentation"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_002",
+    "name": "Foreign Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "Customers residing outside the UK with limited UK-based documentation requiring foreign equivalent verification.",
+    "context": [
+      "Foreign Customer with Limited UK Documentation"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_003",
+    "name": "High-Value Complex Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "Customers utilizing trusts or investment vehicles, requiring legal review and beneficial ownership verification.",
+    "context": [
+      "High-Value Customer with Complex Structure",
+      "Example: Trust, investment vehicle"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_004",
+    "name": "Politically Exposed Person",
+    "aliases": [
+      "PEP"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "pep_customer",
+    "description": "Customers identified as PEPs who are subject to mandatory escalation and enhanced due diligence.",
+    "context": [
+      "Politically Exposed Person (PEP)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_doc_001",
+    "name": "Notarized Statement",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "proof_of_address",
+    "description": "An acceptable alternative verification document for customers unable to provide standard documentation, such as refugees.",
+    "context": [
+      "Alternative verification: Notarized statement, passport alternative"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_doc_002",
+    "name": "Passport Alternative",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "passport",
+    "description": "An acceptable alternative identity document for customers unable to provide standard documentation.",
+    "context": [
+      "Alternative verification: Notarized statement, passport alternative"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_doc_003",
+    "name": "Foreign Equivalent Documents",
+    "aliases": [],
+    "entity_class": "IDENTIFICATION_DOCUMENT",
+    "type": "national_id",
+    "description": "Documents issued by foreign authorities used to verify the identity of foreign customers in the absence of UK documentation.",
+    "context": [
+      "Alternative: Foreign equivalent documents + additional address verification"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_rol_001",
+    "name": "Branch Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members operating within bank branches who are responsible for the primary collection of KYC documentation, physical verification of customers, and the accurate recording of identity details.",
+    "context": [
+      "Branch Staff",
+      "Collect required identity and address documents",
+      "Conduct physical examination (branch opening)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_001",
+    "name": "Mandatory Collection of Identity and Address Documents",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement for Branch Staff to collect the necessary identity and address documentation from customers during the onboarding or verification process.",
+    "context": [
+      "Collect required identity and address documents"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_002",
+    "name": "Physical Examination Requirement for Branch Opening",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "An obligation for Branch Staff to perform a physical examination of the customer when an account is opened at a branch location.",
+    "context": [
+      "Conduct physical examination (branch opening)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_003",
+    "name": "Accurate Recording of Document Details",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement ensuring that all details from collected identity and address documents are recorded accurately by Branch Staff.",
+    "context": [
+      "Record document details accurately"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_004",
+    "name": "Escalation of KYC Exceptions to Manager",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "reporting_obligation",
+    "description": "An obligation for Branch Staff to escalate any exceptions encountered during the document collection or verification process to their manager.",
+    "context": [
+      "Escalate exceptions to manager"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_005",
+    "name": "Maintenance of Customer Confidentiality",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "A general obligation for Branch Staff to ensure that customer information remains confidential.",
+    "context": [
+      "Maintain customer confidentiality"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_rol_002",
+    "name": "Manager",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The supervisory role responsible for receiving and handling exceptions escalated by Branch Staff during the KYC process.",
+    "context": [
+      "Escalate exceptions to manager"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_ctl_001",
+    "name": "Identity and Address Document Collection",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational process of gathering official identification and residency proof to verify customer identity.",
+    "context": [
+      "Collect required identity and address documents"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_ctl_002",
+    "name": "Physical Customer Examination",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "authentication",
+    "description": "A physical verification control performed by staff at the point of branch opening to authenticate the customer's identity.",
+    "context": [
+      "Conduct physical examination (branch opening)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_rol_001",
+    "name": "Compliance Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members responsible for the operational execution of KYC and AML procedures, including the review of documentation, application decisioning, and screening activities.",
+    "context": [
+      "Compliance Staff",
+      "Review KYC documentation",
+      "Approve or reject applications",
+      "Conduct PEP/adverse media screening",
+      "Manage escalations",
+      "Maintain audit trail"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_001",
+    "name": "Mandatory Review of KYC Documentation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for Compliance Staff to review all Know Your Customer (KYC) documentation as part of the onboarding or review process.",
+    "context": [
+      "Review KYC documentation"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_002",
+    "name": "Application Approval or Rejection Authority",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "approval_requirement",
+    "description": "Obligation for Compliance Staff to formally approve or reject customer applications based on the review of provided documentation and screening results.",
+    "context": [
+      "Approve or reject applications"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_003",
+    "name": "Mandatory PEP and Adverse Media Screening",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Requirement for Compliance Staff to conduct screening for Politically Exposed Persons (PEPs) and check for adverse media coverage.",
+    "context": [
+      "Conduct PEP/adverse media screening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_004",
+    "name": "Escalation Management Obligation",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "Requirement for Compliance Staff to manage the escalation process for high-risk or complex cases that cannot be resolved at the initial review level.",
+    "context": [
+      "Manage escalations"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_005",
+    "name": "Audit Trail Maintenance Requirement",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "record_retention_rule",
+    "description": "Obligation for Compliance Staff to maintain a comprehensive audit trail of all KYC and screening activities performed.",
+    "context": [
+      "Maintain audit trail"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_ctl_001",
+    "name": "PEP and Adverse Media Screening",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "pep_screening",
+    "description": "The operational process of checking customers against PEP lists and adverse media sources to identify potential high-risk individuals.",
+    "context": [
+      "Conduct PEP/adverse media screening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_ctl_002",
+    "name": "Audit Trail",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The mechanism used to record and preserve the history of compliance decisions and reviews for regulatory inspection.",
+    "context": [
+      "Maintain audit trail"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_kyc_001",
+    "name": "KYC Documentation Review",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_verification",
+    "description": "The process of reviewing customer identification and verification documents to ensure compliance with bank standards.",
+    "context": [
+      "Review KYC documentation"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_020_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The senior official responsible for the approval and updating of policies, oversight of audits, and providing training and guidance. This role also handles exception approvals for high-risk cases and serves as the primary liaison for external regulators.",
+    "context": [
+      "Compliance Head",
+      "Policy approval and updates",
+      "Exception approval (high-risk cases)",
+      "Audit oversight",
+      "Training and guidance",
+      "External regulatory liaison"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_020",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_pol_001",
+    "name": "Training & Awareness Policy",
+    "aliases": [
+      "Training & Awareness"
+    ],
+    "entity_class": "POLICY",
+    "type": "training_requirement",
+    "description": "A policy section governing the mandatory training and awareness requirements for various staff categories to ensure compliance with KYC and regulatory standards.",
+    "context": [
+      "Training & Awareness"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_prv_001",
+    "name": "Annual KYC Training for Customer-Facing Staff",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement that all customer-facing staff must undergo KYC training on an annual basis.",
+    "context": [
+      "All customer-facing staff: Annual KYC training"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_prv_002",
+    "name": "Quarterly Updates and Specialist Training for Compliance Staff",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for compliance staff to receive quarterly updates and additional specialist training.",
+    "context": [
+      "Compliance staff: Quarterly updates + specialist training"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_prv_003",
+    "name": "Annual Policy Overview and Escalation Training for Managers",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "training_requirement",
+    "description": "A mandatory requirement for managers to complete an annual policy overview and training on escalation procedures.",
+    "context": [
+      "Managers: Annual policy overview + escalation procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_rol_001",
+    "name": "Customer-Facing Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members who interact with customers and are obligated to complete annual KYC training.",
+    "context": [
+      "All customer-facing staff: Annual KYC training"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_rol_002",
+    "name": "Compliance Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members within the compliance function obligated to undergo quarterly updates and specialist training.",
+    "context": [
+      "Compliance staff: Quarterly updates + specialist training"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_rol_003",
+    "name": "Managers",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff in management positions obligated to complete annual policy overviews and training on escalation procedures.",
+    "context": [
+      "Managers: Annual policy overview + escalation procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_ctl_001",
+    "name": "Staff Training Program",
+    "aliases": [
+      "Training Topics"
+    ],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "staff_training",
+    "description": "The operational mechanism for ensuring staff competency, covering document recognition, verification, risk assessment, escalation, regulatory requirements, and privacy.",
+    "context": [
+      "Training Topics:",
+      "Document recognition and authenticity",
+      "Acceptable forms of identity/address verification",
+      "Risk assessment",
+      "Escalation procedures",
+      "Regulatory requirements",
+      "Customer privacy"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_kyc_001",
+    "name": "Identity and Address Verification Training",
+    "aliases": [],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_verification",
+    "description": "Training requirements focused on the recognition and authenticity of acceptable identity and address verification documents.",
+    "context": [
+      "Document recognition and authenticity",
+      "Acceptable forms of identity/address verification"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rsk_001",
+    "name": "Regulatory Breach",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk associated with the failure to verify customer identity, which leads to legal and regulatory penalties.",
+    "context": [
+      "Failure to verify customer identity is a regulatory breach with potential consequences"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rsk_002",
+    "name": "Reputational Damage",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "reputational_risk",
+    "description": "The risk of harm to the bank's public image resulting from non-compliance with identity verification standards.",
+    "context": [
+      "Reputational damage"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rsk_003",
+    "name": "Criminal Liability",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk of legal prosecution and criminal charges in severe cases of non-compliance with identity verification.",
+    "context": [
+      "Criminal liability (in severe cases)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body responsible for issuing fines in the event of a regulatory breach regarding customer identity verification.",
+    "context": [
+      "Regulatory fine (FCA)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_001",
+    "name": "Mandatory Account Closure for Non-Compliant Customers",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement that accounts must be closed if the customer is found to be non-compliant with identity verification standards.",
+    "context": [
+      "Account closure (mandatory for non-compliant customers)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_002",
+    "name": "Internal Disciplinary Action for Non-Compliance",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The bank's internal mandate to apply disciplinary measures, up to and including termination, for staff failing to comply with verification policies.",
+    "context": [
+      "Disciplinary action (up to termination)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_003",
+    "name": "Performance Management Review for Non-Compliance",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The requirement to subject staff to performance management reviews following a failure in compliance.",
+    "context": [
+      "Performance management review"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_004",
+    "name": "Removal from Customer-Facing Roles",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "obligation",
+    "description": "The internal consequence where staff may lose their customer-facing role due to non-compliance with identity verification.",
+    "context": [
+      "Loss of customer-facing role"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rol_001",
+    "name": "Customer-Facing Staff",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "Staff members in roles interacting with customers who are subject to disciplinary action and role loss if they fail to verify customer identity.",
+    "context": [
+      "Loss of customer-facing role"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_cus_001",
+    "name": "Non-Compliant Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "high_risk_customer",
+    "description": "Customers who fail to meet the bank's identity verification requirements and are subject to mandatory account closure.",
+    "context": [
+      "Account closure (mandatory for non-compliant customers)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_acc_001",
+    "name": "Non-Compliant Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "closed_account",
+    "description": "Accounts held by customers who fail identity verification, which must be closed as a result of the regulatory breach.",
+    "context": [
+      "Account closure (mandatory for non-compliant customers)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_pol_001",
+    "name": "KYC Policy",
+    "aliases": [],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "The governing policy document establishing the standards for Know Your Customer (KYC) procedures, including audit requirements and performance metrics.",
+    "context": [
+      "Annual KYC procedure testing",
+      "Thematic reviews of KYC effectiveness",
+      "KYC completion rate on opening"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_prv_001",
+    "name": "Annual KYC Procedure Testing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement for Internal Audit to conduct testing of KYC procedures on an annual basis.",
+    "context": [
+      "Annual KYC procedure testing"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_prv_002",
+    "name": "KYC File Sample Testing",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A requirement to perform sample testing of completed KYC files to ensure compliance with documentation standards and appropriate escalation handling.",
+    "context": [
+      "Sample testing of completed KYC files",
+      "Compliance with documentation standards",
+      "Escalation handling appropriateness"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_prv_003",
+    "name": "KYC Performance Metric Compliance",
+    "aliases": [],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "The bank must adhere to specific performance targets for KYC, including a 100% completion rate on opening and a processing time of less than one business day.",
+    "context": [
+      "KYC completion rate on opening | 100%",
+      "Average KYC processing time | <1 business day",
+      "Audit finding remediation | 100% within SLA"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_reg_001",
+    "name": "Financial Conduct Authority",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body responsible for periodic examinations and thematic reviews of the bank's KYC effectiveness.",
+    "context": [
+      "FCA/PRA periodic examinations"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_reg_002",
+    "name": "Prudential Regulation Authority",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "external_regulator",
+    "description": "The regulatory body responsible for periodic examinations of the bank's KYC procedures.",
+    "context": [
+      "FCA/PRA periodic examinations"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_ctl_001",
+    "name": "Internal Audit Testing",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The operational mechanism of using internal audits to test KYC procedures and file samples for compliance.",
+    "context": [
+      "Annual KYC procedure testing",
+      "Sample testing of completed KYC files"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_ctl_002",
+    "name": "Regulatory Examination",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "audit_logging",
+    "description": "The process of undergoing periodic examinations and thematic reviews by the FCA and PRA to assess KYC effectiveness.",
+    "context": [
+      "FCA/PRA periodic examinations",
+      "Thematic reviews of KYC effectiveness",
+      "File sampling and assessment"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_rol_001",
+    "name": "Internal Audit",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The function responsible for conducting annual KYC procedure testing and sample testing of completed files.",
+    "context": [
+      "Internal Audit:",
+      "Annual KYC procedure testing (see [[departments]] Internal Audit)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_pol_001",
+    "name": "FirstUK Bank Policy Review & Updates Framework",
+    "aliases": [
+      "Policy Review & Updates"
+    ],
+    "entity_class": "POLICY",
+    "type": "operational_risk",
+    "description": "The governing framework for the periodic review and updating of bank policies to ensure alignment with regulatory changes and internal standards.",
+    "context": [
+      "Policy Review & Updates"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "aliases": [
+      "Review Frequency"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement that policies must be reviewed on an annual basis or immediately upon the occurrence of a regulatory change.",
+    "context": [
+      "Review Frequency: Annual (or upon regulatory change)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_reg_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "aliases": [
+      "FCA COBS"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "rulebook",
+    "description": "The Financial Conduct Authority's Conduct of Business Sourcebook, which serves as a regulatory change trigger for policy updates.",
+    "context": [
+      "FCA COBS rule changes"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_reg_002",
+    "name": "Money Laundering Regulations",
+    "aliases": [
+      "MLR"
+    ],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulation",
+    "description": "The statutory regulations governing money laundering, the updates of which necessitate a review of the bank's policies.",
+    "context": [
+      "Money Laundering Regulations updates"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_reg_003",
+    "name": "Regulatory Authority Guidance",
+    "aliases": [],
+    "entity_class": "REGULATORY_REFERENCE",
+    "type": "regulatory_guidance",
+    "description": "Official guidance issued by regulatory authorities that triggers a mandatory review of bank policies.",
+    "context": [
+      "Guidance from regulatory authorities"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_rsk_001",
+    "name": "KYC Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The risk that Know Your Customer (KYC) procedures become outdated or non-compliant due to new court judgments.",
+    "context": [
+      "Court judgments affecting KYC"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "aliases": [
+      "policy_aml"
+    ],
+    "entity_class": "POLICY",
+    "type": "aml_policy",
+    "description": "The formal governing policy document regarding Anti-Money Laundering standards and requirements within FirstUK Bank.",
+    "context": [
+      "[[policy_aml]] — Anti-Money Laundering Policy"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_002",
+    "name": "Document Retention Policy",
+    "aliases": [
+      "policy_retention"
+    ],
+    "entity_class": "POLICY",
+    "type": "data_retention",
+    "description": "The formal policy governing the retention and disposal of documents within the bank.",
+    "context": [
+      "[[policy_retention]] — Document Retention Policy"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_003",
+    "name": "KYC Verification SOP",
+    "aliases": [
+      "KYC-SOP-001"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A Standard Operating Procedure detailing the specific steps and requirements for performing KYC verification.",
+    "context": [
+      "KYC Verification SOP (KYC-SOP-001)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_004",
+    "name": "Account Opening SOP",
+    "aliases": [
+      "ACCT-OPEN-SOP-001"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "A Standard Operating Procedure governing the process and requirements for opening new customer accounts.",
+    "context": [
+      "Account Opening SOP (ACCT-OPEN-SOP-001)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_005",
+    "name": "Identification Document standards",
+    "aliases": [
+      "Internal guidance"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "Internal guidance defining the standards and acceptable types of identification documents for verification purposes.",
+    "context": [
+      "Identification Document standards (Internal guidance)"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_pol_001",
+    "name": "FirstUK Bank KYC and AML Policy",
+    "aliases": [
+      "Initial policy"
+    ],
+    "entity_class": "POLICY",
+    "type": "kyc_policy",
+    "description": "The governing policy document for FirstUK Bank regarding Know Your Customer (KYC) and Anti-Money Laundering (AML) procedures. It has undergone multiple versions to include risk-based re-verification and PEP screening.",
+    "context": [
+      "Document Version History",
+      "Initial policy"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_rol_001",
+    "name": "Compliance Head",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The individual responsible for authoring and updating the policy, including the implementation of risk-based re-verification schedules and PEP screening procedures.",
+    "context": [
+      "Author: Compliance Head"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_prv_001",
+    "name": "Risk-Based Re-verification Schedule",
+    "aliases": [
+      "Version 2.1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "review_schedule",
+    "description": "A mandatory requirement introduced in version 2.1 of the policy establishing a schedule for the re-verification of customers based on their risk profile.",
+    "context": [
+      "Added risk-based re-verification schedule"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_prv_002",
+    "name": "Enhanced Due Diligence (EDD) Procedures",
+    "aliases": [
+      "Version 2.1"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Specific procedures for conducting Enhanced Due Diligence as mandated by the updated policy version 2.1.",
+    "context": [
+      "Added... EDD procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_prv_003",
+    "name": "Politically Exposed Person (PEP) Screening Procedures",
+    "aliases": [
+      "Version 2.0"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "Updated procedures for the screening of Politically Exposed Persons to ensure compliance with AML standards.",
+    "context": [
+      "updated PEP screening procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_ctl_001",
+    "name": "PEP Screening",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "pep_screening",
+    "description": "The operational mechanism used to identify and screen Politically Exposed Persons as part of the bank's AML framework.",
+    "context": [
+      "updated PEP screening procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_ctl_002",
+    "name": "Risk-Based Re-verification",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "periodic_refresh",
+    "description": "The control mechanism for periodically refreshing customer information based on the assigned risk level.",
+    "context": [
+      "Added risk-based re-verification schedule"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_027_rol_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the formal approval and sign-off of the policy document.",
+    "context": [
+      "Approved by: Head of Compliance — Date: 2026-01-15"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_027",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_027_rol_002",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the formal approval and sign-off of the policy document.",
+    "context": [
+      "Chief Risk Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_027",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_027_rol_003",
+    "name": "Chief Executive Officer",
+    "aliases": [],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "policy_owner",
+    "description": "The executive role responsible for the formal approval and sign-off of the policy document.",
+    "context": [
+      "Chief Executive Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_027",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_pol_001",
+    "name": "FirstUK Bank Financial Crime Prevention Policy",
+    "aliases": [
+      "Policy Statement",
+      "Executive Summary"
+    ],
+    "entity_class": "POLICY",
+    "type": "aml_policy",
+    "description": "A formal governing instrument effective from 2026-01-15, designed to prevent financial crime through the implementation of robust customer identification and verification procedures. It mandates universal adherence by all bank staff.",
+    "context": [
+      "FirstUK Bank is committed to preventing financial crime through robust customer identification and verification procedures.",
+      "All staff are required to follow this policy without exception."
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_prv_001",
+    "name": "Mandatory Adherence to Financial Crime Policy",
+    "aliases": [
+      "Compliance Commitment"
+    ],
+    "entity_class": "POLICY_PROVISION",
+    "type": "mandatory_requirement",
+    "description": "A strict obligation requiring all staff members of FirstUK Bank to follow the financial crime prevention policy without exception.",
+    "context": [
+      "All staff are required to follow this policy without exception."
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_rsk_001",
+    "name": "Financial Crime",
+    "aliases": [],
+    "entity_class": "RISK_CATEGORY",
+    "type": "compliance_risk",
+    "description": "The broad category of financial crime that FirstUK Bank seeks to prevent through the application of identification and verification procedures.",
+    "context": [
+      "FirstUK Bank is committed to preventing financial crime"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_ctl_001",
+    "name": "Customer Identification and Verification Procedures",
+    "aliases": [],
+    "entity_class": "CONTROL_MEASURE",
+    "type": "record_keeping",
+    "description": "The operational safeguards and procedures used by the bank to identify and verify customers as a means of preventing financial crime.",
+    "context": [
+      "preventing financial crime through robust customer identification and verification procedures"
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_rol_001",
+    "name": "All Staff",
+    "aliases": [
+      "staff"
+    ],
+    "entity_class": "ROLE_RESPONSIBILITY",
+    "type": "all_staff",
+    "description": "The collective group of all employees within FirstUK Bank who are held accountable for the strict adherence to the financial crime prevention policy.",
+    "context": [
+      "All staff are required to follow this policy without exception."
+    ],
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f",
+    "domain": "banking_policy"
+  }
+]

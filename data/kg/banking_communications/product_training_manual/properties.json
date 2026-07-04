@@ -1,0 +1,1487 @@
+[
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_002_mod_001",
+    "name": "Product Portfolio Training",
+    "properties": {
+      "module_topic": "FirstUK Bank's product portfolio, features, and benefits",
+      "target_audience": "staff",
+      "topics_covered": [
+        "product portfolio",
+        "product features",
+        "product benefits",
+        "customer communication"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_002_obj_001",
+    "name": "Accurate and Professional Product Communication",
+    "properties": {
+      "module": "Product Portfolio Training",
+      "objective_statement": "Explain product features and benefits to customers accurately and professionally",
+      "skill_type": "skill"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "key_features_taught": [
+        "Fully accessible savings account",
+        "Variable interest rates tied to the Bank of England base rate"
+      ],
+      "customer_facing_messaging": [
+        "Competitive interest (4.50%–4.80% AER)",
+        "Full access to money"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_cust_001",
+    "name": "Individual Customer",
+    "properties": {
+      "training_context": "Target audience for SmartSaver Account",
+      "customer_type": "individual"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_cust_002",
+    "name": "Joint Account Holder",
+    "properties": {
+      "training_context": "Target audience for SmartSaver Account",
+      "customer_type": "joint holder"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_acc_001",
+    "name": "SmartSaver Savings Account",
+    "properties": {
+      "account_type": "savings",
+      "training_context": "Fully accessible savings account with variable interest rates tied to the Bank of England base rate"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_004_prd_001",
+    "name": "SmartSaver",
+    "properties": {
+      "key_features_taught": [
+        "Monthly interest earnings",
+        "No withdrawal penalties",
+        "Competitive rates",
+        "Automatic rate adjustment based on Bank of England base rate",
+        "No monthly fees",
+        "No minimum balance"
+      ],
+      "customer_facing_messaging": "Simple, transparent savings with flexible withdrawals and competitive, automatically adjusting interest rates."
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_004_acc_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "account_type": "savings",
+      "training_context": "Product description and customer communication guidance",
+      "key_features": [
+        "Monthly interest calculation",
+        "No withdrawal restrictions",
+        "No minimum balance requirement"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_004_cust_001",
+    "name": "SmartSaver Customer",
+    "properties": {
+      "communication_context": "Product explanation and feature benefits",
+      "customer_type": "savings account holder"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_005_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "key_features_taught": [
+        "Variable Rate linked to BoE",
+        "Tiered AER (4.50%–4.80%)",
+        "Monthly Interest payments",
+        "No monthly fees",
+        "Full access withdrawals",
+        "Minimum opening balance of £1"
+      ],
+      "customer_facing_messaging": "Focus on compounding interest, accessibility for emergencies, and ease of entry for all customers"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_005_acc_001",
+    "name": "Joint Account",
+    "properties": {
+      "account_type": "joint",
+      "training_context": "Available for the SmartSaver product",
+      "customer_type": "couples or family",
+      "key_constraint": "Two people per account"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_006_prd_001",
+    "name": "FirstUK Interest Rate Product",
+    "properties": {
+      "key_features_taught": [
+        "Variable rate based on BoE Base Rate",
+        "Fixed FirstUK margin of 2.5%",
+        "Automatic rate adjustment upon BoE changes"
+      ],
+      "customer_facing_messaging": "Competitive rate with a consistent 2.5% margin that does not decrease"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_006",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_007_prd_001",
+    "name": "Tiered Interest Savings Product",
+    "properties": {
+      "key_features_taught": [
+        "Tiered AER rates based on balance",
+        "Balance ranges: £0–£10,000 (4.50%), £10,001–£50,000 (4.70%), £50,001+ (4.80%)"
+      ],
+      "customer_facing_messaging": "Rate increases apply the next month after a balance moves into a higher tier"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_007_acc_001",
+    "name": "Tiered Savings Account",
+    "properties": {
+      "account_type": "savings",
+      "training_context": "Guidance on interest rate tiers and application timing for balance increases"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_007_cus_001",
+    "name": "Savings Product Customer",
+    "properties": {
+      "customer_type": "existing",
+      "communication_context": "Inquiry regarding interest rate increases following additional deposits"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_prd_001",
+    "name": "Interest Bearing Account",
+    "properties": {
+      "key_features_taught": [
+        "Daily interest calculation",
+        "AER based rates",
+        "Monthly payment cycle"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_acc_001",
+    "name": "Interest Bearing Account",
+    "properties": {
+      "account_type": "savings",
+      "training_context": "Interest calculation and payment processing"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_obl_001",
+    "name": "Monthly Interest Payment Processing",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "last business day of month",
+      "verification_method": "Added directly to account"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_cus_001",
+    "name": "Account Holder",
+    "properties": {
+      "communication_context": "Interest payment notification",
+      "training_context": "Passive recipient of interest payments (no action required)"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_009_prd_001",
+    "name": "FirstUK Savings Product",
+    "properties": {
+      "key_features_taught": [
+        "Tiered interest rates (4.50%–4.80%)",
+        "No minimum balance requirement",
+        "2.5% margin"
+      ],
+      "competitive_positioning": "Highest rate compared to Chase (4.35%) and Chip Bank (4.40%), equal to Santander (4.50%)"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_009",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_prd_001",
+    "name": "SmartSaver Account",
+    "properties": {
+      "key_features_taught": [
+        "Variable interest rate",
+        "Rate is 2.5% above Bank of England base rate",
+        "Daily interest accrual",
+        "Fully accessible (no notice period)",
+        "Limit of one account per customer"
+      ],
+      "customer_facing_messaging": "Flexible savings with a rate linked to the BoE base rate and immediate access to funds."
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_prd_002",
+    "name": "Fixed Rate Bonds",
+    "properties": {
+      "key_features_taught": [
+        "Fixed interest rate"
+      ],
+      "availability": "Coming 2026"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_prd_003",
+    "name": "Current Account",
+    "properties": {
+      "key_features_taught": [
+        "Can be held concurrently with a SmartSaver account"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_acc_001",
+    "name": "SmartSaver Account Balance",
+    "properties": {
+      "training_context": "Interest calculation guidance",
+      "interest_calculation_method": "Interest earned on balance every day"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_cus_001",
+    "name": "SmartSaver Customer",
+    "properties": {
+      "training_context": "Handling common customer queries regarding interest rates and account limits",
+      "customer_type": "Existing/Prospective saver"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_prd_001",
+    "name": "SmartSaver",
+    "properties": {
+      "training_module": "Opening Process",
+      "customer_facing_messaging": "Product selection during account opening"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_kyc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "training_module": "Opening Process",
+      "required_documentation": [
+        "ID proof",
+        "Address proof"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_aml_001",
+    "name": "AML Screening Process",
+    "properties": {
+      "training_module": "Opening Process",
+      "process_sequence": "Performed after KYC and before risk assessment"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "name": "New Account Creation",
+    "properties": {
+      "training_context": "Account opening process",
+      "timeframe": {
+        "online": "1–2 business days",
+        "branch": "Same day or next day",
+        "postal": "5–7 business days"
+      },
+      "process_steps": [
+        "Product selection",
+        "KYC",
+        "AML screening",
+        "Risk assessment",
+        "Account creation",
+        "Online login activation",
+        "First deposit"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_cus_001",
+    "name": "Account Applicant",
+    "properties": {
+      "customer_type": "new",
+      "communication_context": "Account opening",
+      "interaction_channels": [
+        "website",
+        "branch",
+        "call"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_trn_001",
+    "name": "Initial Account Deposit",
+    "properties": {
+      "transaction_context": "Final step of the account opening process"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_012_prd_001",
+    "name": "Current Account",
+    "properties": {
+      "key_features_taught": [
+        "Everyday spending",
+        "Standing orders",
+        "Direct Debits",
+        "Optional overdraft",
+        "No monthly fees"
+      ],
+      "customer_facing_messaging": "All-in-one account for daily banking"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_012_cust_001",
+    "name": "Primary Bank Account Customer",
+    "properties": {
+      "training_context": "Target audience for Current Account product",
+      "customer_type": "Primary account holder",
+      "characteristics": [
+        "Needs a primary bank account",
+        "Pays bills regularly",
+        "Wants to combine savings and checking"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_012_acc_001",
+    "name": "Current Account",
+    "properties": {
+      "account_type": "current",
+      "training_context": "Product overview for everyday spending and bill payment"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_001",
+    "name": "Debit Card",
+    "properties": {
+      "key_features_taught": [
+        "Spend via card",
+        "Contactless payments"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_002",
+    "name": "Standing Orders",
+    "properties": {
+      "key_features_taught": [
+        "Set up recurring payments"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_003",
+    "name": "Direct Debits",
+    "properties": {
+      "key_features_taught": [
+        "Authorize billers to auto-deduct"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_004",
+    "name": "Transfers",
+    "properties": {
+      "key_features_taught": [
+        "Send money to any UK bank"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_005",
+    "name": "Overdraft",
+    "properties": {
+      "key_features_taught": [
+        "Optional availability",
+        "Limit up to £5,000"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "name": "Online Banking",
+    "properties": {
+      "key_features_taught": [
+        "24/7 access"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_014_prd_001",
+    "name": "Savings Account",
+    "properties": {
+      "key_features_taught": [
+        "0% AER interest rate"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_014_prd_002",
+    "name": "Overdraft Facility",
+    "properties": {
+      "key_features_taught": [
+        "15% AER interest rate if used"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_016_prd_001",
+    "name": "Residential Property Mortgage",
+    "properties": {
+      "key_features_taught": [
+        "Loans for residential property purchase",
+        "Loan terms between 2 and 25 years",
+        "Maximum loan amount of £500,000",
+        "Fixed rate options (2 or 5 year)",
+        "Variable rate options"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_016",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_017_prd_001",
+    "name": "Fixed Rate Mortgage",
+    "properties": {
+      "key_features_taught": [
+        "2-Year Term",
+        "5-Year Term",
+        "LTV Dependency"
+      ],
+      "rate_ranges": {
+        "2-Year": "4.50%–5.25%",
+        "5-Year": "5.00%–5.75%"
+      },
+      "ltv_impact": [
+        "80% LTV (20% deposit) yields lowest rate",
+        "95% LTV (5% deposit) yields highest rate"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_017",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_018_prod_001",
+    "name": "Variable Rate Mortgage Product",
+    "properties": {
+      "key_features_taught": [
+        "BoE Base + Margin",
+        "Interest rate range of 1.50%–2.25% based on LTV"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_018",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "name": "Customer Value Proposition",
+    "properties": {
+      "key_features_taught": [
+        "Competitive fixed rates",
+        "Clear rate structure by LTV",
+        "Professional underwriting",
+        "Transparent process",
+        "Local branch support"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_020_prd_001",
+    "name": "Debit Card",
+    "properties": {
+      "key_features_taught": [
+        "Contactless payments (up to £100)",
+        "Chip & PIN (up to £30,000)",
+        "Online & app payments",
+        "Worldwide ATM withdrawals",
+        "Fraud protection"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_020_crd_001",
+    "name": "Debit Card",
+    "properties": {
+      "training_context": "Product overview and spending capabilities",
+      "card_event": "spending via contactless, chip, or online"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_021_prd_001",
+    "name": "Debit Card",
+    "properties": {
+      "key_features_taught": [
+        {
+          "service": "New Card",
+          "fee": "£0"
+        },
+        {
+          "service": "Replacement Card",
+          "fee": "£15"
+        },
+        {
+          "service": "Overnight Delivery",
+          "fee": "£25"
+        }
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_021",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "name": "Part 5 — How to Sell Products",
+    "properties": {
+      "module_number": 5,
+      "module_topic": "How to Sell Products",
+      "topics_covered": [
+        "The Discovery Questions",
+        "Product Recommendation"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_obj_001",
+    "name": "Conducting Product Discovery Interviews",
+    "properties": {
+      "module": "Part 5 — How to Sell Products",
+      "objective_statement": "Staff must be able to conduct discovery interviews to identify customer banking needs before recommending a product",
+      "skill_type": "skill"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_obl_001",
+    "name": "Mandatory Product Discovery Questioning",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Sales Staff",
+      "timeframe": "Before recommending a product",
+      "verification_method": "Asking the five specific discovery questions"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_prd_001",
+    "name": "Savings Product",
+    "properties": {
+      "training_module": "Part 5 — How to Sell Products",
+      "key_features_taught": [
+        "Saving money",
+        "Earning interest"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_prd_002",
+    "name": "Checking Product",
+    "properties": {
+      "training_module": "Part 5 — How to Sell Products",
+      "key_features_taught": [
+        "Spending money",
+        "Frequent access to funds"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_prd_003",
+    "name": "Borrowing Product",
+    "properties": {
+      "training_module": "Part 5 — How to Sell Products"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_cust_001",
+    "name": "Product Prospect",
+    "properties": {
+      "customer_type": "prospect",
+      "training_context": "Subject of product discovery interviews to determine banking needs"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_prd_001",
+    "name": "SmartSaver",
+    "properties": {
+      "customer_facing_messaging": "SmartSaver earns you 4.50%–4.80% AER with no fees and full access.",
+      "key_features_taught": [
+        "4.50%–4.80% AER",
+        "No fees",
+        "Full access"
+      ],
+      "recommendation_trigger": "Customer says 'I want to save money'"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_prd_002",
+    "name": "Current Account",
+    "properties": {
+      "customer_facing_messaging": "Use your Current Account for everyday spending and bills, and your SmartSaver for savings.",
+      "key_features_taught": [
+        "Everyday spending",
+        "Bill payments"
+      ],
+      "recommendation_trigger": "Customer says 'I need a main bank account'"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_prd_003",
+    "name": "Mortgage",
+    "properties": {
+      "customer_facing_messaging": "Our fixed rates are competitive, and our process is straightforward.",
+      "key_features_taught": [
+        "Competitive fixed rates",
+        "Straightforward process"
+      ],
+      "recommendation_trigger": "Customer says 'I want to buy a home'"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_cust_001",
+    "name": "Customer",
+    "properties": {
+      "training_context": "Product recommendation scenarios based on customer intent statements"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_024_tpl_001",
+    "name": "Handling Objections Call Script",
+    "properties": {
+      "channel": "call",
+      "recipient": "Customer",
+      "tone": "persuasive",
+      "key_content": [
+        "Rate comparison against competitors (Chase, Santander, Chip)",
+        "Explanation of Bank of England rate correlation",
+        "Competitive margin guarantee (2.5%)",
+        "SmartSaver as a secondary account option",
+        "Account closure and balance transfer process"
+      ],
+      "do_not_alter_sections": [
+        "Competitor rate comparisons",
+        "2.5% margin guarantee"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_024_prd_001",
+    "name": "SmartSaver",
+    "properties": {
+      "customer_facing_messaging": "Positioned as a high-interest secondary account that can be held alongside a main account at another bank",
+      "key_features_taught": [
+        "Competitive interest rates",
+        "No penalty for account closure",
+        "Balance transfer capability upon closing"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_024_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "communication_context": "Account closure and balance transfer inquiries",
+      "training_context": "Handling customer objections regarding account flexibility and exit penalties"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_001",
+    "name": "Clear Product Explanation Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "regulatory_source": "COBS (Conduct of Business Rules)",
+      "verification_method": "Always explain what each product is"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_002",
+    "name": "Suitability Recommendation Obligation",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "all staff",
+      "regulatory_source": "COBS (Conduct of Business Rules)",
+      "verification_method": "Ask about customer needs before recommending"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_003",
+    "name": "Fee Disclosure Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "regulatory_source": "COBS (Conduct of Business Rules)",
+      "verification_method": "Show interest rates and fees clearly"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_004",
+    "name": "Informed Consent Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "regulatory_source": "COBS (Conduct of Business Rules)",
+      "verification_method": "Get customer agreement before opening account"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_cust_001",
+    "name": "Bank Customer",
+    "properties": {
+      "training_context": "Subject of suitability assessments and informed consent requirements"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_prod_001",
+    "name": "Banking Products",
+    "properties": {
+      "customer_facing_messaging": "Must be explained clearly with transparent interest rates and fees"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "training_context": "Account opening requires prior informed consent from the customer"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "name": "GDPR & Data Protection Training",
+    "properties": {
+      "module_topic": "GDPR & Data Protection",
+      "topics_covered": [
+        "Data Minimisation",
+        "Purpose Limitation",
+        "Data Security and Encryption",
+        "Customer Data Rights"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_001",
+    "name": "Understanding Data Minimisation Principles",
+    "properties": {
+      "module": "GDPR & Data Protection Training",
+      "objective_statement": "Staff will be able to ensure only necessary data is collected",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_002",
+    "name": "Understanding Purpose Limitation",
+    "properties": {
+      "module": "GDPR & Data Protection Training",
+      "objective_statement": "Staff will be able to use data only for stated purposes",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_003",
+    "name": "Data Security and Encryption Knowledge",
+    "properties": {
+      "module": "GDPR & Data Protection Training",
+      "objective_statement": "Staff will be able to protect data using encryption and secure documentation",
+      "skill_type": "skill"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_004",
+    "name": "Managing Customer Data Rights",
+    "properties": {
+      "module": "GDPR & Data Protection Training",
+      "objective_statement": "Staff will be able to honor customer rights regarding access, deletion, and portability",
+      "skill_type": "skill"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_001",
+    "name": "Data Minimisation Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "description": "Do not ask for unnecessary information"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_002",
+    "name": "Purpose Disclosure Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "description": "Explain how customer data will be used"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_003",
+    "name": "Data Security Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "description": "Secure all documents and use encryption"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_004",
+    "name": "Data Request Response Deadline",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "within 30 days",
+      "description": "Respond to customer data requests"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "name": "Know Your Customer (KYC)",
+    "properties": {
+      "module_topic": "Know Your Customer (KYC)",
+      "topics_covered": [
+        "Photo ID collection",
+        "Proof of address collection",
+        "Source of funds verification",
+        "Beneficial ownership identification"
+      ],
+      "regulatory_basis": [
+        "AML regulations"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_001",
+    "name": "Photo ID Collection Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "verification_method": "UK Passport or Driving License",
+      "regulatory_source": "AML regulations"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_002",
+    "name": "Proof of Address Collection Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "verification_method": [
+        "utility bill",
+        "council tax",
+        "bank statement"
+      ],
+      "regulatory_source": "AML regulations"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_003",
+    "name": "Source of Funds Verification",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "regulatory_source": "AML regulations",
+      "exceptions": "only if relevant"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_004",
+    "name": "Beneficial Ownership Identification",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "company accounts",
+      "regulatory_source": "AML regulations"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obj_001",
+    "name": "Understanding KYC Regulatory Drivers",
+    "properties": {
+      "module": "Know Your Customer (KYC)",
+      "objective_statement": "Understand how KYC prevents fraud, protects customer accounts, and ensures compliance with AML regulations",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_kyc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "training_module": "Know Your Customer (KYC)",
+      "regulatory_basis": "AML regulations"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_aml_001",
+    "name": "AML Regulatory Compliance",
+    "properties": {
+      "training_module": "Know Your Customer (KYC)",
+      "regulatory_basis": "AML regulations"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_028_cust_001",
+    "name": "New Customer",
+    "properties": {
+      "communication_context": "Inquiry regarding high-value savings deposits",
+      "customer_type": "new",
+      "training_context": "Practical scenario for staff handling high-tier deposits"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_028_prod_001",
+    "name": "SmartSaver",
+    "properties": {
+      "key_features_taught": [
+        "Premium rate of 4.70% AER for higher tier deposits",
+        "No withdrawal fees",
+        "No minimum balance requirements",
+        "Flexible withdrawals"
+      ],
+      "customer_facing_messaging": "Focus on high interest earnings and flexibility"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_028_tpl_001",
+    "name": "New Customer — Saving Money Response Script",
+    "properties": {
+      "trigger_event": "Customer inquiring about where to place a large sum of money (£20,000+)",
+      "channel": "call",
+      "recipient": "New Customer",
+      "key_content": [
+        "Confirmation of higher tier status",
+        "Premium interest rate (4.70% AER)",
+        "Estimated monthly interest calculation",
+        "Withdrawal flexibility and lack of fees",
+        "Call to action to open account"
+      ],
+      "tone": "friendly",
+      "variables_used": [
+        "Deposit Amount",
+        "Interest Rate",
+        "Estimated Monthly Interest"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_029_prd_001",
+    "name": "Current Account",
+    "properties": {
+      "key_features_taught": [
+        "Used for daily spending and bills",
+        "0% interest rate"
+      ],
+      "customer_facing_messaging": "Recommended for daily spending and bills"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_029_prd_002",
+    "name": "SmartSaver",
+    "properties": {
+      "key_features_taught": [
+        "Savings account",
+        "Interest rate: 4.50%–4.80% AER",
+        "Provides access to funds while maximizing interest"
+      ],
+      "customer_facing_messaging": "Recommended for savings to maximize interest without losing access to money"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_029_cust_001",
+    "name": "Existing Customer",
+    "properties": {
+      "customer_type": "existing",
+      "communication_context": "Cross-selling additional products to current account holders",
+      "training_context": "Scenario-based training for recommending product bundles"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "name": "Scenario 3: Rate Question Response",
+    "properties": {
+      "trigger_event": "Customer inquiry regarding rate guarantees",
+      "channel": "call",
+      "recipient": "Rate Inquiry Customer",
+      "key_content": [
+        "Explanation of the floor rate (BoE + margin)",
+        "Current AER calculation",
+        "Impact of BoE rate fluctuations",
+        "Guarantee of the fixed margin"
+      ],
+      "variables_used": [
+        "Current Bank of England Base Rate",
+        "Guaranteed Margin",
+        "Customer AER"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "guaranteed not to drop below Bank of England + 2.5%"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_var_001",
+    "name": "Current Bank of England Base Rate",
+    "properties": {
+      "variable_placeholder": "[BoE Rate]",
+      "data_type": "percentage",
+      "example_value": "4.0%",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Scenario 3: Rate Question Response"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_var_002",
+    "name": "Guaranteed Margin",
+    "properties": {
+      "variable_placeholder": "[Margin]",
+      "data_type": "percentage",
+      "example_value": "2.5%",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Scenario 3: Rate Question Response"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_var_003",
+    "name": "Customer AER",
+    "properties": {
+      "variable_placeholder": "[AER]",
+      "data_type": "percentage",
+      "example_value": "6.5%",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Scenario 3: Rate Question Response"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_cust_001",
+    "name": "Rate Inquiry Customer",
+    "properties": {
+      "communication_context": "Inquiring about rate guarantees and fluctuations",
+      "customer_type": "existing"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_prod_001",
+    "name": "Variable Rate Savings Product",
+    "properties": {
+      "communication_template": [
+        "Scenario 3: Rate Question Response"
+      ],
+      "key_features_taught": [
+        "Variable rate linked to Bank of England base rate",
+        "Fixed guaranteed margin",
+        "Rate fluctuates with BoE changes"
+      ],
+      "customer_facing_messaging": "Focus on the benefit of rate rises and the security of the margin"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "name": "Product and Compliance Training Program",
+    "properties": {
+      "topics_covered": [
+        "SmartSaver features, rates, and tiers",
+        "Interest calculation",
+        "Variable vs. fixed rates",
+        "Current Account features",
+        "Mortgage rates and LTV",
+        "Fee structures",
+        "KYC requirements",
+        "Objection handling",
+        "Escalation procedures",
+        "COBS and GDPR basics"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_001",
+    "name": "SmartSaver Product Knowledge",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Understand SmartSaver features, rates, and tiers",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_002",
+    "name": "Interest Calculation Proficiency",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Know how interest is calculated",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_003",
+    "name": "Variable vs Fixed Rate Differentiation",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Be able to explain variable vs. fixed rates",
+      "skill_type": "skill"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_004",
+    "name": "Current Account Feature Knowledge",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Know Current Account features",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_005",
+    "name": "Mortgage Rates and LTV Understanding",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Understand mortgage rates and LTV",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_006",
+    "name": "Fee Structure Knowledge",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Know all fees",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_007",
+    "name": "KYC Requirement Understanding",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Understand KYC requirements",
+      "skill_type": "knowledge"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_008",
+    "name": "Objection Handling Skill",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Be able to handle common objections",
+      "skill_type": "skill"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obl_001",
+    "name": "Escalation Duty for High Value or Complex Cases",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "immediate",
+      "trigger_conditions": [
+        "amounts >£5k",
+        "complex cases"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_009",
+    "name": "COBS and GDPR Regulatory Basics",
+    "properties": {
+      "module": "Product and Compliance Training Program",
+      "objective_statement": "Understand COBS and GDPR basics",
+      "skill_type": "knowledge",
+      "regulatory_link": [
+        "COBS",
+        "GDPR"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_prod_001",
+    "name": "SmartSaver",
+    "properties": {
+      "training_module": "Product and Compliance Training Program",
+      "key_features_taught": [
+        "features",
+        "rates",
+        "tiers"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_prod_002",
+    "name": "Current Account",
+    "properties": {
+      "training_module": "Product and Compliance Training Program",
+      "key_features_taught": [
+        "account features"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_prod_003",
+    "name": "Mortgage",
+    "properties": {
+      "training_module": "Product and Compliance Training Program",
+      "key_features_taught": [
+        "rates",
+        "LTV"
+      ]
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_001",
+    "name": "Complete product specifications",
+    "properties": {
+      "document_id": "products"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_002",
+    "name": "Rates and fees",
+    "properties": {
+      "document_id": "product_pricing_guide_2026"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_003",
+    "name": "Customer FAQs",
+    "properties": {
+      "document_id": "product_faq"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_004",
+    "name": "SmartSaver Terms and Conditions",
+    "properties": {
+      "document_id": "smartsaver_terms_conditions",
+      "customer_facing_messaging": "Legal terms"
+    },
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281"
+  }
+]

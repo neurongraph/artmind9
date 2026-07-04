@@ -1,0 +1,1781 @@
+[
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_001_mod_001",
+    "name": "FirstUK Bank — Branch Operations Training Manual",
+    "properties": {
+      "document_id": "TRAIN-BRANCH-001",
+      "module_topic": "Branch Operations",
+      "target_audience": [
+        "Branch Staff",
+        "Managers",
+        "Tellers"
+      ],
+      "owner": "Head of Retail Banking",
+      "department": "Retail Banking, Operations",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "classification": "Internal",
+      "status": "Active"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_001",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_002_mod_001",
+    "name": "Branch Operations and Management Training",
+    "properties": {
+      "module_topic": "Branch Operations and Management",
+      "target_audience": "branch staff",
+      "topics_covered": [
+        "daily operations",
+        "customer service",
+        "opening procedures",
+        "branch management standards"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_002",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_001",
+    "name": "Physical Security Opening Check",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "30 minutes before opening",
+      "applies_to": "Branch Opening Staff",
+      "verification_method": "Checklist completion",
+      "key_actions": [
+        "Check entrance/exit doors locked",
+        "Disarm alarm system",
+        "Check for signs of break-in",
+        "Turn on lights and CCTV"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_002",
+    "name": "Cash Vault Verification and Loading",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "30 minutes before opening",
+      "applies_to": "Branch Opening Staff",
+      "verification_method": "Comparison with overnight report",
+      "key_actions": [
+        "Count cash in vault",
+        "Verify amount matches overnight report",
+        "Load cash drawers for tellers",
+        "Record drawer assignments",
+        "Lock vault"
+      ],
+      "standard_value": "£5,000 per drawer"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_003",
+    "name": "System Startup and Access Verification",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "30 minutes before opening",
+      "applies_to": "Branch Opening Staff",
+      "verification_method": "System status dashboard check",
+      "key_actions": [
+        "Boot up computers",
+        "Check system status dashboard",
+        "Log into teller systems",
+        "Verify ability to access customer accounts"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_obl_004",
+    "name": "Branch Readiness and Staffing Check",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "By 08:50 AM",
+      "applies_to": "Branch Opening Staff",
+      "key_actions": [
+        "Check waiting area seating and temperature",
+        "Verify reception and bathroom cleanliness",
+        "Verify appointment calendar is loaded",
+        "Confirm staff are at desks"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_003_acc_001",
+    "name": "Customer Accounts",
+    "properties": {
+      "training_context": "System startup and access verification",
+      "communication_context": "Teller system access check"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_003",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_001",
+    "name": "Customer Greeting Standard",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 2 minutes",
+      "applies_to": "Teller staff"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_002",
+    "name": "Transaction Accuracy Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Teller staff"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_003",
+    "name": "New Account KYC/AML Procedure Compliance",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Teller staff",
+      "regulatory_source": "KYC/AML procedures"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_004",
+    "name": "Cash Drawer Security Maintenance",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Teller staff"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_005",
+    "name": "Customer Queue Monitoring and Backup Trigger",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "hourly",
+      "trigger_event": "queue > 10 people",
+      "required_action": "call backup"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_006",
+    "name": "Teller Station Staffing Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "hourly",
+      "verification_method": "check all teller stations staffed"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_007",
+    "name": "Cash Drawer Balance Monitoring",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "hourly"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_008",
+    "name": "System Performance Monitoring",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "hourly",
+      "verification_method": "ensure systems running smoothly"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_obl_009",
+    "name": "Customer Complaint Resolution",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "hourly",
+      "verification_method": "ensure no customer complaints pending"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_cust_001",
+    "name": "Customer",
+    "properties": {
+      "communication_context": "greeting within 2 minutes",
+      "training_context": "professional issue resolution"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_acc_001",
+    "name": "New Account",
+    "properties": {
+      "training_context": "KYC/AML procedure compliance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_004_txn_001",
+    "name": "Teller Transaction",
+    "properties": {
+      "transaction_context": "teller-handled transactions",
+      "required_standard": "accuracy"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_004",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_001",
+    "name": "Transaction Cut-off Obligation",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "teller staff",
+      "timeframe": "after 16:55 PM",
+      "mandatory_action": "Do not start new transactions"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_002",
+    "name": "Cash Verification and Vault Security Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "teller staff",
+      "mandatory_action": [
+        "Collect cash from all teller drawers",
+        "Count and verify against previous count",
+        "Secure cash in vault",
+        "Lock vault"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_003",
+    "name": "High-Value Night Deposit Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "alert_threshold": ">£10,000",
+      "mandatory_action": "Count and seal cash for night deposit"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_004",
+    "name": "System Security and Data Protection Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "mandatory_action": [
+        "Log out of all customer systems",
+        "Verify no transactions pending",
+        "Shut down computers gracefully",
+        "Verify no sensitive data on screens"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_005",
+    "name": "Physical Security and Document Disposal Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "mandatory_action": [
+        "Collect and file customer files in secure location",
+        "Empty and shred trash",
+        "Lock all office doors",
+        "Verify entrance/exit doors locked",
+        "Arm alarm system"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_006",
+    "name": "Closure Documentation Obligation",
+    "properties": {
+      "obligation_type": "documentation",
+      "mandatory_action": [
+        "Record closing balance",
+        "Record closure time",
+        "Record staff names"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_obl_007",
+    "name": "Managerial Sign-Off Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "branch manager",
+      "mandatory_action": "Verify branch closed properly and all cash reconciled"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_var_001",
+    "name": "Security Code Placeholder",
+    "properties": {
+      "variable_placeholder": "[SECURITY CODE]",
+      "data_type": "string",
+      "mandatory": "yes",
+      "appears_in_templates": [
+        "Closing Announcement Script"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_005_tpl_001",
+    "name": "Closing Announcement Script",
+    "properties": {
+      "trigger_event": "10 minutes before closing",
+      "channel": "call",
+      "recipient": "customers in branch",
+      "key_content": [
+        "We close in 10 minutes"
+      ],
+      "tone": "formal",
+      "variables_used": [
+        "[SECURITY CODE]"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_005",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_mod_001",
+    "name": "Part 2 — Customer Service Standards",
+    "properties": {
+      "module_number": 2,
+      "module_topic": "Customer Service Standards",
+      "topics_covered": [
+        "Customer Greeting",
+        "Arrival Procedures",
+        "Customer Mood Assessment"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_obj_001",
+    "name": "Standardised Customer Greeting Procedure",
+    "properties": {
+      "module": "Part 2 — Customer Service Standards",
+      "objective_statement": "Staff must greet customers within 2 minutes using the phrase 'Good morning/afternoon, welcome to FirstUK Bank', while maintaining eye contact and a smile.",
+      "skill_type": "behaviour"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_obl_001",
+    "name": "Customer Greeting Time Limit",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "within 2 minutes of arrival",
+      "applies_to": "Front-facing staff"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_obl_002",
+    "name": "Customer Mood Assessment",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Front-facing staff",
+      "verification_method": "Observation of customer mood (e.g., upset or urgent)"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_006_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "training_context": "Subject of greeting standards and mood assessment upon arrival at the bank"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_006",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_007_tpl_001",
+    "name": "Waiting Customer Management Script",
+    "properties": {
+      "trigger_event": "Customer wait time exceeds 5 minutes",
+      "channel": "call",
+      "recipient": "Waiting Customer",
+      "key_content": [
+        "Apology for wait",
+        "Offer of refreshment",
+        "Wait time update",
+        "Manager escalation",
+        "Appointment scheduling",
+        "Callback contact collection"
+      ],
+      "tone": "friendly",
+      "do_not_alter_sections": [
+        "Sorry for the wait, we'll be with you shortly",
+        "Can I get you a coffee or water?",
+        "About 3 more minutes"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_007",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_007_cust_001",
+    "name": "Waiting Customer",
+    "properties": {
+      "communication_context": "Wait time management and service recovery",
+      "customer_type": "at-risk"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_007",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_007_obl_001",
+    "name": "Manager Escalation Duty for Extended Wait",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Branch Staff",
+      "timeframe": "Wait > 15 Minutes",
+      "required_action": "Escalate to manager"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_007",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_mod_001",
+    "name": "Handling Difficult Customers Training",
+    "properties": {
+      "module_topic": "Handling Difficult Customers",
+      "topics_covered": [
+        "De-escalation techniques",
+        "Escalation triggers",
+        "Immediate action protocols"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_obj_001",
+    "name": "De-escalation of Angry Customers",
+    "properties": {
+      "module": "Handling Difficult Customers Training",
+      "objective_statement": "Staff will be able to manage angry customers through listening, acknowledging emotions, apologizing, and explaining next steps",
+      "skill_type": "behaviour"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_001",
+    "name": "Customer Voice Elevation or Profanity",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "Customer raises voice or uses profanity",
+      "required_action": "Stop transaction and call manager immediately",
+      "escalation_path": "Manager"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_002",
+    "name": "High Value Complaint (>£1,000)",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "Complaint involves an amount greater than £1,000",
+      "required_action": "Stop transaction and call manager immediately",
+      "escalation_path": "Manager"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_003",
+    "name": "Explicit Request for Management",
+    "properties": {
+      "risk_domain": "misconduct",
+      "description": "Customer explicitly requests to speak with a manager",
+      "required_action": "Stop transaction and call manager immediately",
+      "escalation_path": "Manager"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_004",
+    "name": "Regulatory or Compliance Issue",
+    "properties": {
+      "risk_domain": "compliance",
+      "description": "The issue raised by the customer relates to regulatory or compliance matters",
+      "required_action": "Stop transaction and call manager immediately",
+      "escalation_path": "Manager"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_wrn_005",
+    "name": "Potential Fraud Indicator",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Indicators suggesting potential fraudulent activity",
+      "required_action": "Stop transaction and call manager immediately",
+      "escalation_path": "Manager"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_obl_001",
+    "name": "Immediate Escalation and Transaction Halt",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "immediately",
+      "applies_to": "all staff",
+      "required_action": "Stop transaction and call manager"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_cust_001",
+    "name": "Angry Customer",
+    "properties": {
+      "training_context": "Staff are taught a 5-step de-escalation process: listen, acknowledge, apologize, explain, and follow through",
+      "customer_type": "at-risk"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_008_txn_001",
+    "name": "Escalated Transaction",
+    "properties": {
+      "transaction_context": "Transactions triggered for escalation by high value complaints, fraud indicators, or regulatory issues",
+      "warning_sign_link": true,
+      "required_action": "Stop transaction"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_008",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_mod_001",
+    "name": "PART 3: Account Opening in Branch",
+    "properties": {
+      "module_number": 3,
+      "module_topic": "Account Opening in Branch",
+      "duration_estimate": "45 Minutes",
+      "topics_covered": [
+        "Discovery",
+        "Application",
+        "KYC Verification",
+        "AML Screening",
+        "Account Creation",
+        "Card Management",
+        "Welcome & Close"
+      ],
+      "target_audience": "Branch Staff"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_kyc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "training_module": "PART 3: Account Opening in Branch",
+      "learning_objectives": [
+        "Request and verify photo ID",
+        "Check for ID validity and tampering",
+        "Collect and file proof of address"
+      ],
+      "accepted_documents": [
+        "UK Passport",
+        "Driving License",
+        "Utility bill",
+        "Council tax",
+        "Bank statement"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_aml_001",
+    "name": "AML Screening Process",
+    "properties": {
+      "training_module": "PART 3: Account Opening in Branch",
+      "screening_lists": [
+        "OFAC",
+        "EU",
+        "HMT"
+      ],
+      "reporting_process_taught": "If hit: Escalate to Compliance",
+      "required_action": "Document result"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_001",
+    "name": "ID Validity and Tampering Check",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Branch Staff",
+      "verification_method": "Examine original photo ID"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_002",
+    "name": "KYC Document Filing Requirement",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "Branch Staff",
+      "verification_method": "Photocopy and file ID and proof of address"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_003",
+    "name": "Mandatory Sanctions Screening",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Branch Staff",
+      "regulatory_source": [
+        "OFAC",
+        "EU",
+        "HMT"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_004",
+    "name": "AML Hit Escalation Duty",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Branch Staff",
+      "escalation_path": "Compliance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_obl_005",
+    "name": "AML Result Documentation",
+    "properties": {
+      "obligation_type": "documentation",
+      "applies_to": "Branch Staff"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_cus_001",
+    "name": "Branch Customer",
+    "properties": {
+      "customer_type": "new",
+      "communication_context": "Account opening and welcome process"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_acc_001",
+    "name": "New Customer Account",
+    "properties": {
+      "training_context": "Account opening training",
+      "creation_process": "Teller inputs data into system to generate account number"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_crd_001",
+    "name": "Debit Card",
+    "properties": {
+      "card_event": "issuance",
+      "communication_trigger": "Account creation",
+      "training_context": "Card features, security, and delivery timeline (3-5 days)"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_prd_001",
+    "name": "Savings Account",
+    "properties": {
+      "training_module": "PART 3: Account Opening in Branch",
+      "customer_facing_messaging": "Explain features and benefits during discovery"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_prd_002",
+    "name": "Checking Account",
+    "properties": {
+      "training_module": "PART 3: Account Opening in Branch",
+      "customer_facing_messaging": "Explain features and benefits during discovery"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_var_001",
+    "name": "ID Type",
+    "properties": {
+      "variable_placeholder": "[Type]",
+      "data_type": "string",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_009_var_002",
+    "name": "Document Number",
+    "properties": {
+      "variable_placeholder": "[Document Number]",
+      "data_type": "string",
+      "mandatory": "yes"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_009",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_mod_001",
+    "name": "Part 4 — Common Branch Transactions",
+    "properties": {
+      "module_number": 4,
+      "module_topic": "Common Branch Transactions",
+      "topics_covered": [
+        "Cash Deposit Process"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_obj_001",
+    "name": "Cash Deposit Process Execution",
+    "properties": {
+      "module": "Part 4 — Common Branch Transactions",
+      "objective_statement": "Execute the cash deposit process including verification, counting, system updates, and receipt provision",
+      "skill_type": "skill"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_wrn_001",
+    "name": "Cash Deposit Exceeding £1,000 (Suspicious Activity)",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Cash deposits exceeding £1,000",
+      "required_action": "File Currency Transaction Report (CTR)",
+      "escalation_path": "Compliance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_obl_001",
+    "name": "Currency Transaction Report (CTR) Filing Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Branch Staff",
+      "trigger_event": "Cash deposit >£1,000"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_cust_001",
+    "name": "Branch Customer",
+    "properties": {
+      "training_context": "Subject of account verification and cash deposit process"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_acc_001",
+    "name": "Customer Deposit Account",
+    "properties": {
+      "training_context": "Account verification and system updates during cash deposits"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_010_txn_001",
+    "name": "Cash Deposit Transaction",
+    "properties": {
+      "transaction_context": "Branch cash deposit process",
+      "alert_threshold": "£1,000",
+      "warning_sign_link": "wrn_001"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_010",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_obl_001",
+    "name": "Customer Identity Verification Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "branch staff",
+      "verification_method": "account card or ID"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_obl_002",
+    "name": "Cash Withdrawal Limit Approval Process",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "timeframe": "prior to withdrawal",
+      "threshold": "above £5,000",
+      "required_approval": "manager approval + notice"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_wrn_001",
+    "name": "Cash Withdrawal Exceeding £1,000 (Suspicious Activity)",
+    "properties": {
+      "risk_domain": "aml",
+      "description": "Cash withdrawal exceeding £1,000",
+      "required_action": "file CTR",
+      "escalation_path": "compliance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_obl_003",
+    "name": "Currency Transaction Report (CTR) Filing Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "trigger_event": "withdrawal > £1,000",
+      "regulatory_source": "compliance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_cust_001",
+    "name": "Cash Withdrawal Customer",
+    "properties": {
+      "communication_context": "cash withdrawal process",
+      "customer_type": "existing"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_acc_001",
+    "name": "Withdrawal Account",
+    "properties": {
+      "training_context": "account management guidance",
+      "verification_requirement": "funds availability check"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_txn_001",
+    "name": "Cash Withdrawal Transaction",
+    "properties": {
+      "transaction_context": "cash withdrawal",
+      "alert_threshold": "£1,000",
+      "warning_sign_link": "wrn_001"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_011_card_001",
+    "name": "Account Card",
+    "properties": {
+      "training_context": "identity verification"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_011",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_001",
+    "name": "Customer Identity Verification for Account Closure",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "branch staff",
+      "verification_method": "identity verification process"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_002",
+    "name": "Confirmation of Account Closure Request",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "branch staff"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_003",
+    "name": "Final Balance Calculation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "key_considerations": [
+        "pending interest",
+        "fees"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_004",
+    "name": "Final Statement Issuance",
+    "properties": {
+      "obligation_type": "documentation",
+      "action": "print final statement"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_005",
+    "name": "Payout Method Arrangement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "available_methods": [
+        "transfer",
+        "cheque",
+        "cash"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_006",
+    "name": "System Account Deactivation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "action": "deactivate account in system"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_obl_007",
+    "name": "Provision of Closure Receipt",
+    "properties": {
+      "obligation_type": "documentation",
+      "action": "provide closure receipt"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_acc_001",
+    "name": "Account for Closure",
+    "properties": {
+      "training_context": "account closure process",
+      "communication_context": "final statement issuance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_012_cus_001",
+    "name": "Customer Requesting Closure",
+    "properties": {
+      "communication_context": "account closure request",
+      "customer_type": "existing"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_012",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_mod_001",
+    "name": "Standing Order Setup Training",
+    "properties": {
+      "module_topic": "Standing Order Setup",
+      "topics_covered": [
+        "Obtaining recipient details",
+        "Confirming payment amount and frequency",
+        "Confirming start date",
+        "System entry",
+        "Confirmation generation",
+        "Receipt provision"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obj_001",
+    "name": "Standing Order Setup Process Execution",
+    "properties": {
+      "module": "Standing Order Setup Training",
+      "objective_statement": "Staff will be able to execute the full standing order setup process from detail collection to receipt provision",
+      "skill_type": "skill"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obl_001",
+    "name": "Recipient Detail Collection Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff performing setup",
+      "required_data": [
+        "name",
+        "account number",
+        "sort code"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obl_002",
+    "name": "Payment Terms Confirmation Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff performing setup",
+      "confirmation_requirements": [
+        "payment amount",
+        "frequency",
+        "start date"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_obl_003",
+    "name": "Standing Order Receipt Provision Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff performing setup",
+      "verification_method": "Provide receipt to customer"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_acc_001",
+    "name": "Recipient Account",
+    "properties": {
+      "training_context": "Standing Order Setup",
+      "required_identifiers": [
+        "account number",
+        "sort code"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_013_txn_001",
+    "name": "Standing Order Transaction",
+    "properties": {
+      "transaction_context": "Setup process",
+      "required_parameters": [
+        "amount",
+        "frequency",
+        "start date"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_013",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_obl_001",
+    "name": "Direct Debit Mandate Collection Process",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Staff processing mandates",
+      "verification_method": "Verification of account details and biller DDIC",
+      "mandatory_steps": [
+        "Obtain signed DD mandate form",
+        "Verify account details",
+        "Verify biller DDIC",
+        "File mandate securely"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_obl_002",
+    "name": "Biller Notification Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "automated",
+      "description": "Notify biller of receipt of the mandate"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_obl_003",
+    "name": "Customer Copy Provision",
+    "properties": {
+      "obligation_type": "documentation",
+      "description": "Provide customer with a copy of the mandate"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_acc_001",
+    "name": "Direct Debit Account",
+    "properties": {
+      "account_type": "Direct Debit",
+      "training_context": "Mandate collection and verification process"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_014_cus_001",
+    "name": "Direct Debit Customer",
+    "properties": {
+      "customer_type": "Direct Debit holder",
+      "communication_context": "Provision of mandate copy"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_014",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_mod_001",
+    "name": "Part 5 — Security Procedures",
+    "properties": {
+      "module_number": 5,
+      "module_topic": "Security Procedures",
+      "topics_covered": [
+        "Vault Access",
+        "Teller Drawer Security",
+        "Large Transaction Protocols"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_001",
+    "name": "Vault Two-Person Rule",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": [
+        "Manager",
+        "Teller"
+      ],
+      "description": "Vault access requires both a Manager and a teller to be present together"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_002",
+    "name": "Vault Attendance Requirement",
+    "properties": {
+      "obligation_type": "prohibition",
+      "description": "Vault must never be left open unattended"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_003",
+    "name": "Secure Cash Counting Protocol",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Cash must be counted on a secure counter rather than a desk"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_004",
+    "name": "Teller Drawer Security and Reporting",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Teller",
+      "timeframe": "Daily",
+      "description": "Drawers must be locked when teller is absent and counted daily",
+      "consequence_of_failure": "Discrepancies must be reported immediately"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_005",
+    "name": "Manager Approval for Large Transactions",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "Manager",
+      "description": "Manager approval required for transactions exceeding £1,000"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_006",
+    "name": "CTR Filing Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "description": "CTR form must be filed for transactions exceeding £5,000"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_obl_007",
+    "name": "Internal Controls Check for High-Value Transactions",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "description": "Internal controls check required for transactions exceeding £10,000"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_015_trn_001",
+    "name": "Large Deposit/Withdrawal Transaction",
+    "properties": {
+      "transaction_context": "High-value cash movements",
+      "alert_threshold": [
+        {
+          "amount": "£1,000",
+          "action": "Manager approval"
+        },
+        {
+          "amount": "£5,000",
+          "action": "CTR filing"
+        },
+        {
+          "amount": "£10,000",
+          "action": "Internal controls check"
+        }
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_015",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_obl_001",
+    "name": "Confidentiality of Customer Personal Information",
+    "properties": {
+      "obligation_type": "prohibition",
+      "applies_to": "all staff",
+      "mandatory_actions": [
+        "Avoid discussing customer info in public areas",
+        "Clear desk of customer documents",
+        "Store documents in locked cabinets",
+        "Shred documents when no longer needed"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_obl_002",
+    "name": "Secure System Access Protocol",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "mandatory_actions": [
+        "Log out when leaving desk",
+        "Lock computer when absent",
+        "Maintain password confidentiality"
+      ],
+      "prohibitions": [
+        "Sharing passwords"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_obl_003",
+    "name": "Immediate Reporting of Suspicious Activity",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "timeframe": "immediately"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_016_cust_001",
+    "name": "Bank Customer",
+    "properties": {
+      "protection_taught": [
+        "Confidentiality of personal information",
+        "Secure handling of physical documentation"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_016",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_001",
+    "name": "Customer unusually nervous/evasive (Fraud Red Flag)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Customer appears unusually nervous or evasive during interaction",
+      "required_action": "Politely ask questions",
+      "escalation_path": "Manager or Compliance team"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_002",
+    "name": "Requesting large unusual transaction (Fraud Red Flag)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Customer requests a transaction that is large or unusual for their profile",
+      "required_action": "Politely ask questions",
+      "escalation_path": "Manager or Compliance team"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_003",
+    "name": "Using multiple accounts for same purpose (Fraud Red Flag)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Customer utilizes multiple accounts to achieve a single purpose",
+      "required_action": "Politely ask questions",
+      "escalation_path": "Manager or Compliance team"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_004",
+    "name": "Inconsistent personal information (Fraud Red Flag)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "Personal information provided by the customer is inconsistent",
+      "required_action": "Politely ask questions",
+      "escalation_path": "Manager or Compliance team"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_wrn_005",
+    "name": "Third party insisting customer transfer funds (Fraud Red Flag)",
+    "properties": {
+      "risk_domain": "fraud",
+      "description": "A third party is insisting that the customer transfer funds",
+      "required_action": "Politely ask questions",
+      "escalation_path": "Manager or Compliance team"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_017_obl_001",
+    "name": "Escalation of Fraud Concerns",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "All staff",
+      "required_action": "Escalate to manager or compliance if concerned after questioning customer"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_017",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_001",
+    "name": "Physical Accessibility Provisioning",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "branch staff",
+      "verification_method": "checklist audit"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_002",
+    "name": "Wheelchair Access Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "required_provisions": [
+        "Ramps",
+        "accessible toilets"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_003",
+    "name": "Hearing Loop Provision",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "location": "teller counter"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_004",
+    "name": "Large Print Documentation Provision",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "available_materials": [
+        "Forms",
+        "information"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_obl_005",
+    "name": "Quiet Area Provision",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "purpose": "Private space for sensitive discussions"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_018_cus_001",
+    "name": "Customer with Accessibility Needs",
+    "properties": {
+      "training_context": "Accessibility & Inclusivity requirements",
+      "protection_taught": [
+        "Physical access",
+        "Hearing assistance",
+        "Visual aid documentation",
+        "Privacy for sensitive discussions"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_018",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_019_obl_001",
+    "name": "Clear and Accessible Customer Communication Obligation",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "mandatory_actions": [
+        "Speak clearly and face customer",
+        "Allow extra time for older/vulnerable customers",
+        "Use plain language (no jargon)",
+        "Offer written information",
+        "Arrange interpreter if needed"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_019",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_019_cust_001",
+    "name": "Vulnerable Customer",
+    "properties": {
+      "customer_type": "at-risk",
+      "training_context": "communication requirements for accessibility",
+      "protection_taught": [
+        "provision of extra time",
+        "use of plain language",
+        "provision of written information",
+        "access to interpreters"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_019",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_001",
+    "name": "Elderly or Mentally Incapacitated Customers",
+    "properties": {
+      "customer_type": "vulnerable",
+      "training_context": "Staff are instructed to slow down and be patient when interacting with these customers"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_002",
+    "name": "Customers with Language Barriers",
+    "properties": {
+      "customer_type": "vulnerable",
+      "training_context": "Staff are instructed to arrange an interpreter for these customers"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_003",
+    "name": "Abuse Victims",
+    "properties": {
+      "customer_type": "vulnerable",
+      "protection_taught": [
+        "Provision of safe space",
+        "Confidential help"
+      ]
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_cus_004",
+    "name": "Victims of Financial Abuse",
+    "properties": {
+      "customer_type": "vulnerable",
+      "training_context": "Cases involving these customers must be escalated to compliance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_obl_001",
+    "name": "Provision of Safe Space and Confidential Help for Abuse Victims",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "applies_to": "all staff",
+      "verification_method": "provision of safe space and confidential help"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_obl_002",
+    "name": "Escalation of Financial Abuse to Compliance",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "all staff",
+      "regulatory_source": "Compliance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_020_wrn_001",
+    "name": "Indicators of Financial Abuse",
+    "properties": {
+      "risk_domain": "fraud",
+      "required_action": "Escalate to compliance",
+      "escalation_path": "Compliance Department"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_020",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_001",
+    "name": "KYC Completion Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "verification_method": "Accuracy audit",
+      "performance_standard": "100% completion"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_002",
+    "name": "AML Screening Requirement",
+    "properties": {
+      "obligation_type": "mandatory_action",
+      "verification_method": "Accuracy audit",
+      "performance_standard": "100% completion"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_003",
+    "name": "Fraud and Security Incident Reporting Timeline",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "<24 hours"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_004",
+    "name": "Immediate Customer Data Breach Reporting",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "timeframe": "immediately"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_005",
+    "name": "Suspicious Transaction Reporting Obligation",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "performance_standard": "100% reported"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_022_obl_006",
+    "name": "Vault Discrepancy Zero Tolerance",
+    "properties": {
+      "obligation_type": "prohibition",
+      "performance_standard": "Zero tolerance"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_022",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_001",
+    "name": "Escalation of Customer Disputes exceeding £1,000",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "Staff handling customer disputes",
+      "escalation_path": "Area Manager",
+      "contact_method": "ext. 5001",
+      "trigger_threshold": "£1,000"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_002",
+    "name": "Escalation of Fraud and AML Concerns",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All Staff",
+      "escalation_path": "Compliance",
+      "contact_method": "ext. 5010"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_003",
+    "name": "Escalation of Security Breaches",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All Staff",
+      "escalation_path": "Security",
+      "contact_method": "ext. 5020"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_023_obl_004",
+    "name": "Escalation of Technical Problems",
+    "properties": {
+      "obligation_type": "reporting_duty",
+      "applies_to": "All Staff",
+      "escalation_path": "IT Help Desk",
+      "contact_method": "ext. 5000"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_023",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_mod_001",
+    "name": "Mandatory Branch Staff Onboarding Training",
+    "properties": {
+      "target_audience": "All branch staff",
+      "mandatory": true,
+      "completion_frequency": "onboarding"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_obl_001",
+    "name": "Mandatory Training Completion for Branch Staff",
+    "properties": {
+      "obligation_type": "training",
+      "applies_to": "All branch staff",
+      "timeframe": "before starting"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_obl_002",
+    "name": "Annual Training Refresher Requirement",
+    "properties": {
+      "obligation_type": "training",
+      "timeframe": "Annually or when procedures change"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  },
+  {
+    "id": "2748ee65e8fb444fb8ee0fa64b152539_025_obl_003",
+    "name": "Manager Certification Requirement",
+    "properties": {
+      "obligation_type": "training",
+      "applies_to": "Managers",
+      "timeframe": "before managing branch"
+    },
+    "chunk_id": "2748ee65e8fb444fb8ee0fa64b152539_025",
+    "doc_id": "2748ee65e8fb444fb8ee0fa64b152539"
+  }
+]

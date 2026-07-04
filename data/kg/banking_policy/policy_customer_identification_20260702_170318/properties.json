@@ -1,0 +1,3418 @@
+[
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_pol_001",
+    "name": "Customer Identification Policy",
+    "properties": {
+      "document_id": "CID-POL-001",
+      "version": "2.1",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "owner": "Head of Compliance",
+      "owning_department": "Compliance",
+      "audience": [
+        "All Staff",
+        "Branch Managers",
+        "Compliance",
+        "Risk"
+      ],
+      "regulatory_basis": [
+        "FCA COBS Part 10",
+        "Money Laundering Regulations 2017"
+      ],
+      "status": "Active",
+      "classification": "Internal"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_reg_001",
+    "name": "FCA COBS Part 10",
+    "properties": {
+      "how_cited": "Regulatory Reference"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_reg_002",
+    "name": "Money Laundering Regulations 2017",
+    "properties": {
+      "how_cited": "Regulatory Reference"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "role_title": "Head of Compliance",
+      "department": "Compliance",
+      "accountability_for": "Customer Identification Policy"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_002",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "accountability_for": "Compliance with Customer Identification Policy"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_003",
+    "name": "Branch Managers",
+    "properties": {
+      "role_title": "Branch Managers",
+      "accountability_for": "Compliance with Customer Identification Policy"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_004",
+    "name": "Compliance",
+    "properties": {
+      "role_title": "Compliance",
+      "department": "Compliance",
+      "accountability_for": "Compliance with Customer Identification Policy"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_001_rol_005",
+    "name": "Risk",
+    "properties": {
+      "role_title": "Risk",
+      "accountability_for": "Compliance with Customer Identification Policy"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_001",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_pol_001",
+    "name": "Customer Identification Policy (KYC)",
+    "properties": {
+      "policy_domain": "kyc",
+      "core_policy_statement": "FirstUK Bank maintains a comprehensive Customer Identification Policy (KYC) to ensure customer legitimacy, prevent financial crime, and comply with regulatory requirements.",
+      "scope_summary": "Establishes mandatory procedures for verifying customer identity and address at account opening and periodically thereafter."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_prv_001",
+    "name": "Mandatory Identity and Address Verification at Account Opening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "customers"
+      ],
+      "timeframe": "at account opening"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_prv_002",
+    "name": "Periodic Customer Identity and Address Refresh",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "customers"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_rsk_001",
+    "name": "Financial Crime",
+    "properties": {
+      "risk_definition": "The target of prevention through the maintenance of customer legitimacy and identification policies."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_ctl_001",
+    "name": "Customer Identity Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_002_ctl_002",
+    "name": "Customer Address Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_002",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_pol_001",
+    "name": "Know Your Customer (KYC) Verification Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "regulatory_basis": [
+        "Financial Conduct Authority Conduct of Business Sourcebook",
+        "Money Laundering Regulations"
+      ],
+      "core_policy_statement": "Establish procedures for KYC verification to confirm customer identity, verify address, assess risk profiles, and prevent the opening of accounts for sanctioned individuals or entities."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_prv_001",
+    "name": "Mandatory Customer Identity Confirmation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "customers"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_prv_002",
+    "name": "Mandatory Customer Address Verification",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "customers"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_prv_003",
+    "name": "Mandatory Customer Risk Profile Assessment",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "customers"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_reg_001",
+    "name": "Financial Conduct Authority Conduct of Business Sourcebook",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "how_cited": "FCA COBS"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_reg_002",
+    "name": "Money Laundering Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_rsk_001",
+    "name": "Sanctions Violation Risk",
+    "properties": {
+      "risk_definition": "The risk of opening accounts for sanctioned individuals or entities"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_003_kyc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "mandatory": "yes",
+      "components": [
+        "Identity Confirmation",
+        "Address Verification",
+        "Risk Profile Assessment"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_003",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_pol_001",
+    "name": "Customer Onboarding and KYC Policy",
+    "properties": {
+      "scope_summary": "Applies to all customer account openings (retail, joint), new customer relationships, periodic re-verification, and onboarding staff. Excludes existing customers (unless risk reassessed), regulatory authorities, and internal bank accounts."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_prv_001",
+    "name": "Mandatory KYC for New Customer Account Openings",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Retail Account",
+        "Joint Account"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_prv_002",
+    "name": "Mandatory KYC for New Customer Relationships",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "New Customer"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_prv_003",
+    "name": "Periodic Customer Re-verification Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Existing customers"
+      ],
+      "exceptions": "Existing customers are generally excluded unless triggered by risk reassessment"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_rol_001",
+    "name": "Onboarding Staff",
+    "properties": {
+      "specific_obligations": [
+        "Execute customer onboarding and KYC processes"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_acc_001",
+    "name": "Retail Account",
+    "properties": {
+      "policy_controls": [
+        "Mandatory KYC at opening"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_acc_002",
+    "name": "Joint Account",
+    "properties": {
+      "policy_controls": [
+        "Mandatory KYC at opening"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_cus_001",
+    "name": "New Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Undergo KYC verification for account opening and relationship establishment"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_004_kyc_001",
+    "name": "KYC Verification Process",
+    "properties": {
+      "mandatory": "yes",
+      "timing": "at account opening",
+      "refresh_frequency": "periodic"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_004",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_pol_001",
+    "name": "FirstUK Bank Customer Identification and Verification Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank requires that all customers be positively identified and verified before account opening or product provision."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_prv_001",
+    "name": "Mandatory Customer Identification and Verification Prior to Onboarding",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Customers"
+      ],
+      "timeframe": "prior to account opening or product provision"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_rol_001",
+    "name": "All Customers",
+    "properties": {
+      "specific_obligations": [
+        "Must be positively identified and verified before account opening or product provision"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Undergo positive identification and verification before onboarding"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_acc_001",
+    "name": "Bank Account",
+    "properties": {
+      "policy_controls": [
+        "Identification and verification must be completed before account opening"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_prd_001",
+    "name": "Banking Product",
+    "properties": {
+      "kyc_requirement": "mandatory",
+      "applicable_policy": "FirstUK Bank Customer Identification and Verification Policy"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_005_kyc_001",
+    "name": "Customer Identification and Verification Process",
+    "properties": {
+      "mandatory": "yes",
+      "timing": "before account opening or product provision"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_005",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_pol_001",
+    "name": "Core Requirements Policy",
+    "properties": {
+      "core_policy_statement": "Establishes the mandatory requirements for identity verification, address verification, documentation, record retention, and periodic KYC reviews for account holders."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_001",
+    "name": "Mandatory Identity Verification at Account Opening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "New Account applicants"
+      ],
+      "timeframe": "at account opening"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_002",
+    "name": "Mandatory Address Verification at Account Opening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "New Account applicants"
+      ],
+      "timeframe": "at account opening"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_003",
+    "name": "Physical Evidence Documentation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "physical evidence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_004",
+    "name": "Six Year Record Retention Rule",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years post-account closure"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_005",
+    "name": "Periodic KYC Review Schedule",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "lower-risk customers",
+        "high-risk customers"
+      ],
+      "timeframe": "annually for high-risk; every 3–5 years for lower-risk"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_prv_006",
+    "name": "Non-Standard Scenario Exception Process",
+    "properties": {
+      "provision_type": "conditional",
+      "exceptions": "non-standard scenarios",
+      "verification_method": "escalation to Compliance Head"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_ctl_001",
+    "name": "Identity Verification Process",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_ctl_002",
+    "name": "Address Verification Process",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_ctl_003",
+    "name": "Physical Document Collection",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": "physical evidence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "authority": "Review and approve non-standard scenario exceptions"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_rsk_001",
+    "name": "High-Risk Customer Profile",
+    "properties": {
+      "required_response": "Annual periodic KYC review"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_rsk_002",
+    "name": "Lower-Risk Customer Profile",
+    "properties": {
+      "required_response": "Periodic KYC review every 3–5 years"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_acc_001",
+    "name": "New Account",
+    "properties": {
+      "policy_controls": [
+        "Mandatory identity verification",
+        "Mandatory address verification"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_006_acc_002",
+    "name": "Closed Account",
+    "properties": {
+      "policy_controls": [
+        "6 year record retention"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_006",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_pol_001",
+    "name": "Identity Verification Procedures",
+    "properties": {
+      "policy_domain": "kyc",
+      "scope_summary": "Defines the acceptable primary identification documents and verification methods for UK and Non-UK customers."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_prv_001",
+    "name": "Primary Identity Document Verification for UK Customers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "UK Customer"
+      ],
+      "verification_method": "Direct examination, certified copy, or DVLA online check depending on document type"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_prv_002",
+    "name": "Primary Identity Document Verification for Non-UK Customers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Non-UK Customer"
+      ],
+      "exceptions": "Preference for passports from English-speaking countries"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_ctl_001",
+    "name": "DVLA Online Verification",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "System/DVLA Database",
+      "applies_to": [
+        "UK Driving License"
+      ],
+      "technology_used": "DVLA online check"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_ctl_002",
+    "name": "Direct Examination or Certified Copy Verification",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "UK Passport"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_cus_001",
+    "name": "UK Customer",
+    "properties": {
+      "risk_treatment": "Standard UK identity verification requirements"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_cus_002",
+    "name": "Non-UK Customer",
+    "properties": {
+      "risk_treatment": "Verification via foreign passports or EU equivalent documents"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_kyc_001",
+    "name": "Identity Verification Process",
+    "properties": {
+      "mandatory": "yes",
+      "verification_method": "Document check of signature, photo, and personal details"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_001",
+    "name": "UK Passport",
+    "properties": {
+      "accepted_types": [
+        "UK Passport"
+      ],
+      "validity_requirements": [
+        "Valid",
+        "Not expired"
+      ],
+      "verification_method": "Direct examination or certified copy",
+      "document_checks": [
+        "Signature",
+        "Photo",
+        "Personal details"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_002",
+    "name": "UK Driving License",
+    "properties": {
+      "accepted_types": [
+        "UK Driving License"
+      ],
+      "validity_requirements": [
+        "Valid",
+        "Not expired",
+        "Photocard"
+      ],
+      "verification_method": "DVLA verification (online check)",
+      "document_checks": [
+        "Photo",
+        "Signature",
+        "Address",
+        "Driving record"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_003",
+    "name": "UK National ID Card",
+    "properties": {
+      "accepted_types": [
+        "UK National ID Card"
+      ],
+      "validity_requirements": [
+        "Valid",
+        "Not expired"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_004",
+    "name": "Foreign Passport",
+    "properties": {
+      "accepted_types": [
+        "Foreign Passport"
+      ],
+      "exception_handling": "Preference for English-speaking country passports"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_005",
+    "name": "EU Equivalent Driving License",
+    "properties": {
+      "accepted_types": [
+        "EU Equivalent Driving License"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_007_doc_006",
+    "name": "EU Equivalent National ID Card",
+    "properties": {
+      "accepted_types": [
+        "EU Equivalent National ID Card"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_007",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_pol_001",
+    "name": "Identification Process Policy",
+    "properties": {
+      "core_policy_statement": "Establishes a multi-step process for document collection, physical verification, and system recording across branch, online, and postal channels to ensure customer identity is validated.",
+      "scope_summary": "Applies to the identification and verification of customers during account opening across all onboarding channels."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_001",
+    "name": "Mandatory Primary Document Collection",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Prospective Customer"
+      ],
+      "verification_method": "Collection of document ID, issue date, and expiry date",
+      "core_obligation": "Request primary document and assess for integrity, ensuring no tampering or alterations."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_002",
+    "name": "Physical Document Verification Standards",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Opening",
+        "Postal Opening"
+      ],
+      "verification_method": [
+        "Photo match",
+        "Signature match",
+        "Expiry check"
+      ],
+      "exceptions": "Certified copies are permitted for postal openings instead of original documents."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_003",
+    "name": "System Recording of Identification Data",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Account Management System (AMS)"
+      ],
+      "evidence_required": [
+        "Document type",
+        "Document number",
+        "Issue date",
+        "Expiry date"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_004",
+    "name": "Branch Opening Verification Requirements",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Channel"
+      ],
+      "timeframe": "Immediate",
+      "verification_method": "Physical examination of original document and photo match",
+      "evidence_required": [
+        "In-branch verified status",
+        "Staff name",
+        "Date"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_005",
+    "name": "Online Opening Verification Requirements",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Online Channel"
+      ],
+      "verification_method": [
+        "Notarized certified copy upload",
+        "Automated validation",
+        "Manual review"
+      ],
+      "evidence_required": [
+        "Document-based verification status",
+        "Reviewer name",
+        "Date"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_prv_006",
+    "name": "Postal Opening Verification Requirements",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Postal Channel"
+      ],
+      "verification_method": [
+        "Certified copy via registered mail",
+        "Address cross-reference",
+        "Follow-up verification call"
+      ],
+      "evidence_required": [
+        "Postal verification status",
+        "Reviewer name",
+        "Date"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_ctl_001",
+    "name": "Account Management System (AMS)",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "performed_by": "Staff",
+      "applies_to": "Identification data recording",
+      "evidence_required": "Document metadata and verification flags"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_ctl_002",
+    "name": "Automated Document Validation",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "no",
+      "frequency": "at_onboarding",
+      "applies_to": "Online Opening",
+      "technology_used": "Automated validation tool"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_rol_001",
+    "name": "Compliance Staff",
+    "properties": {
+      "specific_obligations": [
+        "Perform manual review of online document uploads",
+        "Perform manual review of postal document submissions"
+      ],
+      "accountability_for": "Verification of non-branch onboarding documents"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_cus_001",
+    "name": "Prospective Customer",
+    "properties": {
+      "eligibility_status": "prospective",
+      "obligations_under_policy": [
+        "Provide primary identification document",
+        "Provide notarized copies for online opening",
+        "Send certified copies via registered mail for postal opening"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_kyc_001",
+    "name": "Identity Verification Process",
+    "properties": {
+      "mandatory": "yes",
+      "timing": "at_onboarding",
+      "verification_method": "Channel-specific (Branch, Online, Postal)",
+      "consequence_of_failure": "Manual review flag for concerns"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_008_doc_001",
+    "name": "Primary Identification Document",
+    "properties": {
+      "accepted_types": [
+        "Original document",
+        "Certified/Notarized copy"
+      ],
+      "validity_requirements": [
+        "Not expired",
+        "No tampering",
+        "No alterations"
+      ],
+      "verification_method": [
+        "Physical inspection",
+        "Photo match",
+        "Signature match"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_008",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_pol_001",
+    "name": "Address Verification Procedures",
+    "properties": {
+      "policy_domain": "kyc",
+      "scope_summary": "Defines the acceptable documentation and validity requirements for verifying a customer's residential address.",
+      "core_policy_statement": "Customers must provide valid primary or secondary documentation to verify their address, ensuring the documents match the customer's name and address."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_prv_001",
+    "name": "Utility Bill Validity Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Prospective Customers",
+        "Existing Customers"
+      ],
+      "timeframe": "dated within last 3 months",
+      "verification_method": "Match customer name and address; verify provider is a major supplier"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_prv_002",
+    "name": "Council Tax Document Validity Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Prospective Customers",
+        "Existing Customers"
+      ],
+      "timeframe": "Current year",
+      "verification_method": "Match customer name and address"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_prv_003",
+    "name": "Bank Statement Validity and Limitation",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Prospective Customers",
+        "Existing Customers"
+      ],
+      "timeframe": "within 3 months",
+      "exceptions": "Not accepted as sole evidence if customer already holds an account with FirstUK Bank",
+      "verification_method": "Verify name and address are displayed"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_001",
+    "name": "Utility Bill",
+    "properties": {
+      "accepted_types": [
+        "Gas",
+        "Electricity",
+        "Water",
+        "Telephone"
+      ],
+      "validity_requirements": "Dated within last 3 months",
+      "verification_method": "Match name and address; check for major supplier status"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_002",
+    "name": "Council Tax Document",
+    "properties": {
+      "accepted_types": [
+        "Council tax bill",
+        "Banding notice"
+      ],
+      "validity_requirements": "Current year",
+      "verification_method": "Match name and address"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_003",
+    "name": "Bank Statement",
+    "properties": {
+      "accepted_types": [
+        "Statement from another bank"
+      ],
+      "validity_requirements": "Dated within 3 months",
+      "verification_method": "Verify name and address"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_004",
+    "name": "Mortgage Statement",
+    "properties": {
+      "classification": "Secondary evidence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_005",
+    "name": "Tenancy Agreement",
+    "properties": {
+      "classification": "Secondary evidence",
+      "validity_requirements": "Must be signed and include landlord details"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_006",
+    "name": "Insurance Policy",
+    "properties": {
+      "classification": "Secondary evidence",
+      "accepted_types": [
+        "Buildings insurance",
+        "Contents insurance"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_007",
+    "name": "HM Revenue & Customs Correspondence",
+    "properties": {
+      "classification": "Secondary evidence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_idoc_008",
+    "name": "Electoral Register Extract",
+    "properties": {
+      "classification": "Secondary evidence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_009_kyc_001",
+    "name": "Address Verification Process",
+    "properties": {
+      "mandatory": "yes",
+      "verification_method": "Documentary evidence check",
+      "document_hierarchy": {
+        "primary": [
+          "Utility Bill",
+          "Council Tax Document",
+          "Bank Statement"
+        ],
+        "secondary": [
+          "Mortgage statement",
+          "Tenancy agreement",
+          "Insurance policy",
+          "HMRC correspondence",
+          "Electoral register extract"
+        ]
+      }
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_009",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_pol_001",
+    "name": "Address Verification Process",
+    "properties": {
+      "scope_summary": "The process for collecting, verifying, and recording customer address documentation to ensure jurisdictional and format compliance.",
+      "core_policy_statement": "FirstUK Bank requires a structured three-step process (Collection, Verification, and System Recording) to validate customer addresses."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_kyc_001",
+    "name": "Address Verification",
+    "properties": {
+      "mandatory": "yes",
+      "verification_method": "Comparison of ID document against supporting address documentation",
+      "consequence_of_failure": "Discrepancy flagging"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_id_001",
+    "name": "Address Verification Document",
+    "properties": {
+      "accepted_types": [
+        "Supporting document for address verification"
+      ],
+      "validity_requirements": [
+        "Must show a valid address",
+        "Must be within UK or approved jurisdiction"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_id_002",
+    "name": "ID Document",
+    "properties": {
+      "verification_method": "Cross-referenced with supporting address document"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_001",
+    "name": "Mandatory Request for Address Verification Document",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer onboarding/verification process"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_002",
+    "name": "Mandatory Recording of Document Metadata",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Address verification documents"
+      ],
+      "evidence_required": [
+        "Document type",
+        "Date",
+        "Address shown"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_003",
+    "name": "Address Cross-Verification Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "ID document",
+        "Supporting address document"
+      ],
+      "verification_method": "Comparison of addresses across both documents"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_004",
+    "name": "Jurisdictional Validation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer address"
+      ],
+      "exceptions": [
+        "Approved jurisdictions outside the UK"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_005",
+    "name": "UK Postcode Format Validation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "UK addresses"
+      ],
+      "verification_method": "Format check against pattern A(1,2)9(1,2)A 9A(2)"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_006",
+    "name": "System Recording of Address Verification",
+    "properties": {
+      "provision_type": "mandatory",
+      "evidence_required": [
+        "Address document type",
+        "Date"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_007",
+    "name": "Business Ontology Linking Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "System records"
+      ],
+      "linked_control": "Address Recording System"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_prv_008",
+    "name": "Discrepancy Flagging Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "required_response": "Flag any discrepancies found during the verification process"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_010_ctl_001",
+    "name": "Address Recording System",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "performed_by": "System",
+      "evidence_required": [
+        "Document type",
+        "Date",
+        "Ontology link to Address entity"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_010",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_pol_001",
+    "name": "Risk-Based Customer Assessment",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Customers are categorized into Low, Medium, and High risk levels based on demographic, geographic, and behavioral criteria to determine the level of due diligence required."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prv_001",
+    "name": "Low Risk Customer Classification Criteria",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "UK National",
+        "UK Address"
+      ],
+      "verification_method": "Review of age, nationality, address, product type, and screening results"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prv_002",
+    "name": "Medium Risk Customer Classification Criteria",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Non-UK residents",
+        "Professional/Business customers",
+        "Higher-value accounts"
+      ],
+      "verification_method": "Review of account balance, professional status, and PEP connections"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prv_003",
+    "name": "High Risk Customer Classification Criteria",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Non-UK citizens",
+        "PEP exposure",
+        "Sanctioned jurisdictions"
+      ],
+      "verification_method": "OFAC screening, adverse media checks, and Compliance referral"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rsk_001",
+    "name": "Low Risk",
+    "properties": {
+      "risk_definition": "Customers meeting standard demographic and residency criteria with no red flags",
+      "examples": [
+        "UK national aged 18-65 with a UK address and standard products"
+      ],
+      "risk_level": "low"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rsk_002",
+    "name": "Medium Risk",
+    "properties": {
+      "risk_definition": "Customers with specific attributes that increase risk profile but do not reach high-risk thresholds",
+      "examples": [
+        "Non-UK resident UK citizens",
+        "Professional/Business customers",
+        "Accounts >£100k"
+      ],
+      "risk_level": "medium"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rsk_003",
+    "name": "High Risk",
+    "properties": {
+      "risk_definition": "Customers with significant risk indicators requiring enhanced scrutiny",
+      "examples": [
+        "Non-UK citizens with foreign addresses",
+        "Significant PEP exposure",
+        "Adverse media hits"
+      ],
+      "risk_level": "high",
+      "required_response": "Referral to Compliance"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_reg_001",
+    "name": "OFAC Sanctions List",
+    "properties": {
+      "issuing_authority": "US Department of the Treasury",
+      "jurisdiction": "international",
+      "regulation_type": "sanctions_list",
+      "key_obligation": "Identify and restrict business with individuals or entities on the sanctions list"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_rol_001",
+    "name": "Compliance",
+    "properties": {
+      "authority": "Review and approve high-risk customer referrals",
+      "accountability_for": "Final risk classification of high-risk customers"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_001",
+    "name": "UK National",
+    "properties": {
+      "risk_treatment": "Classified as Low Risk if aged 18-65 and residing in the UK"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_002",
+    "name": "Non-UK Citizen",
+    "properties": {
+      "risk_treatment": "Classified as High Risk if they also possess a foreign address"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_003",
+    "name": "Politically Exposed Person",
+    "properties": {
+      "risk_treatment": "Classified as Medium Risk for minor connections and High Risk for significant exposure"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_cus_004",
+    "name": "Professional or Business Customer",
+    "properties": {
+      "risk_treatment": "Classified as Medium Risk"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_acc_001",
+    "name": "Higher-value Account",
+    "properties": {
+      "policy_controls": "Accounts with balances exceeding £100k are classified as Medium Risk"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_tra_001",
+    "name": "High-value Transaction",
+    "properties": {
+      "suspicious_indicators": "Patterns suggesting higher risk",
+      "monitoring_obligation": "Absence of high-value transactions is a requirement for Low Risk classification"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prd_001",
+    "name": "Savings Account Product",
+    "properties": {
+      "risk_classification": "Standard product (Low Risk)"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_prd_002",
+    "name": "Current Account Product",
+    "properties": {
+      "risk_classification": "Standard product (Low Risk)"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_aml_001",
+    "name": "Adverse Media Check",
+    "properties": {
+      "mandatory": "yes",
+      "hit_response": "Classification as High Risk"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_011_ach_001",
+    "name": "Beneficial Owner",
+    "properties": {
+      "due_diligence_requirement": "Must be clearly identified; unclear beneficial ownership triggers High Risk classification"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_011",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_pol_001",
+    "name": "Risk-Based Re-verification Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Customer re-verification frequency is determined by the assigned risk rating of the customer."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_prv_001",
+    "name": "Low Risk Customer Re-verification Frequency",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Low Risk Customers"
+      ],
+      "timeframe": "Every 5 years"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_prv_002",
+    "name": "Medium Risk Customer Re-verification Frequency",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Medium Risk Customers"
+      ],
+      "timeframe": "Every 3 years"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_prv_003",
+    "name": "High Risk Customer Re-verification Frequency",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "High Risk Customers"
+      ],
+      "timeframe": "Annually or on-transaction basis"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_rsk_001",
+    "name": "Low Risk",
+    "properties": {
+      "risk_level": "low",
+      "required_response": "Re-verification every 5 years"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_rsk_002",
+    "name": "Medium Risk",
+    "properties": {
+      "risk_level": "medium",
+      "required_response": "Re-verification every 3 years"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_rsk_003",
+    "name": "High Risk",
+    "properties": {
+      "risk_level": "high",
+      "required_response": "Re-verification annually or on-transaction basis"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_kyc_001",
+    "name": "Periodic Re-verification",
+    "properties": {
+      "mandatory": "yes",
+      "refresh_frequency": "Risk-based (1, 3, or 5 years)"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_012_cus_001",
+    "name": "Risk-Rated Customer",
+    "properties": {
+      "risk_treatment": "Subject to tiered re-verification schedules based on risk rating"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_012",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "Mandates Enhanced Due Diligence (EDD) for high-risk customers and specific trigger scenarios to mitigate financial crime risks."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "risk_definition": "Customers meeting specific trigger scenarios such as residency in high-risk countries or PEP status",
+      "required_response": "Mandatory Enhanced Due Diligence (EDD)",
+      "risk_level": "high"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_002",
+    "name": "Politically Exposed Person (PEP)",
+    "properties": {
+      "risk_definition": "Individuals identified as Politically Exposed Persons",
+      "required_response": "Mandatory Enhanced Due Diligence (EDD)",
+      "risk_level": "high"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_003",
+    "name": "Unclear Beneficial Ownership",
+    "properties": {
+      "risk_definition": "Scenarios where the beneficial ownership of a customer entity is not clearly identified",
+      "required_response": "Mandatory Enhanced Due Diligence (EDD)",
+      "risk_level": "high"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_004",
+    "name": "Unusual Transaction Patterns",
+    "properties": {
+      "risk_definition": "Transaction patterns that deviate from expected behavior",
+      "required_response": "Mandatory Enhanced Due Diligence (EDD)",
+      "risk_level": "high"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_005",
+    "name": "Fraud or Complaint History",
+    "properties": {
+      "risk_definition": "Customers with a documented history of fraud or significant complaints",
+      "required_response": "Mandatory Enhanced Due Diligence (EDD)",
+      "risk_level": "high"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rsk_006",
+    "name": "Regulatory Concern",
+    "properties": {
+      "risk_definition": "Identification of concerns raised by regulatory bodies",
+      "required_response": "Mandatory Enhanced Due Diligence (EDD)",
+      "risk_level": "high"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_prv_001",
+    "name": "Mandatory Enhanced Due Diligence for High-Risk Scenarios",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "High-risk country customers",
+        "PEPs",
+        "Entities with unclear beneficial ownership",
+        "Customers with unusual transaction patterns",
+        "Customers with fraud/complaint history",
+        "Customers with regulatory concerns"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_prv_002",
+    "name": "EDD Approval Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "EDD customers",
+      "verification_method": "Approval by Compliance Head"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_prv_003",
+    "name": "EDD Periodic Review Schedule",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "annual minimum"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_001",
+    "name": "Enhanced Identity Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": "multiple documents"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_002",
+    "name": "Beneficial Ownership Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "entity customers"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_003",
+    "name": "Source of Funds Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_004",
+    "name": "Ongoing Transaction Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "frequency": "ongoing"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_ctl_005",
+    "name": "Risk Assessment Documentation",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "evidence_required": "documentation of risk assessment"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "authority": "Approval of EDD customers"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_cus_001",
+    "name": "High-Risk Customer",
+    "properties": {
+      "eligibility_status": "high_risk",
+      "risk_treatment": "Subject to Enhanced Due Diligence (EDD) and annual minimum review"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_013_kyc_001",
+    "name": "Enhanced Due Diligence (EDD) Process",
+    "properties": {
+      "mandatory": "yes",
+      "refresh_frequency": "annual minimum",
+      "edd_trigger": [
+        "high-risk country",
+        "PEP",
+        "unclear beneficial ownership",
+        "unusual transaction patterns",
+        "fraud/complaint history",
+        "regulatory concern"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_013",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_pol_001",
+    "name": "PEP Screening Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "core_policy_statement": "FirstUK Bank requires the identification and screening of all new customers, their immediate family, and close associates against PEP databases to mitigate risks associated with Politically Exposed Persons."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_rsk_001",
+    "name": "Politically Exposed Person Risk",
+    "properties": {
+      "risk_definition": "Risk associated with individuals who are government officials, senior politicians, military leaders, or their close connections.",
+      "required_response": [
+        "Flag customer in system",
+        "Perform Enhanced Due Diligence",
+        "Escalate to Compliance Head",
+        "Implement enhanced ongoing monitoring",
+        "Consider transaction restrictions"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_001",
+    "name": "Mandatory Screening of New Customers for PEP Status",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "New Customers"
+      ],
+      "verification_method": "Screening against PEP databases"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_002",
+    "name": "Screening of PEP Family and Associates",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Immediate family of PEP",
+        "Close associates of PEP"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_003",
+    "name": "Ongoing Monitoring of PEP Status",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Existing PEP customers"
+      ],
+      "timeframe": "Ongoing"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_ctl_001",
+    "name": "PEP Database Screening",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding",
+      "technology_used": "PEP databases (FCA/PRA lists, Sanctions lists, Third-party providers)"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_reg_001",
+    "name": "Financial Conduct Authority PEP Lists",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_reg_002",
+    "name": "Prudential Regulation Authority PEP Lists",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_prv_004",
+    "name": "Mandatory PEP Identification Actions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Identified PEPs"
+      ],
+      "linked_control": "Enhanced Due Diligence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "authority": "Review and approval of PEP escalations",
+      "accountability_for": "PEP risk oversight"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_kyc_001",
+    "name": "Enhanced Due Diligence for PEPs",
+    "properties": {
+      "mandatory": "yes",
+      "edd_trigger": "Identification of customer as a PEP, family member, or close associate"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_aml_001",
+    "name": "PEP Screening Process",
+    "properties": {
+      "mandatory": "yes",
+      "screening_lists": [
+        "FCA PEP lists",
+        "PRA PEP lists",
+        "Sanctions lists",
+        "Third-party data providers"
+      ],
+      "ongoing_monitoring": "yes"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_014_cus_001",
+    "name": "PEP Customer",
+    "properties": {
+      "eligibility_status": "high_risk",
+      "risk_treatment": "Subject to Enhanced Due Diligence and enhanced ongoing monitoring"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_014",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_pol_001",
+    "name": "Adverse Media Screening Policy",
+    "properties": {
+      "policy_domain": "aml",
+      "scope_summary": "Screen all customers for adverse media including criminal convictions, fraud allegations, and sanctions violations",
+      "core_policy_statement": "FirstUK Bank screens all customers for adverse media to identify potential risks related to criminal activity, fraud, or sanctions."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_prv_001",
+    "name": "Mandatory Adverse Media Screening for All Customers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Customers"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_prv_002",
+    "name": "Adverse Media Response and Escalation Process",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Material adverse media hits"
+      ],
+      "required_response": [
+        "Flag for manual review",
+        "Assess materiality",
+        "Escalate to Compliance Head",
+        "Consider account rejection or enhanced monitoring"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rsk_001",
+    "name": "Criminal Convictions",
+    "properties": {
+      "risk_definition": "Adverse media reports indicating a customer has been convicted of a crime"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rsk_002",
+    "name": "Fraud Allegations",
+    "properties": {
+      "risk_definition": "Adverse media reports alleging a customer's involvement in fraudulent activities"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rsk_003",
+    "name": "Sanctions Violations",
+    "properties": {
+      "risk_definition": "Adverse media reports indicating a customer has violated sanctions"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_ctl_001",
+    "name": "Adverse Media Screening Sources",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": [
+        "News databases",
+        "Third-party screening providers",
+        "Regulatory announcements"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_ctl_002",
+    "name": "Manual Review and Materiality Assessment",
+    "properties": {
+      "control_type": "corrective",
+      "mandatory": "yes",
+      "performed_by": "Reviewer",
+      "applies_to": [
+        "Adverse media flags"
+      ],
+      "escalation_path": "Compliance Head"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "authority": "Review material adverse media escalations and decide on account rejection or enhanced monitoring"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_cus_001",
+    "name": "All Customers",
+    "properties": {
+      "obligations_under_policy": [
+        "Subject to adverse media screening"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_015_aml_001",
+    "name": "Adverse Media Check",
+    "properties": {
+      "mandatory": "yes",
+      "hit_response": "Flag for manual review and materiality assessment"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_015",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_pol_001",
+    "name": "Documentation & Record Retention Policy",
+    "properties": {
+      "policy_domain": "compliance",
+      "core_policy_statement": "FirstUK Bank maintains a comprehensive set of customer records, including identity, address, and screening results, stored securely with restricted access and retained for a specific period following account closure."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_prv_001",
+    "name": "Mandatory Customer Record Collection",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "all customers"
+      ],
+      "verification_method": "collection of identity documents, address verification, KYC records, and screening results"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_prv_002",
+    "name": "Customer Record Retention Period",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "6 years post-account closure"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_ctl_001",
+    "name": "Secure Document Management System",
+    "properties": {
+      "control_type": "preventive",
+      "technology_used": "DMS-001",
+      "applies_to": [
+        "customer records"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_ctl_002",
+    "name": "Role-Based Access Control for Compliance",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "Compliance staff",
+      "mandatory": "yes"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_ctl_003",
+    "name": "Access Audit Logging",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "evidence_required": "access logs"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_rol_001",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_title": "Compliance Staff",
+      "authority": "authorized access to the secure document management system"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_id_001",
+    "name": "Identity Document",
+    "properties": {
+      "accepted_types": [
+        "copy of identity document"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_id_002",
+    "name": "Address Verification Document",
+    "properties": {
+      "accepted_types": [
+        "copy of address verification document"
+      ],
+      "mandatory": "yes"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_kyc_001",
+    "name": "KYC Verification Record",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": [
+        "date",
+        "method",
+        "approver"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_aml_001",
+    "name": "PEP Screening",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "screening result"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_aml_002",
+    "name": "Adverse Media Screening",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "screening result"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_aml_003",
+    "name": "AML Screening",
+    "properties": {
+      "mandatory": "yes",
+      "evidence_required": "screening result"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_rsk_001",
+    "name": "High-Risk Customer Status",
+    "properties": {
+      "required_response": "completion of risk assessment"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_016_acc_001",
+    "name": "Closed Account",
+    "properties": {
+      "policy_controls": "triggers the start of the 6-year record retention period"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_016",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_pol_001",
+    "name": "Exceptions & Escalation Policy",
+    "properties": {
+      "policy_domain": "compliance",
+      "core_policy_statement": "Establishes the requirements and approval workflows for handling non-standard customer scenarios and documentation exceptions."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "authority": "Approval of exceptions for refugees, foreign customers, complex structures, and PEPs",
+      "specific_obligations": [
+        "Review reasoning for exceptions",
+        "Provide written approval for non-standard scenarios"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rol_002",
+    "name": "Legal Review",
+    "properties": {
+      "role_title": "Legal Review",
+      "specific_obligations": [
+        "Review high-value customers with complex structures"
+      ],
+      "authority": "Joint approval for complex customer structures"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rsk_001",
+    "name": "Politically Exposed Person Risk",
+    "properties": {
+      "risk_level": "high",
+      "required_response": "Mandatory escalation to Compliance Head and application of Enhanced Due Diligence",
+      "detection_mechanism": "PEP screening"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_rsk_002",
+    "name": "Complex Customer Structure Risk",
+    "properties": {
+      "risk_definition": "Customers utilizing trusts or investment vehicles",
+      "examples": [
+        "Trust",
+        "Investment vehicle"
+      ],
+      "required_response": "Beneficial ownership verification and Enhanced Due Diligence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_001",
+    "name": "Mandatory Escalation for PEPs",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Politically Exposed Persons"
+      ],
+      "verification_method": "Senior approval and Compliance Head sign-off"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_002",
+    "name": "Beneficial Ownership Verification for Complex Structures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "High-Value Complex Customers"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_003",
+    "name": "Alternative Verification for Limited Documentation",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Refugees",
+        "Foreign Customers"
+      ],
+      "exceptions": "Permitted when standard documents are unavailable, subject to Compliance Head approval"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_prv_004",
+    "name": "Exception Documentation and Approval Process",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Written approval and system record of rationale",
+      "specific_obligations": [
+        "Document reasoning for exception",
+        "Obtain written approval",
+        "Record decision in system"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_ctl_001",
+    "name": "Enhanced Due Diligence",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "PEPs",
+        "Complex Customer Structures"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_ctl_002",
+    "name": "Higher-Risk Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "ongoing",
+      "applies_to": [
+        "Approved exceptions"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_kyc_001",
+    "name": "Beneficial Ownership Verification",
+    "properties": {
+      "mandatory": "yes",
+      "edd_trigger": "Complex customer structures (e.g., trusts, investment vehicles)"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_001",
+    "name": "Refugee Customer",
+    "properties": {
+      "risk_treatment": "Alternative verification path",
+      "obligations_under_policy": "Provide notarized statement or passport alternative if standard docs are missing"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_002",
+    "name": "Foreign Customer",
+    "properties": {
+      "risk_treatment": "Alternative verification path",
+      "obligations_under_policy": "Provide foreign equivalent documents and additional address verification"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_003",
+    "name": "High-Value Complex Customer",
+    "properties": {
+      "risk_treatment": "High risk",
+      "obligations_under_policy": "Must undergo beneficial ownership verification and EDD"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_cus_004",
+    "name": "Politically Exposed Person",
+    "properties": {
+      "eligibility_status": "high_risk",
+      "risk_treatment": "Mandatory escalation and senior approval"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_doc_001",
+    "name": "Notarized Statement",
+    "properties": {
+      "accepted_types": [
+        "Notarized statement"
+      ],
+      "verification_method": "Alternative verification for refugees"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_doc_002",
+    "name": "Passport Alternative",
+    "properties": {
+      "accepted_types": [
+        "Passport alternative"
+      ],
+      "verification_method": "Alternative verification for refugees"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_017_doc_003",
+    "name": "Foreign Equivalent Documents",
+    "properties": {
+      "accepted_types": [
+        "Foreign equivalent documents"
+      ],
+      "validity_requirements": "Must be accompanied by additional address verification"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_017",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "role_title": "Branch Staff",
+      "specific_obligations": [
+        "Collect required identity and address documents",
+        "Conduct physical examination during branch opening",
+        "Record document details accurately",
+        "Escalate exceptions to manager",
+        "Maintain customer confidentiality"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_001",
+    "name": "Mandatory Collection of Identity and Address Documents",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_002",
+    "name": "Physical Examination Requirement for Branch Opening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff"
+      ],
+      "timeframe": "at branch opening"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_003",
+    "name": "Accurate Recording of Document Details",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_004",
+    "name": "Escalation of KYC Exceptions to Manager",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Branch Staff"
+      ],
+      "escalation_path": "Manager"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_prv_005",
+    "name": "Maintenance of Customer Confidentiality",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Branch Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_rol_002",
+    "name": "Manager",
+    "properties": {
+      "role_title": "Manager",
+      "authority": "Review and handle KYC exceptions escalated by Branch Staff"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_ctl_001",
+    "name": "Identity and Address Document Collection",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "performed_by": "Branch Staff",
+      "evidence_required": "Identity and address documents"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_018_ctl_002",
+    "name": "Physical Customer Examination",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "at_onboarding",
+      "performed_by": "Branch Staff"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_018",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_rol_001",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_title": "Compliance Staff",
+      "specific_obligations": [
+        "Review KYC documentation",
+        "Approve or reject applications",
+        "Conduct PEP/adverse media screening",
+        "Manage escalations",
+        "Maintain audit trail"
+      ],
+      "authority": [
+        "Application approval or rejection"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_001",
+    "name": "Mandatory Review of KYC Documentation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_002",
+    "name": "Application Approval or Rejection Authority",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_003",
+    "name": "Mandatory PEP and Adverse Media Screening",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_004",
+    "name": "Escalation Management Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_prv_005",
+    "name": "Audit Trail Maintenance Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_ctl_001",
+    "name": "PEP and Adverse Media Screening",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "Compliance Staff"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_ctl_002",
+    "name": "Audit Trail",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Compliance Staff",
+      "evidence_required": "Audit trail records"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_019_kyc_001",
+    "name": "KYC Documentation Review",
+    "properties": {
+      "mandatory": "yes",
+      "performed_by": "Compliance Staff"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_019",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_020_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "specific_obligations": [
+        "Policy approval and updates",
+        "Exception approval for high-risk cases",
+        "Audit oversight",
+        "Provision of training and guidance",
+        "External regulatory liaison"
+      ],
+      "authority": [
+        "Approval of policy updates",
+        "Approval of high-risk exceptions"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_020",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_pol_001",
+    "name": "Training & Awareness Policy",
+    "properties": {
+      "policy_domain": "training",
+      "core_policy_statement": "Mandatory training requirements for customer-facing staff, compliance staff, and managers to ensure competency in KYC, risk assessment, and regulatory requirements."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_prv_001",
+    "name": "Annual KYC Training for Customer-Facing Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer-Facing Staff"
+      ],
+      "timeframe": "Annual"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_prv_002",
+    "name": "Quarterly Updates and Specialist Training for Compliance Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance Staff"
+      ],
+      "timeframe": "Quarterly"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_prv_003",
+    "name": "Annual Policy Overview and Escalation Training for Managers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Managers"
+      ],
+      "timeframe": "Annual"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_rol_001",
+    "name": "Customer-Facing Staff",
+    "properties": {
+      "role_title": "Customer-Facing Staff",
+      "specific_obligations": [
+        "Complete annual KYC training"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_rol_002",
+    "name": "Compliance Staff",
+    "properties": {
+      "role_title": "Compliance Staff",
+      "specific_obligations": [
+        "Complete quarterly updates",
+        "Complete specialist training"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_rol_003",
+    "name": "Managers",
+    "properties": {
+      "role_title": "Managers",
+      "specific_obligations": [
+        "Complete annual policy overview",
+        "Complete escalation procedures training"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_ctl_001",
+    "name": "Staff Training Program",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Customer-Facing Staff",
+        "Compliance Staff",
+        "Managers"
+      ],
+      "evidence_required": "Training completion records"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_021_kyc_001",
+    "name": "Identity and Address Verification Training",
+    "properties": {
+      "mandatory": "yes",
+      "training_topics": [
+        "Document recognition and authenticity",
+        "Acceptable forms of identity/address verification"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_021",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rsk_001",
+    "name": "Regulatory Breach",
+    "properties": {
+      "risk_definition": "Failure to verify customer identity",
+      "required_response": "Account closure for non-compliant customers",
+      "examples": [
+        "Regulatory fine (FCA)"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rsk_002",
+    "name": "Reputational Damage",
+    "properties": {
+      "risk_definition": "Damage to bank reputation resulting from failure to verify customer identity"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rsk_003",
+    "name": "Criminal Liability",
+    "properties": {
+      "risk_definition": "Legal liability arising from severe cases of identity verification failure"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "consequences_of_breach": [
+        "Regulatory fine"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_001",
+    "name": "Mandatory Account Closure for Non-Compliant Customers",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Non-Compliant Customers"
+      ],
+      "consequence_of_breach": "Account closure"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_002",
+    "name": "Internal Disciplinary Action for Non-Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Staff"
+      ],
+      "consequence_of_breach": "Disciplinary action up to termination"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_003",
+    "name": "Performance Management Review for Non-Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_prv_004",
+    "name": "Removal from Customer-Facing Roles",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer-Facing Staff"
+      ],
+      "consequence_of_breach": "Loss of customer-facing role"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_rol_001",
+    "name": "Customer-Facing Staff",
+    "properties": {
+      "specific_obligations": [
+        "Verify customer identity"
+      ],
+      "accountability_for": "Customer identity verification compliance"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_cus_001",
+    "name": "Non-Compliant Customer",
+    "properties": {
+      "eligibility_status": "non-compliant",
+      "risk_treatment": "Mandatory account closure"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_022_acc_001",
+    "name": "Non-Compliant Account",
+    "properties": {
+      "closure_conditions": "Failure to verify customer identity"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_022",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_pol_001",
+    "name": "KYC Policy",
+    "properties": {
+      "policy_domain": "kyc",
+      "core_policy_statement": "Ensuring 100% KYC completion rate on account opening and maintaining strict documentation standards and performance metrics for KYC processing."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_prv_001",
+    "name": "Annual KYC Procedure Testing",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "applies_to": [
+        "KYC Procedures"
+      ],
+      "verification_method": "Internal Audit Testing"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_prv_002",
+    "name": "KYC File Sample Testing",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Completed KYC files"
+      ],
+      "verification_method": "Sample testing",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_prv_003",
+    "name": "KYC Performance Metric Compliance",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "KYC Processing"
+      ],
+      "verification_method": "Metric tracking",
+      "performance_targets": {
+        "completion_rate_on_opening": "100%",
+        "suspicious_rejection_rate": "<2%",
+        "average_processing_time": "<1 business day",
+        "exception_escalation_rate": "<5%",
+        "audit_finding_remediation": "100% within SLA"
+      }
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "key_obligation": "Periodic examinations and thematic reviews of KYC effectiveness"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_reg_002",
+    "name": "Prudential Regulation Authority",
+    "properties": {
+      "issuing_authority": "PRA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "key_obligation": "Periodic examinations and thematic reviews of KYC effectiveness"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_ctl_001",
+    "name": "Internal Audit Testing",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "Annual",
+      "performed_by": "Internal Audit",
+      "applies_to": [
+        "KYC procedures",
+        "KYC files",
+        "Documentation standards",
+        "Escalation handling"
+      ],
+      "evidence_required": "Audit reports and sample test results"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_ctl_002",
+    "name": "Regulatory Examination",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "Periodic",
+      "performed_by": [
+        "FCA",
+        "PRA"
+      ],
+      "applies_to": [
+        "KYC effectiveness"
+      ],
+      "evidence_required": "File sampling and assessment results"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_023_rol_001",
+    "name": "Internal Audit",
+    "properties": {
+      "role_title": "Internal Audit",
+      "department": "Internal Audit",
+      "specific_obligations": [
+        "Conduct annual KYC procedure testing",
+        "Perform sample testing of completed KYC files",
+        "Verify compliance with documentation standards",
+        "Assess appropriateness of escalation handling"
+      ],
+      "accountability_for": "Verification of KYC policy adherence"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_023",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_pol_001",
+    "name": "FirstUK Bank Policy Review & Updates Framework",
+    "properties": {
+      "review_date": "2027-01-15",
+      "effective_date": "2026-01-15",
+      "regulatory_basis": [
+        "FCA Conduct of Business Sourcebook",
+        "Money Laundering Regulations",
+        "Regulatory Authority Guidance"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "applies_to": [
+        "Policy Review & Updates Framework"
+      ],
+      "exceptions": [
+        "Regulatory change triggers"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_reg_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "how_cited": "FCA COBS rule changes"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_reg_002",
+    "name": "Money Laundering Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "how_cited": "Money Laundering Regulations updates"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_reg_003",
+    "name": "Regulatory Authority Guidance",
+    "properties": {
+      "regulation_type": "regulatory_guidance",
+      "how_cited": "Guidance from regulatory authorities"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_024_rsk_001",
+    "name": "KYC Compliance Risk",
+    "properties": {
+      "examples": [
+        "Court judgments affecting KYC"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_024",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "properties": {},
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_002",
+    "name": "Document Retention Policy",
+    "properties": {},
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_003",
+    "name": "KYC Verification SOP",
+    "properties": {
+      "document_id": "KYC-SOP-001"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_004",
+    "name": "Account Opening SOP",
+    "properties": {
+      "document_id": "ACCT-OPEN-SOP-001"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_025_pol_005",
+    "name": "Identification Document standards",
+    "properties": {
+      "scope_summary": "Internal guidance"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_025",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_pol_001",
+    "name": "FirstUK Bank KYC and AML Policy",
+    "properties": {
+      "version": "2.1",
+      "effective_date": "2026-01-15"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_rol_001",
+    "name": "Compliance Head",
+    "properties": {
+      "role_title": "Compliance Head",
+      "authority": "Policy Author/Approver"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_prv_001",
+    "name": "Risk-Based Re-verification Schedule",
+    "properties": {
+      "provision_type": "periodic"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_prv_002",
+    "name": "Enhanced Due Diligence (EDD) Procedures",
+    "properties": {
+      "provision_type": "conditional"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_prv_003",
+    "name": "Politically Exposed Person (PEP) Screening Procedures",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_ctl_001",
+    "name": "PEP Screening",
+    "properties": {
+      "control_type": "preventive"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_026_ctl_002",
+    "name": "Risk-Based Re-verification",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "periodic"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_026",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_027_rol_001",
+    "name": "Head of Compliance",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_027",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_027_rol_002",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_027",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_027_rol_003",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_027",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_pol_001",
+    "name": "FirstUK Bank Financial Crime Prevention Policy",
+    "properties": {
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "core_policy_statement": "FirstUK Bank is committed to preventing financial crime through robust customer identification and verification procedures.",
+      "audience": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_prv_001",
+    "name": "Mandatory Adherence to Financial Crime Policy",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "exceptions": "None"
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_rsk_001",
+    "name": "Financial Crime",
+    "properties": {
+      "risk_definition": "The target of prevention through robust customer identification and verification procedures."
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_ctl_001",
+    "name": "Customer Identification and Verification Procedures",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "Financial Crime"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  },
+  {
+    "id": "6372e531418e4cd38876a3470f512e9f_028_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "specific_obligations": [
+        "Follow the Financial Crime Prevention Policy without exception"
+      ]
+    },
+    "chunk_id": "6372e531418e4cd38876a3470f512e9f_028",
+    "doc_id": "6372e531418e4cd38876a3470f512e9f"
+  }
+]

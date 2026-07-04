@@ -1,0 +1,3374 @@
+[
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_pol_001",
+    "name": "FirstUK Bank — Fraud Prevention Policy",
+    "properties": {
+      "document_id": "FRAUD-POL-007",
+      "version": "1.1",
+      "effective_date": "2026-01-15",
+      "review_date": "2027-01-15",
+      "owner": "Head of Financial Crime",
+      "owning_department": "Financial Crime",
+      "audience": [
+        "All Staff",
+        "Financial Crime",
+        "Risk",
+        "Retail Banking"
+      ],
+      "regulatory_basis": [
+        "FCA COBS",
+        "Payment Services Regulations 2017"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_reg_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "how_cited": "FCA COBS"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_reg_002",
+    "name": "Payment Services Regulations 2017",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "secondary_legislation"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "role_title": "Head of Financial Crime",
+      "department": "Financial Crime",
+      "authority": "Policy Owner"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_002",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "accountability_for": "Compliance with Fraud Prevention Policy"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_003",
+    "name": "Financial Crime Department",
+    "properties": {
+      "department": "Financial Crime",
+      "accountability_for": "Policy ownership and execution"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_004",
+    "name": "Risk Department",
+    "properties": {
+      "department": "Risk",
+      "accountability_for": "Policy compliance and risk oversight"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_001_rol_005",
+    "name": "Retail Banking Department",
+    "properties": {
+      "department": "Retail Banking",
+      "accountability_for": "Policy compliance and operational execution"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_001",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_pol_001",
+    "name": "Fraud Prevention Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "FirstUK Bank maintains a Fraud Prevention Policy to detect, prevent, and respond to fraudulent transactions and account takeover."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_rsk_001",
+    "name": "Fraudulent Transactions",
+    "properties": {
+      "risk_definition": "Transactions that are fraudulent in nature and require detection, prevention, and response."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_rsk_002",
+    "name": "Account Takeover",
+    "properties": {
+      "risk_definition": "Unauthorized access to and control of a customer account."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_prv_001",
+    "name": "Fraud Detection Procedures",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_prv_002",
+    "name": "Customer Reimbursement Procedures",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_002_prv_003",
+    "name": "Fraud Investigation Procedures",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_002",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_pol_001",
+    "name": "Fraud Prevention Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Establish fraud prevention procedures to detect unauthorized transactions, block fraudulent activity before settlement, reimburse customers fairly, investigate cases, and prevent repeat fraud by the same perpetrator."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "risk_definition": "Unauthorized transactions"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_001",
+    "name": "Detection of Unauthorized Transactions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "transactions"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_002",
+    "name": "Blocking of Fraudulent Activity Before Settlement",
+    "properties": {
+      "provision_type": "preventive",
+      "timeframe": "before settlement"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_003",
+    "name": "Fair Customer Reimbursement for Fraud Losses",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "customers"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_004",
+    "name": "Investigation of Fraud Cases",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_prv_005",
+    "name": "Prevention of Repeat Fraud by Same Perpetrator",
+    "properties": {
+      "provision_type": "preventive"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_003_cus_001",
+    "name": "Fraud Victim Customer",
+    "properties": {
+      "rights_under_policy": [
+        "fair reimbursement for fraud losses"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_003",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_pol_001",
+    "name": "FirstUK Bank Fraud Policy",
+    "properties": {
+      "scope_summary": "Applies to all customer accounts (savings, current, mortgages), all transaction types (deposits, withdrawals, transfers, card payments), all fraud scenarios (card fraud, account takeover, check fraud), and all channels (branch, online, mobile, phone, ATM)."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_acc_001",
+    "name": "Savings Account",
+    "properties": {
+      "account_type": "savings"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_acc_002",
+    "name": "Current Account",
+    "properties": {
+      "account_type": "current"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_acc_003",
+    "name": "Mortgage Account",
+    "properties": {
+      "account_type": "mortgage"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_001",
+    "name": "Deposits",
+    "properties": {
+      "transaction_type": "deposit"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_002",
+    "name": "Withdrawals",
+    "properties": {
+      "transaction_type": "withdrawal"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_003",
+    "name": "Transfers",
+    "properties": {
+      "transaction_type": "transfer"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_trn_004",
+    "name": "Card Payments",
+    "properties": {
+      "transaction_type": "card payment"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_rsk_001",
+    "name": "Card Fraud",
+    "properties": {
+      "risk_category": "fraud"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_rsk_002",
+    "name": "Account Takeover",
+    "properties": {
+      "risk_category": "fraud"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_004_rsk_003",
+    "name": "Check Fraud",
+    "properties": {
+      "risk_category": "fraud"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_004",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_pol_001",
+    "name": "FirstUK Bank Fraud Protection Policy",
+    "properties": {
+      "core_policy_statement": "FirstUK Bank protects customers from fraud through detection systems, real-time transaction monitoring, and fair liability allocation."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": [
+        "Fraud Detection Systems",
+        "Real-time Transaction Monitoring"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_ctl_001",
+    "name": "Fraud Detection Systems",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "Fraud"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_ctl_002",
+    "name": "Real-time Transaction Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "real-time",
+      "applies_to": [
+        "Fraud"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_prv_001",
+    "name": "Fair Liability Allocation for Fraud",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customers"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_005_rol_001",
+    "name": "Customers",
+    "properties": {
+      "rights_under_policy": [
+        "Protection from fraud",
+        "Fair liability allocation"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_005",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_pol_001",
+    "name": "Fraud Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Defines fraud categories and determines customer liability based on authorization and negligence."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_rsk_001",
+    "name": "Authorized Fraud",
+    "properties": {
+      "risk_definition": "Scenario where a customer authorizes a transaction but later claims fraud",
+      "examples": [
+        "Customer calls 'bank' (actually criminal) and authorizes transfer",
+        "Customer gives card details to stranger claiming to be support",
+        "Customer wire transfers to criminal 'investment opportunity'"
+      ],
+      "suspicious_indicators": [
+        "Customer knew of transaction",
+        "Customer provided details to criminal",
+        "Customer lacks authorization",
+        "Negligence by customer"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_prv_001",
+    "name": "Customer Liability for Negligent Authorized Fraud",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Customer"
+      ],
+      "core_policy_statement": "Customer is liable for loss if the customer was negligent in authorizing the fraud."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_prv_002",
+    "name": "Exemption from Customer Liability for Internal Fraud or Unauthorized Use",
+    "properties": {
+      "provision_type": "exception",
+      "applies_to": [
+        "Customer"
+      ],
+      "exceptions": [
+        "Fraud by staff member",
+        "Unauthorized card use"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_rol_001",
+    "name": "Customer",
+    "properties": {
+      "role_title": "Customer",
+      "accountability_for": "Losses resulting from negligent authorization of transactions"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_cus_001",
+    "name": "Negligent Customer",
+    "properties": {
+      "risk_treatment": "Liable for financial loss in authorized fraud scenarios",
+      "obligations_under_policy": "Responsible for safeguarding account and card details"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_trn_001",
+    "name": "Authorized Transaction",
+    "properties": {
+      "suspicious_indicators": [
+        "Customer provided details to criminal",
+        "Transaction authorized under false pretenses (e.g., fake investment opportunity)"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_006_card_001",
+    "name": "Payment Card",
+    "properties": {
+      "fraud_scenario": "Customer gives card details to stranger claiming to be support",
+      "block_conditions": "Unauthorized card use"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_006",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_pol_001",
+    "name": "Unauthorized Fraud Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "FirstUK Bank reimburses 100% of unauthorized loss for customers, provided the fraud is reported within 24 hours and no gross negligence is present."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_rsk_001",
+    "name": "Unauthorized Fraud",
+    "properties": {
+      "risk_definition": "Criminal uses account without customer authorization",
+      "examples": [
+        "Card stolen, used by criminal",
+        "Password compromised, unauthorized online transfer",
+        "Account takeover via phishing",
+        "Card cloning at ATM"
+      ],
+      "detection_mechanism": "Customer reporting or bank monitoring"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_prv_001",
+    "name": "Customer Reporting Deadline for Zero Liability",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Fraud Victim Customer",
+      "timeframe": "24 hours",
+      "consequence_of_breach": "Customer may lose zero liability status"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_prv_002",
+    "name": "Mandatory Full Reimbursement of Unauthorized Loss",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "FirstUK Bank",
+      "exceptions": [
+        "Gross negligence"
+      ],
+      "core_obligation": "Reimburse 100% of unauthorized loss"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_prv_003",
+    "name": "Fraud Reimbursement Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "10 business days",
+      "applies_to": "FirstUK Bank"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_rol_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "specific_obligations": [
+        "Reimburse 100% of unauthorized loss",
+        "Process reimbursement within 10 business days"
+      ],
+      "accountability_for": "Unauthorized fraud losses (excluding gross negligence)"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_cus_001",
+    "name": "Fraud Victim Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Report fraud within 24 hours to maintain zero liability"
+      ],
+      "rights_under_policy": [
+        "Zero liability for unauthorized transactions",
+        "100% reimbursement of losses"
+      ],
+      "risk_treatment": "Protected from loss unless gross negligence is proven"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_acc_001",
+    "name": "Compromised Account",
+    "properties": {
+      "freeze_conditions": "Unauthorized access via stolen password or account takeover"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_trn_001",
+    "name": "Unauthorized Transaction",
+    "properties": {
+      "suspicious_indicators": [
+        "Transaction not authorized by customer",
+        "Access via stolen credentials"
+      ],
+      "required_response": "Full reimbursement by bank within 10 business days"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_007_crd_001",
+    "name": "Payment Card",
+    "properties": {
+      "fraud_scenario": [
+        "Card stolen and used by criminal",
+        "Card cloning at ATM"
+      ],
+      "block_conditions": "Card stolen or cloned"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_007",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_pol_001",
+    "name": "Card Fraud Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "scope_summary": "Covers liability and risk categories associated with Card Not Present, Card Present, and Card Cloning fraud."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_rsk_001",
+    "name": "Card Not Present (CNP) Fraud",
+    "properties": {
+      "risk_definition": "Fraud occurring via online purchases where card details have been stolen",
+      "examples": [
+        "website hacking",
+        "data breach"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_prv_001",
+    "name": "Bank Liability for CNP Fraud based on Authentication",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "CNP Fraud transactions",
+      "verification_method": "authentication strength"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_rsk_002",
+    "name": "Card Present Fraud",
+    "properties": {
+      "risk_definition": "Fraud where the physical card is used by a thief",
+      "examples": [
+        "card stolen from customer"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_prv_002",
+    "name": "Bank Liability for Card Present Fraud",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Card Present Fraud",
+      "exceptions": [
+        "customer negligence"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_rsk_003",
+    "name": "Card Cloning",
+    "properties": {
+      "risk_definition": "Card details copied from a legitimate card to create a counterfeit card"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_008_prv_003",
+    "name": "Bank Liability for Card Cloning post-report",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Card Cloning losses",
+      "timeframe": "post-report"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_008",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_rsk_001",
+    "name": "Account Takeover",
+    "properties": {
+      "risk_definition": "Criminal gains access to legitimate account (password, security questions)",
+      "examples": [
+        "Phishing email (fake login page)",
+        "Password breach (from third-party data breach)",
+        "Social engineering (customer support impersonation)",
+        "SIM swap (attacker intercepts SMS 2FA)",
+        "Malware on customer's device"
+      ],
+      "required_response": [
+        "Immediate account freeze",
+        "Password reset forced",
+        "Credential review (security questions)",
+        "MFA re-verification",
+        "Full reimbursement of losses"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_001",
+    "name": "Immediate Account Freeze",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "real-time",
+      "applies_to": [
+        "Account Takeover"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_002",
+    "name": "Forced Password Reset",
+    "properties": {
+      "control_type": "corrective",
+      "mandatory": "yes",
+      "applies_to": [
+        "Account Takeover"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_003",
+    "name": "Credential Review",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "applies_to": [
+        "Account Takeover"
+      ],
+      "evidence_required": "security questions"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_ctl_004",
+    "name": "MFA Re-verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Account Takeover"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_009_prv_001",
+    "name": "Full Reimbursement of Account Takeover Losses",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Account Takeover victims"
+      ],
+      "core_obligation": "Full reimbursement of losses"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_009",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_pol_001",
+    "name": "Fraud Detection Framework",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Establishment of a multi-layered detection approach combining real-time monitoring, manual review, and advanced pattern analysis to identify and mitigate fraudulent activity."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "risk_definition": "Unauthorized or deceptive financial activity including large anomalous transfers, velocity spikes, and geographic anomalies.",
+      "examples": [
+        "Large transaction amount >£5,000",
+        "Velocity checks >5 transactions in 1 hour",
+        "Geographic anomaly (different country within 2 hours)",
+        "Cash withdrawal followed by immediate large transfer"
+      ],
+      "detection_mechanism": [
+        "Fraud Detection Engine",
+        "Manual Review",
+        "Machine Learning Behavior Modeling"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_ctl_001",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "real-time",
+      "technology_used": "FDE-001",
+      "applies_to": [
+        "Transaction monitoring",
+        "Velocity checks",
+        "Geographic anomalies"
+      ],
+      "evidence_required": "Generated alerts"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_001",
+    "name": "Real-Time Transaction Monitoring Rules",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Transactions",
+      "verification_method": "Automated rule matching via Fraud Detection Engine",
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_002",
+    "name": "Fraud Alert Transaction Hold",
+    "properties": {
+      "provision_type": "conditional",
+      "timeframe": "up to 5 days",
+      "consequence_of_breach": "Unauthorized fund outflow",
+      "applies_to": "Flagged transactions"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_003",
+    "name": "Manual Fraud Investigation Triggers",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "High-value transactions, customer reports, and regulatory alerts",
+      "verification_method": "Analysis by Financial Crime team"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "specific_obligations": [
+        "Analyze activity triggered by manual review",
+        "Contact customers for explanation",
+        "Decide to approve or block transactions based on risk"
+      ],
+      "authority": "Transaction approval or blocking"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_ctl_002",
+    "name": "Machine Learning Behavior Modeling",
+    "properties": {
+      "control_type": "detective",
+      "frequency": "continuous",
+      "applies_to": "Customer behavior anomalies",
+      "technology_used": "Machine learning model"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_prv_004",
+    "name": "Fraud Model Feedback Loop",
+    "properties": {
+      "provision_type": "periodic",
+      "verification_method": "Updating model with confirmed fraud and refining false positives"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_cus_001",
+    "name": "Customer",
+    "properties": {
+      "obligations_under_policy": [
+        "Provide explanation for activity when contacted by Financial Crime team"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_acc_001",
+    "name": "Customer Account",
+    "properties": {
+      "policy_controls": "Monitoring for unusual activity and pattern changes"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_010_tra_001",
+    "name": "High-Value Transaction",
+    "properties": {
+      "reporting_threshold": "£5,000",
+      "monitoring_obligation": "Real-time monitoring and trigger for manual investigation"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_010",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_pol_001",
+    "name": "Customer Fraud Reporting Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Establish a structured procedure for reporting, investigating, and resolving suspected customer fraud, including immediate mitigation actions and reimbursement timelines."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_001",
+    "name": "Mandatory Capture of Fraud Report Details",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service",
+        "Branch Staff"
+      ],
+      "verification_method": "Capture of full details, timeline, and amounts"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_002",
+    "name": "Immediate Account Freeze for Account Takeover",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Account Takeover scenarios"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_003",
+    "name": "Immediate Card Block for Card Fraud",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Card Fraud scenarios"
+      ],
+      "linked_control": "ctl_002"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_004",
+    "name": "Fraud Investigation Timeframe",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "24–48 hours",
+      "verification_method": "Review of transaction details, fraud likelihood assessment, and documentation of findings"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_005",
+    "name": "Confirmed Fraud Reimbursement Deadline",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "within 10 days",
+      "applies_to": [
+        "Confirmed Fraud cases"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_prv_006",
+    "name": "Disputed Fraud Decision Escalation",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Disputed fraud decisions"
+      ],
+      "escalation_path": "Head of Financial Crime"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rsk_001",
+    "name": "Customer Fraud",
+    "properties": {
+      "risk_definition": "Unauthorized activity on customer accounts or cards reported via phone, email, branch, or online."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rsk_002",
+    "name": "Account Takeover",
+    "properties": {
+      "required_response": "Immediate account freeze"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rsk_003",
+    "name": "Card Fraud",
+    "properties": {
+      "required_response": "Immediate card block"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_ctl_001",
+    "name": "Account Freezing",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "real-time",
+      "applies_to": [
+        "Account Takeover"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_ctl_002",
+    "name": "Card Blocking",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "real-time",
+      "applies_to": [
+        "Card Fraud"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rol_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "specific_obligations": [
+        "Conduct investigations within 24-48 hours",
+        "Review transaction details",
+        "Assess fraud likelihood",
+        "Determine liability",
+        "Document findings"
+      ],
+      "accountability_for": "Fraud investigation and liability determination"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_rol_002",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "authority": "Final decision maker for disputed fraud cases",
+      "specific_obligations": [
+        "Handle escalations for disputed fraud decisions"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_cus_001",
+    "name": "Fraud Reporting Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Right to full reimbursement within 10 days if fraud is confirmed",
+        "Right to an explanation if fraud is not confirmed",
+        "Right to escalate disputed decisions",
+        "Right to temporary access via alternate card/account"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_acc_001",
+    "name": "Fraud-Affected Account",
+    "properties": {
+      "freeze_conditions": "Suspected account takeover"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_tr_001",
+    "name": "Fraudulent Transaction",
+    "properties": {
+      "monitoring_obligation": "Review of details and payment status during investigation"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_011_crd_001",
+    "name": "Affected Payment Card",
+    "properties": {
+      "block_conditions": "Suspected card fraud"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_011",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_pol_001",
+    "name": "Liability & Reimbursement Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Defines the distribution of financial liability between FirstUK Bank and its customers regarding unauthorized transactions, scams, and security breaches."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_001",
+    "name": "Zero Liability for Timely Reported Unauthorized Card Use",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "timeframe": "within 24 hours of occurrence/discovery",
+      "consequence_of_breach": "Transition to Reduced Liability"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_002",
+    "name": "Zero Liability for Non-Fault Account Takeover",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "exceptions": [
+        "Cases where account takeover is the customer's fault"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_003",
+    "name": "Zero Liability for Stolen Account Details",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "scope_summary": "Covers use of stolen checks or account details"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_004",
+    "name": "Zero Liability for Bank Impersonation Scams",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "risk_treatment": "Bank pays all when customer is tricked by fraudster impersonating the bank"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_005",
+    "name": "Reduced Liability for Gross Negligence or Delayed Reporting",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "timeframe": "greater than 24 hours after discovery",
+      "examples": [
+        "Writing password on card",
+        "Customer knew the fraudster"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_prv_006",
+    "name": "Full Customer Liability for Authorized Transactions and Security Breaches",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Customer"
+      ],
+      "examples": [
+        "Authorized transactions later regretted",
+        "Sharing card details",
+        "Giving unauthorized persons access"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rsk_001",
+    "name": "Unauthorized Card Use",
+    "properties": {
+      "risk_definition": "Use of a customer's card without their permission",
+      "required_response": "Reimbursement by bank if reported within 24 hours"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rsk_002",
+    "name": "Account Takeover",
+    "properties": {
+      "risk_definition": "Unauthorized party gaining full control of a customer account",
+      "risk_level": "high"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rsk_003",
+    "name": "Impersonation Scam",
+    "properties": {
+      "risk_definition": "Fraudster tricking a customer by pretending to be a representative of FirstUK Bank",
+      "required_response": "Full bank reimbursement"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_rol_001",
+    "name": "Customer",
+    "properties": {
+      "specific_obligations": [
+        "Report unauthorized card use within 24 hours",
+        "Maintain security of passwords and card details"
+      ],
+      "accountability_for": "Losses resulting from gross negligence or authorized transactions"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_012_cust_001",
+    "name": "Bank Customer",
+    "properties": {
+      "risk_treatment": "Liability varies from zero to full based on reporting speed and level of negligence"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_012",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_pol_001",
+    "name": "Fraud Reimbursement Policy",
+    "properties": {
+      "core_policy_statement": "Defines the liability and timelines for reimbursing customers for various types of fraud, distinguishing between bank liability and customer negligence."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_prv_001",
+    "name": "Standard Fraud Reimbursement Timeline",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Unauthorized card use",
+        "Account takeover",
+        "Fraudulent transfer",
+        "Customer scams"
+      ],
+      "timeframe": "10 business days"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_prv_002",
+    "name": "Exclusion of Reimbursement for Customer Negligence",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": "Customer negligence",
+      "consequence_of_breach": "No reimbursement provided"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_001",
+    "name": "Unauthorized Card Use",
+    "properties": {
+      "risk_level": "high",
+      "required_response": "Reimbursement by Bank within 10 business days"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_002",
+    "name": "Account Takeover",
+    "properties": {
+      "risk_level": "high",
+      "required_response": "Reimbursement by Bank within 10 business days"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_003",
+    "name": "Fraudulent Transfer",
+    "properties": {
+      "risk_level": "high",
+      "required_response": "Reimbursement by Bank within 10 business days, provided FPS is not settled"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_004",
+    "name": "Customer Scam",
+    "properties": {
+      "risk_definition": "Customer tricked into authorizing a transaction",
+      "required_response": "Reimbursement by Bank within 10 business days"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rsk_005",
+    "name": "Customer Negligence",
+    "properties": {
+      "risk_definition": "Losses resulting from customer's own failure to exercise reasonable care",
+      "required_response": "No reimbursement"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rol_001",
+    "name": "FirstUK Bank",
+    "properties": {
+      "specific_obligations": [
+        "Reimburse unauthorized card use within 10 business days",
+        "Reimburse account takeover within 10 business days",
+        "Reimburse fraudulent transfers (if FPS not settled) within 10 business days",
+        "Reimburse scam victims within 10 business days"
+      ],
+      "accountability_for": "Fraud losses not caused by customer negligence"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_013_rol_002",
+    "name": "Bank Customer",
+    "properties": {
+      "liability_under_policy": "Liable for losses resulting from their own negligence"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_013",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_pol_001",
+    "name": "Fraud Investigation Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Establishes the triggers, team composition, and evidence preservation requirements for investigating fraudulent activity within FirstUK Bank."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_001",
+    "name": "Mandatory Investigation Trigger for High Value Fraud",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Confirmed unauthorized fraud",
+      "reporting_threshold": "£1,000"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_002",
+    "name": "Mandatory Investigation Trigger for Multiple Incidents",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "same customer",
+        "same merchant"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_003",
+    "name": "Mandatory Investigation Trigger for Systemic Fraud Patterns",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "systemic issues"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_004",
+    "name": "Mandatory Investigation Trigger for Law Enforcement Referrals",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "police report filed"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_prv_005",
+    "name": "Evidence Preservation Requirements",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "archiving and protection of logs, records, and communications"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rsk_001",
+    "name": "Unauthorized Fraud",
+    "properties": {
+      "risk_definition": "Confirmed unauthorized fraudulent activity",
+      "required_response": "Initiate investigation if value exceeds £1,000"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rsk_002",
+    "name": "Data Breach",
+    "properties": {
+      "required_response": "Engagement of external forensics specialists"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_ctl_001",
+    "name": "System Log Retention",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": "system logs"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_ctl_002",
+    "name": "Transaction Record Protection",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": "transaction records"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_ctl_003",
+    "name": "Customer Communication Archiving",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": "archived customer communications"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_001",
+    "name": "Lead Investigator",
+    "properties": {
+      "role_title": "Lead Investigator",
+      "department": "Financial Crime",
+      "specific_obligations": [
+        "Lead the investigation process",
+        "Analyze attack methods",
+        "Quantify losses",
+        "Provide prevention recommendations"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_002",
+    "name": "System Analysis Team",
+    "properties": {
+      "role_title": "System Analysis Team",
+      "department": "Technology",
+      "specific_obligations": [
+        "Provide system analysis",
+        "Manage and provide logs"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_003",
+    "name": "Legal Counsel",
+    "properties": {
+      "role_title": "Legal Counsel",
+      "specific_obligations": [
+        "Provide guidance when law enforcement is involved"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_004",
+    "name": "External Forensics Specialists",
+    "properties": {
+      "role_title": "External Forensics Specialists",
+      "specific_obligations": [
+        "Conduct forensic analysis if data breach is suspected"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_rol_005",
+    "name": "Law Enforcement",
+    "properties": {
+      "role_title": "Law Enforcement",
+      "specific_obligations": [
+        "Provide referrals via police reports",
+        "Cooperate with bank during evidence preservation"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_cus_001",
+    "name": "Fraud-Impacted Customer",
+    "properties": {
+      "risk_treatment": "Subject of investigation when multiple incidents occur"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_014_tra_001",
+    "name": "Fraudulent Transaction",
+    "properties": {
+      "monitoring_obligation": "Timeline of transactions must be established during investigation",
+      "reporting_threshold": "£1,000 for mandatory investigation"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_014",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_pol_001",
+    "name": "Prevention & Controls Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Implementation of system controls, authentication strengthening, and transaction limits to prevent and control fraudulent activity."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_001",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "real-time",
+      "applies_to": [
+        "High-risk transactions",
+        "Risky transactions",
+        "Medium-risk transactions"
+      ],
+      "technology_used": "Fraud Detection Engine"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_001",
+    "name": "Real-Time Blocking of High-Risk Transactions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "High-risk transactions",
+      "verification_method": "Auto-blocking by Fraud Detection Engine"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_002",
+    "name": "OTP Verification for Risky Transactions",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Risky transactions",
+      "verification_method": "OTP verification"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_003",
+    "name": "Manual Review for Medium-Risk Transactions",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Medium-risk transactions",
+      "verification_method": "Manual review"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_002",
+    "name": "Multi-factor Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Online banking"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_003",
+    "name": "Biometric Authentication",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": "Mobile banking"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_ctl_004",
+    "name": "Transfer Confirmation",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "per transfer",
+      "technology_used": [
+        "SMS",
+        "Email"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_004",
+    "name": "Daily ATM Withdrawal Limit",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Payment Card",
+      "timeframe": "Daily",
+      "reporting_threshold": "£500"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_005",
+    "name": "Daily Transfer Limit Configuration",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": "Customer",
+      "timeframe": "Daily",
+      "reporting_threshold": "£50k (default)"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_prv_006",
+    "name": "New Beneficiary First Transfer Limit",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "New beneficiaries",
+      "reporting_threshold": "£1k"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": "Fraud Detection Engine",
+      "required_response": [
+        "Auto-blocking",
+        "OTP verification",
+        "Manual review"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_rol_001",
+    "name": "Customer",
+    "properties": {
+      "authority": "Configure daily transfer limits"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_015_card_001",
+    "name": "Payment Card",
+    "properties": {
+      "policy_controls": "Daily ATM withdrawal limit of £500"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_015",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_pol_001",
+    "name": "Customer Education Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "The bank provides security awareness, phishing education, and clear reporting channels to customers to mitigate fraud risks."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_001",
+    "name": "Provision of Security Tips in Welcome Pack",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "New Customers"
+      ],
+      "verification_method": "Welcome pack audit"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_002",
+    "name": "Provision of Phishing Examples in Communications",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "All Customers"
+      ],
+      "verification_method": "Communication log review"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_003",
+    "name": "Password Confidentiality Messaging",
+    "properties": {
+      "provision_type": "mandatory",
+      "core_message": "Never give password to anyone"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_004",
+    "name": "Call-Back Verification Advice",
+    "properties": {
+      "provision_type": "mandatory",
+      "advice_detail": "If bank calls, call bank back using known number"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_005",
+    "name": "Provision of Clear Fraud Reporting Channels",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Customers"
+      ],
+      "linked_control": [
+        "ctl_001",
+        "ctl_002"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_prv_006",
+    "name": "Fraud Response Timeframe Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Rapid response"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_rsk_001",
+    "name": "Phishing",
+    "properties": {
+      "risk_definition": "Fraudulent communications designed to deceive customers into revealing sensitive information",
+      "detection_mechanism": "Customer reporting via fraud channels"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_ctl_001",
+    "name": "Fraud Reporting Phone Line",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": "Phone line 0800-555-2265",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_ctl_002",
+    "name": "Online Fraud Reporting Form",
+    "properties": {
+      "control_type": "detective",
+      "technology_used": "Online form",
+      "mandatory": "yes"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_ctl_003",
+    "name": "Branch Staff Fraud Training",
+    "properties": {
+      "control_type": "preventive",
+      "performed_by": "Branch Staff",
+      "applies_to": [
+        "Customer fraud inquiries"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_rol_001",
+    "name": "Branch Staff",
+    "properties": {
+      "specific_obligations": [
+        "Be trained on fraud questions",
+        "Assist customers with fraud inquiries"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_016_cus_001",
+    "name": "Bank Customer",
+    "properties": {
+      "rights_under_policy": [
+        "Receive security tips in welcome pack",
+        "Receive phishing education",
+        "Access to clear fraud reporting channels"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_016",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_pol_001",
+    "name": "Staff Controls Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "scope_summary": "Controls relating to staff training and the segregation of duties to prevent and detect fraud."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_001",
+    "name": "Mandatory Annual Fraud Awareness Training",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "Annual"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_002",
+    "name": "Fraud Scenario and Red Flag Training",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_003",
+    "name": "Proper Documentation Requirement",
+    "properties": {
+      "provision_type": "mandatory"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_004",
+    "name": "Segregation of Fraud Detection and Transaction Processing",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Fraud Detection Staff",
+        "Transaction Processing Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_005",
+    "name": "Segregation of Investigation and Approval",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Investigators",
+        "Approvers"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_prv_006",
+    "name": "Prohibition of Single-Person Block and Approval",
+    "properties": {
+      "provision_type": "prohibited",
+      "applies_to": [
+        "All Staff"
+      ],
+      "core_policy_statement": "No single person can block and approve transaction"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": [
+        "Red flags identification",
+        "Fraud detection processes"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_ctl_001",
+    "name": "Staff Training Program",
+    "properties": {
+      "control_type": "preventive",
+      "frequency": "Annual",
+      "applies_to": [
+        "Fraud"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_ctl_002",
+    "name": "Segregation of Duties",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "applies_to": [
+        "Fraud"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_017_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "specific_obligations": [
+        "Complete annual fraud awareness training",
+        "Undergo fraud scenario training",
+        "Identify red flags",
+        "Maintain proper documentation"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_017",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_pol_001",
+    "name": "Law Enforcement Coordination Policy",
+    "properties": {
+      "policy_domain": "law enforcement",
+      "core_policy_statement": "FirstUK Bank cooperates fully with police investigations when a customer files a police report."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_001",
+    "name": "Obligation to Cooperate with Police",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "FirstUK Bank"
+      ],
+      "verification_method": "Review of cooperation logs and police correspondence"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_002",
+    "name": "Provision of Transaction Records to Police",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Transaction Records"
+      ],
+      "verification_method": "Audit trail of data shared with law enforcement"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_003",
+    "name": "Evidence Preservation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "logs",
+        "screenshots"
+      ],
+      "verification_method": "Evidence logging and capture control"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_004",
+    "name": "Adherence to Police Investigation Protocol",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Bank Staff"
+      ],
+      "verification_method": "Compliance review against police-provided protocols"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_prv_005",
+    "name": "Conditional Delay of Reimbursement",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Fraud Reimbursements"
+      ],
+      "timeframe": "Pending investigation",
+      "exceptions": "Only if indicated by the investigation/police"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_ctl_001",
+    "name": "Evidence Logging and Capture",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "evidence_required": [
+        "logs",
+        "screenshots"
+      ],
+      "applies_to": [
+        "Evidence Preservation Requirement"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_rol_001",
+    "name": "Police",
+    "properties": {
+      "role_title": "Police",
+      "authority": [
+        "Define investigation protocols",
+        "Request transaction records"
+      ],
+      "specific_obligations": [
+        "Provide investigation indicators for reimbursement delays"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_018_cus_001",
+    "name": "Reporting Customer",
+    "properties": {
+      "eligibility_status": "existing",
+      "obligations_under_policy": [
+        "File police report to trigger bank cooperation"
+      ],
+      "risk_treatment": "Subject to potential reimbursement delays pending investigation"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_018",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_pol_001",
+    "name": "Information Sharing Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "The bank maintains protocols for reporting fraud losses, sharing fraud patterns with the industry, and referring suspicious activity to the National Crime Agency."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_prv_001",
+    "name": "Reporting Large Fraud Losses to FCA",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Large fraud losses"
+      ],
+      "verification_method": "Regulatory reporting logs"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_prv_002",
+    "name": "Industry Sharing of Fraud Patterns",
+    "properties": {
+      "provision_type": "periodic",
+      "applies_to": [
+        "Fraud patterns"
+      ],
+      "verification_method": "Industry sharing records"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_prv_003",
+    "name": "Suspicious Activity Referral to NCA",
+    "properties": {
+      "provision_type": "conditional",
+      "applies_to": [
+        "Suspicious activity"
+      ],
+      "conditional_trigger": "If money laundering is suspected",
+      "verification_method": "SAR filing records"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_reg_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Receipt of reports regarding large fraud losses"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_reg_002",
+    "name": "National Crime Agency",
+    "properties": {
+      "issuing_authority": "NCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Receipt of referrals for suspicious activity related to money laundering"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": "Monitoring of fraud losses and patterns",
+      "required_response": [
+        "Report large losses to FCA",
+        "Share patterns with industry"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_019_rsk_002",
+    "name": "Money Laundering",
+    "properties": {
+      "required_response": "Referral of suspicious activity to the NCA"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_019",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_pol_001",
+    "name": "Fraud Statistics & Monitoring Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "scope_summary": "Establishment and tracking of key performance indicators (KPIs) for fraud detection, loss mitigation, and reimbursement timeliness."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_001",
+    "name": "Fraud Detection Rate Target",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Fraud Detection Systems",
+      "verification_method": "Metric tracking",
+      "target_value": "97%+"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_002",
+    "name": "False Positive Rate Limit",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Fraud Detection Systems",
+      "verification_method": "Metric tracking",
+      "target_value": "<2%"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_003",
+    "name": "Average Fraud Loss Per Incident Limit",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Fraud Loss Management",
+      "verification_method": "Financial reporting",
+      "target_value": "<£5k"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_004",
+    "name": "Annual Fraud Loss Revenue Percentage Limit",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Bank Revenue/Loss Ratio",
+      "verification_method": "Annual financial audit",
+      "target_value": "<0.5%"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_prv_005",
+    "name": "Reimbursement Timeliness Standard",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": "Fraud Reimbursement Process",
+      "timeframe": "10 days",
+      "verification_method": "SLA tracking",
+      "target_value": "100%"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": "Fraud detection rate monitoring",
+      "risk_level": "high"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_020_ctl_001",
+    "name": "Fraud Metrics Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "applies_to": [
+        "Fraud detection rate",
+        "False positive rate",
+        "Average fraud loss",
+        "Annual fraud loss %",
+        "Reimbursement timeliness"
+      ],
+      "evidence_required": "Metrics tracking table"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_020",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_pol_001",
+    "name": "Fraud Policy",
+    "properties": {
+      "policy_domain": "fraud"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_prv_001",
+    "name": "Monthly Fraud Incident Reporting Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "monthly",
+      "verification_method": "reporting of fraud incidents, loss amounts, detection methods, and trend analysis"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_prv_002",
+    "name": "Quarterly Fraud Risk Reporting to Risk Committee",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "quarterly",
+      "applies_to": [
+        "Risk Committee"
+      ],
+      "verification_method": "reporting of fraud risk assessment, top fraud types/patterns, process improvements, and prevention effectiveness"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_rsk_001",
+    "name": "Fraud Risk",
+    "properties": {
+      "detection_mechanism": "Fraud Detection and Prevention Monitoring"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_ctl_001",
+    "name": "Fraud Detection and Prevention Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "Fraud Risk"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_021_rol_001",
+    "name": "Risk Committee",
+    "properties": {
+      "specific_obligations": [
+        "Review quarterly fraud risk reports",
+        "Review fraud risk assessments",
+        "Review top fraud types and patterns",
+        "Review process improvements and prevention effectiveness"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_021",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_pol_001",
+    "name": "Industry Collaboration Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "scope_summary": "Collaboration and information sharing with industry peers regarding fraud patterns and emerging threats."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_ctl_001",
+    "name": "Customer Information System",
+    "properties": {
+      "control_type": "detective",
+      "applies_to": [
+        "fraud information sharing"
+      ],
+      "evidence_required": "shared fraud information among banks"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_ctl_002",
+    "name": "Early Warning System",
+    "properties": {
+      "control_type": "preventive",
+      "applies_to": [
+        "payment scams",
+        "telecommunications fraud",
+        "emerging fraud trends"
+      ],
+      "technology_used": "NewPay alerts"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_rsk_001",
+    "name": "Card Fraud",
+    "properties": {
+      "examples": [
+        "card fraud networks"
+      ],
+      "detection_mechanism": "Customer Information System (CIS)"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_rsk_002",
+    "name": "Payment Scams",
+    "properties": {
+      "detection_mechanism": "NewPay alerts via Early Warning System"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_rsk_003",
+    "name": "Telecommunications Fraud",
+    "properties": {
+      "detection_mechanism": "Early Warning System alerts"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_022_prv_001",
+    "name": "Industry Fraud Information Sharing",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "industry peers",
+        "banks"
+      ],
+      "verification_method": "sharing of fraud patterns and CIS data"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_022",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_pol_001",
+    "name": "Regulatory Compliance Policy",
+    "properties": {
+      "policy_domain": "compliance",
+      "regulatory_basis": [
+        "FCA COBS",
+        "Payment Services Regulations",
+        "Chargeback rights"
+      ],
+      "core_policy_statement": "Ensure fair liability allocation, prompt dispute investigation, and immediate reimbursement for confirmed fraud based on documented evidence."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_reg_001",
+    "name": "FCA Conduct of Business Sourcebook",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "key_obligation": "Fraud prevention and fair liability"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_reg_002",
+    "name": "Payment Services Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "key_obligation": "Transaction authorization and dispute resolution"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_reg_003",
+    "name": "Chargeback Rights",
+    "properties": {
+      "applies_to": "Credit cards",
+      "regulation_type": "industry_standard"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_001",
+    "name": "Fair Liability Allocation",
+    "properties": {
+      "provision_type": "mandatory",
+      "core_requirement": "Liability allocation must not favor the bank"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_002",
+    "name": "Prompt Dispute Investigation Timeframe",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Within 30 days",
+      "applies_to": "Disputes"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_003",
+    "name": "Immediate Fraud Reimbursement",
+    "properties": {
+      "provision_type": "mandatory",
+      "timeframe": "Without delay",
+      "conditional_trigger": "If fraud is confirmed"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_prv_004",
+    "name": "Evidence-Based Decision Documentation",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Documented reasoning"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "required_response": "Investigation and reimbursement if confirmed"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_023_ctl_001",
+    "name": "Documented Reasoning",
+    "properties": {
+      "control_type": "directive",
+      "mandatory": "yes",
+      "evidence_required": "Written documentation of the reasoning behind decisions"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_023",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_pol_001",
+    "name": "Fraud Policy",
+    "properties": {
+      "core_policy_statement": "Establishment of staff responsibilities regarding the reporting, prevention, verification, and documentation of suspected fraud."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "role_title": "All Staff",
+      "specific_obligations": [
+        "Report suspected fraud immediately",
+        "Educate customers about fraud prevention",
+        "Verify suspicious customer contacts",
+        "Follow fraud procedures",
+        "Document suspicions"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_001",
+    "name": "Immediate Reporting of Suspected Fraud",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "immediately"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_002",
+    "name": "Customer Fraud Prevention Education",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_003",
+    "name": "Verification of Suspicious Customer Contacts",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_004",
+    "name": "Adherence to Fraud Procedures",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_prv_005",
+    "name": "Documentation of Fraud Suspicions",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "required_response": [
+        "Immediate reporting",
+        "Verification of contacts",
+        "Documentation of suspicions"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_ctl_001",
+    "name": "Customer Contact Verification",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "performed_by": "All Staff",
+      "applies_to": [
+        "Suspicious customer contacts"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_024_ctl_002",
+    "name": "Fraud Documentation",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "performed_by": "All Staff",
+      "evidence_required": "Documentation of suspicions"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_024",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_pol_001",
+    "name": "Customer Service Fraud Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "scope_summary": "Guidelines for customer service handling of fraud reports, investigations, and reimbursements."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_001",
+    "name": "Prompt Acknowledgement of Fraud Reports",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service Staff"
+      ],
+      "verification_method": "Review of communication logs/timestamps"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_002",
+    "name": "Mandatory Initiation of Fraud Investigation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service Staff"
+      ],
+      "linked_control": "ctl_001"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_003",
+    "name": "Customer Progress Updates on Fraud Cases",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_004",
+    "name": "Fraud Reimbursement Processing",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_prv_005",
+    "name": "Provision of Fraud Prevention Advice",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service Staff"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_rol_001",
+    "name": "Customer Service Staff",
+    "properties": {
+      "specific_obligations": [
+        "Acknowledge fraud reports promptly",
+        "Initiate fraud investigations",
+        "Update customers on case progress",
+        "Process fraud reimbursements",
+        "Provide fraud prevention advice"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "required_response": "Initiation of investigation and potential reimbursement"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_025_ctl_001",
+    "name": "Fraud Investigation Process",
+    "properties": {
+      "control_type": "detective",
+      "mandatory": "yes",
+      "performed_by": "Customer Service Staff"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_025",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_dep_001",
+    "name": "Financial Crime Team",
+    "properties": {
+      "specific_obligations": [
+        "Investigate fraud claims",
+        "Determine liability",
+        "Oversee reimbursement",
+        "Identify fraud patterns",
+        "Recommend prevention measures"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_001",
+    "name": "Investigation of Fraud Claims",
+    "properties": {
+      "provision_type": "mandatory",
+      "performed_by": "Financial Crime Team"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_002",
+    "name": "Determination of Fraud Liability",
+    "properties": {
+      "provision_type": "mandatory",
+      "performed_by": "Financial Crime Team"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_003",
+    "name": "Oversight of Fraud Reimbursement",
+    "properties": {
+      "provision_type": "mandatory",
+      "performed_by": "Financial Crime Team"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_004",
+    "name": "Identification of Fraud Patterns",
+    "properties": {
+      "provision_type": "periodic",
+      "performed_by": "Financial Crime Team"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_prv_005",
+    "name": "Recommendation of Fraud Prevention Measures",
+    "properties": {
+      "provision_type": "mandatory",
+      "performed_by": "Financial Crime Team"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_026_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": "Investigation of claims and identification of patterns by the Financial Crime Team",
+      "required_response": [
+        "Investigation of claims",
+        "Liability determination",
+        "Reimbursement oversight",
+        "Implementation of prevention measures"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_026",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_pol_001",
+    "name": "Fraud Compliance Policy",
+    "properties": {
+      "policy_domain": "fraud"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_001",
+    "name": "Fraud Trend Monitoring Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_002",
+    "name": "Regulatory Statistics Reporting Obligation",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_003",
+    "name": "Fraud Process Audit Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_prv_004",
+    "name": "General Regulatory Compliance Mandate",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Compliance"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_rsk_001",
+    "name": "Fraud",
+    "properties": {},
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_ctl_001",
+    "name": "Fraud Process Auditing",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Compliance"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_027_rol_001",
+    "name": "Regulators",
+    "properties": {
+      "role_title": "Regulators",
+      "specific_obligations": [
+        "Receive fraud statistics reports"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_027",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_pol_001",
+    "name": "Training & Awareness Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "core_policy_statement": "Establishment of mandatory training requirements across different staff levels to ensure awareness and competence in fraud prevention, investigation, and governance."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_001",
+    "name": "Mandatory Annual Fraud Awareness Training for All Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "All Staff"
+      ],
+      "timeframe": "Annual",
+      "verification_method": "1-hour training completion"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_002",
+    "name": "Quarterly Specialist Training for Financial Crime Staff",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Financial Crime Staff"
+      ],
+      "timeframe": "Quarterly"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_003",
+    "name": "Fraud Investigation and Communication Training for Customer Service",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Customer Service"
+      ],
+      "timeframe": "2 hours"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_prv_004",
+    "name": "Fraud Governance and Escalation Training for Management",
+    "properties": {
+      "provision_type": "mandatory",
+      "applies_to": [
+        "Management"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "required_response": "Implementation of tiered training and awareness programs for all bank personnel."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_ctl_001",
+    "name": "Staff Training",
+    "properties": {
+      "control_type": "preventive",
+      "mandatory": "yes",
+      "frequency": "Annual/Quarterly",
+      "applies_to": [
+        "Fraud"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_001",
+    "name": "All Staff",
+    "properties": {
+      "specific_obligations": [
+        "Complete 1-hour fraud awareness training annually"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_002",
+    "name": "Financial Crime Staff",
+    "properties": {
+      "specific_obligations": [
+        "Complete specialist training on a quarterly basis"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_003",
+    "name": "Customer Service",
+    "properties": {
+      "specific_obligations": [
+        "Complete 2 hours of training on fraud investigation and customer communication"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_028_rol_004",
+    "name": "Management",
+    "properties": {
+      "specific_obligations": [
+        "Complete training on fraud governance and escalation"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_028",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_pol_001",
+    "name": "Fraud Policy",
+    "properties": {
+      "policy_domain": "fraud",
+      "scope_summary": "Covers internal audit monitoring and regulatory audit requirements for fraud prevention and reimbursement."
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_001",
+    "name": "Annual Fraud Control Testing",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual",
+      "verification_method": "Internal Audit testing",
+      "applies_to": "Fraud controls"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_002",
+    "name": "Fraud Investigation File Sampling",
+    "properties": {
+      "provision_type": "periodic",
+      "verification_method": "File sampling",
+      "applies_to": "Fraud investigations"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_003",
+    "name": "Reimbursement Accuracy and Timeliness Verification",
+    "properties": {
+      "provision_type": "periodic",
+      "verification_method": "Internal Audit review",
+      "applies_to": "Fraud reimbursements"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_prv_004",
+    "name": "Evidence Documentation Requirement",
+    "properties": {
+      "provision_type": "mandatory",
+      "verification_method": "Internal Audit review",
+      "evidence_required": "Documentation of fraud controls and investigations"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_reg_001",
+    "name": "Financial Conduct Authority Periodic Fraud Prevention Reviews",
+    "properties": {
+      "issuing_authority": "FCA",
+      "jurisdiction": "UK",
+      "regulation_type": "regulatory_guidance",
+      "key_obligation": "Undergo periodic reviews of fraud prevention measures"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_reg_002",
+    "name": "Payment Services Regulations",
+    "properties": {
+      "jurisdiction": "UK",
+      "regulation_type": "primary_legislation",
+      "key_obligation": "Compliance with payment services standards"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_rsk_001",
+    "name": "Fraud",
+    "properties": {
+      "detection_mechanism": "Internal Audit monitoring and FCA periodic reviews"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_ctl_001",
+    "name": "Internal Audit Monitoring",
+    "properties": {
+      "control_type": "detective",
+      "performed_by": "Internal Audit",
+      "applies_to": [
+        "Fraud control testing",
+        "Investigation file sampling",
+        "Reimbursement accuracy",
+        "Evidence documentation"
+      ]
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_029_rol_001",
+    "name": "Financial Conduct Authority",
+    "properties": {
+      "role_title": "Financial Conduct Authority",
+      "authority": "Conduct periodic fraud prevention reviews",
+      "accountability_for": "Regulatory oversight of fraud prevention and payment services compliance"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_029",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_pol_001",
+    "name": "Anti-Money Laundering Policy",
+    "properties": {
+      "policy_domain": "aml"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_ctl_001",
+    "name": "Fraud Detection Engine",
+    "properties": {
+      "control_type": "detective"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_rol_001",
+    "name": "Financial Crime Department",
+    "properties": {
+      "department": "Financial Crime"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_030_pol_002",
+    "name": "Fraud Investigation Procedure",
+    "properties": {
+      "policy_domain": "fraud"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_030",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_031_pol_001",
+    "name": "Fraud Policy",
+    "properties": {
+      "review_date": "2027-01-15",
+      "effective_date": "2026-01-15"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_031",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_031_prv_001",
+    "name": "Annual Policy Review Requirement",
+    "properties": {
+      "provision_type": "periodic",
+      "timeframe": "Annual (or upon emerging fraud type)"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_031",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_032_rol_001",
+    "name": "Head of Financial Crime",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_032",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_032_rol_002",
+    "name": "Chief Risk Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_032",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  },
+  {
+    "id": "f2736771140a49f6a075ff9bcbca9bfb_032_rol_003",
+    "name": "Chief Executive Officer",
+    "properties": {
+      "authority": "Policy Approval",
+      "approval_date": "2026-01-15"
+    },
+    "chunk_id": "f2736771140a49f6a075ff9bcbca9bfb_032",
+    "doc_id": "f2736771140a49f6a075ff9bcbca9bfb"
+  }
+]

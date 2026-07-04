@@ -1,0 +1,952 @@
+[
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_001_dep_001",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "The department responsible for the ownership and maintenance of the Regulatory Circulars 2026 document.",
+    "context": [
+      "Owner | Head of Compliance",
+      "Department | Compliance"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_001",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_001_emp_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The individual designated as the owner of the Regulatory Circulars 2026 document.",
+    "context": [
+      "Owner | Head of Compliance"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_001",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_002_upd_001",
+    "name": "FCA and PRA Regulatory Updates 2026",
+    "aliases": [
+      "regulatory updates 2026"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "A consolidated tracking and implementation framework for regulatory updates issued by the Financial Conduct Authority (FCA) and Prudential Regulation Authority (PRA) for the year 2026, including impact assessments and implementation status.",
+    "context": [
+      "consolidates FirstUK Bank's tracking and implementation of regulatory updates from FCA (Financial Conduct Authority) and PRA (Prudential Regulation Authority) for 2026",
+      "Each quarter includes summary of regulatory changes, impact assessment, and implementation status."
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_002",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_003_upd_001",
+    "name": "FCA Circular: PSD2 Open Banking Deadline Extension",
+    "aliases": [
+      "FCA-OP-2026-01"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "fca_circular",
+    "description": "An FCA circular extending the open banking deadline from March 2026 to June 2026 for non-large firms. FirstUK Bank, not being classified as a large firm, intends to implement the requirements by the June 30, 2026 deadline.",
+    "context": [
+      "FCA extended open banking deadline from March 2026 to June 2026 for non-large firms.",
+      "FCA Reference: [FCA-OP-2026-01]",
+      "Effective: 2026-06-30"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_003",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_003_act_001",
+    "name": "API Development and Security Testing for Open Banking",
+    "aliases": [
+      "INT-SPEC-001"
+    ],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Continued API development, security testing, and regulatory liaison to meet the PSD2 Open Banking requirements. The action is owned by the Chief Technology Officer with a deadline of June 30, 2026.",
+    "context": [
+      "Action: Continued API development, security testing, regulatory liaison",
+      "Deadline: June 30, 2026",
+      "Owner: Chief Technology Officer",
+      "Status: In progress (see [[systems]] Integration Specification INT-SPEC-001)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_003",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_003_dep_001",
+    "name": "Technology Department",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "The department responsible for the API development and security testing required for the PSD2 Open Banking compliance, led by the Chief Technology Officer.",
+    "context": [
+      "Owner: Chief Technology Officer",
+      "Requires API development for third-party access"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_003",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_003_prod_001",
+    "name": "Open Banking API",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "The API interface required by the FCA to provide third-party access to accounts, transactions, standing orders, and direct debits using OAuth 2.0 authentication.",
+    "context": [
+      "API must provide: Accounts, Transactions, Standing Orders, Direct Debits",
+      "API must use OAuth 2.0 authentication"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_003",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_004_upd_001",
+    "name": "ICO Guidance on Data Subject Rights [ICO-GUID-2026-02]",
+    "aliases": [
+      "ICO-GUID-2026-02"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Updated guidance from the Information Commissioner's Office (ICO) regarding Subject Access Request (SAR) processing, specifically focusing on the right to erasure and associated exceptions.",
+    "context": [
+      "ICO (Information Commissioner's Office) updated guidance on Subject Access Request (SAR) processing, particularly right to erasure (\"right to be forgotten\") and clarification of exceptions.",
+      "FCA Reference: [ICO-GUID-2026-02]"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_004",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_004_act_001",
+    "name": "Update SAR Procedures and Staff Training",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "policy_update",
+    "description": "Requirement to clarify erasure exceptions in procedures and provide staff training on the new ICO guidance. Assigned to the Data Protection Officer.",
+    "context": [
+      "Update Required: Clarify erasure exceptions in procedures",
+      "Owner: Data Protection Officer",
+      "Action: Update SAR procedures, staff training on new guidance"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_004",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_004_met_001",
+    "name": "SAR Response Timeliness — 30 Days (Extendable to 60)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The regulatory requirement for the timeliness of Subject Access Request responses, set at 30 days with a possible extension to 60 days for complex requests.",
+    "context": [
+      "Timeliness: 30 days (extendable to 60 for complex requests)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_004",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_004_emp_001",
+    "name": "Data Protection Officer",
+    "aliases": [
+      "DPO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The individual responsible for the implementation of the SAR procedure updates and staff training as required by the ICO guidance.",
+    "context": [
+      "Owner: Data Protection Officer"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_004",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_upd_001",
+    "name": "FCA Circular: Enhanced Know Your Customer (KYC) for High-Risk Customers",
+    "aliases": [
+      "FCA-COBS-2026-03"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "fca_circular",
+    "description": "FCA guidance issued on January 20, 2026, regarding Enhanced Due Diligence (EDD) for high-risk customers, specifically focusing on beneficial ownership verification and source of funds. The regulation becomes effective on March 1, 2026.",
+    "context": [
+      "FCA issued enhanced guidance on Enhanced Due Diligence (EDD) for high-risk customers, with emphasis on beneficial ownership verification and source of funds.",
+      "FCA Reference: [FCA-COBS-2026-03]",
+      "Effective: 2026-03-01"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_rsk_001",
+    "name": "Compliance Risk — High-Risk Customer Onboarding",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk associated with the bank's customer onboarding processes in light of new FCA EDD requirements. The impact is rated as High and the status is currently under review.",
+    "context": [
+      "High Impact — Affects customer onboarding processes",
+      "Status: Under review"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_act_001",
+    "name": "Update KYC Procedures and System Changes",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "policy_update",
+    "description": "Task to update KYC procedures and implement necessary system changes to comply with FCA-COBS-2026-03. Owned by Head of Compliance and Head of Financial Crime with a deadline of March 1, 2026.",
+    "context": [
+      "Action: Update KYC procedures, staff training, system changes (if needed)",
+      "Deadline: March 1, 2026 (compliance date)",
+      "Owner: Head of Compliance + Head of Financial Crime"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_act_002",
+    "name": "Staff Training Completion for Enhanced KYC",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "training",
+    "description": "Mandatory staff training regarding the new enhanced KYC and EDD requirements to be completed by March 1, 2026.",
+    "context": [
+      "Staff training (completion by March 1, 2026)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_met_001",
+    "name": "Beneficial Ownership Threshold — >25% Ownership",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The regulatory threshold for identifying beneficial owners of an entity customer is set at greater than 25% ownership.",
+    "context": [
+      "If customer is entity, must identify all beneficial owners (>25% ownership)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_met_002",
+    "name": "Source of Funds Verification Threshold — >£10,000",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "Source of funds verification is required for all initial deposits exceeding £10,000.",
+    "context": [
+      "Source of funds: Required for initial deposits >£10,000"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_met_003",
+    "name": "High-Risk Customer Review Frequency — Quarterly",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The required frequency for ongoing monitoring of high-risk customers has been increased from annually to quarterly.",
+    "context": [
+      "Enhanced ongoing monitoring: High-risk customers reviewed quarterly (vs. annually)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_dep_001",
+    "name": "Compliance Department",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "Department responsible for the review and implementation of the updated KYC procedures.",
+    "context": [
+      "Owner: Head of Compliance"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_dep_002",
+    "name": "Financial Crime Department",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "financial_crime",
+    "description": "Department responsible for the review and implementation of the updated KYC procedures and EDD screening.",
+    "context": [
+      "Owner: Head of Financial Crime"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_kyc_001",
+    "name": "Account Opening SOP (ACCT-OPEN-SOP-001) Update",
+    "aliases": [
+      "ACCT-OPEN-SOP-001"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "kyc_gap",
+    "description": "The bank's standard operating procedure for account opening requires updating to incorporate new beneficial ownership and source of funds requirements.",
+    "context": [
+      "Update Account Opening SOP (ACCT-OPEN-SOP-001)",
+      "Implement source of funds verification workflow",
+      "Increase beneficial ownership documentation requirements"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_005_aml_001",
+    "name": "Enhanced Screening Database Coverage",
+    "aliases": [],
+    "entity_class": "AML_SCREENING",
+    "type": "list_coverage_gap",
+    "description": "Requirement to ensure screening covers multiple databases including OFAC, EU, UN, HMT, and PEP lists.",
+    "context": [
+      "Enhanced screening: Multiple databases (OFAC, EU, UN, HMT, PEP)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_005",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_006_upd_001",
+    "name": "FCA Circular: Technology Risk & Cybersecurity Standards [FCA-OPER-2026-04]",
+    "aliases": [
+      "FCA-OPER-2026-04"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "fca_circular",
+    "description": "An updated FCA guidance on Operational Resilience focusing on impact tolerance and scenario-based stress testing. It requires banks to define acceptable disruption durations and enhance third-party cybersecurity requirements.",
+    "context": [
+      "Circular: Technology Risk & Cybersecurity Standards",
+      "FCA Reference: [FCA-OPER-2026-04]",
+      "FCA updated Operational Resilience guidance, emphasizing impact tolerance (how long customers can tolerate disruption) and scenario-based stress testing."
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_006",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_006_rsk_001",
+    "name": "Technology and Operational Resilience Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "The risk associated with the bank's ability to maintain critical services and recover from disruptions, specifically regarding impact tolerance and scenario testing as defined by the FCA.",
+    "context": [
+      "Scope: Technology and Operational Resilience",
+      "emphasizing impact tolerance (how long customers can tolerate disruption) and scenario-based stress testing."
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_006",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_006_act_001",
+    "name": "Formalization of Impact Tolerance and Stress Test Scenarios",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "A requirement to document impact tolerance levels and stress test scenarios. This action is owned by the Chief Technology Officer and the Chief Risk Officer.",
+    "context": [
+      "Update Required: Formalize impact tolerance levels",
+      "Owner: Chief Technology Officer + Chief Risk Officer",
+      "Action: Document impact tolerance, stress test scenarios"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_006",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_006_met_001",
+    "name": "Online Banking RTO — 2 hours",
+    "aliases": [
+      "RTO"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The Recovery Time Objective (RTO) for Online Banking services, currently stated as 2 hours and aligned with FCA guidance.",
+    "context": [
+      "Online Banking RTO: 2 hours (aligned with guidance)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_006",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_006_met_002",
+    "name": "Payment Processing RTO — 30 minutes",
+    "aliases": [
+      "RTO"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "The Recovery Time Objective (RTO) for Payment Processing services, currently stated as 30 minutes, which exceeds the regulatory guidance.",
+    "context": [
+      "Payment Processing RTO: 30 minutes (exceeds guidance)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_006",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_006_dep_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "The executive role/department responsible for the implementation of technology risk standards and documenting impact tolerance.",
+    "context": [
+      "Owner: Chief Technology Officer + Chief Risk Officer"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_006",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_006_dep_002",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The executive role/department responsible for the implementation of technology risk standards and documenting impact tolerance.",
+    "context": [
+      "Owner: Chief Technology Officer + Chief Risk Officer"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_006",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_upd_001",
+    "name": "PRA Circular: Capital Adequacy Ratios [PRA-CAP-2026-01]",
+    "aliases": [
+      "PRA-CAP-2026-01"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "pra_circular",
+    "description": "A PRA update regarding capital requirements for small firms (pillar 2), specifically increasing risk weightings for unsecured lending such as mortgages. The update became effective on 2026-02-01.",
+    "context": [
+      "PRA updated capital requirements for small firms, with slight increase in risk weightings for unsecured lending (mortgages).",
+      "PRA Reference: [PRA-CAP-2026-01]",
+      "Effective: 2026-02-01"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_met_001",
+    "name": "Capital Ratio — Target >15%, Actual 18.2%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "The bank's current capital ratio prior to the regulatory adjustment, which is maintained above the minimum requirement of 15%.",
+    "context": [
+      "Current Capital Ratio: 18.2% (target: >15%)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_met_002",
+    "name": "Adjusted Capital Ratio — Actual 17.8%, Minimum 15%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "The revised capital ratio following the implementation of the new PRA risk weightings, remaining above the 15% minimum requirement.",
+    "context": [
+      "Capital ratio reduced from 18.2% to 17.8%",
+      "Still above minimum 15% requirement (comfortable buffer)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_act_001",
+    "name": "Recalculate Capital Ratios and Adjust Lending",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "capital_action",
+    "description": "A required action assigned to the Chief Financial Officer to recalculate capital ratios and potentially adjust lending in response to the PRA circular.",
+    "context": [
+      "Owner: Chief Financial Officer",
+      "Action: Recalculate capital ratios, adjust lending if needed"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_rsk_001",
+    "name": "Unsecured Lending Risk (Mortgages)",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with unsecured lending, specifically mortgages, which has seen a risk weighting increase from 25% to 30% per PRA guidelines.",
+    "context": [
+      "slight increase in risk weightings for unsecured lending (mortgages).",
+      "Mortgage risk weight: 25% → 30% (unsecured lending increase)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_prd_001",
+    "name": "Mortgages",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "Banking product subject to increased risk weightings under the new PRA capital adequacy requirements.",
+    "context": [
+      "unsecured lending (mortgages)",
+      "Mortgage risk weight: 25% → 30%"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_prd_002",
+    "name": "Savings Products",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "Banking products that remain unaffected by the PRA update, maintaining a 0% risk weight.",
+    "context": [
+      "Savings products: No change (0% risk weight)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_007_emp_001",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The executive responsible for the recalculation of capital ratios and lending adjustments following the PRA update.",
+    "context": [
+      "Owner: Chief Financial Officer"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_007",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_008_upd_001",
+    "name": "Open Banking deadline implementation support",
+    "aliases": [],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "implementation_deadline",
+    "description": "An anticipated regulatory update regarding the implementation support for Open Banking deadlines, expected in the Q2 2026 period.",
+    "context": [
+      "Open Banking deadline implementation support"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_008",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_008_upd_002",
+    "name": "Summer stress testing scenarios",
+    "aliases": [],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Anticipated regulatory guidance or requirements concerning summer stress testing scenarios for Q2 2026.",
+    "context": [
+      "Summer stress testing scenarios"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_008",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_008_upd_003",
+    "name": "Brexit-related regulatory updates",
+    "aliases": [],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "amended_regulation",
+    "description": "Potential regulatory updates related to Brexit, noted as applicable for the Q2 2026 regulatory circulars.",
+    "context": [
+      "Brexit-related regulatory updates (if applicable)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_008",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_upd_001",
+    "name": "FCA Circular FCA-OP-2026-01 — Open Banking API",
+    "aliases": [
+      "FCA-OP-2026-01"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "fca_circular",
+    "description": "A regulatory update regarding Open Banking API with a medium impact level. The implementation is currently in progress with a deadline of 2026-06-30, owned by the CTO.",
+    "context": [
+      "FCA-OP-2026-01 | Open Banking API | Medium | 2026-06-30 | In Progress | CTO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_act_001",
+    "name": "Implementation of Open Banking API (FCA-OP-2026-01)",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "implementation",
+    "description": "Task to implement Open Banking API requirements as per FCA-OP-2026-01. Assigned to the CTO with a deadline of 2026-06-30; status is currently In Progress.",
+    "context": [
+      "FCA-OP-2026-01 | Open Banking API | Medium | 2026-06-30 | In Progress | CTO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_upd_002",
+    "name": "ICO Guidance ICO-GUID-2026-02 — GDPR Data Rights",
+    "aliases": [
+      "ICO-GUID-2026-02"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Guidance from the ICO regarding GDPR Data Rights with a low impact level. The bank is currently compliant, with the DPO as the owner.",
+    "context": [
+      "ICO-GUID-2026-02 | GDPR Data Rights | Low | Immediate | Compliant | DPO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_upd_003",
+    "name": "FCA Circular FCA-COBS-2026-03 — KYC/EDD",
+    "aliases": [
+      "FCA-COBS-2026-03"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "fca_circular",
+    "description": "A high-impact regulatory update concerning KYC/EDD. The status is currently Under Review with a deadline of 2026-03-01, owned by Compliance.",
+    "context": [
+      "FCA-COBS-2026-03 | KYC/EDD | High | 2026-03-01 | Under Review | Compliance"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_act_002",
+    "name": "Review of KYC/EDD Requirements (FCA-COBS-2026-03)",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "remediation",
+    "description": "Action to review and implement KYC/EDD updates per FCA-COBS-2026-03. Assigned to Compliance with a deadline of 2026-03-01; status is Under Review.",
+    "context": [
+      "FCA-COBS-2026-03 | KYC/EDD | High | 2026-03-01 | Under Review | Compliance"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_upd_004",
+    "name": "FCA Circular FCA-OPER-2026-04 — Operational Resilience",
+    "aliases": [
+      "FCA-OPER-2026-04"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "fca_circular",
+    "description": "A medium-impact regulatory update regarding Operational Resilience. The bank is compliant with an immediate deadline, owned by the CTO/CRO.",
+    "context": [
+      "FCA-OPER-2026-04 | Operational Resilience | Medium | Immediate | Compliant | CTO/CRO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_upd_005",
+    "name": "PRA Circular PRA-CAP-2026-01 — Capital Ratios",
+    "aliases": [
+      "PRA-CAP-2026-01"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "pra_circular",
+    "description": "A medium-impact regulatory update from the PRA regarding Capital Ratios. The bank is compliant with a deadline of 2026-02-01, owned by the CFO.",
+    "context": [
+      "PRA-CAP-2026-01 | Capital Ratios | Medium | 2026-02-01 | Compliant | CFO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_dep_001",
+    "name": "Chief Technology Officer",
+    "aliases": [
+      "CTO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "technology",
+    "description": "The technology function responsible for Open Banking API and Operational Resilience implementation.",
+    "context": [
+      "FCA-OP-2026-01 | Open Banking API | Medium | 2026-06-30 | In Progress | CTO",
+      "FCA-OPER-2026-04 | Operational Resilience | Medium | Immediate | Compliant | CTO/CRO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_dep_002",
+    "name": "Data Protection Officer",
+    "aliases": [
+      "DPO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "The officer responsible for GDPR Data Rights compliance.",
+    "context": [
+      "ICO-GUID-2026-02 | GDPR Data Rights | Low | Immediate | Compliant | DPO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_dep_003",
+    "name": "Compliance Department",
+    "aliases": [
+      "Compliance"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "compliance",
+    "description": "The department responsible for the review and implementation of KYC/EDD regulatory updates.",
+    "context": [
+      "FCA-COBS-2026-03 | KYC/EDD | High | 2026-03-01 | Under Review | Compliance"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_dep_004",
+    "name": "Chief Risk Officer",
+    "aliases": [
+      "CRO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The risk function co-responsible for Operational Resilience compliance.",
+    "context": [
+      "FCA-OPER-2026-04 | Operational Resilience | Medium | Immediate | Compliant | CTO/CRO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_011_dep_005",
+    "name": "Chief Financial Officer",
+    "aliases": [
+      "CFO"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "operations",
+    "description": "The financial function responsible for Capital Ratios compliance.",
+    "context": [
+      "PRA-CAP-2026-01 | Capital Ratios | Medium | 2026-02-01 | Compliant | CFO"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_011",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_012_upd_001",
+    "name": "Financial Conduct Authority (FCA) Regulatory Updates",
+    "aliases": [
+      "FCA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "fca_circular",
+    "description": "Regulatory updates and communications from the Financial Conduct Authority, delivered via the FCA portal and email subscription.",
+    "context": [
+      "FCA (Financial Conduct Authority)",
+      "Updates: Via FCA portal + email subscription"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_012",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_012_upd_002",
+    "name": "Prudential Regulation Authority (PRA) Regulatory Updates",
+    "aliases": [
+      "PRA"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "pra_circular",
+    "description": "Regulatory updates and communications from the Prudential Regulation Authority, delivered via the PRA portal and email subscription.",
+    "context": [
+      "PRA (Prudential Regulation Authority)",
+      "Updates: Via PRA portal + email subscription"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_012",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_012_upd_003",
+    "name": "Information Commissioner's Office (ICO) Data Protection Guidance",
+    "aliases": [
+      "ICO"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Data protection guidance and regulatory oversight provided by the Information Commissioner's Office.",
+    "context": [
+      "ICO (Information Commissioner's Office)",
+      "Data Protection Guidance: www.ico.org.uk/for-organisations"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_012",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_013_upd_001",
+    "name": "FCA-COBS-2026-03 Regulatory Update",
+    "aliases": [
+      "FCA-COBS-2026-03"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "A regulatory update from the FCA affecting the bank's KYC Policy regarding customer identification.",
+    "context": [
+      "KYC Policy (affected by FCA-COBS-2026-03)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_013",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_013_upd_002",
+    "name": "ICO-GUID-2026-02 Regulatory Guidance",
+    "aliases": [
+      "ICO-GUID-2026-02"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "guidance_update",
+    "description": "Guidance from the ICO affecting the bank's Privacy and GDPR Policy.",
+    "context": [
+      "Privacy/GDPR Policy (affected by ICO-GUID-2026-02)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_013",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_013_upd_003",
+    "name": "FCA-OPER-2026-04 Regulatory Update",
+    "aliases": [
+      "FCA-OPER-2026-04"
+    ],
+    "entity_class": "REGULATORY_UPDATE",
+    "type": "new_regulation",
+    "description": "A regulatory update from the FCA affecting the bank's Technology Architecture.",
+    "context": [
+      "Technology Architecture (affected by FCA-OPER-2026-04)"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_013",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_015_emp_001",
+    "name": "Head of Compliance",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "compliance_officer",
+    "description": "The individual responsible for preparing the document on 2026-01-15.",
+    "context": [
+      "Prepared by: Head of Compliance — Date: 2026-01-15"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_015",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_015_emp_002",
+    "name": "Chief Risk Officer",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "risk_officer",
+    "description": "The executive officer who approved the document on 2026-01-15.",
+    "context": [
+      "Approved by: Chief Risk Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_015",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "50991fab97584f5c982a2d46998074d0_015_emp_003",
+    "name": "Chief Executive Officer",
+    "aliases": [],
+    "entity_class": "EMPLOYEE",
+    "type": "executive_officer",
+    "description": "The executive officer who approved the document on 2026-01-15.",
+    "context": [
+      "Approved by: Chief Executive Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "50991fab97584f5c982a2d46998074d0_015",
+    "doc_id": "50991fab97584f5c982a2d46998074d0",
+    "domain": "banking_risk_governance"
+  }
+]

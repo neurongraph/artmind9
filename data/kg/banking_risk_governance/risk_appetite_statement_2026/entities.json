@@ -1,0 +1,1315 @@
+[
+  {
+    "id": "091bcb9836824060839190fff58ae95a_001_dep_001",
+    "name": "Risk Department",
+    "aliases": [
+      "Risk"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The organisational department responsible for the ownership and management of the Risk Appetite Statement 2026.",
+    "context": [
+      "Department | Risk"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_001",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_002_rsk_001",
+    "name": "Conservative Risk Appetite",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "The bank's overarching risk management approach which prioritizes financial stability, customer protection, and regulatory compliance over aggressive business growth.",
+    "context": [
+      "FirstUK Bank adopts a conservative risk appetite balancing customer service delivery, business growth, and regulatory compliance.",
+      "The bank will not pursue growth at the expense of financial stability, customer protection, or regulatory compliance."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_002",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_001",
+    "name": "High-Quality Customer Service Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A risk area focused on maintaining reliable and fair banking services to achieve sustainable profitability.",
+    "context": [
+      "High-Quality Customer Service — Reliable, fair banking services"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_002",
+    "name": "Financial Stability Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "liquidity_risk",
+    "description": "A risk area focused on maintaining capital levels above regulatory minimums with additional buffers to ensure stability.",
+    "context": [
+      "Financial Stability — Capital above regulatory minimums with buffers"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_003",
+    "name": "Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "A risk area with a zero-tolerance approach toward willful regulatory breaches.",
+    "context": [
+      "Strong Compliance — Zero tolerance for willful regulatory breaches"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_004",
+    "name": "Operational Excellence Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A risk area emphasizing the need for reliable systems, robust controls, and continuous improvement.",
+    "context": [
+      "Operational Excellence — Reliable systems, robust controls, continuous improvement"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_005",
+    "name": "High-Risk Lending Strategy",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "A prohibited risk strategy that the bank will not pursue in its quest for sustainable profitability.",
+    "context": [
+      "We will NOT pursue: High-risk lending strategies"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_006",
+    "name": "Aggressive Growth in Loss-Making Areas",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "market_risk",
+    "description": "A prohibited growth strategy involving aggressive expansion into areas that are loss-making.",
+    "context": [
+      "We will NOT pursue: Aggressive growth in loss-making areas"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_007",
+    "name": "Compliance and Control Shortcuts",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "A prohibited practice of taking shortcuts around established compliance frameworks or internal controls.",
+    "context": [
+      "We will NOT pursue: Shortcuts around compliance or controls"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_008",
+    "name": "Concentrated Exposure Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "concentration_risk",
+    "description": "A prohibited risk scenario involving excessive exposure to single customers or specific sectors.",
+    "context": [
+      "We will NOT pursue: Concentrated exposure to single customers/sectors"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_003_rsk_009",
+    "name": "Excessive Leverage and Capital Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "capital_risk",
+    "description": "A prohibited risk approach involving excessive leverage or taking undue risks with the bank's capital.",
+    "context": [
+      "We will NOT pursue: Excessive leverage or capital risk"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_003",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
+    "name": "Credit Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "A risk category managed with a conservative appetite, focusing on consumer lending and mortgages while avoiding commercial lending or risky credit products.",
+    "context": [
+      "Credit Risk",
+      "Appetite: Conservative",
+      "FirstUK Bank focuses on consumer lending (mortgages) with strong underwriting. Does not pursue commercial lending or risky credit products."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_001",
+    "name": "Loan Loss Ratio — Threshold <0.5% annually",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "loss_ratio",
+    "description": "A quantitative tolerance threshold for the annual loan loss ratio within the Credit Risk category.",
+    "context": [
+      "Loan Loss Ratio: <0.5% annually"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_002",
+    "name": "Delinquency Rate — Threshold <2% of active accounts",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "delinquency_rate",
+    "description": "A quantitative tolerance threshold for the delinquency rate relative to active accounts.",
+    "context": [
+      "Delinquency Rate: <2% of active accounts"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_003",
+    "name": "Concentration Limit — No single customer >10% of capital",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "A risk appetite threshold limiting the exposure to any single customer to 10% of the bank's capital.",
+    "context": [
+      "Concentration: No single customer >10% of capital"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_met_004",
+    "name": "Mortgage LTV — Maximum <80%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The maximum allowable Loan-to-Value (LTV) ratio for mortgage products.",
+    "context": [
+      "Mortgage LTV: <80% (maximum)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_004_prd_001",
+    "name": "Mortgages",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "The primary consumer lending product focused on by FirstUK Bank, subject to mandatory credit scoring and affordability assessments.",
+    "context": [
+      "FirstUK Bank focuses on consumer lending (mortgages)",
+      "Credit scoring mandatory for mortgages"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
+    "name": "Operational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "A risk category with a 'Low' appetite. The bank prioritizes operational reliability, customer trust, and regulatory compliance, investing in systems, training, and controls to prevent failures.",
+    "context": [
+      "2. Operational Risk",
+      "Appetite: Low",
+      "FirstUK Bank prioritizes operational reliability, customer trust, and regulatory compliance."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_001",
+    "name": "Annual Operational Losses — Tolerance <£50,000",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "A quantitative tolerance threshold for annual operational losses, set at less than £50,000.",
+    "context": [
+      "Annual Operational Losses: <£50,000"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_002",
+    "name": "Major Incidents — Tolerance <1 per year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A quantitative tolerance threshold for the frequency of major incidents, limited to fewer than one per year.",
+    "context": [
+      "Major Incidents: <1 per year"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_003",
+    "name": "System Outages — Tolerance <8 hours per year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "A quantitative tolerance threshold for total system outage duration, limited to less than 8 hours per year.",
+    "context": [
+      "System Outages: <8 hours per year"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_005_met_004",
+    "name": "Process Errors — Tolerance <0.5% error rate",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "A quantitative tolerance threshold for the rate of process errors, set at less than 0.5%.",
+    "context": [
+      "Process Errors: <0.5% error rate"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_005",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
+    "name": "Compliance & Regulatory Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "A risk category with a minimal/zero appetite. The bank operates under close regulatory oversight where any breach is viewed as damaging to the bank's reputation and license.",
+    "context": [
+      "Compliance & Regulatory Risk",
+      "Appetite: Minimal/Zero",
+      "FirstUK Bank operates under close regulatory oversight. Any regulatory breach damages reputation and license."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_001",
+    "name": "Regulatory Breaches Tolerance — Zero willful violations",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The tolerance threshold for regulatory breaches, specified as zero willful violations.",
+    "context": [
+      "Regulatory Breaches: Zero willful violations"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_002",
+    "name": "KYC/AML Non-Compliance Tolerance — 0%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The tolerance threshold for non-compliance regarding Know Your Customer (KYC) and Anti-Money Laundering (AML) requirements.",
+    "context": [
+      "KYC/AML Non-Compliance: 0% tolerance"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_003",
+    "name": "Customer Protection Breaches Tolerance — 0%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The tolerance threshold for breaches related to customer protection.",
+    "context": [
+      "Customer Protection Breaches: 0% tolerance"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_006_met_004",
+    "name": "Disclosure Violations Tolerance — Zero",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "The tolerance threshold for violations related to regulatory disclosures.",
+    "context": [
+      "Disclosure Violations: Zero"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_006",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
+    "name": "Fraud Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "fraud_risk",
+    "description": "A risk category with a 'Low' appetite. The bank is committed to protecting customers and assets through investments in prevention systems and monitoring.",
+    "context": [
+      "4. Fraud Risk",
+      "Appetite: Low",
+      "FirstUK Bank invests in fraud prevention systems and monitoring. Committed to protecting customers and bank assets from fraud."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_001",
+    "name": "Annual Fraud Loss — Threshold <£100,000 (0.3% of revenue)",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A quantitative tolerance threshold for annual fraud losses, capped at £100,000 or 0.3% of revenue.",
+    "context": [
+      "Annual Fraud Loss: <£100,000 (0.3% of revenue)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_002",
+    "name": "Fraud Detection Rate — Threshold >96%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "detection_rate",
+    "description": "A quantitative tolerance threshold requiring a fraud detection rate of greater than 96%.",
+    "context": [
+      "Fraud Detection Rate: >96%"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_003",
+    "name": "Customer Reimbursement — Threshold <£30k annually",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A quantitative tolerance threshold for annual customer reimbursements, capped at £30,000.",
+    "context": [
+      "Customer Reimbursement: <£30k annually"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_007_met_004",
+    "name": "Internal Fraud — Zero Tolerance",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A strict zero-tolerance threshold regarding internal fraud events.",
+    "context": [
+      "Internal Fraud: Zero tolerance"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
+    "name": "Reputational Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "reputational_risk",
+    "description": "A risk category with a 'Low' appetite, focused on maintaining customer trust and operational reliability. The bank manages this risk through customer service, compliance, and transparency.",
+    "context": [
+      "Reputational Risk",
+      "Appetite: Low",
+      "FirstUK Bank's brand depends on customer trust and operational reliability."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_001",
+    "name": "Major Complaints — Tolerance <2 per 1,000 accounts",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A quantitative tolerance threshold for major complaints, set at fewer than 2 per 1,000 accounts.",
+    "context": [
+      "Major Complaints: <2 per 1,000 accounts"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_002",
+    "name": "Regulatory Complaints — Tolerance <1 per 1,000 accounts",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A quantitative tolerance threshold for regulatory complaints, set at fewer than 1 per 1,000 accounts.",
+    "context": [
+      "Regulatory Complaints: <1 per 1,000 accounts"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_003",
+    "name": "Media Incidents — Tolerance Zero negative incidents",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "An aspirational tolerance threshold aiming for zero negative media incidents.",
+    "context": [
+      "Media Incidents: Zero negative incidents (aspirational)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_008_met_004",
+    "name": "Customer Trust (NPS) — Target >70",
+    "aliases": [
+      "NPS"
+    ],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A performance metric for customer trust measured via Net Promoter Score, with a target value greater than 70.",
+    "context": [
+      "Customer Trust: NPS >70 (Net Promoter Score)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_008",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_rsk_001",
+    "name": "Capital Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "capital_risk",
+    "description": "A risk category managed with a conservative appetite to ensure the bank can absorb losses, fund growth, and meet regulatory requirements without compromising stability for shareholder returns.",
+    "context": [
+      "6. Capital Risk",
+      "Appetite: Conservative",
+      "FirstUK Bank maintains strong capital ratios to absorb losses, fund growth, and meet regulatory requirements."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_met_001",
+    "name": "Capital Ratio (Pillar 1) — Minimum >15%, Target 18%+",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "The Pillar 1 Capital Ratio threshold with a minimum requirement of 15% and a target of 18% or higher.",
+    "context": [
+      "Capital Ratio (Pillar 1): >15% minimum, 18%+ target"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_met_002",
+    "name": "Leverage Ratio — >5%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "The Leverage Ratio threshold set at greater than 5% in accordance with Basel III standards.",
+    "context": [
+      "Leverage Ratio: >5% (per Basel III)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_009_met_003",
+    "name": "Capital Adequacy Buffer — 3%+ above minimum",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "The required capital adequacy buffer maintained at 3% or more above the minimum requirement.",
+    "context": [
+      "Capital Adequacy Buffer: 3%+ above minimum"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
+    "name": "Technology & Cybersecurity Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "technology_risk",
+    "description": "A risk category with a low appetite, focusing on the bank's dependence on reliable technology, security, resilience, and disaster recovery to protect customer data and maintain service availability.",
+    "context": [
+      "Technology & Cybersecurity Risk",
+      "Appetite: Low",
+      "FirstUK Bank depends on reliable technology. Invests in security, resilience, and disaster recovery to maintain service availability and protect customer data."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_001",
+    "name": "System Availability — SLA 99.8%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The service level agreement (SLA) threshold for system availability within the Technology & Cybersecurity risk tolerance framework.",
+    "context": [
+      "System Availability: 99.8% (SLA)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_002",
+    "name": "Major Data Breach — Zero Tolerance",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The bank's absolute tolerance level regarding major data breaches.",
+    "context": [
+      "Major Data Breach: Zero tolerance"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_003",
+    "name": "Cybersecurity Incidents — <1 per year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The annual tolerance threshold for the number of cybersecurity incidents.",
+    "context": [
+      "Cybersecurity Incidents: <1 per year"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_010_met_004",
+    "name": "Unplanned Downtime — <2 hours per year",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "The annual tolerance threshold for unplanned system downtime.",
+    "context": [
+      "Unplanned Downtime: <2 hours per year"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_010",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
+    "name": "Liquidity Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "liquidity_risk",
+    "description": "A risk category managed with a conservative appetite to ensure the bank can meet customer withdrawals and operational needs without relying on external funding.",
+    "context": [
+      "8. Liquidity Risk",
+      "Appetite: Conservative",
+      "FirstUK Bank maintains strong liquidity to meet customer withdrawals and operational needs. Does not rely on external funding."
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_met_001",
+    "name": "Loan-to-Deposit Ratio — Tolerance <90%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A liquidity tolerance threshold specifying that the Loan-to-Deposit Ratio must remain below 90%.",
+    "context": [
+      "Loan-to-Deposit Ratio: <90%"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_met_002",
+    "name": "Liquid Assets Buffer — Tolerance 30 days+ operating expenses",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A liquidity tolerance threshold requiring a buffer of liquid assets sufficient to cover at least 30 days of operating expenses.",
+    "context": [
+      "Liquid Assets Buffer: 30 days+ operating expenses"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_011_met_003",
+    "name": "Maturity Mismatch — Tolerance <6 months average",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "risk_appetite_threshold",
+    "description": "A liquidity tolerance threshold limiting the average maturity mismatch to less than 6 months.",
+    "context": [
+      "Maturity Mismatch: <6 months average"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_011",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_001",
+    "name": "KYC and Screening Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk associated with account opening processes. The bank's appetite allows for account opening provided there is strong KYC and quality screening.",
+    "context": [
+      "Account opening with strong KYC, quality screening"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_002",
+    "name": "Mortgage Lending Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with mortgage lending. Appetite is limited to lending with affordability checks and reasonable Loan-to-Value (LTV) ratios, while high LTV mortgages are considered inconsistent with appetite.",
+    "context": [
+      "Mortgage lending with affordability checks, reasonable LTV",
+      "High-risk lending (commercial loans, high LTV mortgages)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_003",
+    "name": "Pricing Strategy Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "reputational_risk",
+    "description": "Risk related to the bank's pricing approach. The bank maintains a conservative, competitive pricing strategy and avoids predatory pricing.",
+    "context": [
+      "Conservative pricing (competitive, not predatory)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_004",
+    "name": "Compliance and Fraud Systems Investment Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk related to the adequacy of systems for fraud and compliance. Investment in these systems is viewed as consistent with the bank's risk appetite.",
+    "context": [
+      "Investment in compliance and fraud systems"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_005",
+    "name": "Capital Stability and Growth Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "liquidity_risk",
+    "description": "Risk regarding the bank's capital position. The bank prioritizes capital retention for stability and growth, while excessive leverage or capital risk is prohibited.",
+    "context": [
+      "Capital retention for stability and growth",
+      "Excessive leverage or capital risk"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_006",
+    "name": "Commercial Lending Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "credit_risk",
+    "description": "Risk associated with commercial loans, which are explicitly categorized as high-risk lending and inconsistent with the bank's risk appetite.",
+    "context": [
+      "High-risk lending (commercial loans, high LTV mortgages)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_007",
+    "name": "Aggressive Growth Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk arising from rapid expansion that may sacrifice internal controls or regulatory compliance.",
+    "context": [
+      "Aggressive growth (sacrificing control/compliance)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_008",
+    "name": "Regulatory Compliance Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "compliance_risk",
+    "description": "Risk of regulatory violations or the taking of shortcuts to bypass regulatory requirements, which is strictly inconsistent with appetite.",
+    "context": [
+      "Regulatory shortcuts or violations"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_met_001",
+    "name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "concentration_limit",
+    "description": "A quantitative limit on customer exposure to prevent concentration risk. Exposure exceeding 10% of capital is considered inconsistent with risk appetite.",
+    "context": [
+      "Concentrated customer exposure (>10% capital)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_012_rsk_009",
+    "name": "Control and Staffing Risk",
+    "aliases": [],
+    "entity_class": "RISK",
+    "type": "operational_risk",
+    "description": "Risk associated with inadequate staffing levels or weak internal controls.",
+    "context": [
+      "Weak controls or inadequate staffing"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_012",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_001",
+    "name": "Risk Team",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The internal department responsible for flagging issues when proposed decisions conflict with the bank's risk appetite.",
+    "context": [
+      "Risk team flags the issue"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_002",
+    "name": "Business Unit",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "operations",
+    "description": "The operational unit required to provide rationale and justification when a proposed decision conflicts with risk appetite.",
+    "context": [
+      "Business unit provides rationale (why necessary)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_003",
+    "name": "Executive Committee",
+    "aliases": [
+      "ExCo"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance",
+    "description": "The senior leadership body, comprising the CRO, CFO, and CEO, responsible for reviewing risk appetite conflicts.",
+    "context": [
+      "Executive committee reviews (CRO, CFO, CEO)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dept_004",
+    "name": "Board Risk Committee",
+    "aliases": [
+      "BRC"
+    ],
+    "entity_class": "DEPARTMENT",
+    "type": "governance",
+    "description": "The board-level committee that must be notified if a conflict with risk appetite is deemed significant.",
+    "context": [
+      "Board Risk Committee notified (if significant)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_act_001",
+    "name": "Risk Appetite Conflict Escalation Process",
+    "aliases": [],
+    "entity_class": "ACTION_ITEM",
+    "type": "reporting",
+    "description": "A multi-step escalation procedure triggered when a proposed decision conflicts with risk appetite, involving flagging, rationale provision, executive review, and board notification.",
+    "context": [
+      "If Proposed Decision Conflicts with Risk Appetite:",
+      "Risk team flags the issue",
+      "Business unit provides rationale (why necessary)",
+      "Executive committee reviews (CRO, CFO, CEO)",
+      "Board Risk Committee notified (if significant)"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_013_dec_001",
+    "name": "Documented Decision and Justification Recording",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "The formal requirement to record the final decision and the accompanying justification following an escalation regarding risk appetite conflicts.",
+    "context": [
+      "Documented decision and justification recorded"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_013",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_001",
+    "name": "Loan loss ratio — Threshold >0.5%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "loss_ratio",
+    "description": "A quarterly monitored risk metric with a threshold of greater than 0.5%. Exceeding this threshold triggers a review of underwriting criteria.",
+    "context": [
+      "Loan loss ratio",
+      "Quarterly",
+      ">0.5%",
+      "Review underwriting criteria"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_002",
+    "name": "Operational incidents — Threshold >4/month",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A monthly monitored metric tracking operational incidents. If incidents exceed 4 per month, a root cause investigation is required.",
+    "context": [
+      "Operational incidents",
+      "Monthly",
+      ">4/month",
+      "Investigate root causes"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_003",
+    "name": "Compliance violations — Threshold >0",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "A monthly monitored metric for compliance violations. Any violation (greater than 0) requires immediate remediation.",
+    "context": [
+      "Compliance violations",
+      "Monthly",
+      ">0",
+      "Immediate remediation"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_004",
+    "name": "Fraud loss — Threshold >£25k/q",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A quarterly monitored metric for fraud losses. Losses exceeding £25,000 per quarter trigger an enhancement of detection rules.",
+    "context": [
+      "Fraud loss",
+      "Quarterly",
+      ">£25k/q",
+      "Enhance detection rules"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_005",
+    "name": "System availability — Threshold <99.8%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "A daily monitored metric for system availability. Availability falling below 99.8% triggers an emergency response.",
+    "context": [
+      "System availability",
+      "Daily",
+      "<99.8%",
+      "Emergency response"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_006",
+    "name": "Capital ratio — Threshold <15%",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "A daily monitored capital ratio. If the ratio falls below 15%, the matter must be escalated to the Board.",
+    "context": [
+      "Capital ratio",
+      "Daily",
+      "<15%",
+      "Escalate to Board"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_014_met_007",
+    "name": "Customer complaints — Threshold >2/1000",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A monthly monitored metric for customer complaints. A rate exceeding 2 per 1000 triggers a process review.",
+    "context": [
+      "Customer complaints",
+      "Monthly",
+      ">2/1000",
+      "Process review"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_014",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_001",
+    "name": "Capital Ratio",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "capital_ratio",
+    "description": "A quantitative risk metric monitored on a daily reporting frequency.",
+    "context": [
+      "Daily: Capital ratio"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_002",
+    "name": "System Availability",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "response_time",
+    "description": "A performance and risk metric monitored on a daily reporting frequency.",
+    "context": [
+      "Daily: ... system availability"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_003",
+    "name": "Fraud Incidents",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "fraud_detection_rate",
+    "description": "A metric tracking fraud occurrences monitored on a daily reporting frequency.",
+    "context": [
+      "Daily: ... fraud incidents"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_004",
+    "name": "Operational Incidents",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "A metric tracking operational incidents monitored on a weekly reporting frequency.",
+    "context": [
+      "Weekly: Operational incidents"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_005",
+    "name": "Compliance Alerts",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "compliance_rate",
+    "description": "A metric tracking compliance alerts monitored on a weekly reporting frequency.",
+    "context": [
+      "Weekly: ... compliance alerts"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_006",
+    "name": "KRI Summary to Management",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A monthly summary of Key Risk Indicators provided to management.",
+    "context": [
+      "Monthly: KRI summary to management"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_007",
+    "name": "Operational Losses",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "operational_loss",
+    "description": "A metric tracking operational losses monitored on a monthly reporting frequency.",
+    "context": [
+      "Monthly: ... operational losses"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_008",
+    "name": "Full Risk Dashboard to Board Risk Committee",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "A comprehensive risk dashboard reported to the Board Risk Committee on a quarterly basis.",
+    "context": [
+      "Quarterly: Full risk dashboard to Board Risk Committee"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_met_009",
+    "name": "Comprehensive Risk Assessment to Board",
+    "aliases": [],
+    "entity_class": "RISK_METRIC",
+    "type": "kri",
+    "description": "An annual comprehensive risk assessment reported to the Board.",
+    "context": [
+      "Annually: Comprehensive risk assessment to Board"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_dep_001",
+    "name": "Board Risk Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The governance body responsible for reviewing the quarterly full risk dashboard.",
+    "context": [
+      "Quarterly: Full risk dashboard to Board Risk Committee"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_015_dep_002",
+    "name": "Board",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The primary governance body receiving the annual comprehensive risk assessment.",
+    "context": [
+      "Annually: Comprehensive risk assessment to Board"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_015",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_016_dec_001",
+    "name": "Board of Directors Approval Authority for Review & Updates",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "policy_approval",
+    "description": "The Board of Directors is designated as the formal approval authority for the review and updates of this document, which is subject to an annual review cycle.",
+    "context": [
+      "Approval Authority: Board of Directors"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_016",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dec_001",
+    "name": "Chief Risk Officer Approval of Document",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal sign-off and approval of the document provided by the Chief Risk Officer on 2026-01-15.",
+    "context": [
+      "Approved by: Chief Risk Officer — Date: 2026-01-15"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dec_002",
+    "name": "Board Risk Committee Approval of Document",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal sign-off and approval of the document provided by the Board Risk Committee on 2026-01-15.",
+    "context": [
+      "Approved by: Board Risk Committee — Date: 2026-01-15"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dec_003",
+    "name": "Board of Directors Approval of Document",
+    "aliases": [],
+    "entity_class": "GOVERNANCE_DECISION",
+    "type": "approval",
+    "description": "Formal sign-off and approval of the document provided by the Board of Directors on 2026-01-15.",
+    "context": [
+      "Approved by: Board of Directors — Date: 2026-01-15"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dep_001",
+    "name": "Board Risk Committee",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "risk",
+    "description": "The governance body responsible for the review and approval of risk-related documentation.",
+    "context": [
+      "Board Risk Committee — Date: 2026-01-15"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  },
+  {
+    "id": "091bcb9836824060839190fff58ae95a_018_dep_002",
+    "name": "Board of Directors",
+    "aliases": [],
+    "entity_class": "DEPARTMENT",
+    "type": "governance",
+    "description": "The primary governing body of FirstUK Bank providing final approval for the document.",
+    "context": [
+      "Board of Directors — Date: 2026-01-15"
+    ],
+    "chunk_id": "091bcb9836824060839190fff58ae95a_018",
+    "doc_id": "091bcb9836824060839190fff58ae95a",
+    "domain": "banking_risk_governance"
+  }
+]

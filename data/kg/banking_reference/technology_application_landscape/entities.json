@@ -1,0 +1,1653 @@
+[
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_004_not_001",
+    "name": "Head of Technology",
+    "aliases": [
+      "Owner"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The designated owner of the Account Management System (AMS-001) responsible for overall system governance.",
+    "context": [
+      "Owner: Head of Technology"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_004_not_002",
+    "name": "Database team",
+    "aliases": [
+      "Support Team"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the maintenance and operational stability of the Account Management System.",
+    "context": [
+      "Support Team: Database team, Application team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_004_not_003",
+    "name": "Application team",
+    "aliases": [
+      "Support Team"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the maintenance and operational stability of the Account Management System.",
+    "context": [
+      "Support Team: Database team, Application team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_004",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_005_acc_001",
+    "name": "Customer Accounts Repository",
+    "aliases": [
+      "central repository"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "affected_account",
+    "description": "A central repository used by the bank to manage customer accounts, track balances, and maintain the transaction ledger.",
+    "context": [
+      "Central repository for customer accounts, balances, and transaction ledger."
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_005",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_001",
+    "name": "Account CRUD Operations",
+    "aliases": [
+      "create",
+      "read",
+      "update",
+      "delete"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "account_management",
+    "description": "Guidance regarding the core account management capabilities, specifically the ability to create, read, update, and delete account records.",
+    "context": [
+      "Account CRUD (create, read, update, delete)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_002",
+    "name": "Balance Calculation and Reconciliation",
+    "aliases": [],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "account_management",
+    "description": "Guidance on the processes used for calculating account balances and performing reconciliation to ensure financial accuracy.",
+    "context": [
+      "Balance calculation and reconciliation"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_003",
+    "name": "Transaction Ledger Management",
+    "aliases": [
+      "immutable record"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on the transaction ledger, which serves as an immutable record of all financial events associated with an account.",
+    "context": [
+      "Transaction ledger (immutable record)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_004",
+    "name": "Interest Calculation Process",
+    "aliases": [],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance regarding the system's capability to calculate interest on accounts.",
+    "context": [
+      "Interest calculation"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_006_cgi_005",
+    "name": "Account Status Management",
+    "aliases": [],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "account_management",
+    "description": "Guidance on the management and tracking of account statuses within the banking system.",
+    "context": [
+      "Account status management"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_006",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_001",
+    "name": "Customers",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "account_holder",
+    "description": "Bank customers represented by 500 records within the data entities.",
+    "context": [
+      "Customers (500 records)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_acc_001",
+    "name": "Accounts",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "account",
+    "description": "Bank accounts represented by 800 records within the data entities.",
+    "context": [
+      "Accounts (800 records)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_cus_002",
+    "name": "Account Holders",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "joint_holder",
+    "description": "Customers who hold accounts, specifically including support for joint account holders.",
+    "context": [
+      "Account Holders (joint account support)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_tra_001",
+    "name": "Transactions",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "Financial transactions occurring at a volume of over 2,000 monthly.",
+    "context": [
+      "Transactions (2,000+ monthly)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_sto_001",
+    "name": "Standing Orders",
+    "aliases": [],
+    "entity_class": "STANDING_ORDER",
+    "type": "standing_order_setup",
+    "description": "Active standing order instructions, with over 50 currently active.",
+    "context": [
+      "Standing Orders (50+ active)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_007_did_001",
+    "name": "Direct Debits",
+    "aliases": [],
+    "entity_class": "DIRECT_DEBIT",
+    "type": "direct_debit_mandate",
+    "description": "Active direct debit mandates, with over 30 currently active.",
+    "context": [
+      "Direct Debits (30+ active)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_007",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_inc_001",
+    "name": "Integration Failure",
+    "aliases": [
+      "Integrations"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "integration_failure",
+    "description": "Operational failures related to the connectivity and data exchange between the core system and integrated platforms including Internet Banking, Mobile Banking, Fraud Detection, and Payment Processing.",
+    "context": [
+      "Integrations",
+      "Internet Banking Platform (account data)",
+      "Mobile Banking App (account queries)",
+      "Fraud Detection Engine (transaction data)",
+      "Payment Processing System (balance updates)",
+      "Data Warehouse (nightly batch)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_001",
+    "name": "Internet Banking Platform",
+    "aliases": [
+      "IBP"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "channel_guide",
+    "description": "A banking platform used for accessing and managing account data.",
+    "context": [
+      "Internet Banking Platform (account data)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_002",
+    "name": "Mobile Banking App",
+    "aliases": [
+      "MBA"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "channel_guide",
+    "description": "A mobile application used by customers for account queries.",
+    "context": [
+      "Mobile Banking App (account queries)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_003",
+    "name": "Fraud Detection Engine",
+    "aliases": [
+      "FDE"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "fraud_incident",
+    "description": "A system that processes transaction data to identify and flag fraudulent activity.",
+    "context": [
+      "Fraud Detection Engine (transaction data)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_004",
+    "name": "Payment Processing System",
+    "aliases": [
+      "PPS"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "transaction_fraud",
+    "description": "A system responsible for executing payments and providing balance updates.",
+    "context": [
+      "Payment Processing System (balance updates)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_010_prod_005",
+    "name": "Data Warehouse",
+    "aliases": [
+      "DW"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "operational_failure",
+    "description": "A central repository that receives data via nightly batch processes.",
+    "context": [
+      "Data Warehouse (nightly batch)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_010",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_011_res_001",
+    "name": "Monthly Patching Procedure",
+    "aliases": [
+      "Patching"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "system_restore",
+    "description": "A recurring maintenance action involving system patching performed on a monthly basis every Tuesday between 2 AM and 4 AM.",
+    "context": [
+      "Patching: Monthly (Tuesday 2–4 AM)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_011_res_002",
+    "name": "Daily Backup Procedure",
+    "aliases": [
+      "Backups"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "backup_failure",
+    "description": "A daily operational procedure to ensure data redundancy, executed every day at midnight.",
+    "context": [
+      "Backups: Daily (midnight)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_011_res_003",
+    "name": "Monthly Archiving Procedure",
+    "aliases": [
+      "Archiving"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "recovery",
+    "description": "A monthly maintenance task where old data is moved to cold storage for long-term retention.",
+    "context": [
+      "Archiving: Monthly (old data to cold storage)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_prod_001",
+    "name": "Internet Banking Platform (IBP)",
+    "aliases": [
+      "IBP-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "digital_banking_platform",
+    "description": "The bank's production internet banking system (System ID: IBP-001) utilizing a React.js, Node.js, and Express stack deployed on AWS ECS. It is governed by a 99.8% availability SLA.",
+    "context": [
+      "Internet Banking Platform (IBP)",
+      "System ID: IBP-001",
+      "Availability SLA: 99.8%"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_not_001",
+    "name": "Head of Technology",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The designated owner of the Internet Banking Platform (IBP) responsible for the system's overall governance.",
+    "context": [
+      "Owner: Head of Technology"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_not_002",
+    "name": "Frontend team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the maintenance and operation of the Internet Banking Platform.",
+    "context": [
+      "Support Team: Frontend team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_012_not_003",
+    "name": "Backend team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the maintenance and operation of the Internet Banking Platform.",
+    "context": [
+      "Support Team: Backend team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_013_cgi_001",
+    "name": "Web-based customer portal for account access and self-service",
+    "aliases": [
+      "customer portal"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "A web-based portal provided to customers to facilitate account access and self-service capabilities.",
+    "context": [
+      "Web-based customer portal for account access and self-service."
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_013",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_001",
+    "name": "Secure Login Guidance",
+    "aliases": [
+      "2FA",
+      "OTP"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "security_guidance",
+    "description": "Guidance regarding the secure login process for customers, specifically utilizing Two-Factor Authentication (2FA) via One-Time Passwords (OTP).",
+    "context": [
+      "Secure login (2FA via OTP)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_002",
+    "name": "Account Dashboard Guidance",
+    "aliases": [
+      "dashboard"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Information regarding the account dashboard feature available to the customer for overview and management.",
+    "context": [
+      "Account dashboard"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_003",
+    "name": "Transaction History Guidance",
+    "aliases": [
+      "history"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on accessing and viewing the history of financial transactions associated with the account.",
+    "context": [
+      "Transaction history"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_004",
+    "name": "Standing Order Management Guidance",
+    "aliases": [
+      "standing orders"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on how customers can manage their standing order payments through the banking interface.",
+    "context": [
+      "Standing order management"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_005",
+    "name": "Direct Debit Authorization Guidance",
+    "aliases": [
+      "DD authorization"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance regarding the process of authorizing direct debits for automated payments.",
+    "context": [
+      "Direct debit authorization"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_006",
+    "name": "Money Transfer Guidance",
+    "aliases": [
+      "transfers"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on the functionality used to move funds between accounts or to external parties.",
+    "context": [
+      "Money transfer"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_007",
+    "name": "E-statements Guidance",
+    "aliases": [
+      "electronic statements"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on the availability and management of electronic bank statements.",
+    "context": [
+      "E-statements"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_014_cgi_008",
+    "name": "Profile Management Guidance",
+    "aliases": [
+      "profile settings"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "account_management",
+    "description": "Guidance on how customers can manage their personal profile and account settings.",
+    "context": [
+      "Profile management"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_014",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_016_inc_001",
+    "name": "Performance Degradation",
+    "aliases": [
+      "Performance"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "performance_degradation",
+    "description": "Operational performance monitoring focusing on response times and traffic patterns. The baseline for acceptable performance is a p95 response time of less than 2 seconds.",
+    "context": [
+      "Performance",
+      "Response time (p95): <2 seconds"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_016_tra_001",
+    "name": "Monthly Transaction Volume",
+    "aliases": [
+      "Monthly transactions"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "The volume of financial events processed by the system on a monthly basis, currently exceeding 500 transactions.",
+    "context": [
+      "Monthly transactions: 500+"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_017_cgi_001",
+    "name": "Security Specifications Guidance",
+    "aliases": [
+      "Security"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "security_guidance",
+    "description": "Technical security specifications governing the system, including encryption standards, session management, and request limits to ensure secure access.",
+    "context": [
+      "Security",
+      "TLS 1.3 encryption",
+      "Session timeout: 15 minutes idle",
+      "Rate limiting: 100 requests/minute per user",
+      "XSS/CSRF protection"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_017",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_inc_001",
+    "name": "Integration Failure",
+    "aliases": [
+      "Integrations"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "integration_failure",
+    "description": "Operational incidents relating to the failure of connectivity or data exchange between the bank's core systems and external or internal integration points including AMS, FDE, and PPS.",
+    "context": [
+      "Integrations",
+      "- → AMS (account queries, transaction initiation)",
+      "- → FDE (fraud scoring for transfers)",
+      "- → PPS (payment submission)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_001",
+    "name": "AMS (Account Management System)",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "account_management",
+    "description": "An integration point used for performing account queries and the initiation of transactions.",
+    "context": [
+      "- → AMS (account queries, transaction initiation)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_002",
+    "name": "FDE (Fraud Detection Engine)",
+    "aliases": [
+      "FDE"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "fraud_detection",
+    "description": "An integration point responsible for providing fraud scoring for transfers.",
+    "context": [
+      "- → FDE (fraud scoring for transfers)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_018_prod_003",
+    "name": "PPS (Payment Processing System)",
+    "aliases": [
+      "PPS"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "payment_submission",
+    "description": "An integration point used for the submission of payments.",
+    "context": [
+      "- → PPS (payment submission)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_018",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_prod_001",
+    "name": "Mobile Banking App (MBA)",
+    "aliases": [
+      "MBA-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "channel_guide",
+    "description": "The bank's production mobile application (System ID: MBA-001) built on React Native and Node.js, deployed via AWS and App Stores for iOS and Android. It is governed by an availability SLA of 99.5%.",
+    "context": [
+      "Mobile Banking App (MBA)",
+      "System ID: MBA-001",
+      "Availability SLA: 99.5%"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_not_001",
+    "name": "Head of Technology",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The designated owner of the Mobile Banking App (MBA) system.",
+    "context": [
+      "Owner: Head of Technology"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_not_002",
+    "name": "Mobile team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the Mobile Banking App (MBA).",
+    "context": [
+      "Support Team: Mobile team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_019_not_003",
+    "name": "Backend team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the Mobile Banking App (MBA).",
+    "context": [
+      "Support Team: Backend team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_019",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_001",
+    "name": "Biometric Login Guidance",
+    "aliases": [
+      "biometric login"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on using biometric authentication methods, specifically fingerprint and face recognition, to access the banking application.",
+    "context": [
+      "Biometric login (fingerprint, face)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_002",
+    "name": "Account Dashboard Guidance",
+    "aliases": [
+      "dashboard"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Information regarding the mobile-optimized account dashboard used for viewing account details.",
+    "context": [
+      "Account dashboard (mobile-optimized)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_003",
+    "name": "Push Notifications Guidance",
+    "aliases": [
+      "notifications"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on the use of push notifications for real-time account updates and alerts.",
+    "context": [
+      "Push notifications"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_004",
+    "name": "Card Management Guidance",
+    "aliases": [
+      "card lock",
+      "card unlock"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Instructions on how to manage payment cards, specifically the ability to lock and unlock cards for security purposes.",
+    "context": [
+      "Card management (lock/unlock)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_005",
+    "name": "Money Transfer Guidance",
+    "aliases": [
+      "transfers"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Guidance on the process of performing money transfers via the banking platform.",
+    "context": [
+      "Money transfer"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_021_cgi_006",
+    "name": "Virtual Card Numbers Guidance",
+    "aliases": [
+      "virtual cards"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "feature_guide",
+    "description": "Information on the creation and use of virtual card numbers for secure transactions.",
+    "context": [
+      "Virtual card numbers"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_021",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_024_cgi_001",
+    "name": "Platform Support Guidance",
+    "aliases": [
+      "Platform Support"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance regarding the supported operating system versions for the bank's mobile applications, specifying requirements for iOS and Android, and the frequency of updates.",
+    "context": [
+      "Platform Support",
+      "iOS: Version 13+",
+      "Android: Version 9+",
+      "Update frequency: Monthly"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_024",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_026_not_001",
+    "name": "Head of Financial Crime",
+    "aliases": [
+      "Owner"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The designated owner of the Fraud Detection Engine (FDE-001) responsible for the system's operational oversight.",
+    "context": [
+      "Owner: Head of Financial Crime"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_026_not_002",
+    "name": "Data science team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the maintenance and operation of the Fraud Detection Engine.",
+    "context": [
+      "Support Team: Data science team, DevOps"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_026_not_003",
+    "name": "DevOps",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "One of the primary support teams responsible for the maintenance and operation of the Fraud Detection Engine.",
+    "context": [
+      "Support Team: Data science team, DevOps"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_026",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_027_fra_001",
+    "name": "Real-time fraud detection and transaction risk scoring",
+    "aliases": [
+      "fraud detection",
+      "risk scoring"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "transaction_fraud",
+    "description": "A mechanism for the real-time detection of fraud and the scoring of transaction risk to identify suspicious activity.",
+    "context": [
+      "Real-time fraud detection and transaction risk scoring."
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_027",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_001",
+    "name": "Transaction Risk Scoring",
+    "aliases": [
+      "risk scoring"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "transaction_fraud",
+    "description": "A fraud detection mechanism that performs risk scoring on transactions with a latency requirement of less than 100ms.",
+    "context": [
+      "Transaction risk scoring (<100ms latency)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_002",
+    "name": "Rule-based Detection",
+    "aliases": [
+      "fraud rules"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "transaction_fraud",
+    "description": "A fraud detection system utilizing over 20 specific fraud rules to identify suspicious activity.",
+    "context": [
+      "Rule-based detection (20+ fraud rules)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_003",
+    "name": "Anomaly Detection ML Models",
+    "aliases": [
+      "ML models"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "transaction_fraud",
+    "description": "Fraud detection capability leveraging Machine Learning models to identify anomalous transaction patterns.",
+    "context": [
+      "Anomaly detection (ML models)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_004",
+    "name": "Velocity Checks",
+    "aliases": [],
+    "entity_class": "FRAUD_ALERT",
+    "type": "transaction_fraud",
+    "description": "A fraud detection mechanism that monitors the speed and frequency of transactions to identify potential fraud.",
+    "context": [
+      "Velocity checks"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_fra_005",
+    "name": "Geographic Anomaly Detection",
+    "aliases": [],
+    "entity_class": "FRAUD_ALERT",
+    "type": "transaction_fraud",
+    "description": "A fraud detection mechanism that identifies transactions occurring in unusual or impossible geographic locations.",
+    "context": [
+      "Geographic anomaly detection"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_028_res_001",
+    "name": "Auto-blocking for High-Risk Transactions",
+    "aliases": [
+      "auto-blocking"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "containment",
+    "description": "An automated response action that blocks transactions identified as high-risk by the detection systems.",
+    "context": [
+      "Auto-blocking for high-risk transactions"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_028",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_001",
+    "name": "Real-time transactions from AMS/PPS",
+    "aliases": [
+      "AMS/PPS transactions"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "Real-time financial transaction data sourced from the AMS/PPS systems used as a data input for operational monitoring.",
+    "context": [
+      "Real-time transactions from AMS/PPS"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_029_cus_001",
+    "name": "Customer profile data",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "account_holder",
+    "description": "Data pertaining to customer profiles used as a primary input for banking operational analysis.",
+    "context": [
+      "Customer profile data"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_029_tra_002",
+    "name": "Historical transaction data",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "Past transaction records used as a baseline or input for operational and threat analysis.",
+    "context": [
+      "Historical transaction data"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_029",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_001",
+    "name": "Transaction Risk Model",
+    "aliases": [
+      "TRM"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "transaction_fraud",
+    "description": "A fraud detection mechanism that predicts the probability of fraud on a scale of 0 to 100.",
+    "context": [
+      "Transaction Risk Model — Predicts fraud probability (0–100)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_002",
+    "name": "Anomaly Detection Model",
+    "aliases": [],
+    "entity_class": "FRAUD_ALERT",
+    "type": "fraud_incident",
+    "description": "A fraud detection mechanism used to identify unusual patterns within banking data.",
+    "context": [
+      "Anomaly Detection Model — Detects unusual patterns"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_003",
+    "name": "Chargeback Prediction Model",
+    "aliases": [
+      "Chargeback Prediction"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "disputed_transaction",
+    "description": "A predictive model used to determine the likelihood of a transaction resulting in a dispute or chargeback.",
+    "context": [
+      "Chargeback Prediction — Predicts dispute likelihood"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_031_fra_001",
+    "name": "Fraud Detection Performance Metrics",
+    "aliases": [
+      "Performance"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "fraud_incident",
+    "description": "Operational performance benchmarks for fraud detection, specifying a detection rate of over 97%, a false positive rate under 2%, and an average monthly fraud prevention value between £47k and £80k.",
+    "context": [
+      "Detection rate: 97%+",
+      "False positive rate: <2%",
+      "Average fraud prevented/month: £47k–£80k"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_031",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_inc_001",
+    "name": "Integration Failure",
+    "aliases": [
+      "Integrations"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "integration_failure",
+    "description": "Operational incidents involving the failure of data streams or connectivity between the bank's core systems and external/internal integration points such as AMS, IBP, and PPS.",
+    "context": [
+      "Integrations",
+      "← AMS (transaction stream)",
+      "← IBP (real-time transaction scoring)",
+      "← PPS (transfer risk assessment)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_not_001",
+    "name": "Account Monitoring System (AMS)",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "An internal system or team providing a transaction stream integration to the fraud detection framework.",
+    "context": [
+      "← AMS (transaction stream)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_not_002",
+    "name": "Instant Banking Platform (IBP)",
+    "aliases": [
+      "IBP"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "An internal system or team providing real-time transaction scoring integration.",
+    "context": [
+      "← IBP (real-time transaction scoring)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_not_003",
+    "name": "Payment Processing Service (PPS)",
+    "aliases": [
+      "PPS"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "An internal system or team providing transfer risk assessment integration.",
+    "context": [
+      "← PPS (transfer risk assessment)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_032_fra_001",
+    "name": "Fraud Alert Database",
+    "aliases": [
+      "Database"
+    ],
+    "entity_class": "FRAUD_ALERT",
+    "type": "fraud_incident",
+    "description": "The authoritative database where fraud alerts are stored following scoring and risk assessment from integrated systems.",
+    "context": [
+      "→ Database (fraud alerts stored)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_032",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_033_prod_001",
+    "name": "Payment Processing System (PPS)",
+    "aliases": [
+      "PPS-001"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "payment_system",
+    "description": "A production system (ID: PPS-001) built on Java, RabbitMQ, and Spring Boot, deployed via AWS Kubernetes. It is governed by an availability SLA of 99.95% and owned by the Head of Technology.",
+    "context": [
+      "Payment Processing System (PPS)",
+      "System ID: PPS-001",
+      "Status: Active (Production)",
+      "Availability SLA: 99.95%"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_033_not_001",
+    "name": "Head of Technology",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The designated owner of the Payment Processing System (PPS).",
+    "context": [
+      "Owner: Head of Technology"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_033_not_002",
+    "name": "Payments team",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "The support team responsible for the operational maintenance of the Payment Processing System (PPS).",
+    "context": [
+      "Support Team: Payments team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_033",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_001",
+    "name": "Faster Payments (FPS) Guidance",
+    "aliases": [
+      "FPS"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance on the Faster Payments (FPS) scheme, which supports real-time transfers with a maximum limit of £1M.",
+    "context": [
+      "Faster Payments (FPS) — Real-time, up to £1M"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_002",
+    "name": "BACS Payment Guidance",
+    "aliases": [
+      "BACS"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance on the BACS payment scheme, characterized by overnight processing and suitability for high volume transactions.",
+    "context": [
+      "BACS — Overnight, high volume"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_003",
+    "name": "CHAPS Payment Guidance",
+    "aliases": [
+      "CHAPS"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance on the CHAPS payment scheme, used for high-value, real-time financial transfers.",
+    "context": [
+      "CHAPS — High-value, real-time"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_035_cgi_004",
+    "name": "Internal Transfers Guidance",
+    "aliases": [
+      "same-bank transfers"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance regarding internal transfers conducted between accounts within the same bank.",
+    "context": [
+      "Internal transfers (same-bank)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_035",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_001",
+    "name": "Faster Payments Service (FPS) Settlement Guidance",
+    "aliases": [
+      "FPS"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance regarding the settlement timing for transactions processed via the Faster Payments Service, specifying that settlement occurs immediately.",
+    "context": [
+      "FPS: Immediate settlement"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_002",
+    "name": "BACS Settlement Guidance",
+    "aliases": [
+      "BACS"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance regarding the BACS processing cycle, where submissions made by 20:00 are settled on the following day.",
+    "context": [
+      "BACS: Submitted 20:00, settled next day"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_036_cgi_003",
+    "name": "CHAPS Settlement Guidance",
+    "aliases": [
+      "CHAPS"
+    ],
+    "entity_class": "CUSTOMER_GUIDE_ITEM",
+    "type": "channel_guide",
+    "description": "Guidance regarding the CHAPS payment system, specifying that settlement occurs in real-time provided it is within business hours.",
+    "context": [
+      "CHAPS: Real-time (during business hours)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_036",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_037_inc_001",
+    "name": "Performance Degradation",
+    "aliases": [
+      "Performance"
+    ],
+    "entity_class": "INCIDENT_TYPE",
+    "type": "performance_degradation",
+    "description": "Operational performance monitoring for transaction processing. Defined by specific metrics including daily transaction volume (100–200), a success rate of 99.95%, and a processing latency for FPS of less than 15 minutes.",
+    "context": [
+      "Performance",
+      "Transactions/day: 100–200",
+      "Success rate: 99.95%",
+      "Processing latency (FPS): <15 minutes"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_037_tra_001",
+    "name": "FPS Transaction",
+    "aliases": [
+      "FPS"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "Financial transactions processed via the Faster Payments Service (FPS), subject to a processing latency requirement of less than 15 minutes.",
+    "context": [
+      "Processing latency (FPS): <15 minutes"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_037",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_not_001",
+    "name": "Bank of England",
+    "aliases": [
+      "BoE"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "regulator",
+    "description": "External party responsible for settlement processes within the bank's integration framework.",
+    "context": [
+      "→ Bank of England (settlement)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_not_002",
+    "name": "External banks",
+    "aliases": [],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "external_partner",
+    "description": "External financial institutions involved in the delivery of payments.",
+    "context": [
+      "→ External banks (payment delivery)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_res_001",
+    "name": "AMS Payment Instruction",
+    "aliases": [
+      "AMS"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "Integration point for receiving payment instructions via the AMS system.",
+    "context": [
+      "← AMS (payment instruction)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_038_res_002",
+    "name": "FDE Fraud Assessment",
+    "aliases": [
+      "FDE"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "investigation",
+    "description": "Integration point for receiving fraud assessments via the FDE system.",
+    "context": [
+      "← FDE (fraud assessment)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_038",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_039_not_001",
+    "name": "Head of Technology",
+    "aliases": [
+      "Owner"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "executive",
+    "description": "The designated owner of the Data Warehouse (DW-001) system, responsible for overall governance and accountability.",
+    "context": [
+      "Owner: Head of Technology"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_039_not_002",
+    "name": "Data engineering team",
+    "aliases": [
+      "Support Team"
+    ],
+    "entity_class": "NOTIFICATION_CONTACT",
+    "type": "internal_team",
+    "description": "The technical support team responsible for the maintenance and operational stability of the Data Warehouse (DW-001).",
+    "context": [
+      "Support Team: Data engineering team"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_039",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_acc_001",
+    "name": "Account Mart",
+    "aliases": [
+      "Account Mart"
+    ],
+    "entity_class": "ACCOUNT",
+    "type": "affected_account",
+    "description": "A data mart containing information for 800 accounts, specifically tracking balances and product mix.",
+    "context": [
+      "Account Mart: 800 accounts, balances, product mix"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_cus_001",
+    "name": "Customer Mart",
+    "aliases": [
+      "Customer Mart"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "account_holder",
+    "description": "A data mart containing demographic information for 500 customers.",
+    "context": [
+      "Customer Mart: 500 customers, demographics"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_tra_001",
+    "name": "Transaction Mart",
+    "aliases": [
+      "Transaction Mart"
+    ],
+    "entity_class": "TRANSACTION",
+    "type": "affected_transaction",
+    "description": "A data mart recording over 2,000 monthly transactions.",
+    "context": [
+      "Transaction Mart: 2,000+ monthly transactions"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_041_pro_001",
+    "name": "Product Mart",
+    "aliases": [
+      "Product Mart"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "card_product",
+    "description": "A data mart covering 5 products and their associated performance KPIs.",
+    "context": [
+      "Product Mart: 5 products, performance KPIs"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_041",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_001",
+    "name": "Executive Dashboard (KPIs)",
+    "aliases": [
+      "Executive Dashboard"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "A high-level monitoring tool used for tracking Key Performance Indicators (KPIs) to oversee operational health and performance.",
+    "context": [
+      "Executive Dashboard (KPIs)"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_002",
+    "name": "Product Performance Dashboard",
+    "aliases": [
+      "Product Performance"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "A dashboard dedicated to monitoring the performance metrics of banking products.",
+    "context": [
+      "Product Performance"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_003",
+    "name": "Fraud Detection Dashboard",
+    "aliases": [
+      "Fraud Detection"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "A specialized monitoring interface used for the identification and detection of fraudulent activity.",
+    "context": [
+      "Fraud Detection"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_004",
+    "name": "Compliance & Risk Dashboard",
+    "aliases": [
+      "Compliance & Risk"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "A dashboard used to monitor regulatory compliance and operational risk levels.",
+    "context": [
+      "Compliance & Risk"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  },
+  {
+    "id": "215a8b3734c04ce2ba85c17a957aef46_042_res_005",
+    "name": "Customer Analytics Dashboard",
+    "aliases": [
+      "Customer Analytics"
+    ],
+    "entity_class": "RESPONSE_ACTION",
+    "type": "detection",
+    "description": "A dashboard providing analytical insights into customer behavior and demographics.",
+    "context": [
+      "Customer Analytics"
+    ],
+    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_042",
+    "doc_id": "215a8b3734c04ce2ba85c17a957aef46",
+    "domain": "banking_reference"
+  }
+]

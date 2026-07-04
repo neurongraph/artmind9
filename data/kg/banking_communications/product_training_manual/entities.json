@@ -1,0 +1,1809 @@
+[
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_002_mod_001",
+    "name": "Product Portfolio Training",
+    "aliases": [],
+    "entity_class": "TRAINING_MODULE",
+    "type": "product_module",
+    "description": "A training unit designed to educate staff on FirstUK Bank's range of products, including their specific features and benefits. The module focuses on ensuring staff can communicate product details to customers accurately and professionally.",
+    "context": [
+      "Train staff on FirstUK Bank's product portfolio, features, benefits, and how to explain them to customers accurately and professionally."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_002_obj_001",
+    "name": "Accurate and Professional Product Communication",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "product_knowledge",
+    "description": "The ability for staff to explain the features and benefits of FirstUK Bank's product portfolio to customers in a professional and accurate manner.",
+    "context": [
+      "how to explain them to customers accurately and professionally"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_002",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A fully accessible savings account offering variable interest rates tied to the Bank of England base rate, designed for individuals and joint account holders seeking competitive rates and liquidity.",
+    "context": [
+      "A fully accessible savings account with variable interest rates tied to the Bank of England base rate.",
+      "Earn competitive interest (4.50%–4.80% AER) while maintaining full access to your money."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_cust_001",
+    "name": "Individual Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "A single person seeking a savings product for personal use.",
+    "context": [
+      "Customers who want to save money",
+      "Both individuals and joint account holders"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_cust_002",
+    "name": "Joint Account Holder",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "joint_account_holder",
+    "description": "Customers who hold a savings account jointly with another person.",
+    "context": [
+      "Both individuals and joint account holders"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_003_acc_001",
+    "name": "SmartSaver Savings Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The specific account instance of the SmartSaver product used by customers to earn interest while maintaining access to funds.",
+    "context": [
+      "A fully accessible savings account with variable interest rates tied to the Bank of England base rate."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_003",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_004_prd_001",
+    "name": "SmartSaver",
+    "aliases": [
+      "SmartSaver account"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings account product that earns monthly interest with no penalties for withdrawals, no monthly fees, and no minimum balance requirements. The interest rate is linked to the Bank of England base rate and adjusts automatically.",
+    "context": [
+      "SmartSaver is a savings account where your money earns interest every month.",
+      "You deposit money in your SmartSaver account.",
+      "Your rate moves with the Bank of England base rate, so it adjusts automatically each month."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_004_acc_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The specific customer account associated with the SmartSaver product, characterized by monthly interest calculations and a lack of withdrawal restrictions.",
+    "context": [
+      "SmartSaver is a savings account where your money earns interest every month.",
+      "You deposit money in your SmartSaver account.",
+      "Every month, we calculate interest based on your balance and the current rate, then add it directly to your account."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_004_cust_001",
+    "name": "SmartSaver Customer",
+    "aliases": [
+      "Customers"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The recipient of the product explanations, to whom the features and benefits of the SmartSaver account are described.",
+    "context": [
+      "How to Describe It to Customers",
+      "You deposit money in your SmartSaver account."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_004",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_005_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A savings product featuring a variable interest rate tied to the Bank of England, tiered AER between 4.50% and 4.80%, and monthly interest payments. It allows for joint account ownership and has no monthly fees or minimum opening balance.",
+    "context": [
+      "Variable Rate Moves with BoE",
+      "4.50%–4.80% AER Tiered by balance",
+      "Monthly Interest Paid every month",
+      "No Fees £0/month"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_005_acc_001",
+    "name": "Joint Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "joint_account",
+    "description": "An account configuration allowing two people per account, specifically marketed as beneficial for couples or family members.",
+    "context": [
+      "Joint Accounts Two people per account",
+      "Great for couples or family"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_005",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_006_prd_001",
+    "name": "FirstUK Interest Rate Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A banking product where the interest rate is dynamically calculated based on the Bank of England Base Rate plus a fixed FirstUK margin of 2.5%.",
+    "context": [
+      "BoE Base Rate + 2.5% (FirstUK margin) = Your Rate",
+      "Your 2.5% margin never changes."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_006",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_007_prd_001",
+    "name": "Tiered Interest Savings Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A savings product featuring a tiered interest rate structure where the AER rate increases based on the balance range of the account.",
+    "context": [
+      "Tier Structure",
+      "Balance Range | AER Rate",
+      "£0–£10,000 | 4.50%",
+      "£10,001–£50,000 | 4.70%",
+      "£50,001+ | 4.80%"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_007_acc_001",
+    "name": "Tiered Savings Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The customer account associated with the tiered interest structure, where balance movements trigger rate changes.",
+    "context": [
+      "once your balance moves into the higher tier",
+      "your new rate applies the next month"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_007_cus_001",
+    "name": "Savings Product Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer inquiring about the impact of additional deposits on their interest rate tiers.",
+    "context": [
+      "Customer Question: \"What if I deposit more — does my rate go up immediately?\""
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_007",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_prd_001",
+    "name": "Interest Bearing Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A banking product that accrues interest based on a daily rate calculated from the AER and the account balance, with payments made monthly.",
+    "context": [
+      "Balance: £10,000",
+      "Rate: 4.50% AER",
+      "Interest: £10,000 × 0.01233% × 30 = £36.99"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_acc_001",
+    "name": "Interest Bearing Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The customer account where interest is calculated daily and paid on the last business day of the month.",
+    "context": [
+      "Calculated daily based on balance",
+      "Added directly to account"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_obl_001",
+    "name": "Monthly Interest Payment Processing",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "The requirement to ensure interest is calculated daily and paid into the account on the final business day of each month.",
+    "context": [
+      "Paid on the last business day of month",
+      "Added directly to account"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_008_cus_001",
+    "name": "Account Holder",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer who receives interest payments automatically without needing to take any action.",
+    "context": [
+      "Doesn't require action from customer"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_008",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_009_prd_001",
+    "name": "FirstUK Savings Product",
+    "aliases": [
+      "FirstUK"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A high-yield savings product offering tiered rates between 4.50% and 4.80% with no minimum balance requirement.",
+    "context": [
+      "FirstUK: 4.50%–4.80% (highest)",
+      "Wider tiered rates (up to 4.80%), no minimum balance"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_009",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_prd_001",
+    "name": "SmartSaver Account",
+    "aliases": [
+      "SmartSaver"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A variable-rate savings account that allows daily interest accrual and full accessibility via online banking, ATM, or branch visits. It is limited to one account per customer.",
+    "context": [
+      "No, SmartSaver is always variable.",
+      "Can I have multiple SmartSaver accounts?",
+      "No, one account per customer."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_prd_002",
+    "name": "Fixed Rate Bonds",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A fixed-rate savings product scheduled for release in 2026 for customers who prefer a locked-in interest rate over a variable one.",
+    "context": [
+      "If you want a fixed rate, ask about our Fixed Rate Bonds (coming 2026)."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_prd_003",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A standard banking account that customers can hold in addition to a SmartSaver account.",
+    "context": [
+      "But you can have a SmartSaver AND a Current Account if you want."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_acc_001",
+    "name": "SmartSaver Account Balance",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The customer's savings balance within the SmartSaver product, which earns interest on a daily basis.",
+    "context": [
+      "you earn interest on your balance every day.",
+      "If you withdraw on day 15, you earn interest for the first 15 days that month."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_010_cus_001",
+    "name": "SmartSaver Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "An individual holding a SmartSaver account, subject to the limit of one such account per person.",
+    "context": [
+      "No, one account per customer."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_010",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_prd_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A banking product that customers can choose during the account opening process.",
+    "context": [
+      "Chooses product (SmartSaver)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_kyc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The process of collecting and verifying a customer's identity and address proof during account opening.",
+    "context": [
+      "Provides ID and address proof (KYC)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_aml_001",
+    "name": "AML Screening Process",
+    "aliases": [
+      "AML screening"
+    ],
+    "entity_class": "AML_SCREENING",
+    "type": "screening_process",
+    "description": "A mandatory screening step performed during the account opening sequence to ensure compliance with anti-money laundering regulations.",
+    "context": [
+      "AML screening"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_acc_001",
+    "name": "New Account Creation",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The creation of a customer account following the completion of KYC, AML screening, and risk assessment.",
+    "context": [
+      "Account created"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_cus_001",
+    "name": "Account Applicant",
+    "aliases": [
+      "Customer"
+    ],
+    "entity_class": "CUSTOMER",
+    "type": "new_customer",
+    "description": "An individual seeking to open a bank account via the website, branch, or telephone.",
+    "context": [
+      "Customer visits website, branch, or calls",
+      "Customer activates online login"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_011_trn_001",
+    "name": "Initial Account Deposit",
+    "aliases": [],
+    "entity_class": "TRANSACTION",
+    "type": "transaction_alert",
+    "description": "The first financial deposit made by a customer after activating their online login.",
+    "context": [
+      "First deposit made"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_011",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_012_prd_001",
+    "name": "Current Account",
+    "aliases": [
+      "checking account"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A primary banking product designed for everyday spending. It supports standing orders, Direct Debits, and optional overdraft facilities with no monthly fees.",
+    "context": [
+      "A checking account for everyday spending with standing orders, Direct Debits, and optional overdraft.",
+      "All-in-one account for daily banking with no monthly fees."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_012_cust_001",
+    "name": "Primary Bank Account Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "Customers seeking a primary account for daily banking, bill payments, or a combination of savings and checking functionality.",
+    "context": [
+      "Customers who need a primary bank account",
+      "People who pay bills regularly",
+      "Anyone who wants to combine savings + checking"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_012_acc_001",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "current_account",
+    "description": "The specific account instance used for everyday spending, bill payments, and managing overdrafts.",
+    "context": [
+      "A checking account for everyday spending",
+      "All-in-one account for daily banking"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_012",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_001",
+    "name": "Debit Card",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "debit_card",
+    "description": "A payment product allowing customers to spend funds via the physical card or contactless methods.",
+    "context": [
+      "Debit Card | Spend via card or contactless"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_002",
+    "name": "Standing Orders",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "payment_service",
+    "description": "A feature allowing customers to set up recurring payments from their account.",
+    "context": [
+      "Standing Orders | Set up recurring payments"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_003",
+    "name": "Direct Debits",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "payment_service",
+    "description": "A feature that allows customers to authorize billers to automatically deduct funds.",
+    "context": [
+      "Direct Debits | Authorize billers to auto-deduct"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_004",
+    "name": "Transfers",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "payment_service",
+    "description": "A service enabling the sending of money to any bank within the UK.",
+    "context": [
+      "Transfers | Send money to any UK bank"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_005",
+    "name": "Overdraft",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "credit_facility",
+    "description": "An optional credit facility providing customers with a limit of up to £5,000.",
+    "context": [
+      "Overdraft | Optional, up to £5,000"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_013_prd_006",
+    "name": "Online Banking",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "digital_banking",
+    "description": "A digital service providing customers with 24/7 access to their banking.",
+    "context": [
+      "Online Banking | 24/7 access"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_013",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_014_prd_001",
+    "name": "Savings Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A banking product with a specified savings rate of 0% AER, meaning no interest is earned on the balance.",
+    "context": [
+      "Savings Rate: 0% AER (no interest on balance)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_014_prd_002",
+    "name": "Overdraft Facility",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A credit facility associated with an account carrying an interest rate of 15% AER when utilized.",
+    "context": [
+      "Overdraft Rate: 15% AER (if used)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_014",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_016_prd_001",
+    "name": "Residential Property Mortgage",
+    "aliases": [
+      "Mortgages"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "Loans provided for the purchase of residential property with terms ranging from 2 to 25 years and a maximum loan amount of £500,000.",
+    "context": [
+      "Loans for residential property purchase.",
+      "Loan Terms: 2–25 years",
+      "Maximum Loan: £500,000"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_016",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_017_prd_001",
+    "name": "Fixed Rate Mortgage",
+    "aliases": [
+      "Fixed Rates"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A mortgage product offering fixed interest rates for specific terms, with pricing dependent on the Loan-to-Value (LTV) ratio.",
+    "context": [
+      "Fixed Rates",
+      "Rates vary by Loan-to-Value ratio"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_017",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_018_prod_001",
+    "name": "Variable Rate Mortgage Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A mortgage product featuring a variable interest rate calculated based on the Bank of England Base rate plus a margin.",
+    "context": [
+      "Variable Rate",
+      "BoE Base + Margin: 1.50%–2.25% depending on LTV"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_018",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_019_prd_001",
+    "name": "Customer Value Proposition",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "product_knowledge",
+    "description": "The set of core benefits and service standards offered to customers, focusing on competitive pricing, transparency, and local support.",
+    "context": [
+      "Competitive fixed rates",
+      "Clear rate structure by LTV",
+      "Professional underwriting",
+      "Transparent process",
+      "Local branch support"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_019",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_020_prd_001",
+    "name": "Debit Card",
+    "aliases": [
+      "Debit Card Product"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "debit_card",
+    "description": "A banking product used for spending via contactless, chip, or online methods, featuring worldwide ATM withdrawals and fraud protection.",
+    "context": [
+      "Card for spending via contactless, chip, or online.",
+      "Features: Contactless payments (up to £100), Chip & PIN (up to £30,000), Online & app payments, Worldwide ATM withdrawals, Fraud protection"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_020_crd_001",
+    "name": "Debit Card",
+    "aliases": [],
+    "entity_class": "CARD",
+    "type": "debit_card",
+    "description": "The physical or virtual payment instrument used by customers for various transaction types including contactless and Chip & PIN.",
+    "context": [
+      "Card for spending via contactless, chip, or online.",
+      "Contactless payments (up to £100)",
+      "Chip & PIN (up to £30,000)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_020",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_021_prd_001",
+    "name": "Debit Card",
+    "aliases": [
+      "Card"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "debit_card",
+    "description": "A banking product offered by FirstUK Bank with associated fees for issuance, replacement, and expedited delivery.",
+    "context": [
+      "Card (new)",
+      "Card (replacement)",
+      "Card (overnight)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_021",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_mod_001",
+    "name": "Part 5 — How to Sell Products",
+    "aliases": [
+      "Part 5"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "product_module",
+    "description": "A training section focused on the sales process for banking products, specifically detailing the discovery phase of customer interaction.",
+    "context": [
+      "PART 5: How to Sell Products",
+      "Before recommending a product, ask:"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_obj_001",
+    "name": "Conducting Product Discovery Interviews",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "The ability to identify a customer's banking needs through a series of targeted discovery questions before recommending a specific product.",
+    "context": [
+      "Before recommending a product, ask:",
+      "What's your main banking need?",
+      "Do you want to save or spend?"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_obl_001",
+    "name": "Mandatory Product Discovery Questioning",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "Staff are required to ask a specific set of discovery questions to understand customer needs prior to making any product recommendations.",
+    "context": [
+      "Before recommending a product, ask:"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_prd_001",
+    "name": "Savings Product",
+    "aliases": [
+      "Savings"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A banking product category identified during the discovery process for customers looking to save or earn interest.",
+    "context": [
+      "What's your main banking need? (Savings? Checking? Borrowing?)",
+      "Do you want to save or spend?",
+      "Are you interested in earning interest?"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_prd_002",
+    "name": "Checking Product",
+    "aliases": [
+      "Checking"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A banking product category identified during the discovery process for customers focusing on spending and frequent access to funds.",
+    "context": [
+      "What's your main banking need? (Savings? Checking? Borrowing?)",
+      "Do you want to save or spend?"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_prd_003",
+    "name": "Borrowing Product",
+    "aliases": [
+      "Borrowing"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "loan_product",
+    "description": "A banking product category identified during the discovery process for customers with borrowing needs.",
+    "context": [
+      "What's your main banking need? (Savings? Checking? Borrowing?)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_022_cust_001",
+    "name": "Product Prospect",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "The customer being interviewed by staff to determine their banking needs and product suitability.",
+    "context": [
+      "Before recommending a product, ask:",
+      "What's your main banking need?"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_022",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_prd_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product offering 4.50%–4.80% AER with no fees and full access, recommended for customers wanting to save money.",
+    "context": [
+      "Recommend SmartSaver",
+      "SmartSaver earns you 4.50%–4.80% AER with no fees and full access."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_prd_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A primary banking account recommended for customers needing a main account for everyday spending and bills.",
+    "context": [
+      "Recommend Current Account",
+      "Use your Current Account for everyday spending and bills"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_prd_003",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A home loan product with competitive fixed rates and a straightforward process, recommended for customers wanting to buy a home.",
+    "context": [
+      "Recommend Mortgage",
+      "Our fixed rates are competitive, and our process is straightforward."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_023_cust_001",
+    "name": "Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The bank customer interacting with staff to express financial needs and receive product recommendations.",
+    "context": [
+      "If Customer Says \"I want to save money\"",
+      "If Customer Says \"I need a main bank account\"",
+      "If Customer Says \"I want to buy a home\""
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_023",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_024_tpl_001",
+    "name": "Handling Objections Call Script",
+    "aliases": [
+      "Handling Objections"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script designed to provide staff with standardized responses to common customer objections regarding interest rates, bank loyalty, and account closure.",
+    "context": [
+      "Objection: \"Your rates sound high, are they really?\"",
+      "Objection: \"What if rates drop?\"",
+      "Objection: \"I'm happy with my current bank.\"",
+      "Objection: \"What if I need to close my account?\""
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_024_prd_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A high-interest savings product promoted to customers as a secondary account to earn better interest while maintaining their primary banking relationship elsewhere.",
+    "context": [
+      "consider opening a SmartSaver with us",
+      "you can keep your main account elsewhere and earn better interest here"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_024_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "savings_account",
+    "description": "The customer's account at FirstUK Bank, which can be closed at any time without penalty with a balance transfer to another institution.",
+    "context": [
+      "What if I need to close my account?",
+      "We'll transfer your balance to your new bank."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_024",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_001",
+    "name": "Clear Product Explanation Obligation",
+    "aliases": [
+      "Explain products clearly"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A regulatory requirement under COBS ensuring that staff provide clear and transparent explanations of banking products to customers. This is operationalised by always explaining what each product is.",
+    "context": [
+      "Explain products clearly",
+      "Always explain what each product is"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_002",
+    "name": "Suitability Recommendation Obligation",
+    "aliases": [
+      "Don't recommend unsuitable products"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "prohibition",
+    "description": "A COBS compliance rule prohibiting the recommendation of products that do not align with the customer's specific needs. Staff must inquire about customer needs prior to making any recommendation.",
+    "context": [
+      "Don't recommend unsuitable products",
+      "Ask about customer needs before recommending"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_003",
+    "name": "Fee Disclosure Obligation",
+    "aliases": [
+      "Disclose all fees"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "documentation_requirement",
+    "description": "A mandatory requirement to ensure all applicable fees and interest rates are presented clearly to the customer. This ensures transparency in the cost of the banking product.",
+    "context": [
+      "Disclose all fees",
+      "Show interest rates and fees clearly"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_obl_004",
+    "name": "Informed Consent Obligation",
+    "aliases": [
+      "Obtain informed consent"
+    ],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "consent_requirement",
+    "description": "A regulatory duty to secure explicit agreement from the customer before proceeding with the opening of an account. This ensures the customer is fully aware of the terms and conditions.",
+    "context": [
+      "Obtain informed consent",
+      "Get customer agreement before opening account"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_cust_001",
+    "name": "Bank Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "individual_customer",
+    "description": "The recipient of product explanations and recommendations who must provide informed consent and have their needs assessed.",
+    "context": [
+      "Ask about customer needs before recommending",
+      "Get customer agreement before opening account"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_prod_001",
+    "name": "Banking Products",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "General banking products subject to COBS regulatory rules regarding clear explanation, suitability, and fee disclosure.",
+    "context": [
+      "Explain products clearly",
+      "Don't recommend unsuitable products",
+      "Always explain what each product is"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_025_acc_001",
+    "name": "Customer Account",
+    "aliases": [],
+    "entity_class": "ACCOUNT",
+    "type": "new_account",
+    "description": "The account being opened for a customer, which requires prior agreement and informed consent.",
+    "context": [
+      "Get customer agreement before opening account"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_025",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_mod_001",
+    "name": "GDPR & Data Protection Training",
+    "aliases": [
+      "GDPR & Data Protection"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "gdpr_module",
+    "description": "A training unit focused on the principles and practical application of GDPR and data protection standards within the bank. It covers data collection limits, purpose limitation, security measures, and customer data rights.",
+    "context": [
+      "GDPR & Data Protection",
+      "Key Principles",
+      "In Practice"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_001",
+    "name": "Understanding Data Minimisation Principles",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "regulatory_knowledge",
+    "description": "Staff must understand the principle of only collecting data that is necessary for the intended purpose.",
+    "context": [
+      "Only collect necessary data",
+      "Don't ask for unnecessary information"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_002",
+    "name": "Understanding Purpose Limitation",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "regulatory_knowledge",
+    "description": "Staff must ensure that data is used only for the purposes for which it was originally collected and stated to the customer.",
+    "context": [
+      "Use data only for stated purposes",
+      "Explain how you'll use their data"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_003",
+    "name": "Data Security and Encryption Knowledge",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "Staff must know how to protect sensitive data using encryption and secure document handling practices.",
+    "context": [
+      "Protect data with encryption",
+      "Secure all documents"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obj_004",
+    "name": "Managing Customer Data Rights",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "Staff must be able to identify and honor customer rights regarding data access, deletion, and portability.",
+    "context": [
+      "Honor customer data rights (access, deletion, portability)",
+      "Respond to data requests within 30 days"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_001",
+    "name": "Data Minimisation Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "data_handling_rule",
+    "description": "A mandatory requirement for staff to avoid requesting or collecting any information that is not strictly necessary.",
+    "context": [
+      "Only collect necessary data",
+      "Don't ask for unnecessary information"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_002",
+    "name": "Purpose Disclosure Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "consent_requirement",
+    "description": "Staff are obligated to explain to customers exactly how their personal data will be utilized.",
+    "context": [
+      "Use data only for stated purposes",
+      "Explain how you'll use their data"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_003",
+    "name": "Data Security Obligation",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "data_handling_rule",
+    "description": "A requirement to ensure all documents are secured and data is protected via encryption.",
+    "context": [
+      "Protect data with encryption",
+      "Secure all documents"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_026_obl_004",
+    "name": "Data Request Response Deadline",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "mandatory_action",
+    "description": "A strict compliance deadline requiring the bank to respond to customer data rights requests within a 30-day window.",
+    "context": [
+      "Honor customer data rights (access, deletion, portability)",
+      "Respond to data requests within 30 days"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_026",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_mod_001",
+    "name": "Know Your Customer (KYC)",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "kyc_module",
+    "description": "A training section focused on the requirements and importance of the Know Your Customer process. It outlines the specific documentation needed for verification and the regulatory drivers behind these requirements.",
+    "context": [
+      "Know Your Customer (KYC)",
+      "What We Need:",
+      "Why It Matters:"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_001",
+    "name": "Photo ID Collection Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "document_collection",
+    "description": "The mandatory requirement to collect a valid photo identification document, specifically a UK Passport or Driving License, as part of the KYC process.",
+    "context": [
+      "Photo ID (UK Passport or Driving License)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_002",
+    "name": "Proof of Address Collection Requirement",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "address_verification",
+    "description": "The mandatory requirement to obtain proof of address using accepted documents such as utility bills, council tax statements, or bank statements.",
+    "context": [
+      "Proof of address (utility bill, council tax, or bank statement)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_003",
+    "name": "Source of Funds Verification",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "edd_process",
+    "description": "The requirement to identify and verify the source of funds when deemed relevant to the customer's profile or transaction activity.",
+    "context": [
+      "Source of funds (if relevant)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obl_004",
+    "name": "Beneficial Ownership Identification",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "identity_check",
+    "description": "The requirement to identify the beneficial owners when an account is being opened for a company.",
+    "context": [
+      "Beneficial ownership (if account for company)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_obj_001",
+    "name": "Understanding KYC Regulatory Drivers",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "regulatory_knowledge",
+    "description": "Staff must understand that KYC is a regulatory requirement used to prevent fraud, protect customer accounts, and ensure compliance with AML regulations.",
+    "context": [
+      "Regulatory requirement",
+      "Prevents fraud",
+      "Protects customer's account",
+      "Complies with AML regulations"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_kyc_001",
+    "name": "KYC Verification Process",
+    "aliases": [
+      "KYC"
+    ],
+    "entity_class": "KYC_VERIFICATION",
+    "type": "identity_check",
+    "description": "The overall process of verifying customer identity and address to meet regulatory and security standards.",
+    "context": [
+      "Know Your Customer (KYC)",
+      "Photo ID (UK Passport or Driving License)",
+      "Proof of address (utility bill, council tax, or bank statement)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_027_aml_001",
+    "name": "AML Regulatory Compliance",
+    "aliases": [
+      "AML"
+    ],
+    "entity_class": "AML_SCREENING",
+    "type": "screening_process",
+    "description": "The overarching requirement to comply with Anti-Money Laundering (AML) regulations through the KYC process.",
+    "context": [
+      "Complies with AML regulations"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_027",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_028_cust_001",
+    "name": "New Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "new_customer",
+    "description": "A prospective customer seeking advice on where to deposit a significant sum of money (£20,000).",
+    "context": [
+      "Scenario 1: New Customer — Saving Money",
+      "Customer: \"I've got £20,000 to put away. Where should it go?\""
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_028_prod_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product offering a premium rate of 4.70% AER for higher tier deposits, featuring no fees and no minimums with flexible withdrawals.",
+    "context": [
+      "you'd earn our premium rate of 4.70% AER on SmartSaver",
+      "No fees, no minimums. Would you like to open one?"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_028_tpl_001",
+    "name": "New Customer — Saving Money Response Script",
+    "aliases": [
+      "Scenario 1"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A staff response script for guiding new customers with high deposits toward the SmartSaver product, including interest calculations and product benefits.",
+    "context": [
+      "Your Response: \"Great! You're in our higher tier. With £20,000, you'd earn our premium rate of 4.70% AER on SmartSaver.\"",
+      "\"That's about £102/month in interest (£20,000 × 4.70% ÷ 365 × 30).\"",
+      "\"You can withdraw anytime if you need the money. No fees, no minimums. Would you like to open one?\""
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_028",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_029_prd_001",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A banking product used by customers for daily spending and bill payments, which currently earns 0% interest.",
+    "context": [
+      "I have a Current Account here.",
+      "Use your Current Account for daily spending and bills",
+      "Your Current Account earns 0%"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_029_prd_002",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "A savings product designed to maximize interest earnings, offering a rate between 4.50% and 4.80% AER while maintaining liquidity.",
+    "context": [
+      "open a SmartSaver for your savings",
+      "SmartSaver earns 4.50%–4.80% AER",
+      "It's a great way to maximize your interest without losing access to your money"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_029_cust_001",
+    "name": "Existing Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer who already holds a relationship with the bank (specifically a Current Account) and is inquiring about additional products.",
+    "context": [
+      "Scenario 2: Existing Customer — Adding Product",
+      "I have a Current Account here."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_029",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_tpl_001",
+    "name": "Scenario 3: Rate Question Response",
+    "aliases": [
+      "Scenario 3"
+    ],
+    "entity_class": "COMMUNICATION_TEMPLATE",
+    "type": "call_script",
+    "description": "A call centre script designed to explain the variable nature of the interest rate and the guaranteed margin relative to the Bank of England base rate.",
+    "context": [
+      "Scenario 3: Rate Question",
+      "It's guaranteed not to drop below Bank of England + 2.5%.",
+      "If BoE rises, so does your rate. If BoE falls, so does yours — but our 2.5% margin never changes."
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_var_001",
+    "name": "Current Bank of England Base Rate",
+    "aliases": [
+      "BoE"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "rate_field",
+    "description": "The current base rate set by the Bank of England used to calculate the customer's actual AER.",
+    "context": [
+      "Right now BoE is 4.0%"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_var_002",
+    "name": "Guaranteed Margin",
+    "aliases": [
+      "margin"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "rate_field",
+    "description": "The fixed percentage added to the Bank of England base rate that is guaranteed not to change.",
+    "context": [
+      "Bank of England + 2.5%",
+      "our 2.5% margin never changes"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_var_003",
+    "name": "Customer AER",
+    "aliases": [
+      "rate"
+    ],
+    "entity_class": "TEMPLATE_VARIABLE",
+    "type": "rate_field",
+    "description": "The final Annual Equivalent Rate provided to the customer based on the BoE rate plus the margin.",
+    "context": [
+      "so you get 6.5% AER"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_cust_001",
+    "name": "Rate Inquiry Customer",
+    "aliases": [],
+    "entity_class": "CUSTOMER",
+    "type": "existing_customer",
+    "description": "A customer questioning the guarantee of the interest rate offered on their product.",
+    "context": [
+      "Customer: \"Your 4.50% rate — is that guaranteed?\""
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_030_prod_001",
+    "name": "Variable Rate Savings Product",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A banking product with an interest rate linked to the Bank of England base rate plus a fixed margin.",
+    "context": [
+      "Your 4.50% rate",
+      "guaranteed not to drop below Bank of England + 2.5%"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_030",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_mod_001",
+    "name": "Product and Compliance Training Program",
+    "aliases": [
+      "Training Checklist"
+    ],
+    "entity_class": "TRAINING_MODULE",
+    "type": "product_module",
+    "description": "A comprehensive training checklist covering product features, interest calculations, KYC requirements, and regulatory basics for bank staff.",
+    "context": [
+      "Training Checklist"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_001",
+    "name": "SmartSaver Product Knowledge",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "product_knowledge",
+    "description": "Staff must understand the specific features, interest rates, and tiers associated with the SmartSaver product.",
+    "context": [
+      "Understand SmartSaver features, rates, and tiers"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_002",
+    "name": "Interest Calculation Proficiency",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "process_skill",
+    "description": "Staff must be able to explain and calculate how interest is applied to accounts.",
+    "context": [
+      "Know how interest is calculated"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_003",
+    "name": "Variable vs Fixed Rate Differentiation",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "product_knowledge",
+    "description": "Staff must be able to explain the difference between variable and fixed interest rates to customers.",
+    "context": [
+      "Be able to explain variable vs. fixed rates"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_004",
+    "name": "Current Account Feature Knowledge",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "product_knowledge",
+    "description": "Staff must be familiar with the features and specifications of the bank's Current Account offering.",
+    "context": [
+      "Know Current Account features"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_005",
+    "name": "Mortgage Rates and LTV Understanding",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "product_knowledge",
+    "description": "Staff must understand mortgage interest rates and the concept of Loan-to-Value (LTV) ratios.",
+    "context": [
+      "Understand mortgage rates and LTV"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_006",
+    "name": "Fee Structure Knowledge",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "product_knowledge",
+    "description": "Staff must have comprehensive knowledge of all applicable bank fees.",
+    "context": [
+      "Know all fees"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_007",
+    "name": "KYC Requirement Understanding",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "regulatory_knowledge",
+    "description": "Staff must understand the Know Your Customer (KYC) requirements necessary for account management and compliance.",
+    "context": [
+      "Understand KYC requirements"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_008",
+    "name": "Objection Handling Skill",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "decision_skill",
+    "description": "Staff must be able to effectively handle common customer objections during interactions.",
+    "context": [
+      "Be able to handle common objections"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obl_001",
+    "name": "Escalation Duty for High Value or Complex Cases",
+    "aliases": [],
+    "entity_class": "COMPLIANCE_OBLIGATION",
+    "type": "escalation_duty",
+    "description": "Staff are obligated to escalate cases to a supervisor or specialist when amounts exceed £5,000 or the case is deemed complex.",
+    "context": [
+      "Know when to escalate (amounts >£5k, complex cases)"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_obj_009",
+    "name": "COBS and GDPR Regulatory Basics",
+    "aliases": [],
+    "entity_class": "LEARNING_OBJECTIVE",
+    "type": "regulatory_knowledge",
+    "description": "Staff must understand the basic principles of the Conduct of Business Sourcebook (COBS) and the General Data Protection Regulation (GDPR).",
+    "context": [
+      "Understand COBS and GDPR basics"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_prod_001",
+    "name": "SmartSaver",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "savings_product",
+    "description": "A savings product with specific features, rates, and tiers that staff must be trained on.",
+    "context": [
+      "Understand SmartSaver features, rates, and tiers"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_prod_002",
+    "name": "Current Account",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "current_account",
+    "description": "A standard banking account product whose features must be known by staff.",
+    "context": [
+      "Know Current Account features"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_031_prod_003",
+    "name": "Mortgage",
+    "aliases": [],
+    "entity_class": "PRODUCT",
+    "type": "mortgage",
+    "description": "A lending product involving specific rates and LTV calculations.",
+    "context": [
+      "Understand mortgage rates and LTV"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_031",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_001",
+    "name": "Complete product specifications",
+    "aliases": [
+      "products"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "product_module",
+    "description": "A comprehensive resource containing the full specifications for the bank's product offerings.",
+    "context": [
+      "[[products]] — Complete product specifications"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_002",
+    "name": "Rates and fees",
+    "aliases": [
+      "product_pricing_guide_2026"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "product_data",
+    "description": "The 2026 pricing guide detailing the current rates and fees applicable to banking products.",
+    "context": [
+      "[[product_pricing_guide_2026]] — Rates and fees"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_003",
+    "name": "Customer FAQs",
+    "aliases": [
+      "product_faq"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "product_knowledge",
+    "description": "A repository of frequently asked questions designed to assist staff in answering customer queries about products.",
+    "context": [
+      "[[product_faq]] — Customer FAQs"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  },
+  {
+    "id": "f0784616e9e2491da73633bcb89ac281_032_prd_004",
+    "name": "SmartSaver Terms and Conditions",
+    "aliases": [
+      "smartsaver_terms_conditions"
+    ],
+    "entity_class": "PRODUCT",
+    "type": "smartsaver_account",
+    "description": "The legal terms and conditions governing the SmartSaver account product.",
+    "context": [
+      "[[smartsaver_terms_conditions]] — Legal terms"
+    ],
+    "chunk_id": "f0784616e9e2491da73633bcb89ac281_032",
+    "doc_id": "f0784616e9e2491da73633bcb89ac281",
+    "domain": "banking_communications"
+  }
+]
