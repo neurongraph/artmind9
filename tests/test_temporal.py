@@ -163,3 +163,46 @@ def test_pattern1_cypher_omits_asof_when_none():
         "pattern1", {"domains": ["fiction"], "entityClass": "PERSON", "limit": 5, "asOf": None}
     )
     assert "$asOf" not in cypher
+
+
+def test_pattern8_cypher_includes_asof_for_both_entities():
+    # pattern8 matches (e:LABEL)-[r]-(t:Entity) — both sides are required matches,
+    # so asOf must scope both, not just the anchor `e` (mirrors pattern6's
+    # symmetric treatment of e1/e2).
+    import artmind.graph_query as gq
+    cypher, params = gq._pattern_query(
+        "pattern8",
+        {
+            "domains": ["fiction"], "entityClass": "LOCATION",
+            "entityName": "Holmes", "asOf": "2026-07-04",
+        },
+    )
+    assert "e.valid_from" in cypher and "e.valid_to" in cypher
+    assert "t.valid_from" in cypher and "t.valid_to" in cypher
+    assert params["asOf"] == "2026-07-04"
+
+
+def test_vector_search_cypher_includes_asof_on_chunk_leg(monkeypatch):
+    import artmind.vector_query as vq
+
+    monkeypatch.setattr(vq, "embed_question", lambda question, model=None: [0.1, 0.2])
+
+    captured_cyphers = []
+
+    class FakeSession:
+        def run(self, cypher, **kwargs):
+            captured_cyphers.append(cypher)
+            return []
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr(vq, "neo4j_session", lambda: FakeSessionContext())
+
+    vq.vector_search(["fiction"], "who is Holmes", topK=3, as_of="2026-07-04")
+
+    assert any("node.valid_from" in c and "node.valid_to" in c for c in captured_cyphers)

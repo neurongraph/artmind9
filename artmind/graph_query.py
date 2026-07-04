@@ -502,6 +502,13 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             cypher_params,
         )
     if pattern == "pattern5":
+        # No _asof() here (deliberate, unlike pattern6/8): the path can traverse
+        # an arbitrary number of intermediate entities that aren't bound to a
+        # variable name, so there's no single filter point that would currency-
+        # scope the whole path without rewriting the traversal itself. Endpoint-
+        # only filtering (e, t) would be misleading — it wouldn't stop the path
+        # from routing through an intermediate entity that isn't valid as-of the
+        # requested date.
         label1 = parameters["entityClass1"]
         label2 = parameters["entityClass2"]
         cypher_params = {"domains": parameters["domains"]}
@@ -602,7 +609,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             MATCH (e:{label})-[r]-(t:Entity)
             WHERE {domain_predicate("e")}
               AND {domain_predicate("t")}
-              AND {selector}{_asof("e")}
+              AND {selector}{_asof("e")}{_asof("t")}
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    type(r) AS relType,
                    properties(r) AS relProps
