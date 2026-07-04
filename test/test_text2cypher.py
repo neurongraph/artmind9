@@ -46,7 +46,7 @@ def test_build_prompt_includes_schema_and_entities():
         question="How many persons are there?",
         schema_info=schema_info,
         entities_info=entities_info,
-        domain="fiction",
+        domains=["fiction"],
     )
 
     assert "PERSON" in prompt
@@ -93,7 +93,7 @@ def test_prompt_requires_entity_labels_and_entity_paths():
         question="How are Holmes and Watson related?",
         schema_info="",
         entities_info="",
-        domain="fiction",
+        domains=["fiction"],
     )
     assert ":Entity" in prompt
     assert "all(x IN nodes(p) WHERE x:Entity)" in prompt
@@ -204,7 +204,7 @@ def test_prompt_includes_structural_schema():
         question="How many chunks?",
         schema_info=schema_info,
         entities_info=entities_info,
-        domain="fiction",
+        domains=["fiction"],
     )
 
     assert "STRUCTURAL GRAPH" in prompt
