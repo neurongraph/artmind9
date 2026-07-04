@@ -685,6 +685,9 @@ def list_conflicts(
     """
     domains = normalize_domains(domains)
     entity_ids = list(entity_ids or [])
+    # Conflict.domains is a list property (a conflict can span 2+ domains), unlike
+    # Entity/Document/DocChunk's scalar .domain — so this scopes via list containment
+    # instead of domain_predicate().
     cypher = f"""
     MATCH (co:Conflict)
     WHERE any(d IN $domains WHERE d IN co.domains)
