@@ -1,6 +1,14 @@
 name: banking_sop_guides
 description: Standard Operating Procedures, step-by-step process guides, and escalation matrices for FirstUK Bank operational workflows — covering account opening, KYC verification, AML screening, account closure, standing orders, direct debits, change of address, and exception handling.
 
+temporal:
+  document:
+    valid_from: [Effective Date, effective_date, Last Updated]
+    version: [Version]
+  entities:
+    PROCESS:  { valid_from: effective_date }
+  relative_anchor: document.valid_from
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking operational procedure analysis.
   Your job is to read a passage from a FirstUK Bank SOP or guide document and identify all significant entities.
@@ -184,6 +192,8 @@ properties_prompt: |
     - trigger (what initiates the process)
     - outcome_success (what success looks like)
     - outcome_failure (what failure leads to)
+    - effective_date (when this procedure version takes effect; ISO date if stated)
+    - version (document version, if stated)
 
   For PROCESS_STEP, consider:
     - step_number (ordinal position in the process)

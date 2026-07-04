@@ -1,6 +1,10 @@
 name: fiction
 description: Stories and fictional content. Typically would have characters, places, events, interactions between characters. Flowing prose.
 
+temporal:
+  entities:
+    EVENT:  { event_at: date_or_time }
+
 entity_types:
   - PERSON
   - LOCATION

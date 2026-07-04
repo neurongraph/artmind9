@@ -1,6 +1,15 @@
 name: project_governance
 description: Project and programme governance documents that track delivery progress, workstream status, risks, issues, decisions, and actions. Includes status reports, delivery dashboards, steering committee packs, monthly governance presentations, and programme review documents from consulting and technology delivery engagements.
 
+temporal:
+  document:
+    valid_from: [Date, date]
+  entities:
+    MILESTONE:  { event_at: target_date }
+    ACTION:     { event_at: due_date }
+    PROJECT:    { valid_from: start_date, valid_to: end_date }
+  relative_anchor: document.valid_from
+
 entity_types:
   - PROJECT
   - MILESTONE

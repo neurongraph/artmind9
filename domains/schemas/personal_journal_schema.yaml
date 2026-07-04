@@ -1,6 +1,14 @@
 name: personal_journal
 description: Personal diary entries, journals, and daily logs that record events, reflections, interactions, emotions, and plans over time. Typically written in first person, covering family life, work, social encounters, and inner thoughts.
 
+temporal:
+  document:
+    valid_from: [Date, date]
+  entities:
+    EVENT:     { event_at: date_or_time }
+    ACTIVITY:  { event_at: date_or_time }
+  relative_anchor: document.valid_from
+
 entity_types:
   - PERSON
   - LOCATION
