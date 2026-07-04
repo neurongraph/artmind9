@@ -626,3 +626,85 @@ def execute_pattern(
         "parameters": output_parameters,
         "rows": strip_embeddings(_run_read_query(cypher, cypher_params)),
     }
+
+
+def domains_overview() -> dict:
+    """One aggregation grouped by n.domain: doc names/counts, entity counts, top classes.
+
+    The cheap routing input that maps an area ("banking") to concrete sibling domains.
+    """
+    cypher = """
+    CALL () {
+      MATCH (d:Document)
+      RETURN d.domain AS domain, 'documents' AS k,
+             count(d) AS c, collect(DISTINCT d.name)[0..25] AS names
+    UNION
+      MATCH (e:Entity)
+      RETURN e.domain AS domain, 'entities' AS k, count(e) AS c, null AS names
+    UNION
+      MATCH (e:Entity)
+      WITH e.domain AS domain, e.entity_class AS cls, count(*) AS n
+      ORDER BY n DESC
+      WITH domain, collect(cls)[0..8] AS top
+      RETURN domain, 'top_classes' AS k, 0 AS c, top AS names
+    }
+    WITH domain, collect({k: k, c: c, names: names}) AS parts
+    RETURN domain, parts
+    ORDER BY domain
+    """
+    rows = _run_read_query(cypher, {})
+    overview: dict = {}
+    for row in rows:
+        d = row["domain"]
+        entry = overview.setdefault(d, {"domain": d})
+        for p in row["parts"]:
+            if p["k"] == "documents":
+                entry["document_count"] = p["c"]
+                entry["documents"] = p["names"]
+            elif p["k"] == "entities":
+                entry["entity_count"] = p["c"]
+            elif p["k"] == "top_classes":
+                entry["top_classes"] = p["names"]
+    return {
+        "query_type": "graph",
+        "command": "domains_overview",
+        "domains": sorted(overview.keys()),
+        "rows": [overview[k] for k in sorted(overview.keys())],
+    }
+
+
+def list_conflicts(
+    domains: "str | Sequence[str]",
+    entity_ids: "Sequence[str] | None" = None,
+    entity_name: str | None = None,
+    status: str = "open",
+) -> dict:
+    """Read materialized Conflict nodes scoped to the given domains.
+
+    status='all' returns every status; otherwise filters Conflict.status.
+    """
+    domains = normalize_domains(domains)
+    entity_ids = list(entity_ids or [])
+    cypher = f"""
+    MATCH (co:Conflict)
+    WHERE any(d IN $domains WHERE d IN co.domains)
+      AND ($status = 'all' OR co.status = $status)
+    OPTIONAL MATCH (co)-[:CONFLICT_OF]->(e:Entity)
+    WITH co, collect(DISTINCT e {{ .id, .name, .entity_class, .domain }}) AS entities
+    WHERE ($entityIds = [] OR any(e IN entities WHERE e.id IN $entityIds))
+      AND ($entityName IS NULL OR any(e IN entities WHERE toLower(e.name) CONTAINS toLower($entityName)))
+    OPTIONAL MATCH (co)-[ev:EVIDENCE]->(c:DocChunk)
+    RETURN co {{ .* }} AS conflict, entities,
+           collect(DISTINCT {{ side: ev.side, chunk_id: c.id, doc_id: c.doc_id, domain: c.domain, text: c.text }}) AS evidence
+    ORDER BY conflict.severity DESC, conflict.detected_at DESC
+    """
+    return {
+        **_domain_output(domains),
+        "query_type": "graph",
+        "command": "conflicts",
+        "status": status,
+        "rows": _run_read_query(
+            cypher,
+            {"domains": domains, "entityIds": entity_ids, "entityName": entity_name, "status": status},
+        ),
+    }
