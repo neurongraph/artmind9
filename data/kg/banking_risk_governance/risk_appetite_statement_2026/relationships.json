@@ -2,22 +2,6 @@
   {
     "source_id": "091bcb9836824060839190fff58ae95a_001_dep_001",
     "source_name": "Risk Department",
-    "target_id": "doc_ras_2026",
-    "target_name": "Risk Appetite Statement 2026",
-    "rel_type": "owned_by",
-    "description": "The Risk Department is the owner of the Risk Appetite Statement 2026",
-    "properties": {
-      "role": "Document Owner",
-      "status": "Active"
-    },
-    "context": "Department | Risk",
-    "bidirectional": false,
-    "chunk_id": "091bcb9836824060839190fff58ae95a_001",
-    "doc_id": "091bcb9836824060839190fff58ae95a"
-  },
-  {
-    "source_id": "091bcb9836824060839190fff58ae95a_001_dep_001",
-    "source_name": "Risk Department",
     "target_id": "091bcb9836824060839190fff58ae95a_001",
     "target_name": "091bcb9836824060839190fff58ae95a_001",
     "rel_type": "EXTRACTED_FROM",
@@ -64,7 +48,7 @@
       "philosophy_alignment": "positive",
       "objective": "sustainable profitability"
     },
-    "context": "High-Quality Customer Service — Reliable, fair banking services",
+    "context": "High-Quality Customer Service \u2014 Reliable, fair banking services",
     "bidirectional": true,
     "chunk_id": "091bcb9836824060839190fff58ae95a_003",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -80,7 +64,7 @@
       "philosophy_alignment": "positive",
       "requirement": "capital above regulatory minimums with buffers"
     },
-    "context": "Financial Stability — Capital above regulatory minimums with buffers",
+    "context": "Financial Stability \u2014 Capital above regulatory minimums with buffers",
     "bidirectional": true,
     "chunk_id": "091bcb9836824060839190fff58ae95a_003",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -96,7 +80,7 @@
       "philosophy_alignment": "positive",
       "tolerance": "zero tolerance for willful regulatory breaches"
     },
-    "context": "Strong Compliance — Zero tolerance for willful regulatory breaches",
+    "context": "Strong Compliance \u2014 Zero tolerance for willful regulatory breaches",
     "bidirectional": true,
     "chunk_id": "091bcb9836824060839190fff58ae95a_003",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -112,7 +96,7 @@
       "philosophy_alignment": "positive",
       "focus": "reliable systems, robust controls, continuous improvement"
     },
-    "context": "Operational Excellence — Reliable systems, robust controls, continuous improvement",
+    "context": "Operational Excellence \u2014 Reliable systems, robust controls, continuous improvement",
     "bidirectional": true,
     "chunk_id": "091bcb9836824060839190fff58ae95a_003",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -300,7 +284,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
     "source_name": "Credit Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_004_met_001",
-    "target_name": "Loan Loss Ratio — Threshold <0.5% annually",
+    "target_name": "Loan Loss Ratio \u2014 Threshold <0.5% annually",
     "rel_type": "quantified_by",
     "description": "Credit Risk is quantified by the Loan Loss Ratio with an annual threshold of less than 0.5%.",
     "properties": {
@@ -316,7 +300,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
     "source_name": "Credit Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_004_met_002",
-    "target_name": "Delinquency Rate — Threshold <2% of active accounts",
+    "target_name": "Delinquency Rate \u2014 Threshold <2% of active accounts",
     "rel_type": "quantified_by",
     "description": "Credit Risk is quantified by the Delinquency Rate with a threshold of less than 2% of active accounts.",
     "properties": {
@@ -332,7 +316,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
     "source_name": "Credit Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_004_met_003",
-    "target_name": "Concentration Limit — No single customer >10% of capital",
+    "target_name": "Concentration Limit \u2014 No single customer >10% of capital",
     "rel_type": "quantified_by",
     "description": "Credit Risk is quantified by a Concentration Limit ensuring no single customer exceeds 10% of capital.",
     "properties": {
@@ -348,7 +332,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_004_rsk_001",
     "source_name": "Credit Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_004_met_004",
-    "target_name": "Mortgage LTV — Maximum <80%",
+    "target_name": "Mortgage LTV \u2014 Maximum <80%",
     "rel_type": "quantified_by",
     "description": "Credit Risk is quantified by the Mortgage Loan-to-Value (LTV) ratio with a maximum threshold of 80%.",
     "properties": {
@@ -377,7 +361,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_004_met_004",
-    "source_name": "Mortgage LTV — Maximum <80%",
+    "source_name": "Mortgage LTV \u2014 Maximum <80%",
     "target_id": "091bcb9836824060839190fff58ae95a_004_prd_001",
     "target_name": "Mortgages",
     "rel_type": "measures_performance_of",
@@ -403,7 +387,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_004_met_001",
-    "source_name": "Loan Loss Ratio — Threshold <0.5% annually",
+    "source_name": "Loan Loss Ratio \u2014 Threshold <0.5% annually",
     "target_id": "091bcb9836824060839190fff58ae95a_004",
     "target_name": "091bcb9836824060839190fff58ae95a_004",
     "rel_type": "EXTRACTED_FROM",
@@ -414,7 +398,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_004_met_002",
-    "source_name": "Delinquency Rate — Threshold <2% of active accounts",
+    "source_name": "Delinquency Rate \u2014 Threshold <2% of active accounts",
     "target_id": "091bcb9836824060839190fff58ae95a_004",
     "target_name": "091bcb9836824060839190fff58ae95a_004",
     "rel_type": "EXTRACTED_FROM",
@@ -425,7 +409,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_004_met_003",
-    "source_name": "Concentration Limit — No single customer >10% of capital",
+    "source_name": "Concentration Limit \u2014 No single customer >10% of capital",
     "target_id": "091bcb9836824060839190fff58ae95a_004",
     "target_name": "091bcb9836824060839190fff58ae95a_004",
     "rel_type": "EXTRACTED_FROM",
@@ -436,7 +420,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_004_met_004",
-    "source_name": "Mortgage LTV — Maximum <80%",
+    "source_name": "Mortgage LTV \u2014 Maximum <80%",
     "target_id": "091bcb9836824060839190fff58ae95a_004",
     "target_name": "091bcb9836824060839190fff58ae95a_004",
     "rel_type": "EXTRACTED_FROM",
@@ -460,14 +444,14 @@
     "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
     "source_name": "Operational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_005_met_001",
-    "target_name": "Annual Operational Losses — Tolerance <£50,000",
+    "target_name": "Annual Operational Losses \u2014 Tolerance <\u00a350,000",
     "rel_type": "quantified_by",
-    "description": "Operational Risk is quantified by the annual operational losses metric with a tolerance of less than £50,000.",
+    "description": "Operational Risk is quantified by the annual operational losses metric with a tolerance of less than \u00a350,000.",
     "properties": {
-      "threshold": "<£50,000",
+      "threshold": "<\u00a350,000",
       "appetite": "Low"
     },
-    "context": "Operational Risk Appetite: Low Tolerance: Annual Operational Losses: <£50,000",
+    "context": "Operational Risk Appetite: Low Tolerance: Annual Operational Losses: <\u00a350,000",
     "bidirectional": false,
     "chunk_id": "091bcb9836824060839190fff58ae95a_005",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -476,7 +460,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
     "source_name": "Operational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_005_met_002",
-    "target_name": "Major Incidents — Tolerance <1 per year",
+    "target_name": "Major Incidents \u2014 Tolerance <1 per year",
     "rel_type": "quantified_by",
     "description": "Operational Risk is quantified by the number of major incidents with a tolerance of less than 1 per year.",
     "properties": {
@@ -492,7 +476,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
     "source_name": "Operational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_005_met_003",
-    "target_name": "System Outages — Tolerance <8 hours per year",
+    "target_name": "System Outages \u2014 Tolerance <8 hours per year",
     "rel_type": "quantified_by",
     "description": "Operational Risk is quantified by system outage duration with a tolerance of less than 8 hours per year.",
     "properties": {
@@ -508,7 +492,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_005_rsk_001",
     "source_name": "Operational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_005_met_004",
-    "target_name": "Process Errors — Tolerance <0.5% error rate",
+    "target_name": "Process Errors \u2014 Tolerance <0.5% error rate",
     "rel_type": "quantified_by",
     "description": "Operational Risk is quantified by the process error rate with a tolerance of less than 0.5%.",
     "properties": {
@@ -533,7 +517,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_005_met_001",
-    "source_name": "Annual Operational Losses — Tolerance <£50,000",
+    "source_name": "Annual Operational Losses \u2014 Tolerance <\u00a350,000",
     "target_id": "091bcb9836824060839190fff58ae95a_005",
     "target_name": "091bcb9836824060839190fff58ae95a_005",
     "rel_type": "EXTRACTED_FROM",
@@ -544,7 +528,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_005_met_002",
-    "source_name": "Major Incidents — Tolerance <1 per year",
+    "source_name": "Major Incidents \u2014 Tolerance <1 per year",
     "target_id": "091bcb9836824060839190fff58ae95a_005",
     "target_name": "091bcb9836824060839190fff58ae95a_005",
     "rel_type": "EXTRACTED_FROM",
@@ -555,7 +539,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_005_met_003",
-    "source_name": "System Outages — Tolerance <8 hours per year",
+    "source_name": "System Outages \u2014 Tolerance <8 hours per year",
     "target_id": "091bcb9836824060839190fff58ae95a_005",
     "target_name": "091bcb9836824060839190fff58ae95a_005",
     "rel_type": "EXTRACTED_FROM",
@@ -566,7 +550,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_005_met_004",
-    "source_name": "Process Errors — Tolerance <0.5% error rate",
+    "source_name": "Process Errors \u2014 Tolerance <0.5% error rate",
     "target_id": "091bcb9836824060839190fff58ae95a_005",
     "target_name": "091bcb9836824060839190fff58ae95a_005",
     "rel_type": "EXTRACTED_FROM",
@@ -579,7 +563,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
     "source_name": "Compliance & Regulatory Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_006_met_001",
-    "target_name": "Regulatory Breaches Tolerance — Zero willful violations",
+    "target_name": "Regulatory Breaches Tolerance \u2014 Zero willful violations",
     "rel_type": "quantified_by",
     "description": "Compliance & Regulatory Risk is quantified by the tolerance for regulatory breaches.",
     "properties": {
@@ -595,7 +579,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
     "source_name": "Compliance & Regulatory Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_006_met_002",
-    "target_name": "KYC/AML Non-Compliance Tolerance — 0%",
+    "target_name": "KYC/AML Non-Compliance Tolerance \u2014 0%",
     "rel_type": "quantified_by",
     "description": "Compliance & Regulatory Risk is quantified by the tolerance for KYC/AML non-compliance.",
     "properties": {
@@ -611,7 +595,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
     "source_name": "Compliance & Regulatory Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_006_met_003",
-    "target_name": "Customer Protection Breaches Tolerance — 0%",
+    "target_name": "Customer Protection Breaches Tolerance \u2014 0%",
     "rel_type": "quantified_by",
     "description": "Compliance & Regulatory Risk is quantified by the tolerance for customer protection breaches.",
     "properties": {
@@ -627,7 +611,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_006_rsk_001",
     "source_name": "Compliance & Regulatory Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_006_met_004",
-    "target_name": "Disclosure Violations Tolerance — Zero",
+    "target_name": "Disclosure Violations Tolerance \u2014 Zero",
     "rel_type": "quantified_by",
     "description": "Compliance & Regulatory Risk is quantified by the tolerance for disclosure violations.",
     "properties": {
@@ -652,7 +636,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_006_met_001",
-    "source_name": "Regulatory Breaches Tolerance — Zero willful violations",
+    "source_name": "Regulatory Breaches Tolerance \u2014 Zero willful violations",
     "target_id": "091bcb9836824060839190fff58ae95a_006",
     "target_name": "091bcb9836824060839190fff58ae95a_006",
     "rel_type": "EXTRACTED_FROM",
@@ -663,7 +647,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_006_met_002",
-    "source_name": "KYC/AML Non-Compliance Tolerance — 0%",
+    "source_name": "KYC/AML Non-Compliance Tolerance \u2014 0%",
     "target_id": "091bcb9836824060839190fff58ae95a_006",
     "target_name": "091bcb9836824060839190fff58ae95a_006",
     "rel_type": "EXTRACTED_FROM",
@@ -674,7 +658,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_006_met_003",
-    "source_name": "Customer Protection Breaches Tolerance — 0%",
+    "source_name": "Customer Protection Breaches Tolerance \u2014 0%",
     "target_id": "091bcb9836824060839190fff58ae95a_006",
     "target_name": "091bcb9836824060839190fff58ae95a_006",
     "rel_type": "EXTRACTED_FROM",
@@ -685,7 +669,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_006_met_004",
-    "source_name": "Disclosure Violations Tolerance — Zero",
+    "source_name": "Disclosure Violations Tolerance \u2014 Zero",
     "target_id": "091bcb9836824060839190fff58ae95a_006",
     "target_name": "091bcb9836824060839190fff58ae95a_006",
     "rel_type": "EXTRACTED_FROM",
@@ -698,14 +682,14 @@
     "source_id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
     "source_name": "Fraud Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_007_met_001",
-    "target_name": "Annual Fraud Loss — Threshold <£100,000 (0.3% of revenue)",
+    "target_name": "Annual Fraud Loss \u2014 Threshold <\u00a3100,000 (0.3% of revenue)",
     "rel_type": "quantified_by",
-    "description": "Fraud Risk is quantified by the Annual Fraud Loss threshold of <£100,000 or 0.3% of revenue.",
+    "description": "Fraud Risk is quantified by the Annual Fraud Loss threshold of <\u00a3100,000 or 0.3% of revenue.",
     "properties": {
-      "threshold": "<£100,000",
+      "threshold": "<\u00a3100,000",
       "percentage_of_S_revenue": "0.3%"
     },
-    "context": "Annual Fraud Loss: <£100,000 (0.3% of revenue)",
+    "context": "Annual Fraud Loss: <\u00a3100,000 (0.3% of revenue)",
     "bidirectional": false,
     "chunk_id": "091bcb9836824060839190fff58ae95a_007",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -714,7 +698,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
     "source_name": "Fraud Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_007_met_002",
-    "target_name": "Fraud Detection Rate — Threshold >96S6%",
+    "target_name": "Fraud Detection Rate \u2014 Threshold >96S6%",
     "rel_type": "quantified_by",
     "description": "Fraud Risk is quantified by a minimum Fraud Detection Rate threshold of >96%.",
     "properties": "S",
@@ -723,36 +707,14 @@
     "doc_id": "091bcb9836824060839190fff58ae95a"
   },
   {
-    "context": "Fraud Detection Rate: >96%",
-    "bidirectional": false,
-    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
-    "doc_id": "091bcb9836824060839190fff58ae95a"
-  },
-  {
-    "source_id": "091bcb9836824060839190fff58ae95a_007_rsk_001",
-    "source_name": "Fraud Risk",
-    "target_id": "091bcb9836824060839190fff58ae95a_007_met_003",
-    "target_name": "Customer Reimbursement — Threshold <£30k",
-    "SCC": "quantified_by",
-    "description": "Fraud Risk is quantified by a Customer Reimbursement threshold of <£30k annually.",
-    "properties": {
-      "threshold": "<£30k",
-      " la_periodC": "annually\"\n     a_period\": \"annually\""
-    },
-    "context single_context": "Customer Reimbursement: <£30k annually",
-    "bidirectional": false,
-    "chunk_id": "091bcb9836824060839190fff58ae95a_007",
-    "doc_id": "091bcb9836824060839190fff58ae95a"
-  },
-  {
     "source_id": "rsk_0C\": \"rsk_001",
     "source_name": "Fraud Risk",
     "target_idC": "met_004",
-    "target_name": "Internal Fraud — Zero Tolerance",
+    "target_name": "Internal Fraud \u2014 Zero Tolerance",
     "rel_type": "quantified_by",
     "description": "Fraud Risk has a zero tolerance threshold que_threshold for Internal Fraud.",
     "properties": {
-      "threshold": "🚆Zero Tolerance"
+      "threshold": "\ud83d\ude86Zero Tolerance"
     },
     "context": "Internal Fraud: Zero tolerance",
     "C": false,
@@ -772,7 +734,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_007_met_001",
-    "source_name": "Annual Fraud Loss — Threshold <£100,000 (0.3% of revenue)",
+    "source_name": "Annual Fraud Loss \u2014 Threshold <\u00a3100,000 (0.3% of revenue)",
     "target_id": "091bcb9836824060839190fff58ae95a_007",
     "target_name": "091bcb9836824060839190fff58ae95a_007",
     "rel_type": "EXTRACTED_FROM",
@@ -783,7 +745,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_007_met_002",
-    "source_name": "Fraud Detection Rate — Threshold >96%",
+    "source_name": "Fraud Detection Rate \u2014 Threshold >96%",
     "target_id": "091bcb9836824060839190fff58ae95a_007",
     "target_name": "091bcb9836824060839190fff58ae95a_007",
     "rel_type": "EXTRACTED_FROM",
@@ -794,7 +756,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_007_met_003",
-    "source_name": "Customer Reimbursement — Threshold <£30k annually",
+    "source_name": "Customer Reimbursement \u2014 Threshold <\u00a330k annually",
     "target_id": "091bcb9836824060839190fff58ae95a_007",
     "target_name": "091bcb9836824060839190fff58ae95a_007",
     "rel_type": "EXTRACTED_FROM",
@@ -805,7 +767,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_007_met_004",
-    "source_name": "Internal Fraud — Zero Tolerance",
+    "source_name": "Internal Fraud \u2014 Zero Tolerance",
     "target_id": "091bcb9836824060839190fff58ae95a_007",
     "target_name": "091bcb9836824060839190fff58ae95a_007",
     "rel_type": "EXTRACTED_FROM",
@@ -818,7 +780,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
     "source_name": "Reputational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_008_met_001",
-    "target_name": "Major Complaints — Tolerance <2 per 1,000 accounts",
+    "target_name": "Major Complaints \u2014 Tolerance <2 per 1,000 accounts",
     "rel_type": "quantified_by",
     "description": "Reputational Risk is quantified by the volume of Major Complaints.",
     "properties": {
@@ -833,7 +795,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
     "source_name": "Reputational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_008_met_002",
-    "target_name": "Regulatory Complaints — Tolerance <1 per 1,000 accounts",
+    "target_name": "Regulatory Complaints \u2014 Tolerance <1 per 1,000 accounts",
     "rel_type": "quantified_by",
     "description": "Reputational Risk is quantified by the volume of Regulatory Complaints.",
     "properties": {
@@ -848,7 +810,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
     "source_name": "Reputational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_008_met_003",
-    "target_name": "Media Incidents — Tolerance Zero negative incidents",
+    "target_name": "Media Incidents \u2014 Tolerance Zero negative incidents",
     "rel_type": "quantified_by",
     "description": "Reputational Risk is quantified by the occurrence of negative Media Incidents.",
     "properties": {
@@ -864,7 +826,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_008_rsk_001",
     "source_name": "Reputational Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_008_met_004",
-    "target_name": "Customer Trust (NPS) — Target >70",
+    "target_name": "Customer Trust (NPS) \u2014 Target >70",
     "rel_type": "quantified_by",
     "description": "Reputational Risk is quantified by the Customer Trust (NPS) score.",
     "properties": {
@@ -888,7 +850,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_008_met_001",
-    "source_name": "Major Complaints — Tolerance <2 per 1,000 accounts",
+    "source_name": "Major Complaints \u2014 Tolerance <2 per 1,000 accounts",
     "target_id": "091bcb9836824060839190fff58ae95a_008",
     "target_name": "091bcb9836824060839190fff58ae95a_008",
     "rel_type": "EXTRACTED_FROM",
@@ -899,7 +861,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_008_met_002",
-    "source_name": "Regulatory Complaints — Tolerance <1 per 1,000 accounts",
+    "source_name": "Regulatory Complaints \u2014 Tolerance <1 per 1,000 accounts",
     "target_id": "091bcb9836824060839190fff58ae95a_008",
     "target_name": "091bcb9836824060839190fff58ae95a_008",
     "rel_type": "EXTRACTED_FROM",
@@ -910,7 +872,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_008_met_003",
-    "source_name": "Media Incidents — Tolerance Zero negative incidents",
+    "source_name": "Media Incidents \u2014 Tolerance Zero negative incidents",
     "target_id": "091bcb9836824060839190fff58ae95a_008",
     "target_name": "091bcb9836824060839190fff58ae95a_008",
     "rel_type": "EXTRACTED_FROM",
@@ -921,7 +883,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_008_met_004",
-    "source_name": "Customer Trust (NPS) — Target >70",
+    "source_name": "Customer Trust (NPS) \u2014 Target >70",
     "target_id": "091bcb9836824060839190fff58ae95a_008",
     "target_name": "091bcb9836824060839190fff58ae95a_008",
     "rel_type": "EXTRACTED_FROM",
@@ -943,20 +905,6 @@
     },
     "context": "Capital Ratio (Pillar 1): >15% minimum, 18%+ target",
     "bidS": "S",
-    "chunk_id": "091bcb9836824060839190fff58ae95a_009",
-    "doc_id": "091bcb9836824060839190fff58ae95a"
-  },
-  {
-    "source_name": "CapitalL\": \"Capital Risk",
-    "target_id": "091bcb9836824060839190fff58ae95a_009_met_002",
-    "target_name": "C\": \"Leverage Ratio",
-    "csc_rel_type": "quantified_by",
-    "description": "Capital Risk is measured by the Leverage Ratio with a threshold of >5%",
-    "properties": {
-      "threshold": ">5%"
-    },
-    "context": "Leverage Ratio: >5% (per Basel III)",
-    "bidirectional": false,
     "chunk_id": "091bcb9836824060839190fff58ae95a_009",
     "doc_id": "091bcb9836824060839190fff58ae95a"
   },
@@ -988,7 +936,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_009_met_001",
-    "source_name": "Capital Ratio (Pillar 1) — Minimum >15%, Target 18%+",
+    "source_name": "Capital Ratio (Pillar 1) \u2014 Minimum >15%, Target 18%+",
     "target_id": "091bcb9836824060839190fff58ae95a_009",
     "target_name": "091bcb9836824060839190fff58ae95a_009",
     "rel_type": "EXTRACTED_FROM",
@@ -999,7 +947,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_009_met_002",
-    "source_name": "Leverage Ratio — >5%",
+    "source_name": "Leverage Ratio \u2014 >5%",
     "target_id": "091bcb9836824060839190fff58ae95a_009",
     "target_name": "091bcb9836824060839190fff58ae95a_009",
     "rel_type": "EXTRACTED_FROM",
@@ -1010,7 +958,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_009_met_003",
-    "source_name": "Capital Adequacy Buffer — 3%+ above minimum",
+    "source_name": "Capital Adequacy Buffer \u2014 3%+ above minimum",
     "target_id": "091bcb9836824060839190fff58ae95a_009",
     "target_name": "091bcb9836824060839190fff58ae95a_009",
     "rel_type": "EXTRACTED_FROM",
@@ -1023,7 +971,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
     "source_name": "Technology & Cybersecurity Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_010_met_001",
-    "target_name": "System Availability — SLA 99.8%",
+    "target_name": "System Availability \u2014 SLA 99.8%",
     "rel_type": "quantified_by",
     "description": "Technology & Cybersecurity Risk is quantified by the System Availability SLA of 99.8%",
     "properties": {
@@ -1039,7 +987,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
     "source_name": "Technology & Cybersecurity Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_010_met_002",
-    "target_name": "Major Data Breach — Zero Tolerance",
+    "target_name": "Major Data Breach \u2014 Zero Tolerance",
     "rel_type": "quantified_by",
     "description": "Technology & Cybersecurity Risk is quantified by a zero tolerance policy for Major Data Breaches",
     "properties": {
@@ -1055,7 +1003,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
     "source_name": "Technology & Cybersecurity Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_010_met_003",
-    "target_name": "Cybersecurity Incidents — <1 per year",
+    "target_name": "Cybersecurity Incidents \u2014 <1 per year",
     "rel_type": "quantified_by",
     "description": "Technology & Cybersecurity Risk is quantified by a target of fewer than 1 cybersecurity incident per year",
     "properties": {
@@ -1071,7 +1019,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_010_rsk_001",
     "source_name": "Technology & Cybersecurity Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_010_met_004",
-    "target_name": "Unplanned Downtime — <2 hours per year",
+    "target_name": "Unplanned Downtime \u2014 <2 hours per year",
     "rel_type": "quantified_by",
     "description": "Technology & Cybersecurity Risk is quantified by a target of less than 2 hours of unplanned downtime per year",
     "properties": {
@@ -1096,7 +1044,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_010_met_001",
-    "source_name": "System Availability — SLA 99.8%",
+    "source_name": "System Availability \u2014 SLA 99.8%",
     "target_id": "091bcb9836824060839190fff58ae95a_010",
     "target_name": "091bcb9836824060839190fff58ae95a_010",
     "rel_type": "EXTRACTED_FROM",
@@ -1107,7 +1055,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_010_met_002",
-    "source_name": "Major Data Breach — Zero Tolerance",
+    "source_name": "Major Data Breach \u2014 Zero Tolerance",
     "target_id": "091bcb9836824060839190fff58ae95a_010",
     "target_name": "091bcb9836824060839190fff58ae95a_010",
     "rel_type": "EXTRACTED_FROM",
@@ -1118,7 +1066,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_010_met_003",
-    "source_name": "Cybersecurity Incidents — <1 per year",
+    "source_name": "Cybersecurity Incidents \u2014 <1 per year",
     "target_id": "091bcb9836824060839190fff58ae95a_010",
     "target_name": "091bcb9836824060839190fff58ae95a_010",
     "rel_type": "EXTRACTED_FROM",
@@ -1129,7 +1077,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_010_met_004",
-    "source_name": "Unplanned Downtime — <2 hours per year",
+    "source_name": "Unplanned Downtime \u2014 <2 hours per year",
     "target_id": "091bcb9836824060839190fff58ae95a_010",
     "target_name": "091bcb9836824060839190fff58ae95a_010",
     "rel_type": "EXTRACTED_FROM",
@@ -1142,7 +1090,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
     "source_name": "Liquidity Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_011_met_001",
-    "target_name": "Loan-to-Deposit Ratio — Tolerance <90%",
+    "target_name": "Loan-to-Deposit Ratio \u2014 Tolerance <90%",
     "rel_type": "quantified_by",
     "description": "Liquidity Risk is quantified by the Loan-to-Deposit Ratio with a tolerance threshold of less than 90%.",
     "properties": {
@@ -1158,7 +1106,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
     "source_name": "Liquidity Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_011_met_002",
-    "target_name": "Liquid Assets Buffer — Tolerance 30 days+ operating expenses",
+    "target_name": "Liquid Assets Buffer \u2014 Tolerance 30 days+ operating expenses",
     "rel_type": "quantified_by",
     "description": "Liquidity Risk is quantified by the Liquid Assets Buffer requiring 30 days or more of operating expenses.",
     "properties": {
@@ -1174,7 +1122,7 @@
     "source_id": "091bcb9836824060839190fff58ae95a_011_rsk_001",
     "source_name": "Liquidity Risk",
     "target_id": "091bcb9836824060839190fff58ae95a_011_met_003",
-    "target_name": "Maturity Mismatch — Tolerance <6 months average",
+    "target_name": "Maturity Mismatch \u2014 Tolerance <6 months average",
     "rel_type": "quantified_by",
     "description": "Liquidity Risk is quantified by the Maturity Mismatch with a tolerance of less than 6 months average.",
     "properties": {
@@ -1199,7 +1147,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_011_met_001",
-    "source_name": "Loan-to-Deposit Ratio — Tolerance <90%",
+    "source_name": "Loan-to-Deposit Ratio \u2014 Tolerance <90%",
     "target_id": "091bcb9836824060839190fff58ae95a_011",
     "target_name": "091bcb9836824060839190fff58ae95a_011",
     "rel_type": "EXTRACTED_FROM",
@@ -1210,7 +1158,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_011_met_002",
-    "source_name": "Liquid Assets Buffer — Tolerance 30 days+ operating expenses",
+    "source_name": "Liquid Assets Buffer \u2014 Tolerance 30 days+ operating expenses",
     "target_id": "091bcb9836824060839190fff58ae95a_011",
     "target_name": "091bcb9836824060839190fff58ae95a_011",
     "rel_type": "EXTRACTED_FROM",
@@ -1221,7 +1169,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_011_met_003",
-    "source_name": "Maturity Mismatch — Tolerance <6 months average",
+    "source_name": "Maturity Mismatch \u2014 Tolerance <6 months average",
     "target_id": "091bcb9836824060839190fff58ae95a_011",
     "target_name": "091bcb9836824060839190fff58ae95a_011",
     "rel_type": "EXTRACTED_FROM",
@@ -1374,7 +1322,7 @@
     "source_id": "gov_001",
     "source_name": "Risk Appetite Statement",
     "target_id": "091bcb9836824060839190fff58ae95a_012_met_001",
-    "target_name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "target_name": "Customer Exposure Limit \u2014 Threshold <10% of Capital",
     "rel_type": "approves_threshold_for",
     "description": "Sets a maximum threshold for customer exposure at 10% of capital; concentrations above this are rejected.",
     "properties": {
@@ -1388,7 +1336,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_012_met_001",
-    "source_name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "source_name": "Customer Exposure Limit \u2014 Threshold <10% of Capital",
     "target_id": "091bcb9836824060839190fff58ae95a_012_rsk_005",
     "target_name": "Capital Stability and Growth Risk",
     "rel_type": "measures_appetite_of",
@@ -1506,7 +1454,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_012_met_001",
-    "source_name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "source_name": "Customer Exposure Limit \u2014 Threshold <10% of Capital",
     "target_id": "091bcb9836824060839190fff58ae95a_012",
     "target_name": "091bcb9836824060839190fff58ae95a_012",
     "rel_type": "EXTRACTED_FROM",
@@ -1740,12 +1688,12 @@
     "target_id": "act_004",
     "target_name": "Enhance detection rules",
     "rel_type": "triggers_review_of",
-    "description": "Fraud losses exceeding £25k per quarter trigger an enhancement of detection rules",
+    "description": "Fraud losses exceeding \u00a325k per quarter trigger an enhancement of detection rules",
     "properties": {
-      "threshold": ">£25k/q",
+      "threshold": ">\u00a325k/q",
       "frequency": "Quarterly"
     },
-    "context": "Fraud loss | Quarterly | >£25k/q | Enhance detection rules",
+    "context": "Fraud loss | Quarterly | >\u00a325k/q | Enhance detection rules",
     "bidirectional": false,
     "chunk_id": "091bcb9836824060839190fff58ae95a_014",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -1800,7 +1748,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_014_met_001",
-    "source_name": "Loan loss ratio — Threshold >0.5%",
+    "source_name": "Loan loss ratio \u2014 Threshold >0.5%",
     "target_id": "091bcb9836824060839190fff58ae95a_014",
     "target_name": "091bcb9836824060839190fff58ae95a_014",
     "rel_type": "EXTRACTED_FROM",
@@ -1811,7 +1759,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_014_met_002",
-    "source_name": "Operational incidents — Threshold >4/month",
+    "source_name": "Operational incidents \u2014 Threshold >4/month",
     "target_id": "091bcb9836824060839190fff58ae95a_014",
     "target_name": "091bcb9836824060839190fff58ae95a_014",
     "rel_type": "EXTRACTED_FROM",
@@ -1822,7 +1770,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_014_met_003",
-    "source_name": "Compliance violations — Threshold >0",
+    "source_name": "Compliance violations \u2014 Threshold >0",
     "target_id": "091bcb9836824060839190fff58ae95a_014",
     "target_name": "091bcb9836824060839190fff58ae95a_014",
     "rel_type": "EXTRACTED_FROM",
@@ -1833,7 +1781,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_014_met_004",
-    "source_name": "Fraud loss — Threshold >£25k/q",
+    "source_name": "Fraud loss \u2014 Threshold >\u00a325k/q",
     "target_id": "091bcb9836824060839190fff58ae95a_014",
     "target_name": "091bcb9836824060839190fff58ae95a_014",
     "rel_type": "EXTRACTED_FROM",
@@ -1844,7 +1792,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_014_met_005",
-    "source_name": "System availability — Threshold <99.8%",
+    "source_name": "System availability \u2014 Threshold <99.8%",
     "target_id": "091bcb9836824060839190fff58ae95a_014",
     "target_name": "091bcb9836824060839190fff58ae95a_014",
     "rel_type": "EXTRACTED_FROM",
@@ -1855,7 +1803,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_014_met_006",
-    "source_name": "Capital ratio — Threshold <15%",
+    "source_name": "Capital ratio \u2014 Threshold <15%",
     "target_id": "091bcb9836824060839190fff58ae95a_014",
     "target_name": "091bcb9836824060839190fff58ae95a_014",
     "rel_type": "EXTRACTED_FROM",
@@ -1866,7 +1814,7 @@
   },
   {
     "source_id": "091bcb9836824060839190fff58ae95a_014_met_007",
-    "source_name": "Customer complaints — Threshold >2/1000",
+    "source_name": "Customer complaints \u2014 Threshold >2/1000",
     "target_id": "091bcb9836824060839190fff58ae95a_014",
     "target_name": "091bcb9836824060839190fff58ae95a_014",
     "rel_type": "EXTRACTED_FROM",
@@ -2064,7 +2012,7 @@
     "properties": {
       "approval_date": "2026-01-15"
     },
-    "context": "Chief Risk Officer — Date: 2026-01-15\nBoard Risk Committee — Date: 2026-01-15",
+    "context": "Chief Risk Officer \u2014 Date: 2026-01-15\nBoard Risk Committee \u2014 Date: 2026-01-15",
     "bidirectional": true,
     "chunk_id": "091bcb9836824060839190fff58ae95a_018",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -2079,7 +2027,7 @@
     "properties": {
       "approval_date": "2026-01-15"
     },
-    "context": "Board Risk Committee — Date: 2026-01-15\nBoard of Directors — Date: 2026-01-15",
+    "context": "Board Risk Committee \u2014 Date: 2026-01-15\nBoard of Directors \u2014 Date: 2026-01-15",
     "bidirectional": true,
     "chunk_id": "091bcb9836824060839190fff58ae95a_018",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -2094,7 +2042,7 @@
     "properties": {
       "role": "Approver"
     },
-    "context": "Board Risk Committee — Date: 2026-01-15",
+    "context": "Board Risk Committee \u2014 Date: 2026-01-15",
     "bidirectional": false,
     "chunk_id": "091bcb9836824060839190fff58ae95a_018",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -2109,7 +2057,7 @@
     "properties": {
       "role": "Approver"
     },
-    "context": "Board of Directors — Date: 2026-01-15",
+    "context": "Board of Directors \u2014 Date: 2026-01-15",
     "bidirectional": false,
     "chunk_id": "091bcb9836824060839190fff58ae95a_018",
     "doc_id": "091bcb9836824060839190fff58ae95a"

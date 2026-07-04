@@ -211,7 +211,7 @@
     "name": "Monthly Patching Procedure",
     "properties": {
       "action_phase": "recovery",
-      "timeline": "Monthly (Tuesday 2–4 AM)",
+      "timeline": "Monthly (Tuesday 2\u20134 AM)",
       "actor": "IT Operations"
     },
     "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_011",
@@ -284,18 +284,6 @@
       "role_in_system": "Support Team for Internet Banking Platform (IBP)"
     },
     "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_012",
-    "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
-  },
-  {
-    "name": "Web-based customer portal for account access and self-service",
-    "properties": {
-      "topic": "Web-based customer portal",
-      "key_points": [
-        "Provides account access",
-        "Enables customer self-service"
-      ]
-    },
-    "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_013",
     "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
   },
   {
@@ -380,7 +368,7 @@
       "indicators": [
         "Response time (p95) >= 2 seconds"
       ],
-      "typical_impact": "Increased latency for daily active users during peak traffic (10:00–12:00 GMT)"
+      "typical_impact": "Increased latency for daily active users during peak traffic (10:00\u201312:00 GMT)"
     },
     "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_016",
     "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
@@ -725,7 +713,7 @@
     "id": "215a8b3734c04ce2ba85c17a957aef46_030_fra_001",
     "name": "Transaction Risk Model",
     "properties": {
-      "response_required": "Predicts fraud probability (0–100)"
+      "response_required": "Predicts fraud probability (0\u2013100)"
     },
     "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_030",
     "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
@@ -754,7 +742,7 @@
     "properties": {
       "detection_rate": "97%+",
       "false_positive_rate": "<2%",
-      "average_monthly_fraud_prevented": "£47k–£80k"
+      "average_monthly_fraud_prevented": "\u00a347k\u2013\u00a380k"
     },
     "chunk_id": "215a8b3734c04ce2ba85c17a957aef46_031",
     "doc_id": "215a8b3734c04ce2ba85c17a957aef46"
@@ -857,7 +845,7 @@
       "topic": "Faster Payments (FPS)",
       "key_points": [
         "Real-time processing",
-        "Maximum limit of £1M"
+        "Maximum limit of \u00a31M"
       ],
       "relevant_channels": [
         "Faster Payments (FPS)"

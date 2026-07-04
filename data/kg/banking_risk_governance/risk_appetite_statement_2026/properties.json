@@ -149,7 +149,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_004_met_001",
-    "name": "Loan Loss Ratio — Threshold <0.5% annually",
+    "name": "Loan Loss Ratio \u2014 Threshold <0.5% annually",
     "properties": {
       "metric_name": "Loan Loss Ratio",
       "target_threshold": "<0.5% annually"
@@ -159,7 +159,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_004_met_002",
-    "name": "Delinquency Rate — Threshold <2% of active accounts",
+    "name": "Delinquency Rate \u2014 Threshold <2% of active accounts",
     "properties": {
       "metric_name": "Delinquency Rate",
       "target_threshold": "<2% of active accounts"
@@ -169,7 +169,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_004_met_003",
-    "name": "Concentration Limit — No single customer >10% of capital",
+    "name": "Concentration Limit \u2014 No single customer >10% of capital",
     "properties": {
       "metric_name": "Concentration Limit",
       "target_threshold": "No single customer >10% of capital"
@@ -179,18 +179,10 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_004_met_004",
-    "name": "Mortgage LTV — Maximum <80%",
+    "name": "Mortgage LTV \u2014 Maximum <80%",
     "properties": {
       "metric_name": "Mortgage LTV",
       "target_threshold": "<80% (maximum)"
-    },
-    "chunk_id": "091bcb9836824060839190fff58ae95a_004",
-    "doc_id": "091bcb9836824060839190fff58ae95a"
-  },
-  {
-    "name": "Mortgages",
-    "properties": {
-      "product_risk_level": ""
     },
     "chunk_id": "091bcb9836824060839190fff58ae95a_004",
     "doc_id": "091bcb9836824060839190fff58ae95a"
@@ -214,17 +206,17 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_005_met_001",
-    "name": "Annual Operational Losses — Tolerance <£50,000",
+    "name": "Annual Operational Losses \u2014 Tolerance <\u00a350,000",
     "properties": {
       "metric_name": "Annual Operational Losses",
-      "target_threshold": "<£50,000"
+      "target_threshold": "<\u00a350,000"
     },
     "chunk_id": "091bcb9836824060839190fff58ae95a_005",
     "doc_id": "091bcb9836824060839190fff58ae95a"
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_005_met_002",
-    "name": "Major Incidents — Tolerance <1 per year",
+    "name": "Major Incidents \u2014 Tolerance <1 per year",
     "properties": {
       "metric_name": "Major Incidents",
       "target_threshold": "<1 per year"
@@ -234,7 +226,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_005_met_003",
-    "name": "System Outages — Tolerance <8 hours per year",
+    "name": "System Outages \u2014 Tolerance <8 hours per year",
     "properties": {
       "metric_name": "System Outages",
       "target_threshold": "<8 hours per year"
@@ -244,7 +236,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_005_met_004",
-    "name": "Process Errors — Tolerance <0.5% error rate",
+    "name": "Process Errors \u2014 Tolerance <0.5% error rate",
     "properties": {
       "metric_name": "Process Errors",
       "target_threshold": "<0.5% error rate"
@@ -272,7 +264,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_006_met_001",
-    "name": "Regulatory Breaches Tolerance — Zero willful violations",
+    "name": "Regulatory Breaches Tolerance \u2014 Zero willful violations",
     "properties": {
       "metric_name": "Regulatory Breaches",
       "target_threshold": "Zero willful violations",
@@ -283,7 +275,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_006_met_002",
-    "name": "KYC/AML Non-Compliance Tolerance — 0%",
+    "name": "KYC/AML Non-Compliance Tolerance \u2014 0%",
     "properties": {
       "metric_name": "KYC/AML Non-Compliance",
       "target_threshold": "0%",
@@ -294,7 +286,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_006_met_003",
-    "name": "Customer Protection Breaches Tolerance — 0%",
+    "name": "Customer Protection Breaches Tolerance \u2014 0%",
     "properties": {
       "metric_name": "Customer Protection Breaches",
       "target_threshold": "0%",
@@ -305,7 +297,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_006_met_004",
-    "name": "Disclosure Violations Tolerance — Zero",
+    "name": "Disclosure Violations Tolerance \u2014 Zero",
     "properties": {
       "metric_name": "Disclosure Violations",
       "target_threshold": "Zero",
@@ -333,17 +325,17 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_007_met_001",
-    "name": "Annual Fraud Loss — Threshold <£100,000 (0.3% of revenue)",
+    "name": "Annual Fraud Loss \u2014 Threshold <\u00a3100,000 (0.3% of revenue)",
     "properties": {
       "metric_name": "Annual Fraud Loss",
-      "target_threshold": "<£100,000 (0.3% of revenue)"
+      "target_threshold": "<\u00a3100,000 (0.3% of revenue)"
     },
     "chunk_id": "091bcb9836824060839190fff58ae95a_007",
     "doc_id": "091bcb9836824060839190fff58ae95a"
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_007_met_002",
-    "name": "Fraud Detection Rate — Threshold >96%",
+    "name": "Fraud Detection Rate \u2014 Threshold >96%",
     "properties": {
       "metric_name": "Fraud Detection Rate",
       "target_threshold": ">96%"
@@ -353,17 +345,17 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_007_met_003",
-    "name": "Customer Reimbursement — Threshold <£30k annually",
+    "name": "Customer Reimbursement \u2014 Threshold <\u00a330k annually",
     "properties": {
       "metric_name": "Customer Reimbursement",
-      "target_threshold": "<£30k annually"
+      "target_threshold": "<\u00a330k annually"
     },
     "chunk_id": "091bcb9836824060839190fff58ae95a_007",
     "doc_id": "091bcb9836824060839190fff58ae95a"
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_007_met_004",
-    "name": "Internal Fraud — Zero Tolerance",
+    "name": "Internal Fraud \u2014 Zero Tolerance",
     "properties": {
       "metric_name": "Internal Fraud",
       "target_threshold": "Zero tolerance"
@@ -390,7 +382,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_008_met_001",
-    "name": "Major Complaints — Tolerance <2 per 1,000 accounts",
+    "name": "Major Complaints \u2014 Tolerance <2 per 1,000 accounts",
     "properties": {
       "metric_name": "Major Complaints",
       "target_threshold": "<2 per 1,000 accounts",
@@ -401,7 +393,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_008_met_002",
-    "name": "Regulatory Complaints — Tolerance <1 per 1,000 accounts",
+    "name": "Regulatory Complaints \u2014 Tolerance <1 per 1,000 accounts",
     "properties": {
       "metric_name": "Regulatory Complaints",
       "target_threshold": "<1 per 1,000 accounts",
@@ -412,7 +404,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_008_met_003",
-    "name": "Media Incidents — Tolerance Zero negative incidents",
+    "name": "Media Incidents \u2014 Tolerance Zero negative incidents",
     "properties": {
       "metric_name": "Media Incidents",
       "target_threshold": "Zero negative incidents",
@@ -423,7 +415,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_008_met_004",
-    "name": "Customer Trust (NPS) — Target >70",
+    "name": "Customer Trust (NPS) \u2014 Target >70",
     "properties": {
       "metric_name": "Customer Trust (NPS)",
       "target_threshold": ">70",
@@ -454,7 +446,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_009_met_001",
-    "name": "Capital Ratio (Pillar 1) — Minimum >15%, Target 18%+",
+    "name": "Capital Ratio (Pillar 1) \u2014 Minimum >15%, Target 18%+",
     "properties": {
       "metric_name": "Capital Ratio (Pillar 1)",
       "target_threshold": "18%+",
@@ -465,7 +457,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_009_met_002",
-    "name": "Leverage Ratio — >5%",
+    "name": "Leverage Ratio \u2014 >5%",
     "properties": {
       "metric_name": "Leverage Ratio",
       "target_threshold": ">5%",
@@ -478,7 +470,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_009_met_003",
-    "name": "Capital Adequacy Buffer — 3%+ above minimum",
+    "name": "Capital Adequacy Buffer \u2014 3%+ above minimum",
     "properties": {
       "metric_name": "Capital Adequacy Buffer",
       "target_threshold": "3%+ above minimum"
@@ -506,7 +498,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_010_met_001",
-    "name": "System Availability — SLA 99.8%",
+    "name": "System Availability \u2014 SLA 99.8%",
     "properties": {
       "metric_name": "System Availability",
       "target_threshold": "99.8%",
@@ -517,7 +509,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_010_met_002",
-    "name": "Major Data Breach — Zero Tolerance",
+    "name": "Major Data Breach \u2014 Zero Tolerance",
     "properties": {
       "metric_name": "Major Data Breach",
       "target_threshold": "Zero tolerance",
@@ -528,7 +520,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_010_met_003",
-    "name": "Cybersecurity Incidents — <1 per year",
+    "name": "Cybersecurity Incidents \u2014 <1 per year",
     "properties": {
       "metric_name": "Cybersecurity Incidents",
       "target_threshold": "<1 per year"
@@ -538,7 +530,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_010_met_004",
-    "name": "Unplanned Downtime — <2 hours per year",
+    "name": "Unplanned Downtime \u2014 <2 hours per year",
     "properties": {
       "metric_name": "Unplanned Downtime",
       "target_threshold": "<2 hours per year"
@@ -566,7 +558,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_011_met_001",
-    "name": "Loan-to-Deposit Ratio — Tolerance <90%",
+    "name": "Loan-to-Deposit Ratio \u2014 Tolerance <90%",
     "properties": {
       "metric_name": "Loan-to-Deposit Ratio",
       "target_threshold": "<90%",
@@ -577,7 +569,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_011_met_002",
-    "name": "Liquid Assets Buffer — Tolerance 30 days+ operating expenses",
+    "name": "Liquid Assets Buffer \u2014 Tolerance 30 days+ operating expenses",
     "properties": {
       "metric_name": "Liquid Assets Buffer",
       "target_threshold": "30 days+ operating expenses",
@@ -588,7 +580,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_011_met_003",
-    "name": "Maturity Mismatch — Tolerance <6 months average",
+    "name": "Maturity Mismatch \u2014 Tolerance <6 months average",
     "properties": {
       "metric_name": "Maturity Mismatch",
       "target_threshold": "<6 months average",
@@ -705,7 +697,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_012_met_001",
-    "name": "Customer Exposure Limit — Threshold <10% of Capital",
+    "name": "Customer Exposure Limit \u2014 Threshold <10% of Capital",
     "properties": {
       "metric_name": "Customer Exposure Limit",
       "target_threshold": "<10% of Capital",
@@ -793,7 +785,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_014_met_001",
-    "name": "Loan loss ratio — Threshold >0.5%",
+    "name": "Loan loss ratio \u2014 Threshold >0.5%",
     "properties": {
       "metric_name": "Loan loss ratio",
       "target_threshold": ">0.5%",
@@ -806,7 +798,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_014_met_002",
-    "name": "Operational incidents — Threshold >4/month",
+    "name": "Operational incidents \u2014 Threshold >4/month",
     "properties": {
       "metric_name": "Operational incidents",
       "target_threshold": ">4/month",
@@ -819,7 +811,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_014_met_003",
-    "name": "Compliance violations — Threshold >0",
+    "name": "Compliance violations \u2014 Threshold >0",
     "properties": {
       "metric_name": "Compliance violations",
       "target_threshold": ">0",
@@ -832,12 +824,12 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_014_met_004",
-    "name": "Fraud loss — Threshold >£25k/q",
+    "name": "Fraud loss \u2014 Threshold >\u00a325k/q",
     "properties": {
       "metric_name": "Fraud loss",
-      "target_threshold": ">£25k/q",
+      "target_threshold": ">\u00a325k/q",
       "reporting_frequency": "Quarterly",
-      "breach_threshold": ">£25k/q",
+      "breach_threshold": ">\u00a325k/q",
       "context": "Enhance detection rules if exceeded"
     },
     "chunk_id": "091bcb9836824060839190fff58ae95a_014",
@@ -845,7 +837,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_014_met_005",
-    "name": "System availability — Threshold <99.8%",
+    "name": "System availability \u2014 Threshold <99.8%",
     "properties": {
       "metric_name": "System availability",
       "target_threshold": "<99.8%",
@@ -858,7 +850,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_014_met_006",
-    "name": "Capital ratio — Threshold <15%",
+    "name": "Capital ratio \u2014 Threshold <15%",
     "properties": {
       "metric_name": "Capital ratio",
       "target_threshold": "<15%",
@@ -871,7 +863,7 @@
   },
   {
     "id": "091bcb9836824060839190fff58ae95a_014_met_007",
-    "name": "Customer complaints — Threshold >2/1000",
+    "name": "Customer complaints \u2014 Threshold >2/1000",
     "properties": {
       "metric_name": "Customer complaints",
       "target_threshold": ">2/1000",
