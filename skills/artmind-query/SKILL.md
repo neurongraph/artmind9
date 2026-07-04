@@ -43,8 +43,11 @@ uv run artmind query domains-overview --compact
 ```
 
 - If the user names an exact single small domain, use it and skip to Discover.
-- If the user names an AREA ("banking", "our policies"), or more than one domain
-  is plausible, or listings look large, launch ONE sub-agent that runs
+- If the user names two or more SPECIFIC domains directly (e.g. "compare banking_policy
+  and banking_sop_guides"), use exactly those domains and skip to Discover — no
+  sub-agent needed, since routing is already resolved.
+- If the user names an AREA ("banking", "our policies"), or it's unclear which
+  domain(s) hold the answer, or listings look large, launch ONE sub-agent that runs
   `domains-overview` + per-domain `structural-metadata --compact` + `entity-resolve`,
   and returns ONLY a compact routing report:
   `{domains, resolved_entities:[{id,name,class,domain}], relevant_classes, relevant_rel_types}`.
@@ -67,7 +70,7 @@ If `total_entities` is large (> ~100), do not fetch the full listing. Narrow wit
 
 ### 2. Resolve — map question names to exact graph nodes
 
-Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. Before running retrieval patterns:
+Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. If Route's sub-agent already returned `resolved_entities`, reuse those ids directly and skip straight to step 3 — don't re-resolve. Otherwise, before running retrieval patterns:
 
 1. Resolve every entity reference in the question:
 
@@ -127,7 +130,7 @@ side, re-run Ground with the sibling domains from Route before concluding.
 
 ## Fallback Ladder
 
-1. Thin results in the chosen domain → re-run with sibling domains from Route before concluding data is absent.
+1. Thin results in the chosen domain → re-run with sibling domains from Route before concluding data is absent. (Same fix as Adjudicate's "only one side retrieved" case — apply it as soon as results look thin, not only after a disagreement surfaces.)
 2. pattern6 empty → pattern5 `--mode shortest`.
 3. Pattern output empty or too thin → vector-text.
 4. text2cypher returns no rows but data should exist → run `structural-metadata`, then `text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
