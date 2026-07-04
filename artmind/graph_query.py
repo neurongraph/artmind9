@@ -58,6 +58,18 @@ def domain_predicate(var: str, param: str = "domains") -> str:
     )
 
 
+def asof_predicate(var: str, param: str = "asOf") -> str:
+    """NULL-safe valid-time filter. Untimed nodes are always visible.
+
+    Emitted only when the caller requests as-of filtering.
+    """
+    return (
+        f"(${param} IS NULL OR "
+        f"(({var}.valid_from IS NULL OR {var}.valid_from <= ${param}) "
+        f"AND ({var}.valid_to IS NULL OR {var}.valid_to > ${param})))"
+    )
+
+
 PATTERN_REQUIRED_OPTIONS = {
     "pattern1": ("entityClass",),
     "pattern2": ("entityNameList",),
@@ -185,12 +197,13 @@ def _domain_output(domains: list[str]) -> dict:
     return out
 
 
-def graph_metadata(domains: "str | Sequence[str]") -> dict:
+def graph_metadata(domains: "str | Sequence[str]", as_of: str | None = None) -> dict:
     domains = normalize_domains(domains)
+    asof_node = f"\n        AND {asof_predicate('n')}" if as_of else ""
     cypher = f"""
     CALL () {{
       MATCH (n)
-      WHERE {domain_predicate("n")}
+      WHERE {domain_predicate("n")}{asof_node}
       UNWIND labels(n) AS label
       WITH label, keys(n) AS nodeKeys, n.type AS typeVal
       UNWIND nodeKeys AS propName
@@ -218,7 +231,7 @@ def graph_metadata(domains: "str | Sequence[str]") -> dict:
         **_domain_output(domains),
         "query_type": "graph",
         "command": "metadata",
-        "rows": _run_read_query(cypher, {"domains": domains}),
+        "rows": _run_read_query(cypher, {"domains": domains, **({"asOf": as_of} if as_of else {})}),
     }
 
 
@@ -286,12 +299,14 @@ def entity_listing(
     domains: "str | Sequence[str]",
     name_filter: str | None = None,
     count_all: bool = False,
+    as_of: str | None = None,
 ) -> dict:
     domains = normalize_domains(domains)
+    asof_node = f"\n      AND {asof_predicate('n')}" if as_of else ""
     cypher = f"""
     MATCH (n:Entity)
     WHERE {domain_predicate("n")} AND n.name IS NOT NULL
-      AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter))
+      AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter)){asof_node}
     UNWIND labels(n) AS label
     WITH label, n.type AS type, collect(DISTINCT n.name) AS names
     RETURN label, collect({{type: type, names: names}}) AS typeGroups
@@ -301,17 +316,26 @@ def entity_listing(
         **_domain_output(domains),
         "query_type": "graph",
         "command": "entity_listing",
-        "rows": _run_read_query(cypher, {"domains": domains, "nameFilter": name_filter}),
+        "rows": _run_read_query(
+            cypher,
+            {
+                "domains": domains,
+                "nameFilter": name_filter,
+                **({"asOf": as_of} if as_of else {}),
+            },
+        ),
     }
     if name_filter is not None:
         result["name_filter"] = name_filter
     if count_all:
         count_cypher = f"""
         MATCH (n:Entity)
-        WHERE {domain_predicate("n")} AND n.name IS NOT NULL
+        WHERE {domain_predicate("n")} AND n.name IS NOT NULL{asof_node}
         RETURN count(DISTINCT n) AS total
         """
-        count_rows = _run_read_query(count_cypher, {"domains": domains})
+        count_rows = _run_read_query(
+            count_cypher, {"domains": domains, **({"asOf": as_of} if as_of else {})}
+        )
         result["total_entities"] = count_rows[0]["total"] if count_rows else 0
     return result
 
@@ -383,26 +407,37 @@ def _entity_list_selector(parameters: dict, cypher_params: dict, var: str) -> st
 
 
 def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
+    as_of = parameters.get("asOf")
+
+    def _asof(var: str) -> str:
+        return f"\n              AND {asof_predicate(var)}" if as_of else ""
+
     if pattern == "pattern1":
         label = parameters["entityClass"]
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e")}
+            WHERE {domain_predicate("e")}{_asof("e")}
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY e.name
             LIMIT $limit
             """,
-            {"domains": parameters["domains"], "limit": parameters.get("limit", 200)},
+            {
+                "domains": parameters["domains"],
+                "limit": parameters.get("limit", 200),
+                **({"asOf": as_of} if as_of else {}),
+            },
         )
     if pattern == "pattern2":
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_list_selector(parameters, cypher_params, "e")
+        if as_of:
+            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e:Entity)
             WHERE {domain_predicate("e")}
-              AND {selector}
+              AND {selector}{_asof("e")}
             OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
             WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
@@ -416,11 +451,13 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
     if pattern == "pattern3":
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_list_selector(parameters, cypher_params, "e")
+        if as_of:
+            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e:Entity)
             WHERE {domain_predicate("e")}
-              AND {selector}
+              AND {selector}{_asof("e")}
             OPTIONAL MATCH (e)-[r]-(t:Entity)
             WHERE {domain_predicate("t")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
@@ -441,11 +478,13 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         label = parameters["entityClass"]
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_selector(parameters, cypher_params, "e")
+        if as_of:
+            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e:{label})
             WHERE {domain_predicate("e")}
-              AND {selector}
+              AND {selector}{_asof("e")}
             OPTIONAL MATCH (e)-[r]-(t:Entity)
             WHERE {domain_predicate("t")}
             WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
@@ -513,13 +552,15 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         cypher_params = {"domains": parameters["domains"]}
         selector1 = _entity_selector(parameters, cypher_params, "e1", "entityName1", "entityId1")
         selector2 = _entity_selector(parameters, cypher_params, "e2", "entityName2", "entityId2")
+        if as_of:
+            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e1:Entity)-[r]-(e2:Entity)
             WHERE {domain_predicate("e1")}
               AND {domain_predicate("e2")}
               AND {selector1}
-              AND {selector2}
+              AND {selector2}{_asof("e1")}{_asof("e2")}
             RETURN type(r) AS relType,
                    properties(r) AS relProps,
                    startNode(r).name AS fromEntity,
@@ -538,7 +579,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             f"""
             CALL db.index.fulltext.queryNodes('entity_name_ft', $searchTerm)
             YIELD node AS e, score AS ftScore
-            WHERE {domain_predicate("e")}
+            WHERE {domain_predicate("e")}{_asof("e")}
             RETURN e {{.*, label: labels(e)}} AS entityData
             ORDER BY ftScore DESC, e.name
             LIMIT $limit
@@ -547,18 +588,21 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                 "domains": parameters["domains"],
                 "searchTerm": search_term,
                 "limit": parameters.get("limit", 10),
+                **({"asOf": as_of} if as_of else {}),
             },
         )
     if pattern == "pattern8":
         label = parameters["entityClass"]
         cypher_params = {"domains": parameters["domains"]}
         selector = _entity_selector(parameters, cypher_params, "t")
+        if as_of:
+            cypher_params["asOf"] = as_of
         return (
             f"""
             MATCH (e:{label})-[r]-(t:Entity)
             WHERE {domain_predicate("e")}
               AND {domain_predicate("t")}
-              AND {selector}
+              AND {selector}{_asof("e")}
             RETURN e {{.*, label: labels(e)}} AS entityData,
                    type(r) AS relType,
                    properties(r) AS relProps
@@ -578,23 +622,34 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         return (
             f"""
             MATCH (e:{label})
-            WHERE {domain_predicate("e")}
+            WHERE {domain_predicate("e")}{_asof("e")}
             {degree_match}
             WITH e, count(r) AS degree
             RETURN e {{.*, label: labels(e), degree: degree}} AS entityData
             ORDER BY degree DESC, e.name
             LIMIT $topN
             """,
-            {"domains": parameters["domains"], "topN": parameters.get("topN", 5)},
+            {
+                "domains": parameters["domains"],
+                "topN": parameters.get("topN", 5),
+                **({"asOf": as_of} if as_of else {}),
+            },
         )
     if pattern == "pattern10":
+        # No _asof() here: pattern10's primary filter is on the Document (d),
+        # but the projected temporal fields (valid_from/valid_to/superseded_by)
+        # live on both Document and, more granularly, per-chunk currency isn't
+        # modeled — filtering only on d while returning all its chunks would
+        # silently mix "document is current" with "chunk content is current",
+        # which is a bigger modeling decision than this task should make. Left
+        # for a follow-up once chunk-level supersession is defined.
         return (
             f"""
             MATCH (c:DocChunk)-[:PART_OF]->(d:Document)
             WHERE {domain_predicate("d")}
               AND toLower(d.name) CONTAINS toLower($documentName)
-            RETURN d {{ .id, .name, .path, .domain }} AS document,
-                   c {{ .id, .name, .doc_id, .domain, .text }} AS chunk
+            RETURN d {{ .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by }} AS document,
+                   c {{ .id, .name, .doc_id, .domain, .valid_to, .text }} AS chunk
             ORDER BY c.name
             """,
             {"domains": parameters["domains"], "documentName": parameters["documentName"]},
@@ -606,10 +661,11 @@ def execute_pattern(
     domains: "str | Sequence[str]",
     pattern: str,
     question: str | None = None,
+    as_of: str | None = None,
     **parameters,
 ) -> dict:
     domains = normalize_domains(domains)
-    params = normalize_pattern_parameters(pattern, {"domains": domains, **parameters})
+    params = normalize_pattern_parameters(pattern, {"domains": domains, "asOf": as_of, **parameters})
     validate_pattern_parameters(pattern, params)
     cypher, cypher_params = _pattern_query(pattern, params)
     output_parameters = {

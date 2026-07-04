@@ -83,12 +83,17 @@ def embed_question(question: str, model: str | None = None) -> list[float]:
     return _embed_text(resolved_model, question)
 
 
-def vector_search(domains, question: str, topK: int = 5) -> dict:
-    from artmind.graph_query import normalize_domains, domain_predicate, _domain_output
+def vector_search(domains, question: str, topK: int = 5, as_of: str | None = None) -> dict:
+    from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
 
     domains = normalize_domains(domains)
     embedding = embed_question(question)
     n = len(domains)
+
+    # UserChat has no valid_from/valid_to per the schema design (chats aren't
+    # versioned documents), so the asOf filter is only applied to the chunk
+    # (document content) leg, the primary content search.
+    asof_chunk = f"\n      AND {asof_predicate('node')}" if as_of else ""
 
     cypher_chunks = f"""
     CYPHER 25
@@ -98,7 +103,7 @@ def vector_search(domains, question: str, topK: int = 5) -> dict:
         FOR $embedding
         LIMIT $candidateK
       )
-    WHERE {domain_predicate("node")}
+    WHERE {domain_predicate("node")}{asof_chunk}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
@@ -131,6 +136,7 @@ def vector_search(domains, question: str, topK: int = 5) -> dict:
         "embedding": embedding,
         "topK": int(topK),
         "candidateK": max(int(topK) * 5 * n, int(topK)),
+        **({"asOf": as_of} if as_of else {}),
     }
 
     with neo4j_session() as session:
@@ -155,12 +161,12 @@ def vector_search(domains, question: str, topK: int = 5) -> dict:
         **_domain_output(domains),
         "query_type": "vector",
         "question": question,
-        "parameters": {"topK": int(topK)},
+        "parameters": {"topK": int(topK), **({"asOf": as_of} if as_of else {})},
         "rows": all_rows,
     }
 
 
-def full_text_search(domains, question: str, topK: int = 5) -> dict:
+def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = None) -> dict:
     """Full-text (Lucene) search on DocChunk and UserChat text content.
 
     Uses the chunk_text_ft and user_chat_text_ft indexes created by
@@ -168,7 +174,7 @@ def full_text_search(domains, question: str, topK: int = 5) -> dict:
     relevance ranking; terms are OR-combined so natural-language questions
     still match chunks containing only the salient words.
     """
-    from artmind.graph_query import normalize_domains, domain_predicate, _domain_output
+    from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
 
     domains = normalize_domains(domains)
     query = sanitize_lucene_query(question)
@@ -177,16 +183,20 @@ def full_text_search(domains, question: str, topK: int = 5) -> dict:
         **_domain_output(domains),
         "query_type": "full_text",
         "question": question,
-        "parameters": {"topK": int(topK)},
+        "parameters": {"topK": int(topK), **({"asOf": as_of} if as_of else {})},
         "rows": [],
     }
     if not query:
         return result
 
+    # UserChat has no valid_from/valid_to (see vector_search) — asOf only
+    # applies to the chunk (document content) leg.
+    asof_chunk = f"\n      AND {asof_predicate('node')}" if as_of else ""
+
     cypher_chunks = f"""
     CALL db.index.fulltext.queryNodes('chunk_text_ft', $ft_query)
     YIELD node, score
-    WHERE {domain_predicate("node")}
+    WHERE {domain_predicate("node")}{asof_chunk}
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {{ .id, .name, .doc_id, .text }} AS chunk,
@@ -211,6 +221,7 @@ def full_text_search(domains, question: str, topK: int = 5) -> dict:
         "domains": domains,
         "ft_query": query,
         "topK": int(topK),
+        **({"asOf": as_of} if as_of else {}),
     }
 
     with neo4j_session() as session:
@@ -235,7 +246,7 @@ def full_text_search(domains, question: str, topK: int = 5) -> dict:
     return result
 
 
-def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
+def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = None) -> dict:
     """Resolve a free-text entity reference to canonical graph entities.
 
     Combines Lucene full-text over entity name+description (entity_name_ft)
@@ -243,16 +254,18 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     The fulltext leg catches name fragments; the vector leg catches purely
     descriptive references ("the detective") that share no words with the name.
     """
-    from artmind.graph_query import normalize_domains, domain_predicate, _domain_output
+    from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
 
     domains = normalize_domains(domains)
     n = len(domains)
     ft_query = sanitize_lucene_query(reference)
+    asof_e = f"\n      AND {asof_predicate('e')}" if as_of else ""
+    asof_node = f"\n      AND {asof_predicate('node')}" if as_of else ""
 
     cypher_ft = f"""
     CALL db.index.fulltext.queryNodes('entity_name_ft', $ft_query)
     YIELD node AS e, score
-    WHERE {domain_predicate("e")}
+    WHERE {domain_predicate("e")}{asof_e}
     RETURN score,
            e {{ .id, .name, .entity_class, .type, .description, .domain, label: labels(e) }} AS entity
     ORDER BY score DESC
@@ -267,7 +280,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
         FOR $embedding
         LIMIT $candidateK
       )
-    WHERE {domain_predicate("node")}
+    WHERE {domain_predicate("node")}{asof_node}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     RETURN score,
            node {{ .id, .name, .entity_class, .type, .description, .domain, label: labels(node) }} AS entity
@@ -275,13 +288,15 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
     LIMIT $topK
     """
 
+    asof_param = {"asOf": as_of} if as_of else {}
+
     with neo4j_session() as session:
         ft_rows: list = []
         if ft_query:
             ft_rows = [
                 strip_embeddings(serialize_record(record))
                 for record in session.run(
-                    cypher_ft, domains=domains, ft_query=ft_query, topK=int(topK)
+                    cypher_ft, domains=domains, ft_query=ft_query, topK=int(topK), **asof_param
                 )
             ]
 
@@ -296,6 +311,7 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
                     embedding=embedding,
                     topK=int(topK),
                     candidateK=max(int(topK) * 5 * n, int(topK)),
+                    **asof_param,
                 )
             ]
         except ClientError as e:
@@ -315,12 +331,12 @@ def entity_resolve(domains, reference: str, topK: int = 5) -> dict:
         **_domain_output(domains),
         "query_type": "entity_resolve",
         "question": reference,
-        "parameters": {"topK": int(topK)},
+        "parameters": {"topK": int(topK), **asof_param},
         "rows": combined_rows,
     }
 
 
-def vector_text_search(domains, question: str, topK: int = 5) -> dict:
+def vector_text_search(domains, question: str, topK: int = 5, as_of: str | None = None) -> dict:
     """Combined vector and full-text search using Reciprocal Rank Fusion.
 
     Searches both semantic embeddings (vector) and keyword matches (full-text),
@@ -331,9 +347,12 @@ def vector_text_search(domains, question: str, topK: int = 5) -> dict:
 
     domains = normalize_domains(domains)
 
-    # Run both searches in parallel (conceptually - sequentially in practice)
-    vector_results = vector_search(domains, question, topK)
-    text_results = full_text_search(domains, question, topK)
+    # Run both searches in parallel (conceptually - sequentially in practice).
+    # as_of is passed only when set so callers/mocks with the pre-existing
+    # (domain, question, topK) signature keep working unchanged.
+    asof_kwargs = {"as_of": as_of} if as_of else {}
+    vector_results = vector_search(domains, question, topK, **asof_kwargs)
+    text_results = full_text_search(domains, question, topK, **asof_kwargs)
 
     # Combine using RRF
     combined_rows = _rrf_combine(vector_results["rows"], text_results["rows"], topK)
@@ -342,6 +361,6 @@ def vector_text_search(domains, question: str, topK: int = 5) -> dict:
         **_domain_output(domains),
         "query_type": "vector_text",
         "question": question,
-        "parameters": {"topK": int(topK)},
+        "parameters": {"topK": int(topK), **({"asOf": as_of} if as_of else {})},
         "rows": combined_rows,
     }

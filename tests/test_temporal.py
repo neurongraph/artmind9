@@ -138,3 +138,28 @@ def test_normalize_ingested_document_merges_properties_json(tmp_path, monkeypatc
 
     assert result["entities"] == 1
     assert written_props["valid_from"] == "2026-06-01"
+
+
+def test_asof_predicate_shape():
+    from artmind.graph_query import asof_predicate
+    pred = asof_predicate("e")
+    assert "$asOf IS NULL" in pred
+    assert "e.valid_from IS NULL OR e.valid_from <= $asOf" in pred
+    assert "e.valid_to IS NULL OR e.valid_to > $asOf" in pred
+
+
+def test_pattern1_cypher_includes_asof_when_requested():
+    import artmind.graph_query as gq
+    cypher, params = gq._pattern_query(
+        "pattern1", {"domains": ["fiction"], "entityClass": "PERSON", "limit": 5, "asOf": "2026-07-04"}
+    )
+    assert "$asOf" in cypher
+    assert params["asOf"] == "2026-07-04"
+
+
+def test_pattern1_cypher_omits_asof_when_none():
+    import artmind.graph_query as gq
+    cypher, params = gq._pattern_query(
+        "pattern1", {"domains": ["fiction"], "entityClass": "PERSON", "limit": 5, "asOf": None}
+    )
+    assert "$asOf" not in cypher
