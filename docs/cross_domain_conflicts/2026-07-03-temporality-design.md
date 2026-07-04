@@ -120,7 +120,12 @@ temporal:
 
 ## 7. Normalization stage (where canonical properties get written)
 
-New pipeline stage `artmind ingest normalize-time --domain D [--dry-run]`, also runnable standalone as backfill over existing graphs:
+New pipeline stage, invoked two ways (decided 2026-07-04):
+
+- **Automatically, per document** — runs immediately after `write_to_graph()` succeeds inside `ingest_to_kg()` (`artmind/ingest.py:1138-1141`), no `--dry-run` in this path. Safe to auto-chain because it operates on a single document's own data, makes no cross-document judgment calls, and only ever adds canonical properties alongside the originals — there's nothing destructive to gate behind a review step. Contrast with the sibling spec's `refine-graph`/`detect-conflicts`, which stay explicit-call-only precisely because they *are* cross-document/cross-domain judgment calls (see that spec's "Pipeline automation" note).
+- **Standalone** — `artmind ingest normalize-time --domain D [--dry-run]`, for backfilling documents ingested before this stage existed, or re-running after a schema's `temporal:` block changes.
+
+Both paths share the same logic:
 
 1. **Document dates**: parse header/front-matter per `temporal.document` mapping ("Effective Date: 15 March 2026", "Version: 3.2") → `Document.valid_from`, `Document.version`. Fall back to front-matter `date`; `last_modified` is a last resort, flagged low-confidence (`time_source: 'mtime'`).
 2. **Entity/rel dates**: copy schema-mapped domain properties → canonical `valid_from`/`valid_to`/`event_at`, parsing to ISO-8601. Deterministic parsing (`dateutil`-style) first; **LLM only for leftovers** — vague/relative strings ("early spring", "t0 + 2 weeks"), resolved against `relative_anchor`, batched, bounded (same cost discipline as `detect-conflicts` in the sibling spec).
@@ -138,7 +143,7 @@ Temporality is the conflict model's most important **resolver**:
 
 ## 9. Phasing (relative to the sibling spec's phases)
 
-- **Phase T1 (independent of cross-domain Phase 1):** canonical properties + range indexes (`setup.py`), `normalize-time` stage + document-date lifting, `temporal:` block in 5–7 schemas, `--asOf` on query commands + skill guidance. No LLM cost except bounded relative-date parsing.
+- **Phase T1 (independent of cross-domain Phase 1):** canonical properties + range indexes (`setup.py`), `normalize-time` stage + document-date lifting — auto-hooked into `ingest_to_kg()` post-`write_to_graph`, plus standalone/backfill CLI (see §7) — `temporal:` block in 5–7 schemas, `--asOf` on query commands + skill guidance. No LLM cost except bounded relative-date parsing.
 - **Phase T2 (lands with or just after sibling Phase 2 / `detect-conflicts`):** `SUPERSEDES` model + explicit-supersession detection, `superseded` adjudicator verdict + `resolution` field, `query graph timeline`, text2cypher schema additions.
 - **Phase T3:** state-change reification guidance in journaling-type schemas (`STATE_CHANGE` classes), `artmind-create-schema` temporal step, harmonizer propagation.
 
@@ -146,6 +151,6 @@ Temporality is the conflict model's most important **resolver**:
 
 1. **Document lifting**: ingest a banking policy with "Effective Date:" header → `Document.valid_from` set with `time_source:'header'`; a dateless doc falls back to mtime flagged low-confidence.
 2. **`--asOf` regression**: no `--asOf` → identical results to today (all tests unchanged); `--asOf` on a domain with no temporal data → also identical (NULL-safe filter).
-3. **Supersession acceptance**: ingest a v2 of `policy_complaints.md` with revised thresholds → explicit-supersession detection (or adjudicator verdict) creates `SUPERSEDES`, sets `valid_to` on v1; the fee-reversal question `--asOf today` retrieves only v2 thresholds; without `--asOf`, both appear with v1 marked superseded — and **no open Conflict is created between v1 and v2**, while the genuine cross-domain conflict (policy vs escalation matrix, both in force) stays open.
+3. **Supersession acceptance**: fixture exists (added 2026-07-04) — `banking_document_corpus/policies/policy_complaints_v3.md`, same Document ID `COM-POL-006`, Version 3.0, `Effective Date: 2026-06-01`, with an explicit "Supersession Notice" section naming Version 2.0 (`Effective Date: 2026-01-15`) as replaced, plus a `Document Version History` table mirroring `escalation_matrix.md`'s existing convention. It also **resolves** v2.0's intra-document inconsistency (the Escalation Matrix section and the Compensation Framework section disagreed on Manager/Director thresholds; v3.0 unifies both at Manager `<£500` / Director `£500–2,000` / CEO `>£2,000`) while **deliberately preserving** the cross-domain disagreement with `escalation_matrix.md`'s Decision Authority Matrix (still Manager `£1,000`, Director `>£1k`), so the two phenomena — supersession and genuine cross-domain conflict — can be verified independently. Ingest this file → explicit-supersession detection (or the adjudicator's `superseded` verdict) creates `SUPERSEDES` from v3.0 onto v2.0 and sets `valid_to = 2026-06-01` on v2.0; the fee-reversal question `--asOf 2026-07-04` (today) retrieves only v3.0's thresholds; without `--asOf`, both appear with v2.0 marked superseded. Expected result: **no open Conflict between v2.0 and v3.0** (same document lineage), while the genuine cross-domain conflict (v3.0 vs `escalation_matrix.md`, both currently in force) stays open — see sibling spec's Verification #3 for the paired assertion.
 4. **Journaling**: two journal entries where an entity's state changes → `query graph timeline` returns ordered state changes with resolved absolute `event_at` (relative "today" anchored to each entry's date).
-5. **Cost check**: `normalize-time` reports deterministic-vs-LLM parse counts; LLM calls bounded and batched.
+5. **Cost check**: `normalize-time` reports deterministic-vs-LLM parse counts; LLM calls bounded and batched. Since it now runs automatically per document at ingest time, confirm the bound holds at single-document scale (not corpus-wide) so it doesn't regress `ingest sync`/`ingest async` latency — the standalone command remains the path for corpus-wide backfill cost.
