@@ -3,6 +3,7 @@
 import difflib
 import json
 from collections import defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 
 from loguru import logger
@@ -122,6 +123,24 @@ def _merge_entity_pair(session, alias: str, canonical: str, domain: str | None) 
         return False
 
 
+def _entity_domains(session, names: list[str]) -> dict[str, set[str]]:
+    """Map each entity name to the set of domains it appears in."""
+    rows = session.run(
+        "MATCH (e:Entity) WHERE e.name IN $names RETURN e.name AS name, collect(DISTINCT e.domain) AS domains",
+        names=names,
+    ).data()
+    return {r["name"]: set(r["domains"]) for r in rows}
+
+
+def _record_refine_run(session, domains: list[str]) -> None:
+    """Record a RefineRun marker for each domain that had refine-graph applied to it."""
+    for d in domains:
+        session.run(
+            "MERGE (r:RefineRun {domain:$d}) SET r.at = $at",
+            d=d, at=datetime.now(timezone.utc).isoformat(),
+        )
+
+
 def apply_merges(proposed_merges: dict[str, str], domain: str | None) -> dict:
     """Execute entity merges in Neo4j. Returns stats dict."""
     stats = {"merged": 0, "skipped": 0, "errors": 0}
@@ -147,12 +166,16 @@ def refine_graph(
     dry_run: bool,
     output_file: Path | None,
     from_file: Path | None,
+    allow_cross_domain_merge: bool = False,
 ) -> dict:
     """Cluster similar entity names, ask LLM which to merge, optionally apply to Neo4j.
 
     dry_run=True  → compute proposals and write output_file, do NOT apply
     dry_run=False → compute proposals, write output_file if given, then apply
     from_file     → skip computation, load proposals from file and apply (ignores dry_run)
+    allow_cross_domain_merge → when domain is None (all-domains run), allow merges whose
+        alias/canonical span more than one domain. Default False: such merges are dropped
+        and recorded in report["skipped_cross_domain"] instead of being applied.
     """
     from utils.functions import load_env
 
@@ -222,6 +245,22 @@ def refine_graph(
 
     logger.info("Total proposed merges: {}", len(report["proposed_merges"]))
 
+    if domain is None and not allow_cross_domain_merge and report["proposed_merges"]:
+        with neo4j_session() as session:
+            names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
+            dmap = _entity_domains(session, list(names))
+        kept, skipped = {}, {}
+        for alias, canonical in report["proposed_merges"].items():
+            spans = dmap.get(alias, set()) | dmap.get(canonical, set())
+            if len(spans) > 1:
+                skipped[alias] = canonical
+            else:
+                kept[alias] = canonical
+        report["proposed_merges"] = kept
+        report["skipped_cross_domain"] = skipped
+        if skipped:
+            logger.info("Skipped {} cross-domain merge cluster(s): {}", len(skipped), skipped)
+
     if output_file:
         output_file.write_text(json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
         logger.info("Proposals written to {}", output_file)
@@ -230,5 +269,14 @@ def refine_graph(
         stats = apply_merges(report["proposed_merges"], domain)
         report["stats"] = stats
         logger.info("Done — merged={merged} skipped={skipped} errors={errors}", **stats)
+
+        with neo4j_session() as session:
+            if domain:
+                touched_domains = [domain]
+            else:
+                names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
+                dmap = _entity_domains(session, list(names))
+                touched_domains = sorted({d for name in names for d in dmap.get(name, set())})
+            _record_refine_run(session, touched_domains)
 
     return report

@@ -632,6 +632,13 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
     type=click.Path(exists=True),
     help="Skip computation — load proposals from a previous dry-run JSON file and apply them",
 )
+@click.option(
+    "--allow-cross-domain-merge",
+    "allow_cross_domain_merge",
+    is_flag=True,
+    default=False,
+    help="Allow merging same-named entities across domains (default: skip and report them)",
+)
 def ingest_refine_graph(
     domain: str | None,
     name_filter: str | None,
@@ -640,6 +647,7 @@ def ingest_refine_graph(
     dry_run: bool,
     output_file: str | None,
     from_file: str | None,
+    allow_cross_domain_merge: bool,
 ) -> None:
     """Find similar entity names, merge aliases into canonical entities.
 
@@ -673,6 +681,7 @@ def ingest_refine_graph(
         dry_run=dry_run,
         output_file=out_path,
         from_file=from_path,
+        allow_cross_domain_merge=allow_cross_domain_merge,
     )
 
     proposed = report.get("proposed_merges", {})
@@ -685,6 +694,10 @@ def ingest_refine_graph(
         if out_path:
             click.echo(f"Proposals written to: {out_path}")
             click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}")
+
+    skipped = report.get("skipped_cross_domain", {})
+    if skipped:
+        click.echo(f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}")
 
 
 @ingest.command("normalize-time")
