@@ -40,3 +40,9 @@ def test_pattern1_cypher_uses_in_domains():
     assert "e.domain IN $domains" in cypher
     assert params["domains"] == ["fiction"]
     assert "= $domain" not in cypher
+
+
+def test_domain_predicate_rolls_up_subdomains_semantics():
+    # A one-element list "banking" must match "banking.policy" via STARTS WITH.
+    pred = domain_predicate("e")
+    assert "STARTS WITH (d + '.')" in pred
