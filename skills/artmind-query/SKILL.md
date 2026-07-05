@@ -68,6 +68,8 @@ For document/chunk/count questions, `structural-metadata` is the compact alterna
 
 If `total_entities` is large (> ~100), do not fetch the full listing. Narrow with `--nameFilter "<fragment>"`, or go straight to `pattern7`.
 
+Document/chunk rows and `metadata` now carry `valid_from`/`valid_to`/`superseded_by` — use them to judge document currency.
+
 ### 2. Resolve — map question names to exact graph nodes
 
 Most wrong answers come from name mismatch: the user says "Holmes", the graph has "Sherlock Holmes" AND "Mycroft Holmes", and substring matching silently merges them. If Route's sub-agent already returned `resolved_entities`, reuse those ids directly and skip straight to step 3 — don't re-resolve. Otherwise, before running retrieval patterns:
@@ -107,6 +109,8 @@ Routing notes:
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `.domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
+- Add `--asOf today` for present-tense questions ("who can approve…"); drop it for
+  historical ones. Untimed knowledge is always visible.
 
 ### 4. Ground — pull source text when narrative evidence is needed
 

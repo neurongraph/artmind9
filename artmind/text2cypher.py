@@ -113,6 +113,10 @@ RULES:
   degenerate to co-mention hops through DocChunk nodes.
 - Return meaningful column aliases.
 - Keep the query concise.
+- If the question is present-tense ("who CAN approve…"), add a validity filter to
+  timed nodes: ($asOf IS NULL OR ((n.valid_from IS NULL OR n.valid_from <= $asOf)
+  AND (n.valid_to IS NULL OR n.valid_to > $asOf))); include "asOf" in parameters.
+  For historical questions ("what WAS the limit in 2024?") set asOf to that date.
 
 {STRUCTURAL_SCHEMA}
 
