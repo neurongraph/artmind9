@@ -17,6 +17,7 @@ from loguru import logger
 
 from artmind.graph_query import neo4j_session
 from artmind.ingest import _call_llm_text, _parse_json_response
+from artmind.temporal import apply_supersession
 
 
 def _slug(text: str) -> str:
@@ -118,8 +119,11 @@ ENTITY B ({domain_b}) — {name_b}
 Evidence B:
 {evidence_b}
 
+Document A valid_from={valid_from_a} version={version_a}; Document B valid_from={valid_from_b} version={version_b}.
+If one side is a NEWER REVISION OF THE SAME AUTHORITY (same document lineage, later
+valid_from/version), return verdict "superseded" instead of "conflicting_claims".
 Decide the relationship. Return ONLY JSON with these keys:
-- "verdict": one of "same_entity_consistent" | "conflicting_claims" | "unrelated"
+- "verdict": one of "same_entity_consistent" | "conflicting_claims" | "unrelated" | "superseded"
 - "aspect": short phrase naming the disputed dimension (e.g. "fee reversal approval limit")
 - "claim_a": A's specific claim on that aspect (short)
 - "claim_b": B's specific claim on that aspect (short)
@@ -168,12 +172,39 @@ def _verdict_from_raw(raw: str) -> dict:
         return default
 
 
-def llm_adjudicate(pair: dict, evidence_a: list[dict], evidence_b: list[dict], model: str) -> dict:
+def _doc_validity(session, evidence: list[dict]) -> tuple[str, str]:
+    """Best-effort (valid_from, version) of the Document behind the first evidence chunk.
+
+    Defensive: returns ("", "") on any lookup failure or missing properties, since
+    valid_from/version may not exist for untimed documents.
+    """
+    if not evidence:
+        return "", ""
+    doc_id = evidence[0].get("doc_id")
+    if not doc_id:
+        return "", ""
+    try:
+        rec = session.run(
+            "MATCH (d:Document {id:$id}) RETURN d.valid_from AS valid_from, d.version AS version",
+            id=doc_id,
+        ).single()
+        if not rec:
+            return "", ""
+        return str(rec["valid_from"] or ""), str(rec["version"] or "")
+    except Exception:
+        return "", ""
+
+
+def llm_adjudicate(session, pair: dict, evidence_a: list[dict], evidence_b: list[dict], model: str) -> dict:
+    valid_from_a, version_a = _doc_validity(session, evidence_a)
+    valid_from_b, version_b = _doc_validity(session, evidence_b)
     prompt = _ADJUDICATE_PROMPT.format(
         domain_a=pair["domain_a"], name_a=pair["name_a"],
         domain_b=pair["domain_b"], name_b=pair["name_b"],
         evidence_a="\n".join(f"- {c['text']}" for c in evidence_a) or "(none)",
         evidence_b="\n".join(f"- {c['text']}" for c in evidence_b) or "(none)",
+        valid_from_a=valid_from_a, version_a=version_a,
+        valid_from_b=valid_from_b, version_b=version_b,
     )
     try:
         raw = _call_llm_text(model, prompt)
@@ -185,6 +216,27 @@ def llm_adjudicate(pair: dict, evidence_a: list[dict], evidence_b: list[dict], m
 
 def materialize(session, pair: dict, verdict: dict, evidence_a: list[dict], evidence_b: list[dict], model: str) -> str | None:
     """MERGE-only write of a Conflict + edges. Returns conflict id or None."""
+    if verdict["verdict"] == "superseded":
+        # Resolve entity ids to their documents and record SUPERSEDES + valid_to.
+        # Uses EXTRACTED_FROM (Entity)->(DocChunk), the relationship the ingest
+        # pipeline actually writes — see gather_evidence's docstring above for why
+        # :MENTIONS is NOT used here (it is never created for document chunks).
+        rec = session.run(
+            """
+            MATCH (a:Entity {id:$idA})-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(da:Document)
+            MATCH (b:Entity {id:$idB})-[:EXTRACTED_FROM]->(:DocChunk)-[:PART_OF]->(db:Document)
+            RETURN da.id AS a, da.valid_from AS af, db.id AS b, db.valid_from AS bf
+            LIMIT 1
+            """,
+            idA=pair["id_a"], idB=pair["id_b"],
+        ).single()
+        if rec and rec["a"] and rec["b"]:
+            # newer = later valid_from
+            if (rec.get("bf") or "") >= (rec.get("af") or ""):
+                apply_supersession(rec["b"], rec["a"], "document", rec.get("bf"), detected_by="adjudicator")
+            else:
+                apply_supersession(rec["a"], rec["b"], "document", rec.get("af"), detected_by="adjudicator")
+        return None
     if verdict["verdict"] != "conflicting_claims":
         return None
     cid = conflict_id(pair["id_a"], pair["id_b"], verdict["aspect"] or pair["entity_class"])
@@ -268,7 +320,7 @@ def detect_conflicts(
         for pair in pairs:
             ev_a = gather_evidence(session, pair["id_a"], max_chunks_per_side)
             ev_b = gather_evidence(session, pair["id_b"], max_chunks_per_side)
-            verdict = llm_adjudicate(pair, ev_a, ev_b, model)
+            verdict = llm_adjudicate(session, pair, ev_a, ev_b, model)
             report["llm_calls"] += 1
             if verdict["verdict"] == "conflicting_claims":
                 proposals.append({"pair": pair, "verdict": verdict,

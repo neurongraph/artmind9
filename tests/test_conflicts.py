@@ -46,3 +46,31 @@ def test_verdict_conflicting_claims():
 def test_verdict_defaults_to_unrelated_on_garbage():
     v = _verdict_from_raw("not json at all")
     assert v["verdict"] == "unrelated"
+
+
+def test_verdict_superseded_recognized():
+    from artmind.conflicts import _verdict_from_raw
+    raw = '{"verdict":"superseded","aspect":"x","claim_a":"old","claim_b":"new","severity":"low"}'
+    assert _verdict_from_raw(raw)["verdict"] == "superseded"
+
+
+def test_materialize_superseded_creates_supersedes_not_conflict(monkeypatch):
+    import artmind.conflicts as c
+    calls = {"supersede": 0}
+    def fake_apply(newer_doc_id, older_doc_id, scope="document", effective=None, detected_by="adjudicator"):
+        calls["supersede"] += 1
+        return {}
+    monkeypatch.setattr(c, "apply_supersession", fake_apply, raising=False)
+    # verdict=superseded must route to supersession, returning None for Conflict id
+    class FakeSession:
+        def run(self, *a, **k):
+            class R:
+                def single(self_inner): return {"a": "docA", "b": "docB"}
+                def data(self_inner): return [{"a": "docA", "b": "docB"}]
+            return R()
+    pair = {"id_a": "eA", "id_b": "eB", "domain_a": "d", "domain_b": "d", "entity_class": "POLICY",
+            "name_a": "x", "name_b": "x"}
+    verdict = {"verdict": "superseded", "aspect": "x", "claim_a": "old", "claim_b": "new", "severity": "low"}
+    cid = c.materialize(FakeSession(), pair, verdict, [], [], "m")
+    assert cid is None
+    assert calls["supersede"] == 1
