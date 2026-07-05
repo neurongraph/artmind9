@@ -766,6 +766,40 @@ def ingest_detect_conflicts(
     _echo_json(report, compact)
 
 
+@ingest.command("supersede")
+@click.option("--domain", required=True, help="Domain of both documents")
+@click.option("--newer", "newer_name", required=True, help="Newer document name")
+@click.option("--older", "older_name", required=True, help="Superseded document name")
+@click.option("--scope", type=click.Choice(["document", "section", "clause"]), default="document", show_default=True)
+@click.option("--effective", default=None, help="ISO date the supersession takes effect")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, compact: bool) -> None:
+    """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to)."""
+    _setup_logger()
+    from artmind.temporal import apply_supersession
+    from artmind.graph_query import neo4j_session
+    with neo4j_session() as session:
+        ids = session.run(
+            "MATCH (d:Document) WHERE d.domain=$domain AND d.name IN [$n,$o] RETURN d.name AS name, d.id AS id",
+            domain=domain, n=newer_name, o=older_name,
+        ).data()
+    by_name = {r["name"]: r["id"] for r in ids}
+    if newer_name not in by_name or older_name not in by_name:
+        raise click.ClickException(f"Could not resolve both documents in domain {domain}: found {list(by_name)}")
+    _echo_json(apply_supersession(by_name[newer_name], by_name[older_name], scope, effective), compact)
+
+
+@ingest.command("detect-supersession")
+@click.option("--domain", required=True, help="Domain to scan for explicit Supersession Notice sections")
+@click.option("--dry-run", is_flag=True, help="Report matches without writing")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> None:
+    """Scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges."""
+    _setup_logger()
+    from artmind.temporal import detect_supersession
+    _echo_json(detect_supersession(domain, dry_run=dry_run), compact)
+
+
 # ── artmind query ──────────────────────────────────────────────────────────────
 
 
@@ -1075,6 +1109,16 @@ def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, st
         graph_query.list_conflicts(domains, entity_ids=list(entity_id), entity_name=entity_name, status=status),
         compact,
     )
+
+
+@graph.command("timeline")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s)")
+@click.option("--entityId", "entity_id", required=True, help="Entity id whose timeline to render")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_timeline(domain: tuple, entity_id: str, compact: bool) -> None:
+    """Events/state-changes/supersessions for an entity, ordered by time."""
+    domains = _parse_domains(domain)
+    _echo_json(graph_query.list_timeline(domains, entity_id), compact)
 
 
 @query.command("domains-overview")

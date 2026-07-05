@@ -774,3 +774,26 @@ def list_conflicts(
             {"domains": domains, "entityIds": entity_ids, "entityName": entity_name, "status": status},
         ),
     }
+
+
+def list_timeline(domains: "str | Sequence[str]", entity_id: str) -> dict:
+    """An entity's events/state-changes/supersessions ordered by event_at/valid_from."""
+    domains = normalize_domains(domains)
+    cypher = f"""
+    MATCH (e:Entity {{id:$entityId}})
+    WHERE {domain_predicate("e")}
+    OPTIONAL MATCH (e)-[r]-(rel:Entity)
+    WITH e, collect(DISTINCT {{
+        type: type(r), name: rel.name,
+        event_at: rel.event_at, valid_from: rel.valid_from, valid_to: rel.valid_to
+    }}) AS related
+    RETURN e {{ .id, .name, .entity_class, .event_at, .valid_from, .valid_to }} AS entity,
+           [x IN related WHERE x.event_at IS NOT NULL OR x.valid_from IS NOT NULL] AS timeline
+    """
+    rows = _run_read_query(cypher, {"domains": domains, "entityId": entity_id})
+    for row in rows:
+        row["timeline"] = sorted(
+            row.get("timeline", []),
+            key=lambda x: (x.get("event_at") or x.get("valid_from") or ""),
+        )
+    return {**_domain_output(domains), "query_type": "graph", "command": "timeline", "rows": rows}
