@@ -1,6 +1,14 @@
 name: banking_reference
 description: Operational reference materials for FirstUK Bank — covering live interest rate schedules, incident response plans, technology production runbooks, application landscape documents, and customer welcome packs. Documents that staff and customers consult for quick, authoritative lookups.
 
+temporal:
+  document:
+    valid_from: [Effective Date, effective_date]
+    version: [Version]
+  entities:
+    RATE_ENTRY:  { valid_from: effective_date }
+  relative_anchor: document.valid_from
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking operational reference document analysis.
   Your job is to read a passage from a FirstUK Bank reference document and identify all significant entities.

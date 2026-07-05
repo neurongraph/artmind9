@@ -1,6 +1,13 @@
 name: sales_collateral
 description: Sales and marketing documents such as pitch decks, capability presentations, case studies, white papers, and proposal materials. These documents describe client challenges, technology solutions, delivery approaches, quantified outcomes, and competitive differentiators — typically produced by consulting or technology firms to win or expand client engagements.
 
+temporal:
+  document:
+    valid_from: [Date, date]
+  entities:
+    EVENT:  { event_at: date_or_period }
+  relative_anchor: document.valid_from
+
 entity_types:
   - CLIENT
   - OFFERING_SOLUTION

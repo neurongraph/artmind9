@@ -25,7 +25,7 @@ def test_graph_metadata_cli_outputs_json(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with("fiction")
+    query.assert_called_once_with(["fiction"], as_of=None)
     assert json.loads(result.output) == payload
 
 
@@ -42,7 +42,7 @@ def test_graph_entity_listing_cli_outputs_json(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with("fiction", name_filter=None, count_all=False)
+    query.assert_called_once_with(["fiction"], name_filter=None, count_all=False, as_of=None)
     assert json.loads(result.output) == payload
 
 
@@ -61,7 +61,7 @@ def test_graph_entity_listing_cli_passes_name_filter(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with("fiction", name_filter="holmes", count_all=False)
+    query.assert_called_once_with(["fiction"], name_filter="holmes", count_all=False, as_of=None)
     assert json.loads(result.output) == payload
 
 
@@ -80,7 +80,7 @@ def test_graph_entity_listing_cli_passes_count_all(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with("fiction", name_filter=None, count_all=True)
+    query.assert_called_once_with(["fiction"], name_filter=None, count_all=True, as_of=None)
     assert json.loads(result.output)["total_entities"] == 42
 
 
@@ -146,7 +146,7 @@ def test_graph_pattern_cli_dispatches_every_pattern(runner, pattern, args, expec
 
     assert result.exit_code == 0, result.output
     call_kwargs = query.call_args.kwargs
-    assert call_kwargs["domain"] == "fiction"
+    assert call_kwargs["domains"] == ["fiction"]
     assert call_kwargs["pattern"] == pattern
     assert call_kwargs["question"] == "Question?"
     for key, value in expected.items():
@@ -254,5 +254,5 @@ def test_vector_text_cli_dispatches_and_outputs_json(runner):
         )
 
     assert result.exit_code == 0, result.output
-    query.assert_called_once_with("fiction", "Where did Holmes go?", 3)
+    query.assert_called_once_with(["fiction"], "Where did Holmes go?", 3, as_of=None)
     assert json.loads(result.output) == payload

@@ -1,6 +1,15 @@
 name: banking_policy
 description: Formal policy documents for FirstUK Bank covering AML/CFT, customer identification (KYC), fraud prevention, information security, privacy (GDPR), complaints handling, operational risk, and data retention — establishing mandatory obligations, controls, regulatory references, and accountability.
 
+temporal:
+  document:
+    valid_from: [Effective Date, effective_date]
+    version: [Version]
+  entities:
+    POLICY:                { valid_from: effective_date }
+    REGULATORY_REFERENCE:  { valid_from: effective_date }
+  relative_anchor: document.valid_from
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking policy document analysis.
   Your job is to read a passage from a FirstUK Bank formal policy document and identify all significant entities.

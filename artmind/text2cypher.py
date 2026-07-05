@@ -1,3 +1,4 @@
+import json
 import re
 
 from loguru import logger
@@ -80,8 +81,15 @@ STRUCTURAL GRAPH (fixed for all domains — use these exact relationship names):
   Node :Entity    properties=[id, name, entity_class, domain, description, type]
   Relationship (:DocChunk)-[:PART_OF]->(:Document)        — chunk belongs to a document
   Relationship (:Entity)-[:EXTRACTED_FROM]->(:DocChunk)    — entity was extracted from a chunk
-  Relationship (:DocChunk)-[:MENTIONS]->(:Entity)          — chunk mentions an entity
+    (use this, reversed, to find which chunks/documents mention an entity — there is
+     no separate (:DocChunk)-[:MENTIONS]->(:Entity) edge)
   Relationship (:UserChat)-[:MENTIONS]->(:Entity)          — user chat mentions an entity
+  Node :Conflict  properties=[id, aspect, claim_a, claim_b, severity, status, domains, detected_at, detected_by_model]
+  Relationship (:Conflict)-[:CONFLICT_OF]->(:Entity)      — both sides of a conflict
+  Relationship (:Conflict)-[:EVIDENCE {side}]->(:DocChunk) — competing claim text
+  Relationship (:Entity)-[:CONFLICTS_WITH {conflict_id, aspect}]->(:Entity)
+  Relationship (:Document)-[:SUPERSEDES {scope, effective}]->(:Document)  — newer replaces older
+  Timed nodes carry valid_from/valid_to; superseded docs also carry superseded_by.
   Entity-to-Entity relationships are domain-specific (see GRAPH SCHEMA below)."""
 
 
@@ -89,16 +97,17 @@ def build_text2cypher_prompt(
     question: str,
     schema_info: str,
     entities_info: str,
-    domain: str,
+    domains: list[str],
 ) -> str:
+    domains_json = json.dumps(domains)
     return f"""\
 You are a Neo4j Cypher expert. Given the graph schema and entity listing below,
 write a READ-ONLY Cypher query that answers the user's question.
 
 RULES:
 - The query MUST be read-only. Never use CREATE, DELETE, DETACH, SET, REMOVE, MERGE, or DROP.
-- Always scope results to the domain by including a WHERE clause:
-    (n.domain = '{domain}' OR n.domain STARTS WITH ('{domain}' + '.'))
+- Always scope results to the domains by including a WHERE clause:
+    (n.domain IN $domains OR any(d IN $domains WHERE n.domain STARTS WITH (d + '.')))
   Apply this filter to every unbound node in the MATCH pattern.
 - Use entity names exactly as they appear in the entity listing when matching.
 - For Document/DocChunk/UserChat/Entity queries, use ONLY the relationship names
@@ -111,43 +120,51 @@ RULES:
   degenerate to co-mention hops through DocChunk nodes.
 - Return meaningful column aliases.
 - Keep the query concise.
+- If the question is present-tense ("who CAN approve…"), add a validity filter to
+  timed nodes: ($asOf IS NULL OR ((n.valid_from IS NULL OR n.valid_from <= $asOf)
+  AND (n.valid_to IS NULL OR n.valid_to > $asOf))); include "asOf" in parameters.
+  For historical questions ("what WAS the limit in 2024?") set asOf to that date.
 
 {STRUCTURAL_SCHEMA}
 
-GRAPH SCHEMA (domain: {domain}):
+GRAPH SCHEMA (domains: {domains}):
 {schema_info}
 
-ENTITY LISTING (domain: {domain}):
+ENTITY LISTING (domains: {domains}):
 {entities_info}
 
 USER QUESTION:
 {question}
 
 Respond with ONLY a JSON object (no markdown fencing, no explanation) with these keys:
-- "cypher": the Cypher query string (use $domain as parameter for the domain value)
-- "parameters": a JSON object of query parameters (always include "domain": "{domain}")
+- "cypher": the Cypher query string (use $domains as parameter for the domain values)
+- "parameters": a JSON object of query parameters (always include "domains": {domains_json})
 """
 
 
 def generate_cypher(
     question: str,
-    domain: str,
+    domains,
     model: str | None = None,
 ) -> dict:
     """Generate a Cypher query from a natural-language question.
 
     Returns a dict with keys: cypher, parameters.
     """
+    from artmind.graph_query import normalize_domains
+
+    domains = normalize_domains(domains)
+
     env = load_env()
     resolved_model = resolve_llm_model(env, model)
 
-    metadata = graph_metadata(domain)
-    listing = entity_listing(domain)
+    metadata = graph_metadata(domains)
+    listing = entity_listing(domains)
 
     schema_info = _schema_summary(metadata)
     entities_info = _entities_summary(listing)
 
-    prompt = build_text2cypher_prompt(question, schema_info, entities_info, domain)
+    prompt = build_text2cypher_prompt(question, schema_info, entities_info, domains)
     raw = call_llm(resolved_model, prompt)
     parsed = parse_json_response(raw)
 
@@ -160,7 +177,7 @@ def generate_cypher(
     if not cypher:
         raise ValueError("LLM did not return a Cypher query")
 
-    parameters.setdefault("domain", domain)
+    parameters.setdefault("domains", domains)
 
     validate_read_only(cypher)
 
@@ -170,7 +187,7 @@ def generate_cypher(
 
 def execute_text2cypher(
     question: str,
-    domain: str,
+    domains,
     model: str | None = None,
     dry_run: bool = False,
 ) -> dict:
@@ -178,17 +195,20 @@ def execute_text2cypher(
 
     If dry_run is True, returns the generated Cypher without executing it.
     """
-    result = generate_cypher(question, domain, model)
+    from artmind.graph_query import _domain_output, normalize_domains
+
+    domains = normalize_domains(domains)
+    result = generate_cypher(question, domains, model)
     cypher = result["cypher"]
     parameters = result["parameters"]
 
     output: dict = {
-        "domain": domain,
+        **_domain_output(domains),
         "query_type": "graph",
         "command": "text2cypher",
         "question": question,
         "generated_cypher": cypher,
-        "parameters": {k: v for k, v in parameters.items() if k != "domain"},
+        "parameters": {k: v for k, v in parameters.items() if k != "domains"},
     }
 
     if dry_run:

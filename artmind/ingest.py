@@ -1138,7 +1138,17 @@ def ingest_to_kg(
     doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model)
     if doc_kg_dir is None:
         return False
-    return write_to_graph(doc_kg_dir)
+    ok = write_to_graph(doc_kg_dir)
+    if ok:
+        # Auto-chain temporal normalization (per-document, additive, idempotent).
+        # NOT refine-graph / detect-conflicts — those are explicit-call-only
+        # cross-domain judgment operations gated by dry-run/apply workflows.
+        try:
+            from artmind.temporal import normalize_ingested_document
+            normalize_ingested_document(doc_kg_dir, domain)
+        except Exception as e:
+            logger.warning("normalize-time hook failed for {}: {}", doc_kg_dir, e)
+    return ok
 
 
 def extract_kg(

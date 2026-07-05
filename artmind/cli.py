@@ -63,6 +63,13 @@ def _setup_logger(log_file: Path = INGEST_LOG_FILE) -> None:
     )
 
 
+def _parse_domains(values: "tuple[str, ...]") -> list[str]:
+    """Flatten repeatable/comma-split --domain values into a deduped list."""
+    from artmind.graph_query import normalize_domains
+
+    return normalize_domains(list(values))
+
+
 # ── worker helpers ────────────────────────────────────────────────────────────
 
 
@@ -625,6 +632,17 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
     type=click.Path(exists=True),
     help="Skip computation — load proposals from a previous dry-run JSON file and apply them",
 )
+@click.option(
+    "--allow-cross-domain-merge",
+    "allow_cross_domain_merge",
+    is_flag=True,
+    default=False,
+    help=(
+        "Allow merging same-named entities across domains (default: skip and report them). "
+        "Only applies when computing proposals via clustering; has no effect with --from-file, "
+        "which applies proposals already vetted at dry-run time."
+    ),
+)
 def ingest_refine_graph(
     domain: str | None,
     name_filter: str | None,
@@ -633,6 +651,7 @@ def ingest_refine_graph(
     dry_run: bool,
     output_file: str | None,
     from_file: str | None,
+    allow_cross_domain_merge: bool,
 ) -> None:
     """Find similar entity names, merge aliases into canonical entities.
 
@@ -666,6 +685,7 @@ def ingest_refine_graph(
         dry_run=dry_run,
         output_file=out_path,
         from_file=from_path,
+        allow_cross_domain_merge=allow_cross_domain_merge,
     )
 
     proposed = report.get("proposed_merges", {})
@@ -678,6 +698,121 @@ def ingest_refine_graph(
         if out_path:
             click.echo(f"Proposals written to: {out_path}")
             click.echo(f"To apply: artmind ingest refine-graph --from-file {out_path}")
+
+    skipped = report.get("skipped_cross_domain", {})
+    if skipped:
+        click.echo(f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}")
+
+
+@ingest.command("normalize-time")
+@click.option("--domain", required=True, help="Domain to backfill canonical temporal properties for")
+@click.option("--dry-run", is_flag=True, help="Compute counts only; do not write")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_normalize_time(domain: str, dry_run: bool, compact: bool) -> None:
+    """Backfill canonical valid_from/valid_to/event_at from schema temporal mappings.
+
+    Additive and idempotent. Runs automatically per document at ingest; use this
+    to backfill pre-existing documents or after editing a schema's temporal block.
+    """
+    _setup_logger()
+    from artmind.temporal import normalize_time
+    _echo_json(normalize_time(domain, dry_run=dry_run), compact)
+
+
+@ingest.command("detect-conflicts")
+@click.option("--domain", "domain", required=True, multiple=True, help="Target domain(s) (repeatable; 1=intra-domain, 2+=cross-domain)")
+@click.option("--nameFilter", "name_filter", default=None, help="Restrict to entities whose name contains this")
+@click.option("--simThreshold", "sim_threshold", type=float, default=0.75, show_default=True, help="Min cosine similarity for a candidate")
+@click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Hard cap on candidate pairs (bounds LLM cost)")
+@click.option("--maxChunksPerSide", "max_chunks", type=int, default=2, show_default=True, help="Evidence chunks per side")
+@click.option("--model", default=None, help="Adjudication LLM model (default: env)")
+@click.option("--dry-run", is_flag=True, help="Compute proposals + write --output; do NOT materialize")
+@click.option("--output", "output_file", default=None, type=click.Path(), help="Write proposals JSON here")
+@click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Materialize proposals from a prior dry-run file")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_detect_conflicts(
+    domain: tuple,
+    name_filter: str | None,
+    sim_threshold: float,
+    max_pairs: int,
+    max_chunks: int,
+    model: str | None,
+    dry_run: bool,
+    output_file: str | None,
+    from_file: str | None,
+    compact: bool,
+) -> None:
+    """Detect non-destructive conflicts between entities across domains.
+
+    \b
+    Precondition: run intra-domain `refine-graph` (no --allow-cross-domain-merge)
+    on each target domain first, so pairing operates on deduplicated entities.
+    Workflow:
+      1. artmind ingest detect-conflicts --domain A --domain B --dry-run --output conflicts.json
+      2. Review conflicts.json
+      3. artmind ingest detect-conflicts --domain A --domain B --from-file conflicts.json
+    """
+    _setup_logger()
+    from artmind.conflicts import detect_conflicts
+    env = load_env()
+    resolved_model = resolve_llm_model(env, model)
+    domains = _parse_domains(domain)
+    report = detect_conflicts(
+        domains=domains, name_filter=name_filter, sim_threshold=sim_threshold,
+        max_pairs=max_pairs, max_chunks_per_side=max_chunks, model=resolved_model,
+        dry_run=dry_run, output_file=Path(output_file) if output_file else None,
+        from_file=Path(from_file) if from_file else None,
+    )
+    _echo_json(report, compact)
+
+
+@ingest.command("supersede")
+@click.option("--domain", required=True, help="Domain of both documents")
+@click.option("--newer", "newer_name", required=True, help="Newer document name")
+@click.option("--older", "older_name", required=True, help="Superseded document name")
+@click.option("--scope", type=click.Choice(["document", "section", "clause"]), default="document", show_default=True)
+@click.option("--effective", default=None, help="ISO date the supersession takes effect")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, compact: bool) -> None:
+    """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to)."""
+    _setup_logger()
+    from artmind.temporal import apply_supersession
+    from artmind.graph_query import neo4j_session
+    with neo4j_session() as session:
+        rows = session.run(
+            "MATCH (d:Document) WHERE d.domain=$domain AND d.name IN [$n,$o] RETURN d.name AS name, d.id AS id",
+            domain=domain, n=newer_name, o=older_name,
+        ).data()
+    by_name: dict[str, list[str]] = {}
+    for r in rows:
+        by_name.setdefault(r["name"], []).append(r["id"])
+    missing = [n for n in (newer_name, older_name) if n not in by_name]
+    if missing:
+        raise click.ClickException(
+            f"Could not resolve document(s) {missing} in domain {domain} (found: {list(by_name)})"
+        )
+    ambiguous = {n: ids for n, ids in by_name.items() if len(ids) > 1}
+    if ambiguous:
+        raise click.ClickException(
+            f"Ambiguous document name(s) in domain {domain} — multiple Document nodes share "
+            f"the same name (e.g. from re-ingesting an edited file): {ambiguous}. "
+            "Resolve manually before superseding."
+        )
+    _echo_json(
+        apply_supersession(by_name[newer_name][0], by_name[older_name][0], scope, effective),
+        compact,
+    )
+
+
+@ingest.command("detect-supersession")
+@click.option("--domain", required=True, help="Domain to scan for explicit Supersession Notice sections")
+@click.option("--dry-run", is_flag=True, help="Report matches without writing")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> None:
+    """Scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges."""
+    _setup_logger()
+    from artmind.temporal import detect_supersession
+    _echo_json(detect_supersession(domain, dry_run=dry_run), compact)
 
 
 # ── artmind query ──────────────────────────────────────────────────────────────
@@ -696,11 +831,11 @@ def graph():
 
 
 def _run_graph_pattern(
-    pattern: str, domain: str, compact: bool, question: str | None, **kwargs
+    pattern: str, domains: list[str], compact: bool, question: str | None, as_of: str | None = None, **kwargs
 ) -> None:
     try:
         result = graph_query.execute_pattern(
-            domain=domain, pattern=pattern, question=question, **kwargs
+            domains=domains, pattern=pattern, question=question, as_of=as_of, **kwargs
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
@@ -708,98 +843,111 @@ def _run_graph_pattern(
 
 
 @graph.command("metadata")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_metadata_cmd(domain: str, compact: bool) -> None:
+def graph_metadata_cmd(domain: tuple, as_of: str | None, compact: bool) -> None:
     """Return graph schema metadata (labels, properties, relationship types)."""
-    _echo_json(graph_query.graph_metadata(domain), compact)
+    domains = _parse_domains(domain)
+    _echo_json(graph_query.graph_metadata(domains, as_of=as_of), compact)
 
 
 @graph.command("structural-metadata")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_structural_metadata_cmd(domain: str, compact: bool) -> None:
+def graph_structural_metadata_cmd(domain: tuple, compact: bool) -> None:
     """Return focused structural metadata (Document, DocChunk, UserChat, Entity counts and relationships)."""
-    _echo_json(graph_query.structural_metadata(domain), compact)
+    domains = _parse_domains(domain)
+    _echo_json(graph_query.structural_metadata(domains), compact)
 
 
 @graph.command("entity-listing")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
 @click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_entity_listing_cmd(domain: str, name_filter: str | None, count_all: bool, compact: bool) -> None:
+def graph_entity_listing_cmd(domain: tuple, name_filter: str | None, count_all: bool, as_of: str | None, compact: bool) -> None:
     """Return entity names grouped by label/type."""
-    _echo_json(graph_query.entity_listing(domain, name_filter=name_filter, count_all=count_all), compact)
+    domains = _parse_domains(domain)
+    _echo_json(graph_query.entity_listing(domains, name_filter=name_filter, count_all=count_all, as_of=as_of), compact)
 
 
 @graph.command("pattern1")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label (e.g. CHARACTER, LOCATION)")
 @click.option("--limit", type=int, default=200, show_default=True, help="Max results")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern1(
-    domain: str, entity_class: str, limit: int, compact: bool, question: str | None
+    domain: tuple, entity_class: str, limit: int, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """List entities of a class."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern1", domain, compact, question, entityClass=entity_class, limit=limit
+        "pattern1", domains, compact, question, as_of=as_of, entityClass=entity_class, limit=limit
     )
 
 
 @graph.command("pattern2")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern2(
-    domain: str, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Info on one or more named entities."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern2", domain, compact, question,
+        "pattern2", domains, compact, question, as_of=as_of,
         entityNameList=entity_name_list, entityIdList=entity_id_list,
     )
 
 
 @graph.command("pattern3")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern3(
-    domain: str, entity_name_list: tuple, entity_id_list: tuple, compact: bool, question: str | None
+    domain: tuple, entity_name_list: tuple, entity_id_list: tuple, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Entity + lightweight relationship summary."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern3", domain, compact, question,
+        "pattern3", domains, compact, question, as_of=as_of,
         entityNameList=entity_name_list, entityIdList=entity_id_list,
     )
 
 
 @graph.command("pattern4")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label")
 @click.option("--entityName", "entity_name", default=None, help="Entity name (substring match)")
 @click.option("--entityId", "entity_id", default=None, help="Exact entity id (overrides --entityName)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern4(
-    domain: str, entity_class: str, entity_name: str | None, entity_id: str | None,
-    compact: bool, question: str | None
+    domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
+    as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Entity + full neighborhood."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern4", domain, compact, question,
+        "pattern4", domains, compact, question, as_of=as_of,
         entityClass=entity_class, entityName=entity_name, entityId=entity_id,
     )
 
 
 @graph.command("pattern5")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass1", "entity_class1", required=True, help="Class of first entity")
 @click.option("--entityClass2", "entity_class2", required=True, help="Class of second entity")
 @click.option("--entityName1", "entity_name1", default=None, help="Name of first entity")
@@ -813,10 +961,11 @@ def graph_pattern4(
     show_default=True,
     help="Path mode",
 )
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern5(
-    domain: str,
+    domain: tuple,
     entity_class1: str,
     entity_class2: str,
     entity_name1: str | None,
@@ -824,12 +973,14 @@ def graph_pattern5(
     entity_id1: str | None,
     entity_id2: str | None,
     mode: str,
+    as_of: str | None,
     compact: bool,
     question: str | None,
 ) -> None:
     """Paths between two entities (shortest or all within depth 5)."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern5", domain, compact, question,
+        "pattern5", domains, compact, question, as_of=as_of,
         entityClass1=entity_class1,
         entityClass2=entity_class2,
         entityName1=entity_name1,
@@ -841,63 +992,70 @@ def graph_pattern5(
 
 
 @graph.command("pattern6")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityName1", "entity_name1", default=None, help="Name of first entity")
 @click.option("--entityName2", "entity_name2", default=None, help="Name of second entity")
 @click.option("--entityId1", "entity_id1", default=None, help="Exact id of first entity (overrides --entityName1)")
 @click.option("--entityId2", "entity_id2", default=None, help="Exact id of second entity (overrides --entityName2)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern6(
-    domain: str,
+    domain: tuple,
     entity_name1: str | None,
     entity_name2: str | None,
     entity_id1: str | None,
     entity_id2: str | None,
+    as_of: str | None,
     compact: bool,
     question: str | None,
 ) -> None:
     """Direct relationships between two entities."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern6", domain, compact, question,
+        "pattern6", domains, compact, question, as_of=as_of,
         entityName1=entity_name1, entityName2=entity_name2,
         entityId1=entity_id1, entityId2=entity_id2,
     )
 
 
 @graph.command("pattern7")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
 @click.option("--limit", type=int, default=10, show_default=True, help="Max results")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern7(
-    domain: str, search_term: str, limit: int, compact: bool, question: str | None
+    domain: tuple, search_term: str, limit: int, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Search entities by name or description fragment."""
-    _run_graph_pattern("pattern7", domain, compact, question, searchTerm=search_term, limit=limit)
+    domains = _parse_domains(domain)
+    _run_graph_pattern("pattern7", domains, compact, question, as_of=as_of, searchTerm=search_term, limit=limit)
 
 
 @graph.command("pattern8")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Class of entities to return")
 @click.option("--entityName", "entity_name", default=None, help="Name of the connected entity")
 @click.option("--entityId", "entity_id", default=None, help="Exact id of the connected entity (overrides --entityName)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern8(
-    domain: str, entity_class: str, entity_name: str | None, entity_id: str | None,
-    compact: bool, question: str | None
+    domain: tuple, entity_class: str, entity_name: str | None, entity_id: str | None,
+    as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Entities of class X connected to entity Y."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern8", domain, compact, question,
+        "pattern8", domains, compact, question, as_of=as_of,
         entityClass=entity_class, entityName=entity_name, entityId=entity_id,
     )
 
 
 @graph.command("pattern9")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label")
 @click.option("--topN", "top_n", type=int, default=5, show_default=True, help="Number of top entities")
 @click.option(
@@ -908,64 +1066,105 @@ def graph_pattern8(
     show_default=True,
     help="Degree to rank by: entity-entity relationships, source mentions, or all edges",
 )
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern9(
-    domain: str, entity_class: str, top_n: int, degree_mode: str, compact: bool, question: str | None
+    domain: tuple, entity_class: str, top_n: int, degree_mode: str, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Top-N entities of a class by connection count."""
+    domains = _parse_domains(domain)
     _run_graph_pattern(
-        "pattern9", domain, compact, question,
+        "pattern9", domains, compact, question, as_of=as_of,
         entityClass=entity_class, topN=top_n, degreeMode=degree_mode,
     )
 
 
 @graph.command("pattern10")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern10(
-    domain: str, document_name: str, compact: bool, question: str | None
+    domain: tuple, document_name: str, as_of: str | None, compact: bool, question: str | None
 ) -> None:
     """Retrieve all text chunks for a named document."""
-    _run_graph_pattern("pattern10", domain, compact, question, documentName=document_name)
+    domains = _parse_domains(domain)
+    _run_graph_pattern("pattern10", domains, compact, question, as_of=as_of, documentName=document_name)
 
 
 @graph.command("text2cypher")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.option("--dry-run", "dry_run", is_flag=True, help="Show generated Cypher without executing it")
 @click.argument("question")
-def graph_text2cypher(domain: str, compact: bool, dry_run: bool, question: str) -> None:
+def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, question: str) -> None:
     """Generate and execute a Cypher query from a natural-language question (LLM-powered)."""
+    domains = _parse_domains(domain)
     try:
         result = text2cypher.execute_text2cypher(
-            question=question, domain=domain, dry_run=dry_run
+            question=question, domains=domains, dry_run=dry_run
         )
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
 
 
+@graph.command("conflicts")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) (repeatable)")
+@click.option("--entityId", "entity_id", multiple=True, help="Filter to conflicts touching this entity id (repeatable)")
+@click.option("--entityName", "entity_name", default=None, help="Filter to conflicts touching an entity whose name contains this")
+@click.option("--status", type=click.Choice(["open", "resolved", "dismissed", "all"]), default="open", show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, status: str, compact: bool) -> None:
+    """List materialized Conflict nodes scoped to the given domains."""
+    domains = _parse_domains(domain)
+    _echo_json(
+        graph_query.list_conflicts(domains, entity_ids=list(entity_id), entity_name=entity_name, status=status),
+        compact,
+    )
+
+
+@graph.command("timeline")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s)")
+@click.option("--entityId", "entity_id", required=True, help="Entity id whose timeline to render")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_timeline(domain: tuple, entity_id: str, compact: bool) -> None:
+    """Events/state-changes/supersessions for an entity, ordered by time."""
+    domains = _parse_domains(domain)
+    _echo_json(graph_query.list_timeline(domains, entity_id), compact)
+
+
+@query.command("domains-overview")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_domains_overview(compact: bool) -> None:
+    """Per-domain routing summary: doc names/counts, entity counts, top classes."""
+    _echo_json(graph_query.domains_overview(), compact)
+
+
 @query.command("vector-text")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")
-def vector_text(domain: str, top_k: int, compact: bool, question: str) -> None:
+def vector_text(domain: tuple, top_k: int, as_of: str | None, compact: bool, question: str) -> None:
     """Search source text using vector embeddings and keyword matching combined via RRF."""
-    _echo_json(vector_query.vector_text_search(domain, question, top_k), compact)
+    domains = _parse_domains(domain)
+    _echo_json(vector_query.vector_text_search(domains, question, top_k, as_of=as_of), compact)
 
 
 @query.command("entity-resolve")
-@click.option("--domain", required=True, help="Domain to query")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("reference")
-def query_entity_resolve(domain: str, top_k: int, compact: bool, reference: str) -> None:
+def query_entity_resolve(domain: tuple, top_k: int, as_of: str | None, compact: bool, reference: str) -> None:
     """Resolve a name fragment or description to canonical graph entities (fulltext + vector via RRF)."""
-    _echo_json(vector_query.entity_resolve(domain, reference, top_k), compact)
+    domains = _parse_domains(domain)
+    _echo_json(vector_query.entity_resolve(domains, reference, top_k, as_of=as_of), compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────

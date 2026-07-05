@@ -1,6 +1,11 @@
 name: fiction
 description: Stories and fictional content. Typically would have characters, places, events, interactions between characters. Flowing prose.
 
+temporal:
+  entities:
+    EVENT:         { event_at: date_or_time }
+    STATE_CHANGE:  { event_at: date_or_time }
+
 entity_types:
   - PERSON
   - LOCATION
@@ -8,6 +13,7 @@ entity_types:
   - EVENT
   - ORGANIZATION
   - CONCEPT
+  - STATE_CHANGE
 
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in fiction analysis.
@@ -41,6 +47,13 @@ entities_prompt: |
   CONCEPT
     Abstract ideas, mysteries, themes, organisations, deductions, or motives that are important to understanding the story.
     example type values: theme | mystery | deduction | motive | symbol | movement | paradox
+
+  STATE_CHANGE
+    A change in an entity's state, status, or relationship over time — extract when
+    the narrative marks that something became different from before (a character's
+    allegiance shifting, a relationship breaking, a plan starting or ending). Carry
+    the point in the story it happened.
+    example type values: mood_shift | relationship_change | plan_started | plan_ended | status_change
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -80,7 +93,7 @@ entities_prompt: |
                                    // e.g., "per_001", "loc_002"
     "name":              string,   // canonical name
     "aliases":           array,    // other names used in text
-    "entity_class":      string,   // PERSON | LOCATION | OBJECT | EVENT | CONCEPT | ORGANIZATION
+    "entity_class":      string,   // PERSON | LOCATION | OBJECT | EVENT | CONCEPT | ORGANIZATION | STATE_CHANGE
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence analytical summary
     "context":           array,    // verbatim text snippets where entity appears
@@ -162,6 +175,12 @@ properties_prompt: |
     - If mystery: what the puzzle is, is it resolved, what's the resolution
     - If deduction: observation, inference, conclusion, certainty, method
     - If motive: whose motive, what they want, what they'll do for it
+
+  For STATE_CHANGE, consider:
+    - what_changed (the entity or relationship affected)
+    - from_state
+    - to_state
+    - date_or_time (when the change occurred in the story's timeline)
 
   For ORGANIZATION, consider:
   - structure (hierarchy, leadership model, or operational style)
@@ -270,6 +289,12 @@ relationships_prompt: |
 
   ORGANIZATION ↔ OBJECT:
     owns, manufactures, distributes, uses, protects, commissions, hoards, intercepts
+
+  STATE_CHANGE ↔ PERSON:
+    state_of, affects, involves
+
+  STATE_CHANGE ↔ EVENT:
+    triggered_by, resulted_from
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
