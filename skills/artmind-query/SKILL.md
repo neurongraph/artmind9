@@ -122,6 +122,16 @@ Combines semantic (vector) and keyword (Lucene BM25 full-text) search via Recipr
 
 ### 5. Adjudicate — surface disagreements, never blend
 
+First check for already-materialized conflicts on the resolved entity ids:
+
+```bash
+uv run artmind query graph conflicts --domain <d1> --domain <d2> --entityId <id> --compact
+```
+
+If a `Conflict` exists, surface its `claim_a`/`claim_b` with their EVIDENCE
+provenance. Then independently compare the retrieved claims (below) to catch
+conflicts introduced by new documents since the last detect-conflicts run.
+
 After grounding, compare quantitative/authority claims across the retrieved
 documents and domains (no extra LLM calls — the evidence is already in context).
 When two sources disagree, surface BOTH claims with BOTH provenances in this format:
