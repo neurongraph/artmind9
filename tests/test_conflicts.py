@@ -31,3 +31,18 @@ def test_name_ratio_high_for_similar():
 
 def test_name_ratio_low_for_different():
     assert _name_ratio("Fee Reversal", "Sanctions List") < 0.5
+
+
+from artmind.conflicts import _verdict_from_raw
+
+
+def test_verdict_conflicting_claims():
+    raw = '{"verdict":"conflicting_claims","aspect":"fee reversal approval limit","claim_a":"CEO >£500","claim_b":"Manager £1,000","severity":"high"}'
+    v = _verdict_from_raw(raw)
+    assert v["verdict"] == "conflicting_claims"
+    assert v["severity"] == "high"
+
+
+def test_verdict_defaults_to_unrelated_on_garbage():
+    v = _verdict_from_raw("not json at all")
+    assert v["verdict"] == "unrelated"
