@@ -250,3 +250,106 @@ def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
                 written["entities"] += 1
     logger.info("normalize_ingested_document({}): {}", document.get("name"), written)
     return {"domain": domain, **written}
+
+
+_SUPERSEDES_VER_RE = re.compile(
+    r"supersedes?.*?Version\s+([0-9.]+)(\s*\([^)]*\))?", re.IGNORECASE
+)
+_EFFECTIVE_RE = re.compile(
+    r"effective(?:\s+Date)?[:\s]+([0-9]{4}-[0-9]{2}-[0-9]{2}|\d{1,2}\s+[A-Za-z]+\s+\d{4})",
+    re.IGNORECASE,
+)
+_NOTICE_SECTION_RE = re.compile(r"##\s*Supersession Notice\s*\n(.*?)(?=\n##|\n---|\Z)", re.IGNORECASE | re.DOTALL)
+
+
+def parse_supersession_notice(md_text: str) -> dict | None:
+    """Parse an explicit 'Supersession Notice' section for the superseded version + effective date.
+
+    Scoped to the "## Supersession Notice" section when present, NOT the whole
+    document body (see module docstring context on the Metadata-table bug this
+    guards against). The superseded version's OWN date is typically given in a
+    parenthetical immediately following its "Version X" mention (e.g. "Version 2.0
+    (Effective Date: 2026-01-15)") — that span is excluded before searching for
+    the effective date, so the search isn't fooled by which one merely comes first
+    in reading order (the new document's effective date can appear before OR after
+    the "supersedes" clause depending on phrasing).
+    """
+    section_match = _NOTICE_SECTION_RE.search(md_text)
+    scope = section_match.group(1) if section_match else md_text
+    m = _SUPERSEDES_VER_RE.search(scope)
+    if not m:
+        return None
+    if m.group(2):
+        excl_start, excl_end = m.span(2)
+    else:
+        excl_start = excl_end = m.end(1)
+    search_scope = scope[:excl_start] + scope[excl_end:]
+    eff = None
+    em = _EFFECTIVE_RE.search(search_scope)
+    if em:
+        eff = parse_iso(em.group(1))
+    return {"superseded_version": m.group(1).strip(), "effective": eff}
+
+
+def apply_supersession(
+    newer_doc_id: str,
+    older_doc_id: str,
+    scope: str = "document",
+    effective: str | None = None,
+    detected_by: str = "manual",
+) -> dict:
+    """Create (:Document)-[:SUPERSEDES]->(:Document) and set valid_to on the older side.
+
+    Document scope also stamps valid_to on the older document's chunks — this is
+    what makes --asOf queries exclude stale content automatically. Idempotent.
+    """
+    with neo4j_session() as session:
+        session.run(
+            """
+            MATCH (newer:Document {id:$newer}), (older:Document {id:$older})
+            MERGE (newer)-[s:SUPERSEDES {scope:$scope}]->(older)
+            SET s.effective=$effective, s.detected_by=$detectedBy
+            SET older.valid_to = coalesce($effective, older.valid_to),
+                older.superseded_by = newer.id
+            """,
+            newer=newer_doc_id, older=older_doc_id, scope=scope,
+            effective=effective, detectedBy=detected_by,
+        )
+        if scope == "document" and effective:
+            session.run(
+                "MATCH (c:DocChunk {doc_id:$older}) SET c.valid_to = coalesce($effective, c.valid_to)",
+                older=older_doc_id, effective=effective,
+            )
+    logger.info("supersession: {} supersedes {} (scope={}, effective={})", newer_doc_id, older_doc_id, scope, effective)
+    return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
+
+
+def detect_supersession(domain: str, dry_run: bool = False) -> dict:
+    """Scan each document's markdown for an explicit Supersession Notice and apply it.
+
+    Matches the superseded Version against another Document in the same domain
+    (via lifted `version`). Additive; safe to re-run.
+    """
+    report: dict = {"domain": domain, "applied": [], "dry_run": dry_run}
+    with neo4j_session() as session:
+        docs = session.run(
+            "MATCH (d:Document) WHERE d.domain=$domain RETURN d.id AS id, d.name AS name, d.version AS version",
+            domain=domain,
+        ).data()
+    by_version = {str(d["version"]): d for d in docs if d.get("version")}
+    for d in docs:
+        md_file = MARKDOWNS_DIR / f"{Path(d['name']).stem}.md"
+        if not md_file.exists():
+            continue
+        from artmind.ingest import _parse_md_frontmatter
+        _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+        notice = parse_supersession_notice(body)
+        if not notice:
+            continue
+        older = by_version.get(notice["superseded_version"])
+        if not older or older["id"] == d["id"]:
+            continue
+        report["applied"].append({"newer": d["id"], "older": older["id"], "effective": notice["effective"]})
+        if not dry_run:
+            apply_supersession(d["id"], older["id"], "document", notice["effective"], detected_by="notice")
+    return report
