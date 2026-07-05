@@ -14,6 +14,9 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run(
         "CREATE CONSTRAINT user_chat_id IF NOT EXISTS FOR (n:UserChat) REQUIRE n.id IS UNIQUE"
     )
+    session.run(
+        "CREATE CONSTRAINT conflict_id IF NOT EXISTS FOR (n:Conflict) REQUIRE n.id IS UNIQUE"
+    )
 
     # ── Composite index for exact 3-field entity upserts ──────────────────────
     session.run(
@@ -41,6 +44,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run("CREATE INDEX chunk_valid_to IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_to)")
     session.run("CREATE INDEX document_valid_from IF NOT EXISTS FOR (n:Document) ON (n.valid_from)")
     session.run("CREATE INDEX document_valid_to IF NOT EXISTS FOR (n:Document) ON (n.valid_to)")
+    session.run("CREATE INDEX conflict_status IF NOT EXISTS FOR (n:Conflict) ON (n.status)")
 
     # ── 2-field composite for name+domain entity lookups (ingest/update writes) ─
     session.run(
@@ -103,7 +107,7 @@ def setup_all() -> dict:
 
     return {
         "sqlite": "ok",
-        "neo4j_constraints": ["document_id", "chunk_id", "user_chat_id"],
+        "neo4j_constraints": ["document_id", "chunk_id", "user_chat_id", "conflict_id"],
         "neo4j_indexes": [
             "entity_lookup",
             "entity_domain",
@@ -118,6 +122,7 @@ def setup_all() -> dict:
             "chunk_valid_to",
             "document_valid_from",
             "document_valid_to",
+            "conflict_status",
         ],
         "neo4j_vector_indexes": [
             f"chunk_embedding (dim={embedding_dim})",
