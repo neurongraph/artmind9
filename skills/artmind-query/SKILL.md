@@ -144,8 +144,11 @@ side, re-run Ground with the sibling domains from Route before concluding.
 
 Qualify claims by time: report present-tense answers "as of <date>, source A says X".
 A claim whose document is superseded (has `superseded_by` / a `valid_to` in the past)
-is HISTORY, not a live disagreement — say so. A conflict is genuine only when both
-documents' valid-time intervals overlap and neither supersedes the other.
+is HISTORY, not a live disagreement — say so. Before treating a materialized Conflict
+as live, verify both documents' valid-time windows overlap and neither supersedes the
+other — detect-conflicts' LLM adjudication tries to catch this at detection time, but
+it isn't a structural guarantee, so re-check at query time using each side's
+`valid_to`/`superseded_by`.
 
 ## Fallback Ladder
 
