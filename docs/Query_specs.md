@@ -19,8 +19,7 @@ All patterns assume:
 ## Structural schema (fixed across domains)
 
 - `(:DocChunk)-[:PART_OF]->(:Document)`
-- `(:Entity)-[:EXTRACTED_FROM]->(:DocChunk)`
-- `(:DocChunk)-[:MENTIONS]->(:Entity)`
+- `(:Entity)-[:EXTRACTED_FROM]->(:DocChunk)` — also the only edge for tracing an entity back to its source chunk/document; there is no separate `(:DocChunk)-[:MENTIONS]->(:Entity)` edge, ingestion never writes one
 - `(:UserChat)-[:MENTIONS]->(:Entity)`
 
 Entity-to-Entity relationship types are domain-specific; discover them via metadata.
@@ -130,7 +129,7 @@ MATCH (e:Entity)
 WHERE <domain(e)>
   AND <selector>            // e.id IN $entityIdList
                             // or ANY(n IN $entityNameList WHERE toLower(e.name) CONTAINS toLower(n))
-OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
 WITH e, collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources
 OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
 RETURN e {.*, label: labels(e)} AS entityData,
@@ -162,7 +161,7 @@ WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {
   properties: properties(r),
   target: {name: t.name, label: labels(t)}
 } END) AS connections
-OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
 WITH e, connections, collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources
 OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
 RETURN properties(e) AS entityData, connections, doc_sources,
@@ -193,7 +192,7 @@ WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {
   rel_properties: properties(r),
   connected_to: {label: labels(t), data: properties(t)}
 } END) AS connections
-OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
 WITH e, connections, collect(DISTINCT chunk { .id, .name, .doc_id, source_type: 'document' }) AS doc_sources
 OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
 RETURN properties(e) AS entityData, connections, doc_sources,
@@ -337,7 +336,7 @@ uv run artmind query graph pattern8 --domain $domain --entityClass $entityClass 
 **When to use:** "Main", "key", "important", "top" entities of a class. Three degree modes:
 
 - `relations` *(default)* — entity-entity relationships only: structural connectivity in the story/domain.
-- `mentions` — incoming `MENTIONS` edges from chunks/chats: how often sources talk about the entity (salience).
+- `mentions` — how often sources talk about the entity (salience): document mentions via `EXTRACTED_FROM` plus chat mentions via `MENTIONS`.
 - `all` — every edge including structural ones (legacy behavior).
 
 **Cypher (degreeMode=relations):**
@@ -350,7 +349,7 @@ RETURN e {.*, label: labels(e), degree: degree} AS entityData
 ORDER BY degree DESC, e.name
 LIMIT $topN
 ```
-(`mentions` uses `OPTIONAL MATCH (e)<-[r:MENTIONS]-()`; `all` uses `OPTIONAL MATCH (e)-[r]-()`.)
+`mentions` sums two counts instead of one — `OPTIONAL MATCH (e)-[r1:EXTRACTED_FROM]->(:DocChunk)` and `OPTIONAL MATCH (e)<-[r2:MENTIONS]-(:UserChat)`, `count(DISTINCT r1) + count(DISTINCT r2) AS degree` — since document mentions and chat mentions are different relationship types/directions. `all` uses `OPTIONAL MATCH (e)-[r]-()`.
 
 **CLI:**
 ```

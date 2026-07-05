@@ -21,8 +21,7 @@ Use only the structured KG data and chunk text returned by artmind query command
 Four structural node types with fixed relationships, identical across domains:
 
 - `(:DocChunk)-[:PART_OF]->(:Document)` — chunk belongs to a document
-- `(:Entity)-[:EXTRACTED_FROM]->(:DocChunk)` — entity was extracted from a chunk
-- `(:DocChunk)-[:MENTIONS]->(:Entity)` — chunk mentions an entity
+- `(:Entity)-[:EXTRACTED_FROM]->(:DocChunk)` — entity was extracted from a chunk; this is also the only edge to use to find which chunk/document an entity came from (there is no separate `(:DocChunk)-[:MENTIONS]->(:Entity)` edge — ingestion never writes one)
 - `(:UserChat)-[:MENTIONS]->(:Entity)` — user chat mentions an entity
 
 Key properties: `Document` (id, name, path, domain), `DocChunk` (id, name, doc_id, text, domain), `UserChat` (id, raw_text, domain, session_id, created_by, created_at), `Entity` (id, name, entity_class, domain, description, type).

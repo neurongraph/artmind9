@@ -54,7 +54,7 @@ def domain_predicate(var: str, param: str = "domains") -> str:
     """
     return (
         f"({var}.domain IN ${param} "
-        f"OR any(d IN ${param} WHERE {var}.domain STARTS WITH (d + '.')))"
+        f"OR any(dom IN ${param} WHERE {var}.domain STARTS WITH (dom + '.')))"
     )
 
 
@@ -275,11 +275,6 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
       WITH count(r) AS cnt
       RETURN null AS label, cnt AS count, null AS names, 'EXTRACTED_FROM' AS relationship, 'Entity' AS from_label, 'DocChunk' AS to_label
     UNION
-      MATCH (c:DocChunk)-[r:MENTIONS]->(e:Entity)
-      WHERE {domain_predicate("c")}
-      WITH count(r) AS cnt
-      RETURN null AS label, cnt AS count, null AS names, 'MENTIONS' AS relationship, 'DocChunk' AS from_label, 'Entity' AS to_label
-    UNION
       MATCH (u:UserChat)-[r:MENTIONS]->(e:Entity)
       WHERE {domain_predicate("u")}
       WITH count(r) AS cnt
@@ -438,7 +433,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             MATCH (e:Entity)
             WHERE {domain_predicate("e")}
               AND {selector}{_asof("e")}
-            OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
             WITH e, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
             RETURN e {{.*, label: labels(e)}} AS entityData,
@@ -465,7 +460,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               properties: properties(r),
               target: {{name: t.name, label: labels(t)}}
             }} END) AS connections
-            OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
             WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
             RETURN properties(e) AS entityData, connections, doc_sources,
@@ -492,7 +487,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               rel_properties: properties(r),
               connected_to: {{label: labels(t), data: properties(t)}}
             }} END) AS connections
-            OPTIONAL MATCH (chunk:DocChunk)-[:MENTIONS]->(e)
+            OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(chunk:DocChunk)
             WITH e, connections, collect(DISTINCT chunk {{ .id, .name, .doc_id, .domain, source_type: 'document' }}) AS doc_sources
             OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
             RETURN properties(e) AS entityData, connections, doc_sources,
@@ -619,19 +614,32 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
         )
     if pattern == "pattern9":
         label = parameters["entityClass"]
-        # relations: entity-entity connectivity; mentions: how often sources
-        # mention the entity; all: every edge including structural ones.
-        degree_match = {
-            "relations": "OPTIONAL MATCH (e)-[r]-(:Entity)",
-            "mentions": "OPTIONAL MATCH (e)<-[r:MENTIONS]-()",
-            "all": "OPTIONAL MATCH (e)-[r]-()",
-        }[parameters.get("degreeMode", "relations")]
+        degree_mode = parameters.get("degreeMode", "relations")
+        if degree_mode == "mentions":
+            # mentions: how often sources mention the entity. Document mentions are
+            # (Entity)-[:EXTRACTED_FROM]->(DocChunk) (the only edge ingestion writes
+            # between the two); chat mentions are (UserChat)-[:MENTIONS]->(Entity).
+            # :MENTIONS is never written for DocChunk, so it must not be queried here.
+            degree_body = """
+            OPTIONAL MATCH (e)-[r1:EXTRACTED_FROM]->(:DocChunk)
+            OPTIONAL MATCH (e)<-[r2:MENTIONS]-(:UserChat)
+            WITH e, count(DISTINCT r1) + count(DISTINCT r2) AS degree
+            """
+        else:
+            # relations: entity-entity connectivity; all: every edge including structural ones.
+            degree_match = {
+                "relations": "OPTIONAL MATCH (e)-[r]-(:Entity)",
+                "all": "OPTIONAL MATCH (e)-[r]-()",
+            }[degree_mode]
+            degree_body = f"""
+            {degree_match}
+            WITH e, count(r) AS degree
+            """
         return (
             f"""
             MATCH (e:{label})
             WHERE {domain_predicate("e")}{_asof("e")}
-            {degree_match}
-            WITH e, count(r) AS degree
+            {degree_body}
             RETURN e {{.*, label: labels(e), degree: degree}} AS entityData
             ORDER BY degree DESC, e.name
             LIMIT $topN
