@@ -2,8 +2,13 @@
 """Optional migration: rename flat banking_* domains to hierarchical banking.* so
 the existing STARTS WITH rollup lets `--domain banking` span all siblings.
 
-Renames the .domain property on Document/DocChunk/UserChat/Entity/Conflict nodes
-and moves schema files. Idempotent; dry-run by default.
+Renames the .domain property on Document/DocChunk/UserChat/Entity/Conflict nodes.
+Idempotent (safe to re-run to completion after an interruption); dry-run by default.
+
+Does NOT touch domains/schemas/*.yaml — each schema file's `name:` still says the
+old flat domain (e.g. `banking_policy`). Rename those files and their `name:` field
+manually to match before or after running this, so schema lookups stay consistent
+with the renamed graph data.
 
   uv run python scripts/migrate_banking_hierarchy.py --apply
 """
