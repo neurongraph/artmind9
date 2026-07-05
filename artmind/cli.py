@@ -719,6 +719,42 @@ def ingest_normalize_time(domain: str, dry_run: bool, compact: bool) -> None:
     _echo_json(normalize_time(domain, dry_run=dry_run), compact)
 
 
+@ingest.command("detect-conflicts")
+@click.option("--domain", "domain", required=True, multiple=True, help="Target domain(s) (repeatable; 1=intra-domain, 2+=cross-domain)")
+@click.option("--nameFilter", "name_filter", default=None, help="Restrict to entities whose name contains this")
+@click.option("--simThreshold", "sim_threshold", type=float, default=0.75, show_default=True, help="Min cosine similarity for a candidate")
+@click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Hard cap on candidate pairs (bounds LLM cost)")
+@click.option("--maxChunksPerSide", "max_chunks", type=int, default=2, show_default=True, help="Evidence chunks per side")
+@click.option("--model", default=None, help="Adjudication LLM model (default: env)")
+@click.option("--dry-run", is_flag=True, help="Compute proposals + write --output; do NOT materialize")
+@click.option("--output", "output_file", default=None, type=click.Path(), help="Write proposals JSON here")
+@click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Materialize proposals from a prior dry-run file")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_detect_conflicts(domain, name_filter, sim_threshold, max_pairs, max_chunks, model, dry_run, output_file, from_file, compact):
+    """Detect non-destructive conflicts between entities across domains.
+
+    \b
+    Precondition: run intra-domain `refine-graph` (no --allow-cross-domain-merge)
+    on each target domain first, so pairing operates on deduplicated entities.
+    Workflow:
+      1. artmind ingest detect-conflicts --domain A --domain B --dry-run --output conflicts.json
+      2. Review conflicts.json
+      3. artmind ingest detect-conflicts --domain A --domain B --from-file conflicts.json
+    """
+    _setup_logger()
+    from artmind.conflicts import detect_conflicts
+    env = load_env()
+    resolved_model = resolve_llm_model(env, model)
+    domains = _parse_domains(domain)
+    report = detect_conflicts(
+        domains=domains, name_filter=name_filter, sim_threshold=sim_threshold,
+        max_pairs=max_pairs, max_chunks_per_side=max_chunks, model=resolved_model,
+        dry_run=dry_run, output_file=Path(output_file) if output_file else None,
+        from_file=Path(from_file) if from_file else None,
+    )
+    _echo_json(report, compact)
+
+
 # ── artmind query ──────────────────────────────────────────────────────────────
 
 
@@ -1013,6 +1049,21 @@ def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, question: str
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
+
+
+@graph.command("conflicts")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) (repeatable)")
+@click.option("--entityId", "entity_id", multiple=True, help="Filter to conflicts touching this entity id (repeatable)")
+@click.option("--entityName", "entity_name", default=None, help="Filter to conflicts touching an entity whose name contains this")
+@click.option("--status", type=click.Choice(["open", "resolved", "dismissed", "all"]), default="open", show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_conflicts(domain, entity_id, entity_name, status, compact):
+    """List materialized Conflict nodes scoped to the given domains."""
+    domains = _parse_domains(domain)
+    _echo_json(
+        graph_query.list_conflicts(domains, entity_ids=list(entity_id), entity_name=entity_name, status=status),
+        compact,
+    )
 
 
 @query.command("domains-overview")
