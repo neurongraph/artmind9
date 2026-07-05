@@ -129,10 +129,15 @@ JSON only:"""
 
 
 def gather_evidence(session, entity_id: str, max_chunks: int) -> list[dict]:
-    """Top-k MENTIONS chunks for an entity, truncated for bounded LLM cost."""
+    """Top-k source chunks an entity was extracted from, truncated for bounded LLM cost.
+
+    Uses EXTRACTED_FROM (Entity)->(DocChunk) — the relationship the ingest pipeline
+    actually writes. :MENTIONS is never created for document chunks; it's only
+    written for (UserChat)-[:MENTIONS]->(Entity) by the artmind-update chat path.
+    """
     return session.run(
         """
-        MATCH (c:DocChunk)-[:MENTIONS]->(e:Entity {id:$id})
+        MATCH (e:Entity {id:$id})-[:EXTRACTED_FROM]->(c:DocChunk)
         RETURN c.id AS id, c.doc_id AS doc_id, c.name AS name, c.domain AS domain,
                left(c.text, 1200) AS text
         LIMIT $k
