@@ -140,7 +140,44 @@ End with the two anchors:
   {text}
 ```
 
-### Step 7 — Save and verify
+### Step 7 — Design the temporal block
+
+Ask about the domain's temporal semantics: which entity classes carry a validity
+start (`valid_from`), an end (`valid_to`), or a single event moment (`event_at`),
+and what those dates are called in the domain's own vocabulary (e.g. "Effective
+Date," "target_date," "start_date"). Also ask whether the domain expresses dates
+relative to the document itself (a journal entry's "today," a governance report's
+"as of") — if so, record a `relative_anchor`.
+
+Emit a `temporal:` block above `entity_types:` mapping each domain property onto
+the canonical timeline:
+
+```yaml
+temporal:
+  document:
+    valid_from: [Effective Date, effective_date]
+  entities:
+    POLICY:  { valid_from: effective_date }
+    EVENT:   { event_at: date_or_time }
+  relative_anchor: document.valid_from
+```
+
+`document` and `relative_anchor` are optional — include them only when the domain's
+documents themselves carry a date or use relative time. `entities` should map every
+class whose instances have a natural point or interval in time; omit classes that
+don't (e.g. a purely descriptive `LOCATION` class usually has none).
+
+If any entry in the document records a change in an entity's state, status, or
+relationship over time (a status shifting, a relationship starting or ending), give
+it a canonical `STATE_CHANGE` entity class — with `what_changed`/`from_state`/
+`to_state`/`date_or_time` properties and a `STATE_CHANGE: { event_at: date_or_time }`
+temporal mapping — rather than letting the LLM attach ad hoc state fields to
+unrelated classes.
+
+Note: `domains harmonize` propagates a parent domain's `temporal:` block to its
+children, so a child schema created later inherits this mapping automatically.
+
+### Step 8 — Save and verify
 
 Write the completed schema to:
 ```
@@ -152,12 +189,20 @@ Then verify:
 - `{text}` appears at the end of `entities_prompt`
 - `{entities_list}` and `{text}` both appear at the end of `properties_prompt` and `relationships_prompt`
 - The `name:` field at the top matches the filename stem
+- The `temporal:` block only references entity classes that actually exist in `entity_types`
 
 ## YAML Structure Reference
 
 ```yaml
 name: {domain_name}
 description: {one-sentence description of documents in this domain}
+
+temporal:
+  document:
+    valid_from: [Label, alt_label]
+  entities:
+    CLASS_NAME:  { valid_from: property_name }
+  relative_anchor: document.valid_from
 
 entities_prompt: |
   ...prompt text...
@@ -191,6 +236,7 @@ The `|` block scalar is required for all three prompts — they are multi-line s
 
 ```
 □ name and description fields at the top of the YAML
+□ temporal: block maps every class with a natural date to valid_from/valid_to/event_at
 □ All three prompts present: entities_prompt, properties_prompt, relationships_prompt
 □ Each prompt opens with the domain-specialised analyst sentence
 □ entities_prompt defines 5–8 entity classes, each with description and example type values

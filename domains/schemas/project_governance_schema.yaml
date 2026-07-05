@@ -5,9 +5,10 @@ temporal:
   document:
     valid_from: [Date, date]
   entities:
-    MILESTONE:  { event_at: target_date }
-    ACTION:     { event_at: due_date }
-    PROJECT:    { valid_from: start_date, valid_to: end_date }
+    MILESTONE:     { event_at: target_date }
+    ACTION:        { event_at: due_date }
+    PROJECT:       { valid_from: start_date, valid_to: end_date }
+    STATE_CHANGE:  { event_at: due_date }
   relative_anchor: document.valid_from
 
 entity_types:
@@ -22,6 +23,7 @@ entity_types:
   - TECHNOLOGY
   - OBJECT
   - LOCATION
+  - STATE_CHANGE
 
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in project governance document analysis.
@@ -76,6 +78,13 @@ entities_prompt: |
     Any place, site, office, or geographic area referenced in the governance context — where work is performed, teams are based, or delivery takes place.
     example type values: office | site | country | region | city | facility | remote_location | data_centre
 
+  STATE_CHANGE
+    A change in an entity's state, status, or relationship over time — extract when
+    the document records that something became different from before (a project's
+    RAG status shifting, a risk escalating, a workstream starting or ending). Carry
+    the date it happened.
+    example type values: mood_shift | relationship_change | plan_started | plan_ended | status_change
+
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -113,7 +122,7 @@ entities_prompt: |
                                    // e.g., "prj_001", "mst_002", "per_003"
     "name":              string,   // canonical name
     "aliases":           array,    // abbreviations and alternate names
-    "entity_class":      string,   // PROJECT | MILESTONE | PERSON | ORGANIZATION | RISK | ISSUE | DECISION | ACTION | TECHNOLOGY | OBJECT | LOCATION
+    "entity_class":      string,   // PROJECT | MILESTONE | PERSON | ORGANIZATION | RISK | ISSUE | DECISION | ACTION | TECHNOLOGY | OBJECT | LOCATION | STATE_CHANGE
     "type":              string,   // the subtype from lists above
     "description":       string,   // 2-4 sentence summary specific to this document
     "context":           array,    // verbatim text snippets where entity appears
@@ -232,6 +241,12 @@ properties_prompt: |
     - location_type (office | site | country | etc.)
     - relevance (where work happens | where team is based | delivery location)
     - timezone (if relevant to governance)
+
+  For STATE_CHANGE, consider:
+    - what_changed (the entity or relationship affected)
+    - from_state
+    - to_state
+    - date_or_time (when the change occurred — anchored to the document date if relative)
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "rag_status" not "RAG")
@@ -393,6 +408,12 @@ relationships_prompt: |
 
   LOCATION ↔ ORGANIZATION:
     headquartered_at, operates_from, office_of
+
+  STATE_CHANGE ↔ PERSON:
+    state_of, affects, involves
+
+  STATE_CHANGE ↔ MILESTONE:
+    triggered_by, resulted_from
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
