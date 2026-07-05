@@ -83,7 +83,7 @@ STRUCTURAL GRAPH (fixed for all domains — use these exact relationship names):
   Relationship (:Entity)-[:EXTRACTED_FROM]->(:DocChunk)    — entity was extracted from a chunk
   Relationship (:DocChunk)-[:MENTIONS]->(:Entity)          — chunk mentions an entity
   Relationship (:UserChat)-[:MENTIONS]->(:Entity)          — user chat mentions an entity
-  Node :Conflict  properties=[id, aspect, claim_a, claim_b, severity, status, domains, detected_at]
+  Node :Conflict  properties=[id, aspect, claim_a, claim_b, severity, status, domains, detected_at, detected_by_model]
   Relationship (:Conflict)-[:CONFLICT_OF]->(:Entity)      — both sides of a conflict
   Relationship (:Conflict)-[:EVIDENCE {side}]->(:DocChunk) — competing claim text
   Relationship (:Entity)-[:CONFLICTS_WITH {conflict_id, aspect}]->(:Entity)

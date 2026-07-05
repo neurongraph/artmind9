@@ -322,7 +322,9 @@ def detect_conflicts(
             ev_b = gather_evidence(session, pair["id_b"], max_chunks_per_side)
             verdict = llm_adjudicate(session, pair, ev_a, ev_b, model)
             report["llm_calls"] += 1
-            if verdict["verdict"] == "conflicting_claims":
+            if verdict["verdict"] in ("conflicting_claims", "superseded"):
+                # Both verdicts flow through the same dry-run/apply pipeline;
+                # materialize() discriminates them (Conflict node vs SUPERSEDES edge).
                 proposals.append({"pair": pair, "verdict": verdict,
                                   "evidence_a": ev_a, "evidence_b": ev_b, "model": model})
     report["llm_seconds"] = round(time.monotonic() - t1, 3)

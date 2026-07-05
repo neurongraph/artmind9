@@ -10,7 +10,6 @@ from pathlib import Path
 from loguru import logger
 
 from artmind.graph_query import neo4j_session
-from artmind.ingest import _call_llm_text, _parse_json_response
 from paths import DOMAIN_SCHEMAS_DIR, MARKDOWNS_DIR
 
 _MONTHS = {
