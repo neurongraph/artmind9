@@ -23,7 +23,7 @@ def test_normalize_empty_raises():
 def test_domain_predicate_shape():
     pred = domain_predicate("e")
     assert pred == (
-        "(e.domain IN $domains OR any(d IN $domains WHERE e.domain STARTS WITH (d + '.')))"
+        "(e.domain IN $domains OR any(dom IN $domains WHERE e.domain STARTS WITH (dom + '.')))"
     )
 
 
@@ -45,4 +45,15 @@ def test_pattern1_cypher_uses_in_domains():
 def test_domain_predicate_rolls_up_subdomains_semantics():
     # A one-element list "banking" must match "banking.policy" via STARTS WITH.
     pred = domain_predicate("e")
-    assert "STARTS WITH (d + '.')" in pred
+    assert "STARTS WITH (dom + '.')" in pred
+
+
+def test_domain_predicate_var_named_d_has_no_shadowing_collision():
+    # structural_metadata() calls domain_predicate("d") for its Document arm
+    # (MATCH (d:Document) WHERE domain_predicate("d")). If the comprehension's
+    # loop variable were also named "d", it would shadow the outer node inside
+    # the WHERE clause, turning "d.domain" into a property access on a string
+    # and crashing Neo4j with "Invalid input 'STRING' for `d`". Guard against
+    # that regression by requiring the loop variable to differ from var.
+    pred = domain_predicate("d")
+    assert "any(d IN" not in pred
