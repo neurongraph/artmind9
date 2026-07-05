@@ -336,7 +336,19 @@ def detect_supersession(domain: str, dry_run: bool = False) -> dict:
             "MATCH (d:Document) WHERE d.domain=$domain RETURN d.id AS id, d.name AS name, d.version AS version",
             domain=domain,
         ).data()
-    by_version = {str(d["version"]): d for d in docs if d.get("version")}
+    by_version: dict = {}
+    for d in docs:
+        if not d.get("version"):
+            continue
+        version = str(d["version"])
+        existing = by_version.get(version)
+        if existing is not None and existing["id"] != d["id"]:
+            logger.warning(
+                "supersession: version {!r} collision in domain {!r} between document {!r} ({}) and {!r} ({}); "
+                "keeping the latter",
+                version, domain, existing["name"], existing["id"], d["name"], d["id"],
+            )
+        by_version[version] = d
     for d in docs:
         md_file = MARKDOWNS_DIR / f"{Path(d['name']).stem}.md"
         if not md_file.exists():
