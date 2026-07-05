@@ -17,6 +17,8 @@ def test_ingest_to_kg_does_not_call_refine_or_detect():
 
 def test_ingest_sync_and_async_do_not_auto_detect_conflicts():
     import artmind.cli as cli
+    # ingest_sync/ingest_async are Click Commands, not plain functions — .callback
+    # reaches the wrapped function so inspect.getsource sees the real body.
     src = inspect.getsource(cli.ingest_sync.callback) + inspect.getsource(cli.ingest_async.callback)
     assert "detect_conflicts" not in src
     assert "detect-conflicts" not in src
