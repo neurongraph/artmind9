@@ -730,7 +730,18 @@ def ingest_normalize_time(domain: str, dry_run: bool, compact: bool) -> None:
 @click.option("--output", "output_file", default=None, type=click.Path(), help="Write proposals JSON here")
 @click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Materialize proposals from a prior dry-run file")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_detect_conflicts(domain, name_filter, sim_threshold, max_pairs, max_chunks, model, dry_run, output_file, from_file, compact):
+def ingest_detect_conflicts(
+    domain: tuple,
+    name_filter: str | None,
+    sim_threshold: float,
+    max_pairs: int,
+    max_chunks: int,
+    model: str | None,
+    dry_run: bool,
+    output_file: str | None,
+    from_file: str | None,
+    compact: bool,
+) -> None:
     """Detect non-destructive conflicts between entities across domains.
 
     \b
@@ -1057,7 +1068,7 @@ def graph_text2cypher(domain: tuple, compact: bool, dry_run: bool, question: str
 @click.option("--entityName", "entity_name", default=None, help="Filter to conflicts touching an entity whose name contains this")
 @click.option("--status", type=click.Choice(["open", "resolved", "dismissed", "all"]), default="open", show_default=True)
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def graph_conflicts(domain, entity_id, entity_name, status, compact):
+def graph_conflicts(domain: tuple, entity_id: tuple, entity_name: str | None, status: str, compact: bool) -> None:
     """List materialized Conflict nodes scoped to the given domains."""
     domains = _parse_domains(domain)
     _echo_json(
