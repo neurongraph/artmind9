@@ -779,14 +779,29 @@ def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, 
     from artmind.temporal import apply_supersession
     from artmind.graph_query import neo4j_session
     with neo4j_session() as session:
-        ids = session.run(
+        rows = session.run(
             "MATCH (d:Document) WHERE d.domain=$domain AND d.name IN [$n,$o] RETURN d.name AS name, d.id AS id",
             domain=domain, n=newer_name, o=older_name,
         ).data()
-    by_name = {r["name"]: r["id"] for r in ids}
-    if newer_name not in by_name or older_name not in by_name:
-        raise click.ClickException(f"Could not resolve both documents in domain {domain}: found {list(by_name)}")
-    _echo_json(apply_supersession(by_name[newer_name], by_name[older_name], scope, effective), compact)
+    by_name: dict[str, list[str]] = {}
+    for r in rows:
+        by_name.setdefault(r["name"], []).append(r["id"])
+    missing = [n for n in (newer_name, older_name) if n not in by_name]
+    if missing:
+        raise click.ClickException(
+            f"Could not resolve document(s) {missing} in domain {domain} (found: {list(by_name)})"
+        )
+    ambiguous = {n: ids for n, ids in by_name.items() if len(ids) > 1}
+    if ambiguous:
+        raise click.ClickException(
+            f"Ambiguous document name(s) in domain {domain} — multiple Document nodes share "
+            f"the same name (e.g. from re-ingesting an edited file): {ambiguous}. "
+            "Resolve manually before superseding."
+        )
+    _echo_json(
+        apply_supersession(by_name[newer_name][0], by_name[older_name][0], scope, effective),
+        compact,
+    )
 
 
 @ingest.command("detect-supersession")
