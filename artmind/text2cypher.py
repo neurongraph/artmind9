@@ -87,6 +87,8 @@ STRUCTURAL GRAPH (fixed for all domains — use these exact relationship names):
   Relationship (:Conflict)-[:CONFLICT_OF]->(:Entity)      — both sides of a conflict
   Relationship (:Conflict)-[:EVIDENCE {side}]->(:DocChunk) — competing claim text
   Relationship (:Entity)-[:CONFLICTS_WITH {conflict_id, aspect}]->(:Entity)
+  Relationship (:Document)-[:SUPERSEDES {scope, effective}]->(:Document)  — newer replaces older
+  Timed nodes carry valid_from/valid_to; superseded docs also carry superseded_by.
   Entity-to-Entity relationships are domain-specific (see GRAPH SCHEMA below)."""
 
 

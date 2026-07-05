@@ -142,6 +142,11 @@ When two sources disagree, surface BOTH claims with BOTH provenances in this for
 Never average, reconcile silently, or drop one side. If retrieval returned only one
 side, re-run Ground with the sibling domains from Route before concluding.
 
+Qualify claims by time: report present-tense answers "as of <date>, source A says X".
+A claim whose document is superseded (has `superseded_by` / a `valid_to` in the past)
+is HISTORY, not a live disagreement — say so. A conflict is genuine only when both
+documents' valid-time intervals overlap and neither supersedes the other.
+
 ## Fallback Ladder
 
 1. Thin results in the chosen domain → re-run with sibling domains from Route before concluding data is absent. (Same fix as Adjudicate's "only one side retrieved" case — apply it as soon as results look thin, not only after a disagreement surfaces.)
