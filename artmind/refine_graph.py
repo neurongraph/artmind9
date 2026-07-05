@@ -185,10 +185,29 @@ def refine_graph(
         data = json.loads(from_file.read_text(encoding="utf-8"))
         proposed_merges: dict[str, str] = data.get("proposed_merges", data)
         logger.info("Loaded {} merge proposal(s) from {}", len(proposed_merges), from_file)
+
+        # Pre-merge domain lookup (before apply_merges mutates the graph — APOC merges
+        # delete alias nodes, so a post-merge re-query would no longer resolve them).
+        dmap: dict[str, set[str]] = {}
+        if proposed_merges:
+            names = set(proposed_merges.keys()) | set(proposed_merges.values())
+            with neo4j_session() as session:
+                dmap = _entity_domains(session, list(names))
+
         stats = apply_merges(proposed_merges, domain)
         report["proposed_merges"] = proposed_merges
         report["stats"] = stats
         logger.info("Done — merged={merged} skipped={skipped} errors={errors}", **stats)
+
+        if proposed_merges:
+            if domain:
+                touched_domains = [domain]
+            else:
+                names = set(proposed_merges.keys()) | set(proposed_merges.values())
+                touched_domains = sorted({d for name in names for d in dmap.get(name, set())})
+            with neo4j_session() as session:
+                _record_refine_run(session, touched_domains)
+
         return report
 
     env = load_env()
