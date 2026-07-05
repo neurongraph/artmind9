@@ -245,10 +245,16 @@ def refine_graph(
 
     logger.info("Total proposed merges: {}", len(report["proposed_merges"]))
 
-    if domain is None and not allow_cross_domain_merge and report["proposed_merges"]:
+    # Pre-merge domain lookup: computed once, before apply_merges() mutates the graph
+    # (APOC merges delete alias nodes, so any post-merge re-query would no longer resolve
+    # alias names). Reused for both the cross-domain guard split and touched-domains below.
+    dmap: dict[str, set[str]] = {}
+    if report["proposed_merges"]:
+        names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
         with neo4j_session() as session:
-            names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
             dmap = _entity_domains(session, list(names))
+
+    if domain is None and not allow_cross_domain_merge and report["proposed_merges"]:
         kept, skipped = {}, {}
         for alias, canonical in report["proposed_merges"].items():
             spans = dmap.get(alias, set()) | dmap.get(canonical, set())
@@ -270,13 +276,12 @@ def refine_graph(
         report["stats"] = stats
         logger.info("Done — merged={merged} skipped={skipped} errors={errors}", **stats)
 
+        if domain:
+            touched_domains = [domain]
+        else:
+            names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
+            touched_domains = sorted({d for name in names for d in dmap.get(name, set())})
         with neo4j_session() as session:
-            if domain:
-                touched_domains = [domain]
-            else:
-                names = set(report["proposed_merges"].keys()) | set(report["proposed_merges"].values())
-                dmap = _entity_domains(session, list(names))
-                touched_domains = sorted({d for name in names for d in dmap.get(name, set())})
             _record_refine_run(session, touched_domains)
 
     return report

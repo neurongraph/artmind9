@@ -637,7 +637,11 @@ def ingest_pull_kg(repo: str, repo_path: str, domain: str) -> None:
     "allow_cross_domain_merge",
     is_flag=True,
     default=False,
-    help="Allow merging same-named entities across domains (default: skip and report them)",
+    help=(
+        "Allow merging same-named entities across domains (default: skip and report them). "
+        "Only applies when computing proposals via clustering; has no effect with --from-file, "
+        "which applies proposals already vetted at dry-run time."
+    ),
 )
 def ingest_refine_graph(
     domain: str | None,
