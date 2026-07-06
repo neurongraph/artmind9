@@ -311,8 +311,13 @@ def _register_document(domain: str, file_path: Path) -> str:
 # ── ingest helpers ─────────────────────────────────────────────────────────────
 
 _DESCRIBE_PROMPTS = [
-    "If the picture is a logo or an icon, just reply logo or icon. Otherwise, describe what’s in the picture ensuring all the words detected in the picture are included in your description",
-    "Describe this image in detail. Include any visible text.",
+    "If the picture is a logo or an icon, just reply logo or icon. "
+    "If the picture is a table, reproduce it as a GitHub-flavored markdown table, "
+    "preserving every row and column exactly as shown — do not summarize or paraphrase "
+    "any values. Otherwise, describe what's in the picture ensuring all the words detected "
+    "in the picture are included in your description",
+    "Describe this image in detail. Include any visible text. If it contains a table, "
+    "reproduce it as a markdown table preserving all rows and columns exactly.",
 ]
 
 
@@ -535,6 +540,8 @@ def ingest_file(
         chunks = _split_markdown(body, chunk_size)
         chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
         chunks_dir.mkdir(parents=True, exist_ok=True)
+        for stale in chunks_dir.glob("chunk_*.md"):
+            stale.unlink()
         for i, chunk_text in enumerate(chunks, start=1):
             (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk_text, encoding="utf-8")
         logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
@@ -569,6 +576,37 @@ def _parse_md_frontmatter(text: str) -> tuple[dict, str]:
     return meta, text[end + 4 :].lstrip("\n")
 
 
+def _is_table_row(line: str) -> bool:
+    stripped = line.strip()
+    return stripped.startswith("|") and stripped.endswith("|") and len(stripped) > 1
+
+
+def _is_table_separator_row(line: str) -> bool:
+    stripped = line.strip()
+    return bool(stripped) and "-" in stripped and set(stripped) <= set("|:- ")
+
+
+def _reattach_table_headers(sub_chunks: list[str]) -> list[str]:
+    """Re-prepend the most recent markdown table header+separator row to any
+    chunk that starts mid-table, so a table split across chunks doesn't hand
+    the extraction LLM unlabeled rows with no column context."""
+    result = []
+    last_header: tuple[str, str] | None = None
+    for chunk in sub_chunks:
+        lines = chunk.split("\n")
+        starts_mid_table = _is_table_row(lines[0]) and not (
+            len(lines) > 1 and _is_table_separator_row(lines[1])
+        )
+        if starts_mid_table and last_header:
+            chunk = "\n".join([*last_header, chunk])
+            lines = chunk.split("\n")
+        for i in range(len(lines) - 1):
+            if _is_table_row(lines[i]) and _is_table_separator_row(lines[i + 1]):
+                last_header = (lines[i], lines[i + 1])
+        result.append(chunk)
+    return result
+
+
 def _split_markdown(text: str, chunk_size: int) -> list[str]:
     header_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=[
@@ -593,11 +631,11 @@ def _split_markdown(text: str, chunk_size: int) -> list[str]:
         if len(content) <= chunk_size:
             chunks.append(content)
         else:
-            chunks.extend(
-                c.strip() for c in char_splitter.split_text(content) if c.strip()
-            )
+            sub_chunks = [c.strip() for c in char_splitter.split_text(content) if c.strip()]
+            chunks.extend(_reattach_table_headers(sub_chunks))
     if not chunks:
-        chunks = [c.strip() for c in char_splitter.split_text(text) if c.strip()]
+        sub_chunks = [c.strip() for c in char_splitter.split_text(text) if c.strip()]
+        chunks = _reattach_table_headers(sub_chunks)
     return chunks
 
 
@@ -1129,6 +1167,8 @@ def ingest_to_kg(
         chunks = _split_markdown(body, chunk_size)
         chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
         chunks_dir.mkdir(parents=True, exist_ok=True)
+        for stale in chunks_dir.glob("chunk_*.md"):
+            stale.unlink()
         for i, chunk_text in enumerate(chunks, start=1):
             (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk_text, encoding="utf-8")
         file_result["chunks_dir"] = str(chunks_dir)

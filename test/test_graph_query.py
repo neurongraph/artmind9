@@ -235,7 +235,8 @@ def test_pattern9_degree_modes():
     mentions_cypher, _ = graph_query._pattern_query(
         "pattern9", {**base, "degreeMode": "mentions"}
     )
-    assert "<-[r:MENTIONS]-" in mentions_cypher
+    assert "-[r1:EXTRACTED_FROM]->(:DocChunk)" in mentions_cypher
+    assert "<-[r2:MENTIONS]-(:UserChat)" in mentions_cypher
 
     all_cypher, _ = graph_query._pattern_query("pattern9", {**base, "degreeMode": "all"})
     assert "(e)-[r]-()" in all_cypher

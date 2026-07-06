@@ -1,0 +1,420 @@
+name: contracts
+description: Commercial and legal contract documents for IT services outsourcing engagements — Master Services Agreements/Framework Agreements, Transaction Contracts/Statements of Work, Contract Change Notes/Amendments, rate cards, deliverables, milestones, governance structures and charges.
+
+temporal:
+  document:
+    valid_from: ["Dated", "Effective Date", "Amendment Date"]
+  entities:
+    AGREEMENT:      { valid_from: effective_date, valid_to: term_end_date }
+    CLAUSE:         { valid_from: effective_date }
+    MILESTONE:      { event_at: target_date }
+    FINANCIAL_TERM: { valid_from: effective_date }
+    SYSTEM:         { event_at: conversion_date }
+  relative_anchor: document.valid_from
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine specialised in commercial contract analysis.
+  Your job is to read a passage from a contract document and identify all significant entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  AGREEMENT
+    Any contractual instrument — the overarching Framework Agreement/MSA, a Transaction Contract or Statement of Work made under it, a Contract Change Note or Amendment that varies it, or a named Schedule, Appendix, or Rate Card attachment. Include both the agreement currently being read and any prior or related agreement it references, amends, or supersedes.
+    example type values: framework_agreement | msa | transaction_contract | statement_of_work | contract_change_note | amendment | schedule | appendix | rate_card_attachment
+
+  PARTY
+    Any organisation that contracts, subcontracts, or is otherwise a legal entity referenced in the agreement — the principal contracting parties, approved subcontractors, parent/group companies, or regulatory bodies whose powers are referenced (e.g. under the Banking Act). Include registration numbers and registered addresses where given.
+    example type values: customer | supplier | subcontractor | parent_company | group_member | regulatory_body | third_party_beneficiary
+
+  PERSON
+    Any named individual referenced in the document — signatories, authorised representatives, key/named personnel, or witnesses. Include their title and the party they act for.
+    example type values: signatory | authorised_representative | key_personnel | programme_director | programme_manager | procurement_manager | witness
+
+  CLAUSE
+    A specific numbered clause, sub-clause, or defined contractual provision that establishes a right, obligation, condition, or mechanism — termination grounds, assignment, indexation, intellectual property, liability, confidentiality, governing law, change control, data protection, force majeure. Extract the provision itself, not the surrounding boilerplate housekeeping clauses (counterparts, headings) unless they are being specifically amended.
+    example type values: termination | assignment | indexation | intellectual_property | liability | confidentiality | governing_law | change_control | data_protection | force_majeure | payment_terms | warranty | dispute_resolution
+
+  DELIVERABLE
+    A specific document or non-document work product that the Supplier must produce and the Customer must accept — design documents, plans, reports, test artefacts, converted source code, runbooks. Include its reference code where one is given (e.g. D001, ND04).
+    example type values: document_deliverable | non_document_deliverable | design_document | test_artefact | report | runbook | source_code | release_note
+
+  MILESTONE
+    A significant temporal checkpoint or phase in the programme timeline — a numbered programme milestone, a workstream phase, or a named programme event such as Cutover, Dress Rehearsal, Go-Live, or Hypercare. Include both delivered/achieved and future/planned milestones.
+    example type values: programme_milestone | workstream_phase | cutover_event | dress_rehearsal | go_live | hypercare_period | acceptance_event
+
+  FINANCIAL_TERM
+    Any commercial or financial term — a charge, rate, discount, indexation provision, cap, recoverable expense, liquidated damages provision, or payment term. Extract the figure or mechanism together with what it applies to.
+    example type values: charge | rate_card_entry | discount | indexation_cap | recoverable_expense | liquidated_damages | payment_term | volume_discount | invoice_term
+
+    RATE/CHARGES TABLES: if the text contains a markdown table listing individual roles or line items with a rate, charge, or price column (a rate card, day-rate table, charges schedule, etc.), extract EVERY data row as its own FINANCIAL_TERM entity of type rate_card_entry — do not collapse the table into one summary entity, and do not skip rows because the table is long or spans multiple passages. Name each entity after the role/item the row describes (e.g. "UK Programme Manager Day Rate"), never after the numeric value alone. Table columns vary by document, but Role and Rate are present in nearly all such tables — capture every other column (workstream, estimated days, estimated charges, currency, etc.) as a property on that same entity in properties_prompt, not as a separate entity.
+
+  SYSTEM
+    A named technology system, application, interface, tool, or platform referenced in the contract's technical scope — a legacy application being converted, a target application being built or integrated with, a batch scheduler, a database platform, or a conversion/runtime tooling asset. Distinct from DELIVERABLE: a SYSTEM is the pre-existing or ongoing technical component itself (e.g. "NOVA", "ORION", "APEX", "PRISM", "LYNX"), not the document/artefact that describes or implements a change to it.
+    example type values: legacy_application | target_application | integration_interface | batch_system | database_platform | conversion_tool | runtime_asset | development_environment
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. COMPLETENESS OVER PRECISION
+     When in doubt whether something qualifies, include it.
+     It is easier to remove an entity in validation than to recover a missed one.
+
+  2. CANONICAL NAMES
+     Use the most complete, formal name as the entity name.
+     Store abbreviations, defined terms, and short references in aliases.
+     RIGHT:   { "name": "FirstIT United Kingdom Limited", "aliases": ["Supplier", "FirstIT"] }
+     WRONG:   { "name": "the Supplier" }
+
+  3. DESCRIPTION QUALITY
+     Write descriptions as a commercial contracts lawyer reviewing the document would.
+     Be specific to THIS agreement and its defined terms, not a generic legal summary.
+
+  4. CONTEXT SNIPPETS
+     Extract 2-4 verbatim quotes from the text that best characterise this entity.
+     Preserve exact wording, including clause numbers and defined terms. These are used for RAG enrichment.
+
+  5. DO NOT HALLUCINATE
+     Only extract what is in the text. If a property is unknown, omit it.
+     Never invent dates, amounts, or obligations not present in the passage.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT FORMAT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of entity objects:
+
+  {
+    "id":                string,   // generate as {type_abbr}_{sequence}
+                                   // e.g., "agr_001", "org_002", "cls_003", "sys_004"
+    "name":              string,   // canonical name
+    "aliases":           array,    // defined terms, abbreviations, alternate references
+    "entity_class":      string,   // AGREEMENT | PARTY | PERSON | CLAUSE | DELIVERABLE | MILESTONE | FINANCIAL_TERM | SYSTEM
+    "type":              string,   // the subtype from lists above
+    "description":       string,   // 2-4 sentence analytical summary
+    "context":           array,    // verbatim text snippets where entity appears
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ All parties captured with registration numbers/addresses where given?
+    □ All named signatories and key personnel captured with their titles?
+    □ Every amendment/CCN linked by name to the agreement it varies?
+    □ Deliverable and milestone reference codes preserved exactly (e.g. D001, M13)?
+    □ Named systems/applications distinguished from the deliverables that convert or document them?
+    □ Canonical names used consistently, with defined terms in aliases?
+    □ Context snippets are verbatim from text, including clause numbers?
+    □ Every entity genuinely significant (no noise from pure boilerplate)?
+    □ Every row of every rate/charges table extracted as its own FINANCIAL_TERM entity — none collapsed or skipped?
+
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  You are a Knowledge Graph extraction engine specialised in commercial contract analysis.
+  Your job is to read a passage from a contract document, read the set of provided entities and identify key properties of each of the entities based on the text provided.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  PROPERTIES MAP GUIDANCE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  There is NO fixed schema for properties. You decide what matters based on
+  the entity's role in the contract.
+
+  Ask yourself: "If a contracts manager asked a question about this entity,
+  what structured facts would help answer it?"
+
+  For AGREEMENT, consider:
+    - effective_date / signature_date
+    - term_end_date or termination_conditions
+    - document_reference (e.g. CCN number, supplier ref, NBS ref)
+    - amends (name of the agreement this varies, if any)
+    - status (draft | executed | superseded | expired)
+    - governing_law
+    - total_value if stated
+    - docusign_envelope_id if given
+
+  For PARTY, consider:
+    - registration_number
+    - registered_address
+    - role_in_contract (customer | supplier | subcontractor | parent | regulator)
+    - services_provided (for subcontractors)
+    - group_relationship (e.g. member of FirstBank Group)
+
+  For PERSON, consider:
+    - title_or_role (specific to this agreement, e.g. "Senior Buyer", "Programme Director")
+    - represents (which party)
+    - signed_agreement (which agreement, and date/time if given)
+    - notice_period (for key personnel)
+    - contact_responsibility (what they are the point of contact for)
+
+  For CLAUSE, consider:
+    - clause_number
+    - obligation_summary (what it requires)
+    - trigger_condition (what activates it)
+    - notice_period if applicable
+    - cap_or_limit if a financial or liability cap
+    - amended_by (which CCN/amendment changed it, if any)
+    - superseded_text (what it replaced, if known)
+    - effective_date (when this clause or its amended version takes effect, if stated)
+
+  For DELIVERABLE, consider:
+    - reference_code (e.g. D001, ND04)
+    - ip_ownership (e.g. "Type III Materials")
+    - acceptance_period / rectification_period
+    - status (delivered | future | delivered_by_customer | in_progress)
+    - responsible_party
+    - associated_workstream
+
+  For MILESTONE, consider:
+    - reference_code (e.g. M01, M13)
+    - status (delivered | future | at_risk | achieved)
+    - target_date or timeframe
+    - workstream (which programme workstream it belongs to)
+    - dependencies
+
+  For FINANCIAL_TERM, consider:
+    - amount_or_rate
+    - currency
+    - applies_to (what charge/party/period this covers)
+    - cap_or_limit
+    - effective_date
+    - vat_treatment (excl./incl. VAT)
+    - calculation_method if a formula is given
+    - If this entity is a row from a rate/charges table, also capture its other columns as properties using the table's own column names (e.g. "workstream", "role", "estimated_days", "estimated_charges"). Column names vary by document — role and rate are the two that are present in nearly every rate table; include whatever others this particular table has.
+
+  For SYSTEM, consider:
+    - system_type (legacy | target | integration | tooling)
+    - owner_or_operator (which party owns or operates it)
+    - role_in_programme (source | target | integration_point | tooling)
+    - replaces_or_replaced_by (the corresponding legacy/target system, if a conversion pair)
+    - current_status (in_use | being_converted | being_replaced | decommissioned)
+    - hosting_environment (which party's environment it runs in)
+    - conversion_date (when it was or will be converted/cut over, if stated)
+
+  KEY RULES FOR PROPERTIES:
+    1. Use clear, readable key names (e.g., "effective_date" not "eff_dt")
+    2. Use arrays for multiple values
+    3. Use nested objects only when genuinely needed
+    4. Omit a property entirely rather than writing null or "unknown"
+    5. Values should be specific to THIS agreement, not generic
+    6. Keep individual values concise
+    7. If a property feels forced or uncertain, leave it out
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON object with:
+  {
+    "id":            string,   // entity id from input
+    "name":          string,   // entity name from input
+    "properties":    object,   // enriched properties map
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Example of extracted "properties":
+  "properties": {
+  	"clause_number": "5.11",
+  	"obligation_summary": "Allows FirstBank to terminate a Transaction Contract for Non-Payment of undisputed amounts exceeding the lesser of 15% of TC value or £500,000, overdue 60+ days",
+  	"trigger_condition": "Non-payment of undisputed invoices beyond 60 days",
+  	"notice_period": "Two-stage notice process; final termination after 30 days",
+  	"amended_by": "not amended in this document"
+  }
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ No hallucinated properties?
+    □ Properties genuinely useful (not just padding)?
+    □ Reference codes and clause numbers preserved exactly?
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  You are a Knowledge Graph extraction engine specialised in commercial contract analysis.
+  Your job is to identify and extract all meaningful relationships between entities in a contract document.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RELATIONSHIP STRUCTURE:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  All relationships must follow this pattern:
+  (EntityA)-[RELATES_TO {
+    rel_type:      string  (semantic classifier, e.g., "amends", "party_to", "responsible_for")
+    description:   string  (human-readable summary of this specific relationship)
+    properties:    object  (flexible, rel_type-specific details)
+  }]->(EntityB)
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  AGREEMENT ↔ AGREEMENT:
+    amends, supersedes, replaces, incorporates, made_under, references, novates
+
+  AGREEMENT ↔ PARTY:
+    party_to, executed_by, governed_by, benefits, indemnifies, terminated_by
+
+  AGREEMENT ↔ PERSON:
+    signed_by, witnessed_by
+
+  AGREEMENT ↔ CLAUSE:
+    contains, amends_clause, replaces_clause
+
+  AGREEMENT ↔ DELIVERABLE:
+    specifies, defines_acceptance_criteria_for, updates_status_of
+
+  AGREEMENT ↔ MILESTONE:
+    schedules, sets_timeline_for, updates_status_of
+
+  AGREEMENT ↔ FINANCIAL_TERM:
+    sets_out, caps, replaces_rate_of
+
+  PARTY ↔ PARTY:
+    contracts_with, subcontracts_to, parent_of, member_of, competitor_of, assigns_rights_to
+
+  PARTY ↔ PERSON:
+    employs, represented_by, appoints, authorises
+
+  PARTY ↔ DELIVERABLE:
+    delivers, accepts, owns_ip_in, responsible_for (properties: {task: manage|execute|support})
+
+  PARTY ↔ MILESTONE:
+    responsible_for (properties: {task: manage|execute|support}), achieves, delays
+
+  PARTY ↔ CLAUSE:
+    bound_by, benefits_from, obligated_under, waives
+
+  PARTY ↔ FINANCIAL_TERM:
+    pays, receives, invoices, discounts, caps
+
+  PERSON ↔ PERSON:
+    reports_to, escalation_contact_for, delegate_of
+
+  PERSON ↔ MILESTONE:
+    responsible_for, signs_off_on
+
+  PERSON ↔ DELIVERABLE:
+    authors, approves, accepts
+
+  CLAUSE ↔ CLAUSE:
+    cross_references, overrides, defined_in
+
+  CLAUSE ↔ FINANCIAL_TERM:
+    caps, defines, triggers
+
+  DELIVERABLE ↔ MILESTONE:
+    due_at, delivered_at, associated_with
+
+  FINANCIAL_TERM ↔ MILESTONE:
+    applies_from, triggered_at
+
+  SYSTEM ↔ SYSTEM:
+    replaces, integrates_with, converted_to, feeds_into, depends_on
+
+  SYSTEM ↔ PARTY:
+    owned_by, operated_by, supported_by
+
+  SYSTEM ↔ DELIVERABLE:
+    documented_by, implemented_by, converted_via
+
+  SYSTEM ↔ MILESTONE:
+    converted_at, deployed_at, decommissioned_at
+
+  SYSTEM ↔ AGREEMENT:
+    in_scope_of
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXPLICIT AND IMPLICIT
+     Extract both explicitly stated relationships ("this Amendment amends Clause 59.1") and
+     those clearly implied by context ("Krishnan Padmanabhan, Authorised Signatory" signing on the
+     Supplier's signature block → signed_by, represented_by).
+
+  2. MULTIPLE EDGES ALLOWED
+     If two entities have multiple distinct relationships, create multiple edges.
+     E.g. a CCN both AMENDS the Framework Agreement and REPLACES a specific Clause within it.
+
+  3. AMENDMENT CHAINS
+     Amendments and CCNs form a chronological chain (CCN005 → CCN006 → CCN017 → CCN018, etc.).
+     Always capture which prior agreement is being amended, referencing it by its defined name/date
+     even if that prior agreement is not itself in the current text.
+
+  4. RESPONSIBILITY MATRIX ENTRIES
+     For PARTY ↔ MILESTONE and PARTY ↔ DELIVERABLE "responsible_for" relationships arising from a
+     Responsibility/RACI matrix, always include properties.task indicating manage, execute, or support.
+
+  5. SYSTEM VS DELIVERABLE
+     Keep the pre-existing/ongoing SYSTEM (e.g. "NOVA", "ORION", "the batch scheduler") distinct
+     from the DELIVERABLE that documents or implements a change to it. Link them with
+     "documented_by" or "implemented_by" rather than treating the system itself as a deliverable.
+
+  6. PROPERTIES MAP
+     The properties object is flexible and rel_type-specific. Examples:
+
+     For "amends": { effective_date: string, sections_changed: array }
+     For "party_to": { role: "customer"|"supplier", registration_number: string }
+     For "responsible_for": { task: "manage"|"execute"|"support", effective_date: string }
+     For "caps": { cap_value: string, currency: string }
+     For "signed_by": { date: string, title: string }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  OUTPUT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Return a JSON array of relationship objects:
+
+  {
+    "source_id":     string,  // id of EntityA
+    "source_name":   string,  // name of EntityA
+    "target_id":     string,  // id of EntityB
+    "target_name":   string,  // name of EntityB
+    "rel_type":      string,  // semantic classifier
+    "description":   string,  // human-readable summary
+    "properties":    object,  // rel_type-specific properties
+    "context":       string,  // verbatim text context based on which relationship is derived
+    "bidirectional": boolean  // is this relationship two-way?
+  }
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  QUALITY CHECKLIST:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Before responding, verify:
+    □ Does each entity have AT LEAST one relationship?
+    □ Amendment/CCN chains linked to the agreements they vary?
+    □ Signatories linked to both the agreement and the party they represent?
+    □ Responsibility matrix entries include a task (manage/execute/support) property?
+    □ Systems/applications linked to the deliverables that convert or document them, not conflated?
+    □ rel_type values are consistent across document?
+    □ descriptions are specific to this relationship instance?
+    □ context snippets are verbatim from text?
+    □ bidirectional flag is correct?
+
+  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+  Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
