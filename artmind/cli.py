@@ -234,6 +234,40 @@ def get_relationships(domain_name: str):
     click.echo(data.get("relationships_prompt", []))
 
 
+@domains.command("render-html")
+@click.argument("prefix")
+@click.option(
+    "--output", "-o",
+    type=click.Path(),
+    default=None,
+    help="Output HTML path (default: domains/schemas/<prefix>_schemas_reference.html)",
+)
+def render_domains_html(prefix: str, output: str | None):
+    """Render a browsable HTML reference for all schemas matching PREFIX (e.g. 'banking').
+
+    Consolidates every domains/schemas/<prefix>*_schema.yaml file's entity
+    classes, property guidance, and relationship model into one
+    self-contained, searchable HTML page.
+    """
+    from artmind.schema_reference import build_schema_dict, render_html
+
+    matches = sorted(DOMAIN_SCHEMAS_DIR.glob(f"{prefix}*_schema.yaml"))
+    if not matches:
+        raise click.ClickException(
+            f"No schema files found matching '{prefix}*_schema.yaml' in {DOMAIN_SCHEMAS_DIR}"
+        )
+
+    schemas = [build_schema_dict(f) for f in matches]
+    title = f"{prefix.replace('_', ' ').title()} Domain Schemas"
+    subtitle = f"Knowledge-graph extraction schemas for the '{prefix}' domain group"
+    html_doc = render_html(schemas, title=title, prefix=prefix, subtitle=subtitle)
+
+    out_path = Path(output) if output else DOMAIN_SCHEMAS_DIR / f"{prefix}_schemas_reference.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html_doc)
+    click.echo(f"Rendered {len(schemas)} schema(s) to {out_path}")
+
+
 @domains.command("harmonize")
 @click.option("--domain", default=None, help="Child domain to harmonize (e.g. fiction.thriller). Default: all children.")
 @click.option("--dry-run", is_flag=True, help="Show what would change without writing.")

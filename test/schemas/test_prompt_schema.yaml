@@ -1,0 +1,67 @@
+name: test_prompt
+description: Minimal fixture exercising the entities/properties/relationships prompt format used by artmind.schema_reference.
+
+entities_prompt: |
+  You are a Knowledge Graph extraction engine.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ENTITY TYPES YOU MUST EXTRACT:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+  WIDGET
+    A named widget produced by the fixture domain.
+    example type values: small_widget | large_widget
+
+  GADGET
+    A gadget that a widget can be attached to.
+    example type values: basic_gadget | advanced_gadget
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. Do not hallucinate.
+
+  __text__
+
+  {text}
+
+properties_prompt: |
+  Enrich the provided entities with properties.
+
+  For WIDGET, consider:
+    - widget_id (e.g., W-001)
+    - color
+
+  For GADGET, consider:
+    - gadget_id
+    - capacity (max widgets it can hold)
+
+  Extract properties for the following __list_of_entities__ from the __text__ below.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
+
+relationships_prompt: |
+  Identify relationships between entities.
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  COMMON rel_type VALUES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  WIDGET ↔ GADGET:
+    attached_to, compatible_with
+
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  EXTRACTION RULES:
+  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. Do not hallucinate.
+
+  __list_of_entities__
+  {entities_list}
+
+  __text__
+  {text}
