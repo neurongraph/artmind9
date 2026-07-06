@@ -1,391 +1,391 @@
 {
   "artmind/__init__.py": {
-    "mtime": 1777485448.3859322,
+    "mtime": 1777963639.3974383,
     "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "artmind/cli.py": {
-    "mtime": 1783165423.7756488,
-    "ast_hash": "e1cb46eda534c5ed98564d5f21c0c8dd",
+    "mtime": 1783330235.2090127,
+    "ast_hash": "c0cd3f087f8302a67b7910eeb875b5c7",
     "semantic_hash": ""
   },
   "artmind/dashboard.py": {
-    "mtime": 1780248132.6572962,
+    "mtime": 1781274403.981123,
     "ast_hash": "49c8732cc7d26dbdaaf92fde6b4bde7e",
     "semantic_hash": "49c8732cc7d26dbdaaf92fde6b4bde7e"
   },
   "artmind/db.py": {
-    "mtime": 1783142405.4888284,
+    "mtime": 1782910009.8143165,
     "ast_hash": "f0e3f4ae60393c552455bcb64baccabb",
     "semantic_hash": ""
   },
   "artmind/extraction.py": {
-    "mtime": 1783142405.4891646,
+    "mtime": 1782980129.5798895,
     "ast_hash": "bd9734514a54d29db4a4cf691a5317f5",
     "semantic_hash": ""
   },
   "artmind/graph_query.py": {
-    "mtime": 1783181554.4709628,
-    "ast_hash": "06b9294e7c70e82785d856055c205bde",
+    "mtime": 1783306940.5103002,
+    "ast_hash": "8599e7ff7ca97e93d88108c1b0c977b0",
     "semantic_hash": ""
   },
   "artmind/graph_snapshot.py": {
-    "mtime": 1778340368.9496481,
+    "mtime": 1778502489.8272486,
     "ast_hash": "bd917c015192bdbbae4106b43da977c4",
     "semantic_hash": "bd917c015192bdbbae4106b43da977c4"
   },
   "artmind/harmonizer.py": {
-    "mtime": 1778315914.113046,
+    "mtime": 1778502489.8274121,
     "ast_hash": "7025dde5bcf7cd910a7696432fdb3757",
     "semantic_hash": "7025dde5bcf7cd910a7696432fdb3757"
   },
   "artmind/ingest.py": {
-    "mtime": 1783181174.4843142,
-    "ast_hash": "6e33afa77c50db25bd75db3c2aa3a18b",
+    "mtime": 1783358720.0401242,
+    "ast_hash": "1e3617443b15f4376dbf315f9f21e41b",
     "semantic_hash": ""
   },
   "artmind/jobs.py": {
-    "mtime": 1783142405.4901152,
+    "mtime": 1782910044.291691,
     "ast_hash": "728a6b7494fe1f9e2dca7380ee3c4d60",
     "semantic_hash": ""
   },
   "artmind/kg_pull.py": {
-    "mtime": 1778348381.6997793,
+    "mtime": 1778502489.827897,
     "ast_hash": "b0b32d24b9920a9b78887a367f50aae5",
     "semantic_hash": "b0b32d24b9920a9b78887a367f50aae5"
   },
   "artmind/refine_graph.py": {
-    "mtime": 1778174574.552009,
-    "ast_hash": "2d6a176e4fe21e3cdd333c8189e17819",
-    "semantic_hash": "2d6a176e4fe21e3cdd333c8189e17819"
+    "mtime": 1783306940.5114212,
+    "ast_hash": "5c4d01ae6645f4740a782f72c337545f",
+    "semantic_hash": ""
   },
   "artmind/setup.py": {
-    "mtime": 1783179454.509567,
-    "ast_hash": "7aebbf9f65da225deb62895d8cacc4df",
+    "mtime": 1783306940.511784,
+    "ast_hash": "92c7d6093744b7b4a5e5d17aabf11032",
     "semantic_hash": ""
   },
   "artmind/text2cypher.py": {
-    "mtime": 1783165066.6821203,
-    "ast_hash": "f8a7115ef87dca9ef5483cd5be63c7c3",
+    "mtime": 1783306940.512199,
+    "ast_hash": "1ac8fc38fead1c8e1da98cf15ad94531",
     "semantic_hash": ""
   },
   "artmind/update.py": {
-    "mtime": 1783142405.4908843,
+    "mtime": 1782980129.5808465,
     "ast_hash": "fcb5d3b1e2aeeb1dec1ce0f3e21ea997",
     "semantic_hash": ""
   },
   "artmind/vector_query.py": {
-    "mtime": 1783181661.235316,
+    "mtime": 1783306940.5126393,
     "ast_hash": "c7fb1680530615b0059d2347dbb120a2",
     "semantic_hash": ""
   },
   "artmind/wizard.py": {
-    "mtime": 1782480163.8401842,
+    "mtime": 1781618178.8218226,
     "ast_hash": "2570f612b22bc9ebb175097df8bcd404",
     "semantic_hash": "2570f612b22bc9ebb175097df8bcd404"
   },
   "artmind/wizard_commands.py": {
-    "mtime": 1782480163.84068,
+    "mtime": 1781617981.3573875,
     "ast_hash": "3de55e3b77ef51c5a82282880560d444",
     "semantic_hash": "3de55e3b77ef51c5a82282880560d444"
   },
   "artmind/worker.py": {
-    "mtime": 1783142405.4917862,
+    "mtime": 1782980129.5813553,
     "ast_hash": "9c5f23ab88f37bfa2d60b388227b6aa6",
     "semantic_hash": ""
   },
   "paths.py": {
-    "mtime": 1781455324.6312718,
+    "mtime": 1781600866.9417186,
     "ast_hash": "d7bbe32c65b94d987a55ebb173c841f6",
     "semantic_hash": "d7bbe32c65b94d987a55ebb173c841f6"
   },
   "pyproject.toml": {
-    "mtime": 1783142405.8204868,
+    "mtime": 1782980129.5815265,
     "ast_hash": "c5340b4b647bfa65fe5ef7ee111d21f4",
     "semantic_hash": ""
   },
   "scripts/click_cli_hierarchy.py": {
-    "mtime": 1779384870.6230145,
+    "mtime": 1781274403.9838698,
     "ast_hash": "473eabe99371b883d30e330d6a66e8f1",
     "semantic_hash": "473eabe99371b883d30e330d6a66e8f1"
   },
   "scripts/migrate_poole.py": {
-    "mtime": 1778315638.799309,
+    "mtime": 1778502489.8338242,
     "ast_hash": "b46ee09cf4bae1019967353bd159b516",
     "semantic_hash": "b46ee09cf4bae1019967353bd159b516"
   },
   "test/test_db_update.py": {
-    "mtime": 1778005834.48759,
+    "mtime": 1778041935.1108625,
     "ast_hash": "f0cc08483f12927298bb3548c8a75332",
     "semantic_hash": "f0cc08483f12927298bb3548c8a75332"
   },
   "test/test_docs_clean_cli.py": {
-    "mtime": 1783142405.8216457,
+    "mtime": 1783046040.1171138,
     "ast_hash": "506525271c4e4a76c63ec2289612edbe",
     "semantic_hash": ""
   },
   "test/test_domains_cli.py": {
-    "mtime": 1778000463.8032928,
-    "ast_hash": "5f1ed005024c09cd3856e6d4114b7fc9",
-    "semantic_hash": "5f1ed005024c09cd3856e6d4114b7fc9"
+    "mtime": 1783330217.5548055,
+    "ast_hash": "79fef512f2d4f7943667efb5f036c377",
+    "semantic_hash": ""
   },
   "test/test_entity_embeddings.py": {
-    "mtime": 1781282285.1299596,
+    "mtime": 1781334435.503242,
     "ast_hash": "b7b161457e2f2104751ab51c8fdc44a4",
     "semantic_hash": "b7b161457e2f2104751ab51c8fdc44a4"
   },
   "test/test_extraction.py": {
-    "mtime": 1778006076.920557,
+    "mtime": 1778041935.11098,
     "ast_hash": "22e7f39a2feccd76de4b6b8f418f028b",
     "semantic_hash": "22e7f39a2feccd76de4b6b8f418f028b"
   },
   "test/test_graph_query.py": {
-    "mtime": 1783163567.471547,
-    "ast_hash": "adeee105b9cec0ee25c46adeb431d350",
+    "mtime": 1783330465.9820163,
+    "ast_hash": "378b3af74b42b06b7803fbbbebe46d7d",
     "semantic_hash": ""
   },
   "test/test_graph_snapshot.py": {
-    "mtime": 1778340368.9507258,
+    "mtime": 1778502489.835001,
     "ast_hash": "c89e46d097ad21c208def6b58e7802b4",
     "semantic_hash": "c89e46d097ad21c208def6b58e7802b4"
   },
   "test/test_ingest_sync_cli.py": {
-    "mtime": 1777491979.3153782,
+    "mtime": 1777963639.4066074,
     "ast_hash": "bea7f3e76ff24dfb36d72a96408d60b8",
     "semantic_hash": "bea7f3e76ff24dfb36d72a96408d60b8"
   },
   "test/test_kg_pull.py": {
-    "mtime": 1778348381.7004933,
+    "mtime": 1778502489.8351545,
     "ast_hash": "94561229b8e6df3fcf0ac9581180f672",
     "semantic_hash": "94561229b8e6df3fcf0ac9581180f672"
   },
   "test/test_pull_kg_cli.py": {
-    "mtime": 1778348381.7006106,
+    "mtime": 1778502489.8352606,
     "ast_hash": "2f9961de6da91d4a8d82a68a505391b2",
     "semantic_hash": "2f9961de6da91d4a8d82a68a505391b2"
   },
   "test/test_query_cli.py": {
-    "mtime": 1783165482.8597171,
-    "ast_hash": "cf97ffea57a53445e0779ebe61b000fe",
+    "mtime": 1783306940.8339632,
+    "ast_hash": "4840dcc806a29df2d9d70839ca01050b",
     "semantic_hash": ""
   },
   "test/test_text2cypher.py": {
-    "mtime": 1783164894.2674348,
+    "mtime": 1783306940.8343923,
     "ast_hash": "5bfa66be8062a30d6a37bedb6e8cb0c2",
     "semantic_hash": ""
   },
   "test/test_update.py": {
-    "mtime": 1778006430.11196,
+    "mtime": 1778041935.111577,
     "ast_hash": "7ac75b9a0565818baec6d12ff3647b50",
     "semantic_hash": "7ac75b9a0565818baec6d12ff3647b50"
   },
   "test/test_update_cli.py": {
-    "mtime": 1778006891.8840714,
+    "mtime": 1778041935.1117184,
     "ast_hash": "f578af7421e89843af3504650bab6a3e",
     "semantic_hash": "f578af7421e89843af3504650bab6a3e"
   },
   "test/test_vector_query.py": {
-    "mtime": 1783164405.1534505,
+    "mtime": 1783306940.8346114,
     "ast_hash": "cc1901e44d6a349a8210c36b04d8f84d",
     "semantic_hash": ""
   },
   "tests/__init__.py": {
-    "mtime": 1778315965.268734,
+    "mtime": 1778502489.8360646,
     "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "tests/test_domain_filter.py": {
-    "mtime": 1783164405.153618,
+    "mtime": 1783306940.835176,
     "ast_hash": "c8b7de2cada86876fb5efa1c746191ed",
     "semantic_hash": ""
   },
   "tests/test_harmonizer.py": {
-    "mtime": 1778315986.7238033,
+    "mtime": 1778502489.8363833,
     "ast_hash": "e80de0a8c29a446c24cb300f364e0d9c",
     "semantic_hash": "e80de0a8c29a446c24cb300f364e0d9c"
   },
   "tests/test_wizard.py": {
-    "mtime": 1782480163.8415742,
+    "mtime": 1781602105.8011248,
     "ast_hash": "c66010a053f1af6fe70ad7753d5db9fd",
     "semantic_hash": "c66010a053f1af6fe70ad7753d5db9fd"
   },
   "tests/test_wizard_commands.py": {
-    "mtime": 1782480163.842169,
+    "mtime": 1781601688.1433146,
     "ast_hash": "aaa8703e2c0b6a9133f990573451cfb7",
     "semantic_hash": "aaa8703e2c0b6a9133f990573451cfb7"
   },
   "tests/test_wizard_jq.py": {
-    "mtime": 1781457730.2717896,
+    "mtime": 1781600866.9424293,
     "ast_hash": "a9ea73d5bf4b271495913e1ca7291170",
     "semantic_hash": "a9ea73d5bf4b271495913e1ca7291170"
   },
   "utils/__init__.py": {
-    "mtime": 1777489637.1303551,
+    "mtime": 1777963639.4070709,
     "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
     "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
   },
   "utils/functions.py": {
-    "mtime": 1783142405.8219328,
+    "mtime": 1782980129.5818787,
     "ast_hash": "0088ccc9c55ea8dc4b5878accc637d08",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1781282321.7923837,
+    "mtime": 1781334435.4987016,
     "ast_hash": "08a258ff5e825d020af667916780ce32",
     "semantic_hash": "08a258ff5e825d020af667916780ce32"
   },
   "benchmarking/specs.md": {
-    "mtime": 1781340776.6864603,
+    "mtime": 1781499579.1222405,
     "ast_hash": "ab9c7943e1e84e1daaca0320007bec88",
     "semantic_hash": "ab9c7943e1e84e1daaca0320007bec88"
   },
   "docs/Query_specs.md": {
-    "mtime": 1782480163.8409648,
-    "ast_hash": "9bc1d10ffecaad777a4b2633694692f4",
-    "semantic_hash": "9bc1d10ffecaad777a4b2633694692f4"
+    "mtime": 1783306940.5255227,
+    "ast_hash": "bfde9457b9ad2aea5f64f1bc1e877a80",
+    "semantic_hash": ""
   },
   "docs/plan.md": {
-    "mtime": 1777814817.6762457,
+    "mtime": 1778041935.1096587,
     "ast_hash": "a4f734eced94dd8e40ee52cc36418d35",
     "semantic_hash": "a4f734eced94dd8e40ee52cc36418d35"
   },
   "docs/superpowers/plans/2026-05-05-artmind-update.md": {
-    "mtime": 1778005629.130183,
+    "mtime": 1778041935.1099868,
     "ast_hash": "05a27c8164ddf6013e258fa5861d0478",
     "semantic_hash": "05a27c8164ddf6013e258fa5861d0478"
   },
   "docs/superpowers/plans/2026-05-09-cli-hyphen-convention.md": {
-    "mtime": 1778349046.4741046,
+    "mtime": 1778502489.8295064,
     "ast_hash": "a51750561f75c3ef8250951c1e2bbb12",
     "semantic_hash": "a51750561f75c3ef8250951c1e2bbb12"
   },
   "docs/superpowers/plans/2026-05-09-poole-hierarchical-domains.md": {
-    "mtime": 1778306977.9156532,
+    "mtime": 1778502489.8297093,
     "ast_hash": "984742f74f1365023c1ab4d54eecdab6",
     "semantic_hash": "984742f74f1365023c1ab4d54eecdab6"
   },
   "docs/superpowers/plans/2026-05-09-pull-kg.md": {
-    "mtime": 1778348381.6999457,
+    "mtime": 1778502489.8298917,
     "ast_hash": "362d41da0bc14432267b5e98209e90fc",
     "semantic_hash": "362d41da0bc14432267b5e98209e90fc"
   },
   "docs/superpowers/plans/2026-05-09-session-graph-snapshot.md": {
-    "mtime": 1778340368.9498029,
+    "mtime": 1778502489.8300602,
     "ast_hash": "0f058dab0cde4b96a3b395dbf834df54",
     "semantic_hash": "0f058dab0cde4b96a3b395dbf834df54"
   },
   "docs/superpowers/plans/2026-06-14-artmind-wizard.md": {
-    "mtime": 1781454587.1118884,
+    "mtime": 1781600866.941476,
     "ast_hash": "90790aa7fd25537299f645b1ebae5e1d",
     "semantic_hash": "90790aa7fd25537299f645b1ebae5e1d"
   },
   "docs/superpowers/specs/2026-05-05-artmind-update-design.md": {
-    "mtime": 1778004536.0765135,
+    "mtime": 1778041935.110271,
     "ast_hash": "58b1817cd9566ad453e1e5dcaf122eed",
     "semantic_hash": "58b1817cd9566ad453e1e5dcaf122eed"
   },
   "docs/superpowers/specs/2026-05-09-poole-hierarchical-domains-design.md": {
-    "mtime": 1778306145.0768392,
+    "mtime": 1778502489.8302379,
     "ast_hash": "dd0de3da4a1b6a408252417dc782f723",
     "semantic_hash": "dd0de3da4a1b6a408252417dc782f723"
   },
   "docs/superpowers/specs/2026-05-09-pull-kg-batch-write-design.md": {
-    "mtime": 1778348381.7001095,
+    "mtime": 1778502489.830394,
     "ast_hash": "165884ad78f4a14ed9f6eb90c21eac6d",
     "semantic_hash": "165884ad78f4a14ed9f6eb90c21eac6d"
   },
   "docs/superpowers/specs/2026-05-09-session-graph-snapshot-design.md": {
-    "mtime": 1778340368.9500353,
+    "mtime": 1778502489.8305407,
     "ast_hash": "cf0a593b7940227b18ac1ab310696590",
     "semantic_hash": "cf0a593b7940227b18ac1ab310696590"
   },
   "docs/superpowers/specs/2026-06-14-artmind-wizard-design.md": {
-    "mtime": 1781453747.1560016,
+    "mtime": 1781600810.6364489,
     "ast_hash": "eeb842ba522d42f086fdae7ba117775e",
     "semantic_hash": "eeb842ba522d42f086fdae7ba117775e"
   },
   "domains/schemas/fiction_schema.yaml": {
-    "mtime": 1778308999.759971,
-    "ast_hash": "576dcb583ed8611ea9ce06bf59c79dd9",
-    "semantic_hash": "576dcb583ed8611ea9ce06bf59c79dd9"
+    "mtime": 1783306940.5288177,
+    "ast_hash": "15ba42cd55c3e04f1b7046f991c23bf2",
+    "semantic_hash": ""
   },
   "domains/schemas/general_schema.yaml": {
-    "mtime": 1778309269.6478472,
+    "mtime": 1778502489.8313856,
     "ast_hash": "6dcdd8024202178a22230f291c729ae9",
     "semantic_hash": "6dcdd8024202178a22230f291c729ae9"
   },
   "domains/schemas/personal_journal_schema.yaml": {
-    "mtime": 1778309093.259981,
-    "ast_hash": "0fce4d956790325857a81bf065a234e3",
-    "semantic_hash": "0fce4d956790325857a81bf065a234e3"
+    "mtime": 1783306940.5291758,
+    "ast_hash": "a329a8ced338e0252f904cb3c3837162",
+    "semantic_hash": ""
   },
   "domains/schemas/project_governance_schema.yaml": {
-    "mtime": 1778309362.01152,
-    "ast_hash": "39cd142be5c798073e0238f5ef907433",
-    "semantic_hash": "39cd142be5c798073e0238f5ef907433"
+    "mtime": 1783306940.5294428,
+    "ast_hash": "36a23b1bb7d4c20a651b1fcdf69ed157",
+    "semantic_hash": ""
   },
   "domains/schemas/sales_collateral_schema.yaml": {
-    "mtime": 1780241478.83099,
-    "ast_hash": "48738d0bdda8af373e3ab3e5492e1d96",
-    "semantic_hash": "48738d0bdda8af373e3ab3e5492e1d96"
+    "mtime": 1783306940.5297985,
+    "ast_hash": "0782c27402d1fa899226b00f8226512d",
+    "semantic_hash": ""
   },
   "skills/artmind-create-schema/SKILL.md": {
-    "mtime": 1778000463.8020647,
-    "ast_hash": "3f6862f182846114ac97a1c8a7a44de1",
-    "semantic_hash": "3f6862f182846114ac97a1c8a7a44de1"
+    "mtime": 1783306940.8326364,
+    "ast_hash": "85588d71d93f8ecb8743076eadd4015f",
+    "semantic_hash": ""
   },
   "skills/artmind-create-schema/assets/fiction_extract.md": {
-    "mtime": 1778000463.8022773,
+    "mtime": 1777999555.5385516,
     "ast_hash": "d6ca594205008f46c94e429079411d00",
     "semantic_hash": "d6ca594205008f46c94e429079411d00"
   },
   "skills/artmind-create-schema/assets/fiction_schema.yaml": {
-    "mtime": 1778000463.8025744,
+    "mtime": 1777999525.680812,
     "ast_hash": "fe6b289c403d24541b7029e95f15f250",
     "semantic_hash": "fe6b289c403d24541b7029e95f15f250"
   },
   "skills/artmind-create-schema/assets/personal_journal_extract.md": {
-    "mtime": 1778000463.802689,
+    "mtime": 1777999590.2996237,
     "ast_hash": "fb85e5dfec998f7ac0e6ff7dcf9c68cb",
     "semantic_hash": "fb85e5dfec998f7ac0e6ff7dcf9c68cb"
   },
   "skills/artmind-create-schema/assets/personal_journal_schema.yaml": {
-    "mtime": 1778000463.8028631,
+    "mtime": 1777999525.6844656,
     "ast_hash": "801106aa9e6d13e8e9faa87bec54860d",
     "semantic_hash": "801106aa9e6d13e8e9faa87bec54860d"
   },
   "skills/artmind-query/SKILL.md": {
-    "mtime": 1783179373.85969,
-    "ast_hash": "f25a43dd7dec74cbeea1e5e8a9215a9a",
+    "mtime": 1783306940.8328512,
+    "ast_hash": "556ef173ec833ea7a638dc1750b7fffe",
     "semantic_hash": ""
   },
   "skills/artmind-update/SKILL.md": {
-    "mtime": 1781279901.197411,
+    "mtime": 1781334435.5030844,
     "ast_hash": "459a2478673c11375a35babb6943d147",
     "semantic_hash": "459a2478673c11375a35babb6943d147"
   },
   "test/schemas/test_schema.yaml": {
-    "mtime": 1777486189.2134218,
+    "mtime": 1777963639.4055543,
     "ast_hash": "a91e2f0aa6798694a389a29f0144cc43",
     "semantic_hash": "a91e2f0aa6798694a389a29f0144cc43"
   },
   "wizard_fixtures/sample_fiction.md": {
-    "mtime": 1781455343.435121,
+    "mtime": 1781600866.9437273,
     "ast_hash": "98ce627a2d109744bcd92f81bb1a8b2e",
     "semantic_hash": "98ce627a2d109744bcd92f81bb1a8b2e"
   },
   "domains/schemas/technical_paper_schema.yaml": {
-    "mtime": 1778309180.0055468,
+    "mtime": 1778502489.8329475,
     "ast_hash": "bc0e60e1b58760dc8bd411010e6deb43",
     "semantic_hash": "bc0e60e1b58760dc8bd411010e6deb43"
   },
   "CLAUDE.md": {
-    "mtime": 1783163333.1691215,
+    "mtime": 1782818434.853349,
     "ast_hash": "82efb97a359f5c7290bf2513d14686be",
     "semantic_hash": ""
   },
   "artmind/llm_providers.py": {
-    "mtime": 1783142405.4901865,
+    "mtime": 1782987566.4282637,
     "ast_hash": "682344b701acc28dd1a6b0b651ab3960",
     "semantic_hash": ""
   },
@@ -5045,347 +5045,347 @@
     "semantic_hash": ""
   },
   "test/test_llm_providers.py": {
-    "mtime": 1783142405.8217878,
+    "mtime": 1782987566.4287887,
     "ast_hash": "ad2b800314da7d10d701930506557f88",
     "semantic_hash": ""
   },
   "banking_document_corpus/faqs/product_faq.md": {
-    "mtime": 1782832248.0845752,
+    "mtime": 1782826375.8878076,
     "ast_hash": "d6b6d35723f56aaa1de1ffe8caf7a185",
     "semantic_hash": ""
   },
   "banking_document_corpus/faqs/website_faq.md": {
-    "mtime": 1782832248.084739,
+    "mtime": 1782826751.4611742,
     "ast_hash": "c73861f040d00dd96913aa227abdf5b1",
     "semantic_hash": ""
   },
   "banking_document_corpus/governance/board_risk_committee_charter.md": {
-    "mtime": 1782832248.084918,
+    "mtime": 1782825191.8062596,
     "ast_hash": "d7af7181e26c06784b36e94771ae1c36",
     "semantic_hash": ""
   },
   "banking_document_corpus/governance/board_risk_committee_minutes_q1_2026.md": {
-    "mtime": 1782832248.0850716,
+    "mtime": 1782825249.7585683,
     "ast_hash": "9ef9a75a5e17ea61cc88f879c54b148a",
     "semantic_hash": ""
   },
   "banking_document_corpus/governance/governance_framework_overview.md": {
-    "mtime": 1782832248.085216,
+    "mtime": 1782825372.2689943,
     "ast_hash": "07163be15c37c79dc4f329303b9fcb72",
     "semantic_hash": ""
   },
   "banking_document_corpus/governance/internal_audit_charter.md": {
-    "mtime": 1782832248.0853612,
+    "mtime": 1782825218.329539,
     "ast_hash": "541f3fbcc154b09f530c9392187e1deb",
     "semantic_hash": ""
   },
   "banking_document_corpus/guides/complaint_resolution_guide.md": {
-    "mtime": 1782832248.0855527,
+    "mtime": 1782827131.0592299,
     "ast_hash": "a189fe7b90c092ace7f583de85d87e15",
     "semantic_hash": ""
   },
   "banking_document_corpus/guides/escalation_matrix.md": {
-    "mtime": 1782832248.085718,
+    "mtime": 1782825306.4226713,
     "ast_hash": "be5d0899559e127527dead88153a52b0",
     "semantic_hash": ""
   },
   "banking_document_corpus/guides/fraud_investigation_procedure.md": {
-    "mtime": 1782832248.0858212,
+    "mtime": 1782827769.0228348,
     "ast_hash": "1b98727987eac726f99580e7eab9b53c",
     "semantic_hash": ""
   },
   "banking_document_corpus/index.md": {
-    "mtime": 1782832248.0859883,
+    "mtime": 1782828433.451867,
     "ast_hash": "bf2d9e6274f7d3f4b6ebd2a224a94ecf",
     "semantic_hash": ""
   },
   "banking_document_corpus/organization/branches.md": {
-    "mtime": 1782832248.0861309,
+    "mtime": 1782819926.9577591,
     "ast_hash": "e9a9b3175a775930a51dcab3d9cc3d23",
     "semantic_hash": ""
   },
   "banking_document_corpus/organization/business_ontology.md": {
-    "mtime": 1782832248.0862436,
+    "mtime": 1782820121.5435312,
     "ast_hash": "9d60a8d244fd87f495f47155eb2755d7",
     "semantic_hash": ""
   },
   "banking_document_corpus/organization/departments.md": {
-    "mtime": 1782832248.086361,
+    "mtime": 1782819593.001164,
     "ast_hash": "f639c9edff6b1ad59c8b7dc80d26cea8",
     "semantic_hash": ""
   },
   "banking_document_corpus/organization/organisation_model.md": {
-    "mtime": 1782832248.0865247,
+    "mtime": 1782819320.791823,
     "ast_hash": "bf3acc5895a84604faeeda930578fd22",
     "semantic_hash": ""
   },
   "banking_document_corpus/organization/products.md": {
-    "mtime": 1782832248.0866272,
+    "mtime": 1782819458.3136005,
     "ast_hash": "0ba1681989722f904a691b5aa418c9ee",
     "semantic_hash": ""
   },
   "banking_document_corpus/organization/systems.md": {
-    "mtime": 1782832248.0867887,
+    "mtime": 1782819992.453143,
     "ast_hash": "75fbca275b3866c4eef6ac58a373f725",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_aml.md": {
-    "mtime": 1782832248.0869663,
+    "mtime": 1782824911.3797464,
     "ast_hash": "d3659d86a47b8c9a692868d395687885",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_complaints.md": {
-    "mtime": 1782832248.0870614,
+    "mtime": 1782824987.2663662,
     "ast_hash": "4dba80c1f4edadf80ffdebe692c8ba54",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_customer_identification.md": {
-    "mtime": 1782832248.0871623,
+    "mtime": 1782824866.3919642,
     "ast_hash": "ca246699a6c05825fbd2c476d790a2ea",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_fraud.md": {
-    "mtime": 1782832248.0872595,
+    "mtime": 1782825124.9640613,
     "ast_hash": "41eb7f1e91933d9de2b29e3699f26eea",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_information_security.md": {
-    "mtime": 1782832248.087348,
+    "mtime": 1782825085.169284,
     "ast_hash": "8c4cdcb52b2abe9f63b1eaf0abcdbab1",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_operational_risk.md": {
-    "mtime": 1782832248.0875056,
+    "mtime": 1782825017.8912714,
     "ast_hash": "9aaabb81299feb12cf06cdf2107515f5",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_privacy.md": {
-    "mtime": 1782832248.08766,
+    "mtime": 1782824949.064896,
     "ast_hash": "0e40df91130bc484e9c08437c011aeb0",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_retention.md": {
-    "mtime": 1782832248.087801,
+    "mtime": 1782825045.8747184,
     "ast_hash": "70ba42ad47b658949a71076699f23c2e",
     "semantic_hash": ""
   },
   "banking_document_corpus/products/product_pricing_guide_2026.md": {
-    "mtime": 1782832248.0879886,
+    "mtime": 1782826253.096623,
     "ast_hash": "62e53610a0300a54e20cad6e7a7473c6",
     "semantic_hash": ""
   },
   "banking_document_corpus/products/smartsaver_terms_conditions.md": {
-    "mtime": 1782832248.0881753,
+    "mtime": 1782826295.571218,
     "ast_hash": "2758db78e4412fc2e4f186e788145501",
     "semantic_hash": ""
   },
   "banking_document_corpus/reference/incident_response_plan.md": {
-    "mtime": 1782832248.089326,
+    "mtime": 1782825343.0884776,
     "ast_hash": "9c81a23f82cc76eb9aba27d7e518a9e3",
     "semantic_hash": ""
   },
   "banking_document_corpus/reference/interest_rate_schedule_2026.md": {
-    "mtime": 1782832248.0894809,
+    "mtime": 1782826335.3902318,
     "ast_hash": "d4fe595b5b87ce737f2ba331f9facd36",
     "semantic_hash": ""
   },
   "banking_document_corpus/reference/technology_application_landscape.md": {
-    "mtime": 1782832248.0896373,
+    "mtime": 1782826626.0963879,
     "ast_hash": "44283ecf485b5ed2462b2e742e990ee7",
     "semantic_hash": ""
   },
   "banking_document_corpus/reference/technology_production_runbook.md": {
-    "mtime": 1782832248.0897894,
+    "mtime": 1782826666.7121477,
     "ast_hash": "8573d3393c4a8478d9dd166383377e30",
     "semantic_hash": ""
   },
   "banking_document_corpus/reference/welcome_pack.md": {
-    "mtime": 1782832248.089936,
+    "mtime": 1782827055.7199583,
     "ast_hash": "af1e80278abc3ddebcc47e8eb6b8e75e",
     "semantic_hash": ""
   },
   "banking_document_corpus/regulations/regulatory_circulars_2026.md": {
-    "mtime": 1782832248.0902512,
+    "mtime": 1782825150.6403246,
     "ast_hash": "cbaf1b9cfb552105372e5ee263f0e125",
     "semantic_hash": ""
   },
   "banking_document_corpus/risk_compliance/audit_report_q4_2025.md": {
-    "mtime": 1782832248.0903733,
+    "mtime": 1782827637.3905675,
     "ast_hash": "b3978a412de811e1d0f4720f750a5e6a",
     "semantic_hash": ""
   },
   "banking_document_corpus/risk_compliance/compliance_bulletins_2026.md": {
-    "mtime": 1782832248.0905068,
+    "mtime": 1782825171.765054,
     "ast_hash": "1ca3bf1aa852980b152b1d89c4ad823e",
     "semantic_hash": ""
   },
   "banking_document_corpus/risk_compliance/credit_risk_assessment_guide.md": {
-    "mtime": 1782832248.0905988,
+    "mtime": 1782827717.2873158,
     "ast_hash": "18a1b5e790873e63d826ef86dfae8363",
     "semantic_hash": ""
   },
   "banking_document_corpus/risk_compliance/risk_appetite_statement_2026.md": {
-    "mtime": 1782832248.0907297,
+    "mtime": 1782825272.8612065,
     "ast_hash": "3a68153191f95e3e30608e0532cdef4a",
     "semantic_hash": ""
   },
   "banking_document_corpus/risk_compliance/risk_assessment_template.md": {
-    "mtime": 1782832248.090823,
+    "mtime": 1782827675.264498,
     "ast_hash": "56ae9aa2b2ba0b2946eaa28ee82b58ca",
     "semantic_hash": ""
   },
   "banking_document_corpus/schema_mapping.md": {
-    "mtime": 1782833802.5505588,
+    "mtime": 1782880283.578596,
     "ast_hash": "7a23d5ee72f48da644a2fb2236195c07",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_account_closure.md": {
-    "mtime": 1782832248.091012,
+    "mtime": 1782826142.9709036,
     "ast_hash": "50d7bc19a0ea9d5a2bcdefdb56c92c36",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_account_opening.md": {
-    "mtime": 1782832248.09114,
+    "mtime": 1782825564.043159,
     "ast_hash": "af8d43aba523637972f2ed5f42395835",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_aml_screening.md": {
-    "mtime": 1782832248.091273,
+    "mtime": 1782826217.7037697,
     "ast_hash": "dda50616b0e0f4ed7e86d20a76c8e638",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_change_of_address.md": {
-    "mtime": 1782832248.0913768,
+    "mtime": 1782827476.6782742,
     "ast_hash": "864ef3497e5faec2d42b58d968e9b0e4",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_direct_debits.md": {
-    "mtime": 1782832248.091538,
+    "mtime": 1782826553.0902162,
     "ast_hash": "70ed1b7cc362c8abb8193a02a643d3d1",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_exception_handling.md": {
-    "mtime": 1782832248.0918033,
+    "mtime": 1782826586.311532,
     "ast_hash": "cee8d6bcfe3be07d7487d3865e234996",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_kyc_verification.md": {
-    "mtime": 1782832248.09194,
+    "mtime": 1782826180.053392,
     "ast_hash": "9c8e8f4cad7b52732c599a5083f94d0e",
     "semantic_hash": ""
   },
   "banking_document_corpus/sop_procedures/sop_standing_orders.md": {
-    "mtime": 1782832248.0920742,
+    "mtime": 1782826521.642943,
     "ast_hash": "bbad766f57b2de0a5f2d92379c7e2455",
     "semantic_hash": ""
   },
   "banking_document_corpus/templates/call_centre_script.md": {
-    "mtime": 1782832248.0922735,
+    "mtime": 1782827034.4013736,
     "ast_hash": "c62c6a4d63b941527502cba35465db05",
     "semantic_hash": ""
   },
   "banking_document_corpus/templates/email_templates.md": {
-    "mtime": 1782832248.0925438,
+    "mtime": 1782827085.581889,
     "ast_hash": "0fe57bdfe869ac8302480dd2fffc07f5",
     "semantic_hash": ""
   },
   "banking_document_corpus/templates/sms_templates.md": {
-    "mtime": 1782832248.0926964,
+    "mtime": 1782827105.554955,
     "ast_hash": "0c9335ee0040c767e5cc9fe48c42708f",
     "semantic_hash": ""
   },
   "banking_document_corpus/training/branch_operations_training.md": {
-    "mtime": 1782832248.0929253,
+    "mtime": 1782827196.7978568,
     "ast_hash": "6230298aa0e29d993f78d77d2799dc02",
     "semantic_hash": ""
   },
   "banking_document_corpus/training/compliance_training_manual.md": {
-    "mtime": 1782832248.0930345,
+    "mtime": 1782827249.92572,
     "ast_hash": "d8fc31a1517bfbbf8ba7166f200c639c",
     "semantic_hash": ""
   },
   "banking_document_corpus/training/product_training_manual.md": {
-    "mtime": 1782832248.0932112,
+    "mtime": 1782827166.050272,
     "ast_hash": "db695036dfeba3460f1f0857ddfea085",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/CORPUS_PLAN.md": {
-    "mtime": 1782832248.0883331,
+    "mtime": 1782880283.6907797,
     "ast_hash": "6bd0aa44b8692f489bc53e987828d6e4",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/PHASE_3_DOCS_SUMMARY.md": {
-    "mtime": 1782832248.088445,
+    "mtime": 1782880283.6909597,
     "ast_hash": "3c69ded3c961cac91e2868a6e17d77ed",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/PHASE_3_DOCUMENT_LIST.md": {
-    "mtime": 1782832248.088605,
+    "mtime": 1782880283.691132,
     "ast_hash": "cf5e6cfc47a6d4ff55c3f67c24966a02",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/PHASE_4_STATUS.md": {
-    "mtime": 1782832248.088696,
+    "mtime": 1782880283.6913285,
     "ast_hash": "dbf98da724dc7539dc85c3d4ce02cf67",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/PROJECT_COMPLETION_SUMMARY.md": {
-    "mtime": 1782832248.0887866,
+    "mtime": 1782880283.6914759,
     "ast_hash": "9b87a0f007f39843593fda3e7ff06184",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/SMARTSAVER_VERTICAL_SLICE_STATUS.md": {
-    "mtime": 1782832248.0889587,
+    "mtime": 1782880283.6916943,
     "ast_hash": "41c9ea2af2e18d29b758f1010bdaf351",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/corpus_background.md": {
-    "mtime": 1782832248.0890663,
+    "mtime": 1782880283.691815,
     "ast_hash": "780dff5c83b5354dbf0c135904a5733c",
     "semantic_hash": ""
   },
   "docs/corpus_project_status/planning_document.md": {
-    "mtime": 1782832248.089135,
+    "mtime": 1782880283.6919134,
     "ast_hash": "f2e6e751e4b75b7a3b7edd06936c03e3",
     "semantic_hash": ""
   },
   "domains/schemas/banking_communications_schema.yaml": {
-    "mtime": 1783142405.741145,
+    "mtime": 1782888014.2486198,
     "ast_hash": "5364c032fad28bded69fca328f45120e",
     "semantic_hash": ""
   },
   "domains/schemas/banking_organization_schema.yaml": {
-    "mtime": 1782833018.730713,
+    "mtime": 1782880283.6922493,
     "ast_hash": "7cc005424f59766c2ad7f3655ff47333",
     "semantic_hash": ""
   },
   "domains/schemas/banking_policy_schema.yaml": {
-    "mtime": 1783142405.7414005,
-    "ast_hash": "0ec2947f89261ebbafc35d4227b42535",
+    "mtime": 1783306940.527396,
+    "ast_hash": "8c1d98e92365187c45476bffee2e06ed",
     "semantic_hash": ""
   },
   "domains/schemas/banking_products_schema.yaml": {
-    "mtime": 1783142405.7415493,
+    "mtime": 1782888364.9657311,
     "ast_hash": "e6e71c33fdcc2302dff4afc2ba7e974f",
     "semantic_hash": ""
   },
   "domains/schemas/banking_reference_schema.yaml": {
-    "mtime": 1783142405.741829,
-    "ast_hash": "7e4f6e9c21235365915bf212dd30881d",
+    "mtime": 1783306940.5277953,
+    "ast_hash": "2a1251821bb42b7ec277759bdafd72d2",
     "semantic_hash": ""
   },
   "domains/schemas/banking_risk_governance_schema.yaml": {
-    "mtime": 1783142405.742062,
+    "mtime": 1782887991.5609095,
     "ast_hash": "5bfdba6fac79754b610f1adedd3ada93",
     "semantic_hash": ""
   },
   "domains/schemas/banking_sop_guides_schema.yaml": {
-    "mtime": 1783142405.7421954,
-    "ast_hash": "4f8cefd6a18b1429acd01ee93b59203f",
+    "mtime": 1783306940.5284917,
+    "ast_hash": "183d635e99a729e980b69663b6d86cfb",
     "semantic_hash": ""
   },
   "skills/artmind-ingestion-helper/SKILL.md": {
-    "mtime": 1783142405.8206358,
+    "mtime": 1782887626.36397,
     "ast_hash": "8266496c150515702aa6ddfec3434e96",
     "semantic_hash": ""
   },
@@ -9860,48 +9860,113 @@
     "semantic_hash": ""
   },
   "test/test_ingest_entity_filtering.py": {
-    "mtime": 1783142405.8217103,
+    "mtime": 1782987520.816448,
     "ast_hash": "230a4b8add9aab695050da55fe47c14e",
     "semantic_hash": ""
   },
   "docs/cross_domain_conflicts/2026-07-03-cross-domain-query-and-conflict-detection-design.md": {
-    "mtime": 1783148371.8338819,
+    "mtime": 1783306940.5259063,
     "ast_hash": "29a1af6699c5cb43d2a16bf37199a724",
     "semantic_hash": ""
   },
   "docs/cross_domain_conflicts/2026-07-03-temporality-design.md": {
-    "mtime": 1783148424.0339189,
+    "mtime": 1783306940.5263824,
     "ast_hash": "5c8896a9ce62a7d56ad1bc426e2f9267",
     "semantic_hash": ""
   },
   "artmind/temporal.py": {
-    "mtime": 1783181074.9731653,
-    "ast_hash": "2f4158a26c6e6434b18bf7a9a7f6f647",
+    "mtime": 1783306940.5119789,
+    "ast_hash": "f648db6dcedc6f82674a0d968a730af0",
     "semantic_hash": ""
   },
   "tests/test_domain_predicate.py": {
-    "mtime": 1783162245.4768267,
-    "ast_hash": "2f9e3f1aca7284267561b149034e92f4",
+    "mtime": 1783306940.835323,
+    "ast_hash": "f096fe968d81e239bbfabb509bd07d58",
     "semantic_hash": ""
   },
   "tests/test_ingest_hooks.py": {
-    "mtime": 1783181154.5597486,
-    "ast_hash": "df73effbcdbdd700c258b9c68e0118f8",
+    "mtime": 1783306940.83544,
+    "ast_hash": "1fae84d7eec59b8ec0483c3434bf0bb3",
     "semantic_hash": ""
   },
   "tests/test_temporal.py": {
-    "mtime": 1783181434.0171869,
-    "ast_hash": "13d080de98d004bcbf58f6b9c715101c",
+    "mtime": 1783306940.8357217,
+    "ast_hash": "0d2e43383419583c3e87a5aa8b10db55",
     "semantic_hash": ""
   },
   "banking_document_corpus/policies/policy_complaints_v3.md": {
-    "mtime": 1783147108.2446172,
+    "mtime": 1783306940.5128417,
     "ast_hash": "8ac3207d0adf4f71a658bda32731dd6d",
     "semantic_hash": ""
   },
   "docs/superpowers/plans/2026-07-04-cross-domain-conflicts-and-temporality.md": {
-    "mtime": 1783154885.8594186,
+    "mtime": 1783306940.527002,
     "ast_hash": "e88ddf29d52124f99f10546e393f925d",
+    "semantic_hash": ""
+  },
+  "artmind/conflicts.py": {
+    "mtime": 1783306940.5099115,
+    "ast_hash": "1ebae074c51232ff9722d00e2dc82420",
+    "semantic_hash": ""
+  },
+  "artmind/schema_reference.py": {
+    "mtime": 1783329386.6933239,
+    "ast_hash": "94d26a314144c3357ffe28a45a4d14f3",
+    "semantic_hash": ""
+  },
+  "scripts/migrate_banking_hierarchy.py": {
+    "mtime": 1783306940.8324203,
+    "ast_hash": "53879c1cb3d3edf9896d87fca56e4b0b",
+    "semantic_hash": ""
+  },
+  "test/test_schema_reference.py": {
+    "mtime": 1783330196.9838874,
+    "ast_hash": "ec904795f31fab9745014754f1072fc0",
+    "semantic_hash": ""
+  },
+  "tests/test_conflicts.py": {
+    "mtime": 1783306940.834733,
+    "ast_hash": "2d0e22df77a0dbf99817e5134999fb9e",
+    "semantic_hash": ""
+  },
+  "tests/test_supersession.py": {
+    "mtime": 1783306940.8355763,
+    "ast_hash": "842e375e36daf422520cd43986395b2e",
+    "semantic_hash": ""
+  },
+  "docs/apqc-fibo-vs-banking-schemas.md": {
+    "mtime": 1783313659.6840668,
+    "ast_hash": "5f304c9360544c03a7d5a5e691fdb47d",
+    "semantic_hash": ""
+  },
+  "docs/refine-merge-conflict-supersede-guide.md": {
+    "mtime": 1783306940.5266228,
+    "ast_hash": "85954a45386b960d94fe670f343d635c",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/Feature summary - cross domain and temporality.md": {
+    "mtime": 1783306940.5271575,
+    "ast_hash": "4cb6e7f002c5eb31a339f95678acc47d",
+    "semantic_hash": ""
+  },
+  "domains/schemas/banking_schemas_reference.html": {
+    "mtime": 1783329434.0192509,
+    "ast_hash": "d025f68c37537c580aaa0be812c87c16",
+    "semantic_hash": ""
+  },
+  "skills/artmind-refine-graph/SKILL.md": {
+    "mtime": 1783306940.8330417,
+    "ast_hash": "8cd6ad7c091ecfb3ba835260eb1e9340",
+    "semantic_hash": ""
+  },
+  "test/schemas/test_prompt_schema.yaml": {
+    "mtime": 1783330169.6162245,
+    "ast_hash": "821333308fc39229336a27dc8ad84800",
+    "semantic_hash": ""
+  },
+  "domains/schemas/contracts_schema.yaml": {
+    "mtime": 1783358779.9004214,
+    "ast_hash": "ce2a335cbc6dd903ac01dca6bd7684cd",
     "semantic_hash": ""
   }
 }

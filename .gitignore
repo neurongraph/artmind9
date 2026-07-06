@@ -26,6 +26,8 @@ data/graph_snapshot
 # Keep data.kg in github, but exclude sensitive/private domains
 data/kg/sales_collateral
 data/kg/project_governance
+data/kg/contracts
+graphify-out/
 logs/
 package.json
 package-lock.json
