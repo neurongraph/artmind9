@@ -120,13 +120,59 @@ artmind ingest write-to-graph DOCUMENT_NAME --domain YOUR_DOMAIN
 
 ---
 
+### D.1 — Extraction is stuck/crawling (e.g. repeated "Connection error") — halt and resume safely
+
+Large documents (hundreds of chunks) can hit transient LLM-provider connection errors partway through. It is **safe to kill the worker at any time** — progress is durable per chunk *and per step* (`entities`/`properties`/`relationships`) in the `kg_chunk_status` table, not just per file. Killing it does not lose completed work.
+
+1. **Find the stuck file and job:**
+   ```bash
+   artmind ingest jobs --status processing
+   artmind ingest job-status JOB_ID
+   ```
+   Look at `chunk_progress` per file — a file with `entities_done` far behind `total_chunks`, or one that hasn't advanced in a while, is the culprit.
+
+2. **Confirm the error pattern** (optional, for diagnosis):
+   ```bash
+   tail -200 logs/artmind_worker.log | grep -i "connection error"
+   ```
+
+3. **Kill the worker:**
+   ```bash
+   ps aux | grep worker.py   # find the PID (also cached in worker.pid at project root)
+   kill PID
+   ```
+   The PID file is stale-safe — the next `_ensure_worker_running()` call (e.g. from `async` or `retry-job`) detects the dead PID and overwrites it automatically. No manual cleanup needed.
+
+4. **Resume the specific stuck document with `extract-kg` — not `retry-job`:**
+   ```bash
+   artmind ingest extract-kg "DOCUMENT_NAME" --domain YOUR_DOMAIN
+   ```
+   This re-reads `kg_chunk_status` for the document and skips every chunk+step already marked `ok`, retrying only `failed`/not-yet-attempted ones. **Important:** `retry-job` only re-queues job-files with status `failed` (see Situation E) — a file killed mid-`processing` stays stuck at `processing` and `retry-job` will silently skip it. `extract-kg` works directly off `kg_chunk_status` and ignores the job-file status entirely, so it's the correct tool here.
+
+5. **Large documents take hours — run it detached, not blocking:**
+   ```bash
+   nohup artmind ingest extract-kg "DOCUMENT_NAME" --domain YOUR_DOMAIN > /tmp/extract.log 2>&1 &
+   ```
+   Poll progress with `job-status` or by tailing `logs/artmind_ingestion.log`, rather than waiting on a blocking foreground call (which will time out in most shells/harnesses long before a 500+ chunk document finishes).
+
+6. **To verify it's truly resuming (not redoing) rather than trusting the log alone:**
+   ```bash
+   sqlite3 data/document_registry.db \
+     "SELECT chunk_seq, entities_status FROM kg_chunk_status WHERE doc_sha256='SHA256' ORDER BY chunk_seq LIMIT 60;"
+   ```
+   Get `SHA256` via `SELECT sha256 FROM documents WHERE filename = 'DOCUMENT_NAME';` in the same DB. Chunks already `ok` should stay `ok`; only chunks previously `failed`/unattempted should change. In the log itself, a genuine skip shows only the `Chunk N/743 (...)` header line with no `entities`/`properties`/`relationships` sub-lines — real work shows all three (or a silent `skipped` if the chunk legitimately had zero entities).
+
+Once extraction finishes, write it to Neo4j as usual (Situation C).
+
+---
+
 ### E. Retry a failed async job
 
 ```bash
 artmind ingest retry-job JOB_ID
 ```
 
-This re-queues only the failed files and restarts the worker.
+This re-queues only files with job-file status `failed` (and `skipped` if `--include-skipped` is passed) — **not** files stuck at `processing`. If a file was mid-`processing` when the worker died, use `extract-kg` directly on that document instead (Situation D.1); `retry-job` won't touch it.
 
 To also force re-processing of files that were skipped as duplicates:
 ```bash
@@ -228,7 +274,7 @@ artmind docs clean --domain YOUR_DOMAIN DOCUMENT_NAME
 | `Document not found in registry` | Document was never ingested with `sync`/`async` | Run `artmind ingest sync FILE --domain DOMAIN` first |
 | `No chunks found` | `sync` hasn't been run yet, or only `async` was submitted but not completed | Check with `artmind ingest dashboard`; if needed run `sync` |
 | Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time; re-run failed docs with `extract-kg` |
-| Job stuck in `processing` | Worker crashed | Run `artmind ingest retry-job JOB_ID` |
+| Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable), then run `artmind ingest extract-kg DOC --domain DOMAIN` on the specific file — **not** `retry-job`, which ignores files stuck at `processing`. See Situation D.1. |
 | Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot, or `write-to-graph` if JSON exists |
 | Duplicate entities after merging domains | Entity resolution not run | Run `refine-graph --dry-run` then apply |
 

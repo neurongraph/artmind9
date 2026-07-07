@@ -1,16 +1,16 @@
-# Graph Report - artmind9  (2026-07-06)
+# Graph Report - artmind9  (2026-07-07)
 
 ## Corpus Check
-- 150 files · ~290,212 words
+- 150 files · ~290,331 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3701 nodes · 4622 edges · 239 communities (215 shown, 24 thin omitted)
+- 3706 nodes · 4631 edges · 228 communities (206 shown, 22 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 6 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8da562ab`
+- Built from commit: `5345d798`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -173,7 +173,6 @@
 - [[_COMMUNITY_Community 163|Community 163]]
 - [[_COMMUNITY_Community 165|Community 165]]
 - [[_COMMUNITY_Community 166|Community 166]]
-- [[_COMMUNITY_Community 167|Community 167]]
 - [[_COMMUNITY_Community 169|Community 169]]
 - [[_COMMUNITY_Community 170|Community 170]]
 - [[_COMMUNITY_Community 171|Community 171]]
@@ -200,7 +199,6 @@
 - [[_COMMUNITY_Community 192|Community 192]]
 - [[_COMMUNITY_Community 193|Community 193]]
 - [[_COMMUNITY_Community 194|Community 194]]
-- [[_COMMUNITY_Community 195|Community 195]]
 - [[_COMMUNITY_Community 196|Community 196]]
 - [[_COMMUNITY_Community 197|Community 197]]
 - [[_COMMUNITY_Community 198|Community 198]]
@@ -216,7 +214,6 @@
 - [[_COMMUNITY_Community 208|Community 208]]
 - [[_COMMUNITY_Community 209|Community 209]]
 - [[_COMMUNITY_Community 210|Community 210]]
-- [[_COMMUNITY_Community 211|Community 211]]
 - [[_COMMUNITY_Community 212|Community 212]]
 - [[_COMMUNITY_Community 213|Community 213]]
 - [[_COMMUNITY_Community 214|Community 214]]
@@ -232,16 +229,9 @@
 - [[_COMMUNITY_Community 224|Community 224]]
 - [[_COMMUNITY_Community 225|Community 225]]
 - [[_COMMUNITY_Community 226|Community 226]]
-- [[_COMMUNITY_Community 227|Community 227]]
 - [[_COMMUNITY_Community 228|Community 228]]
 - [[_COMMUNITY_Community 230|Community 230]]
-- [[_COMMUNITY_Community 231|Community 231]]
-- [[_COMMUNITY_Community 232|Community 232]]
 - [[_COMMUNITY_Community 233|Community 233]]
-- [[_COMMUNITY_Community 234|Community 234]]
-- [[_COMMUNITY_Community 235|Community 235]]
-- [[_COMMUNITY_Community 236|Community 236]]
-- [[_COMMUNITY_Community 238|Community 238]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `WizardApp` - 41 edges
@@ -256,15 +246,15 @@
 10. `_echo_json()` - 22 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `test_embed_text_raises_when_provider_is_openrouter()` --calls--> `embed_text()`  [EXTRACTED]
+  test/test_llm_providers.py → artmind/extraction.py
+- `test_embed_text_uses_ollama_by_default()` --calls--> `embed_text()`  [EXTRACTED]
+  test/test_llm_providers.py → artmind/extraction.py
 - `test_asof_predicate_shape()` --calls--> `asof_predicate()`  [EXTRACTED]
   tests/test_temporal.py → artmind/graph_query.py
 - `test_materialize_superseded_creates_supersedes_not_conflict()` --calls--> `FakeSession`  [INFERRED]
   tests/test_conflicts.py → test/test_entity_embeddings.py
-- `ingest_sync()` --calls--> `resolve_llm_model()`  [EXTRACTED]
-  artmind/cli.py → utils/functions.py
-- `ingest_extract_kg()` --calls--> `resolve_llm_model()`  [EXTRACTED]
-  artmind/cli.py → utils/functions.py
-- `ingest_refine_graph()` --calls--> `resolve_llm_model()`  [EXTRACTED]
+- `ingest_sync()` --calls--> `load_env()`  [EXTRACTED]
   artmind/cli.py → utils/functions.py
 
 ## Import Cycles
@@ -277,7 +267,7 @@
 - **Knowledge Graph infrastructure stack** — env_example_neo4j_connection, env_example_kg_llm, env_example_kg_embeddings [INFERRED 0.90]
 - **PPTXGenJS dependency tree** — pptxgenjs_library, packagelock_jszip_library, packagelock_types_node [EXTRACTED 1.00]
 
-## Communities (239 total, 24 thin omitted)
+## Communities (228 total, 22 thin omitted)
 
 ### Community 0 - "UI Components"
 Cohesion: 0.04
@@ -288,8 +278,8 @@ Cohesion: 0.04
 Nodes (47): 10. Product Information Documents Suite (PROD-PID-SUITE), 10. Transaction Reversal SOP (TXN-REV-SOP-001), 1. Account Opening SOP (ACCT-OPEN-SOP-001), 1. Application Landscape (APP-LAND-001), 1. Product Pricing Guide (PRC-GUIDE-2026), 2. Account Closure SOP (ACCT-CLOSE-SOP-001), 2. SmartSaver Terms & Conditions (SAV-001-TC), 2. System Context Diagram (CTX-DIAG-001) (+39 more)
 
 ### Community 2 - "Graph Database"
-Cohesion: 0.06
-Nodes (35): Initialize SQLite tables and Neo4j constraints/indexes (idempotent)., setup(), _init_db(), _compress_snapshot(), export_graph(), _export_nodes(), _export_relationships(), _find_latest_snapshot() (+27 more)
+Cohesion: 0.08
+Nodes (27): _compress_snapshot(), export_graph(), _export_nodes(), _export_relationships(), _find_latest_snapshot(), import_graph(), _match_keys_for_node(), Path (+19 more)
 
 ### Community 3 - "Testing"
 Cohesion: 0.04
@@ -300,20 +290,20 @@ Cohesion: 0.09
 Nodes (38): domains_harmonize(), Sync child domain schemas against their parent's entity types.      Copies any e, harmonize_all(), harmonize_schema(), HarmonizeResult, _inject_entity_blocks(), _inject_property_blocks(), _inject_relationship_blocks() (+30 more)
 
 ### Community 5 - "UI Components"
-Cohesion: 0.09
-Nodes (33): embed_missing_entity_embeddings(), entity_embedding_text(), _flatten_props(), _neo4j_value(), Convert a value to a Neo4j-compatible type (no nested maps)., Flatten a props dict to Neo4j-compatible types, dropping empty values., Text embedded for an entity — name plus description when available., Embed name+description for all entities in the domain that lack an embedding. (+25 more)
+Cohesion: 0.06
+Nodes (61): build_entities_prompt(), build_properties_prompt(), build_relationships_prompt(), embed_text(), entities_list_text(), extract_with_retry(), parse_json_response(), Path (+53 more)
 
 ### Community 6 - "Graph Database"
-Cohesion: 0.08
-Nodes (47): _build_file_result_from_db(), clean_document(), _compute_sha256(), _delete_chunk_status(), _delete_chunk_status_by_doc_id(), _delete_from_neo4j(), _delete_from_registry(), _delete_path() (+39 more)
+Cohesion: 0.06
+Nodes (59): _build_file_result_from_db(), clean_document(), _compute_sha256(), _delete_chunk_status(), _delete_chunk_status_by_doc_id(), _delete_from_neo4j(), _delete_from_registry(), _delete_path() (+51 more)
 
 ### Community 7 - "Knowledge Domain 7"
 Cohesion: 0.10
 Nodes (24): App, ingest_dashboard(), Show a live realtime status dashboard of all async jobs., DashboardApp, _fetch_active_jobs(), _fetch_chunks(), _fetch_completed_jobs(), _fetch_file_entry() (+16 more)
 
 ### Community 8 - "Graph Database"
-Cohesion: 0.07
-Nodes (29): _echo_json(), graph_conflicts(), graph_entity_listing_cmd(), graph_metadata_cmd(), graph_structural_metadata_cmd(), graph_text2cypher(), graph_timeline(), ingest_detect_supersession() (+21 more)
+Cohesion: 0.22
+Nodes (9): Card Fees, Current BoE Base Rate: 4.0% (as of 2026-01-15), Fees & Charges, Interest Rate Tiers, Interest Rates, Other Fees, SMARTSAVER ACCOUNT (SAV-001), Transaction Fees (+1 more)
 
 ### Community 9 - "CLI Interface"
 Cohesion: 0.10
@@ -324,8 +314,8 @@ Cohesion: 0.04
 Nodes (46): 10. Product Information Documents (PIDs) Suite, 10. Transaction Reversal SOP (TXN-REV-SOP-001), 1. Account Opening SOP (ACCT-OPEN-SOP-001), 1. Application Landscape (APP-LAND-001), 1. SmartSaver Product Specification (SAV-001-SPEC), 2. Account Closure SOP (ACCT-CLOSE-SOP-001), 2. Current Account Product Specification (CURR-001-SPEC), 2. System Context Diagram (CTX-DIAG-001) (+38 more)
 
 ### Community 12 - "Graph Database"
-Cohesion: 0.12
-Nodes (19): canonical_entity_dates(), lift_document_dates(), parse_iso(), Map an entity's schema-declared date property to canonical props.      schema_en, Deterministically parse a date-ish string to ISO-8601 (date), else None.      Ac, Return canonical document props from header labels / frontmatter.      mapping e, Deterministic date parsing and document-date lifting (no Neo4j)., test_asof_predicate_shape() (+11 more)
+Cohesion: 0.07
+Nodes (33): canonical_entity_dates(), _find_header_value(), lift_document_dates(), load_schema(), normalize_ingested_document(), normalize_time(), parse_iso(), parse_supersession_notice() (+25 more)
 
 ### Community 13 - "Graph Database"
 Cohesion: 0.04
@@ -336,16 +326,16 @@ Cohesion: 0.04
 Nodes (46): 1. Service Complaints, 2. Fee Disputes, 3. Account Balance Issues, 4. Fraud/Unauthorized Transactions, 5. Unauthorized Account Access (Account Takeover), All Staff, Audit & Monitoring, Compensation Framework (+38 more)
 
 ### Community 15 - "CLI Interface"
-Cohesion: 0.11
-Nodes (8): clean_domain(), domain_added(), Tests for `artmind domains` CLI commands using test/schemas/test_schema.yaml., Point DOMAIN_SCHEMAS_DIR at a temp directory for each test., Pre-add the test domain so commands that depend on it can run., TestDelete, TestList, TestRenderHtml
+Cohesion: 0.09
+Nodes (9): clean_domain(), domain_added(), Tests for `artmind domains` CLI commands using test/schemas/test_schema.yaml., Point DOMAIN_SCHEMAS_DIR at a temp directory for each test., Pre-add the test domain so commands that depend on it can run., TestAdd, TestDelete, TestList (+1 more)
 
 ### Community 16 - "Wizard Interface"
 Cohesion: 0.13
 Nodes (13): Path, WizardApp, test_comma_separated_multi_arg_expands_to_repeated_flags(), test_command_panel_present(), test_complete_stage_updates_completed_stages(), test_extract_session_id_from_draft_output(), test_find_kg_dir_returns_none_when_no_doc(), test_find_kg_dir_returns_path_when_present() (+5 more)
 
 ### Community 17 - "CLI Interface"
-Cohesion: 0.20
-Nodes (6): Path, Tests for `artmind ingest sync` CLI command., sample_dir(), sample_file(), TestIngestSyncDirectory, TestIngestSyncDomainPrompt
+Cohesion: 0.12
+Nodes (7): Path, Tests for `artmind ingest sync` CLI command., sample_dir(), sample_file(), TestIngestSyncDirectory, TestIngestSyncDomainPrompt, TestIngestSyncFile
 
 ### Community 18 - "Wizard Interface"
 Cohesion: 0.14
@@ -360,8 +350,8 @@ Cohesion: 0.05
 Nodes (44): 1. Service Complaints, 2. Fee Disputes, 3. Account Balance Issues, 4. Fraud/Unauthorized Transactions, 5. Unauthorized Account Access (Account Takeover), All Staff, Audit & Monitoring, Compensation Framework (+36 more)
 
 ### Community 22 - "Graph Database"
-Cohesion: 0.19
-Nodes (13): _get_pattern_cypher(), Tests that domain filters in Cypher queries use the expanded STARTS WITH form., vector_search must scope Cypher via domain_predicate, which still     rolls up s, Extract the Cypher string for a given pattern without hitting Neo4j., full_text_search must scope Cypher via domain_predicate, which still     rolls u, test_full_text_search_cypher_uses_expanded_filter(), test_pattern1_uses_expanded_domain_filter(), test_pattern2_uses_expanded_domain_filter() (+5 more)
+Cohesion: 0.33
+Nodes (6): Card Fees, CURRENT ACCOUNT (CURR-001), Fees & Charges, Interest Rates, Overdraft Example, Transaction Fees
 
 ### Community 23 - "Graph Database"
 Cohesion: 0.05
@@ -376,8 +366,8 @@ Cohesion: 0.05
 Nodes (44): Access Control, Audit & Compliance, Collection Methods, Cookie Management, Cookie Types Used, Cookies & Web Tracking, Core Requirements, Data Breach Response (+36 more)
 
 ### Community 27 - "Testing"
-Cohesion: 0.24
-Nodes (5): FakeResult, FakeSession, test_embed_missing_entity_embeddings_skips_failures(), test_embed_missing_entity_embeddings_writes_vectors(), test_materialize_superseded_creates_supersedes_not_conflict()
+Cohesion: 0.11
+Nodes (17): conflict_id(), _name_ratio(), _slug(), _verdict_from_raw(), FakeResult, FakeSession, test_embed_missing_entity_embeddings_skips_failures(), test_embed_missing_entity_embeddings_writes_vectors() (+9 more)
 
 ### Community 28 - "UI Components"
 Cohesion: 0.05
@@ -388,8 +378,8 @@ Cohesion: 0.05
 Nodes (43): Access Control, API Security, Application Security, At Rest, Audit & Monitoring, Authentication (Who You Are), Authorization (What You Can Access), Compliance & Regulatory Requirements (+35 more)
 
 ### Community 30 - "UI Components"
-Cohesion: 0.05
-Nodes (41): Card Fees, Card Fees, Card Fees, COMPARISON TO COMPETITORS, CURRENT ACCOUNT (CURR-001), Current Account vs. Competitors, Current BoE Base Rate: 4.0% (as of 2026-01-15), Current Mortgage Rates (2026-01-15) (+33 more)
+Cohesion: 0.12
+Nodes (15): Card Fees, COMPARISON TO COMPETITORS, Current Account vs. Competitors, CUSTOMER RESOURCES, DEBIT CARD (CARD-001), Document Version History, Executive Summary, FirstUK Bank — Product Pricing Guide 2026 (+7 more)
 
 ### Community 31 - "UI Components"
 Cohesion: 0.05
@@ -428,8 +418,8 @@ Cohesion: 0.05
 Nodes (39): Agent integration, artmind, `artmind-query`, `artmind-update`, Asynchronous (background worker), Claude Code skill: `artmind-update`, Claude Code skills, Confirm — write to graph (+31 more)
 
 ### Community 50 - "Community 50"
-Cohesion: 0.11
-Nodes (27): candidate_pairs(), check_refine_precondition(), conflict_id(), detect_conflicts(), _doc_validity(), gather_evidence(), llm_adjudicate(), materialize() (+19 more)
+Cohesion: 0.10
+Nodes (26): Initialize SQLite tables and Neo4j constraints/indexes (idempotent)., setup(), candidate_pairs(), check_refine_precondition(), detect_conflicts(), _doc_validity(), gather_evidence(), llm_adjudicate() (+18 more)
 
 ### Community 51 - "Community 51"
 Cohesion: 0.06
@@ -504,12 +494,12 @@ Cohesion: 0.07
 Nodes (28): 1. Activate Your Account Online, 2. Download Mobile App (Optional), 3. Make Your First Deposit, 4. Contact Us With Questions, Contact Information, Data Security, Document Version History, FirstUK Bank — New Customer Welcome Pack (+20 more)
 
 ### Community 69 - "Community 69"
-Cohesion: 0.14
-Nodes (28): Render a browsable HTML reference for all schemas matching PREFIX (e.g. 'banking, render_domains_html(), build_schema_dict(), _chip(), _esc(), parse_entities(), parse_properties(), parse_relationships() (+20 more)
+Cohesion: 0.16
+Nodes (26): build_schema_dict(), _chip(), _esc(), parse_entities(), parse_properties(), parse_relationships(), Any, Path (+18 more)
 
 ### Community 70 - "Community 70"
-Cohesion: 0.14
-Nodes (25): call_llm(), embed_text(), call_llm_ollama(), call_llm_openrouter(), describe_image_openrouter(), embed_text_ollama(), _first_choice_content(), _image_data_url() (+17 more)
+Cohesion: 0.13
+Nodes (28): call_llm(), call_llm_ollama(), call_llm_openrouter(), describe_image_ollama(), describe_image_openrouter(), _first_choice_content(), _image_data_url(), _ollama_client() (+20 more)
 
 ### Community 71 - "Community 71"
 Cohesion: 0.08
@@ -552,16 +542,16 @@ Cohesion: 0.09
 Nodes (23): Distribution, Document Version History, Escalation & Approval, Example: Account Opening Process — Data Quality Risk, FirstUK Bank — Risk Assessment Template & Guidance, Header Section, Impact Scale (1–5), Likelihood Scale (1–5) (+15 more)
 
 ### Community 81 - "Community 81"
-Cohesion: 0.08
-Nodes (36): add_domain(), docs_clean(), ingest_async(), ingest_detect_conflicts(), ingest_extract_kg(), ingest_pull_kg(), ingest_refine_graph(), ingest_sync() (+28 more)
+Cohesion: 0.03
+Nodes (125): add_domain(), delete_domain(), docs(), docs_clean(), domains(), _echo_json(), _ensure_worker_running(), _get_available_domains() (+117 more)
 
 ### Community 82 - "Community 82"
 Cohesion: 0.09
 Nodes (22): Affected Files, Algorithm, CLI Domain Listing, CLI Placement, Command, Conservative Renames, Constraints, Design: POOLE+ Entity Standardization & Hierarchical Domains (+14 more)
 
 ### Community 83 - "Community 83"
-Cohesion: 0.12
-Nodes (23): graph_pattern1(), graph_pattern10(), graph_pattern2(), graph_pattern3(), graph_pattern4(), graph_pattern5(), graph_pattern6(), graph_pattern7() (+15 more)
+Cohesion: 0.33
+Nodes (6): Current Mortgage Rates (2026-01-15), Interest Rates, Monthly Payment Example, Mortgage Fees, MORTGAGE PRODUCT (MORT-001), Rate Variation (Fixed Rate Period)
 
 ### Community 84 - "Community 84"
 Cohesion: 0.09
@@ -588,8 +578,8 @@ Cohesion: 0.10
 Nodes (20): Architecture, artmind-update Design Spec, Audit metadata on all nodes, Backend Module (`artmind/update.py`), CLI Commands, Configuration, Data Model, New node type: `UserChat` (+12 more)
 
 ### Community 91 - "Community 91"
-Cohesion: 0.15
-Nodes (17): apply_merges(), cluster_entities(), _entity_domains(), llm_merge_cluster(), _merge_entity_pair(), Path, Entity resolution and graph refinement: cluster similar names, merge via LLM, ap, Map each entity name to the set of domains it appears in. (+9 more)
+Cohesion: 0.13
+Nodes (19): cli(), Artmind — a knowledge system that synchronizes with your mind., apply_merges(), cluster_entities(), _entity_domains(), llm_merge_cluster(), _merge_entity_pair(), Path (+11 more)
 
 ### Community 92 - "Community 92"
 Cohesion: 0.12
@@ -600,20 +590,20 @@ Cohesion: 0.11
 Nodes (18): Closing Script (All Calls), Document Version History, FirstUK Bank — Call Centre Script Guide, General Guidelines, Metadata, Opening Script (All Calls), Purpose, SCENARIO 10: Password Reset (+10 more)
 
 ### Community 94 - "Community 94"
-Cohesion: 0.22
-Nodes (8): Actions & Owners, Agenda, Attendees, Decisions Taken, FirstUK Bank — Board Risk Committee Meeting Minutes, Meeting Details, Minutes Approval, Next Meeting
+Cohesion: 0.12
+Nodes (16): 1. Risk Appetite Statement Review, 2. Q4 2025 Risk Dashboard & KRIs, 3. Capital Adequacy & Stress Testing, 4. Regulatory Updates (FCA Circulars), 5. Internal Audit Plan 2026, 6. Fraud & AML Performance, 7. Technology Risk Assessment, Actions & Owners (+8 more)
 
 ### Community 95 - "Community 95"
 Cohesion: 0.12
 Nodes (16): File Map, POOLE+ Entity Standardization & Hierarchical Domains Implementation Plan, Self-Review Checklist, Task 10: Update `artmind/cli.py` — `domains list` hierarchy display, Task 11: Create `artmind/harmonizer.py` — block extraction and patching logic, Task 12: Add `domains harmonize` command to `artmind/cli.py`, Task 13: Tests, Task 1: Update `fiction_schema.yaml` — CHARACTER→PERSON + `entity_types` (+8 more)
 
 ### Community 96 - "Community 96"
-Cohesion: 0.20
-Nodes (21): asof_predicate(), _domain_output(), Any, Back-compat output keys: always 'domains'; add 'domain' when exactly one., NULL-safe valid-time filter. Untimed nodes are always visible.      Emitted only, serialize_record(), serialize_value(), strip_embeddings() (+13 more)
+Cohesion: 0.05
+Nodes (82): asof_predicate(), _domain_output(), domain_predicate(), domains_overview(), _entity_list_selector(), entity_listing(), _entity_selector(), execute_pattern() (+74 more)
 
 ### Community 97 - "Community 97"
-Cohesion: 0.12
-Nodes (26): _get_db(), Connection, Update one step's status for a chunk (step: 'entities'|'properties'|'relationshi, _update_chunk_step(), _create_job(), _get_chunk_progress(), _get_job_results(), _get_job_status() (+18 more)
+Cohesion: 0.40
+Nodes (5): Fees & Charges, Interest Rate Tier, Interest Rates, SMARTSAVER PLUS ACCOUNT (SAV-002), Value-Added Services (Included)
 
 ### Community 98 - "Community 98"
 Cohesion: 0.14
@@ -624,12 +614,8 @@ Cohesion: 0.14
 Nodes (14): 4.1 Metric Categories, 4.2.1 Ranking Metrics, 4.2.2 Entity & Relationship Retrieval, 4.2 Retrieval Quality Metrics, 4.3.1 Extractive Answer Quality (for procedural Q&A), 4.3.2 Abstractive Answer Quality (for synthesis/inference), 4.3.3 Composite Metrics, 4.3 Generation Quality Metrics (+6 more)
 
 ### Community 100 - "Community 100"
-Cohesion: 0.36
-Nodes (13): _create_update_draft(), _create_update_session(), _get_latest_pending_draft(), _get_update_session(), _list_update_sessions(), _update_draft_status(), _update_session_status(), confirm_update() (+5 more)
-
-### Community 101 - "Community 101"
-Cohesion: 0.16
-Nodes (22): build_entities_prompt(), build_properties_prompt(), build_relationships_prompt(), entities_list_text(), extract_with_retry(), parse_json_response(), Path, extract_kg() (+14 more)
+Cohesion: 0.18
+Nodes (24): _create_update_draft(), _create_update_session(), _get_db(), _get_latest_pending_draft(), _get_update_session(), _list_update_sessions(), Connection, _update_draft_status() (+16 more)
 
 ### Community 102 - "Community 102"
 Cohesion: 0.12
@@ -640,8 +626,8 @@ Cohesion: 0.12
 Nodes (15): 10. Verification, 1. Context, 2. Core design decision: mechanics in the metastructure, semantics in the schemas, 3. Data model, 4. Query surface, 5. Review of current schemas for temporality, 6. Schema changes: the `temporal:` block, 7. Normalization stage (where canonical properties get written) (+7 more)
 
 ### Community 104 - "Community 104"
-Cohesion: 0.23
-Nodes (10): apply_jq_filter(), pretty_json(), Any, Pretty-print JSON for display, rendering embedded \\n escapes as real line break, Apply a jq expression to raw JSON output. Returns formatted result or error., Submitted, test_apply_jq_filter_array(), test_apply_jq_filter_extracts_field() (+2 more)
+Cohesion: 0.17
+Nodes (13): Interactive TUI wizard — teaches and tests the full artmind lifecycle., wizard_cmd(), apply_jq_filter(), pretty_json(), Any, Pretty-print JSON for display, rendering embedded \\n escapes as real line break, Apply a jq expression to raw JSON output. Returns formatted result or error., run_wizard() (+5 more)
 
 ### Community 105 - "Community 105"
 Cohesion: 0.12
@@ -839,10 +825,6 @@ Nodes (7): Account APIs, API Catalogue, Card APIs, Customer APIs, Fraud APIs, Pa
 Cohesion: 0.29
 Nodes (7): Application Landscape, Customer Relationship Management (CRM), Data & Analytics Systems, Data Warehouse (DW), Document Management System (DMS), Reporting & Regulatory System, Supporting Systems
 
-### Community 156 - "Community 156"
-Cohesion: 0.20
-Nodes (4): cli(), Artmind — a knowledge system that synchronizes with your mind., Tests for `artmind ingest pull-kg` CLI command., TestPullKgCli
-
 ### Community 157 - "Community 157"
 Cohesion: 0.29
 Nodes (7): 2. Internet Banking Platform (IBP), Integrations, Key Features, Performance, Purpose, Security, Technology Details
@@ -872,8 +854,8 @@ Cohesion: 0.29
 Nodes (7): For Customer Experience, For Operations, For Product Management, For Regulatory Compliance, For Staff Training, For Technology, Real-World Readiness Assessment
 
 ### Community 165 - "Community 165"
-Cohesion: 0.06
-Nodes (39): delete_domain(), docs(), domains(), _ensure_worker_running(), _get_available_domains(), get_entities(), get_properties(), get_relationships() (+31 more)
+Cohesion: 0.29
+Nodes (7): get_entities(), get_properties(), get_relationships(), _load_domain_schema(), The prompt used to extract entities from a document chunk, The prompt used to extract properties for the set of entities from a document ch, The prompt used to extract relationships from a document chunk
 
 ### Community 166 - "Community 166"
 Cohesion: 0.50
@@ -947,10 +929,6 @@ Nodes (5): Query 1: "How do we onboard a new customer?", Query 2: "What are the 
 Cohesion: 0.40
 Nodes (4): April 15, 2026, April 18, 2026, April 22, 2026, Sample Extract — Personal Journal Domain
 
-### Community 195 - "Community 195"
-Cohesion: 0.16
-Nodes (17): domain_predicate(), list_timeline(), normalize_domains(), Return focused metadata about Document, DocChunk, UserChat, and Entity nodes., Flatten a str or sequence of domain strings into a deduped, stripped list., Cypher WHERE fragment scoping `var` to any of the domains in $param.      A one-, An entity's events/state-changes/supersessions ordered by event_at/valid_from., structural_metadata() (+9 more)
-
 ### Community 196 - "Community 196"
 Cohesion: 0.50
 Nodes (4): Backup Strategy, Disaster Recovery & Business Continuity, Disaster Recovery Testing, Recovery Objectives
@@ -1011,10 +989,6 @@ Nodes (4): How Customer Requests Change, Initial Data Collection, Request Docume
 Cohesion: 0.50
 Nodes (4): Content Volume, Cross-Document References, Document Count by Category, Knowledge Corpus Statistics
 
-### Community 211 - "Community 211"
-Cohesion: 0.18
-Nodes (17): _parse_md_frontmatter(), Return (metadata dict, body text). Metadata is empty if no YAML frontmatter., detect_supersession(), _find_header_value(), load_schema(), normalize_ingested_document(), normalize_time(), parse_supersession_notice() (+9 more)
-
 ### Community 212 - "Community 212"
 Cohesion: 0.67
 Nodes (3): 2026 Initiatives, 2027 Initiatives, Technology Roadmap
@@ -1071,45 +1045,29 @@ Nodes (3): Confirmation to Customer, Notification Methods, Step 11: Notify Custo
 Cohesion: 0.67
 Nodes (3): Risk Assessment, Risk Scoring, Step 5: Assess AML Risk & Re-Screening
 
-### Community 227 - "Community 227"
-Cohesion: 0.19
-Nodes (15): domains_overview(), _entity_list_selector(), _entity_selector(), execute_pattern(), normalize_entity_class(), normalize_pattern_parameters(), _pattern_query(), Reduce free text to plain Lucene terms safe for db.index.fulltext.queryNodes. (+7 more)
-
 ### Community 230 - "Community 230"
 Cohesion: 0.12
 Nodes (16): 10. Committee Charter Review, 1. Committee Composition, 2. Authority & Responsibilities, 3. Reporting Lines, 4. Meeting Schedule & Procedures, 5. Specific Responsibilities, 6. Decision Authority, 7. Committee Self-Assessment (+8 more)
 
-### Community 231 - "Community 231"
-Cohesion: 0.23
-Nodes (14): entity_listing(), graph_metadata(), _run_read_query(), build_text2cypher_prompt(), _entities_summary(), execute_text2cypher(), generate_cypher(), Generate a Cypher query from a natural-language question.      Returns a dict wi (+6 more)
-
-### Community 232 - "Community 232"
-Cohesion: 0.31
-Nodes (7): ingest_supersede(), Manually assert that one document supersedes another (sets SUPERSEDES + valid_to, neo4j_session(), apply_supersession(), Create (:Document)-[:SUPERSEDES]->(:Document) and set valid_to on the older side, migrate(), migrate()
-
-### Community 234 - "Community 234"
-Cohesion: 0.25
-Nodes (8): 1. Risk Appetite Statement Review, 2. Q4 2025 Risk Dashboard & KRIs, 3. Capital Adequacy & Stress Testing, 4. Regulatory Updates (FCA Circulars), 5. Internal Audit Plan 2026, 6. Fraud & AML Performance, 7. Technology Risk Assessment, Minutes
-
 ## Knowledge Gaps
 - **2088 isolated node(s):** `artmind9`, `graphify`, `How it works`, `Ollama models`, `Neo4j + APOC` (+2083 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **24 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **22 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `FirstUK Bank — Departments & Functions` connect `Community 136` to `Community 131`, `Community 132`, `Community 133`, `Community 135`, `Community 168`, `Community 138`, `Community 139`, `Community 140`, `Community 141`, `Community 142`, `Community 119`, `Community 121`, `Community 122`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `FirstUK Bank — Internal Audit Charter` connect `UI Components` to `Community 86`?**
-  _High betweenness centrality (0.019) - this node is a cross-community bridge._
-- **Why does `FirstUK Bank — Change of Address SOP` connect `Community 124` to `Community 224`, `Community 225`, `Community 226`, `Community 171`, `Community 204`, `Community 173`, `Community 206`, `Community 207`, `Community 208`, `Community 209`, `Community 205`, `Community 178`, `Community 172`, `Community 86`?**
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
+- **Why does `FirstUK Bank — Complaint Handling Policy` connect `Graph Database` to `Community 86`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
+- **Why does `FirstUK Bank — Organisation Model` connect `Community 66` to `Community 168`?**
   _High betweenness centrality (0.019) - this node is a cross-community bridge._
 - **What connects `Flatten repeatable/comma-split --domain values into a deduped list.`, `Return all domain names from schema files, always including 'general'.`, `Show available domains and prompt user to select one.` to the rest of the system?**
-  _2311 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _2312 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `UI Components` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `Graph Database` be split into smaller, more focused modules?**
   _Cohesion score 0.041666666666666664 - nodes in this community are weakly interconnected._
 - **Should `Graph Database` be split into smaller, more focused modules?**
-  _Cohesion score 0.06095791001451379 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08170731707317073 - nodes in this community are weakly interconnected._

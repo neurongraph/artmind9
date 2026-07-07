@@ -4,8 +4,15 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from artmind.extraction import call_llm, embed_text
-from artmind.llm_providers import describe_image_openrouter, _openrouter_client
+from artmind.llm_providers import describe_image_openrouter, _openrouter_client, _reset_clients
 from utils.functions import resolve_llm_model
+
+
+@pytest.fixture(autouse=True)
+def _clear_llm_client_cache():
+    _reset_clients()
+    yield
+    _reset_clients()
 
 
 def test_call_llm_dispatches_to_ollama_by_default():

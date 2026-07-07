@@ -385,8 +385,8 @@
     "semantic_hash": ""
   },
   "artmind/llm_providers.py": {
-    "mtime": 1782987566.4282637,
-    "ast_hash": "682344b701acc28dd1a6b0b651ab3960",
+    "mtime": 1783390708.8922625,
+    "ast_hash": "91716c367ca7f50be3b39ea022de94ee",
     "semantic_hash": ""
   },
   "data/kg/banking_organization/branches/chunks.json": {
@@ -5045,8 +5045,8 @@
     "semantic_hash": ""
   },
   "test/test_llm_providers.py": {
-    "mtime": 1782987566.4287887,
-    "ast_hash": "ad2b800314da7d10d701930506557f88",
+    "mtime": 1783390746.6204684,
+    "ast_hash": "7e320c6c33faba35fc8984cb1a20ccba",
     "semantic_hash": ""
   },
   "banking_document_corpus/faqs/product_faq.md": {
