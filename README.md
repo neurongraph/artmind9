@@ -27,7 +27,9 @@ CLI query (graph patterns + combined vector+text search via RRF)
 artmind-query / artmind-update Claude Code skills
 ```
 
-Ingestion and updates are domain-scoped. A **domain** is a YAML schema that tells the LLM what entity types and relationship types to look for (e.g. `fiction`, `technical_paper`, `personal_journal`). Six schemas are bundled; you can add your own.
+Ingestion and updates are domain-scoped. A **domain** is a YAML schema that tells the LLM what entity types and relationship types to look for (e.g. `fiction`, `technical_paper`, `personal_journal`). Several schemas are bundled; you can add your own.
+
+After ingestion, a **refinement pipeline** (`ingest refine-pipeline`) cleans the graph in dependency order — temporal normalization, supersession detection, duplicate-entity merging, conflict detection, and entity description consolidation — with reviewable proposals before anything destructive is applied.
 
 ---
 
@@ -155,9 +157,10 @@ uv run artmind setup
 Output:
 ```
 SQLite:               ok
-Neo4j constraints:    document_id, chunk_id, user_chat_id
-Neo4j indexes:        entity_lookup
+Neo4j constraints:    document_id, chunk_id, user_chat_id, conflict_id, entity_id (unique)
+Neo4j indexes:        entity_lookup, entity_domain, entity_name_domain, document_domain, chunk_domain, chunk_doc_id, user_chat_domain, entity_valid_from, entity_valid_to, entity_event_at, chunk_valid_to, document_valid_from, document_valid_to, conflict_status
 Neo4j vector indexes: chunk_embedding (dim=768), user_chat_embedding (dim=768), entity_embedding (dim=768)
+Neo4j fulltext indexes: chunk_text_ft, user_chat_text_ft, entity_name_ft
 
 Setup complete.
 ```
@@ -168,7 +171,7 @@ This is **idempotent** — safe to run at any time. Run it again if you ever hit
 
 ## Domains
 
-A domain is a YAML schema that scopes ingestion and queries. artmind ships with six built-in domains:
+A domain is a YAML schema that scopes ingestion and queries. artmind ships with these built-in domains:
 
 | Domain | Description |
 |---|---|
@@ -178,6 +181,8 @@ A domain is a YAML schema that scopes ingestion and queries. artmind ships with 
 | `technical_paper` | Research papers — Methods, Findings, Persons, Concepts |
 | `project_governance` | Project docs — Roles, Milestones, Decisions, Risks |
 | `sales_collateral` | Sales material — Products, Features, Competitors, Use Cases |
+| `contracts` | Legal agreements — Parties, Clauses, Obligations, Terms |
+| `banking_*` | Seven sibling schemas for the bundled banking corpus (policy, SOP guides, products, organization, communications, reference, risk governance) — a worked example of deliberately separated sibling domains |
 
 List available domains:
 
@@ -317,29 +322,39 @@ uv run artmind ingest refine-graph --domain sales_collateral --dry-run
 
 **Authentication:** The command uses your existing Git credentials (SSH keys, credential helpers). If `GITHUB_TOKEN` is set it is injected into HTTPS URLs as a fallback.
 
-### Entity resolution (graph refinement)
+### Graph refinement
 
-After ingesting several documents into a domain, similar entity names may exist as separate nodes (e.g. "Holmes", "Sherlock Holmes", "Mr. Holmes"). Run entity resolution to cluster and merge them:
+Extraction runs per-chunk, so a freshly ingested domain accumulates near-duplicate entities, noisy accumulated descriptions, un-normalized dates, and unadjudicated disagreements between documents. Refinement fixes all of that, and the steps have hard ordering dependencies — so the recommended entry point is the pipeline, which enforces the order (`time → supersession → merge → conflicts → consolidate → embed`):
 
 ```bash
-# dry-run: compute proposals, write to file for review
-uv run artmind ingest refine-graph --dry-run --domain fiction
+# 1. Propose: deterministic steps run for real; LLM steps produce reviewable proposals
+uv run artmind ingest refine-pipeline --domain fiction
 
-# apply proposals from the review file
-uv run artmind ingest refine-graph --from-file refine/fiction_proposals.json
+# 2. Review the report and its merges.json / conflicts.json; edit out bad pairs
+
+# 3. Apply the vetted proposals in dependency order
+uv run artmind ingest refine-pipeline --domain fiction --from-file <pipeline_report.json>
 ```
 
-**Focused refinement with `--filter`**: If you've spotted specific similar entities during an update session that should be merged, use the `--filter` option to focus merge detection on those names:
+The `artmind-refine` Claude Code skill (below) drives this workflow conversationally, including the review gates. Each step also exists as a standalone command for targeted runs:
+
+| Command | What it does |
+|---|---|
+| `ingest normalize-time --domain <d>` | Backfill canonical `valid_from`/`valid_to`/`event_at` from document metadata (additive, idempotent) |
+| `ingest detect-supersession --domain <d>` | Detect explicit supersession notices; stamp `SUPERSEDES` edges and `valid_to` |
+| `ingest supersede --domain <d> --newer A --older B` | Record a supersession manually |
+| `ingest refine-graph --domain <d> --dry-run` | Cluster similar entity names, LLM-decide merges (apply via `--from-file`) |
+| `ingest detect-conflicts --domain <d1> [--domain <d2>] --dry-run` | LLM-adjudicate disagreeing claims into reviewable `Conflict` nodes; cross-domain capable |
+| `ingest consolidate-descriptions --domain <d>` | Rewrite accumulated description fragments into clean prose from each entity's source chunks — preserves the original in `description_raw`, records reference-document provenance in `description_source_docs`, skips entities with open conflicts, re-embeds |
+
+**Focused merging with `--filter`**: to merge specific entities you've spotted without analyzing the whole domain:
 
 ```bash
-# dry-run for specific entities
 uv run artmind ingest refine-graph --domain fiction --filter "Holmes,Watson,Moriarty" --dry-run --output merges.json
-
-# review merges.json, then apply
 uv run artmind ingest refine-graph --from-file merges.json
 ```
 
-The `--filter` option accepts comma-separated entity names (case-insensitive substring match) and narrows the merge candidates to only those entities, useful when you want to resolve duplicates without analyzing the entire domain.
+See [docs/refine-merge-conflict-supersede-guide.md](docs/refine-merge-conflict-supersede-guide.md) for the full field guide with worked examples.
 
 ### Remove a document
 
@@ -524,6 +539,22 @@ uv run artmind ingest embed-entities --domain fiction
 
 **Degree modes for `pattern9`**: by default "most connected" ranks by entity-to-entity relationships. Use `--degreeMode mentions` to rank by how often source chunks/chats mention the entity (salience), or `--degreeMode all` to count every edge.
 
+**Deterministic grounding** — two query-level commands close the loop from graph facts to source text without re-searching:
+
+```bash
+# everything about one resolved entity in a single call:
+# properties + one-hop relationships + the text of its most current source chunks
+uv run artmind query entity-context --domain fiction --entityId <id> --includeChunks 5
+
+# fetch chunk text by exact id (the doc_sources / evidence ids other commands return);
+# --expand 1 adds the adjacent chunks of the same document
+uv run artmind query chunks --domain fiction --idList <chunk_id> --expand 1
+```
+
+**Temporal filtering** — timed nodes carry `valid_from`/`valid_to`; superseded documents carry `superseded_by`. Add `--asOf today` (or any ISO date) to filter to what was valid at that time; untimed knowledge is always visible. `pattern5` and `pattern10` cannot currency-scope their output and report `asOf_ignored: true` instead.
+
+Other query-level commands: `query domains-overview` (per-domain routing summary), `query graph conflicts --domain <d>` (materialized disagreements with evidence), `query graph timeline --domain <d> --entityId <id>` (an entity's dated events and changes).
+
 Examples:
 
 ```bash
@@ -581,7 +612,7 @@ The full-text leg runs on the `chunk_text_ft` and `user_chat_text_ft` indexes cr
 
 ## Claude Code skills
 
-artmind ships with two Claude Code skills, both located under `skills/`.
+artmind ships with six Claude Code skills, located under `skills/`.
 
 ### `artmind-query`
 
@@ -605,6 +636,38 @@ Add and update facts through conversational natural language. The skill detects 
 
 ```
 /artmind-update
+```
+
+### `artmind-refine`
+
+Run the full refinement pipeline for one domain with guided review at the judgment gates: it proposes, walks you through the merge / conflict / consolidation-quality reviews, applies the vetted proposals in dependency order, and verifies the result with spot-check queries.
+
+```
+/artmind-refine
+```
+
+### `artmind-refine-graph`
+
+Targeted graph maintenance: clean up duplicates for specific entities, detect conflicts *across* sibling domains (which the single-domain pipeline doesn't cover), reconcile document version history, and investigate a surprising merge or conflict.
+
+```
+/artmind-refine-graph
+```
+
+### `artmind-create-schema`
+
+Author a new domain schema from sample documents (described in [Creating a custom schema](#creating-a-custom-schema) above).
+
+```
+/artmind-create-schema
+```
+
+### `artmind-ingestion-helper`
+
+Interactive guide for the ingestion pipeline — picking the right command, checking job status, diagnosing failed extractions.
+
+```
+/artmind-ingestion-helper
 ```
 
 ---
@@ -632,8 +695,10 @@ just session-initiate           # wipe Neo4j and restore from latest snapshot
 
 ## Running tests
 
+Two suites: `test/` (core package tests, needs the dev group) and `tests/` (query layer, temporal, conflicts, refinement pipeline). Neither requires a running Neo4j or LLM.
+
 ```bash
-uv run --group dev pytest test/ -v
+uv run --group dev pytest test/ tests/ -v
 ```
 
 ---
@@ -648,23 +713,36 @@ artmind/                core package
   kg_pull.py            pull KG JSON from external git repos (sparse checkout)
   extraction.py         shared LLM prompt-build and parse primitives
   update.py             natural-language update backend
-  graph_query.py        Neo4j graph query layer (10 patterns + structural metadata)
-  text2cypher.py         LLM-generated Cypher from natural language (text2cypher)
+  graph_query.py        Neo4j graph query layer (10 patterns, chunks, entity-context, conflicts, timeline)
+  text2cypher.py        LLM-generated Cypher from natural language (text2cypher)
   graph_snapshot.py     export/import full Neo4j graph as compressed snapshots
-  vector_query.py       Neo4j vector search, full-text search, and RRF combining (DocChunk + UserChat)
-  refine_graph.py       entity resolution
+  vector_query.py       Neo4j vector search, full-text search, entity-resolve, RRF combining
+  refine_pipeline.py    ordered refinement orchestrator (refine-pipeline)
+  refine_graph.py       similar-entity clustering and merging
+  conflicts.py          conflict detection and materialization (Conflict nodes)
+  temporal.py           valid-time normalization and document supersession
+  consolidate.py        entity description consolidation from source chunks
   harmonizer.py         schema harmonizer — syncs child domain schemas from parent
+  wizard.py             interactive TUI wizard (artmind wizard)
+  dashboard.py          ingestion job dashboard (artmind dashboard)
   worker.py             background ingestion worker
   jobs.py               async job management
   db.py                 SQLite schema (documents, jobs, update sessions/drafts)
 
 domains/schemas/        built-in domain YAML schemas
+banking_document_corpus/ bundled example corpus for the banking_* domains
 scripts/
   migrate_poole.py      one-time migration script (CHARACTER/AUTHOR/PLACE → POOLE types)
 skills/
   artmind-query/        Claude Code skill — natural-language graph queries
   artmind-update/       Claude Code skill — natural-language graph updates
-test/                   pytest test suite
+  artmind-refine/       Claude Code skill — guided full-domain refinement pipeline
+  artmind-refine-graph/ Claude Code skill — targeted dedup, cross-domain conflicts, forensics
+  artmind-create-schema/ Claude Code skill — author a new domain schema
+  artmind-ingestion-helper/ Claude Code skill — ingestion pipeline guide
+docs/                   design docs and the refinement field guide
+test/                   pytest suite — core package
+tests/                  pytest suite — query layer, temporal, conflicts, pipeline
 paths.py                central path configuration
 justfile                task runner recipes
 ```

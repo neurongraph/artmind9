@@ -7,6 +7,12 @@ description: Clean up duplicate entities within an artmind domain (refine-graph)
 
 Use this skill for the graph-maintenance operations that sit behind `artmind-query` and `artmind-update`: deduplicating fragmented entities within one domain, detecting and materializing genuine disagreements *across* domains, and telling apart a document's older revision (supersession — not a conflict) from a live disagreement. Background: `docs/refine-merge-conflict-supersede-guide.md`.
 
+> For a full single-domain refresh after ingestion (every step in dependency
+> order, including description consolidation), use the `artmind-refine` skill,
+> which drives `artmind ingest refine-pipeline`. This skill remains the right
+> tool for the targeted workflows below — especially cross-domain conflict
+> detection, which the single-domain pipeline does not cover.
+
 ## Grounding & Safety Rules
 
 - **Never apply without a reviewed dry-run.** `refine-graph` apply deletes alias entity nodes — always run `--dry-run --output <file>` first, look at the proposals, then apply via `--from-file <file>`. `detect-conflicts` apply is non-destructive (MERGE-only) but still costs real LLM time — dry-run first regardless.

@@ -230,7 +230,8 @@ def test_pattern9_degree_modes():
     base = {"domains": ["fiction"], "entityClass": "PERSON", "topN": 5}
 
     relations_cypher, _ = graph_query._pattern_query("pattern9", base)
-    assert "(e)-[r]-(:Entity)" in relations_cypher
+    # relations-mode neighbor is domain-scoped like every other entity match
+    assert "(e)-[r]-(t:Entity) WHERE (t.domain IN $domains" in relations_cypher
 
     mentions_cypher, _ = graph_query._pattern_query(
         "pattern9", {**base, "degreeMode": "mentions"}

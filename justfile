@@ -18,7 +18,7 @@ artmind-cli-help:
 
 # run all tests
 test:
-    uv run --group dev pytest test/ -v
+    uv run --group dev pytest test/ tests/ -v
 
 # ── artmind setup ─────────────────────────────────────────────────────────────
 

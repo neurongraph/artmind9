@@ -173,6 +173,32 @@ correctly (writes a `Conflict` node for one, calls `apply_supersession()` for th
 
 ### 2.1 Implemented
 
+#### `artmind ingest refine-pipeline` — the one-command orchestrator
+
+Runs every refinement step in dependency order — `time → supersession → merge →
+conflicts → consolidate → embed` — with a propose/apply gate:
+
+```
+--domain TEXT              Domain to refine (required; sub-domains rolled up)
+--apply                    One-shot compute AND apply (skips the review gate)
+--from-file PATH           Apply vetted proposals from a prior propose report
+--steps TEXT               Comma subset of the six steps (canonical order enforced)
+--mergeThreshold FLOAT     Merge clustering threshold [default: 0.7]
+--simThreshold FLOAT       Conflict candidate threshold [default: 0.75]
+--maxPairs INT             Conflict candidate cap [default: 200]
+--sampleConsolidations INT Consolidation previews in propose mode [default: 3]
+--consolidateLimit INT     Cap consolidations in apply mode (default: all)
+```
+
+Propose mode runs time/supersession for real (additive, idempotent), produces
+reviewable `merges.json` / `conflicts.json` / consolidation samples, and writes one
+report under `data/refine/pipeline/<domain>/`. Apply (`--from-file <report>`)
+materializes the (possibly edited) proposals in order and finishes with an embedding
+sweep that also refreshes merged canonicals. The guided review workflow lives in
+`skills/artmind-refine/SKILL.md`. The individual commands below remain available for
+targeted runs; the pipeline exists so their ordering constraints (see §1) are enforced
+by code rather than operator memory.
+
 #### `artmind ingest refine-graph`
 ```
 --domain TEXT               Restrict to entities in this domain (default: all domains)
@@ -471,6 +497,12 @@ never blend disagreeing sources, never fabricate past what's grounded.
 ---
 
 ## 4. Notes toward a future `artmind-refine-graph` skill
+
+> **Now implemented**, twice over: `skills/artmind-refine-graph/SKILL.md` covers
+> the targeted workflows sketched below (dedup review, cross-domain conflicts,
+> merge/conflict forensics), and `skills/artmind-refine/SKILL.md` drives the
+> full-domain `ingest refine-pipeline` orchestrator (§2.1). The notes below are
+> kept as the original design rationale.
 
 A skill built from this guide should probably encapsulate the following workflows as
 distinct, guided procedures (not just a command reference):

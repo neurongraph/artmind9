@@ -35,7 +35,7 @@ def test_vector_search_shapes_results_and_excludes_embedding(monkeypatch):
             return False
 
     monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1, 0.2])
-    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.vector_search("fiction", "Where?", 2)
 
@@ -74,7 +74,7 @@ def test_vector_search_result_has_source_type_field(monkeypatch):
             return False
 
     monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1, 0.2])
-    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.vector_search("general", "Alice", 5)
 
@@ -116,7 +116,7 @@ def test_full_text_search_shapes_results(monkeypatch):
         def __exit__(self, exc_type, exc, tb):
             return False
 
-    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.full_text_search("fiction", "Watson Holmes", 2)
 
@@ -238,7 +238,7 @@ def test_full_text_search_uses_fulltext_indexes_and_sanitizes(monkeypatch):
         def __exit__(self, exc_type, exc, tb):
             return False
 
-    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.full_text_search(
         "fiction", "Where did Holmes meet Irene Adler? (St Bartholomew's)", 5
@@ -257,7 +257,7 @@ def test_full_text_search_skips_query_when_nothing_searchable(monkeypatch):
     def fail_session():
         raise AssertionError("should not open a session for an empty query")
 
-    monkeypatch.setattr(vector_query, "neo4j_session", fail_session)
+    monkeypatch.setattr(vector_query, "read_session", fail_session)
 
     result = vector_query.full_text_search("fiction", "?? !! ()", 5)
 
@@ -295,7 +295,7 @@ def test_entity_resolve_combines_fulltext_and_vector(monkeypatch):
             return False
 
     monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1, 0.2])
-    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.entity_resolve("fiction", "the detective Holmes", 5)
 
@@ -324,7 +324,7 @@ def test_entity_resolve_survives_missing_vector_index(monkeypatch):
             return False
 
     monkeypatch.setattr(vector_query, "embed_question", lambda question: [0.1])
-    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.entity_resolve("fiction", "Holmes", 5)
 
@@ -355,7 +355,7 @@ def test_full_text_search_handles_missing_chat_index(monkeypatch):
         def __exit__(self, exc_type, exc, tb):
             return False
 
-    monkeypatch.setattr(vector_query, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vector_query, "read_session", lambda: FakeSessionContext())
 
     result = vector_query.full_text_search("fiction", "Watson Holmes", 5)
 

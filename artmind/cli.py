@@ -35,7 +35,9 @@ from artmind.jobs import (
     _list_jobs,
     _retry_job,
 )
+from artmind.consolidate import consolidate_descriptions
 from artmind.refine_graph import refine_graph
+from artmind.refine_pipeline import run_pipeline
 from paths import (
     DOMAIN_SCHEMAS_DIR,
     INGEST_LOG_FILE,
@@ -736,6 +738,103 @@ def ingest_refine_graph(
     skipped = report.get("skipped_cross_domain", {})
     if skipped:
         click.echo(f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}")
+
+
+@ingest.command("refine-pipeline")
+@click.option("--domain", required=True, help="Domain to refine (sub-domains rolled up)")
+@click.option("--apply", "apply_", is_flag=True, help="One-shot: compute AND apply every step (skips the review gate)")
+@click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Apply vetted proposals from a prior propose report (pipeline_report.json)")
+@click.option("--steps", default=None, help="Comma-separated subset of: time,supersession,merge,conflicts,consolidate,embed (canonical order enforced)")
+@click.option("--model", default=None, help="LLM model for merge/conflict/consolidation calls (default: env)")
+@click.option("--mergeThreshold", "merge_threshold", type=float, default=0.7, show_default=True, help="Similarity threshold for merge clustering")
+@click.option("--simThreshold", "conflict_sim_threshold", type=float, default=0.75, show_default=True, help="Similarity threshold for conflict candidate pairs")
+@click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Cap on conflict candidate pairs (bounds LLM cost)")
+@click.option("--sampleConsolidations", "sample_consolidations", type=int, default=3, show_default=True, help="Consolidation samples shown in propose mode")
+@click.option("--consolidateLimit", "consolidate_limit", type=int, default=None, help="Cap entities consolidated in apply mode (default: all)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_refine_pipeline(
+    domain: str,
+    apply_: bool,
+    from_file: str | None,
+    steps: str | None,
+    model: str | None,
+    merge_threshold: float,
+    conflict_sim_threshold: float,
+    max_pairs: int,
+    sample_consolidations: int,
+    consolidate_limit: int | None,
+    compact: bool,
+) -> None:
+    """Run all refinement steps in dependency order: time → supersession → merge → conflicts → consolidate → embed.
+
+    \b
+    Workflow:
+      1. Propose:  artmind ingest refine-pipeline --domain <d>
+         (time/supersession run for real — additive and idempotent;
+          merge/conflicts/consolidation produce reviewable proposals)
+      2. Review the report and its merges.json / conflicts.json; edit if needed
+      3. Apply:    artmind ingest refine-pipeline --domain <d> --from-file <report>
+    Use --apply to skip the review gate (trusted automation only).
+    """
+    _setup_logger()
+    step_list = steps.split(",") if steps else None
+    try:
+        result = run_pipeline(
+            domain=domain,
+            apply=apply_,
+            from_file=from_file,
+            steps=step_list,
+            model=model,
+            merge_threshold=merge_threshold,
+            conflict_sim_threshold=conflict_sim_threshold,
+            max_pairs=max_pairs,
+            sample_consolidations=sample_consolidations,
+            consolidate_limit=consolidate_limit,
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@ingest.command("consolidate-descriptions")
+@click.option("--domain", required=True, help="Domain to consolidate (sub-domains rolled up)")
+@click.option("--nameFilter", "name_filter", default=None, help="Restrict to entities whose name contains this")
+@click.option("--minFragments", "min_fragments", type=int, default=2, show_default=True, help="Skip never-consolidated entities with fewer accumulated description fragments")
+@click.option("--maxChunks", "max_chunks", type=int, default=6, show_default=True, help="Max source chunk excerpts fed to the LLM per entity")
+@click.option("--limit", type=int, default=None, help="Cap entities consolidated this run (bounds LLM cost)")
+@click.option("--model", default=None, help="Consolidation LLM model (default: env)")
+@click.option("--force", is_flag=True, help="Re-consolidate even if the chunk set is unchanged")
+@click.option("--dry-run", is_flag=True, help="Generate proposals without writing to the graph")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_consolidate_descriptions(
+    domain: str,
+    name_filter: str | None,
+    min_fragments: int,
+    max_chunks: int,
+    limit: int | None,
+    model: str | None,
+    force: bool,
+    dry_run: bool,
+    compact: bool,
+) -> None:
+    """Rewrite accumulated entity descriptions into clean prose from their source chunks.
+
+    Preserves the original in description_raw, records provenance in
+    description_source_chunks/description_source_docs, skips entities with open
+    conflicts, and re-embeds rewritten entities.
+    """
+    _setup_logger()
+    result = consolidate_descriptions(
+        domain=domain,
+        name_filter=name_filter,
+        min_fragments=min_fragments,
+        max_chunks=max_chunks,
+        limit=limit,
+        model=model,
+        force=force,
+        dry_run=dry_run,
+    )
+    _echo_json(result, compact)
 
 
 @ingest.command("normalize-time")
