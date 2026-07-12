@@ -6,6 +6,8 @@ artmind ingests documents (PDFs, Markdown, text), extracts entities, properties,
 
 Everything runs locally: no cloud APIs, no telemetry.
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/neurongraph/artmind9)
+
 ---
 
 ## How it works
