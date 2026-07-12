@@ -79,7 +79,7 @@ def test_vector_search_cypher_uses_expanded_filter(monkeypatch):
             return False
 
     monkeypatch.setattr(vq, "embed_question", lambda question: [0.1, 0.2])
-    monkeypatch.setattr(vq, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vq, "read_session", lambda: FakeSessionContext())
 
     vq.vector_search("fiction", "Where?", 2)
 
@@ -105,7 +105,7 @@ def test_full_text_search_cypher_uses_expanded_filter(monkeypatch):
         def __exit__(self, exc_type, exc, tb):
             return False
 
-    monkeypatch.setattr(vq, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vq, "read_session", lambda: FakeSessionContext())
 
     vq.full_text_search("fiction", "Watson Holmes", 2)
 

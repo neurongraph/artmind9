@@ -201,7 +201,7 @@ def test_vector_search_cypher_includes_asof_on_chunk_leg(monkeypatch):
         def __exit__(self, *exc):
             return False
 
-    monkeypatch.setattr(vq, "neo4j_session", lambda: FakeSessionContext())
+    monkeypatch.setattr(vq, "read_session", lambda: FakeSessionContext())
 
     vq.vector_search(["fiction"], "who is Holmes", topK=3, as_of="2026-07-04")
 

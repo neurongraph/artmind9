@@ -18,6 +18,21 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT conflict_id IF NOT EXISTS FOR (n:Conflict) REQUIRE n.id IS UNIQUE"
     )
 
+    # ── Entity.id: unique constraint, or a plain index as fallback ────────────
+    # Exact-id lookup is the query layer's primary retrieval path, so this must
+    # be backed by an index either way. Entities are written with CREATE (not
+    # MERGE on id), so a pre-existing graph may hold duplicate ids — there the
+    # constraint cannot be created and a plain index keeps lookups fast until
+    # the duplicates are cleaned up.
+    try:
+        session.run(
+            "CREATE CONSTRAINT entity_id IF NOT EXISTS FOR (n:Entity) REQUIRE n.id IS UNIQUE"
+        )
+        entity_id_schema = "entity_id (unique)"
+    except Exception:
+        session.run("CREATE INDEX entity_id_idx IF NOT EXISTS FOR (n:Entity) ON (n.id)")
+        entity_id_schema = "entity_id_idx (fallback index; duplicate Entity.id values exist)"
+
     # ── Composite index for exact 3-field entity upserts ──────────────────────
     session.run(
         "CREATE INDEX entity_lookup IF NOT EXISTS FOR (n:Entity) ON (n.name, n.entity_class, n.domain)"
@@ -90,6 +105,8 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     except Exception:
         pass
 
+    return {"entity_id_schema": entity_id_schema}
+
 
 def setup_all() -> dict:
     """Initialize SQLite tables and Neo4j constraints/indexes.
@@ -103,11 +120,17 @@ def setup_all() -> dict:
     _init_db()
 
     with neo4j_session() as session:
-        _setup_neo4j(session, embedding_dim)
+        neo4j_notes = _setup_neo4j(session, embedding_dim)
 
     return {
         "sqlite": "ok",
-        "neo4j_constraints": ["document_id", "chunk_id", "user_chat_id", "conflict_id"],
+        "neo4j_constraints": [
+            "document_id",
+            "chunk_id",
+            "user_chat_id",
+            "conflict_id",
+            neo4j_notes["entity_id_schema"],
+        ],
         "neo4j_indexes": [
             "entity_lookup",
             "entity_domain",

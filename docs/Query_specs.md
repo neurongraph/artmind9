@@ -81,13 +81,15 @@ Each row returns `id`, `name`, `entity_class`, `type`, `description`. Feed the c
 
 ## Pattern Selection Guide
 
-1. **List of one type of thing?** → Pattern 1 (unranked) or Pattern 9 (ranked — "main", "key", "important", "top").
-2. **About one or more named entities?** → Pattern 2 (just info), Pattern 3 (info + relationship summary), or Pattern 4 (full neighborhood).
-3. **Connection between two named entities?** → Pattern 6 for *existence/type of a direct link*; Pattern 5 for the *nature/quality* of the relationship or when no direct edge exists. (Pattern 6 edge properties are often thin — for "what did X think of Y" / "how did X and Y interact", go straight to Pattern 5, then ground with vector-text.)
-4. **Which entities of class X are connected to entity Y?** → Pattern 8.
-5. **Entity referenced by description rather than name?** → entity-resolve (or Pattern 7) first, then Pattern 4 on the resolved id.
-6. **All text of a document / summarize a document?** → Pattern 10.
-7. **Aggregations, custom filters, multi-hop combinations none of the above cover?** → text2cypher.
+1. **One resolved entity, needs facts AND evidence text?** → entity-context (replaces Pattern 4 + vector-text in one call).
+2. **List of one type of thing?** → Pattern 1 (unranked) or Pattern 9 (ranked — "main", "key", "important", "top").
+3. **About one or more named entities?** → Pattern 2 (just info), Pattern 3 (info + relationship summary), or Pattern 4 (full neighborhood, structure only).
+4. **Connection between two named entities?** → Pattern 6 for *existence/type of a direct link*; Pattern 5 for the *nature/quality* of the relationship or when no direct edge exists. (Pattern 6 edge properties are often thin — for "what did X think of Y" / "how did X and Y interact", go straight to Pattern 5, then ground with vector-text.)
+5. **Which entities of class X are connected to entity Y?** → Pattern 8.
+6. **Entity referenced by description rather than name?** → entity-resolve (or Pattern 7) first, then entity-context or Pattern 4 on the resolved id.
+7. **Hold chunk ids and need their text?** → chunks (`--idList`, optionally `--expand`).
+8. **All text of a document / summarize a document?** → Pattern 10.
+9. **Aggregations, custom filters, multi-hop combinations none of the above cover?** → text2cypher.
 
 ---
 
@@ -369,12 +371,41 @@ WHERE <domain(d)>
   AND toLower(d.name) CONTAINS toLower($documentName)
 RETURN d { .id, .name, .path } AS document,
        c { .id, .name, .doc_id, .text } AS chunk
-ORDER BY c.name
+ORDER BY c.id
 ```
+
+> Ordering is by `c.id` (`{doc_id}_{seq:03d}`, zero-padded → lexical order equals
+> reading order). Chunk *names* like "Chunk 16/38" do not sort correctly.
 
 **CLI:**
 ```
 uv run artmind query graph pattern10 --domain $domain --documentName $documentName
+```
+
+---
+
+## chunks — fetch chunk text by exact id
+
+**When to use:** You already hold chunk ids — `doc_sources` from Patterns 2/3/4, `more_chunks` from entity-context, or Conflict evidence — and need their text. Deterministic: never re-search for text you have ids for. `--expand N` additionally returns up to N adjacent chunks per hit from the same document (window over the document's chunks ordered by id).
+
+**CLI:**
+```
+uv run artmind query chunks --domain $domain --idList $chunkId [--idList $chunkId2] [--expand 1] [--asOf today]
+```
+
+Each row returns `chunk` (with `text` and temporal fields), its `document` (with `valid_from`/`valid_to`/`superseded_by`), and — with `--expand` — a `neighbors` list. `--asOf` filters the target chunks by valid time.
+
+---
+
+## entity-context — one-call grounded picture of a resolved entity
+
+**When to use:** The question is anchored on ONE resolved entity and needs both facts and evidence text ("tell me about X", "what is X's role", "why did X…"). Replaces the Pattern 4 + vector-text sequence with a single deterministic call.
+
+Returns the entity's properties, its one-hop entity-entity relationships (domain-scoped, like Pattern 4), and its source chunks ordered current-first (`valid_to IS NULL` before dated, then by id): the first `--includeChunks` (default 5) with full text plus their parent document metadata, the remainder as ids in `more_chunks` (fetchable via `chunks --idList`), and any `chat_sources`. `--asOf` applies to the entity and its chunks; neighbor entities follow Pattern 4's semantics (unfiltered).
+
+**CLI:**
+```
+uv run artmind query entity-context --domain $domain --entityId $entityId [--includeChunks 5] [--asOf today]
 ```
 
 ---
@@ -401,7 +432,7 @@ For the Sherlock Holmes "The Copper Beeches" KG, here is how the seed questions 
 
 | Question | Pattern | Parameters |
 |---|---|---|
-| Tell me about the character of Sherlock Holmes | **4** | `entityClass=PERSON, entityName=Sherlock Holmes` |
+| Tell me about the character of Sherlock Holmes | **entity-context** | resolve → `entityId`; facts + relationships + chunk text in one call |
 | How is his relationship with Dr. Watson | **5** (mode=shortest) | nature/quality question — go straight to 5 |
 | Does Holmes know Miss Hunter, and how directly? | **6**, fallback **5** | `entityName1=Holmes, entityName2=Hunter` |
 | What does Holmes think of Miss Hunter | **5** + vector-text | path context plus narrative evidence |
@@ -411,7 +442,7 @@ For the Sherlock Holmes "The Copper Beeches" KG, here is how the seed questions 
 | Who are the main characters and brief descriptions | **9** then **2** | rank `PERSON`, then fetch info by id list |
 | Summarize The Copper Beeches | **10** | `documentName=Copper Beeches` |
 | How many chunks per document? | **text2cypher** | aggregation |
-| How did Alice Rucastle die | **4** + vector-text | neighborhood plus chunk evidence |
+| How did Alice Rucastle die | **entity-context**, vector-text if thin | grounded neighborhood; widen with `chunks --expand` |
 
 > **Note:** The current extraction does not produce explicit event-chain nodes (`:Event` with `NEXT`/`CAUSED` edges). Narrative-reconstruction questions like "how did X happen" must be answered via Pattern 4 (full neighborhood) or Pattern 5 mode=all, grounded with vector-text chunk evidence. The synthesizing LLM reconstructs the sequence.
 

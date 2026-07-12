@@ -878,12 +878,16 @@ def _run_graph_pattern(
 
 @graph.command("metadata")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def graph_metadata_cmd(domain: tuple, as_of: str | None, compact: bool) -> None:
     """Return graph schema metadata (labels, properties, relationship types)."""
     domains = _parse_domains(domain)
-    _echo_json(graph_query.graph_metadata(domains, as_of=as_of), compact)
+    try:
+        result = graph_query.graph_metadata(domains, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @graph.command("structural-metadata")
@@ -899,19 +903,23 @@ def graph_structural_metadata_cmd(domain: tuple, compact: bool) -> None:
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--nameFilter", "name_filter", default=None, help="Fuzzy match entity names (case-insensitive substring)")
 @click.option("--countAll", "count_all", is_flag=True, help="Include total unfiltered entity count in output")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def graph_entity_listing_cmd(domain: tuple, name_filter: str | None, count_all: bool, as_of: str | None, compact: bool) -> None:
     """Return entity names grouped by label/type."""
     domains = _parse_domains(domain)
-    _echo_json(graph_query.entity_listing(domains, name_filter=name_filter, count_all=count_all, as_of=as_of), compact)
+    try:
+        result = graph_query.entity_listing(domains, name_filter=name_filter, count_all=count_all, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @graph.command("pattern1")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label (e.g. CHARACTER, LOCATION)")
 @click.option("--limit", type=int, default=200, show_default=True, help="Max results")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern1(
@@ -928,7 +936,7 @@ def graph_pattern1(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern2(
@@ -946,7 +954,7 @@ def graph_pattern2(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--entityNameList", "entity_name_list", multiple=True, help="Entity name (repeatable, substring match)")
 @click.option("--entityIdList", "entity_id_list", multiple=True, help="Exact entity id (repeatable, overrides name list)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern3(
@@ -965,7 +973,7 @@ def graph_pattern3(
 @click.option("--entityClass", "entity_class", required=True, help="Entity class label")
 @click.option("--entityName", "entity_name", default=None, help="Entity name (substring match)")
 @click.option("--entityId", "entity_id", default=None, help="Exact entity id (overrides --entityName)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern4(
@@ -995,7 +1003,7 @@ def graph_pattern4(
     show_default=True,
     help="Path mode",
 )
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Accepted but IGNORED by pattern5 (paths cannot be currency-scoped); output carries asOf_ignored")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern5(
@@ -1031,7 +1039,7 @@ def graph_pattern5(
 @click.option("--entityName2", "entity_name2", default=None, help="Name of second entity")
 @click.option("--entityId1", "entity_id1", default=None, help="Exact id of first entity (overrides --entityName1)")
 @click.option("--entityId2", "entity_id2", default=None, help="Exact id of second entity (overrides --entityName2)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern6(
@@ -1057,7 +1065,7 @@ def graph_pattern6(
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--searchTerm", "search_term", required=True, help="Substring match on name or description")
 @click.option("--limit", type=int, default=10, show_default=True, help="Max results")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern7(
@@ -1073,7 +1081,7 @@ def graph_pattern7(
 @click.option("--entityClass", "entity_class", required=True, help="Class of entities to return")
 @click.option("--entityName", "entity_name", default=None, help="Name of the connected entity")
 @click.option("--entityId", "entity_id", default=None, help="Exact id of the connected entity (overrides --entityName)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern8(
@@ -1100,7 +1108,7 @@ def graph_pattern8(
     show_default=True,
     help="Degree to rank by: entity-entity relationships, source mentions, or all edges",
 )
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern9(
@@ -1117,7 +1125,7 @@ def graph_pattern9(
 @graph.command("pattern10")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--documentName", "document_name", required=True, help="Document name (substring match)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Accepted but IGNORED by pattern10 (chunk currency isn't modeled); output carries asOf_ignored")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question", required=False)
 def graph_pattern10(
@@ -1180,25 +1188,65 @@ def query_domains_overview(compact: bool) -> None:
 @query.command("vector-text")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")
 def vector_text(domain: tuple, top_k: int, as_of: str | None, compact: bool, question: str) -> None:
     """Search source text using vector embeddings and keyword matching combined via RRF."""
     domains = _parse_domains(domain)
-    _echo_json(vector_query.vector_text_search(domains, question, top_k, as_of=as_of), compact)
+    try:
+        result = vector_query.vector_text_search(domains, question, top_k, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @query.command("entity-resolve")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
 @click.option("--topK", "top_k", type=int, default=5, show_default=True)
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date; nodes without valid-time always shown")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("reference")
 def query_entity_resolve(domain: tuple, top_k: int, as_of: str | None, compact: bool, reference: str) -> None:
     """Resolve a name fragment or description to canonical graph entities (fulltext + vector via RRF)."""
     domains = _parse_domains(domain)
-    _echo_json(vector_query.entity_resolve(domains, reference, top_k, as_of=as_of), compact)
+    try:
+        result = vector_query.entity_resolve(domains, reference, top_k, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("chunks")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--idList", "id_list", multiple=True, required=True, help="Exact chunk id (repeatable)")
+@click.option("--expand", type=int, default=0, show_default=True, help="Also return up to N adjacent chunks per hit (same document)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; nodes without valid-time always shown")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_chunks(domain: tuple, id_list: tuple, expand: int, as_of: str | None, compact: bool) -> None:
+    """Fetch chunk text by exact id (the doc_sources / evidence ids other commands return)."""
+    domains = _parse_domains(domain)
+    try:
+        result = graph_query.chunks_by_id(domains, list(id_list), expand=expand, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("entity-context")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--entityId", "entity_id", required=True, help="Exact entity id (from entity-resolve)")
+@click.option("--includeChunks", "include_chunks", type=int, default=5, show_default=True, help="Source chunks returned with full text (rest as ids)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; applies to the entity and its source chunks")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_entity_context(domain: tuple, entity_id: str, include_chunks: int, as_of: str | None, compact: bool) -> None:
+    """Entity properties + one-hop relationships + source chunk text in one call."""
+    domains = _parse_domains(domain)
+    try:
+        result = graph_query.entity_context(domains, entity_id, include_chunks=include_chunks, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 # ── artmind docs ───────────────────────────────────────────────────────────────

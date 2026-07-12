@@ -1,8 +1,9 @@
 import re
 from contextlib import contextmanager
+from datetime import date
 from typing import Any, Sequence
 
-from neo4j import GraphDatabase
+from neo4j import READ_ACCESS, GraphDatabase
 from neo4j.graph import Node, Path, Relationship
 
 from utils.functions import load_env
@@ -70,6 +71,33 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
     )
 
 
+# ISO date at year, month, or day precision (optionally with a time suffix).
+# valid_from/valid_to are ISO strings compared lexically, so prefixes work.
+_ASOF_RE = re.compile(r"^\d{4}(-\d{2}){0,2}(T[0-9:.+-]+)?$")
+
+
+def resolve_as_of(value: str | None) -> str | None:
+    """Resolve an --asOf value to an ISO date string.
+
+    Accepts 'today'/'now' (resolved to the current date) and ISO dates at
+    year/month/day precision. Anything else raises ValueError: asof_predicate
+    compares strings lexically, so an unresolved value like the literal
+    'today' would silently hide every node that carries a valid_to.
+    """
+    if value is None:
+        return None
+    v = value.strip()
+    if not v:
+        return None
+    if v.lower() in ("today", "now"):
+        return date.today().isoformat()
+    if not _ASOF_RE.match(v):
+        raise ValueError(
+            f"--asOf must be an ISO date (YYYY[-MM[-DD]]) or 'today'/'now'; got {value!r}"
+        )
+    return v
+
+
 PATTERN_REQUIRED_OPTIONS = {
     "pattern1": ("entityClass",),
     "pattern2": ("entityNameList",),
@@ -119,16 +147,28 @@ def _connection_settings() -> dict[str, str]:
 
 
 @contextmanager
-def neo4j_session():
+def neo4j_session(access_mode: str | None = None):
     settings = _connection_settings()
     driver = GraphDatabase.driver(
         settings["uri"], auth=(settings["user"], settings["password"])
     )
     try:
-        with driver.session(database=settings["database"]) as session:
+        session_kwargs: dict = {"database": settings["database"]}
+        if access_mode is not None:
+            session_kwargs["default_access_mode"] = access_mode
+        with driver.session(**session_kwargs) as session:
             yield session
     finally:
         driver.close()
+
+
+def read_session():
+    """A session the server enforces as read-only.
+
+    All query-layer retrieval goes through this — it is the hard guarantee
+    behind text2cypher's regex write-check, which is only a friendly pre-check.
+    """
+    return neo4j_session(access_mode=READ_ACCESS)
 
 
 def strip_embeddings(value: Any) -> Any:
@@ -185,7 +225,7 @@ def serialize_record(record: Any) -> dict:
 
 
 def _run_read_query(cypher: str, parameters: dict) -> list[dict]:
-    with neo4j_session() as session:
+    with read_session() as session:
         return [serialize_record(record) for record in session.run(cypher, **parameters)]
 
 
@@ -199,6 +239,7 @@ def _domain_output(domains: list[str]) -> dict:
 
 def graph_metadata(domains: "str | Sequence[str]", as_of: str | None = None) -> dict:
     domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
     asof_node = f"\n        AND {asof_predicate('n')}" if as_of else ""
     cypher = f"""
     CALL () {{
@@ -297,6 +338,7 @@ def entity_listing(
     as_of: str | None = None,
 ) -> dict:
     domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
     asof_node = f"\n      AND {asof_predicate('n')}" if as_of else ""
     cypher = f"""
     MATCH (n:Entity)
@@ -528,7 +570,13 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
                   AND {domain_predicate("t")}
                   AND {selector1}
                   AND {selector2}
+                // Pin one deterministic endpoint pair before enumerating paths:
+                // name selectors can fan out to many (e, t) pairs, and all-paths
+                // enumeration to depth 5 is exponential per pair. With exact ids
+                // (the resolution protocol's normal case) this is a no-op.
                 WITH e, t
+                ORDER BY e.id, t.id
+                LIMIT 1
                 MATCH p = (e)-[*1..5]-(t)
                 WHERE all(x IN nodes(p) WHERE x:Entity)
                 WITH p
@@ -626,9 +674,10 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
             WITH e, count(DISTINCT r1) + count(DISTINCT r2) AS degree
             """
         else:
-            # relations: entity-entity connectivity; all: every edge including structural ones.
+            # relations: entity-entity connectivity (neighbor domain-scoped like
+            # every other entity match); all: every edge including structural ones.
             degree_match = {
-                "relations": "OPTIONAL MATCH (e)-[r]-(:Entity)",
+                "relations": f'OPTIONAL MATCH (e)-[r]-(t:Entity) WHERE {domain_predicate("t")}',
                 "all": "OPTIONAL MATCH (e)-[r]-()",
             }[degree_mode]
             degree_body = f"""
@@ -665,7 +714,7 @@ def _pattern_query(pattern: str, parameters: dict) -> tuple[str, dict]:
               AND toLower(d.name) CONTAINS toLower($documentName)
             RETURN d {{ .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by }} AS document,
                    c {{ .id, .name, .doc_id, .domain, .valid_to, .text }} AS chunk
-            ORDER BY c.name
+            ORDER BY c.id
             """,
             {"domains": parameters["domains"], "documentName": parameters["documentName"]},
         )
@@ -680,6 +729,7 @@ def execute_pattern(
     **parameters,
 ) -> dict:
     domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
     params = normalize_pattern_parameters(pattern, {"domains": domains, "asOf": as_of, **parameters})
     validate_pattern_parameters(pattern, params)
     cypher, cypher_params = _pattern_query(pattern, params)
@@ -688,7 +738,7 @@ def execute_pattern(
         for key, value in params.items()
         if key != "domains" and value is not None
     }
-    return {
+    result = {
         **_domain_output(domains),
         "query_type": "graph",
         "command": "pattern",
@@ -696,6 +746,153 @@ def execute_pattern(
         "question": question,
         "parameters": output_parameters,
         "rows": strip_embeddings(_run_read_query(cypher, cypher_params)),
+    }
+    # pattern5/pattern10 deliberately skip valid-time filtering (see the
+    # comments in _pattern_query) — say so instead of silently accepting it.
+    if as_of and pattern in ("pattern5", "pattern10"):
+        result["asOf_ignored"] = True
+    return result
+
+
+def _chunks_query(expand: int, as_of: str | None) -> str:
+    """Cypher for chunks_by_id. expand > 0 adds a same-document neighbor window."""
+    asof_c = f"\n      AND {asof_predicate('c')}" if as_of else ""
+    neighbor_call = ""
+    neighbor_return = ""
+    if expand > 0:
+        # Chunk sequence is encoded in the id ({doc_id}_{seq:03d}, zero-padded
+        # so lexical order == reading order; names like "Chunk 16/38" do NOT
+        # sort correctly). The ±N window is computed over the document's
+        # chunks sorted by id.
+        neighbor_call = """
+    CALL (c) {
+      MATCH (s:DocChunk {doc_id: c.doc_id})
+      WITH c, s
+      ORDER BY s.id
+      WITH c, collect(s) AS sibs
+      WITH sibs, coalesce([i IN range(0, size(sibs)-1) WHERE sibs[i].id = c.id][0], -1) AS idx
+      RETURN [j IN range(idx - $expand, idx + $expand)
+              WHERE idx >= 0 AND j >= 0 AND j < size(sibs) AND j <> idx
+              | {id: sibs[j].id, name: sibs[j].name, valid_to: sibs[j].valid_to, text: sibs[j].text}] AS neighbors
+    }"""
+        neighbor_return = ",\n           neighbors"
+    return f"""
+    MATCH (c:DocChunk)
+    WHERE c.id IN $chunkIds
+      AND {domain_predicate("c")}{asof_c}
+    OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
+    RETURN c {{ .id, .name, .doc_id, .domain, .valid_from, .valid_to, .text }} AS chunk,
+           d {{ .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}
+    ORDER BY c.id
+    """
+
+
+def chunks_by_id(
+    domains: "str | Sequence[str]",
+    chunk_ids: Sequence[str],
+    expand: int = 0,
+    as_of: str | None = None,
+) -> dict:
+    """Fetch chunk text by exact id — the deterministic grounding step for the
+    chunk ids that patterns 2/3/4 return as doc_sources and conflicts return
+    as evidence. expand=N also returns up to N adjacent chunks per hit from
+    the same document."""
+    domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
+    ids = [str(c).strip() for c in chunk_ids if str(c).strip()]
+    if not ids:
+        raise ValueError("At least one chunk id is required (--idList)")
+    expand = int(expand)
+    if expand < 0:
+        raise ValueError("--expand must be >= 0")
+    cypher = _chunks_query(expand, as_of)
+    params = {
+        "domains": domains,
+        "chunkIds": ids,
+        **({"expand": expand} if expand > 0 else {}),
+        **({"asOf": as_of} if as_of else {}),
+    }
+    return {
+        **_domain_output(domains),
+        "query_type": "graph",
+        "command": "chunks",
+        "parameters": {"chunkIds": ids, "expand": expand, **({"asOf": as_of} if as_of else {})},
+        "rows": _run_read_query(cypher, params),
+    }
+
+
+def _entity_context_query(as_of: str | None) -> str:
+    """Cypher for entity_context: entity + one-hop relationships + source text.
+
+    asOf applies to the entity and its source chunks (document content
+    currency); neighbor entities follow pattern4's semantics (unfiltered).
+    Chunks are ordered current-first (valid_to IS NULL), then by name; the
+    first $includeChunks are returned with text, the rest as ids only.
+    """
+    asof_e = f"\n      AND {asof_predicate('e')}" if as_of else ""
+    asof_c = f"\n    WHERE {asof_predicate('c')}" if as_of else ""
+    return f"""
+    MATCH (e:Entity {{id: $entityId}})
+    WHERE {domain_predicate("e")}{asof_e}
+    OPTIONAL MATCH (e)-[r]-(t:Entity)
+    WHERE {domain_predicate("t")}
+    WITH e, collect(CASE WHEN r IS NULL THEN NULL ELSE {{
+      type: type(r),
+      properties: properties(r),
+      target: {{id: t.id, name: t.name, label: labels(t)}}
+    }} END) AS connections
+    OPTIONAL MATCH (e)-[:EXTRACTED_FROM]->(c:DocChunk){asof_c}
+    OPTIONAL MATCH (c)-[:PART_OF]->(d:Document)
+    WITH e, connections, c, d
+    ORDER BY c.valid_to IS NULL DESC, c.id
+    WITH e, connections, [x IN collect(CASE WHEN c IS NULL THEN NULL ELSE c {{
+      .id, .name, .doc_id, .domain, .valid_to, .text,
+      document: d {{ .id, .name, .domain, .valid_from, .valid_to, .superseded_by }}
+    }} END) WHERE x IS NOT NULL] AS allChunks
+    OPTIONAL MATCH (chat:UserChat)-[:MENTIONS]->(e)
+    WITH e, connections, allChunks,
+         collect(DISTINCT chat {{ .id, .raw_text, .session_id, .created_by, .created_at }}) AS chat_sources
+    RETURN e {{.*, label: labels(e)}} AS entityData,
+           [x IN connections WHERE x IS NOT NULL] AS connections,
+           allChunks[0..$includeChunks] AS chunks,
+           [x IN allChunks[$includeChunks..] | {{id: x.id, name: x.name, doc_id: x.doc_id}}] AS more_chunks,
+           chat_sources
+    """
+
+
+def entity_context(
+    domains: "str | Sequence[str]",
+    entity_id: str,
+    include_chunks: int = 5,
+    as_of: str | None = None,
+) -> dict:
+    """One-call grounded picture of a resolved entity: properties, one-hop
+    relationships, and the text of its most current source chunks. Replaces
+    the pattern4 + chunk-fetch sequence for entity-anchored questions."""
+    domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
+    if not (entity_id or "").strip():
+        raise ValueError("--entityId is required")
+    include_chunks = int(include_chunks)
+    if include_chunks < 0:
+        raise ValueError("--includeChunks must be >= 0")
+    cypher = _entity_context_query(as_of)
+    params = {
+        "domains": domains,
+        "entityId": entity_id.strip(),
+        "includeChunks": include_chunks,
+        **({"asOf": as_of} if as_of else {}),
+    }
+    return {
+        **_domain_output(domains),
+        "query_type": "graph",
+        "command": "entity_context",
+        "parameters": {
+            "entityId": entity_id.strip(),
+            "includeChunks": include_chunks,
+            **({"asOf": as_of} if as_of else {}),
+        },
+        "rows": strip_embeddings(_run_read_query(cypher, params)),
     }
 
 

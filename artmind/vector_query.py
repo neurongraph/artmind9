@@ -3,7 +3,8 @@ from neo4j.exceptions import ClientError
 
 from artmind.extraction import embed_text as _embed_text
 from artmind.graph_query import (
-    neo4j_session,
+    read_session,
+    resolve_as_of,
     sanitize_lucene_query,
     serialize_record,
     strip_embeddings,
@@ -87,6 +88,7 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
     from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
 
     domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
     embedding = embed_question(question)
     n = len(domains)
 
@@ -139,7 +141,7 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
         **({"asOf": as_of} if as_of else {}),
     }
 
-    with neo4j_session() as session:
+    with read_session() as session:
         chunk_rows = [
             strip_embeddings(serialize_record(record))
             for record in session.run(cypher_chunks, **params)
@@ -177,6 +179,7 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
 
     domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
     query = sanitize_lucene_query(question)
 
     result: dict = {
@@ -224,7 +227,7 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
         **({"asOf": as_of} if as_of else {}),
     }
 
-    with neo4j_session() as session:
+    with read_session() as session:
         chunk_rows = [
             strip_embeddings(serialize_record(record))
             for record in session.run(cypher_chunks, **params)
@@ -257,6 +260,7 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
     from artmind.graph_query import normalize_domains, domain_predicate, asof_predicate, _domain_output
 
     domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
     n = len(domains)
     ft_query = sanitize_lucene_query(reference)
     asof_e = f"\n      AND {asof_predicate('e')}" if as_of else ""
@@ -290,7 +294,7 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
 
     asof_param = {"asOf": as_of} if as_of else {}
 
-    with neo4j_session() as session:
+    with read_session() as session:
         ft_rows: list = []
         if ft_query:
             ft_rows = [
@@ -346,6 +350,7 @@ def vector_text_search(domains, question: str, topK: int = 5, as_of: str | None 
     from artmind.graph_query import normalize_domains, _domain_output
 
     domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
 
     # Run both searches in parallel (conceptually - sequentially in practice).
     # as_of is passed only when set so callers/mocks with the pre-existing

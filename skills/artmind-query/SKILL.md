@@ -90,11 +90,13 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 
 | Question shape | Command |
 |---|---|
+| "Tell me about X / X's role / why did X…" — facts + relationships + source text in ONE call | `entity-context --entityId <id> [--includeChunks 5]` (query-level, not under `graph`) |
 | List entities of a class | `pattern1 --entityClass <LABEL> [--limit N]` |
 | "Main / key / most important / top" entities | `pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
-| Facts/properties of named entities | `pattern2 --entityIdList <id>` (or `--entityNameList`) |
+| Facts/properties of named entities (no text needed, e.g. comparing many) | `pattern2 --entityIdList <id>` (or `--entityNameList`) |
 | Properties + relationship summary | `pattern3 --entityIdList <id>` |
 | Full one-hop neighborhood / contextual role | `pattern4 --entityClass <LABEL> --entityId <id>` |
+| Text of specific chunks by id (doc_sources / evidence ids) | `chunks --idList <id> [--expand 1]` (query-level, not under `graph`) |
 | Does a direct link exist between X and Y, and of what type | `pattern6 --entityId1 <id> --entityId2 <id>` |
 | Nature/quality of a relationship, "how are X and Y related/connected" | `pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
 | Search entities by name/description fragment | `pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically) |
@@ -103,21 +105,39 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 | Aggregations, custom filters, multi-hop combinations none of the above cover | `text2cypher "<question>"` — run `--dry-run` first to inspect the Cypher |
 
 Routing notes:
+- **entity-context vs pattern4**: for a question anchored on ONE resolved entity that
+  needs evidence text, `uv run artmind query entity-context --domain <d> --entityId <id>`
+  replaces the pattern4 + Ground sequence — it returns properties, one-hop
+  relationships, and the text of the entity's most current source chunks
+  (current-first ordering; the first `--includeChunks` with full text, the rest as
+  ids in `more_chunks`, fetchable via `chunks --idList`). Use pattern4 when you
+  only need structure, or patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
-- Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text in the Ground step when needed.
+- Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `uv run artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `.domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
-- Add `--asOf today` for present-tense questions ("who can approve…"); drop it for
-  historical ones. Untimed knowledge is always visible.
+- Add `--asOf today` for present-tense questions ("who can approve…"); it resolves to
+  the current date (any ISO date works for historical questions). Untimed knowledge is
+  always visible. EXCEPTION: pattern5 and pattern10 cannot currency-scope their results
+  and ignore `--asOf` — their JSON then carries `asOf_ignored: true`; judge currency
+  yourself from the returned `valid_to`/`superseded_by` fields.
 
 ### 4. Ground — pull source text when narrative evidence is needed
+
+Grounding has a deterministic path and a search path — prefer the deterministic one:
+
+1. **You already have chunk ids** (doc_sources from patterns 2/3/4, evidence from
+   conflicts) → `uv run artmind query chunks --domain <d> --idList <id> [--expand 1]`.
+2. **The question is anchored on one resolved entity** → you should have used
+   `entity-context` in Retrieve, which grounds in the same call.
+3. **Otherwise** (no entity anchor, or the ids you pulled don't answer it):
 
 ```bash
 uv run artmind query vector-text --domain <d1> --domain <d2> --topK 5 --compact "<question>"
 ```
 
-Combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
+vector-text combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
 
 ### 5. Adjudicate — surface disagreements, never blend
 
@@ -153,10 +173,11 @@ it isn't a structural guarantee, so re-check at query time using each side's
 
 1. Thin results in the chosen domain → re-run with sibling domains from Route before concluding data is absent. (Same fix as Adjudicate's "only one side retrieved" case — apply it as soon as results look thin, not only after a disagreement surfaces.)
 2. pattern6 empty → pattern5 `--mode shortest`.
-3. Pattern output empty or too thin → vector-text.
-4. text2cypher returns no rows but data should exist → run `structural-metadata`, then `text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
-5. text2cypher generates invalid Cypher → vector-text.
-6. vector-text sparse or weak → state that the available artmind data does not answer the question.
+3. entity-context/pattern chunks too thin → `chunks --idList <more_chunk ids> --expand 1` before falling back to search.
+4. Pattern output empty or too thin → vector-text.
+5. text2cypher returns no rows but data should exist → run `structural-metadata`, then `text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
+6. text2cypher generates invalid Cypher → vector-text.
+7. vector-text sparse or weak → state that the available artmind data does not answer the question.
 
 ## Answer Style
 
