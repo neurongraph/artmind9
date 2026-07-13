@@ -68,6 +68,24 @@ idempotent. LLM steps produce proposals only. The output names a
 
 ### 2. Review — the three gates
 
+Start with a structured summary instead of hand-parsing the (large)
+`pipeline_report.json`:
+
+```bash
+python3 skills/artmind-refine/scripts/summarize_gates.py <report_file>
+```
+
+Prints, per domain and for the cross-domain pass: Gate 1's proposed merges
+grouped by canonical (flags clusters >5 aliases to spot-check), Gate 2's
+conflict candidates grouped by verdict (only non-`superseded`/`no_conflict`
+verdicts are live conflicts worth reading), and Gate 3's consolidation
+samples with old/new description diffs. Re-run it against the apply-phase
+report after applying to confirm what actually landed (`merged`/`skipped`/
+`errors` counts, `written`/`examined`). Missing keys print a loud
+`‹missing key›` marker rather than silently defaulting — if you see one, the
+CLI's report schema has likely changed and the script needs a look, not the
+report.
+
 Present each gate compactly; get explicit approval before apply.
 
 **Gate 1: merges** (`per_domain.<d>.merge.proposed_merges`): flag suspicious
