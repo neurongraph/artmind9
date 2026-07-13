@@ -1,0 +1,1979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artmind CLI — Interactive Guide</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #161822;
+    --surface2: #1c1f2e;
+    --border: #2a2d3e;
+    --text: #e2e4ea;
+    --text-muted: #8b8fa3;
+    --accent: #7c6aef;
+    --accent-light: #9d8ff5;
+    --accent-bg: rgba(124,106,239,0.08);
+    --green: #4ade80;
+    --green-bg: rgba(74,222,128,0.08);
+    --blue: #60a5fa;
+    --blue-bg: rgba(96,165,250,0.08);
+    --orange: #fb923c;
+    --orange-bg: rgba(251,146,60,0.08);
+    --red: #f87171;
+    --red-bg: rgba(248,113,113,0.08);
+    --cyan: #22d3ee;
+    --cyan-bg: rgba(34,211,238,0.08);
+    --pink: #f472b6;
+    --pink-bg: rgba(244,114,182,0.08);
+    --yellow: #facc15;
+    --yellow-bg: rgba(250,204,21,0.08);
+    --radius: 10px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'SF Mono', 'Fira Code', 'JetBrains Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+  }
+
+  .tagline {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+
+  .search-box {
+    position: relative;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 0.7rem 1rem 0.7rem 2.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-box input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-bg);
+  }
+
+  .search-box::before {
+    content: '⌕';
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  .search-stats {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    text-align: right;
+  }
+
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem 4rem;
+  }
+
+  .category {
+    margin-bottom: 2rem;
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--border);
+    transition: opacity 0.2s;
+  }
+
+  .category-header:hover {
+    opacity: 0.85;
+  }
+
+  .category-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .category-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .category-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-left: auto;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .category-toggle {
+    margin-left: 0.5rem;
+    color: var(--text-muted);
+    transition: transform 0.2s;
+    font-size: 0.7rem;
+  }
+
+  .category.collapsed .category-toggle {
+    transform: rotate(-90deg);
+  }
+
+  .category.collapsed .category-body {
+    display: none;
+  }
+
+  .category-body {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+  }
+
+  .cmd-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .cmd-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent-bg);
+  }
+
+  .cmd-card.hidden {
+    display: none;
+  }
+
+  .cmd-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .cmd-path {
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--accent-light);
+  }
+
+  .cmd-brief {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    flex: 1;
+  }
+
+  .cmd-badge {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .badge-required {
+    background: var(--red-bg);
+    color: var(--red);
+    border: 1px solid rgba(248,113,113,0.2);
+  }
+
+  .badge-optional {
+    background: var(--green-bg);
+    color: var(--green);
+    border: 1px solid rgba(74,222,128,0.2);
+  }
+
+  .badge-sub {
+    background: var(--blue-bg);
+    color: var(--blue);
+    border: 1px solid rgba(96,165,250,0.2);
+  }
+
+  .cmd-expand {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    transition: transform 0.2s;
+  }
+
+  .cmd-card.open .cmd-expand {
+    transform: rotate(90deg);
+  }
+
+  .cmd-detail {
+    display: none;
+    padding: 0 1rem 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .cmd-card.open .cmd-detail {
+    display: block;
+  }
+
+  .cmd-usage {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin: 0.75rem 0;
+    font-size: 0.78rem;
+    color: var(--text);
+    overflow-x: auto;
+  }
+
+  .cmd-usage .kw { color: var(--accent-light); }
+  .cmd-usage .arg { color: var(--orange); }
+  .cmd-usage .flag { color: var(--cyan); }
+  .cmd-usage .req { color: var(--red); font-weight: 700; }
+  .cmd-usage .opt { color: var(--text-muted); }
+
+  .cmd-description {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .cmd-options-title {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+
+  .opt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+  }
+
+  .opt-table th {
+    text-align: left;
+    padding: 0.4rem 0.6rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .opt-table td {
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .opt-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .opt-name {
+    color: var(--cyan);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .opt-type {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+  }
+
+  .opt-required {
+    color: var(--red);
+    font-weight: 700;
+    font-size: 0.65rem;
+  }
+
+  .opt-default {
+    color: var(--text-muted);
+    font-size: 0.65rem;
+  }
+
+  .example-block {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--green);
+  }
+
+  .example-block .comment {
+    color: var(--text-muted);
+  }
+
+  .subcommands {
+    margin-top: 0.75rem;
+  }
+
+  .subcmd-link {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    margin: 0.15rem 0.25rem;
+    background: var(--accent-bg);
+    color: var(--accent-light);
+    border: 1px solid rgba(124,106,239,0.15);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .subcmd-link:hover {
+    background: rgba(124,106,239,0.15);
+  }
+
+  .intro-card {
+    background: linear-gradient(135deg, var(--surface), var(--surface2));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .intro-card h2 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(135deg, var(--accent-light), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .intro-card p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .intro-card .usage-line {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    margin-top: 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  .quickstart {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .quickstart-step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.8rem;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .step-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .step-cmd {
+    font-size: 0.7rem;
+    color: var(--green);
+  }
+
+  .no-results {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    display: none;
+  }
+
+  .no-results.visible {
+    display: block;
+  }
+
+  @media (max-width: 640px) {
+    .header { padding: 1rem; }
+    .main { padding: 1rem; }
+    .category-desc { display: none; }
+    .opt-table { font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div class="logo">artmind</div>
+    <div class="tagline">CLI Reference Guide</div>
+  </div>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search commands, options, descriptions…" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="search-stats" id="searchStats"></div>
+</div>
+
+<div class="main">
+
+  <div class="intro-card">
+    <h2>Artmind — A Knowledge System That Synchronizes with Your Mind</h2>
+    <p>
+      Artmind is a CLI tool for building, querying, and maintaining a knowledge graph backed by Neo4j and SQLite.
+      It ingests documents, extracts entities and relationships via LLMs, and provides rich graph + vector queries.
+    </p>
+    <div class="usage-line">
+      <span class="kw">Usage:</span> <span class="arg">artmind</span> <span class="flag">[OPTIONS]</span> <span class="arg">COMMAND</span> <span class="flag">[ARGS]...</span>
+    </div>
+    <div class="quickstart">
+      <div class="quickstart-step">
+        <div class="step-num">1</div>
+        <div class="step-title">Initialize</div>
+        <div class="step-cmd">artmind setup</div>
+      </div>
+      <div class="quickstart-step">
+        <div class="step-num">2</div>
+        <div class="step-title">Add Domain Schema</div>
+        <div class="step-cmd">artmind domains add schema.yaml</div>
+      </div>
+      <div class="quickstart-step">
+        <div class="step-num">3</div>
+        <div class="step-title">Ingest Documents</div>
+        <div class="step-cmd">artmind ingest sync ./docs/</div>
+      </div>
+      <div class="quickstart-step">
+        <div class="step-num">4</div>
+        <div class="step-title">Query</div>
+        <div class="step-cmd">artmind query vector-text "question" -d mydomain</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SETUP & TOOLS ===== -->
+  <div class="category" data-group="setup">
+    <div class="category-header" onclick="toggleCategory(this)">
+      <div class="category-icon" style="background:var(--green-bg);color:var(--green);">⚙</div>
+      <div class="category-title">Setup & Tools</div>
+      <div class="category-desc">Initialization and interactive wizard</div>
+      <div class="category-toggle">▼</div>
+    </div>
+    <div class="category-body">
+
+      <div class="cmd-card" data-search="setup initialize sqlite neo4j constraints indexes idempotent">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind setup</span>
+          <span class="cmd-brief">Initialize SQLite tables and Neo4j constraints/indexes (idempotent)</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Sets up the local SQLite database and creates all Neo4j constraints and indexes.
+            Safe to run multiple times — fully idempotent.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind setup</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--help</td><td>Show this message and exit</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="wizard interactive tui teaches tests lifecycle learn tutorial">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind wizard</span>
+          <span class="cmd-brief">Interactive TUI wizard — teaches and tests the full lifecycle</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            A terminal UI wizard that walks you through the entire artmind workflow — from schema creation to ingestion to querying.
+            Great for first-time users.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind wizard</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--help</td><td>Show this message and exit</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== DOMAINS ===== -->
+  <div class="category" data-group="domains">
+    <div class="category-header" onclick="toggleCategory(this)">
+      <div class="category-icon" style="background:var(--accent-bg);color:var(--accent);">◆</div>
+      <div class="category-title">Domains</div>
+      <div class="category-desc">Manage domain schemas</div>
+      <div class="category-toggle">▼</div>
+    </div>
+    <div class="category-body">
+
+      <div class="cmd-card" data-search="domains add schema yaml file domain register">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains add</span>
+          <span class="cmd-brief">Add a domain schema from a YAML file</span>
+          <span class="cmd-badge badge-required">DOMAIN_FILE required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains add</span> <span class="req">DOMAIN_FILE</span>
+          </div>
+          <div class="cmd-options-title">Arguments</div>
+          <table class="opt-table">
+            <tr>
+              <td class="opt-name">DOMAIN_FILE</td>
+              <td>PATH — Path to the YAML schema file</td>
+              <td class="opt-required">required</td>
+            </tr>
+          </table>
+          <div class="example-block">
+            <span class="comment"># Add a domain schema</span><br>
+            artmind domains add domains/schemas/banking_schema.yaml
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="domains delete remove schema domain unregister">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains delete</span>
+          <span class="cmd-brief">Delete a domain schema</span>
+          <span class="cmd-badge badge-required">DOMAIN_NAME required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains delete</span> <span class="req">DOMAIN_NAME</span>
+          </div>
+          <div class="cmd-options-title">Arguments</div>
+          <table class="opt-table">
+            <tr>
+              <td class="opt-name">DOMAIN_NAME</td>
+              <td>TEXT — Name of the domain to remove</td>
+              <td class="opt-required">required</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="domains list show hierarchy schemas available">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains list</span>
+          <span class="cmd-brief">List all available domain schemas, showing hierarchy</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Displays all registered domain schemas with their parent-child hierarchy.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains list</span> <span class="opt">[OPTIONS]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="domains harmonize sync child parent entity types missing inheritance">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains harmonize</span>
+          <span class="cmd-brief">Sync child domain schemas against their parent's entity types</span>
+          <span class="cmd-badge badge-optional">--domain optional</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Copies entity, property, and relationship blocks from parent to child schemas.
+            Never removes child-specific extras. Use <code>--dry-run</code> to preview changes.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains harmonize</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Child domain to harmonize (e.g. <code>fiction.thriller</code>). Default: all children.</td></tr>
+            <tr><td class="opt-name">--dry-run</td><td class="opt-type">FLAG</td><td>Show what would change without writing.</td></tr>
+          </table>
+          <div class="example-block">
+            <span class="comment"># Preview what harmonize would do</span><br>
+            artmind domains harmonize --domain fiction.thriller --dry-run<br><br>
+            <span class="comment"># Actually harmonize</span><br>
+            artmind domains harmonize --domain fiction.thriller
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="domains render-html reference browse schemas documentation html">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains render-html</span>
+          <span class="cmd-brief">Render a browsable HTML reference for all schemas matching PREFIX</span>
+          <span class="cmd-badge badge-required">PREFIX required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Consolidates every <code>domains/schemas/&lt;prefix&gt;*_schema.yaml</code> file's entity classes,
+            property guidance, and relationship model into one self-contained, searchable HTML page.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains render-html</span> <span class="req">PREFIX</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">PREFIX</td><td class="opt-type">TEXT</td><td>Schema prefix to match (e.g. <code>banking</code>)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--output, -o</td><td class="opt-type">PATH</td><td>Output HTML path. Default: <code>domains/schemas/&lt;prefix&gt;_schemas_reference.html</code></td></tr>
+          </table>
+          <div class="example-block">
+            artmind domains render-html banking -o docs/banking_ref.html
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="domains entities-prompt prompt extract entities chunk">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains entities-prompt</span>
+          <span class="cmd-brief">Show the prompt used to extract entities from a document chunk</span>
+          <span class="cmd-badge badge-required">DOMAIN_NAME required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains entities-prompt</span> <span class="req">DOMAIN_NAME</span>
+          </div>
+          <div class="cmd-options-title">Arguments</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">DOMAIN_NAME</td><td>TEXT — Domain to inspect</td><td class="opt-required">required</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="domains properties-prompt prompt extract properties entities chunk">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains properties-prompt</span>
+          <span class="cmd-brief">Show the prompt used to extract properties for entities from a chunk</span>
+          <span class="cmd-badge badge-required">DOMAIN_NAME required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains properties-prompt</span> <span class="req">DOMAIN_NAME</span>
+          </div>
+          <div class="cmd-options-title">Arguments</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">DOMAIN_NAME</td><td>TEXT — Domain to inspect</td><td class="opt-required">required</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="domains relationships-prompt prompt extract relationships chunk">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind domains relationships-prompt</span>
+          <span class="cmd-brief">Show the prompt used to extract relationships from a document chunk</span>
+          <span class="cmd-badge badge-required">DOMAIN_NAME required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind domains relationships-prompt</span> <span class="req">DOMAIN_NAME</span>
+          </div>
+          <div class="cmd-options-title">Arguments</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">DOMAIN_NAME</td><td>TEXT — Domain to inspect</td><td class="opt-required">required</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== INGESTION ===== -->
+  <div class="category" data-group="ingest">
+    <div class="category-header" onclick="toggleCategory(this)">
+      <div class="category-icon" style="background:var(--blue-bg);color:var(--blue);">↓</div>
+      <div class="category-title">Ingestion</div>
+      <div class="category-desc">Document ingestion, graph building, and refinement</div>
+      <div class="category-toggle">▼</div>
+    </div>
+    <div class="category-body">
+
+      <!-- Sync & Jobs -->
+      <div class="cmd-card" data-search="ingest sync synchronous blocking file directory ingest document">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest sync</span>
+          <span class="cmd-brief">Ingest a file or directory synchronously (blocking)</span>
+          <span class="cmd-badge badge-required">FILE_PATH required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest sync</span> <span class="req">FILE_PATH</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">FILE_PATH</td><td class="opt-type">PATH</td><td>File or directory to ingest</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain to assign (prompted if omitted)</td></tr>
+            <tr><td class="opt-name">--force</td><td class="opt-type">FLAG</td><td>Ingest even if identical content is already registered</td></tr>
+          </table>
+          <div class="example-block">
+            <span class="comment"># Ingest a single file interactively</span><br>
+            artmind ingest sync ./report.pdf<br><br>
+            <span class="comment"># Ingest a directory with explicit domain</span><br>
+            artmind ingest sync ./docs/ --domain banking
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest async background job non-blocking file directory">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest async</span>
+          <span class="cmd-brief">Submit a file or directory for background ingestion; returns job_id</span>
+          <span class="cmd-badge badge-required">FILE_PATH required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Non-blocking version of <code>sync</code>. Returns a <code>job_id</code> immediately.
+            Use <code>jobs</code> or <code>dashboard</code> to monitor progress.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest async</span> <span class="req">FILE_PATH</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">FILE_PATH</td><td class="opt-type">PATH</td><td>File or directory to ingest</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain to assign (prompted if omitted)</td></tr>
+            <tr><td class="opt-name">--force</td><td class="opt-type">FLAG</td><td>Ingest even if identical content is already registered</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest jobs list recent status queued processing completed failed">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest jobs</span>
+          <span class="cmd-brief">List recent ingestion jobs</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest jobs</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--status</td><td class="opt-type">TEXT</td><td>Filter by status (<code>queued</code>/<code>processing</code>/<code>completed</code>/<code>failed</code>)</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest job-status status progress per-file job monitor">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest job-status</span>
+          <span class="cmd-brief">Show status and per-file progress for a job</span>
+          <span class="cmd-badge badge-required">JOB_ID required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest job-status</span> <span class="req">JOB_ID</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">JOB_ID</td><td class="opt-type">TEXT</td><td>The job to inspect</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest job-results results per-file detailed completed job">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest job-results</span>
+          <span class="cmd-brief">Show detailed per-file results for a completed job</span>
+          <span class="cmd-badge badge-required">JOB_ID required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest job-results</span> <span class="req">JOB_ID</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">JOB_ID</td><td class="opt-type">TEXT</td><td>The completed job to inspect</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest retry-job retry failed re-queue reprocess duplicate skipped">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest retry-job</span>
+          <span class="cmd-brief">Re-queue failed files in a job for reprocessing</span>
+          <span class="cmd-badge badge-required">JOB_ID required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Removes failed files from the document registry and resets the job to queued so the worker picks it up again.
+            Use <code>--include-skipped</code> to also re-process files skipped as duplicates.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest retry-job</span> <span class="req">JOB_ID</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">JOB_ID</td><td class="opt-type">TEXT</td><td>The job to retry</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--include-skipped</td><td class="opt-type">FLAG</td><td>Also re-queue files skipped as duplicates</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest dashboard live realtime status monitor async jobs watch">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest dashboard</span>
+          <span class="cmd-brief">Show a live realtime status dashboard of all async jobs</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Opens a live-updating terminal dashboard showing all running and completed async ingestion jobs.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest dashboard</span> <span class="opt">[OPTIONS]</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Graph building -->
+      <div class="cmd-card" data-search="ingest extract-kg knowledge graph extraction resume chunks LLM">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest extract-kg</span>
+          <span class="cmd-brief">Re-run or resume KG extraction for a document</span>
+          <span class="cmd-badge badge-required">DOCUMENT_NAME + --domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Skips already-ok chunks. <code>DOCUMENT_NAME</code> is the registered filename (e.g. <code>myfile.pdf</code>).
+            Extraction results are merged into doc-level JSON files ready for <code>write_to_graph</code>.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest extract-kg</span> <span class="req">DOCUMENT_NAME</span> <span class="opt">--domain DOMAIN</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">DOCUMENT_NAME</td><td class="opt-type">TEXT</td><td>Registered filename</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain the document belongs to</td><td class="opt-required">required</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest write-to-graph write neo4j graph JSON single batch folder">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest write-to-graph</span>
+          <span class="cmd-brief">Write already-extracted KG JSON to Neo4j</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Two modes: single document or batch from folder. Re-run after fixing Neo4j issues.
+            In folder mode, domain is inferred from parent directory name.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest write-to-graph</span> <span class="opt">[DOCUMENT_NAME]</span> <span class="opt">[OPTIONS]</span><br><br>
+            <span class="comment"># Single document mode</span><br>
+            artmind ingest write-to-graph <span class="req">DOCUMENT_NAME</span> <span class="opt">--domain DOMAIN</span><br><br>
+            <span class="comment"># Batch from folder mode</span><br>
+            artmind ingest write-to-graph <span class="opt">--folder PATH</span> <span class="opt">[--domain DOMAIN]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">DOCUMENT_NAME</td><td class="opt-type">TEXT</td><td>Registered filename (single mode)</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain (required for single mode)</td></tr>
+            <tr><td class="opt-name">--folder</td><td class="opt-type">PATH</td><td>Path to folder whose sub-folders are document KG directories</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest pull-kg pull github repo external sparse checkout">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest pull-kg</span>
+          <span class="cmd-brief">Pull KG JSON from an external GitHub repo into local KG directory</span>
+          <span class="cmd-badge badge-required">--repo + --repo-path + --domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Uses sparse git checkout to fetch only the specified sub-path.
+            Aborts if any sub-folder already exists locally (resolve conflicts manually first).
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest pull-kg</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--repo</td><td class="opt-type">TEXT</td><td>Git-cloneable URL (SSH or HTTPS)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--repo-path</td><td class="opt-type">TEXT</td><td>Path within repo to the folder containing document sub-folders</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Target domain name</td><td class="opt-required">required</td></tr>
+          </table>
+          <div class="example-block">
+            artmind ingest pull-kg \<br>
+            &nbsp;&nbsp;--repo git@github.com:acme/kg-store.git \<br>
+            &nbsp;&nbsp;--repo-path data/kg/sales_collateral \<br>
+            &nbsp;&nbsp;--domain sales_collateral
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest embed-entities backfill vector embeddings entity-resolve">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest embed-entities</span>
+          <span class="cmd-brief">Backfill vector embeddings for entities missing one</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Powers <code>query entity-resolve</code>. Run this after ingestion to ensure all entities have embeddings.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest embed-entities</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain to backfill</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Refinement -->
+      <div class="cmd-card" data-search="ingest refine-graph merge aliases canonical similar names deduplicate">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest refine-graph</span>
+          <span class="cmd-brief">Find similar entity names, merge aliases into canonical entities</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            <strong>Workflow:</strong><br>
+            1. Dry-run: <code>artmind ingest refine-graph --dry-run --output merges.json</code><br>
+            2. Review <code>merges.json</code> and edit if needed<br>
+            3. Execute: <code>artmind ingest refine-graph --from-file merges.json</code>
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest refine-graph</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Restrict to entities in this domain (default: all)</td></tr>
+            <tr><td class="opt-name">--filter</td><td class="opt-type">TEXT</td><td>Filter entities by name (comma-separated for multiple)</td></tr>
+            <tr><td class="opt-name">--model</td><td class="opt-type">TEXT</td><td>LLM model for merge decisions</td></tr>
+            <tr><td class="opt-name">--threshold</td><td class="opt-type">FLOAT</td><td>String similarity threshold (0–1) [default: 0.7]</td></tr>
+            <tr><td class="opt-name">--dry-run</td><td class="opt-type">FLAG</td><td>Compute proposals only; do NOT apply</td></tr>
+            <tr><td class="opt-name">--output</td><td class="opt-type">PATH</td><td>Write proposals JSON (default: <code>data/refine/proposed_merges.json</code>)</td></tr>
+            <tr><td class="opt-name">--from-file</td><td class="opt-type">PATH</td><td>Skip computation — load and apply from prior dry-run</td></tr>
+            <tr><td class="opt-name">--allow-cross-domain-merge</td><td class="opt-type">FLAG</td><td>Allow merging same-named entities across domains</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest refine-pipeline pipeline all steps time supersession merge conflicts consolidate embed full workflow">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest refine-pipeline</span>
+          <span class="cmd-brief">Run all refinement steps in dependency order</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Runs: time → supersession → merge → conflicts → consolidate → embed<br><br>
+            <strong>Workflow:</strong><br>
+            1. Propose: <code>artmind ingest refine-pipeline --domain &lt;d&gt;</code><br>
+            2. Review the report and its <code>merges_*.json</code> / <code>conflicts_*.json</code><br>
+            3. Apply: <code>artmind ingest refine-pipeline --domain &lt;d&gt; --from-file &lt;report&gt;</code><br><br>
+            Use <code>--apply</code> to skip the review gate (trusted automation only).
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest refine-pipeline</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain to refine (repeatable; 2+ adds cross-domain conflicts pass)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--apply</td><td class="opt-type">FLAG</td><td>One-shot: compute AND apply every step (skips review gate)</td></tr>
+            <tr><td class="opt-name">--from-file</td><td class="opt-type">PATH</td><td>Apply vetted proposals from a prior report</td></tr>
+            <tr><td class="opt-name">--steps</td><td class="opt-type">TEXT</td><td>Comma-separated subset of: <code>time,supersession,merge,conflicts,consolidate,embed</code></td></tr>
+            <tr><td class="opt-name">--model</td><td class="opt-type">TEXT</td><td>LLM model for merge/conflict/consolidation calls</td></tr>
+            <tr><td class="opt-name">--mergeThreshold</td><td class="opt-type">FLOAT</td><td>Similarity threshold for merge clustering [default: 0.7]</td></tr>
+            <tr><td class="opt-name">--simThreshold</td><td class="opt-type">FLOAT</td><td>Similarity threshold for conflict candidate pairs [default: 0.75]</td></tr>
+            <tr><td class="opt-name">--maxPairs</td><td class="opt-type">INTEGER</td><td>Cap on conflict candidate pairs [default: 200]</td></tr>
+            <tr><td class="opt-name">--sampleConsolidations</td><td class="opt-type">INTEGER</td><td>Consolidation samples per domain in propose mode [default: 3]</td></tr>
+            <tr><td class="opt-name">--consolidateLimit</td><td class="opt-type">INTEGER</td><td>Cap entities consolidated per domain in apply mode</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest consolidate-descriptions rewrite prose entities descriptions clean">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest consolidate-descriptions</span>
+          <span class="cmd-brief">Rewrite accumulated entity descriptions into clean prose</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Preserves the original in <code>description_raw</code>, records provenance, skips entities with open conflicts, and re-embeds rewritten entities.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest consolidate-descriptions</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain to consolidate (sub-domains rolled up)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--nameFilter</td><td class="opt-type">TEXT</td><td>Restrict to entities whose name contains this</td></tr>
+            <tr><td class="opt-name">--minFragments</td><td class="opt-type">INTEGER</td><td>Skip never-consolidated entities with fewer fragments [default: 2]</td></tr>
+            <tr><td class="opt-name">--maxChunks</td><td class="opt-type">INTEGER</td><td>Max source chunk excerpts per entity [default: 6]</td></tr>
+            <tr><td class="opt-name">--limit</td><td class="opt-type">INTEGER</td><td>Cap entities consolidated this run</td></tr>
+            <tr><td class="opt-name">--model</td><td class="opt-type">TEXT</td><td>Consolidation LLM model</td></tr>
+            <tr><td class="opt-name">--force</td><td class="opt-type">FLAG</td><td>Re-consolidate even if chunk set unchanged</td></tr>
+            <tr><td class="opt-name">--dry-run</td><td class="opt-type">FLAG</td><td>Generate proposals without writing</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest normalize-time temporal valid_from valid_to event_at backfill canonical">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest normalize-time</span>
+          <span class="cmd-brief">Backfill canonical valid_from/valid_to/event_at from schema temporal mappings</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Additive and idempotent. Runs automatically per document at ingest; use this to backfill pre-existing documents or after editing a schema's temporal block.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest normalize-time</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain to backfill canonical temporal properties for</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--dry-run</td><td class="opt-type">FLAG</td><td>Compute counts only; do not write</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest detect-conflicts conflicts cross-domain entities contradictory">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest detect-conflicts</span>
+          <span class="cmd-brief">Detect non-destructive conflicts between entities across domains</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            <strong>Workflow:</strong><br>
+            1. <code>artmind ingest detect-conflicts --domain A --domain B --dry-run --output conflicts.json</code><br>
+            2. Review <code>conflicts.json</code><br>
+            3. <code>artmind ingest detect-conflicts --domain A --domain B --from-file conflicts.json</code><br><br>
+            Precondition: run intra-domain <code>refine-graph</code> on each target domain first.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest detect-conflicts</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Target domain(s) (repeatable; 1=intra, 2+=cross)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--nameFilter</td><td class="opt-type">TEXT</td><td>Restrict to entities whose name contains this</td></tr>
+            <tr><td class="opt-name">--simThreshold</td><td class="opt-type">FLOAT</td><td>Min cosine similarity for a candidate [default: 0.75]</td></tr>
+            <tr><td class="opt-name">--maxPairs</td><td class="opt-type">INTEGER</td><td>Hard cap on candidate pairs [default: 200]</td></tr>
+            <tr><td class="opt-name">--maxChunksPerSide</td><td class="opt-type">INTEGER</td><td>Evidence chunks per side [default: 2]</td></tr>
+            <tr><td class="opt-name">--model</td><td class="opt-type">TEXT</td><td>Adjudication LLM model</td></tr>
+            <tr><td class="opt-name">--dry-run</td><td class="opt-type">FLAG</td><td>Compute proposals + write --output; do NOT materialize</td></tr>
+            <tr><td class="opt-name">--output</td><td class="opt-type">PATH</td><td>Write proposals JSON</td></tr>
+            <tr><td class="opt-name">--from-file</td><td class="opt-type">PATH</td><td>Materialize proposals from a prior dry-run file</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest supersede supersession manual assert document replace newer older">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest supersede</span>
+          <span class="cmd-brief">Manually assert that one document supersedes another</span>
+          <span class="cmd-badge badge-required">--domain + --newer + --older required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Sets <code>SUPERSEDES</code> edge and <code>valid_to</code> on the older document.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest supersede</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain of both documents</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--newer</td><td class="opt-type">TEXT</td><td>Newer document name</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--older</td><td class="opt-type">TEXT</td><td>Superseded document name</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--scope</td><td class="opt-type">ENUM</td><td><code>document</code> | <code>section</code> | <code>clause</code> [default: document]</td></tr>
+            <tr><td class="opt-name">--effective</td><td class="opt-type">TEXT</td><td>ISO date the supersession takes effect</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="ingest detect-supersession scan documents supersession notice edges automatic">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind ingest detect-supersession</span>
+          <span class="cmd-brief">Scan documents for explicit Supersession Notice sections</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Automatically finds "Supersession Notice" sections in documents and applies <code>SUPERSEDES</code> edges.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind ingest detect-supersession</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain to scan</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--dry-run</td><td class="opt-type">FLAG</td><td>Report matches without writing</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== QUERY ===== -->
+  <div class="category" data-group="query">
+    <div class="category-header" onclick="toggleCategory(this)">
+      <div class="category-icon" style="background:var(--cyan-bg);color:var(--cyan);">?</div>
+      <div class="category-title">Query</div>
+      <div class="category-desc">Knowledge graph and vector index queries</div>
+      <div class="category-toggle">▼</div>
+    </div>
+    <div class="category-body">
+
+      <!-- Lookups -->
+      <div class="cmd-card" data-search="query domains-overview per-domain routing summary doc names counts entity classes">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query domains-overview</span>
+          <span class="cmd-brief">Per-domain routing summary: doc names/counts, entity counts, top classes</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query domains-overview</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--compact</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query vector-text search vector embeddings keyword RRF source text semantic">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query vector-text</span>
+          <span class="cmd-brief">Search source text using vector embeddings + keyword matching (RRF)</span>
+          <span class="cmd-badge badge-required">--domain + QUESTION required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Combines vector embeddings with keyword matching via Reciprocal Rank Fusion (RRF) for robust semantic + keyword search.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query vector-text</span> <span class="req">QUESTION</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">QUESTION</td><td class="opt-type">TEXT</td><td>Natural language query</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--topK</td><td class="opt-type">INTEGER</td><td>Number of results [default: 5]</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter: ISO date or <code>today</code></td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+          <div class="example-block">
+            artmind query vector-text "interest rate changes" --domain banking --topK 10
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query entity-resolve resolve name fragment canonical fulltext vector RRF lookup">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query entity-resolve</span>
+          <span class="cmd-brief">Resolve a name fragment or description to canonical graph entities</span>
+          <span class="cmd-badge badge-required">--domain + REFERENCE required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Uses fulltext + vector search combined via RRF to resolve partial names or descriptions to exact entity IDs.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query entity-resolve</span> <span class="req">REFERENCE</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">REFERENCE</td><td class="opt-type">TEXT</td><td>Name fragment or description</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--topK</td><td class="opt-type">INTEGER</td><td>Number of results [default: 5]</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter: ISO date or <code>today</code></td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query chunks fetch chunk text exact id doc_sources evidence adjacent">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query chunks</span>
+          <span class="cmd-brief">Fetch chunk text by exact id</span>
+          <span class="cmd-badge badge-required">--domain + --idList required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Retrieves the full text of chunks by their exact IDs (the <code>doc_sources</code> / <code>evidence</code> ids other commands return).
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query chunks</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--idList</td><td class="opt-type">TEXT</td><td>Exact chunk id (repeatable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--expand</td><td class="opt-type">INTEGER</td><td>Also return up to N adjacent chunks per hit [default: 0]</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query entity-context entity properties one-hop relationships source chunks full">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query entity-context</span>
+          <span class="cmd-brief">Entity properties + one-hop relationships + source chunk text</span>
+          <span class="cmd-badge badge-required">--domain + --entityId required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            A single call that returns entity properties, one-hop relationships, and source chunk text.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query entity-context</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityId</td><td class="opt-type">TEXT</td><td>Exact entity id (from entity-resolve)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--includeChunks</td><td class="opt-type">INTEGER</td><td>Source chunks returned with full text [default: 5]</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Graph Patterns -->
+      <div class="cmd-card" data-search="query graph metadata schema labels properties relationship types">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph metadata</span>
+          <span class="cmd-brief">Return graph schema metadata (labels, properties, relationship types)</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph metadata</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph entity-listing grouped by label type names list all entities">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph entity-listing</span>
+          <span class="cmd-brief">Return entity names grouped by label/type</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph entity-listing</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--nameFilter</td><td class="opt-type">TEXT</td><td>Fuzzy match entity names (case-insensitive substring)</td></tr>
+            <tr><td class="opt-name">--countAll</td><td class="opt-type">FLAG</td><td>Include total unfiltered entity count</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern1 list entities class CHARACTER LOCATION type label">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern1</span>
+          <span class="cmd-brief">List entities of a class</span>
+          <span class="cmd-badge badge-required">--domain + --entityClass required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern1</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityClass</td><td class="opt-type">TEXT</td><td>Entity class label (e.g. <code>CHARACTER</code>, <code>LOCATION</code>)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--limit</td><td class="opt-type">INTEGER</td><td>Max results [default: 200]</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern2 info named entities name id properties">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern2</span>
+          <span class="cmd-brief">Info on one or more named entities</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern2</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityNameList</td><td class="opt-type">TEXT</td><td>Entity name (repeatable, substring match)</td></tr>
+            <tr><td class="opt-name">--entityIdList</td><td class="opt-type">TEXT</td><td>Exact entity id (repeatable, overrides name list)</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern3 entity lightweight relationship summary overview">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern3</span>
+          <span class="cmd-brief">Entity + lightweight relationship summary</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern3</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityNameList</td><td class="opt-type">TEXT</td><td>Entity name (repeatable, substring match)</td></tr>
+            <tr><td class="opt-name">--entityIdList</td><td class="opt-type">TEXT</td><td>Exact entity id (repeatable, overrides name list)</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern4 entity full neighborhood all relationships connected">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern4</span>
+          <span class="cmd-brief">Entity + full neighborhood</span>
+          <span class="cmd-badge badge-required">--domain + --entityClass required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern4</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityClass</td><td class="opt-type">TEXT</td><td>Entity class label</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityName</td><td class="opt-type">TEXT</td><td>Entity name (substring match)</td></tr>
+            <tr><td class="opt-name">--entityId</td><td class="opt-type">TEXT</td><td>Exact entity id (overrides --entityName)</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern5 paths between two entities shortest all depth 5 connectivity">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern5</span>
+          <span class="cmd-brief">Paths between two entities (shortest or all within depth 5)</span>
+          <span class="cmd-badge badge-required">--domain + --entityClass1 + --entityClass2 required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern5</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityClass1</td><td class="opt-type">TEXT</td><td>Class of first entity</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityClass2</td><td class="opt-type">TEXT</td><td>Class of second entity</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityName1</td><td class="opt-type">TEXT</td><td>Name of first entity</td></tr>
+            <tr><td class="opt-name">--entityName2</td><td class="opt-type">TEXT</td><td>Name of second entity</td></tr>
+            <tr><td class="opt-name">--entityId1</td><td class="opt-type">TEXT</td><td>Exact id (overrides --entityName1)</td></tr>
+            <tr><td class="opt-name">--entityId2</td><td class="opt-type">TEXT</td><td>Exact id (overrides --entityName2)</td></tr>
+            <tr><td class="opt-name">--mode</td><td class="opt-type">ENUM</td><td><code>shortest</code> | <code>all</code> [default: shortest]</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern6 direct relationships between two entities link edge">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern6</span>
+          <span class="cmd-brief">Direct relationships between two entities</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern6</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityName1</td><td class="opt-type">TEXT</td><td>Name of first entity</td></tr>
+            <tr><td class="opt-name">--entityName2</td><td class="opt-type">TEXT</td><td>Name of second entity</td></tr>
+            <tr><td class="opt-name">--entityId1</td><td class="opt-type">TEXT</td><td>Exact id (overrides --entityName1)</td></tr>
+            <tr><td class="opt-name">--entityId2</td><td class="opt-type">TEXT</td><td>Exact id (overrides --entityName2)</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern7 search entities name description fragment substring find">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern7</span>
+          <span class="cmd-brief">Search entities by name or description fragment</span>
+          <span class="cmd-badge badge-required">--domain + --searchTerm required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern7</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--searchTerm</td><td class="opt-type">TEXT</td><td>Substring match on name or description</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--limit</td><td class="opt-type">INTEGER</td><td>Max results [default: 10]</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern8 entities class connected to entity X neighbors connected">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern8</span>
+          <span class="cmd-brief">Entities of class X connected to entity Y</span>
+          <span class="cmd-badge badge-required">--domain + --entityClass required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern8</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityClass</td><td class="opt-type">TEXT</td><td>Class of entities to return</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityName</td><td class="opt-type">TEXT</td><td>Name of the connected entity</td></tr>
+            <tr><td class="opt-name">--entityId</td><td class="opt-type">TEXT</td><td>Exact id (overrides --entityName)</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern9 top-N entities class connection count degree centrality most connected">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern9</span>
+          <span class="cmd-brief">Top-N entities of a class by connection count</span>
+          <span class="cmd-badge badge-required">--domain + --entityClass required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern9</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityClass</td><td class="opt-type">TEXT</td><td>Entity class label</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--topN</td><td class="opt-type">INTEGER</td><td>Number of top entities [default: 5]</td></tr>
+            <tr><td class="opt-name">--degreeMode</td><td class="opt-type">ENUM</td><td><code>relations</code> | <code>mentions</code> | <code>all</code> [default: relations]</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Valid-time filter</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph pattern10 document chunks all text retrieve full document content">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph pattern10</span>
+          <span class="cmd-brief">Retrieve all text chunks for a named document</span>
+          <span class="cmd-badge badge-required">--domain + --documentName required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph pattern10</span> <span class="opt">[QUESTION]</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--documentName</td><td class="opt-type">TEXT</td><td>Document name (substring match)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--asOf</td><td class="opt-type">TEXT</td><td>Accepted but IGNORED by pattern10</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph text2cypher natural language cypher LLM generate query execution">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph text2cypher</span>
+          <span class="cmd-brief">Generate and execute a Cypher query from a natural-language question (LLM)</span>
+          <span class="cmd-badge badge-required">--domain + QUESTION required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Use <code>--dry-run</code> to preview the generated Cypher without executing it.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph text2cypher</span> <span class="req">QUESTION</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">QUESTION</td><td class="opt-type">TEXT</td><td>Natural language question</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--dry-run</td><td class="opt-type">FLAG</td><td>Show generated Cypher without executing</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+          <div class="example-block">
+            artmind query graph text2cypher "Which entities are connected to Acme Corp?" --domain banking
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph timeline events state changes supersessions entity time ordered chronological">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph timeline</span>
+          <span class="cmd-brief">Events/state-changes/supersessions for an entity, ordered by time</span>
+          <span class="cmd-badge badge-required">--domain + --entityId required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph timeline</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityId</td><td class="opt-type">TEXT</td><td>Entity id whose timeline to render</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph conflicts materialized conflict nodes open resolved dismissed status">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph conflicts</span>
+          <span class="cmd-brief">List materialized Conflict nodes scoped to the given domains</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph conflicts</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--entityId</td><td class="opt-type">TEXT</td><td>Filter to conflicts touching this entity id (repeatable)</td></tr>
+            <tr><td class="opt-name">--entityName</td><td class="opt-type">TEXT</td><td>Filter to conflicts touching an entity whose name contains this</td></tr>
+            <tr><td class="opt-name">--status</td><td class="opt-type">ENUM</td><td><code>open</code> | <code>resolved</code> | <code>dismissed</code> | <code>all</code> [default: open]</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="query graph structural-metadata document docchunk userchat entity counts relationships">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind query graph structural-metadata</span>
+          <span class="cmd-brief">Return focused structural metadata (Document, DocChunk, UserChat, Entity counts)</span>
+          <span class="cmd-badge badge-required">--domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind query graph structural-metadata</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain(s) (repeatable; comma-splittable)</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--compact</td><td class="opt-type">FLAG</td><td>Emit compact JSON</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== DOCUMENTS ===== -->
+  <div class="category" data-group="docs">
+    <div class="category-header" onclick="toggleCategory(this)">
+      <div class="category-icon" style="background:var(--orange-bg);color:var(--orange);">□</div>
+      <div class="category-title">Documents</div>
+      <div class="category-desc">Manage ingested documents</div>
+      <div class="category-toggle">▼</div>
+    </div>
+    <div class="category-body">
+
+      <div class="cmd-card" data-search="docs clean delete document remove registry neo4j local storage">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind docs clean</span>
+          <span class="cmd-brief">Delete a document from local storage, registry, and Neo4j</span>
+          <span class="cmd-badge badge-required">DOCUMENT_NAME + --domain required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind docs clean</span> <span class="req">DOCUMENT_NAME</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">DOCUMENT_NAME</td><td class="opt-type">TEXT</td><td>Registered filename to remove</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain containing the document</td><td class="opt-required">required</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== UPDATES ===== -->
+  <div class="category" data-group="update">
+    <div class="category-header" onclick="toggleCategory(this)">
+      <div class="category-icon" style="background:var(--pink-bg);color:var(--pink);">✎</div>
+      <div class="category-title">Updates</div>
+      <div class="category-desc">Add and update knowledge graph facts from natural language</div>
+      <div class="category-toggle">▼</div>
+    </div>
+    <div class="category-body">
+
+      <div class="cmd-card" data-search="update draft extract facts candidates natural language text user input">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind update draft</span>
+          <span class="cmd-brief">Extract facts and find graph candidates. Returns JSON</span>
+          <span class="cmd-badge badge-required">--domain + --text required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            First step of the update workflow. Extracts atomic facts from your text and finds matching entities in the graph.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind update draft</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Domain name</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--text</td><td class="opt-type">TEXT</td><td>Raw user input text</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--session</td><td class="opt-type">TEXT</td><td>Resume an existing session UUID</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="update confirm write facts neo4j confirmed resolutions session">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind update confirm</span>
+          <span class="cmd-brief">Write confirmed facts to Neo4j. Returns JSON</span>
+          <span class="cmd-badge badge-required">--session + --resolutions required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Second step of the update workflow. Takes the session UUID from <code>draft</code> and a JSON array of resolution objects.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind update confirm</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--session</td><td class="opt-type">TEXT</td><td>Session UUID from draft step</td><td class="opt-required">required</td></tr>
+            <tr><td class="opt-name">--resolutions</td><td class="opt-type">TEXT</td><td>JSON array of resolution objects</td><td class="opt-required">required</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="update history list recent sessions audit trail log">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind update history</span>
+          <span class="cmd-brief">List recent update sessions</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind update history</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Filter by domain</td></tr>
+            <tr><td class="opt-name">--user</td><td class="opt-type">TEXT</td><td>Filter by created_by</td></tr>
+            <tr><td class="opt-name">--limit</td><td class="opt-type">INTEGER</td><td>Maximum rows to return [default: 20]</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="update export userchat markdown files chat history conversations">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind update export</span>
+          <span class="cmd-brief">Export UserChat nodes to markdown files</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind update export</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--domain</td><td class="opt-type">TEXT</td><td>Filter by domain</td></tr>
+            <tr><td class="opt-name">--format</td><td class="opt-type">ENUM</td><td><code>sequential</code> | <code>by-entity</code> [default: sequential]</td></tr>
+            <tr><td class="opt-name">--output</td><td class="opt-type">DIRECTORY</td><td>Output directory [default: data/chats]</td></tr>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== SESSIONS ===== -->
+  <div class="category" data-group="session">
+    <div class="category-header" onclick="toggleCategory(this)">
+      <div class="category-icon" style="background:var(--yellow-bg);color:var(--yellow);">◉</div>
+      <div class="category-title">Sessions</div>
+      <div class="category-desc">Save and restore the Neo4j graph between sessions</div>
+      <div class="category-toggle">▼</div>
+    </div>
+    <div class="category-body">
+
+      <div class="cmd-card" data-search="session close export snapshot compressed end backup save">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind session close</span>
+          <span class="cmd-brief">Export the full Neo4j graph to a compressed snapshot (end of session)</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Creates a compressed <code>.tar.gz</code> snapshot of the entire Neo4j graph.
+            Use at end of session to preserve state.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind session close</span> <span class="opt">[OPTIONS]</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="cmd-card" data-search="session initiate wipe restore snapshot start new fresh load import">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind session initiate</span>
+          <span class="cmd-brief">Wipe Neo4j and restore from a snapshot (start of session)</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">
+            Restores the graph from a snapshot. By default uses the latest in <code>data/graph_snapshot/</code>.
+            Use <code>--yes</code> to skip the confirmation prompt.
+          </div>
+          <div class="cmd-usage">
+            <span class="kw">Usage:</span> <span class="arg">artmind session initiate</span> <span class="opt">[OPTIONS]</span>
+          </div>
+          <div class="cmd-options-title">Options</div>
+          <table class="opt-table">
+            <tr><td class="opt-name">--snapshot</td><td class="opt-type">PATH</td><td>Path to a specific snapshot .tar.gz (default: latest in <code>data/graph_snapshot/</code>)</td></tr>
+            <tr><td class="opt-name">--yes</td><td class="opt-type">FLAG</td><td>Skip confirmation prompt</td></tr>
+          </table>
+          <div class="example-block">
+            <span class="comment"># Start a fresh session from latest snapshot</span><br>
+            artmind session initiate<br><br>
+            <span class="comment"># Restore from a specific snapshot, skip confirmation</span><br>
+            artmind session initiate --snapshot data/graph_snapshot/snap_2025.tar.gz --yes
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="no-results" id="noResults">
+    No commands match your search. Try different keywords.
+  </div>
+
+</div>
+
+<script>
+function toggleCategory(header) {
+  header.closest('.category').classList.toggle('collapsed');
+}
+
+function toggleCmd(header) {
+  header.closest('.cmd-card').classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const stats = document.getElementById('searchStats');
+const noResults = document.getElementById('noResults');
+const allCards = document.querySelectorAll('.cmd-card');
+
+searchInput.addEventListener('input', function() {
+  const q = this.value.toLowerCase().trim();
+  let visible = 0;
+
+  allCards.forEach(card => {
+    const searchText = (
+      card.getAttribute('data-search') + ' ' +
+      card.textContent
+    ).toLowerCase();
+
+    if (!q || searchText.includes(q)) {
+      card.classList.remove('hidden');
+      visible++;
+    } else {
+      card.classList.add('hidden');
+      card.classList.remove('open');
+    }
+  });
+
+  // Auto-expand categories with matches, collapse others
+  document.querySelectorAll('.category').forEach(cat => {
+    const hasVisible = cat.querySelectorAll('.cmd-card:not(.hidden)').length > 0;
+    if (q) {
+      cat.classList.toggle('collapsed', !hasVisible);
+    }
+  });
+
+  noResults.classList.toggle('visible', q.length > 0 && visible === 0);
+  stats.textContent = q ? `${visible} command${visible !== 1 ? 's' : ''} found` : '';
+});
+
+// Keyboard shortcut: / to focus search
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== searchInput) {
+    e.preventDefault();
+    searchInput.focus();
+  }
+  if (e.key === 'Escape') {
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+    searchInput.blur();
+  }
+});
+</script>
+
+</body>
+</html>
