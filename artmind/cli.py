@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-import click
+import rich_click as click
 import yaml
 from loguru import logger
 
@@ -139,6 +139,53 @@ def _prompt_for_domain() -> str:
 
 
 # ── CLI root ───────────────────────────────────────────────────────────────────
+
+click.rich_click.TEXT_MARKUP = "rich"
+click.rich_click.SHOW_ARGUMENTS = True
+click.rich_click.GROUP_ARGUMENTS_OPTIONS = True
+click.rich_click.STYLE_ERRORS_SUGGESTION = "magenta italic"
+click.rich_click.MAX_WIDTH = 100
+
+click.rich_click.COMMAND_GROUPS = {
+    "artmind": [
+        {"name": "Domains", "commands": ["domains"]},
+        {"name": "Ingestion", "commands": ["ingest"]},
+        {"name": "Query", "commands": ["query"]},
+        {"name": "Documents", "commands": ["docs"]},
+        {"name": "Updates", "commands": ["update"]},
+        {"name": "Sessions", "commands": ["session"]},
+        {"name": "Setup & tools", "commands": ["setup", "wizard"]},
+    ],
+    "artmind ingest": [
+        {
+            "name": "Sync & jobs",
+            "commands": ["sync", "async", "jobs", "job-status", "job-results", "retry-job", "dashboard"],
+        },
+        {
+            "name": "Graph building",
+            "commands": ["extract-kg", "write-to-graph", "pull-kg", "embed-entities"],
+        },
+        {
+            "name": "Refinement",
+            "commands": [
+                "refine-graph",
+                "refine-pipeline",
+                "consolidate-descriptions",
+                "normalize-time",
+                "detect-conflicts",
+                "supersede",
+                "detect-supersession",
+            ],
+        },
+    ],
+    "artmind query": [
+        {"name": "Graph patterns", "commands": ["graph"]},
+        {
+            "name": "Lookups",
+            "commands": ["domains-overview", "vector-text", "entity-resolve", "chunks", "entity-context"],
+        },
+    ],
+}
 
 
 @click.group()

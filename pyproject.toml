@@ -16,6 +16,7 @@ dependencies = [
     "openai>=1.50.0",
     "python-dotenv>=1.0.0",
     "pyyaml>=6.0.3",
+    "rich-click>=1.9.8",
     "textual>=8.2.5",
 ]
 
