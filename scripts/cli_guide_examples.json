@@ -1,0 +1,62 @@
+{
+  "artmind domains add": {
+    "examples": ["artmind domains add domains/schemas/banking_schema.yaml"]
+  },
+  "artmind domains harmonize": {
+    "extra": "Use --dry-run to preview changes; never removes child-specific extras.",
+    "examples": [
+      "artmind domains harmonize --domain fiction.thriller --dry-run",
+      "artmind domains harmonize --domain fiction.thriller"
+    ]
+  },
+  "artmind domains render-html": {
+    "examples": [
+      "artmind domains render-html banking -o docs/banking_ref.html"
+    ]
+  },
+  "artmind ingest sync": {
+    "examples": [
+      "artmind ingest sync ./report.pdf",
+      "artmind ingest sync ./docs/ --domain banking"
+    ]
+  },
+  "artmind ingest pull-kg": {
+    "examples": [
+      "artmind ingest pull-kg \\\n  --repo git@github.com:acme/kg-store.git \\\n  --repo-path data/kg/sales_collateral \\\n  --domain sales_collateral"
+    ]
+  },
+  "artmind ingest refine-graph": {
+    "examples": [
+      "artmind ingest refine-graph --dry-run --output merges.json",
+      "artmind ingest refine-graph --from-file merges.json"
+    ]
+  },
+  "artmind ingest refine-pipeline": {
+    "examples": [
+      "artmind ingest refine-pipeline --domain banking",
+      "artmind ingest refine-pipeline --domain banking --from-file pipeline_report.json"
+    ]
+  },
+  "artmind ingest detect-conflicts": {
+    "examples": [
+      "artmind ingest detect-conflicts --domain A --domain B --dry-run --output conflicts.json",
+      "artmind ingest detect-conflicts --domain A --domain B --from-file conflicts.json"
+    ]
+  },
+  "artmind query vector-text": {
+    "examples": [
+      "artmind query vector-text \"interest rate changes\" --domain banking --topK 10"
+    ]
+  },
+  "artmind query graph text2cypher": {
+    "examples": [
+      "artmind query graph text2cypher \"Which entities are connected to Acme Corp?\" --domain banking"
+    ]
+  },
+  "artmind session initiate": {
+    "examples": [
+      "artmind session initiate",
+      "artmind session initiate --snapshot data/graph_snapshot/snap_2025.tar.gz --yes"
+    ]
+  }
+}
