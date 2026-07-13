@@ -947,27 +947,46 @@ def list_conflicts(
     entity_name: str | None = None,
     status: str = "open",
 ) -> dict:
-    """Read materialized Conflict nodes scoped to the given domains.
+    """List live conflicts, scoped to the given domains.
 
-    status='all' returns every status; otherwise filters Conflict.status.
+    Matches the bidirectional CONFLICTS_WITH shortcut edge directly (written by
+    detect-conflicts' materialize() alongside the Conflict node, on both entities)
+    rather than requiring the Conflict/CONFLICT_OF/EVIDENCE subgraph to still exist.
+    This degrades gracefully: CONFLICTS_WITH edges carry their own conflict_id/aspect
+    and remain queryable even if the Conflict node they were minted with has since been
+    deleted (observed live on the banking-corpus graph — CONFLICTS_WITH edges survived,
+    Conflict/EVIDENCE nodes did not) — the old Conflict-node-only query silently
+    returned zero rows in that state. The Conflict node, when present, is joined in as
+    optional enrichment (severity, claim_a/claim_b, detected_at) — see `materialized` on
+    each row. status='all' returns every status; otherwise filters against
+    coalesce(Conflict.status, 'open'), since an orphaned edge with no Conflict node has
+    no recorded status and defaults to the same 'open' value materialize() sets on create.
     """
     domains = normalize_domains(domains)
     entity_ids = list(entity_ids or [])
-    # Conflict.domains is a list property (a conflict can span 2+ domains), unlike
-    # Entity/Document/DocChunk's scalar .domain — so this scopes via list containment
-    # instead of domain_predicate().
     cypher = f"""
-    MATCH (co:Conflict)
-    WHERE any(d IN $domains WHERE d IN co.domains)
-      AND ($status = 'all' OR co.status = $status)
-    OPTIONAL MATCH (co)-[:CONFLICT_OF]->(e:Entity)
-    WITH co, collect(DISTINCT e {{ .id, .name, .entity_class, .domain }}) AS entities
+    MATCH (a:Entity)-[r:CONFLICTS_WITH]->(b:Entity)
+    WHERE {domain_predicate("a")} AND {domain_predicate("b")} AND a.id < b.id
+    WITH r.conflict_id AS conflictId, r.aspect AS aspect,
+         collect(DISTINCT a {{ .id, .name, .entity_class, .domain }})
+           + collect(DISTINCT b {{ .id, .name, .entity_class, .domain }}) AS entities
     WHERE ($entityIds = [] OR any(e IN entities WHERE e.id IN $entityIds))
       AND ($entityName IS NULL OR any(e IN entities WHERE toLower(e.name) CONTAINS toLower($entityName)))
+    OPTIONAL MATCH (co:Conflict {{id: conflictId}})
+    WITH conflictId, aspect, entities, co, coalesce(co.status, 'open') AS effectiveStatus
+    WHERE $status = 'all' OR effectiveStatus = $status
     OPTIONAL MATCH (co)-[ev:EVIDENCE]->(c:DocChunk)
-    RETURN co {{ .* }} AS conflict, entities,
-           collect(DISTINCT {{ side: ev.side, chunk_id: c.id, doc_id: c.doc_id, domain: c.domain, text: c.text }}) AS evidence
-    ORDER BY conflict.severity DESC, conflict.detected_at DESC
+    WITH conflictId, aspect, entities, co, effectiveStatus,
+         [x IN collect(CASE WHEN c IS NULL THEN NULL ELSE {{
+           side: ev.side, chunk_id: c.id, doc_id: c.doc_id, domain: c.domain, text: c.text
+         }} END) WHERE x IS NOT NULL] AS evidence
+    RETURN {{
+      id: conflictId, aspect: aspect, status: effectiveStatus,
+      severity: co.severity, claim_a: co.claim_a, claim_b: co.claim_b,
+      domains: co.domains, detected_at: co.detected_at, detected_by_model: co.detected_by_model,
+      materialized: co IS NOT NULL
+    }} AS conflict, entities, evidence
+    ORDER BY co.severity DESC, co.detected_at DESC
     """
     return {
         **_domain_output(domains),

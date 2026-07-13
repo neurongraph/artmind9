@@ -141,15 +141,39 @@ vector-text combines semantic (vector) and keyword (Lucene BM25 full-text) searc
 
 ### 5. Adjudicate — surface disagreements, never blend
 
-First check for already-materialized conflicts on the resolved entity ids:
+First check for already-materialized conflicts. Two sources, cheapest first:
+
+1. **Free check:** if Retrieve already called `entity-context`/`pattern3`/`pattern4` on
+   the resolved entity, scan the `connections` it returned for an edge of type
+   `CONFLICTS_WITH` — those relationship-agnostic patterns fetch every one-hop edge, so
+   a live conflict is often already sitting in context with zero extra calls. This only
+   fires if you resolved to the *specific claim-bearing entity* (e.g. "Mortgage
+   Statement"), not an umbrella container (e.g. the policy or process that mentions it)
+   — CONFLICTS_WITH sits on the concrete entities being compared, not their containers.
+2. **Dedicated lookup**, for anything step 1 didn't cover or when you haven't already
+   called an entity-anchored pattern:
 
 ```bash
 uv run artmind query graph conflicts --domain <d1> --domain <d2> --entityId <id> --compact
 ```
 
-If a `Conflict` exists, surface its `claim_a`/`claim_b` with their EVIDENCE
-provenance. Then independently compare the retrieved claims (below) to catch
-conflicts introduced by new documents since the last detect-conflicts run.
+This matches the `CONFLICTS_WITH` edge between entities directly, so it still finds a
+conflict even if the heavier `Conflict`/`EVIDENCE` node it was minted with has since
+been deleted — check each row's `materialized` flag: `true` means `claim_a`/`claim_b`/
+`evidence`/`severity` are populated straight from the `Conflict` node; `false` means
+only `aspect` and the two entities are known, so pull grounding yourself via `chunks`/
+`vector-text` on those entities before stating the claims. Either way, surface `aspect`
+and both entities' `name`/`domain`; never assert `claim_a`/`claim_b` text that isn't
+actually present on a `materialized: true` row.
+
+**Fan-out caveat:** one real disagreement (e.g. a document-tier reclassification) can
+produce many pairwise conflict rows sharing the same root cause across different
+document pairs in the same tier bucket — group rows by shared `aspect`/entity-class
+pattern and report the *underlying* disagreement once, not each pairwise row separately.
+
+Then independently compare the retrieved claims (below) to catch conflicts introduced
+by new documents since the last detect-conflicts run — materialized conflicts are a
+snapshot, not a live guarantee.
 
 After grounding, compare quantitative/authority claims across the retrieved
 documents and domains (no extra LLM calls — the evidence is already in context).
