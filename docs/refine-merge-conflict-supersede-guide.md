@@ -3,7 +3,7 @@
 This doc explains the cross-domain refinement/conflict/temporality machinery added in
 `docs/superpowers/plans/2026-07-04-cross-domain-conflicts-and-temporality.md`, in plain
 terms, with real examples pulled from the live `banking-corpus` graph. It's written to
-double as source material for a future `artmind-refine-graph` skill (see §4).
+double as source material for the `artmind-refine` skill (see §4).
 
 **Status as of this writing:** Phase 1 (cross-domain retrieval), Phase T1 (temporal
 mechanics: `--asOf`, canonical `valid_from`/`valid_to`, per-document normalization),
@@ -179,25 +179,28 @@ Runs every refinement step in dependency order — `time → supersession → me
 conflicts → consolidate → embed` — with a propose/apply gate:
 
 ```
---domain TEXT              Domain to refine (required; sub-domains rolled up)
+--domain TEXT              Domain to refine (repeatable; 2+ domains add a
+                           cross-domain conflicts pass after all per-domain steps)
 --apply                    One-shot compute AND apply (skips the review gate)
 --from-file PATH           Apply vetted proposals from a prior propose report
 --steps TEXT               Comma subset of the six steps (canonical order enforced)
 --mergeThreshold FLOAT     Merge clustering threshold [default: 0.7]
 --simThreshold FLOAT       Conflict candidate threshold [default: 0.75]
---maxPairs INT             Conflict candidate cap [default: 200]
---sampleConsolidations INT Consolidation previews in propose mode [default: 3]
---consolidateLimit INT     Cap consolidations in apply mode (default: all)
+--maxPairs INT             Conflict candidate cap per detection pass [default: 200]
+--sampleConsolidations INT Consolidation previews per domain in propose mode [default: 3]
+--consolidateLimit INT     Cap consolidations per domain in apply mode (default: all)
 ```
 
 Propose mode runs time/supersession for real (additive, idempotent), produces
-reviewable `merges.json` / `conflicts.json` / consolidation samples, and writes one
-report under `data/refine/pipeline/<domain>/`. Apply (`--from-file <report>`)
-materializes the (possibly edited) proposals in order and finishes with an embedding
-sweep that also refreshes merged canonicals. The guided review workflow lives in
-`skills/artmind-refine/SKILL.md`. The individual commands below remain available for
-targeted runs; the pipeline exists so their ordering constraints (see §1) are enforced
-by code rather than operator memory.
+reviewable `merges_<domain>.json` / `conflicts_<domain>.json` /
+`conflicts_cross.json` / consolidation samples, and writes one report under
+`data/refine/pipeline/`. Apply (`--from-file <report>`) materializes the (possibly
+edited) proposals in order and finishes with an embedding sweep that also refreshes
+merged canonicals. With multiple domains the cross-domain conflicts pass runs only
+after every domain's merge step — the §1 precondition holds by construction. The
+guided review workflow lives in `skills/artmind-refine/SKILL.md`. The individual
+commands below remain available for targeted runs; the pipeline exists so their
+ordering constraints (see §1) are enforced by code rather than operator memory.
 
 #### `artmind ingest refine-graph`
 ```
@@ -498,10 +501,12 @@ never blend disagreeing sources, never fabricate past what's grounded.
 
 ## 4. Notes toward a future `artmind-refine-graph` skill
 
-> **Now implemented**, twice over: `skills/artmind-refine-graph/SKILL.md` covers
-> the targeted workflows sketched below (dedup review, cross-domain conflicts,
-> merge/conflict forensics), and `skills/artmind-refine/SKILL.md` drives the
-> full-domain `ingest refine-pipeline` orchestrator (§2.1). The notes below are
+> **Now implemented** as the single `skills/artmind-refine/SKILL.md`: it drives
+> the `ingest refine-pipeline` orchestrator (§2.1, including the cross-domain
+> conflicts pass for multi-domain runs) and absorbs the targeted workflows
+> sketched below (dedup review, focused merges, merge/conflict forensics,
+> supersession-vs-conflict triage). An earlier `artmind-refine-graph` skill
+> covering only the targeted workflows was folded into it. The notes below are
 > kept as the original design rationale.
 
 A skill built from this guide should probably encapsulate the following workflows as

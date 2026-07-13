@@ -330,10 +330,16 @@ Extraction runs per-chunk, so a freshly ingested domain accumulates near-duplica
 # 1. Propose: deterministic steps run for real; LLM steps produce reviewable proposals
 uv run artmind ingest refine-pipeline --domain fiction
 
-# 2. Review the report and its merges.json / conflicts.json; edit out bad pairs
+# 2. Review the report and its merges_*.json / conflicts_*.json; edit out bad pairs
 
 # 3. Apply the vetted proposals in dependency order
 uv run artmind ingest refine-pipeline --domain fiction --from-file <pipeline_report.json>
+```
+
+Pass `--domain` more than once to refine sibling domains together — after every domain's own steps, the pipeline adds a **cross-domain conflicts pass** that adjudicates disagreements *between* them (e.g. a policy contradicting an SOP), with merges guaranteed to land first:
+
+```bash
+uv run artmind ingest refine-pipeline --domain banking_policy --domain banking_sop_guides
 ```
 
 The `artmind-refine` Claude Code skill (below) drives this workflow conversationally, including the review gates. Each step also exists as a standalone command for targeted runs:
@@ -612,7 +618,7 @@ The full-text leg runs on the `chunk_text_ft` and `user_chat_text_ft` indexes cr
 
 ## Claude Code skills
 
-artmind ships with six Claude Code skills, located under `skills/`.
+artmind ships with five Claude Code skills, located under `skills/`.
 
 ### `artmind-query`
 
@@ -640,18 +646,10 @@ Add and update facts through conversational natural language. The skill detects 
 
 ### `artmind-refine`
 
-Run the full refinement pipeline for one domain with guided review at the judgment gates: it proposes, walks you through the merge / conflict / consolidation-quality reviews, applies the vetted proposals in dependency order, and verifies the result with spot-check queries.
+All graph maintenance in one skill: run the refinement pipeline for one or several domains (2+ domains add the cross-domain conflicts pass) with guided review at the judgment gates, do focused merges of specific entities, and investigate a surprising merge or conflict ("why did these get merged", "real disagreement or an older document?").
 
 ```
 /artmind-refine
-```
-
-### `artmind-refine-graph`
-
-Targeted graph maintenance: clean up duplicates for specific entities, detect conflicts *across* sibling domains (which the single-domain pipeline doesn't cover), reconcile document version history, and investigate a surprising merge or conflict.
-
-```
-/artmind-refine-graph
 ```
 
 ### `artmind-create-schema`
@@ -736,8 +734,7 @@ scripts/
 skills/
   artmind-query/        Claude Code skill — natural-language graph queries
   artmind-update/       Claude Code skill — natural-language graph updates
-  artmind-refine/       Claude Code skill — guided full-domain refinement pipeline
-  artmind-refine-graph/ Claude Code skill — targeted dedup, cross-domain conflicts, forensics
+  artmind-refine/       Claude Code skill — refinement pipeline, targeted merges, forensics
   artmind-create-schema/ Claude Code skill — author a new domain schema
   artmind-ingestion-helper/ Claude Code skill — ingestion pipeline guide
 docs/                   design docs and the refinement field guide

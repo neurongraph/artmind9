@@ -741,19 +741,19 @@ def ingest_refine_graph(
 
 
 @ingest.command("refine-pipeline")
-@click.option("--domain", required=True, help="Domain to refine (sub-domains rolled up)")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to refine (repeatable; 2+ domains add a cross-domain conflicts pass)")
 @click.option("--apply", "apply_", is_flag=True, help="One-shot: compute AND apply every step (skips the review gate)")
 @click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Apply vetted proposals from a prior propose report (pipeline_report.json)")
 @click.option("--steps", default=None, help="Comma-separated subset of: time,supersession,merge,conflicts,consolidate,embed (canonical order enforced)")
 @click.option("--model", default=None, help="LLM model for merge/conflict/consolidation calls (default: env)")
 @click.option("--mergeThreshold", "merge_threshold", type=float, default=0.7, show_default=True, help="Similarity threshold for merge clustering")
 @click.option("--simThreshold", "conflict_sim_threshold", type=float, default=0.75, show_default=True, help="Similarity threshold for conflict candidate pairs")
-@click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Cap on conflict candidate pairs (bounds LLM cost)")
-@click.option("--sampleConsolidations", "sample_consolidations", type=int, default=3, show_default=True, help="Consolidation samples shown in propose mode")
-@click.option("--consolidateLimit", "consolidate_limit", type=int, default=None, help="Cap entities consolidated in apply mode (default: all)")
+@click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Cap on conflict candidate pairs per detection pass (bounds LLM cost)")
+@click.option("--sampleConsolidations", "sample_consolidations", type=int, default=3, show_default=True, help="Consolidation samples shown per domain in propose mode")
+@click.option("--consolidateLimit", "consolidate_limit", type=int, default=None, help="Cap entities consolidated per domain in apply mode (default: all)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_refine_pipeline(
-    domain: str,
+    domain: tuple,
     apply_: bool,
     from_file: str | None,
     steps: str | None,
@@ -769,10 +769,12 @@ def ingest_refine_pipeline(
 
     \b
     Workflow:
-      1. Propose:  artmind ingest refine-pipeline --domain <d>
+      1. Propose:  artmind ingest refine-pipeline --domain <d> [--domain <d2>]
          (time/supersession run for real — additive and idempotent;
-          merge/conflicts/consolidation produce reviewable proposals)
-      2. Review the report and its merges.json / conflicts.json; edit if needed
+          merge/conflicts/consolidation produce reviewable proposals;
+          with 2+ domains, a cross-domain conflicts pass runs after every
+          domain's own steps — merges land first by construction)
+      2. Review the report and its merges_*.json / conflicts_*.json; edit if needed
       3. Apply:    artmind ingest refine-pipeline --domain <d> --from-file <report>
     Use --apply to skip the review gate (trusted automation only).
     """
@@ -780,7 +782,7 @@ def ingest_refine_pipeline(
     step_list = steps.split(",") if steps else None
     try:
         result = run_pipeline(
-            domain=domain,
+            domains=_parse_domains(domain),
             apply=apply_,
             from_file=from_file,
             steps=step_list,

@@ -1,6 +1,6 @@
 """Refine pipeline: one ordered entry point for all graph refinement steps.
 
-The five refinement operations have hard dependencies, so their sequence is
+The refinement operations have hard dependencies, so their sequence is
 encoded here rather than left to operator memory:
 
 1. time          — normalize_time: canonical valid_from/valid_to must exist
@@ -12,7 +12,13 @@ encoded here rather than left to operator memory:
                    about the same entity must meet on one node) and
                    consolidation (don't pay LLM calls on soon-merged entities)
 4. conflicts     — detect_conflicts: must precede consolidation so its
-                   skip-open-conflict gate has conflicts to see
+                   skip-open-conflict gate has conflicts to see. With one
+                   domain this pairs entities WITHIN it; with 2+ domains an
+                   additional cross-domain pass pairs entities BETWEEN them
+                   (candidate_pairs is cross-only for multi-domain input) —
+                   and because every domain's merge step ran first, the
+                   merge-before-cross-conflicts precondition holds by
+                   construction.
 5. consolidate   — consolidate_descriptions: benefits from all of the above
 6. embed         — one embedding sweep at the end (merges and rewrites both
                    invalidate embeddings)
@@ -21,12 +27,15 @@ Two phases, mirroring the dry-run/apply workflow of the individual commands:
 
 - propose (default): steps 1-2 run for real (deterministic, additive,
   idempotent); steps 3-5 run as dry-runs; everything lands in ONE report
-  under data/refine/pipeline/<domain>/ with sub-proposal files alongside.
+  under data/refine/pipeline/ with per-domain sub-proposal files alongside.
 - apply --from-file <report>: re-runs 1-2 (idempotent), applies the vetted
   merge/conflict proposals from the report's sub-files, runs consolidation
   live, then the embed sweep. Editing the sub-files before applying is the
   review mechanism, exactly as with refine-graph / detect-conflicts alone.
 - apply without --from-file: one-shot propose+apply for trusted automation.
+
+Report structure: {"domains": [...], "per_domain": {<d>: {<step>: ...}},
+"cross_domain_conflicts": {...}} — the cross key exists only for 2+ domains.
 """
 import json
 from datetime import datetime, timezone
@@ -36,7 +45,7 @@ from loguru import logger
 
 from artmind.conflicts import detect_conflicts
 from artmind.consolidate import consolidate_descriptions
-from artmind.graph_query import neo4j_session
+from artmind.graph_query import neo4j_session, normalize_domains
 from artmind.ingest import embed_entities_backfill
 from artmind.refine_graph import refine_graph
 from artmind.temporal import detect_supersession, normalize_time
@@ -60,8 +69,8 @@ def resolve_steps(steps: "list[str] | None") -> list[str]:
     return [s for s in PIPELINE_STEPS if s in requested]
 
 
-def _run_dir(domain: str, now: str) -> Path:
-    d = REFINE_DIR / "pipeline" / domain / now.replace(":", "").replace("+", "_")
+def _run_dir(domains: list[str], now: str) -> Path:
+    d = REFINE_DIR / "pipeline" / "+".join(domains) / now.replace(":", "").replace("+", "_")
     d.mkdir(parents=True, exist_ok=True)
     return d
 
@@ -91,7 +100,7 @@ def _null_embeddings_for_canonicals(domain: str, canonicals: "list[str]") -> int
 
 
 def run_pipeline(
-    domain: str,
+    domains: "str | list[str]",
     apply: bool = False,
     from_file: "str | None" = None,
     steps: "list[str] | None" = None,
@@ -102,7 +111,8 @@ def run_pipeline(
     sample_consolidations: int = 3,
     consolidate_limit: "int | None" = None,
 ) -> dict:
-    """Run the refine pipeline for one domain. See module docstring for phases."""
+    """Run the refine pipeline for one or more domains. See module docstring."""
+    domains = normalize_domains(domains)
     env = load_env()
     resolved_model = resolve_llm_model(env, model)
     selected = resolve_steps(steps)
@@ -112,125 +122,160 @@ def run_pipeline(
     prior: dict = {}
     if from_file:
         prior = json.loads(Path(from_file).read_text(encoding="utf-8"))
-        if prior.get("domain") != domain:
+        if set(prior.get("domains", [])) != set(domains):
             raise ValueError(
-                f"--from-file report is for domain {prior.get('domain')!r}, not {domain!r}"
+                f"--from-file report covers domains {prior.get('domains')!r}, "
+                f"not {domains!r}"
             )
 
-    run_dir = _run_dir(domain, now)
+    run_dir = _run_dir(domains, now)
     report: dict = {
-        "domain": domain,
+        "domains": domains,
         "command": "refine_pipeline",
         "mode": mode,
         "model": resolved_model,
         "started_at": now,
-        "steps": {},
+        "per_domain": {d: {} for d in domains},
     }
 
-    # ── 1. time + 2. supersession: deterministic, additive, idempotent ────────
-    if "time" in selected:
-        r = normalize_time(domain, dry_run=False)
-        report["steps"]["time"] = r
-        logger.info("pipeline[{}] time: {}", domain, r)
-    if "supersession" in selected:
-        r = detect_supersession(domain, dry_run=False)
-        report["steps"]["supersession"] = r
-        logger.info("pipeline[{}] supersession: {}", domain, r)
+    def _prior_step(domain: str, step: str) -> dict:
+        return prior.get("per_domain", {}).get(domain, {}).get(step, {})
 
-    # ── 3. merge ───────────────────────────────────────────────────────────────
-    applied_canonicals: list[str] = []
+    # ── 1. time + 2. supersession: deterministic, additive, idempotent ────────
+    for d in domains:
+        if "time" in selected:
+            r = normalize_time(d, dry_run=False)
+            report["per_domain"][d]["time"] = r
+            logger.info("pipeline[{}] time: {}", d, r)
+        if "supersession" in selected:
+            r = detect_supersession(d, dry_run=False)
+            report["per_domain"][d]["supersession"] = r
+            logger.info("pipeline[{}] supersession: {}", d, r)
+
+    # ── 3. merge: every domain merges before any cross-domain conflict pass ───
+    applied_canonicals: dict[str, list[str]] = {}
     if "merge" in selected:
-        if from_file:
-            merges_file = prior.get("steps", {}).get("merge", {}).get("proposals_file")
-            if merges_file and Path(merges_file).exists():
+        for d in domains:
+            if from_file:
+                merges_file = _prior_step(d, "merge").get("proposals_file")
+                if merges_file and Path(merges_file).exists():
+                    merge_report = refine_graph(
+                        domain=d,
+                        name_filter=None,
+                        model=resolved_model,
+                        similarity_threshold=merge_threshold,
+                        dry_run=False,
+                        output_file=None,
+                        from_file=Path(merges_file),
+                    )
+                    applied_canonicals[d] = sorted(
+                        set(merge_report.get("proposed_merges", {}).values())
+                    )
+                else:
+                    merge_report = {"skipped": "no proposals_file in report"}
+            else:
+                merges_file = run_dir / f"merges_{d}.json"
                 merge_report = refine_graph(
-                    domain=domain,
+                    domain=d,
                     name_filter=None,
                     model=resolved_model,
                     similarity_threshold=merge_threshold,
-                    dry_run=False,
-                    output_file=None,
-                    from_file=Path(merges_file),
+                    dry_run=(mode == "propose"),
+                    output_file=merges_file,
+                    from_file=None,
                 )
-                applied_canonicals = sorted(
-                    set(merge_report.get("proposed_merges", {}).values())
-                )
-            else:
-                merge_report = {"skipped": "no proposals_file in report"}
-        else:
-            merges_file = run_dir / "merges.json"
-            merge_report = refine_graph(
-                domain=domain,
-                name_filter=None,
-                model=resolved_model,
-                similarity_threshold=merge_threshold,
-                dry_run=(mode == "propose"),
-                output_file=merges_file,
-                from_file=None,
-            )
-            merge_report["proposals_file"] = str(merges_file)
-            if mode == "apply":
-                applied_canonicals = sorted(
-                    set(merge_report.get("proposed_merges", {}).values())
-                )
-        report["steps"]["merge"] = merge_report
+                merge_report["proposals_file"] = str(merges_file)
+                if mode == "apply":
+                    applied_canonicals[d] = sorted(
+                        set(merge_report.get("proposed_merges", {}).values())
+                    )
+            report["per_domain"][d]["merge"] = merge_report
 
-    # ── 4. conflicts ───────────────────────────────────────────────────────────
+    # ── 4. conflicts: intra-domain per domain, then one cross-domain pass ─────
     if "conflicts" in selected:
-        if from_file:
-            conflicts_file = prior.get("steps", {}).get("conflicts", {}).get("proposals_file")
-            if conflicts_file and Path(conflicts_file).exists():
-                conflict_report = detect_conflicts(
-                    domains=[domain], model=resolved_model, from_file=Path(conflicts_file)
-                )
+        for d in domains:
+            if from_file:
+                conflicts_file = _prior_step(d, "conflicts").get("proposals_file")
+                if conflicts_file and Path(conflicts_file).exists():
+                    conflict_report = detect_conflicts(
+                        domains=[d], model=resolved_model, from_file=Path(conflicts_file)
+                    )
+                else:
+                    conflict_report = {"skipped": "no proposals_file in report"}
             else:
-                conflict_report = {"skipped": "no proposals_file in report"}
-        else:
-            conflicts_file = run_dir / "conflicts.json"
-            conflict_report = detect_conflicts(
-                domains=[domain],
-                sim_threshold=conflict_sim_threshold,
-                max_pairs=max_pairs,
-                model=resolved_model,
-                dry_run=(mode == "propose"),
-                output_file=conflicts_file,
-            )
-            conflict_report["proposals_file"] = str(conflicts_file)
-        report["steps"]["conflicts"] = conflict_report
+                conflicts_file = run_dir / f"conflicts_{d}.json"
+                conflict_report = detect_conflicts(
+                    domains=[d],
+                    sim_threshold=conflict_sim_threshold,
+                    max_pairs=max_pairs,
+                    model=resolved_model,
+                    dry_run=(mode == "propose"),
+                    output_file=conflicts_file,
+                )
+                conflict_report["proposals_file"] = str(conflicts_file)
+            report["per_domain"][d]["conflicts"] = conflict_report
+
+        if len(domains) >= 2:
+            if from_file:
+                cross_file = prior.get("cross_domain_conflicts", {}).get("proposals_file")
+                if cross_file and Path(cross_file).exists():
+                    cross_report = detect_conflicts(
+                        domains=domains, model=resolved_model, from_file=Path(cross_file)
+                    )
+                else:
+                    cross_report = {"skipped": "no proposals_file in report"}
+            else:
+                cross_file = run_dir / "conflicts_cross.json"
+                cross_report = detect_conflicts(
+                    domains=domains,
+                    sim_threshold=conflict_sim_threshold,
+                    max_pairs=max_pairs,
+                    model=resolved_model,
+                    dry_run=(mode == "propose"),
+                    output_file=cross_file,
+                )
+                cross_report["proposals_file"] = str(cross_file)
+            report["cross_domain_conflicts"] = cross_report
 
     # ── 5. consolidate ─────────────────────────────────────────────────────────
-    # Propose shows a bounded sample (LLM cost control); apply runs live —
-    # consolidation is chunk-set-idempotent and conflict-gated, so proposals
-    # don't need per-entity vetting the way merges do.
+    # Propose shows a bounded sample per domain (LLM cost control); apply runs
+    # live — consolidation is chunk-set-idempotent and conflict-gated, so
+    # proposals don't need per-entity vetting the way merges do.
     if "consolidate" in selected:
-        consolidate_report = consolidate_descriptions(
-            domain=domain,
-            limit=(sample_consolidations if mode == "propose" else consolidate_limit),
-            model=model,
-            dry_run=(mode == "propose"),
-        )
-        counts = consolidate_report.get("counts", {})
-        consolidate_report["candidates_total"] = counts.get("consolidate", 0) + counts.get(
-            "skipped_over_limit", 0
-        )
-        report["steps"]["consolidate"] = consolidate_report
+        for d in domains:
+            consolidate_report = consolidate_descriptions(
+                domain=d,
+                limit=(sample_consolidations if mode == "propose" else consolidate_limit),
+                model=model,
+                dry_run=(mode == "propose"),
+            )
+            counts = consolidate_report.get("counts", {})
+            consolidate_report["candidates_total"] = counts.get("consolidate", 0) + counts.get(
+                "skipped_over_limit", 0
+            )
+            report["per_domain"][d]["consolidate"] = consolidate_report
 
     # ── 6. embed sweep ─────────────────────────────────────────────────────────
     if "embed" in selected and mode == "apply":
-        nulled = _null_embeddings_for_canonicals(domain, applied_canonicals)
-        try:
-            embedded = embed_entities_backfill(domain)["entities_embedded"]
-        except Exception as exc:
-            logger.warning("pipeline[{}] embed backfill failed: {}", domain, exc)
-            embedded = 0
-        report["steps"]["embed"] = {"canonicals_nulled": nulled, "entities_embedded": embedded}
+        for d in domains:
+            nulled = _null_embeddings_for_canonicals(d, applied_canonicals.get(d, []))
+            try:
+                embedded = embed_entities_backfill(d)["entities_embedded"]
+            except Exception as exc:
+                logger.warning("pipeline[{}] embed backfill failed: {}", d, exc)
+                embedded = 0
+            report["per_domain"][d]["embed"] = {
+                "canonicals_nulled": nulled,
+                "entities_embedded": embedded,
+            }
 
     report_file = run_dir / "pipeline_report.json"
     report_file.write_text(json.dumps(report, indent=2, default=str), encoding="utf-8")
     report["report_file"] = str(report_file)
     if mode == "propose":
+        domain_flags = " ".join(f"--domain {d}" for d in domains)
         report["apply_with"] = (
-            f"uv run artmind ingest refine-pipeline --domain {domain} "
+            f"uv run artmind ingest refine-pipeline {domain_flags} "
             f"--from-file {report_file}"
         )
     return report
