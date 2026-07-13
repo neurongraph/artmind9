@@ -36,6 +36,25 @@ Example:
 JSON only, no explanation:"""
 
 
+def cluster_entities_by_class(
+    name_class_pairs: "list[tuple[str, str | None]]", similarity_threshold: float = 0.7
+) -> list[list[str]]:
+    """Cluster names within each entity_class only.
+
+    Cross-class name similarity must never propose a merge: 'Premium Account'
+    (PRODUCT) vs 'Premium Account Fee' (FEE) are 80% similar strings but
+    different real-world things, and apoc mergeNodes would union their class
+    labels into one frankenentity.
+    """
+    by_class: dict[str, list[str]] = defaultdict(list)
+    for name, cls in name_class_pairs:
+        by_class[cls or ""].append(name)
+    clusters: list[list[str]] = []
+    for _cls, names in sorted(by_class.items()):
+        clusters.extend(cluster_entities(sorted(set(names)), similarity_threshold))
+    return clusters
+
+
 def cluster_entities(names: list[str], similarity_threshold: float = 0.7) -> list[list[str]]:
     """Group entity names into clusters via string-similarity union-find."""
     n = len(names)
@@ -132,6 +151,36 @@ def _entity_domains(session, names: list[str]) -> dict[str, set[str]]:
     return {r["name"]: set(r["domains"]) for r in rows}
 
 
+def _entity_classes(session, names: list[str], domain: str | None) -> dict[str, set[str]]:
+    """Map each entity name to its entity_class set (scoped to domain when given)."""
+    rows = session.run(
+        """
+        MATCH (e:Entity)
+        WHERE e.name IN $names AND ($domain IS NULL OR e.domain = $domain)
+        RETURN e.name AS name, collect(DISTINCT e.entity_class) AS classes
+        """,
+        names=names,
+        domain=domain,
+    ).data()
+    return {r["name"]: {c for c in r["classes"] if c} for r in rows}
+
+
+def cross_class_pairs(
+    proposed_merges: dict[str, str], class_map: dict[str, set[str]]
+) -> dict[str, str]:
+    """Return the alias→canonical pairs whose class sets don't intersect.
+
+    Pairs with an unknown class on either side are NOT flagged — a missing
+    entity_class shouldn't block a merge, only a positive mismatch should.
+    """
+    flagged: dict[str, str] = {}
+    for alias, canonical in proposed_merges.items():
+        a, c = class_map.get(alias, set()), class_map.get(canonical, set())
+        if a and c and not (a & c):
+            flagged[alias] = canonical
+    return flagged
+
+
 def _record_refine_run(session, domains: list[str]) -> None:
     """Record a RefineRun marker for each domain that had refine-graph applied to it."""
     for d in domains:
@@ -142,12 +191,31 @@ def _record_refine_run(session, domains: list[str]) -> None:
 
 
 def apply_merges(proposed_merges: dict[str, str], domain: str | None) -> dict:
-    """Execute entity merges in Neo4j. Returns stats dict."""
-    stats = {"merged": 0, "skipped": 0, "errors": 0}
+    """Execute entity merges in Neo4j. Returns stats dict.
+
+    Cross-class pairs are skipped here regardless of how the proposals were
+    produced — clustering is class-constrained, but --from-file proposals may
+    be hand-edited or predate that constraint, and merging across classes
+    unions labels into a frankenentity with no un-merge path.
+    """
+    stats = {"merged": 0, "skipped": 0, "errors": 0, "skipped_cross_class": 0}
     with neo4j_session() as session:
+        names = list({*proposed_merges.keys(), *proposed_merges.values()})
+        class_map = _entity_classes(session, names, domain) if names else {}
+        flagged = cross_class_pairs(proposed_merges, class_map)
         for alias, canonical in proposed_merges.items():
             if alias == canonical:
                 stats["skipped"] += 1
+                continue
+            if alias in flagged:
+                stats["skipped_cross_class"] += 1
+                logger.warning(
+                    "Skipped cross-class merge: {} ({}) → {} ({})",
+                    alias,
+                    sorted(class_map.get(alias, set())),
+                    canonical,
+                    sorted(class_map.get(canonical, set())),
+                )
                 continue
             ok = _merge_entity_pair(session, alias, canonical, domain)
             if ok:
@@ -213,7 +281,8 @@ def refine_graph(
     env = load_env()
     timeout = int(env.get("ARTMIND_OLLAMA_TIMEOUT", "120"))
 
-    # Fetch distinct entity names from the graph
+    # Fetch distinct (name, entity_class) pairs — clustering is per-class so
+    # cross-class name lookalikes can never end up in the same merge cluster.
     with neo4j_session() as session:
         name_filters = [n.strip() for n in name_filter.split(",")] if name_filter else []
         if name_filters:
@@ -222,7 +291,7 @@ def refine_graph(
                 res = session.run(
                     f"""MATCH (e:{ENTITY_NODE_LABEL} {{domain: $domain}})
                     WHERE any(name IN $name_filters WHERE toLower(e.name) CONTAINS toLower(name))
-                    RETURN DISTINCT e.name AS name""",
+                    RETURN DISTINCT e.name AS name, e.entity_class AS entity_class""",
                     domain=domain,
                     name_filters=name_filters,
                 )
@@ -230,21 +299,25 @@ def refine_graph(
                 res = session.run(
                     """MATCH (e:Entity)
                     WHERE any(name IN $name_filters WHERE toLower(e.name) CONTAINS toLower(name))
-                    RETURN DISTINCT e.name AS name""",
+                    RETURN DISTINCT e.name AS name, e.entity_class AS entity_class""",
                     name_filters=name_filters,
                 )
         elif domain:
             res = session.run(
-                f"MATCH (e:{ENTITY_NODE_LABEL} {{domain: $domain}}) RETURN DISTINCT e.name AS name",
+                f"MATCH (e:{ENTITY_NODE_LABEL} {{domain: $domain}}) "
+                "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class",
                 domain=domain,
             )
         else:
-            res = session.run(f"MATCH (e:{ENTITY_NODE_LABEL}) RETURN DISTINCT e.name AS name")
-        all_entities = [r["name"] for r in res if r["name"]]
+            res = session.run(
+                f"MATCH (e:{ENTITY_NODE_LABEL}) "
+                "RETURN DISTINCT e.name AS name, e.entity_class AS entity_class"
+            )
+        all_entities = [(r["name"], r["entity_class"]) for r in res if r["name"]]
 
-    logger.info("Fetched {} unique entity name(s) from graph", len(all_entities))
+    logger.info("Fetched {} unique (name, class) pair(s) from graph", len(all_entities))
 
-    clusters = cluster_entities(all_entities, similarity_threshold)
+    clusters = cluster_entities_by_class(all_entities, similarity_threshold)
     multi_clusters = [c for c in clusters if len(c) > 1]
     logger.info(
         "{} single-entity clusters, {} multi-entity clusters (merge candidates)",

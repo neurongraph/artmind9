@@ -88,8 +88,11 @@ report.
 
 Present each gate compactly; get explicit approval before apply.
 
-**Gate 1: merges** (`per_domain.<d>.merge.proposed_merges`): flag suspicious
-pairs — different entity classes (a thing merged into its FEE), negations,
+**Gate 1: merges** (`per_domain.<d>.merge.proposed_merges`): cross-class pairs
+(a thing proposed into its own FEE, etc.) are now structurally prevented —
+clustering groups by `entity_class` before string-similarity, and
+`apply_merges` skips any cross-class pair even if it sneaks in via a
+hand-edited `--from-file`. What's still worth flagging by eye: negations, and
 differing numbers or versions ("Policy v2"/"Policy v3" may be *supersession*,
 not duplication). For clusters above ~10 aliases or any alias that could
 denote a distinct concept, pull a source chunk and judge:
