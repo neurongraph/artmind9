@@ -693,10 +693,10 @@ just session-initiate           # wipe Neo4j and restore from latest snapshot
 
 ## Running tests
 
-Two suites: `test/` (core package tests, needs the dev group) and `tests/` (query layer, temporal, conflicts, refinement pipeline). Neither requires a running Neo4j or LLM.
+The full suite lives in `test/` and needs no running Neo4j or LLM.
 
 ```bash
-uv run --group dev pytest test/ tests/ -v
+uv run --group dev pytest test/ -v
 ```
 
 ---
@@ -738,8 +738,7 @@ skills/
   artmind-create-schema/ Claude Code skill — author a new domain schema
   artmind-ingestion-helper/ Claude Code skill — ingestion pipeline guide
 docs/                   design docs and the refinement field guide
-test/                   pytest suite — core package
-tests/                  pytest suite — query layer, temporal, conflicts, pipeline
+test/                   pytest suite
 paths.py                central path configuration
 justfile                task runner recipes
 ```
