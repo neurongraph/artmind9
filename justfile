@@ -31,6 +31,36 @@ copy-skills:
     cp -r ./skills/* ./.claude/skills
     cp -r ./skills/* ./.pi/skills
 
+# sync ./skills into .claude/skills and .pi/skills as symlinks, adding new ones and removing stale/broken links
+refresh-skills:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    for target_dir in .claude/skills .pi/skills; do
+        mkdir -p "$target_dir"
+        # remove symlinks that point into ./skills but whose source no longer exists
+        for link in "$target_dir"/*; do
+            [ -L "$link" ] || continue
+            dest=$(readlink "$link")
+            case "$dest" in
+                ../../skills/*)
+                    if [ ! -e "$link" ]; then
+                        echo "removing stale link: $link -> $dest"
+                        rm "$link"
+                    fi
+                    ;;
+            esac
+        done
+        # add symlinks for any skill not yet linked
+        for skill in skills/*/; do
+            name=$(basename "$skill")
+            link="$target_dir/$name"
+            if [ ! -e "$link" ]; then
+                echo "linking $name into $target_dir"
+                ln -s "../../skills/$name" "$link"
+            fi
+        done
+    done
+
 # ── artmind domains ───────────────────────────────────────────────────────────
 
 # list all available domain schemas
