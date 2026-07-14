@@ -63,7 +63,13 @@ uv run artmind query graph metadata --domain <domain> --compact
 uv run artmind query graph entity-listing --domain <domain> --countAll --compact
 ```
 
-For document/chunk/count questions, `structural-metadata` is the compact alternative (Document names + structural counts). From metadata identify: stored class labels (derived from `entity_class`, uppercased, non-alphanumerics → `_`), relationship types and directions, and whether the question needs graph facts, text evidence, or both.
+For document/chunk/count questions, use the compact alternative instead of the two commands above:
+
+```bash
+uv run artmind query graph structural-metadata --domain <domain> --compact
+```
+
+It returns Document names plus structural counts (Document/DocChunk/UserChat/Entity) without the full class/relationship breakdown — cheaper when you only need document names or counts, not the entity-class/relationship schema. From metadata identify: stored class labels (derived from `entity_class`, uppercased, non-alphanumerics → `_`), relationship types and directions, and whether the question needs graph facts, text evidence, or both.
 
 If `total_entities` is large (> ~100), do not fetch the full listing. Narrow with `--nameFilter "<fragment>"`, or go straight to `pattern7`.
 
@@ -91,6 +97,7 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 | Question shape | Command |
 |---|---|
 | "Tell me about X / X's role / why did X…" — facts + relationships + source text in ONE call | `entity-context --entityId <id> [--includeChunks 5]` (query-level, not under `graph`) |
+| History / sequence of events / "when did X change / start / end" for ONE entity | `graph timeline --entityId <id>` — dated relationships (`event_at`/`valid_from`/`valid_to`) in chronological order |
 | List entities of a class | `pattern1 --entityClass <LABEL> [--limit N]` |
 | "Main / key / most important / top" entities | `pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
 | Facts/properties of named entities (no text needed, e.g. comparing many) | `pattern2 --entityIdList <id>` (or `--entityNameList`) |
@@ -113,6 +120,7 @@ Routing notes:
   ids in `more_chunks`, fetchable via `chunks --idList`). Use pattern4 when you
   only need structure, or patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
+- **timeline vs entity-context/pattern3/pattern4**: entity-context and patterns 2-4 give current-state facts and one-hop structure; `graph timeline --entityId <id>` instead reconstructs *change over time* for that one entity — its dated relationships sorted chronologically. Use it for "history of X", "what changed", or "when did X start/end", not for a general one-hop snapshot. It only has an entity's edges, no chunk text — pair it with `entity-context`/`chunks` if the question also needs narrative evidence at a given point in time.
 - Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `uv run artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `.domain` on chunks/documents — every fact you state must be attributed
