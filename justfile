@@ -231,6 +231,36 @@ update-history domain="" user="" limit="20":
 update-export domain="" fmt="sequential" output="data/chats":
     uv run artmind update export {{ if domain != "" { "--domain " + domain } else { "" } }} --format {{ fmt }} --output {{ output }}
 
+# ── artmind serve & chat UI ───────────────────────────────────────────────────
+
+# start the warm query daemon in the background if not already up (logs to logs/serve.log)
+serve-start:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    port="${ARTMIND_SERVE_PORT:-8377}"
+    if curl -s -m 1 "http://127.0.0.1:${port}/health" >/dev/null 2>&1; then
+        echo "artmind serve already running on port ${port}"
+    else
+        mkdir -p logs
+        nohup uv run artmind serve >> logs/serve.log 2>&1 &
+        echo "artmind serve starting on port ${port} (pid $!) — logs/serve.log"
+    fi
+
+# stop the query daemon
+serve-stop:
+    #!/usr/bin/env bash
+    port="${ARTMIND_SERVE_PORT:-8377}"
+    pids=$(lsof -ti "tcp:${port}" || true)
+    if [ -n "$pids" ]; then
+        kill $pids && echo "artmind serve stopped (pid $pids)"
+    else
+        echo "artmind serve not running on port ${port}"
+    fi
+
+# start the serve daemon (background) plus the chat web UI (foreground; Ctrl-C stops the UI only)
+ui-start: serve-start
+    uv run artmind chat-ui
+
 # ── artmind session ───────────────────────────────────────────────────────────
 
 # export Neo4j graph to a snapshot (end of session)

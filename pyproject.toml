@@ -5,6 +5,7 @@ description = "A knowledge system that synchronizes with your mind using artific
 readme = "README.md"
 requires-python = ">=3.14.4"
 dependencies = [
+    "claude-agent-sdk>=0.2.118",
     "click>=8.3.3",
     "docling>=2.92.0",
     "fastapi>=0.115.0",
@@ -13,6 +14,7 @@ dependencies = [
     "langchain-text-splitters>=1.1.2",
     "loguru>=0.7.3",
     "neo4j>=5.0.0",
+    "nicegui>=3.14.0",
     "ollama>=0.6.1",
     "openai>=1.50.0",
     "python-dotenv>=1.0.0",
