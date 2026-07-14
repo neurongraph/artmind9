@@ -203,6 +203,27 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
     click.echo(json.dumps(payload, **kwargs))
 
 
+@cli.command()
+@click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
+@click.option(
+    "--port",
+    default=None,
+    type=int,
+    help="Port to bind. Defaults to $ARTMIND_SERVE_PORT or 8377.",
+)
+def serve(host: str, port: int | None) -> None:
+    """Run the warm query server; `artmind query` calls are proxied to it."""
+    import uvicorn
+
+    from artmind._entry import DEFAULT_PORT
+    from artmind.server import create_app
+
+    if port is None:
+        port = int(os.environ.get("ARTMIND_SERVE_PORT", DEFAULT_PORT))
+    click.echo(f"artmind serve listening on http://{host}:{port}")
+    uvicorn.run(create_app(), host=host, port=port, log_level="warning")
+
+
 # ── artmind domains ────────────────────────────────────────────────────────────
 
 
