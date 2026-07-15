@@ -49,16 +49,19 @@ document.getElementById("theme-toggle").addEventListener("click", () => {
 
 // ── trace drawer ─────────────────────────────────────────────────────
 const drawerCloseEl = document.getElementById("drawer-close");
+drawerEl.inert = true;
 
 function openDrawer() {
   document.body.classList.add("drawer-open");
   drawerEl.setAttribute("aria-hidden", "false");
+  drawerEl.inert = false;
   drawerCloseEl.removeAttribute("tabindex");
 }
 
 function closeDrawer() {
   document.body.classList.remove("drawer-open");
   drawerEl.setAttribute("aria-hidden", "true");
+  drawerEl.inert = true;
   drawerCloseEl.setAttribute("tabindex", "-1");
 }
 
@@ -78,7 +81,9 @@ function addToolCard(ev) {
   const card = el("div", "tool-card");
   card.dataset.toolId = ev.id;
   const head = el("div", "tool-head");
-  head.appendChild(el("span", "dot running"));
+  const dot = el("span", "dot running");
+  dot.title = "running";
+  head.appendChild(dot);
   head.appendChild(el("span", "tool-name", ev.name));
   card.appendChild(head);
   const details = el("details");
@@ -97,6 +102,7 @@ function attachToolResult(ev) {
   if (!card) return;
   const dot = card.querySelector(".dot");
   dot.className = "dot done";
+  dot.title = "done";
   card.appendChild(el("div", "tool-result-label", "result"));
   card.appendChild(el("pre", null, ev.content ?? ""));
   traceListEl.scrollTop = traceListEl.scrollHeight;
@@ -161,7 +167,7 @@ function ensureText() {
 function finalizeText() {
   if (!textBlock) return;
   textBlock.el.classList.remove("streaming");
-  textBlock.el.innerHTML = marked.parse(textBlock.raw);
+  textBlock.el.innerHTML = DOMPurify.sanitize(marked.parse(textBlock.raw));
   addCopyButtons(textBlock.el);
   textBlock = null;
 }
@@ -170,9 +176,14 @@ function addCopyButtons(scope) {
   for (const pre of scope.querySelectorAll("pre")) {
     const btn = el("button", "copy-btn", "copy");
     btn.type = "button";
-    btn.addEventListener("click", () => {
-      navigator.clipboard.writeText(pre.querySelector("code")?.textContent ?? pre.textContent);
-      btn.textContent = "copied";
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(pre.querySelector("code")?.textContent ?? pre.textContent);
+        btn.textContent = "copied";
+      } catch (err) {
+        console.error("copy failed", err);
+        btn.textContent = "failed";
+      }
       setTimeout(() => (btn.textContent = "copy"), 1200);
     });
     pre.appendChild(btn);
@@ -213,7 +224,9 @@ function handleEvent(ev) {
       showNotice(`Agent error: ${ev.message}`);
       const card = el("div", "tool-card");
       const head = el("div", "tool-head");
-      head.appendChild(el("span", "dot error"));
+      const dot = el("span", "dot error");
+      dot.title = "error";
+      head.appendChild(dot);
       head.appendChild(el("span", "tool-name", "Error"));
       card.appendChild(head);
       card.appendChild(el("pre", null, ev.message));
@@ -269,6 +282,7 @@ async function send() {
     await streamTurn(prompt);
   } catch (err) {
     if (err.name !== "AbortError") {
+      console.error(err);
       showNotice("Connection lost — send again to retry.");
     }
   } finally {
