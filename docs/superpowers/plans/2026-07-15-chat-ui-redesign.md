@@ -28,11 +28,11 @@ The one piece of real logic: map SDK messages onto UI event dicts. Stateful beca
 **Files:**
 - Create: `artmind/webui/__init__.py` (empty)
 - Create: `artmind/webui/agent.py`
-- Test: `tests/test_webui_events.py`
+- Test: `test/test_webui_events.py`
 
 - [ ] **Step 1: Create the package and write the failing tests**
 
-Create empty `artmind/webui/__init__.py`, then `tests/test_webui_events.py`:
+Create empty `artmind/webui/__init__.py`, then `test/test_webui_events.py`:
 
 ```python
 """Unit tests for the SDK→UI event mapping. No API calls."""
@@ -166,7 +166,7 @@ def test_clip_truncates_long_values():
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `uv run pytest tests/test_webui_events.py -v`
+Run: `uv run pytest test/test_webui_events.py -v`
 Expected: FAIL — `ModuleNotFoundError: No module named 'artmind.webui.agent'` (or ImportError).
 
 - [ ] **Step 3: Write `artmind/webui/agent.py`**
@@ -292,13 +292,13 @@ class EventMapper:
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `uv run pytest tests/test_webui_events.py -v`
+Run: `uv run pytest test/test_webui_events.py -v`
 Expected: all PASS.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add artmind/webui/__init__.py artmind/webui/agent.py tests/test_webui_events.py
+git add artmind/webui/__init__.py artmind/webui/agent.py test/test_webui_events.py
 git commit -m "feat(webui): SDK-to-UI event mapping and agent options
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
@@ -312,11 +312,11 @@ One lazily-connected `ClaudeSDKClient` per browser tab, idle-reaped. The client 
 
 **Files:**
 - Create: `artmind/webui/sessions.py`
-- Test: `tests/test_webui_sessions.py`
+- Test: `test/test_webui_sessions.py`
 
 - [ ] **Step 1: Write the failing tests**
 
-Create `tests/test_webui_sessions.py`:
+Create `test/test_webui_sessions.py`:
 
 ```python
 """Unit tests for the web UI session registry. Uses a fake SDK client."""
@@ -390,7 +390,7 @@ async def test_sweep_drops_only_idle_sessions():
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `uv run pytest tests/test_webui_sessions.py -v`
+Run: `uv run pytest test/test_webui_sessions.py -v`
 Expected: FAIL — `ModuleNotFoundError: No module named 'artmind.webui.sessions'`.
 
 - [ ] **Step 3: Write `artmind/webui/sessions.py`**
@@ -457,13 +457,13 @@ class SessionRegistry:
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `uv run pytest tests/test_webui_sessions.py -v`
+Run: `uv run pytest test/test_webui_sessions.py -v`
 Expected: all PASS.
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add artmind/webui/sessions.py tests/test_webui_sessions.py
+git add artmind/webui/sessions.py test/test_webui_sessions.py
 git commit -m "feat(webui): per-tab session registry with idle sweep
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
@@ -479,11 +479,11 @@ Thin glue: serve the shell, stream events, interrupt, close. The streaming route
 - Create: `artmind/webui/app.py`
 - Create: `artmind/webui/templates/index.html` (placeholder body for now — real markup in Task 4; needed so `GET /` works)
 - Create: `artmind/webui/static/.gitkeep` (StaticFiles requires the directory)
-- Test: `tests/test_webui_app.py`
+- Test: `test/test_webui_app.py`
 
 - [ ] **Step 1: Write the failing tests**
 
-Create `tests/test_webui_app.py`:
+Create `test/test_webui_app.py`:
 
 ```python
 """Route tests for the web UI FastAPI app, with a fake SDK client."""
@@ -610,7 +610,7 @@ def test_chat_turns_exception_into_error_event():
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `uv run pytest tests/test_webui_app.py -v`
+Run: `uv run pytest test/test_webui_app.py -v`
 Expected: FAIL — `ModuleNotFoundError: No module named 'artmind.webui.app'`.
 
 - [ ] **Step 3: Write `artmind/webui/app.py`, placeholder template, static dir**
@@ -717,13 +717,13 @@ Create the static dir: `mkdir -p artmind/webui/static && touch artmind/webui/sta
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `uv run pytest tests/test_webui_app.py -v`
+Run: `uv run pytest test/test_webui_app.py -v`
 Expected: all PASS. (`test_chat_turns_exception_into_error_event` proves errors stream instead of raising; note TestClient buffers the whole SSE body, which is fine for these assertions.)
 
 - [ ] **Step 5: Commit**
 
 ```bash
-git add artmind/webui/app.py artmind/webui/templates/index.html artmind/webui/static/.gitkeep tests/test_webui_app.py
+git add artmind/webui/app.py artmind/webui/templates/index.html artmind/webui/static/.gitkeep test/test_webui_app.py
 git commit -m "feat(webui): FastAPI app with SSE chat streaming and session routes
 
 Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
@@ -826,7 +826,7 @@ Full contents of `artmind/webui/templates/index.html`:
 
 - [ ] **Step 3: Verify the app still serves**
 
-Run: `uv run pytest tests/test_webui_app.py -v`
+Run: `uv run pytest test/test_webui_app.py -v`
 Expected: all PASS (template still renders; missing style.css/app.js just 404 in a browser, which is fine until Tasks 5–6).
 
 - [ ] **Step 4: Commit**
@@ -1475,13 +1475,13 @@ Expected: lockfile shrinks (nicegui and its exclusive transitive deps drop out);
 - [ ] **Step 3: Verify nothing else imported the old module, and tests still pass**
 
 ```bash
-grep -rn "chat_ui" artmind/ tests/ justfile
+grep -rn "chat_ui" artmind/ test/ justfile
 ```
 
 Expected: only `artmind/cli.py` (the new import) and justfile's `uv run artmind chat-ui` command name (which is unchanged behavior, no edit needed).
 
 ```bash
-uv run pytest tests/ -v
+uv run pytest test/test_webui_events.py test/test_webui_sessions.py test/test_webui_app.py -v
 ```
 
 Expected: all webui tests PASS.

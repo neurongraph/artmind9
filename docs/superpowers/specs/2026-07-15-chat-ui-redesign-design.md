@@ -132,7 +132,7 @@ typography, not boxes or borders.
 
 ## Testing
 
-- `tests/test_webui_events.py`: unit tests for the SDK→event mapping using
+- `test/test_webui_events.py`: unit tests for the SDK→event mapping using
   fabricated SDK message objects. No API calls.
 - Visual behavior (streaming, thinking collapse, drawer, themes, composer)
   verified live against the dev server. No JS test harness.
