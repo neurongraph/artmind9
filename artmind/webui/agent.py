@@ -14,6 +14,7 @@ from claude_agent_sdk import (
     ClaudeAgentOptions,
     ResultMessage,
     StreamEvent,
+    TextBlock,
     ToolResultBlock,
     ToolUseBlock,
     UserMessage,
@@ -67,12 +68,19 @@ class EventMapper:
         if isinstance(message, StreamEvent):
             return self._map_stream_event(message)
         if isinstance(message, AssistantMessage):
-            # Text/thinking content already arrived via stream deltas.
-            return [
+            # Normal text/thinking content already arrived via stream deltas.
+            # A synthetic error response (e.g. auth failure) bypasses streaming
+            # entirely, so its text is only ever available here.
+            events: list[dict[str, Any]] = []
+            if message.error:
+                text = "".join(b.text for b in message.content if isinstance(b, TextBlock))
+                events.append({"type": "error", "message": text or message.error})
+            events.extend(
                 {"type": "tool_call", "id": b.id, "name": b.name, "input": clip(b.input)}
                 for b in message.content
                 if isinstance(b, ToolUseBlock)
-            ]
+            )
+            return events
         if isinstance(message, UserMessage):
             content = message.content if isinstance(message.content, list) else []
             return [

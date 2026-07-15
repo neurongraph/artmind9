@@ -93,6 +93,26 @@ def test_assistant_message_emits_tool_calls_only():
     ]
 
 
+def test_assistant_message_with_error_emits_error_event():
+    # a synthetic error response (e.g. auth failure) bypasses streaming
+    # entirely, so its text must be surfaced here instead of dropped
+    message = AssistantMessage(
+        content=[TextBlock(text="Failed to authenticate: OAuth session expired")],
+        model="<synthetic>",
+        error="authentication_failed",
+    )
+    events = EventMapper().map(message)
+    assert events == [
+        {"type": "error", "message": "Failed to authenticate: OAuth session expired"}
+    ]
+
+
+def test_assistant_message_with_error_and_no_text_falls_back_to_error_code():
+    message = AssistantMessage(content=[], model="<synthetic>", error="authentication_failed")
+    events = EventMapper().map(message)
+    assert events == [{"type": "error", "message": "authentication_failed"}]
+
+
 def test_user_message_emits_tool_results():
     message = UserMessage(
         content=[ToolResultBlock(tool_use_id="t1", content="file1\nfile2")]
