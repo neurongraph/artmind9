@@ -1,5 +1,7 @@
 """Unit tests for the web UI session registry. Uses a fake SDK client."""
 
+import asyncio
+
 from artmind.webui.sessions import SessionRegistry
 
 
@@ -11,6 +13,38 @@ class FakeClient:
         self.connected = True
 
     async def disconnect(self):
+        self.connected = False
+
+
+class SlowFakeClient:
+    """Like FakeClient but yields to the event loop mid-connect/disconnect,
+    so concurrent registry calls actually interleave under asyncio.gather
+    instead of one running to completion before the other starts."""
+
+    def __init__(self):
+        self.connected = False
+
+    async def connect(self):
+        await asyncio.sleep(0)
+        self.connected = True
+
+    async def disconnect(self):
+        await asyncio.sleep(0)
+        self.connected = False
+
+
+class FailingConnectClient:
+    """Fails on connect(); tracks whether disconnect() cleanup was invoked."""
+
+    def __init__(self):
+        self.connected = False
+        self.disconnect_called = False
+
+    async def connect(self):
+        raise RuntimeError("boom")
+
+    async def disconnect(self):
+        self.disconnect_called = True
         self.connected = False
 
 
@@ -65,3 +99,62 @@ async def test_sweep_drops_only_idle_sessions():
     assert not stale.connected
     assert fresh.connected
     assert registry.peek("stale-tab") is None
+
+
+async def test_concurrent_get_for_new_session_creates_only_one_client():
+    """Regression test: two simultaneous get() calls for a brand-new
+    session id used to each construct and connect their own client, with
+    the loser's connection never stored and never disconnected (leaked)."""
+    created = []
+
+    def factory():
+        client = SlowFakeClient()
+        created.append(client)
+        return client
+
+    registry = SessionRegistry(client_factory=factory)
+    first, second = await asyncio.gather(
+        registry.get("tab-1"), registry.get("tab-1")
+    )
+
+    assert first is second
+    assert len(created) == 1
+    assert first.connected
+    # the registry itself only tracks the one client that was returned
+    assert registry.peek("tab-1") is first
+
+
+async def test_concurrent_sweep_and_get_never_returns_a_disconnected_zombie():
+    """Regression test: sweep() used to snapshot stale session ids and then
+    evict them without rechecking, so a concurrent get() that had already
+    refreshed a session's timestamp could still have it yanked out from
+    under it, or get() could hand back a client sweep was disconnecting.
+    Whatever order the lock resolves the race in, get() must never return
+    a client that isn't the one live in the registry, and it must be
+    connected."""
+    registry = SessionRegistry(client_factory=SlowFakeClient, idle_timeout_s=100)
+    original = await registry.get("tab-1")
+    entry, _ = registry._sessions["tab-1"]
+    registry._sessions["tab-1"] = (entry, -1000.0)  # mark stale
+
+    _, result = await asyncio.gather(registry.sweep(), registry.get("tab-1"))
+
+    assert result.connected
+    assert registry.peek("tab-1") is result
+    # if sweep won the race, get() must have created a fresh client rather
+    # than handing back the (now disconnected) original
+    if result is original:
+        assert original.connected
+    else:
+        assert not original.connected
+
+
+async def test_get_cleans_up_client_on_connect_failure():
+    registry = SessionRegistry(client_factory=FailingConnectClient)
+    try:
+        await registry.get("tab-1")
+        assert False, "expected connect() failure to propagate"
+    except RuntimeError:
+        pass
+    # the failed client must not be left registered
+    assert registry.peek("tab-1") is None
