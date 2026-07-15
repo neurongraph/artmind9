@@ -4,7 +4,7 @@
   --bg-elev: #ffffff;
   --bg-inset: #f1efe9;
   --text: #2d2a26;
-  --text-muted: #7a766c;
+  --text-muted: #6f6a60;
   --border: rgba(0, 0, 0, 0.08);
   --accent: #6b6fa8;
   --accent-contrast: #ffffff;
@@ -114,7 +114,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   background: var(--bg-elev); color: var(--text-muted);
   font-size: 11px; opacity: 0; transition: opacity 0.15s;
 }
-.md pre:hover .copy-btn { opacity: 1; }
+.md pre:hover .copy-btn,
+.md pre:focus-within .copy-btn {
+  opacity: 1;
+}
 .copy-btn:hover { color: var(--text); }
 
 /* ── thinking disclosure ─────────────────────────────────────────── */
