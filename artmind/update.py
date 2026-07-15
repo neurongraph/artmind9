@@ -107,29 +107,41 @@ def extract_facts(
 def find_candidates(
     entity_name: str, entity_class: str, domain: str, top_n: int = 5
 ) -> list[dict]:
+    # Lucene fulltext scores are unbounded (often 4-8), so exact matches must be
+    # ranked via a separate flag rather than a remapped score, or they lose to
+    # fuzzy hits. Same-class candidates rank next: `link` resolves by
+    # name + entity_class, so cross-class candidates are rarely the right target.
     cypher_domain = """
     CALL db.index.fulltext.queryNodes('entity_name_ft', $name)
     YIELD node AS e, score AS ftScore
     WHERE (e.domain = $domain OR e.domain STARTS WITH ($domain + '.'))
     RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
-           e.description AS context_snippet,
-           CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE ftScore END AS match_score
-    ORDER BY match_score DESC, size(e.name) ASC
+           e.description AS context_snippet, ftScore AS match_score,
+           (toLower(e.name) = toLower($name)) AS is_exact
+    ORDER BY is_exact DESC, (e.entity_class = $entity_class) DESC,
+             match_score DESC, size(e.name) ASC
     LIMIT $top_n
     """
     cypher_global = """
     CALL db.index.fulltext.queryNodes('entity_name_ft', $name)
     YIELD node AS e, score AS ftScore
     RETURN elementId(e) AS node_id, e.name AS name, e.entity_class AS entity_class,
-           e.description AS context_snippet,
-           CASE WHEN toLower(e.name) = toLower($name) THEN 1.0 ELSE ftScore END AS match_score
-    ORDER BY match_score DESC
+           e.description AS context_snippet, ftScore AS match_score,
+           (toLower(e.name) = toLower($name)) AS is_exact
+    ORDER BY is_exact DESC, (e.entity_class = $entity_class) DESC,
+             match_score DESC, size(e.name) ASC
     LIMIT $top_n
     """
     with neo4j_session() as session:
-        rows = session.run(cypher_domain, domain=domain, name=entity_name, top_n=top_n).data()
+        rows = session.run(
+            cypher_domain, domain=domain, name=entity_name,
+            entity_class=entity_class, top_n=top_n,
+        ).data()
         if not rows:
-            rows = session.run(cypher_global, name=entity_name, top_n=top_n).data()
+            rows = session.run(
+                cypher_global, name=entity_name,
+                entity_class=entity_class, top_n=top_n,
+            ).data()
     return rows
 
 

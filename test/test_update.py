@@ -132,6 +132,52 @@ def test_find_candidates_falls_back_to_global_when_domain_empty():
     assert result[0]["name"] == "Alice Jones"
 
 
+def test_find_candidates_ranks_exact_match_before_fulltext_score():
+    """Lucene ftScore is unbounded (often > 1.0), so exact matches must be
+    ranked via a flag, not a score remapped to 1.0 that fuzzy hits can beat."""
+    captured = {}
+
+    def run_side_effect(cypher, **kwargs):
+        captured["cypher"] = cypher
+        captured["kwargs"] = kwargs
+        mock_result = MagicMock()
+        mock_result.data.return_value = [{"name": "Alice"}]
+        return mock_result
+
+    with patch("artmind.update.neo4j_session") as mock_session_ctx:
+        mock_session = mock_session_ctx.return_value.__enter__.return_value
+        mock_session.run.side_effect = run_side_effect
+        find_candidates("Alice", "PERSON", "general", top_n=5)
+
+    cypher = captured["cypher"]
+    assert "THEN 1.0 ELSE ftScore" not in cypher
+    assert "is_exact" in cypher
+    # exact-match flag must be the primary sort key, ahead of match_score
+    order_clause = cypher[cypher.index("ORDER BY"):]
+    assert order_clause.index("is_exact") < order_clause.index("match_score")
+
+
+def test_find_candidates_passes_entity_class_to_both_queries():
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        mock_result = MagicMock()
+        # empty domain result forces fallback to the global query
+        mock_result.data.return_value = []
+        return mock_result
+
+    with patch("artmind.update.neo4j_session") as mock_session_ctx:
+        mock_session = mock_session_ctx.return_value.__enter__.return_value
+        mock_session.run.side_effect = run_side_effect
+        find_candidates("Alice", "PERSON", "general", top_n=5)
+
+    assert len(calls) == 2
+    for cypher, kwargs in calls:
+        assert kwargs["entity_class"] == "PERSON"
+        assert "$entity_class" in cypher
+
+
 from artmind.update import write_user_chat, draft_update, confirm_update
 
 
