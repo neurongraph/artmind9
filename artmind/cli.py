@@ -228,8 +228,8 @@ def serve(host: str, port: int | None) -> None:
 @click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
 @click.option("--port", default=8378, show_default=True, type=int, help="Port to bind.")
 def chat_ui(host: str, port: int) -> None:
-    """Launch the artmind chat web UI (NiceGUI + Claude Agent SDK)."""
-    from artmind.chat_ui import run_chat_ui
+    """Launch the artmind chat web UI (FastAPI + Claude Agent SDK)."""
+    from artmind.webui.app import run_chat_ui
 
     click.echo(f"artmind chat UI on http://{host}:{port}")
     run_chat_ui(host=host, port=port)
