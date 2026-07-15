@@ -118,3 +118,19 @@ def test_chat_turns_exception_into_error_event():
     )
     events = _parse_sse(response.text)
     assert events == [{"type": "error", "message": "boom"}]
+
+
+def test_chat_connect_failure_streams_error_not_500():
+    class UnconnectableClient(FakeClient):
+        async def connect(self):
+            raise RuntimeError("connect failed")
+
+    registry = SessionRegistry(client_factory=UnconnectableClient)
+    app = create_app(registry=registry)
+    client = TestClient(app)
+    response = client.post(
+        "/api/chat", json={"session_id": "tab-1", "prompt": "hello"}
+    )
+    assert response.status_code == 200
+    events = _parse_sse(response.text)
+    assert events == [{"type": "error", "message": "connect failed"}]

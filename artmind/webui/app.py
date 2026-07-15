@@ -2,6 +2,7 @@
 
 import asyncio
 import json
+import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -13,6 +14,8 @@ from pydantic import BaseModel
 
 from artmind.webui.agent import EventMapper
 from artmind.webui.sessions import SessionRegistry
+
+logger = logging.getLogger(__name__)
 
 WEBUI_DIR = Path(__file__).resolve().parent
 DEFAULT_UI_PORT = 8378
@@ -32,7 +35,10 @@ def create_app(registry: SessionRegistry | None = None) -> FastAPI:
         async def sweep_loop():
             while True:
                 await asyncio.sleep(SWEEP_INTERVAL_S)
-                await registry.sweep()
+                try:
+                    await registry.sweep()
+                except Exception:
+                    logger.exception("session sweep failed")
 
         task = asyncio.create_task(sweep_loop())
         yield
@@ -48,11 +54,10 @@ def create_app(registry: SessionRegistry | None = None) -> FastAPI:
 
     @app.post("/api/chat")
     async def chat(payload: ChatRequest) -> StreamingResponse:
-        client = await registry.get(payload.session_id)
-
         async def stream():
             mapper = EventMapper()
             try:
+                client = await registry.get(payload.session_id)
                 await client.query(payload.prompt)
                 async for message in client.receive_response():
                     for event in mapper.map(message):
