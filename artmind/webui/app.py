@@ -10,9 +10,9 @@ from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 
-from artmind.webui.agent import EventMapper
+from artmind.webui.backends import BACKEND_NAMES, DEFAULT_BACKEND
 from artmind.webui.sessions import SessionRegistry
 
 logger = logging.getLogger(__name__)
@@ -25,6 +25,14 @@ SWEEP_INTERVAL_S = 60
 class ChatRequest(BaseModel):
     session_id: str
     prompt: str
+    backend: str = DEFAULT_BACKEND
+
+    @field_validator("backend")
+    @classmethod
+    def _known_backend(cls, value: str) -> str:
+        if value not in BACKEND_NAMES:
+            raise ValueError(f"backend must be one of {BACKEND_NAMES}")
+        return value
 
 
 def create_app(registry: SessionRegistry | None = None) -> FastAPI:
@@ -55,13 +63,11 @@ def create_app(registry: SessionRegistry | None = None) -> FastAPI:
     @app.post("/api/chat")
     async def chat(payload: ChatRequest) -> StreamingResponse:
         async def stream():
-            mapper = EventMapper()
             try:
-                client = await registry.get(payload.session_id)
+                client = await registry.get(payload.session_id, payload.backend)
                 await client.query(payload.prompt)
-                async for message in client.receive_response():
-                    for event in mapper.map(message):
-                        yield f"data: {json.dumps(event)}\n\n"
+                async for event in client.receive_events():
+                    yield f"data: {json.dumps(event)}\n\n"
             except Exception as exc:  # stream errors to the client, don't 500
                 yield f"data: {json.dumps({'type': 'error', 'message': str(exc)})}\n\n"
 

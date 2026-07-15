@@ -3,7 +3,8 @@
 marked.use({ pedantic: false, gfm: true, breaks: false });
 
 // ── page-level state ─────────────────────────────────────────────────
-const sessionId = crypto.randomUUID();
+let sessionId = crypto.randomUUID();
+let backend = "claude-sdk";
 
 const chatEl = document.getElementById("chat");
 const promptEl = document.getElementById("prompt");
@@ -242,7 +243,7 @@ async function streamTurn(prompt) {
   const response = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ session_id: sessionId, prompt }),
+    body: JSON.stringify({ session_id: sessionId, prompt, backend }),
     signal: abortController.signal,
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -265,10 +266,13 @@ async function streamTurn(prompt) {
 
 function setStreaming(on) {
   streaming = on;
-  iconSend.hidden = on;
-  iconStop.hidden = !on;
+  // toggleAttribute, not .hidden: these are SVG elements, which have no
+  // hidden property — the CSS [hidden] rule does the actual hiding
+  iconSend.toggleAttribute("hidden", on);
+  iconStop.toggleAttribute("hidden", !on);
   sendBtn.disabled = on ? false : promptEl.value.trim() === "";
   sendBtn.setAttribute("aria-label", on ? "Stop" : "Send");
+  for (const radio of backendRadios) radio.disabled = on;
 }
 
 async function send() {
@@ -299,6 +303,28 @@ async function stop() {
   try {
     await fetch(`/api/session/${sessionId}/interrupt`, { method: "POST" });
   } catch (_) { /* server may already be gone */ }
+}
+
+// ── backend picker ───────────────────────────────────────────────────
+// Conversation context lives in the agent process, so switching backends
+// drops the old session and starts a fresh one under a new id.
+const backendRadios = document.querySelectorAll('input[name="backend"]');
+const BACKEND_LABELS = { "claude-sdk": "Claude (SDK)", "acp": "opencode (ACP)" };
+
+for (const radio of backendRadios) {
+  radio.addEventListener("change", () => {
+    if (!radio.checked || radio.value === backend) return;
+    fetch(`/api/session/${sessionId}`, { method: "DELETE" }).catch(() => {});
+    backend = radio.value;
+    sessionId = crypto.randomUUID();
+    if (chatEl.childElementCount > 0) {
+      chatEl.appendChild(
+        el("div", "conversation-divider", `New conversation · ${BACKEND_LABELS[backend]}`)
+      );
+      scrollToBottom(true);
+    }
+    promptEl.focus();
+  });
 }
 
 // ── composer wiring ──────────────────────────────────────────────────

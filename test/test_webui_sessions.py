@@ -1,4 +1,4 @@
-"""Unit tests for the web UI session registry. Uses a fake SDK client."""
+"""Unit tests for the web UI session registry. Uses a fake agent backend."""
 
 import asyncio
 
@@ -6,7 +6,8 @@ from artmind.webui.sessions import SessionRegistry
 
 
 class FakeClient:
-    def __init__(self):
+    def __init__(self, backend: str = "claude-sdk"):
+        self.backend = backend
         self.connected = False
 
     async def connect(self):
@@ -16,14 +17,11 @@ class FakeClient:
         self.connected = False
 
 
-class SlowFakeClient:
+class SlowFakeClient(FakeClient):
     """Like FakeClient but yields to the event loop mid-connect/disconnect,
     so concurrent registry calls actually interleave under asyncio.gather
     instead of one running to completion before the other starts."""
 
-    def __init__(self):
-        self.connected = False
-
     async def connect(self):
         await asyncio.sleep(0)
         self.connected = True
@@ -33,11 +31,11 @@ class SlowFakeClient:
         self.connected = False
 
 
-class FailingConnectClient:
+class FailingConnectClient(FakeClient):
     """Fails on connect(); tracks whether disconnect() cleanup was invoked."""
 
-    def __init__(self):
-        self.connected = False
+    def __init__(self, backend: str = "claude-sdk"):
+        super().__init__(backend)
         self.disconnect_called = False
 
     async def connect(self):
@@ -67,6 +65,25 @@ async def test_separate_sessions_get_separate_clients():
     assert await registry.get("tab-1") is not await registry.get("tab-2")
 
 
+async def test_get_passes_backend_to_factory():
+    registry = SessionRegistry(client_factory=FakeClient)
+    client = await registry.get("tab-1", backend="acp")
+    assert client.backend == "acp"
+
+
+async def test_backend_mismatch_replaces_session():
+    """The UI issues a fresh session id on backend switch, but a mismatched
+    request must not be answered by the wrong agent."""
+    registry = SessionRegistry(client_factory=FakeClient)
+    first = await registry.get("tab-1", backend="claude-sdk")
+    second = await registry.get("tab-1", backend="acp")
+    assert second is not first
+    assert not first.connected
+    assert second.connected
+    assert second.backend == "acp"
+    assert registry.peek("tab-1") is second
+
+
 async def test_drop_disconnects_and_forgets():
     registry = SessionRegistry(client_factory=FakeClient)
     client = await registry.get("tab-1")
@@ -92,8 +109,8 @@ async def test_sweep_drops_only_idle_sessions():
     stale = await registry.get("stale-tab")
     fresh = await registry.get("fresh-tab")
     # age only the stale session
-    client_entry, _ = registry._sessions["stale-tab"]
-    registry._sessions["stale-tab"] = (client_entry, -1000.0)
+    client_entry, backend, _ = registry._sessions["stale-tab"]
+    registry._sessions["stale-tab"] = (client_entry, backend, -1000.0)
     dropped = await registry.sweep()
     assert dropped == 1
     assert not stale.connected
@@ -107,8 +124,8 @@ async def test_concurrent_get_for_new_session_creates_only_one_client():
     the loser's connection never stored and never disconnected (leaked)."""
     created = []
 
-    def factory():
-        client = SlowFakeClient()
+    def factory(backend):
+        client = SlowFakeClient(backend)
         created.append(client)
         return client
 
@@ -134,8 +151,8 @@ async def test_concurrent_sweep_and_get_never_returns_a_disconnected_zombie():
     connected."""
     registry = SessionRegistry(client_factory=SlowFakeClient, idle_timeout_s=100)
     original = await registry.get("tab-1")
-    entry, _ = registry._sessions["tab-1"]
-    registry._sessions["tab-1"] = (entry, -1000.0)  # mark stale
+    entry, backend, _ = registry._sessions["tab-1"]
+    registry._sessions["tab-1"] = (entry, backend, -1000.0)  # mark stale
 
     _, result = await asyncio.gather(registry.sweep(), registry.get("tab-1"))
 

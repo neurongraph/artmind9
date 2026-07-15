@@ -227,10 +227,18 @@ def serve(host: str, port: int | None) -> None:
 @cli.command("chat-ui")
 @click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
 @click.option("--port", default=8378, show_default=True, type=int, help="Port to bind.")
-def chat_ui(host: str, port: int) -> None:
-    """Launch the artmind chat web UI (FastAPI + Claude Agent SDK)."""
+@click.option(
+    "--acp-cmd",
+    default=None,
+    help="ACP agent command for the 'opencode (ACP)' backend "
+    "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
+)
+def chat_ui(host: str, port: int, acp_cmd: str | None) -> None:
+    """Launch the artmind chat web UI (Claude Agent SDK or an ACP agent)."""
     from artmind.webui.app import run_chat_ui
+    from artmind.webui.backends import set_acp_agent_cmd
 
+    set_acp_agent_cmd(acp_cmd)
     click.echo(f"artmind chat UI on http://{host}:{port}")
     run_chat_ui(host=host, port=port)
 

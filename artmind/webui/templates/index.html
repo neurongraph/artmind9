@@ -18,6 +18,17 @@
 <body>
   <header class="topbar">
     <div class="brand">artmind</div>
+    <div class="backend-picker" role="radiogroup" aria-label="Agent backend"
+         title="Switching starts a new conversation">
+      <label class="backend-option">
+        <input type="radio" name="backend" value="claude-sdk" checked>
+        <span>Claude (SDK)</span>
+      </label>
+      <label class="backend-option">
+        <input type="radio" name="backend" value="acp">
+        <span>opencode (ACP)</span>
+      </label>
+    </div>
     <div class="topbar-actions">
       <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">

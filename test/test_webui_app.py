@@ -1,19 +1,18 @@
-"""Route tests for the web UI FastAPI app, with a fake SDK client."""
+"""Route tests for the web UI FastAPI app, with a fake agent backend."""
 
 import json
 
 from fastapi.testclient import TestClient
 
-from claude_agent_sdk import ResultMessage, StreamEvent
-
 from artmind.webui.app import create_app
 from artmind.webui.sessions import SessionRegistry
 
 
-class FakeClient:
-    """Replays a canned message sequence for one turn."""
+class FakeBackend:
+    """Replays a canned UI-event sequence for one turn."""
 
-    def __init__(self):
+    def __init__(self, backend: str = "claude-sdk"):
+        self.backend = backend
         self.connected = False
         self.prompts: list[str] = []
         self.interrupted = False
@@ -30,20 +29,13 @@ class FakeClient:
     async def interrupt(self):
         self.interrupted = True
 
-    async def receive_response(self):
-        yield StreamEvent(
-            uuid="u1", session_id="s1",
-            event={"type": "content_block_delta", "index": 0,
-                   "delta": {"type": "text_delta", "text": "Hi"}},
-        )
-        yield ResultMessage(
-            subtype="success", duration_ms=1000, duration_api_ms=900,
-            is_error=False, num_turns=1, session_id="s1", total_cost_usd=0.01,
-        )
+    async def receive_events(self):
+        yield {"type": "text_delta", "text": "Hi"}
+        yield {"type": "turn_done", "turns": 1, "duration_s": 1.0, "cost": 0.01}
 
 
 def _client() -> tuple[TestClient, SessionRegistry]:
-    registry = SessionRegistry(client_factory=FakeClient)
+    registry = SessionRegistry(client_factory=FakeBackend)
     app = create_app(registry=registry)
     return TestClient(app), registry
 
@@ -82,6 +74,24 @@ def test_chat_reuses_session_client():
     assert registry.peek("tab-1").prompts == ["one", "two"]
 
 
+def test_chat_backend_reaches_factory():
+    client, registry = _client()
+    client.post(
+        "/api/chat",
+        json={"session_id": "tab-1", "prompt": "hello", "backend": "acp"},
+    )
+    assert registry.peek("tab-1").backend == "acp"
+
+
+def test_chat_rejects_unknown_backend():
+    client, _ = _client()
+    response = client.post(
+        "/api/chat",
+        json={"session_id": "tab-1", "prompt": "hello", "backend": "nope"},
+    )
+    assert response.status_code == 422
+
+
 def test_interrupt_reaches_session_client():
     client, registry = _client()
     client.post("/api/chat", json={"session_id": "tab-1", "prompt": "hello"})
@@ -98,19 +108,19 @@ def test_interrupt_unknown_session_is_ok():
 def test_delete_session_disconnects():
     client, registry = _client()
     client.post("/api/chat", json={"session_id": "tab-1", "prompt": "hello"})
-    sdk_client = registry.peek("tab-1")
+    backend = registry.peek("tab-1")
     response = client.delete("/api/session/tab-1")
     assert response.status_code == 200
-    assert not sdk_client.connected
+    assert not backend.connected
     assert registry.peek("tab-1") is None
 
 
 def test_chat_turns_exception_into_error_event():
-    class ExplodingClient(FakeClient):
+    class ExplodingBackend(FakeBackend):
         async def query(self, prompt):
             raise RuntimeError("boom")
 
-    registry = SessionRegistry(client_factory=ExplodingClient)
+    registry = SessionRegistry(client_factory=ExplodingBackend)
     app = create_app(registry=registry)
     client = TestClient(app)
     response = client.post(
@@ -121,11 +131,11 @@ def test_chat_turns_exception_into_error_event():
 
 
 def test_chat_connect_failure_streams_error_not_500():
-    class UnconnectableClient(FakeClient):
+    class UnconnectableBackend(FakeBackend):
         async def connect(self):
             raise RuntimeError("connect failed")
 
-    registry = SessionRegistry(client_factory=UnconnectableClient)
+    registry = SessionRegistry(client_factory=UnconnectableBackend)
     app = create_app(registry=registry)
     client = TestClient(app)
     response = client.post(

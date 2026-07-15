@@ -4,19 +4,13 @@ import asyncio
 import time
 from typing import Any, Callable
 
-from claude_agent_sdk import ClaudeSDKClient
-
-from artmind.webui.agent import agent_options
+from artmind.webui.backends import DEFAULT_BACKEND, create_backend
 
 IDLE_TIMEOUT_S = 30 * 60
 
 
-def _default_factory() -> ClaudeSDKClient:
-    return ClaudeSDKClient(agent_options())
-
-
 class SessionRegistry:
-    """One lazily-connected SDK client per browser tab, reaped when idle.
+    """One lazily-connected agent backend per browser tab, reaped when idle.
 
     ``get``, ``drop``, and ``sweep`` all serialize on a single lock so that
     the check-then-act sequences they perform (look up an entry, then
@@ -27,23 +21,29 @@ class SessionRegistry:
 
     def __init__(
         self,
-        client_factory: Callable[[], Any] = _default_factory,
+        client_factory: Callable[[str], Any] = create_backend,
         idle_timeout_s: float = IDLE_TIMEOUT_S,
     ) -> None:
         self._client_factory = client_factory
         self._idle_timeout_s = idle_timeout_s
-        self._sessions: dict[str, tuple[Any, float]] = {}
+        self._sessions: dict[str, tuple[Any, str, float]] = {}
         self._lock = asyncio.Lock()
 
-    async def get(self, session_id: str) -> Any:
+    async def get(self, session_id: str, backend: str = DEFAULT_BACKEND) -> Any:
         async with self._lock:
             entry = self._sessions.get(session_id)
             if entry is not None:
-                client = entry[0]
-                self._sessions[session_id] = (client, time.monotonic())
-                return client
+                client, entry_backend, _ = entry
+                if entry_backend == backend:
+                    self._sessions[session_id] = (client, backend, time.monotonic())
+                    return client
+                # Defensive: the UI starts a fresh session id on backend
+                # switch, but if a mismatched request arrives, replace the
+                # session rather than answering with the wrong agent.
+                self._sessions.pop(session_id)
+                await client.disconnect()
 
-            client = self._client_factory()
+            client = self._client_factory(backend)
             try:
                 await client.connect()
             except BaseException:
@@ -54,7 +54,7 @@ class SessionRegistry:
                     except Exception:
                         pass
                 raise
-            self._sessions[session_id] = (client, time.monotonic())
+            self._sessions[session_id] = (client, backend, time.monotonic())
             return client
 
     def peek(self, session_id: str) -> Any | None:
@@ -72,7 +72,7 @@ class SessionRegistry:
             now = time.monotonic()
             stale_ids = [
                 sid
-                for sid, (_, last_used) in self._sessions.items()
+                for sid, (_, _, last_used) in self._sessions.items()
                 if now - last_used > self._idle_timeout_s
             ]
             dropped = 0

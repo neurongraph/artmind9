@@ -37,6 +37,8 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+/* inline <svg> doesn't honor the HTML hidden attribute on its own */
+[hidden] { display: none !important; }
 
 /* ── header ──────────────────────────────────────────────────────── */
 .topbar {
@@ -59,6 +61,27 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   min-width: 15px; height: 15px; padding: 0 4px;
   border-radius: 8px; background: var(--accent); color: var(--accent-contrast);
   font-size: 10px; font-weight: 600; line-height: 15px; text-align: center;
+}
+.backend-picker {
+  display: flex; gap: 2px; padding: 2px;
+  background: var(--bg-inset); border-radius: 9px;
+}
+.backend-option { position: relative; }
+.backend-option input {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+}
+.backend-option span {
+  display: inline-block; padding: 4px 10px; border-radius: 7px;
+  font-size: 12.5px; color: var(--text-muted); user-select: none;
+}
+.backend-option input:checked + span {
+  background: var(--bg-elev); color: var(--text); font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.backend-option input:disabled + span { opacity: 0.55; }
+.backend-option input:disabled { cursor: not-allowed; }
+.backend-option input:focus-visible + span {
+  outline: 2px solid var(--accent); outline-offset: 1px;
 }
 
 /* ── chat column ─────────────────────────────────────────────────── */
@@ -151,6 +174,16 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 @keyframes shimmer { to { background-position: -200% 0; } }
 
 /* inline error notice */
+.conversation-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 24px 0; color: var(--text-muted); font-size: 12.5px;
+  white-space: nowrap;
+}
+.conversation-divider::before,
+.conversation-divider::after {
+  content: ""; flex: 1; border-top: 1px solid var(--border);
+}
+
 .notice {
   margin: 16px 0; padding: 10px 14px;
   border: 1px solid var(--border); border-radius: 10px;
