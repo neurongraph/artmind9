@@ -39,7 +39,8 @@
   <aside id="drawer" class="drawer" aria-hidden="true">
     <div class="drawer-head">
       <span class="drawer-title">Agent trace</span>
-      <button id="drawer-close" class="icon-btn" aria-label="Close trace">
+      <!-- tabindex toggled by app.js when the drawer opens/closes -->
+      <button id="drawer-close" class="icon-btn" aria-label="Close trace" tabindex="-1">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M6 6l12 12M18 6L6 18"></path>
         </svg>
@@ -50,7 +51,7 @@
 
   <div class="composer-wrap">
     <form id="composer" class="composer">
-      <textarea id="prompt" rows="1" placeholder="Ask artmind…" autofocus></textarea>
+      <textarea id="prompt" rows="1" placeholder="Ask artmind…" aria-label="Message" autofocus></textarea>
       <button id="send" type="submit" class="send-btn" disabled aria-label="Send">
         <svg class="icon-send" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2">
           <path d="M12 19V5m0 0-6 6m6-6 6 6"></path>
