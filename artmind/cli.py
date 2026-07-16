@@ -84,7 +84,9 @@ def _ensure_worker_running() -> None:
         except (ProcessLookupError, ValueError):
             pass  # stale PID
 
-    worker_script = WORKER_PID_FILE.parent / "artmind" / "worker.py"
+    # Locate the worker from the installed package (sibling of this module) —
+    # never relative to the pid file, which lives in the data dir.
+    worker_script = Path(__file__).resolve().parent / "worker.py"
     WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
     subprocess.Popen(
         [sys.executable, str(worker_script)],

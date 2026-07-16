@@ -74,9 +74,33 @@ artmind init
 A repo-root `.env` is also auto-loaded as a fallback when `$ARTMIND_HOME/.env`
 is absent, so an existing checkout `.env` keeps working.
 
+## Daemons
+
+`artmind serve` and the background ingestion worker load code at **start** time,
+so one left running keeps serving the *old* build after a reinstall — and a
+lingering `serve` holds its port, so the next `artmind serve` fails to bind with
+`[Errno 48] address already in use`.
+
+`just install` therefore stops them first. To do it on its own:
+
+```bash
+just stop-daemons
+```
+
+It finds `serve` by the port it actually holds (`$ARTMIND_SERVE_PORT`, default
+8377) and confirms the process is artmind before killing it, so an unrelated
+process on that port is left alone.
+
+Note that a running daemon can mask whether your changes took effect at all,
+since `artmind query` proxies to it. To force in-process execution:
+
+```bash
+ARTMIND_NO_PROXY=1 artmind query ...
+```
+
 ## Upgrade / uninstall
 
 ```bash
-just install                 # re-installs; init preserves your edits (skips existing files)
+just install                 # stops daemons, re-installs; init preserves your edits
 just uninstall               # removes the `artmind` command (leaves ~/.artmind and data intact)
 ```
