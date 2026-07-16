@@ -24,7 +24,7 @@ Use this skill to let a user add or update facts in the artmind knowledge graph 
 At skill start, load available domains:
 
 ```bash
-uv run artmind domains list
+artmind domains list
 ```
 
 Inspect the user's first message for domain signals (e.g., project names, people, domain-specific vocabulary). If confident, announce the chosen domain and proceed. If ambiguous, show the domain list and ask the user to pick.
@@ -32,7 +32,7 @@ Inspect the user's first message for domain signals (e.g., project names, people
 ## Step 1 — Draft (extract + find candidates)
 
 ```bash
-uv run artmind update draft \
+artmind update draft \
   --domain <domain> \
   --text "<user input>" \
   [--session <session_id>]
@@ -73,7 +73,7 @@ Build the resolutions JSON array:
 ## Step 3 — Confirm (write to graph)
 
 ```bash
-uv run artmind update confirm \
+artmind update confirm \
   --session <session_id> \
   --resolutions '<resolutions JSON>'
 ```
@@ -86,7 +86,7 @@ Report the summary to the user:
 Optionally verify the write landed as intended — useful after creating new entities or when relationships were involved:
 
 ```bash
-uv run artmind query graph pattern2 --domain <domain> --entityNameList "<new entity name>" --compact
+artmind query graph pattern2 --domain <domain> --entityNameList "<new entity name>" --compact
 ```
 
 ## Step 4 — Continue or Exit
@@ -107,13 +107,13 @@ Ask: "Anything else to add to this session?"
 If during an update session you notice similar entity names that should be merged (e.g., "Alice" vs "Alice Smith" or "Project Alpha" vs "Alpha Project"), use the `refine-graph` command with the `--filter` option to detect and resolve duplicates:
 
 ```bash
-uv run artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dry-run --output merges.json
+artmind ingest refine-graph --domain <domain> --filter "<name1>,<name2>,..." --dry-run --output merges.json
 ```
 
 This filters merge detection to only the specified entity names (comma-separated). Review the proposals in `merges.json`, then apply:
 
 ```bash
-uv run artmind ingest refine-graph --from-file merges.json
+artmind ingest refine-graph --from-file merges.json
 ```
 
 **Workflow**: During candidate resolution in an update, if you spot similar nodes that should be merged, note the entity names → use refine-graph with `--filter` to focus detection → merge → continue with the update.
@@ -123,6 +123,6 @@ uv run artmind ingest refine-graph --from-file merges.json
 To dump all user-added knowledge to markdown (outside this skill, via CLI):
 
 ```bash
-uv run artmind update export --format sequential --output data/chats/
-uv run artmind update export --format by-entity --output data/chats/
+artmind update export --format sequential --output data/chats/
+artmind update export --format by-entity --output data/chats/
 ```

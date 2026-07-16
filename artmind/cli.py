@@ -15,7 +15,7 @@ from artmind import graph_query, text2cypher, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
-from artmind.setup import setup_all
+from artmind.setup import scaffold_run_folder, setup_all
 from artmind.dashboard import run_dashboard
 from artmind.wizard import run_wizard
 from artmind.ingest import (
@@ -1613,6 +1613,26 @@ def session_initiate(snapshot_file: str | None, yes: bool):
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────
+
+
+@cli.command("init")
+def init():
+    """Scaffold the run folder (~/.artmind) + data dirs; seed .env, skills, schemas.
+
+    Filesystem-only and idempotent — needs no Neo4j. Run this right after
+    install, then edit ~/.artmind/.env and run `artmind setup`.
+    """
+    try:
+        result = scaffold_run_folder()
+        click.echo("Run folder:  " + result["run_folder"])
+        click.echo("Data dir:    " + result["data_dir"])
+        click.echo("Config .env: " + result["env"])
+        click.echo(f"Skills:      {result['skills_copied']} copied")
+        click.echo(f"Schemas:     {result['schemas_copied']} copied")
+        click.echo(f"opencode:    {result['opencode_copied']} copied")
+        click.echo("\nNext: edit " + result["run_folder"] + "/.env, then run `artmind setup`.")
+    except Exception as e:
+        raise click.ClickException(str(e))
 
 
 @cli.command("setup")

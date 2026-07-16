@@ -48,3 +48,8 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 packages = ["artmind", "utils"]
 py-modules = ["paths"]
+
+[tool.setuptools.package-data]
+# Ship the agent skills, default domain schemas, and the .env template inside
+# the wheel so a non-editable install can seed them into the run folder (~/.artmind).
+artmind = ["skills/**/*", "domains/schemas/**/*", "opencode/**/*", "env.example"]

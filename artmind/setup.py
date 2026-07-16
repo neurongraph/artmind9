@@ -1,6 +1,96 @@
+import shutil
+
 from artmind.db import _init_db
 from artmind.graph_query import neo4j_session
+from paths import (
+    ARTMIND_DATA_DIR,
+    ARTMIND_HOME,
+    DOMAIN_SCHEMAS_DIR,
+    GRAPH_SNAPSHOT_DIR,
+    JOBS_DIR,
+    KG_DIR,
+    LOGS_DIR,
+    MARKDOWNS_DIR,
+    ORIGINALS_DIR,
+    PACKAGE_ENV_EXAMPLE,
+    PACKAGE_OPENCODE_DIR,
+    PACKAGE_SCHEMAS_DIR,
+    PACKAGE_SKILLS_DIR,
+    REFINE_DIR,
+    WIZARD_FIXTURES_DIR,
+)
 from utils.functions import load_env
+
+
+def _seed_tree(src, dest) -> int:
+    """Copy each top-level entry of ``src`` into ``dest`` if not already there.
+
+    Skips entries that already exist so user edits (and added domains) survive
+    re-running setup. Returns the number of entries newly copied.
+    """
+    if not src.is_dir():
+        return 0
+    dest.mkdir(parents=True, exist_ok=True)
+    copied = 0
+    for entry in src.iterdir():
+        if entry.name == ".DS_Store":
+            continue
+        target = dest / entry.name
+        if target.exists():
+            continue
+        if entry.is_dir():
+            shutil.copytree(entry, target)
+        else:
+            shutil.copy2(entry, target)
+        copied += 1
+    return copied
+
+
+def scaffold_run_folder() -> dict:
+    """Create the run folder + data dirs and seed .env, skills and schemas.
+
+    Pure filesystem work — needs no Neo4j/config, so it is safe to run right
+    after install, before the user has filled in ``~/.artmind/.env``.
+    Idempotent: existing files are left untouched.
+    """
+    run_env = ARTMIND_HOME / ".env"
+    skills_dest = ARTMIND_HOME / ".claude" / "skills"
+    opencode_dest = ARTMIND_HOME / ".opencode"
+
+    for directory in (
+        ARTMIND_HOME,
+        skills_dest,
+        opencode_dest,
+        DOMAIN_SCHEMAS_DIR,
+        LOGS_DIR,
+        ARTMIND_DATA_DIR,
+        ORIGINALS_DIR,
+        MARKDOWNS_DIR,
+        JOBS_DIR,
+        KG_DIR,
+        REFINE_DIR,
+        GRAPH_SNAPSHOT_DIR,
+        WIZARD_FIXTURES_DIR,
+    ):
+        directory.mkdir(parents=True, exist_ok=True)
+
+    seeded_env = False
+    if not run_env.exists() and PACKAGE_ENV_EXAMPLE.is_file():
+        shutil.copy2(PACKAGE_ENV_EXAMPLE, run_env)
+        seeded_env = True
+
+    skills_copied = _seed_tree(PACKAGE_SKILLS_DIR, skills_dest)
+    schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR)
+    opencode_copied = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest)
+
+    return {
+        "run_folder": str(ARTMIND_HOME),
+        "data_dir": str(ARTMIND_DATA_DIR),
+        "env": "seeded from template" if seeded_env else str(run_env),
+        "skills_copied": skills_copied,
+        "schemas_copied": schemas_copied,
+        "opencode_copied": opencode_copied,
+    }
 
 
 def _setup_neo4j(session, embedding_dim: int) -> None:
@@ -114,6 +204,7 @@ def setup_all() -> dict:
     Safe to call at any time — all operations are idempotent (IF NOT EXISTS).
     Returns a summary of what was set up.
     """
+    scaffold = scaffold_run_folder()
     env = load_env()
     embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
 
@@ -123,6 +214,7 @@ def setup_all() -> dict:
         neo4j_notes = _setup_neo4j(session, embedding_dim)
 
     return {
+        "scaffold": scaffold,
         "sqlite": "ok",
         "neo4j_constraints": [
             "document_id",

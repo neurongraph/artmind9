@@ -88,22 +88,23 @@ cp .env.example .env
 
 ### Global CLI install (optional)
 
-By default, every command is prefixed with `uv run` and must be run from the cloned directory. To make `artmind` available as a global command from anywhere on your system, install it as a uv tool:
+Install `artmind` as a global command and scaffold its run folder (`~/.artmind`):
 
 ```bash
-just install-tool
+just install
 # or directly:
-uv tool install --editable .
+uv tool install --force --editable . && artmind init
 ```
 
-The `--editable` flag is required. It means the tool still runs from the cloned project directory, so all data, logs, domain schemas, and your `.env` file remain exactly where they are — nothing is copied elsewhere.
+`artmind` then works from any directory. Config, skills, and domain schemas live
+in the run folder (`~/.artmind`); ingestion data lives separately under
+`~/artmind-data` (`$ARTMIND_DATA_DIR`). See [docs/INSTALL.md](docs/INSTALL.md)
+for the full layout, the `.env` setup, and `artmind setup`.
 
-After this, `artmind --help` works from any directory. Every `uv run artmind ...` command in this guide can be shortened to `artmind ...`.
-
-To uninstall:
+To uninstall (leaves `~/.artmind` and your data intact):
 
 ```bash
-just uninstall-tool
+just uninstall
 # or:
 uv tool uninstall artmind9
 ```
@@ -676,8 +677,8 @@ If you have `just` installed, common commands are available as short recipes:
 
 ```bash
 just                            # list all recipes
-just install-tool               # install artmind as a global uv tool (editable)
-just uninstall-tool             # uninstall the global artmind uv tool
+just install                    # put `artmind` on PATH + scaffold ~/.artmind
+just uninstall                  # remove the global artmind command
 just test                       # run the test suite
 just ingest-sync path/to/file   # ingest a file (default domain: general)
 just ingest-write-to-graph-folder data/kg/fiction  # batch write a folder of KG JSON

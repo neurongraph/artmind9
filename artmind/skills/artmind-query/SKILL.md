@@ -38,7 +38,7 @@ Policies and the SOPs/matrices about the same subject live in DIFFERENT sibling
 domains by design (e.g. `banking_policy` vs `banking_sop_guides`). Before answering:
 
 ```bash
-uv run artmind query domains-overview --compact
+artmind query domains-overview --compact
 ```
 
 - If the user names an exact single small domain, use it and skip to Discover.
@@ -59,14 +59,14 @@ uv run artmind query domains-overview --compact
 Start every new domain/question session with:
 
 ```bash
-uv run artmind query graph metadata --domain <domain> --compact
-uv run artmind query graph entity-listing --domain <domain> --countAll --compact
+artmind query graph metadata --domain <domain> --compact
+artmind query graph entity-listing --domain <domain> --countAll --compact
 ```
 
 For document/chunk/count questions, use the compact alternative instead of the two commands above:
 
 ```bash
-uv run artmind query graph structural-metadata --domain <domain> --compact
+artmind query graph structural-metadata --domain <domain> --compact
 ```
 
 It returns Document names plus structural counts (Document/DocChunk/UserChat/Entity) without the full class/relationship breakdown — cheaper when you only need document names or counts, not the entity-class/relationship schema. From metadata identify: stored class labels (derived from `entity_class`, uppercased, non-alphanumerics → `_`), relationship types and directions, and whether the question needs graph facts, text evidence, or both.
@@ -82,7 +82,7 @@ Most wrong answers come from name mismatch: the user says "Holmes", the graph ha
 1. Resolve every entity reference in the question:
 
 ```bash
-uv run artmind query entity-resolve --domain <domain> --topK 5 --compact "<name fragment or description>"
+artmind query entity-resolve --domain <domain> --topK 5 --compact "<name fragment or description>"
 ```
 
 This combines Lucene full-text over entity names/descriptions with vector similarity over entity embeddings (RRF), so it handles both name fragments ("Holmes") and purely descriptive references ("the detective"). Each row returns the entity's `id`, `name`, `entity_class`, and `description`. (Alternatives: `entity-listing --nameFilter` for plain fragments, `pattern7 --searchTerm` for fulltext-only.)
@@ -90,7 +90,7 @@ This combines Lucene full-text over entity names/descriptions with vector simila
 2. Pick the canonical entity. If several are plausible, prefer the best name/description match and note the ambiguity in your answer; ask the user only if the choices change the answer materially.
 3. Use the entity's exact `id` in retrieval via `--entityId` / `--entityId1` / `--entityId2` / `--entityIdList`. Ids never fan out; names can. Fall back to `--entityName` only when resolution was skipped because the name is unambiguous.
 
-If entity-resolve returns nothing for an old graph, embeddings may be missing — `uv run artmind ingest embed-entities --domain <domain>` backfills them.
+If entity-resolve returns nothing for an old graph, embeddings may be missing — `artmind ingest embed-entities --domain <domain>` backfills them.
 
 ### 3. Retrieve — run the right pattern
 
@@ -113,7 +113,7 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 
 Routing notes:
 - **entity-context vs pattern4**: for a question anchored on ONE resolved entity that
-  needs evidence text, `uv run artmind query entity-context --domain <d> --entityId <id>`
+  needs evidence text, `artmind query entity-context --domain <d> --entityId <id>`
   replaces the pattern4 + Ground sequence — it returns properties, one-hop
   relationships, and the text of the entity's most current source chunks
   (current-first ordering; the first `--includeChunks` with full text, the rest as
@@ -121,7 +121,7 @@ Routing notes:
   only need structure, or patterns 2/3 for several entities at once.
 - **pattern6 vs pattern5**: pattern6 answers "is there a direct relationship and what type". For the *nature or quality* of a relationship, use pattern5 — then ground with vector-text for narrative evidence. If pattern6 returns no rows, escalate to pattern5 `--mode shortest`.
 - **timeline vs entity-context/pattern3/pattern4**: entity-context and patterns 2-4 give current-state facts and one-hop structure; `graph timeline --entityId <id>` instead reconstructs *change over time* for that one entity — its dated relationships sorted chronologically. Use it for "history of X", "what changed", or "when did X start/end", not for a general one-hop snapshot. It only has an entity's edges, no chunk text — pair it with `entity-context`/`chunks` if the question also needs narrative evidence at a given point in time.
-- Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `uv run artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
+- Patterns 2/3/4 return `doc_sources` and `chat_sources` — use these ids to know *where* a fact came from, and pull the actual text deterministically with `artmind query chunks --domain <d> --idList <chunk_id> [--expand 1]` (never re-search for text you already have ids for). `--expand 1` adds the adjacent chunks of the same document when one chunk is too little context.
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `.domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
@@ -136,13 +136,13 @@ Routing notes:
 Grounding has a deterministic path and a search path — prefer the deterministic one:
 
 1. **You already have chunk ids** (doc_sources from patterns 2/3/4, evidence from
-   conflicts) → `uv run artmind query chunks --domain <d> --idList <id> [--expand 1]`.
+   conflicts) → `artmind query chunks --domain <d> --idList <id> [--expand 1]`.
 2. **The question is anchored on one resolved entity** → you should have used
    `entity-context` in Retrieve, which grounds in the same call.
 3. **Otherwise** (no entity anchor, or the ids you pulled don't answer it):
 
 ```bash
-uv run artmind query vector-text --domain <d1> --domain <d2> --topK 5 --compact "<question>"
+artmind query vector-text --domain <d1> --domain <d2> --topK 5 --compact "<question>"
 ```
 
 vector-text combines semantic (vector) and keyword (Lucene BM25 full-text) search via Reciprocal Rank Fusion; returns both document chunks and user chats. Use it for "where/when/how did X happen", motivations, quotes, or whenever graph output is too thin. In hybrid answers, take entity/relationship facts from the graph and narrative evidence from chunk text. When Route selected multiple domains, Ground should query all of them together in one call so results can be compared side by side.
@@ -162,7 +162,7 @@ First check for already-materialized conflicts. Two sources, cheapest first:
    called an entity-anchored pattern:
 
 ```bash
-uv run artmind query graph conflicts --domain <d1> --domain <d2> --entityId <id> --compact
+artmind query graph conflicts --domain <d1> --domain <d2> --entityId <id> --compact
 ```
 
 This matches the `CONFLICTS_WITH` edge between entities directly, so it still finds a

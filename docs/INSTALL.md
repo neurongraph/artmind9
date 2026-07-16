@@ -1,0 +1,82 @@
+# Installing artmind (run from anywhere)
+
+artmind installs as a global `artmind` CLI and runs from a dedicated **run
+folder** — it does not need to be launched from this source checkout.
+
+## Layout
+
+| Location | Default | Holds | Used by |
+|---|---|---|---|
+| **Run folder** — `$ARTMIND_HOME` | `~/.artmind` | `.env`, `.claude/skills/`, `.opencode/agent/`, `domains/schemas/`, `logs/` | every command (query / serve / chat-ui / ingest) |
+| **Data dir** — `$ARTMIND_DATA_DIR` | `~/artmind-data` | originals, markdowns, `document_registry.db`, jobs, kg staging, snapshots | ingestion only |
+
+Query / `serve` / `chat-ui` read almost nothing from disk (config + Neo4j);
+the corpus and all ingestion artifacts live under the separate data dir, so a
+query-only host can leave `$ARTMIND_DATA_DIR` empty or unset.
+
+`$ARTMIND_HOME` is resolved *before* `.env` is read, so override it only via a
+real environment variable (e.g. `export ARTMIND_HOME=/opt/artmind`). Set
+`ARTMIND_DATA_DIR` in the environment or in `~/.artmind/.env`.
+
+## Prerequisites
+
+- Python (see `.python-version`) and [`uv`](https://docs.astral.sh/uv/).
+- A running **Neo4j** with vector-index support.
+- LLM/embeddings access: local **Ollama**, or an **OpenRouter** API key.
+
+## Install
+
+```bash
+just install          # puts `artmind` on PATH (uv tool, editable) + `artmind init`
+```
+
+This is the single install path for both development and running. It is
+editable, so code edits are live, and because paths are decoupled from the
+checkout the `artmind` command runs from any directory. (For a deploy where the
+checkout won't stay in place, drop `--editable` in the `install` recipe.)
+
+`artmind init` scaffolds `~/.artmind` and `~/artmind-data`, seeds
+`~/.artmind/.env` from the bundled template, and copies the skills and default
+domain schemas into the run folder. It is idempotent and needs no Neo4j.
+
+Then:
+
+```bash
+$EDITOR ~/.artmind/.env      # Neo4j URI/creds, LLM provider/keys, optional ARTMIND_DATA_DIR
+artmind setup                # create Neo4j constraints/indexes + SQLite tables
+```
+
+## Run (from any directory)
+
+```bash
+cd ~                         # nothing special about this dir
+artmind query graph metadata --domain <domain> --compact
+artmind serve                # warm query daemon (query calls proxy to it)
+artmind chat-ui              # web UI at http://127.0.0.1:8378
+```
+
+The chat agent runs with its working directory set to the run folder
+(`~/.artmind`), which contains only skills, schemas, and logs — the source tree
+and document corpus are not present there.
+
+## Keeping data in the checkout (optional)
+
+By default ingestion data lives at `~/artmind-data`. To keep it (and config)
+inside the repo during development, point the two roots at repo-local paths and
+re-run init:
+
+```bash
+export ARTMIND_HOME="$PWD/.artmind-dev"
+export ARTMIND_DATA_DIR="$PWD/data"
+artmind init
+```
+
+A repo-root `.env` is also auto-loaded as a fallback when `$ARTMIND_HOME/.env`
+is absent, so an existing checkout `.env` keeps working.
+
+## Upgrade / uninstall
+
+```bash
+just install                 # re-installs; init preserves your edits (skips existing files)
+just uninstall               # removes the `artmind` command (leaves ~/.artmind and data intact)
+```

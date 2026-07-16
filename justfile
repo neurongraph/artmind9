@@ -4,12 +4,16 @@
 default:
     @just --list
 
-# install artmind as a global uv tool (editable keeps data/logs rooted in project dir)
-install-tool:
-    uv tool install --editable .
+# install: put `artmind` on PATH and scaffold the run folder (~/.artmind).
+# Editable, so code edits are live; paths are decoupled from this checkout, so
+# `artmind` runs from anywhere. Then edit ~/.artmind/.env and run `artmind setup`.
+# See docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
+install:
+    uv tool install --force --editable .
+    artmind init
 
-# uninstall the global artmind uv tool
-uninstall-tool:
+# uninstall the global artmind command (leaves ~/.artmind and data intact)
+uninstall:
     uv tool uninstall artmind9
 
 artmind-cli-help:
@@ -28,35 +32,30 @@ setup:
 
 # ── utility function to copy skills ───────────────────────────────────────────
 copy-skills:
-    cp -r ./skills/* ./.claude/skills
-    cp -r ./skills/* ./.pi/skills
+    cp -r ./artmind/skills/* ./.claude/skills
+    cp -r ./artmind/skills/* ./.pi/skills
 
-# sync ./skills into .claude/skills and .pi/skills as symlinks, adding new ones and removing stale/broken links
+# sync artmind/skills into .claude/skills and .pi/skills as symlinks, adding new ones and removing stale/broken links
 refresh-skills:
     #!/usr/bin/env bash
     set -euo pipefail
     for target_dir in .claude/skills .pi/skills; do
         mkdir -p "$target_dir"
-        # remove symlinks that point into ./skills but whose source no longer exists
+        # remove any broken symlink (e.g. links to the pre-move ./skills location)
         for link in "$target_dir"/*; do
             [ -L "$link" ] || continue
-            dest=$(readlink "$link")
-            case "$dest" in
-                ../../skills/*)
-                    if [ ! -e "$link" ]; then
-                        echo "removing stale link: $link -> $dest"
-                        rm "$link"
-                    fi
-                    ;;
-            esac
+            if [ ! -e "$link" ]; then
+                echo "removing stale link: $link -> $(readlink "$link")"
+                rm "$link"
+            fi
         done
         # add symlinks for any skill not yet linked
-        for skill in skills/*/; do
+        for skill in artmind/skills/*/; do
             name=$(basename "$skill")
             link="$target_dir/$name"
             if [ ! -e "$link" ]; then
                 echo "linking $name into $target_dir"
-                ln -s "../../skills/$name" "$link"
+                ln -s "../../artmind/skills/$name" "$link"
             fi
         done
     done

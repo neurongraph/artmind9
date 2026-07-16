@@ -5,8 +5,9 @@
 works, configured via:
 
 - ``ARTMIND_ACP_AGENT_CMD``: agent command line (default ``opencode acp``)
-- ``ARTMIND_ACP_CWD``: session working directory (default: project root, so
-  the agent discovers the artmind skills in ``.claude/skills/``)
+- ``ARTMIND_ACP_CWD``: session working directory (default: the run folder
+  ``$ARTMIND_HOME``, so the agent discovers the artmind skills in
+  ``.claude/skills/`` without exposing the source tree or corpus)
 - ``ARTMIND_ACP_PROMPT_PREAMBLE``: set to ``1`` to prepend the artmind persona
   to the first prompt of each session (fallback when the agent has no other
   way to receive a system prompt)
@@ -39,7 +40,7 @@ def create_backend(name: str) -> AgentBackend:
 
         return ClaudeSDKBackend()
     if name == "acp":
-        from artmind.webui.agent import PROJECT_ROOT
+        from artmind.webui.agent import RUN_FOLDER
         from artmind.webui.backends.acp import ACPBackend
 
         agent_cmd = _acp_cmd_override or shlex.split(
@@ -47,7 +48,7 @@ def create_backend(name: str) -> AgentBackend:
         )
         return ACPBackend(
             agent_cmd=agent_cmd,
-            cwd=os.environ.get("ARTMIND_ACP_CWD", str(PROJECT_ROOT)),
+            cwd=os.environ.get("ARTMIND_ACP_CWD", str(RUN_FOLDER)),
             prompt_preamble=os.environ.get("ARTMIND_ACP_PROMPT_PREAMBLE") == "1",
             mode=os.environ.get("ARTMIND_ACP_MODE", "artmind") or None,
         )
