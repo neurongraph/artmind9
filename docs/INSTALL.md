@@ -36,8 +36,20 @@ checkout the `artmind` command runs from any directory. (For a deploy where the
 checkout won't stay in place, drop `--editable` in the `install` recipe.)
 
 `artmind init` scaffolds `~/.artmind` and `~/artmind-data`, seeds
-`~/.artmind/.env` from the bundled template, and copies the skills and default
-domain schemas into the run folder. It is idempotent and needs no Neo4j.
+`~/.artmind/.env` from the bundled template, and copies the skills, opencode
+persona, and default domain schemas into the run folder. It is idempotent and
+needs no Neo4j.
+
+Seeding follows two policies, by what the tree holds:
+
+| Tree | Policy | Why |
+|---|---|---|
+| `.claude/skills/`, `.opencode/` | **Overwritten every run** | Package assets — `artmind/skills/` and `artmind/opencode/` are their source of truth. Edit there; a reinstall ships the current version. |
+| `.env`, `domains/schemas/` | **Seeded only when absent** | User data — your credentials, edits, and added domains survive. |
+
+Entries are replaced wholesale, so a file dropped from a skill also disappears
+from the run folder. Names the package doesn't ship are never pruned, so a
+hand-written skill or domain in the run folder is left alone.
 
 Then:
 
@@ -101,6 +113,6 @@ ARTMIND_NO_PROXY=1 artmind query ...
 ## Upgrade / uninstall
 
 ```bash
-just install                 # stops daemons, re-installs; init preserves your edits
+just install                 # stops daemons, re-installs; refreshes skills, keeps your .env
 just uninstall               # removes the `artmind` command (leaves ~/.artmind and data intact)
 ```

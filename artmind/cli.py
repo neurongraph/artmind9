@@ -1629,9 +1629,9 @@ def init():
         click.echo("Run folder:  " + result["run_folder"])
         click.echo("Data dir:    " + result["data_dir"])
         click.echo("Config .env: " + result["env"])
-        click.echo(f"Skills:      {result['skills_copied']} copied")
-        click.echo(f"Schemas:     {result['schemas_copied']} copied")
-        click.echo(f"opencode:    {result['opencode_copied']} copied")
+        click.echo(f"Skills:      {result['skills_refreshed']} refreshed from package")
+        click.echo(f"opencode:    {result['opencode_refreshed']} refreshed from package")
+        click.echo(f"Schemas:     {result['schemas_copied']} newly copied (existing kept)")
         click.echo("\nNext: edit " + result["run_folder"] + "/.env, then run `artmind setup`.")
     except Exception as e:
         raise click.ClickException(str(e))

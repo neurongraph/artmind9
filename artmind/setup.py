@@ -22,28 +22,44 @@ from paths import (
 from utils.functions import load_env
 
 
-def _seed_tree(src, dest) -> int:
-    """Copy each top-level entry of ``src`` into ``dest`` if not already there.
+def _seed_tree(src, dest, *, overwrite: bool = False) -> int:
+    """Copy each top-level entry of ``src`` into ``dest``. Returns entries written.
 
-    Skips entries that already exist so user edits (and added domains) survive
-    re-running setup. Returns the number of entries newly copied.
+    Two policies, by what the tree holds:
+
+    - ``overwrite=False`` — *user data* (``.env``, domain schemas). Existing
+      entries are skipped so local edits and added domains survive re-running init.
+    - ``overwrite=True`` — *package assets* (skills, opencode persona). These are
+      shipped alongside the code with the package as their source of truth, so a
+      reinstall must replace whatever the run folder holds; skipping them would
+      freeze them at whatever version first seeded the run folder, and edits made
+      in ``artmind/skills/`` would silently never reach the chat agent.
+
+    Entries are replaced wholesale, not merged, so a file deleted from a skill
+    also disappears from the run folder. Names the package does not ship are left
+    alone either way, so user-added skills and domains are never pruned.
     """
     if not src.is_dir():
         return 0
     dest.mkdir(parents=True, exist_ok=True)
-    copied = 0
+    written = 0
     for entry in src.iterdir():
         if entry.name == ".DS_Store":
             continue
         target = dest / entry.name
         if target.exists():
-            continue
+            if not overwrite:
+                continue
+            if target.is_dir() and not target.is_symlink():
+                shutil.rmtree(target)
+            else:
+                target.unlink()
         if entry.is_dir():
             shutil.copytree(entry, target)
         else:
             shutil.copy2(entry, target)
-        copied += 1
-    return copied
+        written += 1
+    return written
 
 
 def scaffold_run_folder() -> dict:
@@ -51,7 +67,10 @@ def scaffold_run_folder() -> dict:
 
     Pure filesystem work — needs no Neo4j/config, so it is safe to run right
     after install, before the user has filled in ``~/.artmind/.env``.
-    Idempotent: existing files are left untouched.
+
+    Idempotent, but not inert: package assets (skills, opencode) are refreshed
+    from the package on every run, while user data (``.env``, domain schemas) is
+    only seeded when absent. See ``_seed_tree``.
     """
     run_env = ARTMIND_HOME / ".env"
     skills_dest = ARTMIND_HOME / ".claude" / "skills"
@@ -79,17 +98,19 @@ def scaffold_run_folder() -> dict:
         shutil.copy2(PACKAGE_ENV_EXAMPLE, run_env)
         seeded_env = True
 
-    skills_copied = _seed_tree(PACKAGE_SKILLS_DIR, skills_dest)
+    # Package assets: always refreshed — the package is their source of truth.
+    skills_refreshed = _seed_tree(PACKAGE_SKILLS_DIR, skills_dest, overwrite=True)
+    opencode_refreshed = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
+    # User data: seeded once, then left alone.
     schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR)
-    opencode_copied = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest)
 
     return {
         "run_folder": str(ARTMIND_HOME),
         "data_dir": str(ARTMIND_DATA_DIR),
         "env": "seeded from template" if seeded_env else str(run_env),
-        "skills_copied": skills_copied,
+        "skills_refreshed": skills_refreshed,
         "schemas_copied": schemas_copied,
-        "opencode_copied": opencode_copied,
+        "opencode_refreshed": opencode_refreshed,
     }
 
 
