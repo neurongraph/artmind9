@@ -4,12 +4,67 @@
 default:
     @just --list
 
-# install artmind as a global uv tool (editable keeps data/logs rooted in project dir)
-install-tool:
-    uv tool install --editable .
+# install: put `artmind` on PATH and scaffold the run folder (~/.artmind).
+# Editable, so code edits are live; paths are decoupled from this checkout, so
+# `artmind` runs from anywhere. Then edit ~/.artmind/.env and run `artmind setup`.
+# See docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
+install: stop-daemons
+    uv tool install --force --editable .
+    artmind init
 
-# uninstall the global artmind uv tool
-uninstall-tool:
+# stop running artmind daemons (`serve`, ingestion worker). They load code at
+# start, so one left running keeps serving the OLD build after a reinstall —
+# and `serve` holding its port makes the next `artmind serve` fail to bind.
+stop-daemons:
+    #!/usr/bin/env bash
+    set -uo pipefail
+    port="${ARTMIND_SERVE_PORT:-8377}"
+    stopped=0
+
+    # SIGTERM, wait, then SIGKILL if it ignored us
+    _stop() {
+        echo "stopping $2 (pid $1)"
+        kill "$1" 2>/dev/null || true
+        for _ in 1 2 3 4 5 6 7 8; do
+            kill -0 "$1" 2>/dev/null || return 0
+            sleep 0.25
+        done
+        echo "  forcing pid $1"
+        kill -9 "$1" 2>/dev/null || true
+    }
+
+    # `artmind serve`: identify by the port it holds (that's the actual conflict),
+    # then confirm it really is artmind — never string-match a command line, which
+    # would also hit shells/editors that merely mention "artmind serve".
+    for pid in $(lsof -ti ":$port" -sTCP:LISTEN 2>/dev/null || true); do
+        cmd=$(ps -o command= -p "$pid" 2>/dev/null || true)
+        case "$cmd" in
+            *artmind*)
+                _stop "$pid" "artmind serve on port $port"
+                stopped=1
+                ;;
+            *)
+                echo "port $port held by a non-artmind process (pid $pid) — leaving it alone"
+                ;;
+        esac
+    done
+
+    # background ingestion worker: match the script path, and never ourselves
+    for pid in $(pgrep -f "artmind/worker\.py" 2>/dev/null || true); do
+        if [ "$pid" = "$$" ] || [ "$pid" = "${PPID:-0}" ]; then
+            continue
+        fi
+        _stop "$pid" "artmind ingestion worker"
+        stopped=1
+    done
+
+    if [ "$stopped" = 0 ]; then
+        echo "no artmind daemons running"
+    fi
+    exit 0
+
+# uninstall the global artmind command (leaves ~/.artmind and data intact)
+uninstall:
     uv tool uninstall artmind9
 
 artmind-cli-help:
@@ -28,35 +83,30 @@ setup:
 
 # ── utility function to copy skills ───────────────────────────────────────────
 copy-skills:
-    cp -r ./skills/* ./.claude/skills
-    cp -r ./skills/* ./.pi/skills
+    cp -r ./artmind/skills/* ./.claude/skills
+    cp -r ./artmind/skills/* ./.pi/skills
 
-# sync ./skills into .claude/skills and .pi/skills as symlinks, adding new ones and removing stale/broken links
+# sync artmind/skills into .claude/skills and .pi/skills as symlinks, adding new ones and removing stale/broken links
 refresh-skills:
     #!/usr/bin/env bash
     set -euo pipefail
     for target_dir in .claude/skills .pi/skills; do
         mkdir -p "$target_dir"
-        # remove symlinks that point into ./skills but whose source no longer exists
+        # remove any broken symlink (e.g. links to the pre-move ./skills location)
         for link in "$target_dir"/*; do
             [ -L "$link" ] || continue
-            dest=$(readlink "$link")
-            case "$dest" in
-                ../../skills/*)
-                    if [ ! -e "$link" ]; then
-                        echo "removing stale link: $link -> $dest"
-                        rm "$link"
-                    fi
-                    ;;
-            esac
+            if [ ! -e "$link" ]; then
+                echo "removing stale link: $link -> $(readlink "$link")"
+                rm "$link"
+            fi
         done
         # add symlinks for any skill not yet linked
-        for skill in skills/*/; do
+        for skill in artmind/skills/*/; do
             name=$(basename "$skill")
             link="$target_dir/$name"
             if [ ! -e "$link" ]; then
                 echo "linking $name into $target_dir"
-                ln -s "../../skills/$name" "$link"
+                ln -s "../../artmind/skills/$name" "$link"
             fi
         done
     done

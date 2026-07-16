@@ -1,6 +1,117 @@
+import shutil
+
 from artmind.db import _init_db
 from artmind.graph_query import neo4j_session
+from paths import (
+    ARTMIND_DATA_DIR,
+    ARTMIND_HOME,
+    DOMAIN_SCHEMAS_DIR,
+    GRAPH_SNAPSHOT_DIR,
+    JOBS_DIR,
+    KG_DIR,
+    LOGS_DIR,
+    MARKDOWNS_DIR,
+    ORIGINALS_DIR,
+    PACKAGE_ENV_EXAMPLE,
+    PACKAGE_OPENCODE_DIR,
+    PACKAGE_SCHEMAS_DIR,
+    PACKAGE_SKILLS_DIR,
+    REFINE_DIR,
+    WIZARD_FIXTURES_DIR,
+)
 from utils.functions import load_env
+
+
+def _seed_tree(src, dest, *, overwrite: bool = False) -> int:
+    """Copy each top-level entry of ``src`` into ``dest``. Returns entries written.
+
+    Two policies, by what the tree holds:
+
+    - ``overwrite=False`` — *user data* (``.env``, domain schemas). Existing
+      entries are skipped so local edits and added domains survive re-running init.
+    - ``overwrite=True`` — *package assets* (skills, opencode persona). These are
+      shipped alongside the code with the package as their source of truth, so a
+      reinstall must replace whatever the run folder holds; skipping them would
+      freeze them at whatever version first seeded the run folder, and edits made
+      in ``artmind/skills/`` would silently never reach the chat agent.
+
+    Entries are replaced wholesale, not merged, so a file deleted from a skill
+    also disappears from the run folder. Names the package does not ship are left
+    alone either way, so user-added skills and domains are never pruned.
+    """
+    if not src.is_dir():
+        return 0
+    dest.mkdir(parents=True, exist_ok=True)
+    written = 0
+    for entry in src.iterdir():
+        if entry.name == ".DS_Store":
+            continue
+        target = dest / entry.name
+        if target.exists():
+            if not overwrite:
+                continue
+            if target.is_dir() and not target.is_symlink():
+                shutil.rmtree(target)
+            else:
+                target.unlink()
+        if entry.is_dir():
+            shutil.copytree(entry, target)
+        else:
+            shutil.copy2(entry, target)
+        written += 1
+    return written
+
+
+def scaffold_run_folder() -> dict:
+    """Create the run folder + data dirs and seed .env, skills and schemas.
+
+    Pure filesystem work — needs no Neo4j/config, so it is safe to run right
+    after install, before the user has filled in ``~/.artmind/.env``.
+
+    Idempotent, but not inert: package assets (skills, opencode) are refreshed
+    from the package on every run, while user data (``.env``, domain schemas) is
+    only seeded when absent. See ``_seed_tree``.
+    """
+    run_env = ARTMIND_HOME / ".env"
+    skills_dest = ARTMIND_HOME / ".claude" / "skills"
+    opencode_dest = ARTMIND_HOME / ".opencode"
+
+    for directory in (
+        ARTMIND_HOME,
+        skills_dest,
+        opencode_dest,
+        DOMAIN_SCHEMAS_DIR,
+        LOGS_DIR,
+        ARTMIND_DATA_DIR,
+        ORIGINALS_DIR,
+        MARKDOWNS_DIR,
+        JOBS_DIR,
+        KG_DIR,
+        REFINE_DIR,
+        GRAPH_SNAPSHOT_DIR,
+        WIZARD_FIXTURES_DIR,
+    ):
+        directory.mkdir(parents=True, exist_ok=True)
+
+    seeded_env = False
+    if not run_env.exists() and PACKAGE_ENV_EXAMPLE.is_file():
+        shutil.copy2(PACKAGE_ENV_EXAMPLE, run_env)
+        seeded_env = True
+
+    # Package assets: always refreshed — the package is their source of truth.
+    skills_refreshed = _seed_tree(PACKAGE_SKILLS_DIR, skills_dest, overwrite=True)
+    opencode_refreshed = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
+    # User data: seeded once, then left alone.
+    schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR)
+
+    return {
+        "run_folder": str(ARTMIND_HOME),
+        "data_dir": str(ARTMIND_DATA_DIR),
+        "env": "seeded from template" if seeded_env else str(run_env),
+        "skills_refreshed": skills_refreshed,
+        "schemas_copied": schemas_copied,
+        "opencode_refreshed": opencode_refreshed,
+    }
 
 
 def _setup_neo4j(session, embedding_dim: int) -> None:
@@ -114,6 +225,7 @@ def setup_all() -> dict:
     Safe to call at any time — all operations are idempotent (IF NOT EXISTS).
     Returns a summary of what was set up.
     """
+    scaffold = scaffold_run_folder()
     env = load_env()
     embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
 
@@ -123,6 +235,7 @@ def setup_all() -> dict:
         neo4j_notes = _setup_neo4j(session, embedding_dim)
 
     return {
+        "scaffold": scaffold,
         "sqlite": "ok",
         "neo4j_constraints": [
             "document_id",

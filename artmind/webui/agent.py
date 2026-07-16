@@ -6,7 +6,6 @@ enable only the artmind skills instead of loading all project settings.
 """
 
 import json
-from pathlib import Path
 from typing import Any
 
 from claude_agent_sdk import (
@@ -20,7 +19,12 @@ from claude_agent_sdk import (
     UserMessage,
 )
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+from paths import ARTMIND_HOME
+
+# The chat agent runs from the clean run folder (config + skills + schemas +
+# logs) — not the source checkout. Its `.claude/skills/` is discovered via the
+# default "project" setting source; the corpus and source tree are not present.
+RUN_FOLDER = ARTMIND_HOME
 TRACE_CLIP = 600
 
 _SYSTEM_APPEND = """\
@@ -40,7 +44,7 @@ def clip(value: Any, limit: int = TRACE_CLIP) -> str:
 
 def agent_options() -> ClaudeAgentOptions:
     return ClaudeAgentOptions(
-        cwd=str(PROJECT_ROOT),
+        cwd=str(RUN_FOLDER),
         skills=[
             "artmind-query",
             "artmind-update",

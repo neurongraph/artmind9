@@ -15,7 +15,7 @@ from artmind import graph_query, text2cypher, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
-from artmind.setup import setup_all
+from artmind.setup import scaffold_run_folder, setup_all
 from artmind.dashboard import run_dashboard
 from artmind.wizard import run_wizard
 from artmind.ingest import (
@@ -84,7 +84,9 @@ def _ensure_worker_running() -> None:
         except (ProcessLookupError, ValueError):
             pass  # stale PID
 
-    worker_script = WORKER_PID_FILE.parent / "artmind" / "worker.py"
+    # Locate the worker from the installed package (sibling of this module) —
+    # never relative to the pid file, which lives in the data dir.
+    worker_script = Path(__file__).resolve().parent / "worker.py"
     WORKER_LOG.parent.mkdir(parents=True, exist_ok=True)
     subprocess.Popen(
         [sys.executable, str(worker_script)],
@@ -1048,7 +1050,7 @@ def query():
 
 @query.group()
 def graph():
-    """Execute graph queries (metadata, entity listing, pattern1–pattern9)."""
+    """Execute graph queries (metadata, entity listing, pattern1–pattern10, timeline, conflicts, text2cypher)."""
     pass
 
 
@@ -1613,6 +1615,26 @@ def session_initiate(snapshot_file: str | None, yes: bool):
 
 
 # ── artmind setup ──────────────────────────────────────────────────────────────
+
+
+@cli.command("init")
+def init():
+    """Scaffold the run folder (~/.artmind) + data dirs; seed .env, skills, schemas.
+
+    Filesystem-only and idempotent — needs no Neo4j. Run this right after
+    install, then edit ~/.artmind/.env and run `artmind setup`.
+    """
+    try:
+        result = scaffold_run_folder()
+        click.echo("Run folder:  " + result["run_folder"])
+        click.echo("Data dir:    " + result["data_dir"])
+        click.echo("Config .env: " + result["env"])
+        click.echo(f"Skills:      {result['skills_refreshed']} refreshed from package")
+        click.echo(f"opencode:    {result['opencode_refreshed']} refreshed from package")
+        click.echo(f"Schemas:     {result['schemas_copied']} newly copied (existing kept)")
+        click.echo("\nNext: edit " + result["run_folder"] + "/.env, then run `artmind setup`.")
+    except Exception as e:
+        raise click.ClickException(str(e))
 
 
 @cli.command("setup")

@@ -56,7 +56,7 @@ exactly the precondition cross-domain detection needs.
 ### 1. Propose
 
 ```bash
-uv run artmind ingest refine-pipeline --domain <d1> [--domain <d2>] --compact
+artmind ingest refine-pipeline --domain <d1> [--domain <d2>] --compact
 ```
 
 Deterministic steps (time, supersession) run for real — additive and
@@ -98,7 +98,7 @@ not duplication). For clusters above ~10 aliases or any alias that could
 denote a distinct concept, pull a source chunk and judge:
 
 ```bash
-uv run artmind query vector-text --domain <d> --topK 3 --compact "<questionable alias>"
+artmind query vector-text --domain <d> --topK 3 --compact "<questionable alias>"
 ```
 
 Remove bad pairs by editing `merges_<d>.json`. When in doubt, drop the pair.
@@ -118,7 +118,7 @@ conflict-gated, original kept in `description_raw`). Quote
 ### 3. Apply
 
 ```bash
-uv run artmind ingest refine-pipeline --domain <d1> [--domain <d2>] --from-file <report_file> --compact
+artmind ingest refine-pipeline --domain <d1> [--domain <d2>] --from-file <report_file> --compact
 ```
 
 Re-runs time/supersession, applies the (edited) merge and conflict proposals,
@@ -130,9 +130,9 @@ no review.
 ### 4. Verify
 
 ```bash
-uv run artmind query entity-resolve --domain <d> --topK 3 --compact "<a merged alias>"   # resolves to canonical
-uv run artmind query graph conflicts --domain <d1> --domain <d2> --compact               # materialized conflicts
-uv run artmind query entity-context --domain <d> --entityId <id> --compact              # clean description + source docs
+artmind query entity-resolve --domain <d> --topK 3 --compact "<a merged alias>"   # resolves to canonical
+artmind query graph conflicts --domain <d1> --domain <d2> --compact               # materialized conflicts
+artmind query entity-context --domain <d> --entityId <id> --compact              # clean description + source docs
 ```
 
 When reporting materialized conflicts, **group by root cause, not a flat
@@ -145,9 +145,9 @@ severity, and cite both documents' provenance per finding.
 Spotted duplicates mid-session? Scope detection to just those names:
 
 ```bash
-uv run artmind ingest refine-graph --domain <d> --filter "<name1>,<name2>" --dry-run --output merges.json
+artmind ingest refine-graph --domain <d> --filter "<name1>,<name2>" --dry-run --output merges.json
 # review, then:
-uv run artmind ingest refine-graph --from-file merges.json
+artmind ingest refine-graph --from-file merges.json
 ```
 
 ## Workflow C — Investigate a surprising merge or conflict (forensics)
@@ -155,8 +155,8 @@ uv run artmind ingest refine-graph --from-file merges.json
 **Merge**: pull the entity's properties and spot-check the odd alias:
 
 ```bash
-uv run artmind query graph pattern2 --domain <d> --entityNameList "<canonical>" --compact
-uv run artmind query vector-text --domain <d> --topK 5 --compact "<the alias that looks off>"
+artmind query graph pattern2 --domain <d> --entityNameList "<canonical>" --compact
+artmind query vector-text --domain <d> --topK 5 --compact "<the alias that looks off>"
 ```
 
 Judge: reasonable (same real-world thing) / over-merged (recommend a split —
@@ -166,7 +166,7 @@ fix) / needs human review.
 **Conflict**: pull its evidence and read both sides:
 
 ```bash
-uv run artmind query graph conflicts --domain <d1> --domain <d2> --entityName "<name>" --compact
+artmind query graph conflicts --domain <d1> --domain <d2> --entityName "<name>" --compact
 ```
 
 Check `status` and whether either document has since been superseded
@@ -176,7 +176,7 @@ detection, not by manual edit.
 ## Workflow D — "Real conflict or just an older document?"
 
 1. Check for `valid_to` / `SUPERSEDES` already:
-   `uv run artmind query graph timeline --domain <d> --entityId <id> --compact`
+   `artmind query graph timeline --domain <d> --entityId <id> --compact`
 2. Same document lineage (same title, sequential versions) but unmarked →
    look for a Supersession Notice; apply `ingest detect-supersession
    --domain <d>` or the manual
