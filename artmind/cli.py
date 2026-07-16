@@ -1050,7 +1050,7 @@ def query():
 
 @query.group()
 def graph():
-    """Execute graph queries (metadata, entity listing, pattern1–pattern9)."""
+    """Execute graph queries (metadata, entity listing, pattern1–pattern10, timeline, conflicts, text2cypher)."""
     pass
 
 

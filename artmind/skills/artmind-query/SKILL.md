@@ -71,7 +71,7 @@ artmind query graph structural-metadata --domain <domain> --compact
 
 It returns Document names plus structural counts (Document/DocChunk/UserChat/Entity) without the full class/relationship breakdown — cheaper when you only need document names or counts, not the entity-class/relationship schema. From metadata identify: stored class labels (derived from `entity_class`, uppercased, non-alphanumerics → `_`), relationship types and directions, and whether the question needs graph facts, text evidence, or both.
 
-If `total_entities` is large (> ~100), do not fetch the full listing. Narrow with `--nameFilter "<fragment>"`, or go straight to `pattern7`.
+If `total_entities` is large (> ~100), do not fetch the full listing. Narrow with `--nameFilter "<fragment>"`, or go straight to `artmind query graph pattern7`.
 
 Document/chunk rows and `metadata` now carry `valid_from`/`valid_to`/`superseded_by` — use them to judge document currency.
 
@@ -94,22 +94,30 @@ If entity-resolve returns nothing for an old graph, embeddings may be missing �
 
 ### 3. Retrieve — run the right pattern
 
+Every command below is written in full. The `pattern*` commands, `text2cypher`,
+`timeline`, `conflicts`, `metadata`, `structural-metadata` and `entity-listing` all live
+under the `graph` sub-group (`artmind query graph <cmd>`); `entity-context`, `chunks`,
+`vector-text`, `entity-resolve` and `domains-overview` sit directly under `query`
+(`artmind query <cmd>`). Copy the prefix as written — do not infer it.
+
 | Question shape | Command |
 |---|---|
-| "Tell me about X / X's role / why did X…" — facts + relationships + source text in ONE call | `entity-context --entityId <id> [--includeChunks 5]` (query-level, not under `graph`) |
-| History / sequence of events / "when did X change / start / end" for ONE entity | `graph timeline --entityId <id>` — dated relationships (`event_at`/`valid_from`/`valid_to`) in chronological order |
-| List entities of a class | `pattern1 --entityClass <LABEL> [--limit N]` |
-| "Main / key / most important / top" entities | `pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
-| Facts/properties of named entities (no text needed, e.g. comparing many) | `pattern2 --entityIdList <id>` (or `--entityNameList`) |
-| Properties + relationship summary | `pattern3 --entityIdList <id>` |
-| Full one-hop neighborhood / contextual role | `pattern4 --entityClass <LABEL> --entityId <id>` |
-| Text of specific chunks by id (doc_sources / evidence ids) | `chunks --idList <id> [--expand 1]` (query-level, not under `graph`) |
-| Does a direct link exist between X and Y, and of what type | `pattern6 --entityId1 <id> --entityId2 <id>` |
-| Nature/quality of a relationship, "how are X and Y related/connected" | `pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
-| Search entities by name/description fragment | `pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically) |
-| Entities of class X connected to entity Y | `pattern8 --entityClass <LABEL> --entityId <id>` |
-| All chunks of / summarize a document | `pattern10 --documentName "<name>"` |
-| Aggregations, custom filters, multi-hop combinations none of the above cover | `text2cypher "<question>"` — run `--dry-run` first to inspect the Cypher |
+| "Tell me about X / X's role / why did X…" — facts + relationships + source text in ONE call | `artmind query entity-context --entityId <id> [--includeChunks 5]` |
+| History / sequence of events / "when did X change / start / end" for ONE entity | `artmind query graph timeline --entityId <id>` — dated relationships (`event_at`/`valid_from`/`valid_to`) in chronological order |
+| List entities of a class | `artmind query graph pattern1 --entityClass <LABEL> [--limit N]` |
+| "Main / key / most important / top" entities | `artmind query graph pattern9 --entityClass <LABEL> --topN 5` (default ranks by entity-entity links; `--degreeMode mentions` ranks by how often sources mention it) |
+| Facts/properties of named entities (no text needed, e.g. comparing many) | `artmind query graph pattern2 --entityIdList <id>` (or `--entityNameList`) |
+| Properties + relationship summary | `artmind query graph pattern3 --entityIdList <id>` |
+| Full one-hop neighborhood / contextual role | `artmind query graph pattern4 --entityClass <LABEL> --entityId <id>` |
+| Text of specific chunks by id (doc_sources / evidence ids) | `artmind query chunks --idList <id> [--expand 1]` |
+| Does a direct link exist between X and Y, and of what type | `artmind query graph pattern6 --entityId1 <id> --entityId2 <id>` |
+| Nature/quality of a relationship, "how are X and Y related/connected" | `artmind query graph pattern5 --mode shortest --entityClass1/2 --entityId1/2` (paths traverse entity-entity edges only); `--mode all` for up to 3 paths |
+| Search entities by name/description fragment | `artmind query graph pattern7 --searchTerm "<fragment>"` (Lucene-backed; punctuation is stripped automatically) |
+| Entities of class X connected to entity Y | `artmind query graph pattern8 --entityClass <LABEL> --entityId <id>` |
+| All chunks of / summarize a document | `artmind query graph pattern10 --documentName "<name>"` |
+| Aggregations, custom filters, multi-hop combinations none of the above cover | `artmind query graph text2cypher "<question>"` — run `--dry-run` first to inspect the Cypher |
+
+Every command also needs `--domain <domain>` (repeatable) and `--compact`, omitted above for brevity.
 
 Routing notes:
 - **entity-context vs pattern4**: for a question anchored on ONE resolved entity that
@@ -207,7 +215,7 @@ it isn't a structural guarantee, so re-check at query time using each side's
 2. pattern6 empty → pattern5 `--mode shortest`.
 3. entity-context/pattern chunks too thin → `chunks --idList <more_chunk ids> --expand 1` before falling back to search.
 4. Pattern output empty or too thin → vector-text.
-5. text2cypher returns no rows but data should exist → run `structural-metadata`, then `text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
+5. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
 6. text2cypher generates invalid Cypher → vector-text.
 7. vector-text sparse or weak → state that the available artmind data does not answer the question.
 
