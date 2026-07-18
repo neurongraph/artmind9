@@ -2,7 +2,9 @@
 
 import json
 
+import pytest
 from fastapi.testclient import TestClient
+from jinja2.exceptions import TemplateNotFound
 
 from artmind.webui.app import create_app
 from artmind.webui.sessions import SessionRegistry
@@ -53,6 +55,44 @@ def test_index_serves_html():
     response = client.get("/")
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
+
+
+def test_index_uses_custom_template_name():
+    """create_app's `/` route must actually render whatever template_name
+    it was given, not a hardcoded "index.html" — proven here by pointing it
+    at a template that doesn't exist and observing Jinja2 look for that
+    exact name instead of silently falling back to the default."""
+    registry = SessionRegistry(client_factory=FakeBackend)
+    app = create_app(registry=registry, template_name="does-not-exist.html")
+    client = TestClient(app)
+    with pytest.raises(TemplateNotFound) as exc_info:
+        client.get("/")
+    assert exc_info.value.name == "does-not-exist.html"
+
+
+def test_admin_template_serves_html_with_admin_chrome():
+    """admin.html must render (Task 1.3) and carry the admin-specific chrome:
+    retitled brand, and a nav link to the Lane B dashboard — while keeping
+    the same element IDs app.js relies on (#chat, #prompt, #composer, etc.)."""
+    registry = SessionRegistry(client_factory=FakeBackend)
+    app = create_app(registry=registry, template_name="admin.html")
+    client = TestClient(app)
+    response = client.get("/")
+    assert response.status_code == 200
+    body = response.text
+    assert "text/html" in response.headers["content-type"]
+    assert "artmind admin" in body
+    assert 'href="/dashboard"' in body
+    for element_id in ("chat", "prompt", "composer", "send", "drawer", "trace-list"):
+        assert f'id="{element_id}"' in body
+
+
+def test_index_accepts_page_title_without_breaking_default_template():
+    registry = SessionRegistry(client_factory=FakeBackend)
+    app = create_app(registry=registry, page_title="Admin Console")
+    client = TestClient(app)
+    response = client.get("/")
+    assert response.status_code == 200
 
 
 def test_chat_streams_events_as_sse():

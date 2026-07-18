@@ -22,7 +22,7 @@ ingestion-helper is admin-only). `just test` green.
 
 ---
 
-## Phase 1 — Admin app shell + Lane A (agent console)
+## Phase 1 — Admin app shell + Lane A (agent console) ✅ DONE
 
 ### Task 1.1 — Parameterize `create_app` for a template/title
 - **Files:** `webui/app.py`.
@@ -57,7 +57,7 @@ ingestion-helper is admin-only). `just test` green.
 
 ---
 
-## Phase 2 — Lane B (ingest dashboard, deterministic)
+## Phase 2 — Lane B (ingest dashboard, deterministic) ✅ DONE
 
 ### Task 2.1 — Share the dashboard query layer
 - **Files:** `artmind/dashboard.py` → move `_fetch_active_jobs` /
@@ -130,7 +130,7 @@ ingestion-helper is admin-only). `just test` green.
 
 ---
 
-## Phase 3 — Help & guidance (drift-proof)
+## Phase 3 — Help & guidance (drift-proof) ✅ DONE
 
 ### Task 3.1 — Concept catalogue generator
 - **Principle:** generate from sources of truth, never hand-maintain (this is
@@ -153,7 +153,7 @@ ingestion-helper is admin-only). `just test` green.
 
 ---
 
-## Phase 4 — Retire the TUIs
+## Phase 4 — Retire the TUIs ✅ DONE
 
 ### Task 4.1 — Remove the wizard
 - **Files:** delete `artmind/wizard.py`, `artmind/wizard_commands.py`; remove the
@@ -177,7 +177,7 @@ ingestion-helper is admin-only). `just test` green.
 
 ---
 
-## Phase 5 — Cross-cutting cleanup (independent; can run anytime after Phase 0)
+## Phase 5 — Cross-cutting cleanup (independent; can run anytime after Phase 0) ✅ DONE
 
 ### Task 5.1 — Make the ACP path SDK-free
 - **Files:** move `clip` + `TRACE_CLIP` out of `agent.py` into a dependency-free

@@ -4,7 +4,7 @@
 # alphabetical sort clusters them. Prefixes mirror `artmind`'s own CLI
 # groups (domains, ingest, docs, query[-graph], update, session, serve),
 # plus two repo-only groups that don't wrap a CLI subcommand group:
-#   cli-  — top-level `artmind` lifecycle commands (init, setup, wizard)
+#   cli-  — top-level `artmind` lifecycle commands (init, setup)
 #   dev-  — checkout/tooling operations, not `artmind` subcommands at all
 #           (install, uninstall, daemon management, tests, skill sync,
 #           docs generation scripts)
@@ -22,10 +22,6 @@ cli-init:
 # initialize SQLite tables and Neo4j constraints/indexes (idempotent)
 cli-setup:
     uv run artmind setup
-
-# interactive TUI wizard — teaches and tests the full artmind lifecycle
-cli-wizard:
-    uv run artmind wizard
 
 # ── dev (checkout/tooling, not artmind subcommands) ─────────────────────────
 
@@ -200,10 +196,6 @@ ingest-job-results job_id:
 ingest-retry-job job_id flags="":
     uv run artmind ingest retry-job {{ job_id }} {{ flags }}
 
-# show live realtime status dashboard of async jobs
-ingest-dashboard:
-    uv run artmind ingest dashboard
-
 # re-run KG extraction for a document  (usage: just ingest-extract-kg <document> --domain <domain>)
 ingest-extract-kg document domain:
     uv run artmind ingest extract-kg {{ document }} --domain {{ domain }}
@@ -371,6 +363,10 @@ serve-stop:
 # start the serve daemon (background) plus the chat web UI (foreground; Ctrl-C stops the UI only)
 serve-ui: serve-start
     uv run artmind chat-ui
+
+# start the serve daemon (background) plus the admin web UI (foreground; Ctrl-C stops the UI only)
+serve-admin-ui: serve-start
+    uv run artmind admin-ui
 
 # ── artmind session ──────────────────────────────────────────────────────────
 

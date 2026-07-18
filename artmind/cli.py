@@ -16,8 +16,6 @@ import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import scaffold_run_folder, setup_all
-from artmind.dashboard import run_dashboard
-from artmind.wizard import run_wizard
 from artmind.ingest import (
     _build_file_result_from_db,
     clean_document,
@@ -156,12 +154,12 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session"]},
-        {"name": "Setup & tools", "commands": ["setup", "wizard"]},
+        {"name": "Setup & tools", "commands": ["setup"]},
     ],
     "artmind ingest": [
         {
             "name": "Sync & jobs",
-            "commands": ["sync", "async", "jobs", "job-status", "job-results", "retry-job", "dashboard"],
+            "commands": ["sync", "async", "jobs", "job-status", "job-results", "retry-job"],
         },
         {
             "name": "Graph building",
@@ -243,6 +241,25 @@ def chat_ui(host: str, port: int, acp_cmd: str | None) -> None:
     set_acp_agent_cmd(acp_cmd)
     click.echo(f"artmind chat UI on http://{host}:{port}")
     run_chat_ui(host=host, port=port)
+
+
+@cli.command("admin-ui")
+@click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
+@click.option("--port", default=8379, show_default=True, type=int, help="Port to bind.")
+@click.option(
+    "--acp-cmd",
+    default=None,
+    help="ACP agent command for the 'opencode (ACP)' backend "
+    "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
+)
+def admin_ui(host: str, port: int, acp_cmd: str | None) -> None:
+    """Launch the artmind admin web UI (Claude Agent SDK or an ACP agent)."""
+    from artmind.webui.app import run_admin_ui
+    from artmind.webui.backends import set_acp_agent_cmd
+
+    set_acp_agent_cmd(acp_cmd)
+    click.echo(f"artmind admin UI on http://{host}:{port}")
+    run_admin_ui(host=host, port=port)
 
 
 # ── artmind domains ────────────────────────────────────────────────────────────
@@ -541,12 +558,6 @@ def ingest_retry_job(job_id: str, include_skipped: bool):
             click.echo(f"  {f}")
         _ensure_worker_running()
         click.echo("Worker started.")
-
-
-@ingest.command("dashboard")
-def ingest_dashboard():
-    """Show a live realtime status dashboard of all async jobs."""
-    run_dashboard()
 
 
 @ingest.command("embed-entities")
@@ -1699,9 +1710,3 @@ def setup():
         click.echo("\nSetup complete.")
     except Exception as e:
         raise click.ClickException(str(e))
-
-
-@cli.command("wizard")
-def wizard_cmd():
-    """Interactive TUI wizard — teaches and tests the full artmind lifecycle."""
-    run_wizard()

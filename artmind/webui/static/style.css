@@ -26,6 +26,22 @@
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
+/* ── chat font (self-hosted, Latin subset only) ─────────────────────── */
+@font-face {
+  font-family: 'Ysabeau Infant';
+  font-style: normal;
+  font-weight: 1 1000;
+  font-display: swap;
+  src: url('/static/fonts/ysabeau-infant-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Ysabeau Infant';
+  font-style: italic;
+  font-weight: 1 1000;
+  font-display: swap;
+  src: url('/static/fonts/ysabeau-infant-latin-italic.woff2') format('woff2');
+}
+
 /* ── base ────────────────────────────────────────────────────────── */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -49,7 +65,20 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   backdrop-filter: blur(8px);
 }
 .brand { font-weight: 600; font-size: 15px; letter-spacing: 0.01em; }
-.topbar-actions { display: flex; gap: 4px; }
+.brand-badge {
+  margin-left: 6px; padding: 1px 6px; border-radius: 6px;
+  background: var(--bg-inset); color: var(--text-muted);
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.03em; vertical-align: middle;
+}
+.topbar-actions { display: flex; align-items: center; gap: 4px; }
+.nav-link {
+  display: inline-flex; align-items: center;
+  height: 34px; padding: 0 10px; margin-right: 4px; border-radius: 8px;
+  color: var(--text-muted); font-size: 12.5px; font-weight: 600;
+  text-decoration: none;
+}
+.nav-link:hover { background: var(--bg-inset); color: var(--text); }
 .icon-btn {
   position: relative;
   display: inline-flex; align-items: center; justify-content: center;
@@ -90,6 +119,31 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   margin: 0 auto;
   padding: 72px 20px 160px;
   transition: margin-right 0.25s ease;
+  font-family: 'Ysabeau Infant', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 16.5px;
+}
+
+/* ── suggested-action chips (admin console) ─────────────────────────── */
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--bg-elev);
+  color: var(--text); font-size: 12.5px; font-weight: 600;
+  text-transform: capitalize;
+}
+.chip:hover { background: var(--bg-inset); }
+.chip-warn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 14px; height: 14px; padding: 0 3px; border-radius: 50%;
+  background: var(--error); color: var(--accent-contrast);
+  font-size: 9px; font-weight: 700; text-transform: none;
+}
+.destructive-badge {
+  margin-left: 8px; padding: 1px 6px; border-radius: 6px;
+  background: var(--bg-inset); color: var(--error);
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
 }
 
 /* user message: soft pill, right-aligned */
@@ -237,6 +291,8 @@ body.drawer-open .drawer { transform: translateX(0); }
 @media (min-width: 1200px) {
   body.drawer-open .chat, body.drawer-open .composer-wrap { margin-right: 380px; }
 }
+/* help drawer toggles independently of the trace drawer's body class */
+#help-drawer.open { transform: translateX(0); }
 .drawer-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 16px; border-bottom: 1px solid var(--border);

@@ -48,15 +48,15 @@ def create_backend(name: str, profile: AgentProfile = QA_PROFILE) -> AgentBacken
 
         return ClaudeSDKBackend(profile)
     if name == "acp":
-        from artmind.webui.agent import RUN_FOLDER
         from artmind.webui.backends.acp import ACPBackend
+        from paths import ARTMIND_HOME
 
         agent_cmd = _acp_cmd_override or shlex.split(
             os.environ.get("ARTMIND_ACP_AGENT_CMD", "opencode acp")
         )
         return ACPBackend(
             agent_cmd=agent_cmd,
-            cwd=os.environ.get("ARTMIND_ACP_CWD", str(RUN_FOLDER)),
+            cwd=os.environ.get("ARTMIND_ACP_CWD", str(ARTMIND_HOME)),
             prompt_preamble=os.environ.get("ARTMIND_ACP_PROMPT_PREAMBLE") == "1",
             mode=os.environ.get("ARTMIND_ACP_MODE", profile.acp_mode) or None,
             preamble_text=profile.system_append,

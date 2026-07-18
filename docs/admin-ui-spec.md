@@ -245,7 +245,7 @@ hand-maintained catalogue. If skills/CLI change, the help updates for free.
 
 ---
 
-## Retirement (do last, after Lane A + B verified)
+## Retirement (do last, after Lane A + B verified) ✅ DONE
 - Delete `artmind/wizard.py`, `artmind/wizard_commands.py`, the `wizard` CLI
   command (`cli.py:1704`), its import (`cli.py:20`), and the `justfile` recipe.
 - Remove `wizard` from the setup/help metadata (`cli.py:159`).
