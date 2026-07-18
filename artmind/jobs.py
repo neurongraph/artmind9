@@ -110,6 +110,101 @@ def _update_job_file_status(
         conn.close()
 
 
+def _fetch_active_jobs() -> list[dict]:
+    """Return queued/processing jobs with their file rows."""
+    conn = _get_db()
+    try:
+        rows = conn.execute(
+            "SELECT job_id, status, file_count, processed_count,"
+            " queued_at, started_at, domain"
+            " FROM ingestion_jobs WHERE status IN ('queued','processing')"
+            " ORDER BY queued_at DESC LIMIT 20"
+        ).fetchall()
+        result = []
+        for row in rows:
+            job_id = row[0]
+            files = conn.execute(
+                "SELECT filename, status, current_step, doc_sha256"
+                " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+                (job_id,),
+            ).fetchall()
+            result.append({
+                "job_id": job_id,
+                "status": row[1],
+                "file_count": row[2],
+                "processed_count": row[3],
+                "queued_at": row[4],
+                "started_at": row[5],
+                "domain": row[6] or "general",
+                "files": [
+                    {"filename": f[0], "status": f[1], "current_step": f[2], "doc_sha256": f[3]}
+                    for f in files
+                ],
+            })
+        return result
+    finally:
+        conn.close()
+
+
+def _fetch_completed_jobs(limit: int = 100) -> list[dict]:
+    """Return completed/failed jobs with per-file summary rows."""
+    conn = _get_db()
+    try:
+        jobs = conn.execute(
+            "SELECT job_id, status, file_count, processed_count,"
+            " queued_at, started_at, completed_at, domain, error_message"
+            " FROM ingestion_jobs WHERE status IN ('completed','failed')"
+            " ORDER BY completed_at DESC LIMIT ?",
+            (limit,),
+        ).fetchall()
+        result = []
+        for row in jobs:
+            job_id = row[0]
+            files = conn.execute(
+                "SELECT filename, status, error_message, started_at, completed_at"
+                " FROM ingestion_job_files WHERE job_id = ? ORDER BY id",
+                (job_id,),
+            ).fetchall()
+            result.append({
+                "job_id": job_id,
+                "status": row[1],
+                "file_count": row[2],
+                "processed_count": row[3],
+                "queued_at": row[4],
+                "started_at": row[5],
+                "completed_at": row[6],
+                "domain": row[7] or "general",
+                "error_message": row[8],
+                "files": [
+                    {
+                        "filename": f[0],
+                        "status": f[1],
+                        "error_message": f[2],
+                        "started_at": f[3],
+                        "completed_at": f[4],
+                    }
+                    for f in files
+                ],
+            })
+        return result
+    finally:
+        conn.close()
+
+
+def _fetch_chunks(doc_sha256: str) -> list[dict]:
+    """Return per-chunk KG extraction status for a document."""
+    conn = _get_db()
+    try:
+        rows = conn.execute(
+            "SELECT chunk_seq, entities_status, properties_status, relationships_status"
+            " FROM kg_chunk_status WHERE doc_sha256 = ? ORDER BY chunk_seq",
+            (doc_sha256,),
+        ).fetchall()
+        return [{"seq": r[0], "e": r[1], "p": r[2], "r": r[3]} for r in rows]
+    finally:
+        conn.close()
+
+
 def _get_chunk_progress(doc_sha256: str) -> dict:
     """Summarise kg_chunk_status for a document; shown in job-status during extract_kg."""
     conn = _get_db()

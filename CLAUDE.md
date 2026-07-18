@@ -7,20 +7,23 @@ to this file — edit only `CLAUDE.md`.
 
 A knowledge-graph system: it ingests documents, extracts entities/relationships with
 an LLM, stores them in Neo4j, and answers natural-language questions over the result.
-The surface is a single Click CLI, `artmind`, plus a FastAPI chat UI.
+The surface is a single Click CLI, `artmind`, plus FastAPI web UIs: an end-user
+chat UI (`chat-ui`) and an operator admin console (`admin-ui`, agent console +
+ingest dashboard).
 
 ## Repo layout
 
 | Path | Holds |
 |---|---|
-| `artmind/cli.py` | The whole Click CLI. Command groups: `query` (+ nested `query graph`), `ingest`, `domains`, `docs`, `update`, `session`, plus top-level `init`/`setup`/`serve`/`chat-ui`/`wizard`. |
+| `artmind/cli.py` | The whole Click CLI. Command groups: `query` (+ nested `query graph`), `ingest`, `domains`, `docs`, `update`, `session`, plus top-level `init`/`setup`/`serve`/`chat-ui`/`admin-ui`. |
 | `artmind/_entry.py` | Console-script entry point. **Proxies `query` calls to the `serve` daemon** — stdlib-only by design. See "Testing implications". |
 | `artmind/graph_query.py`, `vector_query.py`, `text2cypher.py` | Query layer: templated Cypher patterns, RRF vector+fulltext search, LLM-generated Cypher. |
 | `artmind/ingest.py`, `extraction.py`, `jobs.py`, `worker.py` | Ingestion pipeline and its background worker. |
 | `artmind/refine_pipeline.py`, `refine_graph.py`, `conflicts.py`, `consolidate.py`, `temporal.py`, `harmonizer.py` | Graph maintenance: merging, conflict detection, temporal normalization. |
 | `artmind/skills/` | **Source of truth for agent skills.** Shipped in the wheel and seeded into the run folder. |
 | `artmind/domains/schemas/` | Default domain schemas (YAML), also seeded. |
-| `artmind/webui/`, `artmind/server.py` | Chat UI and the warm `serve` daemon. |
+| `artmind/webui/` | Chat UI (`index.html`), admin console (`admin.html` + Lane A agent chat + Lane B `dashboard.html`/`dashboard_routes.py`), and the generated help/concept catalogue (`help.py`). |
+| `artmind/server.py` | The warm `serve` daemon. |
 | `artmind/opencode/` | opencode/ACP persona, seeded into the run folder. |
 | `artmind/setup.py` | `scaffold_run_folder()` (the `init` command) and Neo4j constraint/index setup. |
 | `paths.py` | **Root-level module** (not inside the package). Resolves `ARTMIND_HOME` / `ARTMIND_DATA_DIR` and loads `.env`. Packaged via `py-modules`. |

@@ -5,7 +5,6 @@ graphify rules, enforcement hooks): it serves end-user Q&A, not coding. So we
 enable only the artmind skills instead of loading all project settings.
 """
 
-import json
 from typing import Any
 
 from claude_agent_sdk import (
@@ -19,6 +18,7 @@ from claude_agent_sdk import (
     UserMessage,
 )
 
+from artmind.webui.backends.base import TRACE_CLIP, clip
 from artmind.webui.profiles import AgentProfile, QA_PROFILE
 from paths import ARTMIND_HOME
 
@@ -26,12 +26,8 @@ from paths import ARTMIND_HOME
 # logs) — not the source checkout. Its `.claude/skills/` is discovered via the
 # default "project" setting source; the corpus and source tree are not present.
 RUN_FOLDER = ARTMIND_HOME
-TRACE_CLIP = 600
 
-
-def clip(value: Any, limit: int = TRACE_CLIP) -> str:
-    text = value if isinstance(value, str) else json.dumps(value, default=str)
-    return text if len(text) <= limit else f"{text[:limit]} … [{len(text)} chars total]"
+__all__ = ["RUN_FOLDER", "TRACE_CLIP", "clip", "agent_options", "EventMapper"]
 
 
 def agent_options(profile: AgentProfile = QA_PROFILE) -> ClaudeAgentOptions:

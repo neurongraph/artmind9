@@ -32,7 +32,7 @@ EXAMPLES_FILE = PROJECT_ROOT / "scripts" / "cli_guide_examples.json"
 # ---------------------------------------------------------------------------
 
 CATEGORY_META: dict[str, tuple[str, str, str]] = {
-    "Setup & tools": ("⚙", "green", "Initialize tables, constraints, and interactive wizard"),
+    "Setup & tools": ("⚙", "green", "Initialize tables and constraints"),
     "Domains": ("◆", "accent", "Manage domain schemas and hierarchy"),
     "Ingestion": ("↓", "blue", "Document ingestion, graph building, and refinement"),
     "Query": ("?", "cyan", "Knowledge graph and vector index queries"),

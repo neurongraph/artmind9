@@ -1,0 +1,98 @@
+/* ── Lane B dashboard layout (uses style.css's theme variables) ─────── */
+.dash {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 88px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.dash-panel h2 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+.dash-subhead {
+  margin: 20px 0 10px;
+  font-size: 12.5px; font-weight: 600;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em;
+}
+.dash-empty { color: var(--text-muted); font-size: 13px; }
+.dash-note { color: var(--text-muted); font-size: 12.5px; }
+
+/* ── inline guardrail callout (destructive controls) ────────────────── */
+.guardrail-callout {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 12px; background: var(--bg-elev);
+}
+
+/* ── stat cards ──────────────────────────────────────────────────── */
+.stat-row { display: flex; flex-wrap: wrap; gap: 12px; }
+.stat-card {
+  min-width: 180px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: var(--bg-elev);
+}
+.stat-card-title { font-weight: 600; font-size: 13px; margin-bottom: 8px; text-transform: capitalize; }
+.stat-card-row { display: flex; justify-content: space-between; font-size: 12.5px; padding: 2px 0; }
+.stat-key { color: var(--text-muted); }
+
+/* ── forms ───────────────────────────────────────────────────────── */
+.dash-form { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
+.dash-form label {
+  display: flex; flex-direction: column; gap: 4px;
+  font-size: 12px; color: var(--text-muted);
+}
+.dash-form label.grow { flex: 1; min-width: 200px; }
+.dash-form input, .dash-form select {
+  font: inherit; padding: 7px 10px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg-elev); color: var(--text);
+}
+.btn-primary, .btn-secondary {
+  padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600;
+}
+.btn-primary { background: var(--accent); color: var(--accent-contrast); }
+.btn-secondary { background: var(--bg-inset); color: var(--text); }
+.btn-link {
+  color: var(--accent); font-size: 12.5px; font-weight: 600;
+  margin-right: 10px; padding: 2px 0;
+}
+
+/* ── active job cards ────────────────────────────────────────────── */
+.job-cards { display: flex; flex-direction: column; gap: 12px; }
+.job-card {
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; background: var(--bg-elev);
+}
+.job-card-head { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.in-graph-badge {
+  margin-left: 8px; padding: 1px 6px; border-radius: 6px;
+  background: var(--bg-inset); color: #5da571;
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+}
+.progress-bar {
+  height: 6px; border-radius: 4px; background: var(--bg-inset);
+  overflow: hidden; margin-bottom: 6px;
+}
+.progress-fill { height: 100%; background: var(--accent); transition: width 0.3s ease; }
+.file-list { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--text-muted); }
+
+/* ── completed jobs table ────────────────────────────────────────── */
+.dash-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dash-table th, .dash-table td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+.dash-table th { color: var(--text-muted); font-weight: 600; font-size: 11.5px; text-transform: uppercase; }
+.status-failed { color: var(--error); font-weight: 600; }
+.status-completed { color: #5da571; font-weight: 600; }
+
+/* ── chunk grid ──────────────────────────────────────────────────── */
+.chunk-container { margin-top: 8px; }
+.chunk-grid { display: flex; flex-direction: column; gap: 4px; margin-bottom: 6px; }
+.chunk-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.chunk-seq { width: 32px; color: var(--text-muted); }
+.chunk-row .dot { animation: none; }
+.chunk-row .dot:not(.done):not(.error) { background: var(--border); }

@@ -268,8 +268,11 @@ uv run artmind ingest async path/to/document.pdf --domain fiction
 Check job status:
 
 ```bash
-uv run artmind dashboard
+uv run artmind ingest jobs
+uv run artmind ingest job-status <job_id>
 ```
+
+Or watch it live in the admin UI's dashboard (`uv run artmind admin-ui`, then open `/dashboard`).
 
 There are other job related commands as well which you can find with:
 
@@ -722,8 +725,6 @@ artmind/                core package
   temporal.py           valid-time normalization and document supersession
   consolidate.py        entity description consolidation from source chunks
   harmonizer.py         schema harmonizer — syncs child domain schemas from parent
-  wizard.py             interactive TUI wizard (artmind wizard)
-  dashboard.py          ingestion job dashboard (artmind dashboard)
   worker.py             background ingestion worker
   jobs.py               async job management
   db.py                 SQLite schema (documents, jobs, update sessions/drafts)

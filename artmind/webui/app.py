@@ -13,6 +13,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, field_validator
 
 from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND, backend_factory
+from artmind.webui.dashboard_routes import register_dashboard_routes
 from artmind.webui.sessions import SessionRegistry
 
 logger = logging.getLogger(__name__)
@@ -40,6 +41,7 @@ def create_app(
     registry: SessionRegistry | None = None,
     template_name: str = "index.html",
     page_title: str | None = None,
+    admin_routes: bool = False,
 ) -> FastAPI:
     registry = registry or SessionRegistry()
 
@@ -91,6 +93,9 @@ def create_app(
         await registry.drop(session_id)
         return {"ok": True}
 
+    if admin_routes:
+        register_dashboard_routes(app, templates)
+
     return app
 
 
@@ -106,5 +111,6 @@ def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> 
     app = create_app(
         SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE)),
         template_name="admin.html",
+        admin_routes=True,
     )
     uvicorn.run(app, host=host, port=port, log_level="warning")

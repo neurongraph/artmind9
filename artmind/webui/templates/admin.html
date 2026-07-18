@@ -43,10 +43,19 @@
         </svg>
         <span id="trace-badge" class="badge" hidden>0</span>
       </button>
+      <button id="help-toggle" class="icon-btn" title="What is this?" aria-label="Toggle concept help">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="9"></circle>
+          <path d="M9.5 9a2.5 2.5 0 0 1 4.9.8c0 1.7-2.4 1.9-2.4 3.5"></path>
+          <circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"></circle>
+        </svg>
+      </button>
     </div>
   </header>
 
-  <main id="chat" class="chat" aria-live="polite"></main>
+  <main id="chat" class="chat" aria-live="polite">
+    <div id="suggested-chips" class="chip-row"></div>
+  </main>
 
   <aside id="drawer" class="drawer" aria-hidden="true">
     <div class="drawer-head">
@@ -59,6 +68,18 @@
       </button>
     </div>
     <div id="trace-list" class="trace-list"></div>
+  </aside>
+
+  <aside id="help-drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <span class="drawer-title">What is this?</span>
+      <button id="help-drawer-close" class="icon-btn" aria-label="Close help" tabindex="-1">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="help-concepts-list" class="trace-list"></div>
   </aside>
 
   <div class="composer-wrap">
@@ -78,5 +99,6 @@
   <script src="/static/vendor/purify.min.js"></script>
   <script src="/static/vendor/marked.min.js"></script>
   <script src="/static/app.js"></script>
+  <script src="/static/admin-help.js"></script>
 </body>
 </html>

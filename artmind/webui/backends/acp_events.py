@@ -11,8 +11,7 @@ are ignored: ACP agents may emit variants newer than this client.
 
 from typing import Any
 
-from artmind.webui.agent import clip
-from artmind.webui.backends.base import UIEvent
+from artmind.webui.backends.base import UIEvent, clip
 
 _CHUNK_KINDS = {
     "agent_message_chunk": ("text", "text_delta"),

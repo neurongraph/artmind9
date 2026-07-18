@@ -39,7 +39,7 @@ artmind ingest sync path/to/folder/ --domain YOUR_DOMAIN
 artmind ingest async path/to/document.pdf --domain YOUR_DOMAIN
 # returns a job_id immediately
 ```
-Then track it with `artmind ingest dashboard` (live) or `artmind ingest job-status JOB_ID`.
+Then track it with the admin UI's dashboard (`artmind admin-ui`, then open `/dashboard`) or `artmind ingest job-status JOB_ID`.
 
 **Which to use?**
 - Single file or small batch → `sync` (simpler, log is right there)
@@ -59,8 +59,8 @@ If not, point them at `/artmind-create-schema` to create one.
 ### B. Check the status of an async job
 
 ```bash
-# Live dashboard (all jobs):
-artmind ingest dashboard
+# List recent jobs:
+artmind ingest jobs
 
 # Status for a specific job:
 artmind ingest job-status JOB_ID
@@ -272,7 +272,7 @@ artmind docs clean --domain YOUR_DOMAIN DOCUMENT_NAME
 |---|---|---|
 | `No document sub-folders with document.json found` | Passed a high-level folder (e.g. `data/kg`) instead of the domain folder | The CLI will now search recursively and confirm — just proceed, or pass `--folder data/kg/DOMAIN` directly |
 | `Document not found in registry` | Document was never ingested with `sync`/`async` | Run `artmind ingest sync FILE --domain DOMAIN` first |
-| `No chunks found` | `sync` hasn't been run yet, or only `async` was submitted but not completed | Check with `artmind ingest dashboard`; if needed run `sync` |
+| `No chunks found` | `sync` hasn't been run yet, or only `async` was submitted but not completed | Check with `artmind ingest jobs`; if needed run `sync` |
 | Extraction completes in seconds with 0 entities and all chunks failed | Too many concurrent jobs — Ollama cloud rate limiter rejected requests | Run max 5 jobs at a time; re-run failed docs with `extract-kg` |
 | Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable), then run `artmind ingest extract-kg DOC --domain DOMAIN` on the specific file — **not** `retry-job`, which ignores files stuck at `processing`. See Situation D.1. |
 | Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot, or `write-to-graph` if JSON exists |
