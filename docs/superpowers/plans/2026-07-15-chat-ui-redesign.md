@@ -1503,7 +1503,7 @@ Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>"
 
 - [ ] **Step 1: Launch and verify end-to-end**
 
-Start the serve daemon + UI (`just ui-start`, or `uv run artmind chat-ui` directly) and open `http://127.0.0.1:8378` in a browser. Verify, in order:
+Start the serve daemon + UI (`just serve-ui`, or `uv run artmind chat-ui` directly) and open `http://127.0.0.1:8378` in a browser. Verify, in order:
 
 1. Shell renders: header, empty chat, floating composer; no console errors (vendored marked loads).
 2. Theme: matches system scheme on load; toggle flips it; reload keeps the choice.

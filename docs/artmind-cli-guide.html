@@ -1244,6 +1244,35 @@ workflow:
         </div>
       </div>
 
+      <div class="cmd-card" data-search="artmind update supersede mark one entity node as superseding another (node-level, not document-level).
+
+use when a new fact replaces an existing node rather than a property on it
+— e.g. a role holder or an address changing. sets a supersedes edge and
+stamps valid_to/superseded_by/status on the older node; nothing is deleted.
+--newer and --older each accept either identifier an agent is likely to
+already have in hand: the `node_id` (neo4j elementid) returned by
+`update draft`&#x27;s candidates, or the `id` property returned by
+`entity-context`/`query graph pattern2`/etc.
+  newer_ref --newer id of the entity that replaces the older one. older_ref --older id of the entity being retired. effective --effective iso date the supersession takes effect (default: today). reason --reason optional free-text reason, for audit purposes. compact --compact emit compact json">
+        <div class="cmd-header" onclick="toggleCmd(this)">
+          <span class="cmd-path">artmind update supersede</span>
+          <span class="cmd-brief">Mark one entity node as superseding another (node-level, not document-level).</span>
+          <span class="cmd-badge badge-required">--newer, --older required</span>
+          <span class="cmd-expand">▶</span>
+        </div>
+        <div class="cmd-detail">
+          <div class="cmd-description">Mark one entity node as superseding another (node-level, not document-level).<br><br>Use when a new fact replaces an existing node rather than a property on it<br>— e.g. a role holder or an address changing. Sets a SUPERSEDES edge and<br>stamps valid_to/superseded_by/status on the older node; nothing is deleted.<br>--newer and --older each accept either identifier an agent is likely to<br>already have in hand: the `node_id` (Neo4j elementId) returned by<br>`update draft`&#x27;s candidates, or the `id` property returned by<br>`entity-context`/`query graph pattern2`/etc.<br></div>
+          <div class="cmd-usage">artmind update supersede <span class="opt">[OPTIONS]</span></div>
+          
+      <div class="cmd-options-title">Options &amp; Arguments</div>
+      <table class="opt-table">
+        <tr><td><span class="opt-name">--newer</span><br><span class="opt-type">TEXT</span></td><td>id of the entity that replaces the older one.</td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--older</span><br><span class="opt-type">TEXT</span></td><td>id of the entity being retired.</td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--effective</span><br><span class="opt-type">TEXT</span></td><td>ISO date the supersession takes effect (default: today).</td><td></td></tr><tr><td><span class="opt-name">--reason</span><br><span class="opt-type">TEXT</span></td><td>Optional free-text reason, for audit purposes.</td><td></td></tr><tr><td><span class="opt-name">--compact</span><br><span class="opt-type">FLAG</span></td><td>Emit compact JSON</td><td><span class="opt-default">default: False</span></td></tr>
+      </table>
+
+          
+        </div>
+      </div>
+
       <div class="cmd-card" data-search="artmind update history list recent update sessions.  domain --domain filter by domain. user --user filter by created_by. limit --limit maximum rows to return.">
         <div class="cmd-header" onclick="toggleCmd(this)">
           <span class="cmd-path">artmind update history</span>

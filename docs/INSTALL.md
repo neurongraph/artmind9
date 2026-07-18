@@ -27,7 +27,7 @@ real environment variable (e.g. `export ARTMIND_HOME=/opt/artmind`). Set
 ## Install
 
 ```bash
-just install          # puts `artmind` on PATH (uv tool, editable) + `artmind init`
+just dev-install          # puts `artmind` on PATH (uv tool, editable) + `artmind init`
 ```
 
 This is the single install path for both development and running. It is
@@ -93,10 +93,10 @@ so one left running keeps serving the *old* build after a reinstall — and a
 lingering `serve` holds its port, so the next `artmind serve` fails to bind with
 `[Errno 48] address already in use`.
 
-`just install` therefore stops them first. To do it on its own:
+`just dev-install` therefore stops them first. To do it on its own:
 
 ```bash
-just stop-daemons
+just dev-stop-daemons
 ```
 
 It finds `serve` by the port it actually holds (`$ARTMIND_SERVE_PORT`, default
@@ -113,6 +113,6 @@ ARTMIND_NO_PROXY=1 artmind query ...
 ## Upgrade / uninstall
 
 ```bash
-just install                 # stops daemons, re-installs; refreshes skills, keeps your .env
-just uninstall               # removes the `artmind` command (leaves ~/.artmind and data intact)
+just dev-install                 # stops daemons, re-installs; refreshes skills, keeps your .env
+just dev-uninstall               # removes the `artmind` command (leaves ~/.artmind and data intact)
 ```

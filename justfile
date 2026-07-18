@@ -1,21 +1,50 @@
 # artmind9 task runner
+#
+# Naming convention: recipes are prefixed by group so `just --list`'s
+# alphabetical sort clusters them. Prefixes mirror `artmind`'s own CLI
+# groups (domains, ingest, docs, query[-graph], update, session, serve),
+# plus two repo-only groups that don't wrap a CLI subcommand group:
+#   cli-  — top-level `artmind` lifecycle commands (init, setup, wizard)
+#   dev-  — checkout/tooling operations, not `artmind` subcommands at all
+#           (install, uninstall, daemon management, tests, skill sync,
+#           docs generation scripts)
 
 # list available recipes
 default:
     @just --list
 
+# ── cli (artmind lifecycle commands) ────────────────────────────────────────
+
+# scaffold the run folder (~/.artmind) + data dirs; seed .env, skills, schemas
+cli-init:
+    uv run artmind init
+
+# initialize SQLite tables and Neo4j constraints/indexes (idempotent)
+cli-setup:
+    uv run artmind setup
+
+# interactive TUI wizard — teaches and tests the full artmind lifecycle
+cli-wizard:
+    uv run artmind wizard
+
+# ── dev (checkout/tooling, not artmind subcommands) ─────────────────────────
+
 # install: put `artmind` on PATH and scaffold the run folder (~/.artmind).
 # Editable, so code edits are live; paths are decoupled from this checkout, so
 # `artmind` runs from anywhere. Then edit ~/.artmind/.env and run `artmind setup`.
 # See docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
-install: stop-daemons
+dev-install: dev-stop-daemons
     uv tool install --force --editable .
     artmind init
+
+# uninstall the global artmind command (leaves ~/.artmind and data intact)
+dev-uninstall:
+    uv tool uninstall artmind9
 
 # stop running artmind daemons (`serve`, ingestion worker). They load code at
 # start, so one left running keeps serving the OLD build after a reinstall —
 # and `serve` holding its port makes the next `artmind serve` fail to bind.
-stop-daemons:
+dev-stop-daemons:
     #!/usr/bin/env bash
     set -uo pipefail
     port="${ARTMIND_SERVE_PORT:-8377}"
@@ -63,31 +92,25 @@ stop-daemons:
     fi
     exit 0
 
-# uninstall the global artmind command (leaves ~/.artmind and data intact)
-uninstall:
-    uv tool uninstall artmind9
-
-artmind-cli-help:
-    uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
-# ── test ──────────────────────────────────────────────────────────────────────
-
 # run all tests
-test:
+dev-test:
     uv run --group dev pytest test/ -v
 
-# ── artmind setup ─────────────────────────────────────────────────────────────
+# dump the real command hierarchy (trust this over any prose docs)
+dev-cli-help:
+    uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
 
-# initialize SQLite tables and Neo4j constraints/indexes (idempotent)
-setup:
-    uv run artmind setup
+# regenerate docs/artmind-cli-guide.html from the live CLI
+dev-cli-guide:
+    uv run python scripts/generate_cli_guide.py
 
-# ── utility function to copy skills ───────────────────────────────────────────
-copy-skills:
+# copy (not symlink) artmind/skills into .claude/skills and .pi/skills
+dev-copy-skills:
     cp -r ./artmind/skills/* ./.claude/skills
     cp -r ./artmind/skills/* ./.pi/skills
 
 # sync artmind/skills into .claude/skills and .pi/skills as symlinks, adding new ones and removing stale/broken links
-refresh-skills:
+dev-refresh-skills:
     #!/usr/bin/env bash
     set -euo pipefail
     for target_dir in .claude/skills .pi/skills; do
@@ -111,7 +134,13 @@ refresh-skills:
         done
     done
 
-# ── artmind domains ───────────────────────────────────────────────────────────
+# ── artmind docs ─────────────────────────────────────────────────────────────
+
+# clean a document from storage, registry, and Neo4j  (usage: just docs-clean <domain> <document>)
+docs-clean domain document:
+    uv run artmind docs clean --domain {{ domain }} {{ document }}
+
+# ── artmind domains ──────────────────────────────────────────────────────────
 
 # list all available domain schemas
 domains-list:
@@ -141,7 +170,11 @@ domains-relationships-prompt domain:
 domains-harmonize domain="" dry_run="":
     uv run artmind domains harmonize {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
 
-# ── artmind ingest ────────────────────────────────────────────────────────────
+# render a browsable HTML reference for all schemas matching a prefix  (usage: just domains-render-html <prefix>)
+domains-render-html prefix:
+    uv run artmind domains render-html {{ prefix }}
+
+# ── artmind ingest ───────────────────────────────────────────────────────────
 
 # ingest a file or directory synchronously  (usage: just ingest-sync path/to/file [domain])
 ingest-sync file domain="general":
@@ -195,13 +228,35 @@ ingest-refine-graph-dry domain="":
 ingest-refine-graph-apply file domain="":
     uv run artmind ingest refine-graph --from-file '{{ file }}' {{ if domain != "" { "--domain " + domain } else { "" } }}
 
-# ── artmind docs ──────────────────────────────────────────────────────────────
+# backfill vector embeddings for entities missing one  (usage: just ingest-embed-entities <domain>)
+ingest-embed-entities domain:
+    uv run artmind ingest embed-entities --domain {{ domain }}
 
-# clean a document from storage, registry, and Neo4j  (usage: just docs-clean <domain> <document>)
-docs-clean domain document:
-    uv run artmind docs clean --domain {{ domain }} {{ document }}
+# propose (or apply, with --from-file) the full refinement pipeline: time → supersession → merge → conflicts → consolidate → embed  (usage: just ingest-refine-pipeline <domain> [flags])
+ingest-refine-pipeline domain flags="":
+    uv run artmind ingest refine-pipeline --domain {{ domain }} {{ flags }}
 
-# ── artmind query ─────────────────────────────────────────────────────────────
+# rewrite accumulated entity descriptions into clean prose from source chunks  (usage: just ingest-consolidate-descriptions <domain> [flags])
+ingest-consolidate-descriptions domain flags="":
+    uv run artmind ingest consolidate-descriptions --domain {{ domain }} {{ flags }}
+
+# backfill canonical valid_from/valid_to/event_at from schema temporal mappings  (usage: just ingest-normalize-time <domain> [--dry-run])
+ingest-normalize-time domain dry_run="":
+    uv run artmind ingest normalize-time --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
+
+# detect non-destructive conflicts between entities, intra- or cross-domain  (usage: just ingest-detect-conflicts <domain> [flags])
+ingest-detect-conflicts domain flags="":
+    uv run artmind ingest detect-conflicts --domain {{ domain }} {{ flags }}
+
+# manually assert that one document supersedes another  (usage: just ingest-supersede <domain> <newer> <older> [flags])
+ingest-supersede domain newer older flags="":
+    uv run artmind ingest supersede --domain {{ domain }} --newer "{{ newer }}" --older "{{ older }}" {{ flags }}
+
+# scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges  (usage: just ingest-detect-supersession <domain> [--dry-run])
+ingest-detect-supersession domain dry_run="":
+    uv run artmind ingest detect-supersession --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
+
+# ── artmind query ────────────────────────────────────────────────────────────
 
 # graph metadata for a domain  (usage: just query-graph-metadata <domain>)
 query-graph-metadata domain:
@@ -259,29 +314,35 @@ query-graph-structural domain:
 query-graph-text2cypher domain question dry_run="":
     uv run artmind query graph text2cypher --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }} "{{ question }}"
 
+# list materialized Conflict nodes for a domain  (usage: just query-graph-conflicts <domain> [flags])
+query-graph-conflicts domain flags="":
+    uv run artmind query graph conflicts --domain {{ domain }} {{ flags }}
+
+# events/state-changes/supersessions for an entity, ordered by time  (usage: just query-graph-timeline <domain> <entity_id>)
+query-graph-timeline domain entity_id:
+    uv run artmind query graph timeline --domain {{ domain }} --entityId {{ entity_id }}
+
+# per-domain routing summary: doc names/counts, entity counts, top classes
+query-domains-overview:
+    uv run artmind query domains-overview
+
 # search chunks by vector + text (RRF combined)  (usage: just query-text <domain> "question")
 query-text domain question top_k="5":
     uv run artmind query vector-text --domain {{ domain }} --topK {{ top_k }} "{{ question }}"
 
-# ── artmind update ────────────────────────────────────────────────────────────
+# resolve a name fragment or description to canonical graph entities  (usage: just query-entity-resolve <domain> "reference")
+query-entity-resolve domain reference top_k="5":
+    uv run artmind query entity-resolve --domain {{ domain }} --topK {{ top_k }} "{{ reference }}"
 
-# extract facts and find graph candidates  (usage: just update-draft <domain> "text" [session])
-update-draft domain text session="":
-    uv run artmind update draft --domain {{ domain }} --text "{{ text }}" {{ if session != "" { "--session " + session } else { "" } }}
+# fetch chunk text by exact id(s)  (usage: just query-chunks <domain> <chunk_id> [expand])
+query-chunks domain chunk_id expand="0":
+    uv run artmind query chunks --domain {{ domain }} --idList {{ chunk_id }} --expand {{ expand }}
 
-# write confirmed facts to Neo4j  (usage: just update-confirm <session> '<resolutions_json>')
-update-confirm session resolutions:
-    uv run artmind update confirm --session {{ session }} --resolutions '{{ resolutions }}'
+# entity properties + one-hop relationships + source chunk text in one call  (usage: just query-entity-context <domain> <entity_id>)
+query-entity-context domain entity_id:
+    uv run artmind query entity-context --domain {{ domain }} --entityId {{ entity_id }}
 
-# list recent update sessions  (usage: just update-history [domain] [user] [limit])
-update-history domain="" user="" limit="20":
-    uv run artmind update history {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if user != "" { "--user " + user } else { "" } }} --limit {{ limit }}
-
-# export UserChat nodes to markdown files  (usage: just update-export [domain] [format] [output])
-update-export domain="" fmt="sequential" output="data/chats":
-    uv run artmind update export {{ if domain != "" { "--domain " + domain } else { "" } }} --format {{ fmt }} --output {{ output }}
-
-# ── artmind serve & chat UI ───────────────────────────────────────────────────
+# ── artmind serve & chat UI ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)
 serve-start:
@@ -308,10 +369,10 @@ serve-stop:
     fi
 
 # start the serve daemon (background) plus the chat web UI (foreground; Ctrl-C stops the UI only)
-ui-start: serve-start
+serve-ui: serve-start
     uv run artmind chat-ui
 
-# ── artmind session ───────────────────────────────────────────────────────────
+# ── artmind session ──────────────────────────────────────────────────────────
 
 # export Neo4j graph to a snapshot (end of session)
 session-close:
@@ -320,3 +381,25 @@ session-close:
 # wipe Neo4j and restore from latest snapshot (start of session)
 session-initiate:
     uv run artmind session initiate --yes
+
+# ── artmind update ───────────────────────────────────────────────────────────
+
+# extract facts and find graph candidates  (usage: just update-draft <domain> "text" [session])
+update-draft domain text session="":
+    uv run artmind update draft --domain {{ domain }} --text "{{ text }}" {{ if session != "" { "--session " + session } else { "" } }}
+
+# write confirmed facts to Neo4j  (usage: just update-confirm <session> '<resolutions_json>')
+update-confirm session resolutions:
+    uv run artmind update confirm --session {{ session }} --resolutions '{{ resolutions }}'
+
+# mark one entity node as superseding another (node-level supersession)  (usage: just update-supersede <newer_id> <older_id> [flags])
+update-supersede newer older flags="":
+    uv run artmind update supersede --newer {{ newer }} --older {{ older }} {{ flags }}
+
+# list recent update sessions  (usage: just update-history [domain] [user] [limit])
+update-history domain="" user="" limit="20":
+    uv run artmind update history {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if user != "" { "--user " + user } else { "" } }} --limit {{ limit }}
+
+# export UserChat nodes to markdown files  (usage: just update-export [domain] [format] [output])
+update-export domain="" fmt="sequential" output="data/chats":
+    uv run artmind update export {{ if domain != "" { "--domain " + domain } else { "" } }} --format {{ fmt }} --output {{ output }}

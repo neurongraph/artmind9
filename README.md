@@ -91,7 +91,7 @@ cp .env.example .env
 Install `artmind` as a global command and scaffold its run folder (`~/.artmind`):
 
 ```bash
-just install
+just dev-install
 # or directly:
 uv tool install --force --editable . && artmind init
 ```
@@ -104,7 +104,7 @@ for the full layout, the `.env` setup, and `artmind setup`.
 To uninstall (leaves `~/.artmind` and your data intact):
 
 ```bash
-just uninstall
+just dev-uninstall
 # or:
 uv tool uninstall artmind9
 ```
@@ -677,9 +677,9 @@ If you have `just` installed, common commands are available as short recipes:
 
 ```bash
 just                            # list all recipes
-just install                    # put `artmind` on PATH + scaffold ~/.artmind
-just uninstall                  # remove the global artmind command
-just test                       # run the test suite
+just dev-install                    # put `artmind` on PATH + scaffold ~/.artmind
+just dev-uninstall                  # remove the global artmind command
+just dev-test                       # run the test suite
 just ingest-sync path/to/file   # ingest a file (default domain: general)
 just ingest-write-to-graph-folder data/kg/fiction  # batch write a folder of KG JSON
 just ingest-pull-kg <repo> <path> <domain>         # pull KG from external repo

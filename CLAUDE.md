@@ -39,7 +39,7 @@ This is the part that most often breaks assumptions. `artmind` is a **globally
 installed command**, not something you invoke from the source tree.
 
 ```
-just install
+just dev-install
 ```
 
 expands to: stop daemons → `uv tool install --force --editable .` → `artmind init`.
@@ -73,7 +73,7 @@ This catches `uv run` too — `uv run artmind query ...` uses the same entry poi
 
 ```bash
 ARTMIND_NO_PROXY=1 artmind query ...   # force in-process; what you almost always want when testing
-just stop-daemons                      # or kill it (also finds the ingestion worker)
+just dev-stop-daemons                      # or kill it (also finds the ingestion worker)
 ```
 
 To tell whether a daemon is masking your change, compare the two — if they disagree,
@@ -85,7 +85,7 @@ ARTMIND_NO_PROXY=1 artmind query --help
 curl -s http://127.0.0.1:8377/health
 ```
 
-`just stop-daemons` identifies `serve` by the port it holds and verifies the process is
+`just dev-stop-daemons` identifies `serve` by the port it holds and verifies the process is
 artmind before killing, so it won't touch an unrelated process on that port.
 
 ### 2. Skills reach the chat UI only through the run folder
@@ -93,7 +93,7 @@ artmind before killing, so it won't touch an unrelated process on that port.
 `artmind/skills/` is the **single source of truth**. It reaches consumers two ways:
 
 - **Checkout** — `.claude/skills/<name>` and `.pi/skills/<name>` are **symlinks** into
-  `artmind/skills/` (`just refresh-skills` regenerates them; both dirs are gitignored, so
+  `artmind/skills/` (`just dev-refresh-skills` regenerates them; both dirs are gitignored, so
   a fresh clone lacks them). Editing through a symlink edits the source. Always live.
 - **Run folder** — `~/.artmind/.claude/skills/<name>` is a **copy**, written by
   `artmind init`. The chat UI agent's `cwd` is the run folder
@@ -104,7 +104,7 @@ every run — they're package assets — while seeding `.env` and `domains/schem
 when absent, so user data survives. So a skill edit reaches the chat UI via:
 
 ```bash
-artmind init      # or just install, which runs it
+artmind init      # or just dev-install, which runs it
 ```
 
 Editing a skill and testing only in the checkout does **not** exercise what the chat UI
@@ -114,7 +114,7 @@ runs. If they disagree, the run folder wasn't re-seeded. Do not edit
 ### 3. Green tests do not mean the CLI works
 
 ```bash
-just test        # uv run --group dev pytest test/ -v
+just dev-test        # uv run --group dev pytest test/ -v
 ```
 
 421 tests run in ~9s with **no Neo4j and no network** — they import modules directly
@@ -134,7 +134,7 @@ listed "pattern1–pattern9" long after `pattern10` existed, which actively misl
 into thinking `pattern10` wasn't under `graph`. When adding a command, update the group
 docstring, the relevant skill in `artmind/skills/`, and the `justfile` recipe together.
 
-`just artmind-cli-help` dumps the real command hierarchy — trust it over any prose.
+`just dev-cli-help` dumps the real command hierarchy — trust it over any prose.
 
 ## Command routing quick reference
 
