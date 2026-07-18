@@ -31,3 +31,4 @@ graphify-out/
 logs/
 package.json
 package-lock.json
+opencode.json

@@ -1,7 +1,7 @@
 # artmind/update.py
 import json
 import uuid
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 import yaml
@@ -29,6 +29,7 @@ from artmind.ingest import (
     _sanitize_label,
     embed_missing_entity_embeddings,
 )
+from artmind.temporal import apply_node_supersession
 from paths import DOMAIN_SCHEMAS_DIR
 from utils.functions import load_env, resolve_llm_model
 
@@ -145,6 +146,33 @@ def find_candidates(
     return rows
 
 
+def find_supersession_candidates(
+    source_node_id: str, rel_type: str, target_name: str, top_n: int = 3
+) -> list[dict]:
+    """Existing (source)-[rel_type]->(other) edges to a DIFFERENT target than the
+    one just extracted — a signal the new fact replaces the old one rather than
+    adding beside it (e.g. a branch's headed_by changing from one manager to
+    another). Matched by elementId since `source_node_id` comes from
+    find_candidates. Purely a suggestion surfaced to the user; never applied
+    automatically.
+    """
+    sanitized_type = _sanitize_label(rel_type)
+    cypher = """
+    MATCH (s:Entity) WHERE elementId(s) = $sourceNodeId
+    MATCH (s)-[r]->(existing:Entity)
+    WHERE type(r) = $relType AND toLower(existing.name) <> toLower($targetName)
+    RETURN DISTINCT elementId(existing) AS node_id, existing.name AS name,
+           existing.entity_class AS entity_class, type(r) AS rel_type
+    LIMIT $top_n
+    """
+    with neo4j_session() as session:
+        rows = session.run(
+            cypher, sourceNodeId=source_node_id, relType=sanitized_type,
+            targetName=target_name, top_n=top_n,
+        ).data()
+    return rows
+
+
 def _load_schema(domain: str) -> dict:
     schema_file = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     if not schema_file.exists():
@@ -167,12 +195,16 @@ def _ensure_user_chat_schema(session, embedding_dim: int = 768) -> None:
 def _update_node_in_session(
     session, name: str, entity_class: str, domain: str, new_properties: dict,
     user_id: str, now: str
-) -> None:
+) -> str | None:
     props = _flatten_props({**new_properties, "updated_at": now, "updated_by": user_id})
-    session.run(
-        "MATCH (e:Entity {name: $name, entity_class: $ec, domain: $domain}) SET e += $props",
+    rec = session.run(
+        """
+        MATCH (e:Entity {name: $name, entity_class: $ec, domain: $domain}) SET e += $props
+        RETURN e.id AS id
+        """,
         name=name, ec=entity_class, domain=domain, props=props,
-    )
+    ).single()
+    return rec["id"] if rec else None
 
 
 def write_user_chat(
@@ -209,6 +241,7 @@ def write_user_chat(
         )
 
         entity_names: dict[str, str] = {}
+        entity_ids: dict[str, str] = {}
         nodes_created = 0
         nodes_updated = 0
 
@@ -222,9 +255,10 @@ def write_user_chat(
                 continue
 
             if action == "create":
+                new_id = uuid.uuid4().hex
                 label_str = f"{_sanitize_label(entity_data['entity_class'])}:Entity"
                 props = _flatten_props({
-                    "id": uuid.uuid4().hex,
+                    "id": new_id,
                     "name": entity_data["name"],
                     "entity_class": entity_data["entity_class"],
                     "domain": domain,
@@ -236,15 +270,17 @@ def write_user_chat(
                 })
                 session.run(f"CREATE (e:{label_str}) SET e = $props", props=props)
                 entity_names[temp_id] = entity_data["name"]
+                entity_ids[temp_id] = new_id
                 nodes_created += 1
 
             elif action == "link":
-                _update_node_in_session(
+                linked_id = _update_node_in_session(
                     session,
                     entity_data["name"], entity_data["entity_class"], domain,
                     entity_data.get("properties", {}), user_id, now,
                 )
                 entity_names[temp_id] = entity_data["name"]
+                entity_ids[temp_id] = linked_id
                 nodes_updated += 1
 
             if action in ("create", "link"):
@@ -256,6 +292,31 @@ def write_user_chat(
                     """,
                     chat_id=chat_id, ename=entity_data["name"], domain=domain,
                 )
+
+        nodes_superseded = 0
+        for res in resolutions:
+            supersedes = res.get("supersedes") or []
+            if not supersedes:
+                continue
+            newer_id = entity_ids.get(res["entity_temp_id"])
+            if not newer_id:
+                continue
+            for item in supersedes:
+                older_node_id = item.get("node_id")
+                if not older_node_id:
+                    continue
+                try:
+                    apply_node_supersession(
+                        newer_id=newer_id,
+                        older_id=older_node_id,
+                        effective=item.get("effective") or date.today().isoformat(),
+                        detected_by="user_update",
+                        source_chat_id=chat_id,
+                        reason=item.get("reason"),
+                    )
+                    nodes_superseded += 1
+                except ValueError as e:
+                    logger.warning("supersession skipped for chat {}: {}", chat_id, e)
 
         rel_count = 0
         for rel in extracted_relationships:
@@ -296,8 +357,45 @@ def write_user_chat(
         "user_chat_id": chat_id,
         "nodes_created": nodes_created,
         "nodes_updated": nodes_updated,
+        "nodes_superseded": nodes_superseded,
         "relationships_written": rel_count,
     }
+
+
+def _detect_supersession_candidates(
+    entities: list[dict], relationships: list[dict], candidates_per_entity: list[dict]
+) -> list[dict]:
+    """Flag extracted relationships whose source already has a same-rel_type
+    edge to a DIFFERENT target — e.g. a branch's headed_by changing from one
+    manager to another. Only triggered when the source resolves to an exact
+    existing-node match (a fuzzy/no match means there's no prior fact yet to
+    replace). Purely a suggestion for the caller to confirm with the user;
+    resolution into an actual `supersedes` action happens at confirm time.
+    """
+    name_by_temp = {e["temp_id"]: e["name"] for e in entities}
+    candidates_by_temp = {c["temp_id"]: c["top_n"] for c in candidates_per_entity}
+
+    detected = []
+    for rel in relationships:
+        source_hits = candidates_by_temp.get(rel["source_temp_id"], [])
+        if not source_hits or not source_hits[0].get("is_exact"):
+            continue
+        target_name = name_by_temp.get(rel["target_temp_id"], "")
+        if not target_name:
+            continue
+        replaces = find_supersession_candidates(
+            source_hits[0]["node_id"], rel["rel_type"], target_name,
+        )
+        if replaces:
+            detected.append({
+                "source_temp_id": rel["source_temp_id"],
+                "source_name": source_hits[0]["name"],
+                "target_temp_id": rel["target_temp_id"],
+                "new_target_name": target_name,
+                "rel_type": rel["rel_type"],
+                "replaces": replaces,
+            })
+    return detected
 
 
 def draft_update(
@@ -320,6 +418,10 @@ def draft_update(
         for e in facts["entities"]
     ]
 
+    supersession_candidates = _detect_supersession_candidates(
+        facts["entities"], facts["relationships"], candidates_per_entity
+    )
+
     _create_update_draft(
         session_id=session_id,
         raw_text=text,
@@ -333,6 +435,7 @@ def draft_update(
         "extracted_entities": facts["entities"],
         "extracted_relationships": facts["relationships"],
         "candidates_per_entity": candidates_per_entity,
+        "supersession_candidates": supersession_candidates,
     }
 
 

@@ -279,6 +279,160 @@ def test_export_chats_sequential_writes_markdown(tmp_path):
     assert "alice@example.com" in content
 
 
+def test_write_user_chat_processes_supersedes_for_created_entity():
+    resolutions = [
+        {
+            "entity_temp_id": "e0", "action": "create", "node_id": None,
+            "supersedes": [{"node_id": "4:abc:older", "effective": "2026-07-18", "reason": "role changed"}],
+        }
+    ]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Harry Potter", "entity_class": "PERSON", "properties": {}}
+    ]
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update.apply_node_supersession") as mock_supersede:
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.return_value = MagicMock()
+
+        result = write_user_chat(
+            session_id="sess1",
+            raw_text="The manager changed to Harry Potter.",
+            domain="banking_organization",
+            user_id="alice@example.com",
+            resolutions=resolutions,
+            extracted_entities=extracted_entities,
+            extracted_relationships=[],
+        )
+
+    assert result["nodes_superseded"] == 1
+    mock_supersede.assert_called_once()
+    _, kwargs = mock_supersede.call_args
+    assert kwargs["older_id"] == "4:abc:older"
+    assert kwargs["effective"] == "2026-07-18"
+    assert kwargs["reason"] == "role changed"
+    assert kwargs["detected_by"] == "user_update"
+    # newer_id must be the uuid generated for the newly created entity, not None
+    assert kwargs["newer_id"]
+
+
+def test_write_user_chat_supersedes_defaults_effective_to_today():
+    resolutions = [
+        {"entity_temp_id": "e0", "action": "create", "node_id": None,
+         "supersedes": [{"node_id": "4:abc:older"}]}
+    ]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Harry Potter", "entity_class": "PERSON", "properties": {}}
+    ]
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update.apply_node_supersession") as mock_supersede, \
+         patch("artmind.update.date") as mock_date:
+        mock_date.today.return_value.isoformat.return_value = "2026-07-18"
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.return_value = MagicMock()
+
+        write_user_chat(
+            session_id="sess1", raw_text="text", domain="general", user_id="alice@example.com",
+            resolutions=resolutions, extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    _, kwargs = mock_supersede.call_args
+    assert kwargs["effective"] == "2026-07-18"
+
+
+def test_write_user_chat_no_supersedes_leaves_count_zero():
+    resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None}]
+    extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}]
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update.apply_node_supersession") as mock_supersede:
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.return_value = MagicMock()
+
+        result = write_user_chat(
+            session_id="sess1", raw_text="Alice is CEO.", domain="general", user_id="alice@example.com",
+            resolutions=resolutions, extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    assert result["nodes_superseded"] == 0
+    mock_supersede.assert_not_called()
+
+
+from artmind.update import find_supersession_candidates, _detect_supersession_candidates
+
+
+def test_find_supersession_candidates_queries_by_element_id():
+    captured = {}
+
+    def run_side_effect(cypher, **kwargs):
+        captured["cypher"] = cypher
+        captured["kwargs"] = kwargs
+        mock_result = MagicMock()
+        mock_result.data.return_value = [
+            {"node_id": "4:abc:older", "name": "Branch Manager - James Chen",
+             "entity_class": "PERSON", "rel_type": "headed_by"}
+        ]
+        return mock_result
+
+    with patch("artmind.update.neo4j_session") as mock_ctx:
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.side_effect = run_side_effect
+
+        result = find_supersession_candidates(
+            "4:abc:branch", "headed_by", "Harry Potter",
+        )
+
+    assert len(result) == 1
+    assert result[0]["name"] == "Branch Manager - James Chen"
+    assert captured["kwargs"]["sourceNodeId"] == "4:abc:branch"
+    assert captured["kwargs"]["targetName"] == "Harry Potter"
+
+
+def test_detect_supersession_candidates_flags_same_source_rel_type_different_target():
+    entities = [
+        {"temp_id": "e0", "name": "London Canary Wharf Branch"},
+        {"temp_id": "e2", "name": "Harry Potter"},
+    ]
+    relationships = [
+        {"source_temp_id": "e0", "target_temp_id": "e2", "rel_type": "headed_by"}
+    ]
+    candidates_per_entity = [
+        {"temp_id": "e0", "top_n": [{"node_id": "4:abc:branch", "name": "London Canary Wharf Branch", "is_exact": True}]},
+        {"temp_id": "e2", "top_n": []},
+    ]
+
+    with patch(
+        "artmind.update.find_supersession_candidates",
+        return_value=[{"node_id": "4:abc:older", "name": "Branch Manager - James Chen", "entity_class": "PERSON"}],
+    ) as mock_find:
+        result = _detect_supersession_candidates(entities, relationships, candidates_per_entity)
+
+    assert len(result) == 1
+    assert result[0]["source_name"] == "London Canary Wharf Branch"
+    assert result[0]["new_target_name"] == "Harry Potter"
+    assert result[0]["replaces"][0]["name"] == "Branch Manager - James Chen"
+    mock_find.assert_called_once_with("4:abc:branch", "headed_by", "Harry Potter")
+
+
+def test_detect_supersession_candidates_skips_fuzzy_source_match():
+    entities = [{"temp_id": "e0", "name": "Canary Wharf"}, {"temp_id": "e2", "name": "Harry Potter"}]
+    relationships = [{"source_temp_id": "e0", "target_temp_id": "e2", "rel_type": "headed_by"}]
+    candidates_per_entity = [
+        {"temp_id": "e0", "top_n": [{"node_id": "4:abc:branch", "name": "London Canary Wharf Branch", "is_exact": False}]},
+        {"temp_id": "e2", "top_n": []},
+    ]
+
+    with patch("artmind.update.find_supersession_candidates") as mock_find:
+        result = _detect_supersession_candidates(entities, relationships, candidates_per_entity)
+
+    assert result == []
+    mock_find.assert_not_called()
+
+
 def test_export_chats_by_entity_writes_one_file_per_entity(tmp_path):
     mock_rows = [
         {

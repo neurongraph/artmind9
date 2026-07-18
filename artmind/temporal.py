@@ -323,6 +323,56 @@ def apply_supersession(
     return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
 
 
+def apply_node_supersession(
+    newer_id: str,
+    older_id: str,
+    effective: str | None = None,
+    detected_by: str = "manual",
+    source_chat_id: str | None = None,
+    reason: str | None = None,
+) -> dict:
+    """Create (:Entity)-[:SUPERSEDES]->(:Entity) and retire the older node.
+
+    Node-scoped counterpart to apply_supersession (which is document-scoped) —
+    for facts like "the branch manager changed" where the old fact lives on a
+    distinct Entity node rather than a distinct Document. `newer` is matched by
+    the app-managed `id` uuid property (what create/link already know). `older`
+    accepts EITHER the app-managed `id` (what entity_context/pattern2/etc.
+    return) OR the Neo4j elementId (what find_candidates returns) — callers
+    reach this from both kinds of query, and the older node may not have been
+    touched by this update at all, so there's no single canonical source for
+    it. Idempotent; does not delete or touch older's relationships — as-of
+    queries already exclude it once valid_to is set (see
+    graph_query.asof_predicate).
+    """
+    now = datetime.now(timezone.utc).isoformat()
+    with neo4j_session() as session:
+        rec = session.run(
+            """
+            MATCH (newer:Entity {id:$newerId})
+            MATCH (older:Entity) WHERE elementId(older) = $olderRef OR older.id = $olderRef
+            MERGE (newer)-[s:SUPERSEDES]->(older)
+            SET s.effective=$effective, s.detected_by=$detectedBy, s.at=$now,
+                s.source_chat_id=$sourceChatId, s.reason=$reason
+            SET older.valid_to = coalesce(older.valid_to, $effective),
+                older.superseded_by = newer.id,
+                older.status = 'superseded'
+            RETURN newer.id AS newer_id, older.id AS older_id, older.name AS older_name
+            """,
+            newerId=newer_id, olderRef=older_id, effective=effective,
+            detectedBy=detected_by, now=now, sourceChatId=source_chat_id, reason=reason,
+        ).single()
+    if not rec:
+        raise ValueError(
+            f"Could not resolve newer entity id={newer_id!r} or older entity id/elementId={older_id!r}"
+        )
+    logger.info(
+        "node supersession: {} supersedes {} ({!r}) (effective={}, detected_by={})",
+        rec["newer_id"], rec["older_id"], rec["older_name"], effective, detected_by,
+    )
+    return {"newer": rec["newer_id"], "older": rec["older_id"], "effective": effective}
+
+
 def detect_supersession(domain: str, dry_run: bool = False) -> dict:
     """Scan each document's markdown for an explicit Supersession Notice and apply it.
 

@@ -1,7 +1,7 @@
 # test/test_update_cli.py
 import json
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from click.testing import CliRunner
@@ -87,6 +87,48 @@ def test_update_confirm_fails_gracefully_on_missing_draft(runner):
             "--session", "bad-session",
             "--resolutions", "[]",
         ])
+    assert result.exit_code != 0
+
+
+def test_update_supersede_returns_json(runner):
+    supersede_result = {"newer": "newer-uuid", "older": "older-uuid", "effective": "2026-07-18"}
+
+    mock_session = MagicMock()
+    mock_session.run.return_value.single.return_value = {"id": "newer-uuid"}
+    mock_ctx = MagicMock()
+    mock_ctx.__enter__.return_value = mock_session
+
+    with patch("artmind.graph_query.neo4j_session", return_value=mock_ctx), \
+         patch("artmind.temporal.apply_node_supersession", return_value=supersede_result) as mock_apply:
+        result = runner.invoke(cli, [
+            "update", "supersede",
+            "--newer", "4:abc:newer",
+            "--older", "4:abc:older",
+            "--effective", "2026-07-18",
+        ])
+
+    assert result.exit_code == 0, result.output
+    data = json.loads(result.output)
+    assert data == supersede_result
+    mock_apply.assert_called_once_with(
+        newer_id="newer-uuid", older_id="4:abc:older",
+        effective="2026-07-18", detected_by="manual", reason=None,
+    )
+
+
+def test_update_supersede_fails_when_newer_unresolved(runner):
+    mock_session = MagicMock()
+    mock_session.run.return_value.single.return_value = None
+    mock_ctx = MagicMock()
+    mock_ctx.__enter__.return_value = mock_session
+
+    with patch("artmind.graph_query.neo4j_session", return_value=mock_ctx):
+        result = runner.invoke(cli, [
+            "update", "supersede",
+            "--newer", "4:abc:missing",
+            "--older", "4:abc:older",
+        ])
+
     assert result.exit_code != 0
 
 

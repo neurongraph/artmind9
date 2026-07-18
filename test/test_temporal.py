@@ -1,7 +1,15 @@
 """Deterministic date parsing and document-date lifting (no Neo4j)."""
 import json
+from unittest.mock import MagicMock, patch
 
-from artmind.temporal import canonical_entity_dates, parse_iso, lift_document_dates
+import pytest
+
+from artmind.temporal import (
+    apply_node_supersession,
+    canonical_entity_dates,
+    parse_iso,
+    lift_document_dates,
+)
 
 
 def test_parse_iso_full_date():
@@ -206,3 +214,49 @@ def test_vector_search_cypher_includes_asof_on_chunk_leg(monkeypatch):
     vq.vector_search(["fiction"], "who is Holmes", topK=3, as_of="2026-07-04")
 
     assert any("node.valid_from" in c and "node.valid_to" in c for c in captured_cyphers)
+
+
+def test_apply_node_supersession_writes_edge_and_retires_older():
+    captured = {}
+
+    def run_side_effect(cypher, **kwargs):
+        captured["cypher"] = cypher
+        captured["kwargs"] = kwargs
+        mock_result = MagicMock()
+        mock_result.single.return_value = {
+            "newer_id": "newer-uuid", "older_id": "older-uuid", "older_name": "James Chen",
+        }
+        return mock_result
+
+    with patch("artmind.temporal.neo4j_session") as mock_ctx:
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.side_effect = run_side_effect
+
+        result = apply_node_supersession(
+            newer_id="newer-uuid",
+            older_id="4:abc:123",
+            effective="2026-07-18",
+            detected_by="user_update",
+            source_chat_id="chat-1",
+            reason="role holder changed",
+        )
+
+    assert result == {"newer": "newer-uuid", "older": "older-uuid", "effective": "2026-07-18"}
+    cypher = captured["cypher"]
+    assert "SUPERSEDES" in cypher
+    assert "older.valid_to" in cypher and "older.superseded_by" in cypher
+    assert "older.status" in cypher
+    kwargs = captured["kwargs"]
+    assert kwargs["newerId"] == "newer-uuid"
+    assert kwargs["olderRef"] == "4:abc:123"
+    assert kwargs["sourceChatId"] == "chat-1"
+    assert kwargs["reason"] == "role holder changed"
+
+
+def test_apply_node_supersession_raises_when_unresolved():
+    with patch("artmind.temporal.neo4j_session") as mock_ctx:
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        mock_session.run.return_value.single.return_value = None
+
+        with pytest.raises(ValueError):
+            apply_node_supersession(newer_id="missing", older_id="4:abc:999")

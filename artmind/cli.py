@@ -4,7 +4,7 @@ import subprocess
 import sys
 import time
 import json
-from datetime import datetime
+from datetime import date, datetime
 from pathlib import Path
 
 import rich_click as click
@@ -1474,7 +1474,12 @@ def docs_clean(domain: str, document_name: str):
 
 @cli.group()
 def update():
-    """Add and update knowledge graph facts from natural language."""
+    """Add and update knowledge graph facts from natural language.
+
+    Subcommands: draft, confirm, supersede (retire a node in favor of a newer
+    one — the node-level counterpart to `ingest supersede`'s document-level
+    supersession), history, export.
+    """
     pass
 
 
@@ -1514,6 +1519,50 @@ def update_confirm(session: str, resolutions: str):
         raise click.ClickException(str(e))
     except Exception as e:
         raise click.ClickException(str(e))
+
+
+@update.command("supersede")
+@click.option("--newer", "newer_ref", required=True, help="id of the entity that replaces the older one.")
+@click.option("--older", "older_ref", required=True, help="id of the entity being retired.")
+@click.option("--effective", default=None, help="ISO date the supersession takes effect (default: today).")
+@click.option("--reason", default=None, help="Optional free-text reason, for audit purposes.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def update_supersede(
+    newer_ref: str, older_ref: str, effective: str | None, reason: str | None, compact: bool
+) -> None:
+    """Mark one entity node as superseding another (node-level, not document-level).
+
+    Use when a new fact replaces an existing node rather than a property on it
+    — e.g. a role holder or an address changing. Sets a SUPERSEDES edge and
+    stamps valid_to/superseded_by/status on the older node; nothing is deleted.
+    --newer and --older each accept either identifier an agent is likely to
+    already have in hand: the `node_id` (Neo4j elementId) returned by
+    `update draft`'s candidates, or the `id` property returned by
+    `entity-context`/`query graph pattern2`/etc.
+    """
+    _setup_logger()
+    from artmind.graph_query import neo4j_session
+    from artmind.temporal import apply_node_supersession
+
+    with neo4j_session() as session:
+        rec = session.run(
+            "MATCH (e:Entity) WHERE elementId(e) = $ref OR e.id = $ref RETURN e.id AS id",
+            ref=newer_ref,
+        ).single()
+    if not rec or not rec["id"]:
+        raise click.ClickException(f"Could not resolve newer entity id={newer_ref!r}")
+
+    try:
+        result = apply_node_supersession(
+            newer_id=rec["id"],
+            older_id=older_ref,
+            effective=effective or date.today().isoformat(),
+            detected_by="manual",
+            reason=reason,
+        )
+    except ValueError as e:
+        raise click.ClickException(str(e))
+    _echo_json(result, compact)
 
 
 @update.command("history")
