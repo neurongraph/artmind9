@@ -2,7 +2,9 @@
 
 import json
 
+import pytest
 from fastapi.testclient import TestClient
+from jinja2.exceptions import TemplateNotFound
 
 from artmind.webui.app import create_app
 from artmind.webui.sessions import SessionRegistry
@@ -53,6 +55,27 @@ def test_index_serves_html():
     response = client.get("/")
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
+
+
+def test_index_uses_custom_template_name():
+    """create_app's `/` route must actually render whatever template_name
+    it was given, not a hardcoded "index.html" — proven here by pointing it
+    at a template that doesn't exist and observing Jinja2 look for that
+    exact name instead of silently falling back to the default."""
+    registry = SessionRegistry(client_factory=FakeBackend)
+    app = create_app(registry=registry, template_name="admin.html")
+    client = TestClient(app)
+    with pytest.raises(TemplateNotFound) as exc_info:
+        client.get("/")
+    assert exc_info.value.name == "admin.html"
+
+
+def test_index_accepts_page_title_without_breaking_default_template():
+    registry = SessionRegistry(client_factory=FakeBackend)
+    app = create_app(registry=registry, page_title="Admin Console")
+    client = TestClient(app)
+    response = client.get("/")
+    assert response.status_code == 200
 
 
 def test_chat_streams_events_as_sse():

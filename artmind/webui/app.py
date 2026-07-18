@@ -35,7 +35,11 @@ class ChatRequest(BaseModel):
         return value
 
 
-def create_app(registry: SessionRegistry | None = None) -> FastAPI:
+def create_app(
+    registry: SessionRegistry | None = None,
+    template_name: str = "index.html",
+    page_title: str | None = None,
+) -> FastAPI:
     registry = registry or SessionRegistry()
 
     @asynccontextmanager
@@ -58,7 +62,8 @@ def create_app(registry: SessionRegistry | None = None) -> FastAPI:
 
     @app.get("/")
     async def index(request: Request):
-        return templates.TemplateResponse(request, "index.html")
+        context = {"page_title": page_title} if page_title is not None else {}
+        return templates.TemplateResponse(request, template_name, context)
 
     @app.post("/api/chat")
     async def chat(payload: ChatRequest) -> StreamingResponse:
