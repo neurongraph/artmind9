@@ -304,7 +304,7 @@ parent but are missing from the child. never removes child-specific extras.
     </div>
     <div class="category-body">
       <div class="panel-title">Sync &amp; jobs</div>
-      <div class="cmd-card" data-search="artmind ingest sync ingest a file or directory synchronously (blocking).  file_path file_path  domain --domain domain to assign (prompted if omitted) force --force ingest even if identical content is already registered">
+      <div class="cmd-card" data-search="artmind ingest sync ingest a file or directory synchronously (blocking).  file_path file_path  domain --domain domain to assign (prompted if omitted) force --force ingest even if identical content is already registered stage_only --stage-only extract kg json but do not write to the graph (leaves it staged for a later commit)">
         <div class="cmd-header" onclick="toggleCmd(this)">
           <span class="cmd-path">artmind ingest sync</span>
           <span class="cmd-brief">Ingest a file or directory synchronously (blocking).</span>
@@ -317,14 +317,14 @@ parent but are missing from the child. never removes child-specific extras.
           
       <div class="cmd-options-title">Options &amp; Arguments</div>
       <table class="opt-table">
-        <tr><td><span class="opt-name" style="color:#fbbf24">FILE_PATH</span><br><span class="opt-type">PATH</span></td><td></td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--domain</span><br><span class="opt-type">TEXT</span></td><td>Domain to assign (prompted if omitted)</td><td></td></tr><tr><td><span class="opt-name">--force</span><br><span class="opt-type">FLAG</span></td><td>Ingest even if identical content is already registered</td><td><span class="opt-default">default: False</span></td></tr>
+        <tr><td><span class="opt-name" style="color:#fbbf24">FILE_PATH</span><br><span class="opt-type">PATH</span></td><td></td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--domain</span><br><span class="opt-type">TEXT</span></td><td>Domain to assign (prompted if omitted)</td><td></td></tr><tr><td><span class="opt-name">--force</span><br><span class="opt-type">FLAG</span></td><td>Ingest even if identical content is already registered</td><td><span class="opt-default">default: False</span></td></tr><tr><td><span class="opt-name">--stage-only</span><br><span class="opt-type">FLAG</span></td><td>Extract KG JSON but do not write to the graph (leaves it staged for a later commit)</td><td><span class="opt-default">default: False</span></td></tr>
       </table>
 
           <div class="example-block">artmind ingest sync ./report.pdf<br>artmind ingest sync ./docs/ --domain banking</div>
         </div>
       </div>
 
-      <div class="cmd-card" data-search="artmind ingest async submit a file or directory for background ingestion; returns job_id immediately.  file_path file_path  domain --domain domain to assign (prompted if omitted) force --force ingest even if identical content is already registered">
+      <div class="cmd-card" data-search="artmind ingest async submit a file or directory for background ingestion; returns job_id immediately.  file_path file_path  domain --domain domain to assign (prompted if omitted) force --force ingest even if identical content is already registered stage_only --stage-only extract kg json but do not write to the graph (leaves it staged for a later commit)">
         <div class="cmd-header" onclick="toggleCmd(this)">
           <span class="cmd-path">artmind ingest async</span>
           <span class="cmd-brief">Submit a file or directory for background ingestion; returns job_id immediately.</span>
@@ -337,7 +337,7 @@ parent but are missing from the child. never removes child-specific extras.
           
       <div class="cmd-options-title">Options &amp; Arguments</div>
       <table class="opt-table">
-        <tr><td><span class="opt-name" style="color:#fbbf24">FILE_PATH</span><br><span class="opt-type">PATH</span></td><td></td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--domain</span><br><span class="opt-type">TEXT</span></td><td>Domain to assign (prompted if omitted)</td><td></td></tr><tr><td><span class="opt-name">--force</span><br><span class="opt-type">FLAG</span></td><td>Ingest even if identical content is already registered</td><td><span class="opt-default">default: False</span></td></tr>
+        <tr><td><span class="opt-name" style="color:#fbbf24">FILE_PATH</span><br><span class="opt-type">PATH</span></td><td></td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--domain</span><br><span class="opt-type">TEXT</span></td><td>Domain to assign (prompted if omitted)</td><td></td></tr><tr><td><span class="opt-name">--force</span><br><span class="opt-type">FLAG</span></td><td>Ingest even if identical content is already registered</td><td><span class="opt-default">default: False</span></td></tr><tr><td><span class="opt-name">--stage-only</span><br><span class="opt-type">FLAG</span></td><td>Extract KG JSON but do not write to the graph (leaves it staged for a later commit)</td><td><span class="opt-default">default: False</span></td></tr>
       </table>
 
           

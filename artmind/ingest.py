@@ -1154,8 +1154,9 @@ def ingest_to_kg(
     text_model: str = "ministral-3:14b",
     embed_model: str = "nomic-embed-text:latest",
     chunk_size: int = 6000,
+    stage_only: bool = False,
 ) -> bool:
-    """Orchestrate KG extraction and Neo4j write for a single document."""
+    """Orchestrate KG extraction and (unless stage_only) commit for one document."""
     # Back-compat: if ingest_file didn't split chunks yet, do it now.
     if "chunks_dir" not in file_result:
         registered_path = Path(file_result["registered_path"])
@@ -1178,17 +1179,10 @@ def ingest_to_kg(
     doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model)
     if doc_kg_dir is None:
         return False
-    ok = write_to_graph(doc_kg_dir)
-    if ok:
-        # Auto-chain temporal normalization (per-document, additive, idempotent).
-        # NOT refine-graph / detect-conflicts — those are explicit-call-only
-        # cross-domain judgment operations gated by dry-run/apply workflows.
-        try:
-            from artmind.temporal import normalize_ingested_document
-            normalize_ingested_document(doc_kg_dir, domain)
-        except Exception as e:
-            logger.warning("normalize-time hook failed for {}: {}", doc_kg_dir, e)
-    return ok
+    if stage_only:
+        logger.info("Staged (not committed): {}", doc_kg_dir)
+        return True
+    return commit_to_graph(doc_kg_dir, domain)
 
 
 def extract_kg(
@@ -1452,4 +1446,37 @@ def extract_kg(
 def write_to_graph(doc_kg_dir: Path) -> bool:
     """Write merged KG JSON files to Neo4j. Safe to re-run after fixing Neo4j issues."""
     return _write_to_neo4j(doc_kg_dir)
+
+
+def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
+    """Complete commit of staged KG JSON to Neo4j: write, then the per-document
+    self-asserted-truth hooks (temporal normalization, then supersession).
+
+    This is the single convergence point for all three ingestion sources
+    (extract, pull-from-repo, import-bundle). Cross-document judgment steps
+    (merge/conflicts/consolidate) are deliberately NOT run here — see
+    artmind.refine_pipeline. Hooks are best-effort: a down hook logs a warning
+    but does not fail the commit, since the graph write already succeeded.
+    """
+    ok = write_to_graph(doc_kg_dir)
+    if not ok:
+        return False
+
+    # 1. Temporal normalization (additive, idempotent, per-document).
+    try:
+        from artmind.temporal import normalize_ingested_document
+        normalize_ingested_document(doc_kg_dir, domain)
+    except Exception as e:
+        logger.warning("commit_to_graph: temporal hook failed for {}: {}", doc_kg_dir, e)
+
+    # 2. Supersession from this document's own notice (must follow temporal so
+    #    canonical dates/version exist). Scoped to just this document.
+    try:
+        from artmind.temporal import detect_supersession
+        document = json.loads((doc_kg_dir / "document.json").read_text(encoding="utf-8"))
+        detect_supersession(domain, only_doc_name=document.get("name"))
+    except Exception as e:
+        logger.warning("commit_to_graph: supersession hook failed for {}: {}", doc_kg_dir, e)
+
+    return True
 

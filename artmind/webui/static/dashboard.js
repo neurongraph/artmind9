@@ -289,10 +289,30 @@ async function refreshArtifacts() {
   for (const a of artifacts) {
     const card = el("div", "job-card");
     const head = el("div", "job-card-head", a.name);
-    if (a.inGraph) head.appendChild(el("span", "in-graph-badge", "in graph"));
+    head.appendChild(el("span", a.inGraph ? "state-badge in-graph" : "state-badge staged",
+                        a.inGraph ? "in graph" : "staged"));
     card.appendChild(head);
     card.appendChild(el("div", "dash-note",
       `${a.entityCount} entities · ${a.propertyCount} properties · ${a.relationshipCount} relationships`));
+
+    if (!a.inGraph) {
+      const commitBtn = el("button", "btn-link", "Write to graph");
+      commitBtn.addEventListener("click", async () => {
+        commitBtn.disabled = true;
+        commitBtn.textContent = "Writing…";
+        try {
+          await api(`/api/artifacts/${encodeURIComponent(domain)}/${encodeURIComponent(a.doc)}/write-to-graph`,
+                    { method: "POST" });
+          await refreshArtifacts();
+        } catch (err) {
+          alert(`Write to graph failed: ${err.message}`);
+          commitBtn.disabled = false;
+          commitBtn.textContent = "Write to graph";
+        }
+      });
+      card.appendChild(commitBtn);
+    }
+
     const exportLink = el("a", "btn-link", "Export bundle");
     exportLink.href = `/api/artifacts/${encodeURIComponent(domain)}/${encodeURIComponent(a.doc)}/bundle`;
     card.appendChild(exportLink);

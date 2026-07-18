@@ -96,3 +96,51 @@ def test_detect_supersession_notice_ignores_metadata_table_dates():
     assert out is not None
     assert out["superseded_version"] == "2.0"
     assert out["effective"] == "2026-06-01"
+
+
+def test_detect_supersession_only_doc_name_filters_application(monkeypatch):
+    """only_doc_name applies just that doc's notice; version map still sees all docs."""
+    import artmind.temporal as temporal
+
+    docs = [
+        {"id": "docA", "name": "v3.md", "version": "3.0"},
+        {"id": "docB", "name": "v2.md", "version": "2.0"},
+    ]
+
+    class _Result:
+        def data(self):
+            return docs
+
+    class FakeSession:
+        def run(self, *a, **k):
+            return _Result()
+        def __enter__(self):
+            return self
+        def __exit__(self, *a):
+            return False
+
+    bodies = {"v3.md": "v3 notice body", "v2.md": "v2 plain body"}
+    applied = []
+
+    monkeypatch.setattr(temporal, "neo4j_session", lambda: FakeSession())
+    monkeypatch.setattr(temporal, "_read_doc_body", lambda name: bodies[name], raising=False)
+    # Only the v3 body carries a supersedes notice.
+    monkeypatch.setattr(
+        temporal, "parse_supersession_notice",
+        lambda body: {"superseded_version": "2.0", "effective": "2026-01-01"} if "notice" in body else None,
+    )
+    monkeypatch.setattr(
+        temporal, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older)),
+    )
+
+    # Scoped to v2.md (which has no notice): nothing applies, even though v3.md's
+    # notice exists — proving the APPLY loop is filtered, not the version map build.
+    result = temporal.detect_supersession("d", only_doc_name="v2.md")
+    assert applied == []
+    assert result["applied"] == []
+
+    # Scoped to v3.md: its notice resolves against docB and applies.
+    applied.clear()
+    result = temporal.detect_supersession("d", only_doc_name="v3.md")
+    assert applied == [("docA", "docB")]

@@ -19,11 +19,11 @@ from artmind.setup import scaffold_run_folder, setup_all
 from artmind.ingest import (
     _build_file_result_from_db,
     clean_document,
+    commit_to_graph,
     embed_entities_backfill,
     extract_kg,
     ingest_file,
     ingest_to_kg,
-    write_to_graph,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.jobs import (
@@ -420,7 +420,8 @@ def ingest():
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
-def ingest_sync(file_path: str, domain: str | None, force: bool):
+@click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
+def ingest_sync(file_path: str, domain: str | None, force: bool, stage_only: bool):
     """Ingest a file or directory synchronously (blocking)."""
     _setup_logger()
     env = load_env()
@@ -455,7 +456,7 @@ def ingest_sync(file_path: str, domain: str | None, force: bool):
             result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
             if result.get("status") == "ok":
                 ok_count += 1
-                ingest_to_kg(result, domain, text_model, embed_model, chunk_size)
+                ingest_to_kg(result, domain, text_model, embed_model, chunk_size, stage_only=stage_only)
             else:
                 fail_count += 1
         except Exception as e:
@@ -474,7 +475,8 @@ def ingest_sync(file_path: str, domain: str | None, force: bool):
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
-def ingest_async(file_path: str, domain: str | None, force: bool):
+@click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
+def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bool):
     """Submit a file or directory for background ingestion; returns job_id immediately."""
     _setup_logger()
     if domain is None:
@@ -493,7 +495,7 @@ def ingest_async(file_path: str, domain: str | None, force: bool):
         raise click.ClickException(f"No files found in {path}")
 
     batch_files = [str(f.resolve()) for f in files]
-    job_id = _create_job(batch_files, domain=domain, force=force)
+    job_id = _create_job(batch_files, domain=domain, force=force, stage_only=stage_only)
     _ensure_worker_running()
 
     _echo_json({
@@ -640,7 +642,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
             )
 
         logger.info("write_to_graph: {} (domain={}) from {}", document_name, domain, doc_kg_dir)
-        ok = write_to_graph(doc_kg_dir)
+        ok = commit_to_graph(doc_kg_dir, domain)
         if ok:
             logger.info("write_to_graph complete")
         else:
@@ -681,7 +683,7 @@ def ingest_write_to_graph(document_name: str | None, domain: str | None, folder:
     for doc_kg_dir in doc_dirs:
         logger.info("  writing {} …", doc_kg_dir.name)
         try:
-            if write_to_graph(doc_kg_dir):
+            if commit_to_graph(doc_kg_dir, resolved_domain):
                 ok_count += 1
             else:
                 fail_count += 1

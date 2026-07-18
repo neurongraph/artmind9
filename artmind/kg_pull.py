@@ -10,6 +10,23 @@ from loguru import logger
 
 from paths import KG_DIR
 
+# Transport schemes git is permitted to use for clone/fetch operations here.
+# Deliberately excludes `ext` (arbitrary local command execution via
+# `ext::sh -c ...`), `file`, `fd`, and anything else not in this list. See
+# `git help clone` / `git help -c protocol.allow` for the GIT_ALLOW_PROTOCOL
+# semantics this enforces. Plain `http` is also excluded — nothing in this
+# codebase has a legitimate use for an unencrypted, trivially MITM-able git
+# remote; every real example uses `https://` or `git@...` (ssh). If an
+# internal http-only git server ever becomes a real requirement, add `http`
+# back here with a comment documenting that need.
+_GIT_ALLOWED_PROTOCOLS = "https:ssh:git"
+
+
+def _reject_leading_dash(value: str, label: str) -> None:
+    """Reject a value that could be misread as a CLI option by git/ssh."""
+    if value.startswith("-"):
+        raise RuntimeError(f"Invalid {label} '{value}': must not start with '-'")
+
 
 def _rewrite_url_with_token(repo_url: str) -> str:
     """If GITHUB_TOKEN is set and the URL is HTTPS, inject the token for auth."""
@@ -31,7 +48,14 @@ def _detect_conflicts(incoming_names: list[str], target_dir: Path) -> list[str]:
 
 
 def _run_git(args: list[str], cwd: Path | None = None) -> subprocess.CompletedProcess:
-    """Run a git command, raising RuntimeError on failure."""
+    """Run a git command, raising RuntimeError on failure.
+
+    Restricts git to a safe allowlist of URL transport protocols via
+    GIT_ALLOW_PROTOCOL so a caller-supplied URL can't invoke the `ext::`
+    transport (or similar) to run arbitrary local commands.
+    """
+    env = os.environ.copy()
+    env["GIT_ALLOW_PROTOCOL"] = _GIT_ALLOWED_PROTOCOLS
     try:
         return subprocess.run(
             ["git"] + args,
@@ -39,6 +63,7 @@ def _run_git(args: list[str], cwd: Path | None = None) -> subprocess.CompletedPr
             capture_output=True,
             text=True,
             check=True,
+            env=env,
         )
     except FileNotFoundError:
         raise RuntimeError("git is not installed or not on PATH")
@@ -49,9 +74,17 @@ def _run_git(args: list[str], cwd: Path | None = None) -> subprocess.CompletedPr
 def _sparse_clone(repo_url: str, repo_path: str) -> tuple[Path, Path]:
     """Sparse-checkout a single sub-path from a repo into a temp directory.
 
+    Validates repo_url and repo_path before cloning: rejects values that
+    could be misread as CLI options (see _reject_leading_dash), and rejects
+    a repo_path that resolves outside the cloned repo (see the containment
+    check below).
+
     Returns (content_dir, tmp_dir) where content_dir is the materialized
     repo_path and tmp_dir is the root temp directory for cleanup.
     """
+    _reject_leading_dash(repo_url, "repo URL")
+    _reject_leading_dash(repo_path, "repo path")
+
     url = _rewrite_url_with_token(repo_url)
     tmp_dir = Path(tempfile.mkdtemp(prefix="artmind_pull_"))
     clone_dir = tmp_dir / "repo"
@@ -61,7 +94,18 @@ def _sparse_clone(repo_url: str, repo_path: str) -> tuple[Path, Path]:
     _run_git(["sparse-checkout", "set", repo_path], cwd=clone_dir)
     _run_git(["checkout"], cwd=clone_dir)
 
+    # Unlike _validate_artifact_segment (artmind/webui/dashboard_routes.py),
+    # which rejects any '/' in a domain/doc value outright, repo_path is a
+    # legitimate multi-segment sparse-checkout path (e.g. "data/kg/sales"),
+    # so segment-rejection isn't an option here. Instead, resolve the
+    # symlink-free absolute path and check it's still contained within the
+    # clone dir, which catches traversal via "../.." or an absolute path.
     content_dir = clone_dir / repo_path
+    resolved_content_dir = content_dir.resolve()
+    if not resolved_content_dir.is_relative_to(clone_dir.resolve()):
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+        raise RuntimeError(f"Path '{repo_path}' escapes the cloned repository")
+
     if not content_dir.is_dir():
         shutil.rmtree(tmp_dir, ignore_errors=True)
         raise RuntimeError(f"Path '{repo_path}' not found in repository")

@@ -373,11 +373,27 @@ def apply_node_supersession(
     return {"newer": rec["newer_id"], "older": rec["older_id"], "effective": effective}
 
 
-def detect_supersession(domain: str, dry_run: bool = False) -> dict:
+def _read_doc_body(name: str) -> str | None:
+    """Return the markdown body for a registered document, or None if absent."""
+    md_file = MARKDOWNS_DIR / f"{Path(name).stem}.md"
+    if not md_file.exists():
+        return None
+    from artmind.ingest import _parse_md_frontmatter
+    _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+    return body
+
+
+def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str | None = None) -> dict:
     """Scan each document's markdown for an explicit Supersession Notice and apply it.
 
     Matches the superseded Version against another Document in the same domain
     (via lifted `version`). Additive; safe to re-run.
+
+    When `only_doc_name` is set, the version map is still built from ALL documents
+    in the domain (needed to resolve the older side of the notice), but the notice
+    is only parsed and applied for the named document — this lets commit-time
+    per-document callers reuse the same resolution logic without re-scanning or
+    re-applying notices for every other document in the domain.
     """
     report: dict = {"domain": domain, "applied": [], "dry_run": dry_run}
     with neo4j_session() as session:
@@ -399,11 +415,11 @@ def detect_supersession(domain: str, dry_run: bool = False) -> dict:
             )
         by_version[version] = d
     for d in docs:
-        md_file = MARKDOWNS_DIR / f"{Path(d['name']).stem}.md"
-        if not md_file.exists():
+        if only_doc_name is not None and d["name"] != only_doc_name:
             continue
-        from artmind.ingest import _parse_md_frontmatter
-        _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+        body = _read_doc_body(d["name"])
+        if body is None:
+            continue
         notice = parse_supersession_notice(body)
         if not notice:
             continue

@@ -68,11 +68,12 @@
   padding: 12px 14px; background: var(--bg-elev);
 }
 .job-card-head { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-.in-graph-badge {
+.state-badge {
   margin-left: 8px; padding: 1px 6px; border-radius: 6px;
-  background: var(--bg-inset); color: #5da571;
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em;
 }
+.state-badge.in-graph { background: var(--bg-inset); color: #5da571; }
+.state-badge.staged { background: var(--bg-inset); color: var(--text-muted); }
 .progress-bar {
   height: 6px; border-radius: 4px; background: var(--bg-inset);
   overflow: hidden; margin-bottom: 6px;

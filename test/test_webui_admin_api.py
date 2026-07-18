@@ -129,6 +129,20 @@ def test_ingest_creates_job(monkeypatch, tmp_path):
     assert body["fileCount"] == 1
 
 
+def test_ingest_rejects_traversal_domain(monkeypatch, tmp_path):
+    f = tmp_path / "doc.txt"
+    f.write_text("hello")
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "_create_job",
+        lambda batch_files, domain: called.setdefault("called", True) or "job-123",
+    )
+    monkeypatch.setattr(dashboard_routes, "_ensure_worker_running", lambda: None)
+    response = _client().post("/api/ingest", json={"domain": "..", "path": str(f)})
+    assert response.status_code == 400
+    assert "called" not in called
+
+
 def test_domains(monkeypatch):
     monkeypatch.setattr(dashboard_routes, "_get_available_domains", lambda: ["general", "banking"])
     response = _client().get("/api/domains")
@@ -201,6 +215,38 @@ def test_resume_extract_doc_not_found(monkeypatch):
     assert response.status_code == 404
 
 
+def test_resume_extract_rejects_traversal_domain(monkeypatch, tmp_path):
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "_build_file_result_from_db",
+        lambda doc, domain: called.setdefault("called", True) or None,
+    )
+    monkeypatch.setattr(
+        dashboard_routes, "extract_kg",
+        lambda file_result, domain, text_model, embed_model: called.setdefault("extracted", True) or tmp_path,
+    )
+    response = _client().post("/api/documents/myfile.pdf/resume-extract", json={"domain": ".."})
+    assert response.status_code == 400
+    assert "called" not in called
+    assert "extracted" not in called
+
+
+def test_resume_extract_rejects_traversal_doc(monkeypatch, tmp_path):
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "_build_file_result_from_db",
+        lambda doc, domain: called.setdefault("called", True) or None,
+    )
+    monkeypatch.setattr(
+        dashboard_routes, "extract_kg",
+        lambda file_result, domain, text_model, embed_model: called.setdefault("extracted", True) or tmp_path,
+    )
+    response = _client().post("/api/documents/%2e%2e/resume-extract", json={"domain": "general"})
+    assert response.status_code == 400
+    assert "called" not in called
+    assert "extracted" not in called
+
+
 def test_resume_extract_no_chunks_is_400(monkeypatch):
     monkeypatch.setattr(
         dashboard_routes,
@@ -258,6 +304,12 @@ def test_artifacts_lists_docs_with_counts_and_in_graph_flag(monkeypatch, tmp_pat
     }]
 
 
+def test_artifacts_rejects_traversal_domain(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    response = _client().get("/api/artifacts?domain=..")
+    assert response.status_code == 400
+
+
 def test_artifact_bundle_downloads_zip(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
     doc_dir = _write_doc_kg_dir(tmp_path, "general", "doc1", "doc1.pdf")
@@ -274,9 +326,24 @@ def test_artifact_bundle_404_when_missing(monkeypatch, tmp_path):
     assert response.status_code == 404
 
 
+def test_artifact_bundle_rejects_traversal_domain(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    # ".." submitted as a URL-encoded path segment (%2e%2e) reaches the handler
+    # as domain=".." — a literal ".." in the request path gets normalized away
+    # before routing, so this is the realistic attack shape to test.
+    response = _client().get("/api/artifacts/%2e%2e/doc1/bundle")
+    assert response.status_code == 400
+
+
+def test_artifact_bundle_rejects_traversal_doc(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    response = _client().get("/api/artifacts/general/%2e%2e/bundle")
+    assert response.status_code == 400
+
+
 def test_artifact_import_writes_graph(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
-    monkeypatch.setattr(dashboard_routes, "write_to_graph", lambda doc_dir: True)
+    monkeypatch.setattr(dashboard_routes, "commit_to_graph", lambda doc_dir, domain: True)
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w") as zf:
         zf.writestr("document.json", json.dumps({"name": "doc1.pdf"}))
@@ -291,9 +358,33 @@ def test_artifact_import_writes_graph(monkeypatch, tmp_path):
     assert (tmp_path / "general" / "doc1" / "document.json").exists()
 
 
+def test_bundle_import_uses_commit_to_graph(monkeypatch, tmp_path):
+    seen = {}
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+
+    def fake_commit(doc_kg_dir, domain):
+        seen["domain"] = domain
+        return True
+
+    monkeypatch.setattr(dashboard_routes, "commit_to_graph", fake_commit)
+
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("document.json", json.dumps({"id": "d1", "name": "f.md"}))
+    buf.seek(0)
+
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "mydomain", "doc": "f"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+    assert response.status_code == 200
+    assert seen["domain"] == "mydomain"
+
+
 def test_artifact_import_write_failure_is_400(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
-    monkeypatch.setattr(dashboard_routes, "write_to_graph", lambda doc_dir: False)
+    monkeypatch.setattr(dashboard_routes, "commit_to_graph", lambda doc_dir, domain: False)
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w") as zf:
         zf.writestr("document.json", "{}")
@@ -331,6 +422,80 @@ def test_artifact_import_rejects_zip_slip(monkeypatch, tmp_path):
     assert not (tmp_path / "evil.txt").exists()
 
 
+def test_artifact_import_rejects_traversal_domain(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "commit_to_graph",
+        lambda doc_dir, domain: called.setdefault("called", True) or True,
+    )
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as zf:
+        zf.writestr("document.json", json.dumps({"name": "doc1.pdf"}))
+    buf.seek(0)
+    response = _client().post(
+        "/api/artifacts/import",
+        data={"domain": "..", "doc": "doc1"},
+        files={"file": ("bundle.zip", buf, "application/zip")},
+    )
+    assert response.status_code == 400
+    assert "called" not in called
+    assert not (tmp_path.parent / "doc1" / "document.json").exists()
+
+
+def test_commit_artifact_endpoint(monkeypatch, tmp_path):
+    from artmind.webui import dashboard_routes
+
+    domain_dir = tmp_path / "d" / "mydoc"
+    domain_dir.mkdir(parents=True)
+    (domain_dir / "document.json").write_text('{"id":"d1","name":"f.md"}', encoding="utf-8")
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+
+    called = {}
+    monkeypatch.setattr(dashboard_routes, "commit_to_graph",
+                        lambda p, dom: called.setdefault("dom", dom) or True, raising=False)
+
+    resp = _client().post("/api/artifacts/d/mydoc/write-to-graph")
+    assert resp.status_code == 200
+    assert resp.json() == {"domain": "d", "doc": "mydoc", "written": True}
+    assert called["dom"] == "d"
+
+
+def test_commit_artifact_missing_returns_404(monkeypatch, tmp_path):
+    from artmind.webui import dashboard_routes
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    resp = _client().post("/api/artifacts/d/nope/write-to-graph")
+    assert resp.status_code == 404
+
+
+def test_commit_artifact_rejects_traversal_domain(monkeypatch, tmp_path):
+    from artmind.webui import dashboard_routes
+
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "commit_to_graph",
+        lambda p, dom: called.setdefault("called", True) or True, raising=False,
+    )
+    resp = _client().post("/api/artifacts/%2e%2e/mydoc/write-to-graph")
+    assert resp.status_code == 400
+    assert "called" not in called
+
+
+def test_commit_artifact_rejects_traversal_doc(monkeypatch, tmp_path):
+    from artmind.webui import dashboard_routes
+
+    monkeypatch.setattr(dashboard_routes, "KG_DIR", tmp_path)
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "commit_to_graph",
+        lambda p, dom: called.setdefault("called", True) or True, raising=False,
+    )
+    resp = _client().post("/api/artifacts/d/%2e%2e/write-to-graph")
+    assert resp.status_code == 400
+    assert "called" not in called
+
+
 def test_artifacts_pull_success(monkeypatch):
     monkeypatch.setattr(
         dashboard_routes,
@@ -355,6 +520,20 @@ def test_artifacts_pull_failure_is_400(monkeypatch):
         json={"repo": "git@github.com:acme/kg.git", "repoPath": "data/kg/general", "domain": "general"},
     )
     assert response.status_code == 400
+
+
+def test_artifacts_pull_rejects_traversal_domain(monkeypatch, tmp_path):
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "pull_kg_fn",
+        lambda repo, repo_path, domain: called.setdefault("called", True) or {},
+    )
+    response = _client().post(
+        "/api/artifacts/pull",
+        json={"repo": "git@github.com:acme/kg.git", "repoPath": "data/kg/general", "domain": ".."},
+    )
+    assert response.status_code == 400
+    assert "called" not in called
 
 
 def test_list_snapshots_empty_when_dir_missing(monkeypatch, tmp_path):

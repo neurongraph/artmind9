@@ -94,3 +94,89 @@ class TestIngestSyncDomainPrompt:
             result = runner.invoke(cli, ["ingest", "sync", str(sample_file)])
         mock_prompt.assert_called_once()
         assert result.exit_code == 0
+
+
+# ── --stage-only ──────────────────────────────────────────────────────────────
+
+def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
+    from click.testing import CliRunner
+    import artmind.cli as cli
+
+    seen = {}
+    monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: {"status": "ok"})
+
+    def fake_kg(result, domain, tm, em, cs, stage_only=False):
+        seen["stage_only"] = stage_only
+        return True
+
+    monkeypatch.setattr(cli, "ingest_to_kg", fake_kg)
+    monkeypatch.setattr(cli, "load_env", lambda: {})
+    monkeypatch.setattr(cli, "resolve_llm_model", lambda env: "m")
+
+    f = tmp_path / "a.txt"
+    f.write_text("x")
+    result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "d", "--stage-only"])
+    assert result.exit_code == 0
+    assert seen["stage_only"] is True
+
+
+def test_ingest_sync_default_stage_only_false(monkeypatch, tmp_path):
+    from click.testing import CliRunner
+    import artmind.cli as cli
+
+    seen = {}
+    monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: {"status": "ok"})
+
+    def fake_kg(result, domain, tm, em, cs, stage_only=False):
+        seen["stage_only"] = stage_only
+        return True
+
+    monkeypatch.setattr(cli, "ingest_to_kg", fake_kg)
+    monkeypatch.setattr(cli, "load_env", lambda: {})
+    monkeypatch.setattr(cli, "resolve_llm_model", lambda env: "m")
+
+    f = tmp_path / "a.txt"
+    f.write_text("x")
+    result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "d"])
+    assert result.exit_code == 0
+    assert seen["stage_only"] is False
+
+
+def test_ingest_async_stage_only_passes_flag(monkeypatch, tmp_path):
+    from click.testing import CliRunner
+    import artmind.cli as cli
+
+    seen = {}
+
+    def fake_create_job(batch_files, domain="general", force=False, stage_only=False):
+        seen["stage_only"] = stage_only
+        return "job-123"
+
+    monkeypatch.setattr(cli, "_create_job", fake_create_job)
+    monkeypatch.setattr(cli, "_ensure_worker_running", lambda: None)
+
+    f = tmp_path / "a.txt"
+    f.write_text("x")
+    result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "d", "--stage-only"])
+    assert result.exit_code == 0
+    assert seen["stage_only"] is True
+
+
+def test_ingest_async_default_stage_only_false(monkeypatch, tmp_path):
+    from click.testing import CliRunner
+    import artmind.cli as cli
+
+    seen = {}
+
+    def fake_create_job(batch_files, domain="general", force=False, stage_only=False):
+        seen["stage_only"] = stage_only
+        return "job-123"
+
+    monkeypatch.setattr(cli, "_create_job", fake_create_job)
+    monkeypatch.setattr(cli, "_ensure_worker_running", lambda: None)
+
+    f = tmp_path / "a.txt"
+    f.write_text("x")
+    result = CliRunner().invoke(cli.ingest_async, [str(f), "--domain", "d"])
+    assert result.exit_code == 0
+    assert seen["stage_only"] is False

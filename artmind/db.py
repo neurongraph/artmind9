@@ -31,7 +31,8 @@ def _init_db() -> None:
             error_message    TEXT,
             results_json     TEXT,
             domain           TEXT DEFAULT 'general',
-            force            INTEGER DEFAULT 0
+            force            INTEGER DEFAULT 0,
+            stage_only       INTEGER DEFAULT 0
         )
     """)
     cursor.execute("""
@@ -89,6 +90,8 @@ def _init_db() -> None:
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_jobs)")}
     if "force" not in existing:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN force INTEGER DEFAULT 0")
+    if "stage_only" not in existing:
+        cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN stage_only INTEGER DEFAULT 0")
 
     # Drop the legacy UNIQUE(sha256) constraint on documents so the same content
     # can be force-ingested as an independent document (see --force).

@@ -19,7 +19,7 @@ from pydantic import BaseModel, Field
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
 from artmind.graph_snapshot import export_graph, import_graph
-from artmind.ingest import _build_file_result_from_db, embed_entities_backfill, extract_kg, write_to_graph
+from artmind.ingest import _build_file_result_from_db, commit_to_graph, embed_entities_backfill, extract_kg
 from artmind.jobs import (
     _create_job,
     _fetch_active_jobs,
@@ -89,6 +89,19 @@ def _json_len(path: Path) -> int:
         return 0
 
 
+def _validate_artifact_segment(value: str) -> None:
+    """Reject a domain/doc value that isn't a single, safe filesystem path segment.
+
+    Used wherever a route builds a filesystem path as `KG_DIR / domain [/ doc]`
+    from request input. FastAPI's default path converter only forbids literal
+    `/` in a path parameter — it still accepts values like `".."` — and query/
+    form fields have no such restriction at all, so this must be checked
+    explicitly before the value touches a path.
+    """
+    if not value or "/" in value or "\\" in value or value in (".", ".."):
+        raise HTTPException(status_code=400, detail="invalid domain/doc value")
+
+
 def _safe_snapshot_path(name: str) -> Path:
     if not name or "/" in name or "\\" in name or name in (".", ".."):
         raise HTTPException(status_code=400, detail="Invalid snapshot name")
@@ -142,6 +155,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
 
     @app.post("/api/ingest")
     async def api_ingest(payload: IngestRequest):
+        _validate_artifact_segment(payload.domain)
         path = Path(payload.path)
         if not path.exists():
             raise HTTPException(status_code=400, detail=f"Path not found: {payload.path}")
@@ -172,6 +186,8 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
 
     @app.post("/api/documents/{doc}/resume-extract")
     async def api_resume_extract(doc: str, payload: ResumeExtractRequest):
+        _validate_artifact_segment(doc)
+        _validate_artifact_segment(payload.domain)
         file_result = _build_file_result_from_db(doc, payload.domain)
         if file_result is None:
             raise HTTPException(
@@ -193,6 +209,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
 
     @app.get("/api/artifacts")
     async def api_artifacts(domain: str):
+        _validate_artifact_segment(domain)
         domain_dir = KG_DIR / domain
         if not domain_dir.exists():
             return []
@@ -228,6 +245,8 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
 
     @app.get("/api/artifacts/{domain}/{doc}/bundle")
     async def api_artifact_bundle(domain: str, doc: str):
+        _validate_artifact_segment(domain)
+        _validate_artifact_segment(doc)
         doc_dir = KG_DIR / domain / doc
         if not doc_dir.is_dir():
             raise HTTPException(status_code=404, detail=f"KG folder not found: {domain}/{doc}")
@@ -245,6 +264,8 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
 
     @app.post("/api/artifacts/import")
     async def api_artifact_import(domain: str = Form(...), doc: str = Form(...), file: UploadFile = File(...)):
+        _validate_artifact_segment(domain)
+        _validate_artifact_segment(doc)
         dest_dir = KG_DIR / domain / doc
         dest_dir.mkdir(parents=True, exist_ok=True)
         content = await file.read()
@@ -258,13 +279,26 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
                 zf.extractall(dest_dir)
         except zipfile.BadZipFile:
             raise HTTPException(status_code=400, detail="Uploaded file is not a valid zip archive")
-        ok = await asyncio.to_thread(write_to_graph, dest_dir)
+        ok = await asyncio.to_thread(commit_to_graph, dest_dir, domain)
         if not ok:
             raise HTTPException(status_code=400, detail="write_to_graph failed — check logs for Neo4j errors")
         return {"domain": domain, "doc": doc, "written": True}
 
+    @app.post("/api/artifacts/{domain}/{doc}/write-to-graph")
+    async def api_artifact_commit(domain: str, doc: str):
+        _validate_artifact_segment(domain)
+        _validate_artifact_segment(doc)
+        doc_dir = KG_DIR / domain / doc
+        if not (doc_dir / "document.json").exists():
+            raise HTTPException(status_code=404, detail=f"Staged KG not found: {domain}/{doc}")
+        ok = await asyncio.to_thread(commit_to_graph, doc_dir, domain)
+        if not ok:
+            raise HTTPException(status_code=400, detail="commit_to_graph failed — check logs for Neo4j errors")
+        return {"domain": domain, "doc": doc, "written": True}
+
     @app.post("/api/artifacts/pull")
     async def api_artifacts_pull(payload: PullKgRequest):
+        _validate_artifact_segment(payload.domain)
         try:
             result = await asyncio.to_thread(pull_kg_fn, payload.repo, payload.repo_path, payload.domain)
         except RuntimeError as exc:
