@@ -6,11 +6,12 @@ from claude_agent_sdk import ClaudeSDKClient
 
 from artmind.webui.agent import EventMapper, agent_options
 from artmind.webui.backends.base import UIEvent
+from artmind.webui.profiles import AgentProfile, QA_PROFILE
 
 
 class ClaudeSDKBackend:
-    def __init__(self) -> None:
-        self._client = ClaudeSDKClient(agent_options())
+    def __init__(self, profile: AgentProfile = QA_PROFILE) -> None:
+        self._client = ClaudeSDKClient(agent_options(profile))
 
     async def connect(self) -> None:
         await self._client.connect()

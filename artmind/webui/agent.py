@@ -19,6 +19,7 @@ from claude_agent_sdk import (
     UserMessage,
 )
 
+from artmind.webui.profiles import AgentProfile, QA_PROFILE
 from paths import ARTMIND_HOME
 
 # The chat agent runs from the clean run folder (config + skills + schemas +
@@ -27,31 +28,21 @@ from paths import ARTMIND_HOME
 RUN_FOLDER = ARTMIND_HOME
 TRACE_CLIP = 600
 
-_SYSTEM_APPEND = """\
-You are the artmind assistant, an end-user interface to the artmind knowledge
-system. Users ask about knowledge stored in artmind domains. Route their
-requests through the artmind skills: artmind-query for questions,
-artmind-update for adding facts, artmind-refine for graph maintenance,
-artmind-ingestion-helper for ingesting documents. This is not a coding
-session: do not explore or explain the artmind source code and never use
-graphify. Answer conversationally; no raw JSON or command output unless asked."""
-
 
 def clip(value: Any, limit: int = TRACE_CLIP) -> str:
     text = value if isinstance(value, str) else json.dumps(value, default=str)
     return text if len(text) <= limit else f"{text[:limit]} … [{len(text)} chars total]"
 
 
-def agent_options() -> ClaudeAgentOptions:
+def agent_options(profile: AgentProfile = QA_PROFILE) -> ClaudeAgentOptions:
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),
-        skills=[
-            "artmind-query",
-            "artmind-update",
-            "artmind-refine",
-            "artmind-ingestion-helper",
-        ],
-        system_prompt={"type": "preset", "preset": "claude_code", "append": _SYSTEM_APPEND},
+        skills=list(profile.skills),
+        system_prompt={
+            "type": "preset",
+            "preset": "claude_code",
+            "append": profile.system_append,
+        },
         permission_mode="bypassPermissions",
         thinking={"type": "enabled", "budget_tokens": 8000, "display": "summarized"},
         include_partial_messages=True,
