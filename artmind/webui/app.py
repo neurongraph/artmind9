@@ -12,13 +12,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, field_validator
 
-from artmind.webui.backends import BACKEND_NAMES, DEFAULT_BACKEND
+from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND, backend_factory
 from artmind.webui.sessions import SessionRegistry
 
 logger = logging.getLogger(__name__)
 
 WEBUI_DIR = Path(__file__).resolve().parent
 DEFAULT_UI_PORT = 8378
+DEFAULT_ADMIN_UI_PORT = 8379
 SWEEP_INTERVAL_S = 60
 
 
@@ -97,3 +98,13 @@ def run_chat_ui(host: str = "127.0.0.1", port: int = DEFAULT_UI_PORT) -> None:
     import uvicorn
 
     uvicorn.run(create_app(), host=host, port=port, log_level="warning")
+
+
+def run_admin_ui(host: str = "127.0.0.1", port: int = DEFAULT_ADMIN_UI_PORT) -> None:
+    import uvicorn
+
+    app = create_app(
+        SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE)),
+        template_name="admin.html",
+    )
+    uvicorn.run(app, host=host, port=port, log_level="warning")

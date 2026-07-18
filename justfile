@@ -372,6 +372,10 @@ serve-stop:
 serve-ui: serve-start
     uv run artmind chat-ui
 
+# start the serve daemon (background) plus the admin web UI (foreground; Ctrl-C stops the UI only)
+serve-admin-ui: serve-start
+    uv run artmind admin-ui
+
 # ── artmind session ──────────────────────────────────────────────────────────
 
 # export Neo4j graph to a snapshot (end of session)

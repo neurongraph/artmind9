@@ -245,6 +245,25 @@ def chat_ui(host: str, port: int, acp_cmd: str | None) -> None:
     run_chat_ui(host=host, port=port)
 
 
+@cli.command("admin-ui")
+@click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
+@click.option("--port", default=8379, show_default=True, type=int, help="Port to bind.")
+@click.option(
+    "--acp-cmd",
+    default=None,
+    help="ACP agent command for the 'opencode (ACP)' backend "
+    "[default: $ARTMIND_ACP_AGENT_CMD or 'opencode acp'].",
+)
+def admin_ui(host: str, port: int, acp_cmd: str | None) -> None:
+    """Launch the artmind admin web UI (Claude Agent SDK or an ACP agent)."""
+    from artmind.webui.app import run_admin_ui
+    from artmind.webui.backends import set_acp_agent_cmd
+
+    set_acp_agent_cmd(acp_cmd)
+    click.echo(f"artmind admin UI on http://{host}:{port}")
+    run_admin_ui(host=host, port=port)
+
+
 # ── artmind domains ────────────────────────────────────────────────────────────
 
 
