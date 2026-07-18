@@ -19,8 +19,10 @@ works, configured via:
 
 import os
 import shlex
+from typing import Callable
 
 from artmind.webui.backends.base import AgentBackend, UIEvent
+from artmind.webui.profiles import ADMIN_PROFILE, QA_PROFILE, AgentProfile
 
 BACKEND_NAMES = ("claude-sdk", "acp")
 DEFAULT_BACKEND = "claude-sdk"
@@ -34,11 +36,17 @@ def set_acp_agent_cmd(cmd: str | None) -> None:
     _acp_cmd_override = shlex.split(cmd) if cmd else None
 
 
-def create_backend(name: str) -> AgentBackend:
+def create_backend(name: str, profile: AgentProfile = QA_PROFILE) -> AgentBackend:
+    """Build a backend for ``name`` wearing ``profile``'s persona + skills.
+
+    Both backends are profile-agnostic transport; the profile supplies the
+    skill scoping and system prompt (claude-sdk) or the ACP mode + preamble
+    (acp). ``ARTMIND_ACP_MODE`` still overrides the profile's mode when set.
+    """
     if name == "claude-sdk":
         from artmind.webui.backends.claude_sdk import ClaudeSDKBackend
 
-        return ClaudeSDKBackend()
+        return ClaudeSDKBackend(profile)
     if name == "acp":
         from artmind.webui.agent import RUN_FOLDER
         from artmind.webui.backends.acp import ACPBackend
@@ -50,9 +58,21 @@ def create_backend(name: str) -> AgentBackend:
             agent_cmd=agent_cmd,
             cwd=os.environ.get("ARTMIND_ACP_CWD", str(RUN_FOLDER)),
             prompt_preamble=os.environ.get("ARTMIND_ACP_PROMPT_PREAMBLE") == "1",
-            mode=os.environ.get("ARTMIND_ACP_MODE", "artmind") or None,
+            mode=os.environ.get("ARTMIND_ACP_MODE", profile.acp_mode) or None,
+            preamble_text=profile.system_append,
         )
     raise ValueError(f"unknown chat backend: {name!r}")
+
+
+def backend_factory(profile: AgentProfile = QA_PROFILE) -> Callable[[str], AgentBackend]:
+    """A ``SessionRegistry`` client_factory bound to ``profile``.
+
+    Lets each front-end app pick its persona once — ``create_app`` and the
+    registry stay profile-agnostic:
+
+        create_app(SessionRegistry(client_factory=backend_factory(ADMIN_PROFILE)))
+    """
+    return lambda name: create_backend(name, profile)
 
 
 __all__ = [
@@ -60,6 +80,10 @@ __all__ = [
     "UIEvent",
     "BACKEND_NAMES",
     "DEFAULT_BACKEND",
+    "AgentProfile",
+    "QA_PROFILE",
+    "ADMIN_PROFILE",
     "create_backend",
+    "backend_factory",
     "set_acp_agent_cmd",
 ]

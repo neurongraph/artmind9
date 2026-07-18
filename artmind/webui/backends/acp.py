@@ -16,9 +16,9 @@ import logging
 import time
 from typing import Any, AsyncIterator
 
-from artmind.webui.agent import _SYSTEM_APPEND
 from artmind.webui.backends.acp_events import ACPEventMapper
 from artmind.webui.backends.base import UIEvent
+from artmind.webui.profiles import QA_PROFILE
 
 logger = logging.getLogger(__name__)
 
@@ -35,12 +35,16 @@ class ACPBackend:
         cwd: str,
         prompt_preamble: bool = False,
         mode: str | None = None,
+        preamble_text: str | None = None,
         connect_timeout_s: float = CONNECT_TIMEOUT_S,
     ) -> None:
         self._agent_cmd = agent_cmd
         self._cwd = cwd
         self._prompt_preamble = prompt_preamble
         self._mode = mode
+        # Profile persona to prepend when ``prompt_preamble`` is set; falls back
+        # to the Q&A persona to preserve the pre-profile default behaviour.
+        self._preamble_text = preamble_text or QA_PROFILE.system_append
         self._connect_timeout_s = connect_timeout_s
         self._proc: asyncio.subprocess.Process | None = None
         self._read_task: asyncio.Task | None = None
@@ -98,7 +102,7 @@ class ACPBackend:
 
     async def query(self, prompt: str) -> None:
         if self._prompt_preamble and not self._first_prompt_sent:
-            prompt = f"{_SYSTEM_APPEND}\n\n{prompt}"
+            prompt = f"{self._preamble_text}\n\n{prompt}"
         self._first_prompt_sent = True
         self._mapper = ACPEventMapper()
         started_at = time.monotonic()
