@@ -3,6 +3,7 @@
 | Field | Value |
 |---|---|
 | Document ID | IRS-2026-002 |
+| Version | 1.0 |
 | Effective Date | 2026-02-01 |
 | Status | Superseded |
 | Supersedes | [[interest_rate_schedule_2026]] |

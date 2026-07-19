@@ -11,6 +11,8 @@
 | Owner | Chief Information Security Officer |
 | Department | Technology |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Technology, Operations, Executive, Board |
 | Related Documents | [[policy_information_security]], [[policy_operational_risk]], [[escalation_matrix]] |

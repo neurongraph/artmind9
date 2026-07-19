@@ -11,6 +11,8 @@
 | Owner | Head of Operations |
 | Department | Operations, Payments |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Operations Staff, Branch Staff, Customer Service |
 | Related Documents | [[sop_standing_orders]], [[business_ontology]], [[systems]] |

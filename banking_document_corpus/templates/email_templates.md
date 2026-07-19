@@ -11,6 +11,8 @@
 | Owner | Head of Marketing |
 | Department | Marketing, Customer Service |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Customer Service Staff, Support Team |
 | Related Documents | [[call_centre_script]], [[policy_complaints]], [[sop_account_opening]] |

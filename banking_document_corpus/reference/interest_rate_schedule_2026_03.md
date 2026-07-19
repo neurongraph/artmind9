@@ -3,9 +3,11 @@
 | Field | Value |
 |---|---|
 | Document ID | IRS-2026-003 |
+| Version | 1.0 |
 | Effective Date | 2026-03-01 |
 | Status | Active Historical Schedule |
 | Supersedes | [[interest_rate_schedule_2026_02]] |
+| Superseded By | None |
 | Owner | Head of Product Management |
 | Related Documents | [[interest_rate_schedule_2026_02]], [[interest_rate_schedule_2026]], [[smartsaver_terms_conditions]] |
 

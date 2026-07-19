@@ -11,6 +11,8 @@
 | Owner | Head of Compliance |
 | Department | Compliance |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Compliance, Legal, Audit |
 | Regulatory Reference | POCA 2002, AML Regulations, GDPR, FCA COBS |

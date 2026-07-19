@@ -11,6 +11,8 @@
 | Owner | Chief Technology Officer |
 | Department | Technology |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Technology Staff, Architects, Developers, Operations |
 | Related Documents | [[systems]], [[technology_context_diagram]], [[technology_api_catalogue]] |

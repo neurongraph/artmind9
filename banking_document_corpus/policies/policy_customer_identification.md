@@ -11,6 +11,8 @@
 | Owner | Head of Compliance |
 | Department | Compliance |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Branch Managers, Compliance, Risk |
 | Regulatory Reference | FCA COBS Part 10, Money Laundering Regulations 2017 |

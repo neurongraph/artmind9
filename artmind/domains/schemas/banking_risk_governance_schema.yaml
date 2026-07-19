@@ -1,6 +1,17 @@
 name: banking_risk_governance
 description: Risk management, internal audit, board governance, and regulatory compliance tracking documents for FirstUK Bank — covering audit reports, risk appetite statements, board committee minutes, governance frameworks, compliance bulletins, and regulatory circulars.
 
+temporal:
+  document:
+    valid_from: [Effective Date, Issued Date, Reporting Date, Meeting Date, Last Updated]
+    version: [Version]
+  entities:
+    AUDIT_FINDING: { valid_from: issued_date }
+    GOVERNANCE_DECISION: { event_at: decision_date }
+    ACTION_ITEM: { event_at: deadline }
+    REGULATORY_UPDATE: { valid_from: effective_date }
+  relative_anchor: document.valid_from
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking risk and governance document analysis.
   Your job is to read a passage from a FirstUK Bank risk, audit, or governance document and identify all significant entities.

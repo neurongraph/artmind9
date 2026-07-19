@@ -9,6 +9,7 @@
 | Effective Date | 2026-06-01 |
 | Review Date | 2027-06-01 |
 | Supersedes | Version 2.0 (Effective Date 2026-01-15) |
+| Superseded By | None |
 | Owner | Head of Customer Service |
 | Department | Customer Service |
 | Status | Active |

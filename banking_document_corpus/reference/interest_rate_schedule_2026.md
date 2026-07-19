@@ -11,6 +11,8 @@
 | Owner | Head of Product Management |
 | Department | Product Management |
 | Status | Active & Updated Monthly |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Public (Customer-Facing) |
 | Audience | Customers, Staff, Media |
 | Related Documents | [[product_pricing_guide_2026]], [[products]], [[smartsaver_terms_conditions]] |

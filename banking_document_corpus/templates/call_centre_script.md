@@ -11,6 +11,8 @@
 | Owner | Head of Customer Service |
 | Department | Customer Service, Call Centre |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Call Centre Staff, Customer Service Team |
 | Related Documents | [[products]], [[departments]], [[policy_complaints]], [[sop_account_opening]] |

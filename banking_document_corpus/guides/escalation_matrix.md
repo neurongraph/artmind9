@@ -11,6 +11,8 @@
 | Owner | Chief Operating Officer |
 | Department | Operations |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Management, Executives |
 | Related Documents | [[departments]], [[policy_complaints]], [[policy_operational_risk]] |

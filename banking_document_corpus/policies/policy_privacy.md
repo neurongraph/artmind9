@@ -11,6 +11,8 @@
 | Owner | Data Protection Officer |
 | Department | Compliance |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal & Public |
 | Audience | All Staff, Customers |
 | Regulatory Reference | GDPR (EU 2016/679), Data Protection Act 2018 |

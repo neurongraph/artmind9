@@ -11,6 +11,8 @@
 | Owner | Head of Financial Crime |
 | Department | Financial Crime |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Compliance, Risk, Retail Banking |
 | Regulatory Reference | Money Laundering Regulations 2017, POCA 2002, Terrorism Act 2000, FCA COBS Part 10 |

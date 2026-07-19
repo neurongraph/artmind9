@@ -11,6 +11,8 @@
 | Owner | Head of Risk |
 | Department | Risk, Compliance |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Risk Team, Department Heads, Project Managers |
 | Related Documents | [[risk_appetite_statement_2026]], [[policy_operational_risk]], [[escalation_matrix]], [[incident_response_plan]] |

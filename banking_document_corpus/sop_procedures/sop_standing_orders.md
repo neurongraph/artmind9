@@ -11,6 +11,8 @@
 | Owner | Head of Operations |
 | Department | Operations, Retail Banking |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Operations Staff, Branch Staff, Customer Service |
 | Related Documents | [[sop_account_opening]], [[business_ontology]], [[systems]] |

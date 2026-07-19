@@ -11,6 +11,8 @@
 | Owner | Head of Financial Crime |
 | Department | Financial Crime |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Financial Crime Staff, Compliance, Branch Staff |
 | Related Documents | [[policy_aml]], [[policy_customer_identification]], [[business_ontology]] |

@@ -11,6 +11,8 @@
 | Owner | Head of Risk |
 | Department | Risk, Lending |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Mortgage Underwriters, Risk Analysts, Lending Team |
 | Related Documents | [[risk_appetite_statement_2026]], [[policy_operational_risk]], [[risk_assessment_template]], [[escalation_matrix]] |

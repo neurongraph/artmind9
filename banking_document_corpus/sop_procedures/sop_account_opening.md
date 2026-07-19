@@ -11,6 +11,8 @@
 | Owner | Head of Retail Banking |
 | Department | Retail Banking, Operations |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Branch Staff, Customer Service, Operations, Compliance |
 | Related Documents | [[policy_customer_identification]], [[policy_aml]], [[business_ontology]] |

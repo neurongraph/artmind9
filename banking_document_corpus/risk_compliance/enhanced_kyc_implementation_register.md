@@ -3,9 +3,12 @@
 | Field | Value |
 |---|---|
 | Document ID | KYC-IMPL-2026-01 |
+| Version | 1.0 |
 | Reporting Date | 2026-03-05 |
 | Owner | Head of Compliance |
 | Status | Implemented — monitoring ongoing |
+| Supersedes | None |
+| Superseded By | None |
 | Related Documents | [[regulatory_circulars_2026]], [[policy_customer_identification_v2]], [[sop_account_opening_v3]], [[enhanced_kyc_training_completion_2026]] |
 
 | Requirement | Evidence | Owner | Completed | Assurance |

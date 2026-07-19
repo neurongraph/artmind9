@@ -11,6 +11,8 @@
 | Owner | Head of Marketing |
 | Department | Marketing, Customer Service |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Customer-Facing |
 | Audience | New Customers |
 | Related Documents | [[products]], [[website_faq]], [[product_faq]] |

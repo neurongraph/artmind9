@@ -1,6 +1,15 @@
 name: banking_products
 description: Product terms & conditions, pricing guides, and customer FAQs for FirstUK Bank retail banking products — covering savings accounts, current accounts, mortgages, and debit cards with their interest rates, fees, eligibility rules, and contractual provisions.
 
+temporal:
+  document:
+    valid_from: [Effective Date, Issued Date, Last Updated]
+    version: [Version]
+  entities:
+    PRODUCT: { valid_from: effective_date }
+    INTEREST_RATE_TIER: { valid_from: effective_date }
+  relative_anchor: document.valid_from
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
   Your job is to read a passage from a FirstUK Bank product document and identify all significant entities.

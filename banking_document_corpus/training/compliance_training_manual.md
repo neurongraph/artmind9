@@ -11,6 +11,8 @@
 | Owner | Head of Compliance |
 | Department | Compliance, Risk, Legal |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal (Mandatory) |
 | Audience | All Staff |
 | Related Documents | [[policy_aml]], [[policy_customer_identification]], [[policy_privacy]], [[policy_fraud]], [[incident_response_plan]] |

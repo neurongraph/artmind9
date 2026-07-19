@@ -11,6 +11,8 @@
 | Owner | Chief Operating Officer |
 | Department | Operations |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Department Heads |
 | Related Documents | [[organisation_model]], [[systems]] |

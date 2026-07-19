@@ -11,6 +11,8 @@
 | Owner | Enterprise Architect |
 | Department | Technology |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Architects, Data Engineers, Domain Experts |
 | Related Documents | [[products]], [[systems]], [[departments]] |

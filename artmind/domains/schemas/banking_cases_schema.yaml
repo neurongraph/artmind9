@@ -1,0 +1,18 @@
+name: banking_cases
+description: Banking incident and customer case records, including investigations, complaints, retention decisions, impact assessments, and remediation.
+
+temporal:
+  document:
+    valid_from: [Opened, Received, Decision Date, Reporting Date, Effective Date]
+    version: [Version]
+  entities:
+    CASE: { valid_from: opened }
+    INCIDENT_EVENT: { event_at: date_or_time }
+    CUSTOMER_COMPLAINT: { event_at: received_date }
+    RETENTION_DECISION: { event_at: decision_date }
+    IMPACT_ASSESSMENT: { event_at: assessment_date }
+    REMEDIATION_ACTION: { event_at: due_date }
+  relative_anchor: document.valid_from
+
+entities_prompt: |
+  Extract CASE, INCIDENT_EVENT, CUSTOMER_COMPLAINT, RETENTION_DECISION, IMPACT_ASSESSMENT, and REMEDIATION_ACTION entities. Preserve attributed conflicting counts and their source; never infer a final count when reconciliation is pending.

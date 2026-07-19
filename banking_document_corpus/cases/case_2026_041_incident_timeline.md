@@ -4,9 +4,12 @@
 |---|---|
 | Case ID | CASE-2026-041 |
 | Document ID | CASE-041-TIMELINE |
+| Version | 1.0 |
 | Reporting Date | 2026-07-05 |
 | Owner | Incident Commander |
 | Status | Open — reconciliation pending |
+| Supersedes | None |
+| Superseded By | None |
 | Related Documents | [[case_2026_041_overview]], [[case_2026_041_complaint_record]], [[case_2026_041_retention_decision]], [[incident_response_plan]], [[technology_production_runbook]] |
 
 | Time | Event |

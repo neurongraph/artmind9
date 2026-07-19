@@ -4,9 +4,12 @@
 |---|---|
 | Case ID | CASE-2026-041 |
 | Document ID | CASE-041-OVERVIEW |
+| Version | 1.0 |
 | Opened | 2026-07-02 |
 | Owner | Incident Commander |
 | Status | Open — forensic reconciliation pending |
+| Supersedes | None |
+| Superseded By | None |
 | Related Documents | [[case_2026_041_incident_timeline]], [[case_2026_041_complaint_record]], [[case_2026_041_retention_decision]], [[incident_response_plan]], [[policy_privacy]], [[policy_retention]] |
 
 A customer-document export configuration defect exposed statement PDFs outside the intended account scope. The service was disabled and logs preserved.

@@ -9,6 +9,7 @@
 | Effective Date | 2026-03-01 |
 | Review Date | 2027-03-01 |
 | Supersedes | Version 2.1, [[sop_account_opening]] |
+| Superseded By | None |
 | Owner | Head of Retail Banking |
 | Status | Active |
 | Audience | Branch, Digital Onboarding, Operations, Compliance |

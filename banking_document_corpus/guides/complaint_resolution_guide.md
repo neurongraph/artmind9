@@ -11,6 +11,8 @@
 | Owner | Head of Customer Service |
 | Department | Customer Service, Compliance |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Customer-Facing |
 | Audience | Customers, Support Staff |
 | Related Documents | [[policy_complaints]], [[escalation_matrix]], [[sop_exception_handling]] |

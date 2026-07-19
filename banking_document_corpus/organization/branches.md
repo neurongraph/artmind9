@@ -11,6 +11,8 @@
 | Owner | Director of Retail Banking |
 | Department | Retail Banking |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Staff, Customers, Regulators |
 | Related Documents | [[organisation_model]], [[departments]] |

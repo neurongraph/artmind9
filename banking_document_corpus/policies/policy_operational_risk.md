@@ -11,6 +11,8 @@
 | Owner | Chief Risk Officer |
 | Department | Risk |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Risk, Operations, All Staff, Board |
 | Regulatory Reference | PRA Rulebook (Pillar 2), Basel III Operational Risk |

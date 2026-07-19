@@ -1,6 +1,14 @@
 name: banking_communications
 description: Staff training materials and customer communication templates for FirstUK Bank — covering mandatory compliance training modules (AML, KYC, GDPR, fraud), product training, branch operations training, email/SMS templates, and call centre scripts.
 
+temporal:
+  document:
+    valid_from: [Effective Date, Issued Date, Reporting Date, Last Updated]
+    version: [Version]
+  entities:
+    COMMUNICATION_TEMPLATE: { valid_from: effective_date }
+  relative_anchor: document.valid_from
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking communications and training document analysis.
   Your job is to read a passage from a FirstUK Bank training manual or communication template document and identify all significant entities.

@@ -11,6 +11,8 @@
 | Owner | Director of Product Management |
 | Department | Product Management |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Sales Staff, Customer Service, Risk, Compliance, Technology |
 | Related Documents | [[organisation_model]], [[business_ontology]], [[systems]] |

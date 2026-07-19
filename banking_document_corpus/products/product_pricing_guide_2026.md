@@ -11,6 +11,8 @@
 | Owner | Head of Product Management |
 | Department | Product Management |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal & Public (Customer-Facing) |
 | Audience | Staff, Customers, Sales, Marketing |
 | Related Documents | [[products]], [[interest_rate_schedule_2026]], [[business_ontology]] |

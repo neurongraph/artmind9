@@ -3,9 +3,12 @@
 | Field | Value |
 |---|---|
 | Document ID | OB-OUTCOME-2026-07 |
+| Version | 1.0 |
 | Reporting Date | 2026-07-10 |
 | Owner | Chief Technology Officer |
 | Status | Core delivery complete; limited exception under remediation |
+| Supersedes | None |
+| Superseded By | None |
 | Regulatory Reference | FCA-OP-2026-01 |
 | Related Documents | [[regulatory_circulars_2026]], [[systems]], [[policy_privacy]], [[board_risk_committee_minutes_q1_2026]] |
 

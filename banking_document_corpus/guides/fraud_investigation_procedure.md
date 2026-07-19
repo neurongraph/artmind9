@@ -11,6 +11,8 @@
 | Owner | Head of Financial Crime |
 | Department | Financial Crime, Risk, Legal |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Confidential |
 | Audience | Financial Crime Team, Risk, Compliance, Legal |
 | Related Documents | [[policy_fraud]], [[incident_response_plan]], [[escalation_matrix]], [[sop_exception_handling]], [[policy_aml]] |

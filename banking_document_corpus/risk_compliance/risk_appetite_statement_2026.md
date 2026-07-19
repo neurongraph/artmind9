@@ -11,6 +11,8 @@
 | Owner | Chief Risk Officer |
 | Department | Risk |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Board, Executive, All Staff, Regulators |
 | Related Documents | [[policy_operational_risk]], [[board_risk_committee_charter]] |

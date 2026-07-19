@@ -11,6 +11,8 @@
 | Owner | Head of Compliance |
 | Department | Compliance |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff |
 | Related Documents | [[regulatory_circulars_2026]], [[policy_customer_identification]], [[policy_aml]] |

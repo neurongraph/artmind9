@@ -11,6 +11,8 @@
 | Owner | Head of Financial Crime |
 | Department | Financial Crime |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Financial Crime, Risk, Retail Banking |
 | Regulatory Reference | FCA COBS, Payment Services Regulations 2017 |

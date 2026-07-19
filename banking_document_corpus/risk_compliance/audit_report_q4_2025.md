@@ -12,6 +12,8 @@
 | Owner | Head of Internal Audit |
 | Department | Internal Audit |
 | Status | Final |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Confidential (Board, Audit Committee) |
 | Audience | Board Audit Committee, Management, Risk Committee |
 | Related Documents | [[internal_audit_charter]], [[board_risk_committee_charter]], [[escalation_matrix]], [[incident_response_plan]] |

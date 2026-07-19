@@ -11,6 +11,8 @@
 | Owner | Board of Directors |
 | Department | Board Office |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Board, Executive, Risk Committee |
 | Related Documents | [[organisation_model]], [[departments]] |

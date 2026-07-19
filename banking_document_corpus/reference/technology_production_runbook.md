@@ -11,6 +11,8 @@
 | Owner | Infrastructure Manager |
 | Department | Technology/Operations |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Operations Team, On-Call Engineers, Support Staff |
 | Related Documents | [[technology_application_landscape]], [[incident_response_plan]], [[systems]] |

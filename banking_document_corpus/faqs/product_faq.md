@@ -11,6 +11,8 @@
 | Owner | Head of Customer Service |
 | Department | Customer Service |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Public (Customer-Facing) |
 | Audience | Customers, Website, Call Center |
 | Related Documents | [[products]], [[smartsaver_terms_conditions]], [[product_pricing_guide_2026]] |

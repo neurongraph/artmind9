@@ -11,6 +11,8 @@
 | Owner | Chief Information Security Officer |
 | Department | Technology |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Technology, Risk, Board |
 | Regulatory Reference | FCA COBS Part 5, PRA Operational Resilience |

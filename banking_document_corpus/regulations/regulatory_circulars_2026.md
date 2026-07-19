@@ -11,6 +11,8 @@
 | Owner | Head of Compliance |
 | Department | Compliance |
 | Status | Active (Updated Quarterly) |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Compliance, Risk, Executive, All Staff |
 | Related Documents | [[policy_customer_identification]], [[policy_aml]], [[policy_privacy]] |

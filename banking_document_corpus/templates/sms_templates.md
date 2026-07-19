@@ -11,6 +11,8 @@
 | Owner | Head of Marketing |
 | Department | Marketing, Customer Service |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Customer Service Staff, Operations |
 | Related Documents | [[email_templates]], [[sop_account_opening]] |

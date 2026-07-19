@@ -11,6 +11,8 @@
 | Owner | Head of Customer Service |
 | Department | Customer Service |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | All Staff, Customers, FCA |
 | Regulatory Reference | FCA COBS Part 2 (Complaints), FCA Handbook |

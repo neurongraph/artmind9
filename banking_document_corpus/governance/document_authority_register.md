@@ -10,6 +10,8 @@
 | Review Date | 2027-07-01 |
 | Owner | Company Secretary |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Audience | All Staff, Compliance, Risk, Internal Audit |
 | Related Documents | [[governance_framework_overview]], [[regulatory_circulars_2026]], [[policy_customer_identification_v2]], [[sop_account_opening_v3]] |
 

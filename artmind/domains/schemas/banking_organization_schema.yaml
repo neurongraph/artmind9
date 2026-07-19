@@ -1,6 +1,14 @@
 name: banking_organization
 description: Organizational structure, business ontology, technology systems, and governance model documents for FirstUK Bank — covering departments, executive roles, core banking applications, ontology entity definitions, and operational metrics.
 
+temporal:
+  document:
+    valid_from: [Effective Date, Issued Date, Reporting Date, Last Updated]
+    version: [Version]
+  entities:
+    SYSTEM: { valid_from: effective_date }
+  relative_anchor: document.valid_from
+
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
   Your job is to read a passage from a FirstUK Bank internal document and identify all significant entities.

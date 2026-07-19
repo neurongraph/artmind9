@@ -11,6 +11,8 @@
 | Owner | Chief Operating Officer |
 | Department | Enterprise Architecture |
 | Status | Active |
+| Supersedes | None |
+| Superseded By | None |
 | Classification | Internal |
 | Audience | Executive, Department Heads, Staff |
 | Related Documents | [[departments]], [[systems]], [[business_ontology]] |
