@@ -16,7 +16,8 @@ This corpus contains comprehensive banking documentation organized by type for e
 10. [Regulations](#regulations) - Regulatory requirements and circulars
 11. [Reference](#reference) - Reference materials and runbooks
 12. [FAQs](#faqs) - Frequently asked questions
-13. [Project Status](#project-status) - Project planning and status documents
+13. [Cases](#cases) - Linked incident, complaint, and retention case records
+14. [Project Status](#project-status) - Project planning and status documents
 
 ---
 
@@ -27,6 +28,7 @@ Core organizational policies governing bank operations and compliance.
 - **[policy_aml.md](policies/policy_aml.md)** - Anti-Money Laundering Policy
 - **[policy_complaints.md](policies/policy_complaints.md)** - Customer Complaints Policy
 - **[policy_customer_identification.md](policies/policy_customer_identification.md)** - Customer Identification and KYC Policy
+- **[policy_customer_identification_v2.md](policies/policy_customer_identification_v2.md)** - Enhanced Customer Identification and KYC Policy (effective 2026-03-01)
 - **[policy_fraud.md](policies/policy_fraud.md)** - Fraud Prevention and Detection Policy
 - **[policy_information_security.md](policies/policy_information_security.md)** - Information Security Policy
 - **[policy_operational_risk.md](policies/policy_operational_risk.md)** - Operational Risk Management Policy
@@ -39,6 +41,7 @@ Standard Operating Procedures for key operational processes.
 
 - **[sop_account_closure.md](sop_procedures/sop_account_closure.md)** - Account Closure Procedure
 - **[sop_account_opening.md](sop_procedures/sop_account_opening.md)** - Account Opening Procedure
+- **[sop_account_opening_v3.md](sop_procedures/sop_account_opening_v3.md)** - Enhanced-KYC Account Opening Procedure (effective 2026-03-01)
 - **[sop_aml_screening.md](sop_procedures/sop_aml_screening.md)** - AML Screening Process
 - **[sop_change_of_address.md](sop_procedures/sop_change_of_address.md)** - Change of Address Procedure
 - **[sop_direct_debits.md](sop_procedures/sop_direct_debits.md)** - Direct Debits Processing
@@ -60,6 +63,7 @@ Risk management, compliance, and audit documentation.
 
 - **[audit_report_q4_2025.md](risk_compliance/audit_report_q4_2025.md)** - Q4 2025 Audit Report
 - **[compliance_bulletins_2026.md](risk_compliance/compliance_bulletins_2026.md)** - Compliance Bulletins 2026
+- **[enhanced_kyc_implementation_register.md](risk_compliance/enhanced_kyc_implementation_register.md)** - Enhanced KYC Implementation Register
 - **[compliance_training_manual.md](training/compliance_training_manual.md)** - Compliance Training Manual
 - **[credit_risk_assessment_guide.md](risk_compliance/credit_risk_assessment_guide.md)** - Credit Risk Assessment Guide
 - **[risk_appetite_statement_2026.md](risk_compliance/risk_appetite_statement_2026.md)** - Risk Appetite Statement 2026
@@ -72,6 +76,7 @@ Governance frameworks and committee documentation.
 - **[board_risk_committee_charter.md](governance/board_risk_committee_charter.md)** - Board Risk Committee Charter
 - **[board_risk_committee_minutes_q1_2026.md](governance/board_risk_committee_minutes_q1_2026.md)** - Q1 2026 Risk Committee Minutes
 - **[governance_framework_overview.md](governance/governance_framework_overview.md)** - Governance Framework Overview
+- **[document_authority_register.md](governance/document_authority_register.md)** - Document Authority and Status Register
 - **[internal_audit_charter.md](governance/internal_audit_charter.md)** - Internal Audit Charter
 
 ## Training
@@ -81,6 +86,7 @@ Training manuals and educational materials.
 - **[branch_operations_training.md](training/branch_operations_training.md)** - Branch Operations Training
 - **[compliance_training_manual.md](training/compliance_training_manual.md)** - Compliance Training Manual
 - **[product_training_manual.md](training/product_training_manual.md)** - Product Training Manual
+- **[enhanced_kyc_training_completion_2026.md](training/enhanced_kyc_training_completion_2026.md)** - Enhanced KYC Training Completion Record
 
 ## Guides
 
@@ -123,8 +129,11 @@ Reference materials, runbooks, and background information.
 
 - **[incident_response_plan.md](reference/incident_response_plan.md)** - Incident Response Plan
 - **[interest_rate_schedule_2026.md](reference/interest_rate_schedule_2026.md)** - Interest Rate Schedule 2026
+- **[interest_rate_schedule_2026_02.md](reference/interest_rate_schedule_2026_02.md)** - Interest Rate Schedule February 2026
+- **[interest_rate_schedule_2026_03.md](reference/interest_rate_schedule_2026_03.md)** - Interest Rate Schedule March 2026
 - **[technology_application_landscape.md](reference/technology_application_landscape.md)** - Technology Application Landscape
 - **[technology_production_runbook.md](reference/technology_production_runbook.md)** - Technology Production Runbook
+- **[open_banking_delivery_outcome_2026_07.md](reference/open_banking_delivery_outcome_2026_07.md)** - Open Banking Delivery Outcome
 - **[welcome_pack.md](reference/welcome_pack.md)** - Welcome Pack
 
 ## FAQs
@@ -133,6 +142,16 @@ Frequently asked questions by topic.
 
 - **[product_faq.md](faqs/product_faq.md)** - Product FAQs
 - **[website_faq.md](faqs/website_faq.md)** - Website FAQs
+
+## Cases
+
+Linked case records used to test cross-cutting investigation, customer treatment,
+privacy/retention, and unresolved-evidence reasoning.
+
+- **[case_2026_041_overview.md](cases/case_2026_041_overview.md)** - CASE-2026-041 Customer Data Exposure Overview
+- **[case_2026_041_incident_timeline.md](cases/case_2026_041_incident_timeline.md)** - CASE-2026-041 Incident Timeline and Reconciliation Log
+- **[case_2026_041_complaint_record.md](cases/case_2026_041_complaint_record.md)** - CASE-2026-041 Representative Customer Complaint
+- **[case_2026_041_retention_decision.md](cases/case_2026_041_retention_decision.md)** - CASE-2026-041 Retention and Erasure Decision
 
 ## Project Status
 
@@ -176,5 +195,5 @@ Project planning, status, and completion documents.
 
 ---
 
-**Last Updated:** 2026-06-30
-**Document Count:** 59 files across 13 categories
+**Last Updated:** 2026-07-19
+**Document Count:** 71 files across 14 categories

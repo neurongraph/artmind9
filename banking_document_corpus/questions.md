@@ -86,6 +86,24 @@ disagreement rather than silently inventing certainty.
 
 **Evaluation comment:** Tests status evolution across linked governance material. Compare `regulations/regulatory_circulars_2026.md`, which records the requirement, deadline, and “under review” status, with `governance/board_risk_committee_minutes_q1_2026.md`, which reports procedures updated and staff trained. Attribute each status to its document/time rather than claiming one timeless status.
 
+### Q25 — Which KYC rule controls after March 2026?
+
+**Question:** An entity customer applied on 10 March 2026, has a beneficial owner with 30% control, and plans to deposit £15,000. Which policy and procedure control, and what must happen before activation?
+
+**Evaluation comment:** Tests authority and effective-date selection. Use `governance/document_authority_register.md`, `policies/policy_customer_identification_v2.md`, and `sop_procedures/sop_account_opening_v3.md`; both controlled documents apply from 2026-03-01 and supersede earlier versions.
+
+### Q26 — Prove the KYC change was implemented
+
+**Question:** What evidence shows that FirstUK implemented enhanced KYC by the 1 March 2026 deadline, and what remains to be monitored?
+
+**Evaluation comment:** Tests regulatory traceability across `regulations/regulatory_circulars_2026.md`, `risk_compliance/enhanced_kyc_implementation_register.md`, `training/enhanced_kyc_training_completion_2026.md`, and the new policy/SOP. Separate completed implementation from the first quarterly monitoring cycle.
+
+### Q27 — Select the correct monthly rate schedule
+
+**Question:** Which SmartSaver Tier 1 rate applied on 20 February 2026 and on 20 March 2026? Why should the January schedule not be used?
+
+**Evaluation comment:** Tests explicit supersession. `reference/interest_rate_schedule_2026_02.md` controls February and is superseded by `reference/interest_rate_schedule_2026_03.md` from 2026-03-01.
+
 ## C. Conflicts, constraints, and evidence reconciliation
 
 ### Q13 — Resolve a historical internal inconsistency responsibly
@@ -111,6 +129,18 @@ disagreement rather than silently inventing certainty.
 **Question:** A business unit wants an exception to a risk limit because of a commercial opportunity. Who needs to be involved and what must be documented before it can proceed?
 
 **Evaluation comment:** Tests exception governance. Trace `risk_compliance/risk_appetite_statement_2026.md` through its escalation-and-exception process, then connect it to `sop_procedures/sop_exception_handling.md`, `guides/escalation_matrix.md`, and the Board Risk Committee’s remit in `governance/board_risk_committee_charter.md` as appropriate to the threshold and materiality.
+
+### Q28 — Report the case impact without hiding the difference
+
+**Question:** How many customers were affected by CASE-2026-041? Give the answer suitable for a Board risk report.
+
+**Evaluation comment:** Tests an intentional unresolved conflict. `cases/case_2026_041_overview.md` and `cases/case_2026_041_incident_timeline.md` distinguish 120 potentially affected customers from 118 confirmed customers. Attribute both; do not collapse them into a final total.
+
+### Q29 — Erasure request during the open case
+
+**Question:** A CASE-2026-041 customer wants all data erased now. What can we action, what must remain, and when is the decision reviewed?
+
+**Evaluation comment:** Tests case-specific privacy and retention reasoning using `cases/case_2026_041_retention_decision.md`, `policies/policy_privacy.md`, `policies/policy_retention.md`, and `policies/policy_aml.md`.
 
 ## D. Cross-cutting investigation, ownership, and governance
 
@@ -161,6 +191,18 @@ disagreement rather than silently inventing certainty.
 **Question:** A recurring online-banking error causes incorrect balances and complaints. Who owns the technical fix, who owns the customer response, and who should be kept informed if the issue is material?
 
 **Evaluation comment:** Tests ownership resolution across `reference/technology_application_landscape.md`, `organization/organisation_model.md`, `organization/departments.md`, `reference/incident_response_plan.md`, `policies/policy_complaints_v3.md`, and `governance/board_risk_committee_charter.md`. The answer should distinguish operational accountability from technical ownership and Board-level oversight rather than naming one generic “manager.”
+
+### Q30 — Open Banking delivery with a residual exception
+
+**Question:** Did FirstUK meet the Open Banking deadline? What was delivered, what limited gap remains, who owns it, and how should its status be described?
+
+**Evaluation comment:** Tests delivery status without overclaiming compliance. Use `reference/open_banking_delivery_outcome_2026_07.md` and `regulations/regulatory_circulars_2026.md`; identify the 37-mandate exception, workaround, 2026-08-15 remediation, CTO ownership, and Board route.
+
+### Q31 — Coordinate the CASE-2026-041 response
+
+**Question:** Give an integrated action plan for CASE-2026-041 covering containment, customer complaints, privacy/retention, AML, and governance reporting.
+
+**Evaluation comment:** Tests end-to-end traversal through the four `cases/case_2026_041_*.md` records and their linked incident, privacy, retention, AML, complaint, and governance documents. Preserve workstream ownership and distinguish immediate response from later review.
 
 ## Optional corpus enhancements for future benchmark rounds
 
