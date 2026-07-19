@@ -49,13 +49,21 @@ implementation materially easier to test. Existing corpus files will not change.
 - The unresolved case discrepancy is intentional and labelled as open pending
   final forensic reconciliation.
 
-## Benchmark extension
+## Benchmark integration
 
-Append a `## E. Corpus extension scenarios` section to
-`banking_document_corpus/questions.md`. Add approximately 12 prompts in the
-existing `Qnn` and `Evaluation comment` format. Cover authority selection, KYC
-change implementation, monthly rate lineage, the CASE-2026-041 conflict and
-hold, Open Banking delivery status, and governance follow-up.
+Extend the existing functional sections in `banking_document_corpus/questions.md`
+rather than creating a section called “Corpus extension.” Add approximately 12
+prompts in the existing `Qnn` and `Evaluation comment` format:
+
+- add authority selection, KYC change implementation, and monthly rate lineage
+  to **B. Time, authority, and supersession**;
+- add the CASE-2026-041 discrepancy and retention hold to **C. Conflicts,
+  constraints, and evidence reconciliation**; and
+- add Open Banking delivery status and governance follow-up to **D.
+  Cross-cutting investigation, ownership, and governance**.
+
+The benchmark is therefore organised by user-facing capability, not by the
+provenance of its source documents.
 
 ## Acceptance criteria
 
