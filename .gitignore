@@ -32,3 +32,5 @@ logs/
 package.json
 package-lock.json
 opencode.json
+.agents/skills/
+.pytest_cache/
