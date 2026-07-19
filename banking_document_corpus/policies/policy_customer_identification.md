@@ -10,9 +10,9 @@
 | Review Date | 2027-01-15 |
 | Owner | Head of Compliance |
 | Department | Compliance |
-| Status | Active |
+| Status | Superseded |
 | Supersedes | None |
-| Superseded By | None |
+| Superseded By | [[policy_customer_identification_v2]] from 2026-03-01 |
 | Classification | Internal |
 | Audience | All Staff, Branch Managers, Compliance, Risk |
 | Regulatory Reference | FCA COBS Part 10, Money Laundering Regulations 2017 |
