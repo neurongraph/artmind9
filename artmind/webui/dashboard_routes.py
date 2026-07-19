@@ -52,6 +52,9 @@ def _camelize(obj):
 class IngestRequest(BaseModel):
     domain: str
     path: str
+    stage_only: bool = Field(False, alias="stageOnly")
+
+    model_config = {"populate_by_name": True}
 
 
 class RetryRequest(BaseModel):
@@ -163,7 +166,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         if not files:
             raise HTTPException(status_code=400, detail=f"No files found in {payload.path}")
         batch_files = [str(f.resolve()) for f in files]
-        job_id = _create_job(batch_files, domain=payload.domain)
+        job_id = _create_job(batch_files, domain=payload.domain, stage_only=payload.stage_only)
         _ensure_worker_running()
         return _camelize({
             "job_id": job_id,

@@ -120,7 +120,9 @@ def test_ingest_missing_path_is_400():
 def test_ingest_creates_job(monkeypatch, tmp_path):
     f = tmp_path / "doc.txt"
     f.write_text("hello")
-    monkeypatch.setattr(dashboard_routes, "_create_job", lambda batch_files, domain: "job-123")
+    monkeypatch.setattr(
+        dashboard_routes, "_create_job", lambda batch_files, domain, stage_only=False: "job-123"
+    )
     monkeypatch.setattr(dashboard_routes, "_ensure_worker_running", lambda: None)
     response = _client().post("/api/ingest", json={"domain": "general", "path": str(f)})
     assert response.status_code == 200
@@ -141,6 +143,51 @@ def test_ingest_rejects_traversal_domain(monkeypatch, tmp_path):
     response = _client().post("/api/ingest", json={"domain": "..", "path": str(f)})
     assert response.status_code == 400
     assert "called" not in called
+
+
+def test_ingest_passes_stage_only_to_create_job(monkeypatch, tmp_path):
+    from artmind.webui import dashboard_routes
+
+    f = tmp_path / "a.txt"
+    f.write_text("x", encoding="utf-8")
+
+    seen = {}
+
+    def fake_create_job(batch_files, domain="general", force=False, stage_only=False):
+        seen["stage_only"] = stage_only
+        seen["domain"] = domain
+        return "job-1"
+
+    monkeypatch.setattr(dashboard_routes, "_create_job", fake_create_job)
+    monkeypatch.setattr(dashboard_routes, "_ensure_worker_running", lambda: None)
+
+    resp = _client().post(
+        "/api/ingest",
+        json={"domain": "mydomain", "path": str(f), "stageOnly": True},
+    )
+    assert resp.status_code == 200
+    assert seen["stage_only"] is True
+    assert seen["domain"] == "mydomain"
+
+
+def test_ingest_defaults_stage_only_false(monkeypatch, tmp_path):
+    from artmind.webui import dashboard_routes
+
+    f = tmp_path / "b.txt"
+    f.write_text("x", encoding="utf-8")
+
+    seen = {}
+
+    def fake_create_job(batch_files, domain="general", force=False, stage_only=False):
+        seen["stage_only"] = stage_only
+        return "job-2"
+
+    monkeypatch.setattr(dashboard_routes, "_create_job", fake_create_job)
+    monkeypatch.setattr(dashboard_routes, "_ensure_worker_running", lambda: None)
+
+    resp = _client().post("/api/ingest", json={"domain": "mydomain", "path": str(f)})
+    assert resp.status_code == 200
+    assert seen["stage_only"] is False
 
 
 def test_domains(monkeypatch):

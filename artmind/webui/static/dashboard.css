@@ -1,24 +1,54 @@
 /* ── Lane B dashboard layout (uses style.css's theme variables) ─────── */
 .dash {
-  max-width: 64rem;
+  max-width: 80rem;
   margin: 0 auto;
   padding: 88px 20px 60px;
+}
+.dash-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.col-side {
+  position: sticky;
+  top: 88px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 20px;
+}
+.col-main { display: flex; flex-direction: column; gap: 20px; }
+@media (max-width: 900px) {
+  .dash-grid { grid-template-columns: 1fr; }
+  .col-side { position: static; }
+}
+
+.dash-panel {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-elev);
+  padding: 16px 16px 18px;
 }
 .dash-panel h2 {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.dash-hint {
   margin: 0 0 12px;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-muted);
 }
 .dash-subhead {
-  margin: 20px 0 10px;
+  margin: 18px 0 8px;
   font-size: 12.5px; font-weight: 600;
   color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em;
 }
 .dash-empty { color: var(--text-muted); font-size: 13px; }
 .dash-note { color: var(--text-muted); font-size: 12.5px; }
+.table-scroll { overflow-x: auto; }
 
 /* ── inline guardrail callout (destructive controls) ────────────────── */
 .guardrail-callout {
@@ -79,7 +109,6 @@
   overflow: hidden; margin-bottom: 6px;
 }
 .progress-fill { height: 100%; background: var(--accent); transition: width 0.3s ease; }
-.file-list { margin: 6px 0 0; padding-left: 18px; font-size: 12.5px; color: var(--text-muted); }
 
 /* ── completed jobs table ────────────────────────────────────────── */
 .dash-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -97,3 +126,59 @@
 .chunk-seq { width: 32px; color: var(--text-muted); }
 .chunk-row .dot { animation: none; }
 .chunk-row .dot:not(.done):not(.error) { background: var(--border); }
+
+/* ── spacing: .dash is no longer a flex container with gap, so the stat
+      strip needs its own bottom margin (overrides the earlier .stat-row) ── */
+.stat-row { margin-bottom: 20px; }
+
+/* ── stacked form variant (sidebar panels) ───────────────────────────── */
+.dash-form.stacked { flex-direction: column; align-items: stretch; gap: 10px; }
+.dash-form.stacked label { width: 100%; }
+.dash-form.stacked input[type="text"],
+.dash-form.stacked input[type="file"],
+.dash-form.stacked select { width: 100%; }
+.dash-form label.checkbox {
+  flex-direction: row; align-items: center; gap: 7px;
+  font-size: 12px; color: var(--text-muted); cursor: pointer;
+}
+.dash-form label.checkbox input { width: auto; }
+
+/* ── tabs ────────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex; gap: 2px; margin: 10px 0 14px;
+  background: var(--bg-inset); border-radius: 8px; padding: 3px;
+}
+.tab {
+  flex: 1; text-align: center; padding: 6px 8px; border-radius: 6px;
+  font-size: 12.5px; font-weight: 600; color: var(--text-muted);
+}
+.tab.active { background: var(--bg-elev); color: var(--text); }
+.tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.tab-count { font-variant-numeric: tabular-nums; opacity: 0.75; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── active job file rows + chunk drill-down ─────────────────────────── */
+.file-rows { margin-top: 8px; border-top: 1px solid var(--border); padding-top: 6px; }
+.file-row + .file-row { margin-top: 2px; }
+.file-row summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 6px; border-radius: 6px; font-size: 12.5px;
+}
+.file-row summary::-webkit-details-marker { display: none; }
+.file-row summary:hover { background: var(--bg-inset); }
+.file-row summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.file-row[open] summary { font-weight: 600; }
+.file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chunk-drill { padding: 6px 6px 4px 22px; }
+
+/* ── maintenance zone ────────────────────────────────────────────────── */
+.dash-zone-maint {
+  margin-top: 26px;
+  border-color: color-mix(in srgb, var(--warn) 45%, var(--border));
+  background: color-mix(in srgb, var(--warn) 6%, var(--bg-elev));
+}
+.dash-zone-maint h2 { color: var(--warn); }
+.zone-maint-body { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; margin-top: 12px; }
+@media (max-width: 900px) { .zone-maint-body { grid-template-columns: 1fr; } }
