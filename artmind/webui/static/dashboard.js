@@ -30,6 +30,24 @@ async function api(path, options) {
   return response.status === 204 ? null : response.json();
 }
 
+// ── tabs ─────────────────────────────────────────────────────────────
+function initTabs() {
+  for (const bar of document.querySelectorAll(".tabs[data-tab-group]")) {
+    const group = bar.dataset.tabGroup;
+    bar.addEventListener("click", (event) => {
+      const btn = event.target.closest(".tab[data-tab]");
+      if (!btn || !bar.contains(btn)) return;
+      for (const other of bar.querySelectorAll(".tab")) {
+        other.classList.toggle("active", other === btn);
+      }
+      const selector = `.tab-panel[data-tab-group="${group}"]`;
+      for (const panel of document.querySelectorAll(selector)) {
+        panel.classList.toggle("active", panel.dataset.tabPanel === btn.dataset.tab);
+      }
+    });
+  }
+}
+
 // ── domain picker ────────────────────────────────────────────────────
 const ingestDomainEl = document.getElementById("ingest-domain");
 const embedDomainEl = document.getElementById("embed-domain");
@@ -468,6 +486,7 @@ document.getElementById("snapshot-import-form").addEventListener("submit", async
 });
 
 // ── polling ──────────────────────────────────────────────────────────
+initTabs();
 loadDomains();
 refreshActiveJobs();
 refreshCompletedJobs();
