@@ -1,15 +1,48 @@
-name: banking_risk_governance
+name: banking.risk_governance
 description: Risk management, internal audit, board governance, and regulatory compliance tracking documents for FirstUK Bank — covering audit reports, risk appetite statements, board committee minutes, governance frameworks, compliance bulletins, and regulatory circulars.
+
+entity_types:
+  - ACCOUNT
+  - ACCOUNT_HOLDER
+  - ACTION_ITEM
+  - AML_SCREENING
+  - AUDIT_FINDING
+  - CARD
+  - CUSTOMER
+  - DEPARTMENT
+  - DIRECT_DEBIT
+  - EMPLOYEE
+  - FRAUD_ALERT
+  - GOVERNANCE_DECISION
+  - JOINT_ACCOUNT
+  - KYC_VERIFICATION
+  - PRODUCT
+  - REGULATORY_UPDATE
+  - RISK
+  - RISK_METRIC
+  - SAR
+  - STANDING_ORDER
+  - TRANSACTION
 
 temporal:
   document:
-    valid_from: [Effective Date, Issued Date, Reporting Date, Meeting Date, Last Updated]
-    version: [Version]
+    valid_from:
+    - Effective Date
+    - Issued Date
+    - Reporting Date
+    - Meeting Date
+    - Last Updated
+    version:
+    - Version
   entities:
-    AUDIT_FINDING: { valid_from: issued_date }
-    GOVERNANCE_DECISION: { event_at: decision_date }
-    ACTION_ITEM: { event_at: deadline }
-    REGULATORY_UPDATE: { valid_from: effective_date }
+    AUDIT_FINDING:
+      valid_from: issued_date
+    GOVERNANCE_DECISION:
+      event_at: decision_date
+    ACTION_ITEM:
+      event_at: deadline
+    REGULATORY_UPDATE:
+      valid_from: effective_date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -51,45 +84,9 @@ entities_prompt: |
     A new regulation, amended regulation, FCA/PRA circular, compliance bulletin, enforcement action, or regulatory deadline that requires the bank to take action. Each distinct regulatory change or circular is a separate entity.
     example type values: new_regulation | amended_regulation | fca_circular | pra_circular | enforcement_action | consultation_paper | implementation_deadline | guidance_update | supervisory_letter
 
-  CUSTOMER
-    A bank customer referenced as the subject of an audit finding, risk observation, or governance concern. Extract when customer-facing processes, data, or controls are the subject of a finding or risk.
-    example type values: individual_customer | high_risk_customer | pep_customer | dormant_customer | screened_customer
-
-  ACCOUNT
-    A customer account referenced in an audit finding, risk metric, or governance review. Extract when account-level controls (opening, closure, dormancy, balance limits) are the subject of an audit finding or risk.
-    example type values: savings_account | current_account | dormant_account | joint_account | frozen_account
-
-  TRANSACTION
-    A financial event referenced in an audit finding or risk concern — suspicious transactions, high-value cash, or monitoring gaps. Extract when transaction processing or monitoring is the subject of a finding.
-    example type values: suspicious_transaction | high_value_transaction | cash_transaction | monitoring_gap | failed_transaction
-
   PRODUCT
     A banking product referenced in risk assessments, audit scope definitions, or governance decisions. Extract when a product's risk profile or controls are under review.
     example type values: savings_product | current_account_product | mortgage | card_product
-
-  CARD
-    A payment card referenced in fraud risk findings, card dispute audits, or contactless limit reviews.
-    example type values: debit_card | card_fraud | contactless | card_issuance_gap
-
-  KYC_VERIFICATION
-    The KYC process or a specific KYC gap identified in an audit — verification failures, refresh overdue, or enhanced due diligence weaknesses. Extract when KYC controls or compliance status are the subject of a finding.
-    example type values: kyc_gap | kyc_refresh_overdue | edd_weakness | identity_verification_failure
-
-  AML_SCREENING
-    AML screening effectiveness or a specific AML gap — screening failures, list coverage, or transaction monitoring weaknesses. Extract when AML controls are the subject of an audit finding or risk appetite statement.
-    example type values: aml_gap | screening_failure | sanctions_miss | transaction_monitoring_weakness | list_coverage_gap
-
-  SAR
-    A Suspicious Activity Report referenced in governance, audit, or compliance tracking — filing rates, timeliness, or quality. Extract when SAR obligations or performance are subject to review.
-    example type values: sar_filing_rate | sar_timeliness | sar_quality | sar_volume | sar_obligation
-
-  FRAUD_ALERT
-    A fraud detection alert or fraud risk referenced in audit findings, fraud metrics, or risk appetite. Extract when fraud detection rates, false positive rates, or investigation backlogs are under review.
-    example type values: fraud_detection_rate | false_positive_rate | card_fraud | account_takeover | investigation_backlog
-
-  STANDING_ORDER
-    A standing order process or control gap referenced in an audit finding — validation failures, beneficiary check weaknesses, or payment failure handling.
-    example type values: standing_order_validation_gap | beneficiary_check_failure | payment_failure_handling
 
   EMPLOYEE
     A bank employee or staff category referenced in governance findings — training gaps, misconduct, or accountability concerns.
@@ -98,6 +95,56 @@ entities_prompt: |
   DEPARTMENT
     An organisational department referenced as responsible for, or implicated in, a finding, risk, or governance decision.
     example type values: financial_crime | compliance | retail_banking | technology | risk | operations | internal_audit
+
+
+  ACCOUNT
+    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
+    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
+
+  ACCOUNT_HOLDER
+    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
+    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
+
+  AML_SCREENING
+    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
+    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
+
+  CARD
+    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
+    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
+
+  CUSTOMER
+    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
+    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
+
+  DIRECT_DEBIT
+    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
+    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
+
+  FRAUD_ALERT
+    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
+    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
+
+  JOINT_ACCOUNT
+    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
+    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
+
+  KYC_VERIFICATION
+    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
+    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
+
+  SAR
+    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
+    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
+
+  STANDING_ORDER
+    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
+    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
+
+  TRANSACTION
+    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
+    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -164,7 +211,6 @@ entities_prompt: |
   __text__
 
   {text}
-
 properties_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking risk and governance document analysis.
   Your job is to read a FirstUK Bank risk or governance document passage and enrich the provided entities with detailed properties based on the text.
@@ -245,58 +291,10 @@ properties_prompt: |
     - implementation_status (planned | in_progress | completed)
     - related_action_items (list of actions required)
 
-  For CUSTOMER, consider:
-    - customer_risk_segment (standard | high_risk | pep | sanctioned)
-    - finding_context (how customers appear in the finding or risk — e.g., screening gap, data exposure)
-    - volume_affected (number of customers if stated)
-
-  For ACCOUNT, consider:
-    - account_type (savings | current | joint | dormant)
-    - finding_context (what account-level control gap was identified)
-    - sample_size (number of accounts examined in the audit scope)
-
-  For TRANSACTION, consider:
-    - transaction_risk_type (suspicious | high_value | monitoring_gap)
-    - threshold (monetary or volume threshold referenced)
-    - monitoring_gap_description (what monitoring failed or was absent)
-
   For PRODUCT, consider:
     - product_id (e.g., SAV-001)
     - product_risk_level (low | medium | high)
     - audit_scope_inclusion (whether this product was explicitly in scope)
-
-  For CARD, consider:
-    - card_risk_type (card_fraud | issuance_gap | contactless_limit)
-    - finding_context (what card control weakness was identified)
-
-  For KYC_VERIFICATION, consider:
-    - gap_type (what KYC control failed or was weak)
-    - affected_population (customers or accounts affected)
-    - regulatory_breach (whether a regulatory requirement was violated)
-    - remediation_required (yes/no)
-
-  For AML_SCREENING, consider:
-    - screening_gap (what screening weakness was identified)
-    - lists_affected (which sanction or PEP lists were involved)
-    - false_negative_risk (whether screening misses are the concern)
-    - monitoring_gap (what ongoing monitoring was absent or weak)
-
-  For SAR, consider:
-    - sar_metric (timeliness | volume | quality)
-    - compliance_rate (percentage filed within required timeframe if stated)
-    - regulatory_obligation (30-day filing requirement or equivalent)
-    - gap_identified (what SAR-related weakness was found)
-
-  For FRAUD_ALERT, consider:
-    - detection_rate (percentage of fraud correctly flagged)
-    - false_positive_rate (percentage incorrectly flagged)
-    - investigation_backlog (outstanding alerts awaiting review)
-    - fraud_type (card_fraud | account_takeover | identity_fraud)
-
-  For STANDING_ORDER, consider:
-    - validation_gap (what standing order control was weak)
-    - failure_handling (how payment failures are managed)
-    - beneficiary_check (adequacy of beneficiary account validation)
 
   For EMPLOYEE, consider:
     - role_type (frontline | manager | specialist | compliance)
@@ -307,6 +305,79 @@ properties_prompt: |
     - department_name (Financial Crime, Compliance, Risk, etc.)
     - accountability_finding (what the department failed to do or must improve)
     - ownership (what risk or process they own)
+
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - account_state (new | active | dormant | frozen | closed)
+    - balance_rules (minimum/maximum balance, dormancy threshold)
+    - closure_or_freeze_conditions
+
+  For ACCOUNT_HOLDER, consider:
+    - holder_type (primary | joint | secondary)
+    - liability_scope
+    - withdrawal_or_signing_authority
+    - due_diligence_requirement
+
+  For AML_SCREENING, consider:
+    - mandatory (yes/no)
+    - screening_lists_or_scope
+    - hit_or_match_response
+    - regulatory_basis
+
+  For CARD, consider:
+    - card_type (debit | credit | prepaid)
+    - card_state (issuance | active | blocked | replacement)
+    - block_or_replacement_conditions
+    - daily_or_contactless_limit
+
+  For CUSTOMER, consider:
+    - customer_type (individual | joint_applicant | existing | new | high_risk | pep)
+    - risk_classification (standard | high_risk | pep | sanctioned)
+    - eligibility_or_verification_status (as stated in this document)
+    - context_role (how this customer appears in this document)
+
+  For DIRECT_DEBIT, consider:
+    - mandate_process
+    - dd_guarantee_coverage
+    - cancellation_or_dispute_process
+
+  For FRAUD_ALERT, consider:
+    - generation_trigger
+    - investigation_or_escalation_path
+    - customer_notification
+    - reimbursement_obligation
+
+  For JOINT_ACCOUNT, consider:
+    - liability_type (joint_and_several | tenants_in_common)
+    - consent_requirements
+    - dual_kyc_or_aml_requirement
+    - closure_consent
+
+  For KYC_VERIFICATION, consider:
+    - mandatory (yes/no)
+    - timing_or_refresh_frequency
+    - verification_method
+    - consequence_of_failure
+
+  For SAR, consider:
+    - filing_obligation
+    - filing_deadline
+    - confidentiality_rule
+    - consequence_of_non_filing
+
+  For STANDING_ORDER, consider:
+    - setup_or_amendment_process
+    - beneficiary_validation
+    - cancellation_process
+    - failure_handling
+
+  For TRANSACTION, consider:
+    - transaction_type (deposit | withdrawal | transfer | fee_charge | suspicious | disputed)
+    - monitoring_or_reporting_obligation
+    - thresholds (monetary value that triggers a rule)
+    - dispute_or_reversal_rules
+
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "remediation_deadline" not "rem_dl")
@@ -362,7 +433,6 @@ properties_prompt: |
 
   __text__
   {text}
-
 relationships_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking risk and governance document analysis.
   Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank risk, audit, or governance document.
@@ -524,6 +594,80 @@ relationships_prompt: |
 
   RISK_METRIC ↔ FRAUD_ALERT:
     measures_detection_rate_of, tracks_false_positive_rate_of
+
+
+  CUSTOMER ↔ ACCOUNT:
+    holds, opens, closes, liable_for
+
+  ACCOUNT ↔ ACCOUNT_HOLDER:
+    has_holder, held_by
+
+  ACCOUNT ↔ CARD:
+    linked_to, issues
+
+  ACCOUNT ↔ JOINT_ACCOUNT:
+    classified_as, structured_as
+
+  ACCOUNT ↔ TRANSACTION:
+    records, generates, has_associated
+
+  ACCOUNT ↔ KYC_VERIFICATION:
+    gate_for_opening, required_before_activating
+
+  ACCOUNT ↔ AML_SCREENING:
+    required_before_opening, ongoing_monitoring_of
+
+  ACCOUNT ↔ FRAUD_ALERT:
+    raised_on, results_in_freeze_of
+
+  ACCOUNT ↔ STANDING_ORDER:
+    set_up_on, deducts_from
+
+  ACCOUNT ↔ DIRECT_DEBIT:
+    set_up_on, deducts_from
+
+  CUSTOMER ↔ ACCOUNT_HOLDER:
+    designated_as, has_role_as
+
+  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
+    party_to, has_rights_in, liable_under
+
+  CUSTOMER ↔ AML_SCREENING:
+    screened_by, applied_to, required_for
+
+  AML_SCREENING ↔ TRANSACTION:
+    monitors, screens_for_patterns_in
+
+  AML_SCREENING ↔ SAR:
+    triggers, leads_to_filing_of
+
+  FRAUD_ALERT ↔ CARD:
+    raised_for, protects
+
+  CUSTOMER ↔ KYC_VERIFICATION:
+    required_to_complete, verified_by, subject_to
+
+  CUSTOMER ↔ SAR:
+    filed_about, concerns
+
+  CUSTOMER ↔ JOINT_ACCOUNT:
+    held_jointly_by, requires_consent_of_both
+
+  CUSTOMER ↔ STANDING_ORDER:
+    initiated_by, belongs_to
+
+  CUSTOMER ↔ DIRECT_DEBIT:
+    authorised_by, belongs_to
+
+  FRAUD_ALERT ↔ TRANSACTION:
+    triggered_by, raised_on
+
+  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
+    required_for_both_holders_of, applied_to
+
+  SAR ↔ TRANSACTION:
+    triggered_by, based_on_evidence_from
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

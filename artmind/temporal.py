@@ -110,10 +110,71 @@ def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict, defaults
     return out
 
 
+def _deep_merge_temporal(parent: dict, child: dict) -> dict:
+    """Merge a parent domain's `temporal:` block under a child's.
+
+    Semantics (parent is the shared/default layer, child is the specific override):
+      - defaults: parent as base, child overrides individual keys.
+      - relative_anchor: child scalar wins if present, else parent's.
+      - document: per-canonical-key union of label lists, parent-first, deduped.
+      - entities: dict union keyed by entity class; a class present in the
+        child replaces the parent's mapping for that class.
+    """
+    merged: dict = {}
+
+    defaults = {**(parent.get("defaults") or {}), **(child.get("defaults") or {})}
+    if defaults:
+        merged["defaults"] = defaults
+
+    anchor = child.get("relative_anchor") or parent.get("relative_anchor")
+    if anchor:
+        merged["relative_anchor"] = anchor
+
+    parent_doc = parent.get("document") or {}
+    child_doc = child.get("document") or {}
+    document: dict = {}
+    for key in {*parent_doc, *child_doc}:
+        p_vals = parent_doc.get(key, [])
+        p_vals = p_vals if isinstance(p_vals, list) else [p_vals]
+        c_vals = child_doc.get(key, [])
+        c_vals = c_vals if isinstance(c_vals, list) else [c_vals]
+        seen: list = []
+        for v in [*p_vals, *c_vals]:
+            if v not in seen:
+                seen.append(v)
+        document[key] = seen
+    if document:
+        merged["document"] = document
+
+    entities = {**(parent.get("entities") or {}), **(child.get("entities") or {})}
+    if entities:
+        merged["entities"] = entities
+
+    return merged
+
+
 def load_schema(domain: str) -> dict:
+    """Load a domain's schema, deep-merging inherited `temporal:` from a dotted parent.
+
+    For a leaf domain like `banking.policy`, also loads `banking_schema.yaml` and
+    merges its `temporal:` block underneath the child's (see `_deep_merge_temporal`).
+    Non-temporal keys (prompts, entity_types, etc.) are NOT inherited here — that
+    composition happens at build time via `artmind domains harmonize`.
+    """
     path = DOMAIN_SCHEMAS_DIR / f"{domain}_schema.yaml"
     import yaml
-    return yaml.safe_load(path.read_text(encoding="utf-8")) if path.exists() else {}
+    if not path.exists():
+        return {}
+    schema = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if "." in domain:
+        parent_name = domain.rsplit(".", 1)[0]
+        parent_path = DOMAIN_SCHEMAS_DIR / f"{parent_name}_schema.yaml"
+        if parent_path.exists():
+            parent_schema = yaml.safe_load(parent_path.read_text(encoding="utf-8")) or {}
+            schema["temporal"] = _deep_merge_temporal(
+                parent_schema.get("temporal") or {}, schema.get("temporal") or {}
+            )
+    return schema
 
 
 def canonical_entity_dates(entity: dict, schema_entities: dict, anchor: str | None) -> dict:
@@ -158,6 +219,14 @@ def normalize_time(domain: str, dry_run: bool = False) -> dict:
 
     Additive + idempotent. Reads each Document's markdown for header dates and
     each Entity's schema-mapped property. Returns counts (deterministic vs llm).
+
+    TODO(hierarchical-domains): this matches nodes with `d.domain = $domain` /
+    `e.domain = $domain` exactly (see the Cypher below) — a parent domain like
+    `banking` does NOT fan out to its `banking.*` children here, unlike the
+    query-layer `domain_predicate()` rollup (graph_query.py). A bulk
+    `normalize-time --domain banking` therefore only touches nodes stamped
+    exactly `banking` (the abstract parent, normally none). For a group-wide
+    backfill, loop this call over each concrete child domain instead.
     """
     schema = load_schema(domain)
     doc_map, ent_map, anchor = _temporal_mapping(schema)

@@ -8,6 +8,10 @@ from artmind.harmonizer import (
     _inject_relationship_blocks,
 )
 
+# Header lines are unindented (column 0) and body lines indented 2 spaces —
+# this matches the actual layout of every real `*_schema.yaml` once YAML
+# dedents the block scalar (see harmonizer._split_entity_blocks docstring),
+# not the deeper indentation these fixtures used before that mismatch was found.
 ENTITIES_PROMPT = """\
 You are an extractor.
 
@@ -16,15 +20,15 @@ ENTITY TYPES YOU MUST EXTRACT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Use ONLY these entity_classes.
 
-  PERSON
-    A named individual.
-    example type values: author | subject
+PERSON
+  A named individual.
+  example type values: author | subject
 
-  LOCATION
-    A place.
-    example type values: country | city
+LOCATION
+  A place.
+  example type values: country | city
 
-  EXTRACTION RULES:
+EXTRACTION RULES:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 1. Be complete.
 """
@@ -36,16 +40,16 @@ You are an extractor.
 PROPERTIES MAP GUIDANCE:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  For PERSON, consider:
-    - role
-    - affiliation
+For PERSON, consider:
+  - role
+  - affiliation
 
-  For LOCATION, consider:
-    - country
-    - city
+For LOCATION, consider:
+  - country
+  - city
 
-  KEY RULES FOR PROPERTIES:
-    1. Be clear.
+KEY RULES FOR PROPERTIES:
+  1. Be clear.
 """
 
 RELATIONSHIPS_PROMPT = """\
@@ -55,13 +59,13 @@ You are an extractor.
 COMMON rel_type VALUES:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  PERSON ↔ LOCATION:
-    visited, lives_in, works_at
+PERSON ↔ LOCATION:
+  visited, lives_in, works_at
 
-  PERSON ↔ PERSON:
-    knows, works_with
+PERSON ↔ PERSON:
+  knows, works_with
 
-  EXTRACTION RULES:
+EXTRACTION RULES:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 1. Be explicit.
 """
@@ -109,21 +113,21 @@ def test_split_relationship_blocks_location_one_block():
 
 
 def test_inject_entity_blocks_appears_before_extraction_rules():
-    new_block = "  EVENT\n    A happening.\n    example type values: meeting"
+    new_block = "EVENT\n  A happening.\n  example type values: meeting"
     result = _inject_entity_blocks(ENTITIES_PROMPT, [new_block])
     assert 'EVENT' in result
     assert result.index('EVENT') < result.index('EXTRACTION RULES')
 
 
 def test_inject_property_blocks_appears_before_key_rules():
-    new_block = "  For EVENT, consider:\n    - date\n    - participants"
+    new_block = "For EVENT, consider:\n  - date\n  - participants"
     result = _inject_property_blocks(PROPERTIES_PROMPT, [new_block])
     assert 'For EVENT' in result
     assert result.index('For EVENT') < result.index('KEY RULES FOR PROPERTIES')
 
 
 def test_inject_relationship_blocks_appears_before_extraction_rules():
-    new_block = "  EVENT ↔ PERSON:\n    involves, triggers"
+    new_block = "EVENT ↔ PERSON:\n  involves, triggers"
     result = _inject_relationship_blocks(RELATIONSHIPS_PROMPT, [new_block])
     assert 'EVENT ↔ PERSON' in result
     assert result.index('EVENT ↔ PERSON') < result.index('EXTRACTION RULES')

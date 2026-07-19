@@ -1693,7 +1693,7 @@ def init():
         click.echo("Config .env: " + result["env"])
         click.echo(f"Skills:      {result['skills_refreshed']} refreshed from package")
         click.echo(f"opencode:    {result['opencode_refreshed']} refreshed from package")
-        click.echo(f"Schemas:     {result['schemas_copied']} newly copied (existing kept)")
+        click.echo(f"Schemas:     {result['schemas_copied']} refreshed from package")
         click.echo("\nNext: edit " + result["run_folder"] + "/.env, then run `artmind setup`.")
     except Exception as e:
         raise click.ClickException(str(e))
