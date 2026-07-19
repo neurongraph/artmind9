@@ -129,14 +129,29 @@ document.getElementById("embed-btn").addEventListener("click", async () => {
 });
 
 // ── active jobs ──────────────────────────────────────────────────────
+// Keys of expanded file rows, so a 2s poll rebuild doesn't collapse them.
+const expandedFiles = new Set();
+
+function fileStatusDot(status) {
+  const cls = status === "completed" ? "done"
+            : status === "failed" ? "error"
+            : status === "processing" ? "running" : "";
+  return el("span", `dot ${cls}`.trim());
+}
+
 async function refreshActiveJobs() {
   const container = document.getElementById("active-jobs");
   const jobs = await api("/api/jobs/active");
+
+  const countEl = document.getElementById("active-tab-count");
+  if (countEl) countEl.textContent = jobs.length ? `· ${jobs.length}` : "";
+
   if (!jobs.length) {
     container.innerHTML = '<p class="dash-empty">No active or queued jobs.</p>';
     return;
   }
   container.innerHTML = "";
+
   for (const job of jobs) {
     const card = el("div", "job-card");
     const pct = job.fileCount ? Math.round((100 * job.processedCount) / job.fileCount) : 0;
@@ -148,12 +163,42 @@ async function refreshActiveJobs() {
     bar.appendChild(fill);
     card.appendChild(bar);
     card.appendChild(el("div", "dash-note", `${job.processedCount}/${job.fileCount} files`));
-    const fileList = el("ul", "file-list");
+
+    const fileRows = el("div", "file-rows");
     for (const f of job.files) {
-      const step = f.currentStep ? ` → ${f.currentStep}` : "";
-      fileList.appendChild(el("li", null, `${f.status}: ${f.filename.split("/").pop()}${step}`));
+      const docName = f.filename.split("/").pop();
+      const key = `${job.jobId}::${docName}`;
+      const wasExpanded = expandedFiles.has(key);
+
+      const row = document.createElement("details");
+      row.className = "file-row";
+
+      const summary = document.createElement("summary");
+      summary.appendChild(fileStatusDot(f.status));
+      summary.appendChild(el("span", "file-name", docName));
+      summary.appendChild(el("span", "dash-note", f.currentStep || f.status));
+      row.appendChild(summary);
+
+      const drill = el("div", "chunk-drill");
+      row.appendChild(drill);
+
+      row.addEventListener("toggle", () => {
+        if (row.open) {
+          expandedFiles.add(key);
+          // quiet only when this row was already expanded going into this poll —
+          // a genuine first click has nothing on screen yet, so it should show "Loading chunks…"
+          showChunkGrid(drill, job.jobId, job.domain, docName, wasExpanded);
+        } else {
+          expandedFiles.delete(key);
+        }
+      });
+
+      // Restore prior expansion; setting .open fires the toggle handler above.
+      if (wasExpanded) row.open = true;
+
+      fileRows.appendChild(row);
     }
-    card.appendChild(fileList);
+    card.appendChild(fileRows);
     container.appendChild(card);
   }
 }
@@ -182,8 +227,8 @@ function pip(status) {
   return el("span", `dot ${cls}`.trim());
 }
 
-async function showChunkGrid(container, jobId, domain, docName) {
-  container.innerHTML = "Loading chunks…";
+async function showChunkGrid(container, jobId, domain, docName, quiet = false) {
+  if (!quiet) container.innerHTML = "Loading chunks…";
   try {
     const chunks = await api(`/api/jobs/${encodeURIComponent(jobId)}/chunks?doc=${encodeURIComponent(docName)}`);
     container.innerHTML = "";
