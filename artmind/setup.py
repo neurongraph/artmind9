@@ -26,17 +26,22 @@ def _seed_tree(src, dest, *, overwrite: bool = False) -> int:
 
     Two policies, by what the tree holds:
 
-    - ``overwrite=False`` — *user data* (``.env``, domain schemas). Existing
-      entries are skipped so local edits and added domains survive re-running init.
-    - ``overwrite=True`` — *package assets* (skills, opencode persona). These are
-      shipped alongside the code with the package as their source of truth, so a
-      reinstall must replace whatever the run folder holds; skipping them would
-      freeze them at whatever version first seeded the run folder, and edits made
-      in ``artmind/skills/`` would silently never reach the chat agent.
+    - ``overwrite=False`` — *user data* (``.env`` only). Existing entries are
+      skipped so local edits survive re-running init.
+    - ``overwrite=True`` — *package assets* (skills, opencode persona, domain
+      schemas). These are shipped alongside the code with the package as their
+      source of truth, so a reinstall must replace whatever the run folder
+      holds; skipping them would freeze them at whatever version first seeded
+      the run folder, and edits made in ``artmind/skills/`` or
+      ``artmind/domains/schemas/`` would silently never reach the chat agent
+      or the CLI.
 
     Entries are replaced wholesale, not merged, so a file deleted from a skill
     also disappears from the run folder. Names the package does not ship are left
-    alone either way, so user-added skills and domains are never pruned.
+    alone either way, so a domain added via `artmind domains add` (never
+    committed to the package) is never pruned — but renaming or removing a
+    schema in the package leaves its old run-folder copy in place too, since
+    that name simply no longer appears in `src.iterdir()`.
     """
     if not src.is_dir():
         return 0
@@ -67,8 +72,8 @@ def scaffold_run_folder() -> dict:
     Pure filesystem work — needs no Neo4j/config, so it is safe to run right
     after install, before the user has filled in ``~/.artmind/.env``.
 
-    Idempotent, but not inert: package assets (skills, opencode) are refreshed
-    from the package on every run, while user data (``.env``, domain schemas) is
+    Idempotent, but not inert: package assets (skills, opencode, domain schemas)
+    are refreshed from the package on every run, while user data (``.env``) is
     only seeded when absent. See ``_seed_tree``.
     """
     run_env = ARTMIND_HOME / ".env"
@@ -99,8 +104,7 @@ def scaffold_run_folder() -> dict:
     # Package assets: always refreshed — the package is their source of truth.
     skills_refreshed = _seed_tree(PACKAGE_SKILLS_DIR, skills_dest, overwrite=True)
     opencode_refreshed = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
-    # User data: seeded once, then left alone.
-    schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR)
+    schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR, overwrite=True)
 
     return {
         "run_folder": str(ARTMIND_HOME),

@@ -147,10 +147,13 @@ def _chip(text: str, css_class: str = "chip") -> str:
 
 
 def _short_title(name: str, prefix: str) -> str:
-    """Derive a nav-friendly label, e.g. 'banking_risk_governance' + 'banking' -> 'Risk Governance'."""
+    """Derive a nav-friendly label, e.g. 'banking_risk_governance' + 'banking' -> 'Risk Governance'.
+
+    Also handles dotted hierarchical names, e.g. 'banking.policy' + 'banking' -> 'Policy'.
+    """
     label = name
     if prefix and label.startswith(prefix):
-        label = label[len(prefix) :].lstrip("_")
+        label = label[len(prefix) :].lstrip("_.")
     return (label or name).replace("_", " ").title()
 
 

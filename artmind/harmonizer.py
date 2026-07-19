@@ -19,17 +19,37 @@ class HarmonizeResult:
 # ── block extraction ──────────────────────────────────────────────────────────
 
 
+def _true_section_end(prompt: str, marker: str) -> int:
+    """Position of `marker` in `prompt`, backed up over any banner line (a
+    line of box-drawing '-' characters) immediately preceding it.
+
+    Without this, the LAST header's span would run through `marker` and
+    swallow that banner line into its block text -- harmless for a schema
+    that's merely read, but corrupting when that block gets copied verbatim
+    into another file (as `harmonize_schema` does): the stray banner line
+    would land mid-prompt in every child that inherits that entity class.
+    """
+    idx = prompt.find(marker)
+    if idx == -1:
+        return len(prompt)
+    m = re.search(r'\n━+$', prompt[:idx])
+    return m.start() if m else idx
+
+
 def _split_entity_blocks(prompt: str) -> dict[str, str]:
     """Return {ENTITY_TYPE: block_text} from entities_prompt.
 
     Each block runs from the type header line up to (not including) the next
     header or the EXTRACTION RULES separator.
+
+    Header lines are unindented (column 0) and body lines indented 2 spaces —
+    this matches how every real `*_schema.yaml` in domains/schemas/ is written
+    once YAML dedents the `entities_prompt: |` block scalar (verified against
+    banking_*, fiction, general, contracts, etc.), not one level deeper.
     """
-    header_re = re.compile(r'^  ([A-Z_][A-Z0-9_]*)$', re.MULTILINE)
+    header_re = re.compile(r'^([A-Z_][A-Z0-9_]*)$', re.MULTILINE)
     headers = list(header_re.finditer(prompt))
-    section_end_idx = prompt.find('\n  EXTRACTION RULES:')
-    if section_end_idx == -1:
-        section_end_idx = len(prompt)
+    section_end_idx = _true_section_end(prompt, '\nEXTRACTION RULES:')
 
     result: dict[str, str] = {}
     for i, match in enumerate(headers):
@@ -43,12 +63,14 @@ def _split_entity_blocks(prompt: str) -> dict[str, str]:
 
 
 def _split_property_blocks(prompt: str) -> dict[str, str]:
-    """Return {ENTITY_TYPE: block_text} from properties_prompt."""
-    header_re = re.compile(r'^  For ([A-Z_][A-Z0-9_]*), consider:$', re.MULTILINE)
+    """Return {ENTITY_TYPE: block_text} from properties_prompt.
+
+    Header lines are unindented (column 0), matching real schema files (see
+    `_split_entity_blocks` docstring).
+    """
+    header_re = re.compile(r'^For ([A-Z_][A-Z0-9_]*), consider:$', re.MULTILINE)
     headers = list(header_re.finditer(prompt))
-    key_rules_idx = prompt.find('\n  KEY RULES FOR PROPERTIES:')
-    if key_rules_idx == -1:
-        key_rules_idx = len(prompt)
+    key_rules_idx = _true_section_end(prompt, '\nKEY RULES FOR PROPERTIES:')
 
     result: dict[str, str] = {}
     for i, match in enumerate(headers):
@@ -63,9 +85,12 @@ def _split_relationship_blocks(prompt: str) -> dict[str, list[str]]:
     """Return {ENTITY_TYPE: [block, ...]} from relationships_prompt.
 
     Each entity type maps to ALL relationship blocks it appears in (both sides of ↔).
+
+    Header lines are unindented (column 0) and body lines indented 2 spaces,
+    matching real schema files (see `_split_entity_blocks` docstring).
     """
     block_re = re.compile(
-        r'^  ([A-Z_][A-Z0-9_]*) ↔ ([A-Z_][A-Z0-9_]*):\n(?:    [^\n]+\n?)+',
+        r'^([A-Z_][A-Z0-9_]*) ↔ ([A-Z_][A-Z0-9_]*):\n(?:  [^\n]+\n?)+',
         re.MULTILINE,
     )
     result: dict[str, list[str]] = {}
@@ -82,26 +107,31 @@ def _split_relationship_blocks(prompt: str) -> dict[str, list[str]]:
 
 
 def _insert_before(text: str, marker: str, content: str) -> str:
-    """Insert `content` immediately before `marker` in `text`. Appends if not found."""
-    idx = text.find(marker)
-    if idx == -1:
+    """Insert `content` immediately before `marker` in `text`. Appends if not found.
+
+    Backs up over a banner line (box-drawing '-' characters) immediately
+    preceding `marker`, so injected content lands before that banner rather
+    than being sandwiched between the banner and the marker.
+    """
+    idx = _true_section_end(text, marker)
+    if idx == len(text) and text.find(marker) == -1:
         return text + '\n\n' + content
     return text[:idx] + content + '\n\n' + text[idx:]
 
 
 def _inject_entity_blocks(prompt: str, blocks: list[str]) -> str:
     """Append entity blocks before the EXTRACTION RULES separator."""
-    return _insert_before(prompt, '\n  EXTRACTION RULES:', '\n\n' + '\n\n'.join(blocks))
+    return _insert_before(prompt, '\nEXTRACTION RULES:', '\n\n' + '\n\n'.join(blocks))
 
 
 def _inject_property_blocks(prompt: str, blocks: list[str]) -> str:
     """Append property blocks before the KEY RULES section."""
-    return _insert_before(prompt, '\n  KEY RULES FOR PROPERTIES:', '\n\n' + '\n\n'.join(blocks))
+    return _insert_before(prompt, '\nKEY RULES FOR PROPERTIES:', '\n\n' + '\n\n'.join(blocks))
 
 
 def _inject_relationship_blocks(prompt: str, blocks: list[str]) -> str:
     """Append relationship blocks before the EXTRACTION RULES separator."""
-    return _insert_before(prompt, '\n  EXTRACTION RULES:', '\n\n' + '\n\n'.join(blocks))
+    return _insert_before(prompt, '\nEXTRACTION RULES:', '\n\n' + '\n\n'.join(blocks))
 
 
 # ── core harmonize logic ──────────────────────────────────────────────────────
@@ -130,6 +160,8 @@ def _write_schema(schema_path: Path, data: dict, raw: str) -> None:
         raw = raw.replace('\nentities_prompt:', '\n' + new_types_block + '\nentities_prompt:')
 
     for key in ('entities_prompt', 'properties_prompt', 'relationships_prompt'):
+        if key not in data:
+            continue  # child never defined this section (e.g. a minimal stub) -- leave it absent
         new_val = data[key]
         section_re = re.compile(
             r'^(' + key + r': \|)\n((?:[ \t][^\n]*\n|\n)*)',
@@ -169,19 +201,31 @@ def harmonize_schema(
     if not missing:
         return HarmonizeResult(child_name, 'in_sync')
 
-    parent_entity_blocks = _split_entity_blocks(parent['entities_prompt'])
-    parent_prop_blocks = _split_property_blocks(parent['properties_prompt'])
-    parent_rel_blocks = _split_relationship_blocks(parent['relationships_prompt'])
+    # Defensive: a child schema may be a deliberately minimal stub that omits
+    # properties_prompt/relationships_prompt entirely (e.g. banking_cases). Only
+    # attempt to inject into a section the child actually defines, so harmonizing
+    # such a domain grows its entities_prompt with the missing common classes
+    # without fabricating sections it never had.
+    parent_entity_blocks = _split_entity_blocks(parent.get('entities_prompt', ''))
+    parent_prop_blocks = _split_property_blocks(parent.get('properties_prompt', ''))
+    parent_rel_blocks = _split_relationship_blocks(parent.get('relationships_prompt', ''))
 
-    entities_to_add = [parent_entity_blocks[t] for t in sorted(missing) if t in parent_entity_blocks]
-    props_to_add = [parent_prop_blocks[t] for t in sorted(missing) if t in parent_prop_blocks]
+    entities_to_add = (
+        [parent_entity_blocks[t] for t in sorted(missing) if t in parent_entity_blocks]
+        if 'entities_prompt' in child else []
+    )
+    props_to_add = (
+        [parent_prop_blocks[t] for t in sorted(missing) if t in parent_prop_blocks]
+        if 'properties_prompt' in child else []
+    )
     rels_to_add = []
-    seen_rel_blocks: set[str] = set()
-    for t in sorted(missing):
-        for block in parent_rel_blocks.get(t, []):
-            if block not in seen_rel_blocks:
-                rels_to_add.append(block)
-                seen_rel_blocks.add(block)
+    if 'relationships_prompt' in child:
+        seen_rel_blocks: set[str] = set()
+        for t in sorted(missing):
+            for block in parent_rel_blocks.get(t, []):
+                if block not in seen_rel_blocks:
+                    rels_to_add.append(block)
+                    seen_rel_blocks.add(block)
 
     if dry_run:
         return HarmonizeResult(child_name, 'dry_run', added=sorted(missing))

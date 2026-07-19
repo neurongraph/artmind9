@@ -1,13 +1,40 @@
-name: banking_products
+name: banking.products
 description: Product terms & conditions, pricing guides, and customer FAQs for FirstUK Bank retail banking products — covering savings accounts, current accounts, mortgages, and debit cards with their interest rates, fees, eligibility rules, and contractual provisions.
+
+entity_types:
+  - ACCOUNT
+  - ACCOUNT_HOLDER
+  - AML_SCREENING
+  - CARD
+  - CUSTOMER
+  - DIRECT_DEBIT
+  - ELIGIBILITY_RULE
+  - FAQ_ITEM
+  - FEE
+  - FRAUD_ALERT
+  - INTEREST_RATE_TIER
+  - JOINT_ACCOUNT
+  - KYC_VERIFICATION
+  - PRODUCT
+  - PRODUCT_FEATURE
+  - SAR
+  - STANDING_ORDER
+  - TERMS_CLAUSE
+  - TRANSACTION
 
 temporal:
   document:
-    valid_from: [Effective Date, Issued Date, Last Updated]
-    version: [Version]
+    valid_from:
+    - Effective Date
+    - Issued Date
+    - Last Updated
+    version:
+    - Version
   entities:
-    PRODUCT: { valid_from: effective_date }
-    INTEREST_RATE_TIER: { valid_from: effective_date }
+    PRODUCT:
+      valid_from: effective_date
+    INTEREST_RATE_TIER:
+      valid_from: effective_date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -53,33 +80,55 @@ entities_prompt: |
     A customer question and its official answer as a paired unit. Capture the question topic and key answer points together. Extract FAQ items that convey policy decisions, product rules, or useful customer guidance not otherwise captured in the above classes.
     example type values: account_basics | interest_query | fees_query | access_query | security_query | process_query | eligibility_query | dispute_query
 
-  CUSTOMER
-    A natural person who holds, applies for, or is referenced as an eligible applicant in the product document. Extract when the document specifies eligibility conditions, rights, or obligations that govern specific customer types.
-    example type values: individual_customer | joint_applicant | existing_customer | new_customer | eligible_customer
 
   ACCOUNT
-    A customer account opened under or governed by the product. Extract when the document describes account mechanics, balance rules, dormancy thresholds, or closure conditions that apply to the account arrangement.
-    example type values: savings_account | current_account | joint_account | dormant_account | closed_account
-
-  TRANSACTION
-    A financial event on the account referenced in the product document — deposits, withdrawals, transfers, fee charges, or disputed payments. Extract when the document defines transaction rules, dispute windows, or the conditions under which fees are triggered.
-    example type values: deposit | withdrawal | transfer | fee_charge | disputed_transaction | standing_order_payment | direct_debit_payment
-
-  CARD
-    A payment card issued with or linked to the product or account. Extract when the document describes card issuance, daily limits, loss or theft procedures, or contactless rules.
-    example type values: debit_card | credit_card | prepaid | contactless | replacement_card
-
-  KYC_VERIFICATION
-    The identity and address verification process required as an eligibility gate before a customer can open or hold the product. Extract when the document references identity checks, acceptable documents, or the consequence of failing verification.
-    example type values: identity_check | address_verification | enhanced_due_diligence | document_verification
+    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
+    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
 
   ACCOUNT_HOLDER
-    A person with legal rights and obligations over the account — primary, joint, or secondary. Extract when the document defines holder rights, withdrawal authority, liability allocation, or the process for adding or removing holders.
-    example type values: primary_holder | joint_holder | sole_holder | secondary_holder
+    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
+    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
+
+  AML_SCREENING
+    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
+    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
+
+  CARD
+    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
+    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
+
+  CUSTOMER
+    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
+    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
+
+  DIRECT_DEBIT
+    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
+    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
+
+  FRAUD_ALERT
+    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
+    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
 
   JOINT_ACCOUNT
-    An account arrangement held jointly by two or more customers with shared rights and liabilities. Extract when the document defines joint account rules, consent requirements, or liability provisions unique to joint arrangements.
+    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
     example type values: joint_and_several | tenants_in_common | joint_account_arrangement
+
+  KYC_VERIFICATION
+    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
+    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
+
+  SAR
+    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
+    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
+
+  STANDING_ORDER
+    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
+    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
+
+  TRANSACTION
+    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
+    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -146,7 +195,6 @@ entities_prompt: |
   __text__
 
   {text}
-
 properties_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
   Your job is to read a FirstUK Bank product document passage and enrich the provided entities with detailed properties based on the text.
@@ -230,52 +278,78 @@ properties_prompt: |
     - customer_action (what the customer should do based on the answer)
     - urgency (routine | important | time_sensitive)
 
-  For CUSTOMER, consider:
-    - eligibility_criteria (age, residency, identity requirements stated in the document)
-    - customer_type (individual, joint applicant, existing customer)
-    - applicable_products (products this customer type can access)
-    - exclusion_conditions (circumstances that disqualify a customer)
 
   For ACCOUNT, consider:
     - account_type (savings | current | joint)
-    - balance_rules (minimum balance, maximum balance, available balance calculation)
-    - dormancy_threshold (period of inactivity that triggers dormant status)
-    - closure_conditions (how and when the account can be closed, notice period required)
-    - linked_product_id (which product governs this account)
-
-  For TRANSACTION, consider:
-    - transaction_types (which types are referenced in this document)
-    - dispute_window (time limit for disputing a transaction)
-    - fee_triggers (which transaction events incur charges)
-    - reversal_rules (conditions under which a transaction can be reversed)
-
-  For CARD, consider:
-    - card_type (debit, credit, prepaid)
-    - daily_limit (ATM or spending daily ceiling)
-    - contactless_limit (per-transaction contactless ceiling)
-    - replacement_fee (cost of replacing a lost or stolen card)
-    - loss_report_procedure (steps customer must take)
-
-  For KYC_VERIFICATION, consider:
-    - required_documents (acceptable identity documents listed)
-    - verification_method (document, biometric, database check)
-    - mandatory (yes — required before account opening)
-    - consequence_of_failure (application rejected, account suspended)
-    - refresh_requirement (whether periodic reverification is stated)
+    - account_state (new | active | dormant | frozen | closed)
+    - balance_rules (minimum/maximum balance, dormancy threshold)
+    - closure_or_freeze_conditions
 
   For ACCOUNT_HOLDER, consider:
-    - holder_type (primary, joint, secondary)
-    - withdrawal_authority (can act alone or requires co-signature)
-    - liability_scope (individual liability or joint and several)
-    - consent_requirements (decisions requiring all holders to agree)
-    - holder_change_process (how holders are added or removed)
+    - holder_type (primary | joint | secondary)
+    - liability_scope
+    - withdrawal_or_signing_authority
+    - due_diligence_requirement
+
+  For AML_SCREENING, consider:
+    - mandatory (yes/no)
+    - screening_lists_or_scope
+    - hit_or_match_response
+    - regulatory_basis
+
+  For CARD, consider:
+    - card_type (debit | credit | prepaid)
+    - card_state (issuance | active | blocked | replacement)
+    - block_or_replacement_conditions
+    - daily_or_contactless_limit
+
+  For CUSTOMER, consider:
+    - customer_type (individual | joint_applicant | existing | new | high_risk | pep)
+    - risk_classification (standard | high_risk | pep | sanctioned)
+    - eligibility_or_verification_status (as stated in this document)
+    - context_role (how this customer appears in this document)
+
+  For DIRECT_DEBIT, consider:
+    - mandate_process
+    - dd_guarantee_coverage
+    - cancellation_or_dispute_process
+
+  For FRAUD_ALERT, consider:
+    - generation_trigger
+    - investigation_or_escalation_path
+    - customer_notification
+    - reimbursement_obligation
 
   For JOINT_ACCOUNT, consider:
-    - liability_type (joint_and_several or tenants_in_common)
-    - withdrawal_rights (whether either holder can withdraw full balance unilaterally)
-    - closure_consent_required (both holders must agree to close)
-    - aml_due_diligence (both holders subject to individual AML screening)
-    - dispute_resolution (process if holders disagree)
+    - liability_type (joint_and_several | tenants_in_common)
+    - consent_requirements
+    - dual_kyc_or_aml_requirement
+    - closure_consent
+
+  For KYC_VERIFICATION, consider:
+    - mandatory (yes/no)
+    - timing_or_refresh_frequency
+    - verification_method
+    - consequence_of_failure
+
+  For SAR, consider:
+    - filing_obligation
+    - filing_deadline
+    - confidentiality_rule
+    - consequence_of_non_filing
+
+  For STANDING_ORDER, consider:
+    - setup_or_amendment_process
+    - beneficiary_validation
+    - cancellation_process
+    - failure_handling
+
+  For TRANSACTION, consider:
+    - transaction_type (deposit | withdrawal | transfer | fee_charge | suspicious | disputed)
+    - monitoring_or_reporting_obligation
+    - thresholds (monetary value that triggers a rule)
+    - dispute_or_reversal_rules
+
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "fee_amount" not "amt")
@@ -330,7 +404,6 @@ properties_prompt: |
 
   __text__
   {text}
-
 relationships_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
   Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank product document.
@@ -409,32 +482,11 @@ relationships_prompt: |
   CUSTOMER ↔ ELIGIBILITY_RULE:
     subject_to, must_satisfy, governs_access_for
 
-  CUSTOMER ↔ KYC_VERIFICATION:
-    must_pass, required_to_complete, subject_to
-
-  CUSTOMER ↔ ACCOUNT:
-    holds, opens, closes, liable_for
-
-  CUSTOMER ↔ ACCOUNT_HOLDER:
-    designated_as, has_role_as
-
   ACCOUNT ↔ PRODUCT:
     opened_under, governed_by, linked_to
 
   ACCOUNT ↔ TERMS_CLAUSE:
     subject_to, governed_by
-
-  ACCOUNT ↔ TRANSACTION:
-    records, generates, has_associated
-
-  ACCOUNT ↔ ACCOUNT_HOLDER:
-    has_holder, held_by
-
-  ACCOUNT ↔ CARD:
-    linked_to, issues
-
-  ACCOUNT ↔ JOINT_ACCOUNT:
-    classified_as, structured_as
 
   ACCOUNT ↔ INTEREST_RATE_TIER:
     earns_at, subject_to
@@ -460,9 +512,6 @@ relationships_prompt: |
   KYC_VERIFICATION ↔ PRODUCT:
     required_for, gates_access_to
 
-  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
-    party_to, has_rights_in, liable_under
-
   ACCOUNT_HOLDER ↔ TERMS_CLAUSE:
     governed_by, subject_to
 
@@ -471,6 +520,80 @@ relationships_prompt: |
 
   JOINT_ACCOUNT ↔ ELIGIBILITY_RULE:
     subject_to, both_holders_must_satisfy
+
+
+  CUSTOMER ↔ ACCOUNT:
+    holds, opens, closes, liable_for
+
+  ACCOUNT ↔ ACCOUNT_HOLDER:
+    has_holder, held_by
+
+  ACCOUNT ↔ CARD:
+    linked_to, issues
+
+  ACCOUNT ↔ JOINT_ACCOUNT:
+    classified_as, structured_as
+
+  ACCOUNT ↔ TRANSACTION:
+    records, generates, has_associated
+
+  ACCOUNT ↔ KYC_VERIFICATION:
+    gate_for_opening, required_before_activating
+
+  ACCOUNT ↔ AML_SCREENING:
+    required_before_opening, ongoing_monitoring_of
+
+  ACCOUNT ↔ FRAUD_ALERT:
+    raised_on, results_in_freeze_of
+
+  ACCOUNT ↔ STANDING_ORDER:
+    set_up_on, deducts_from
+
+  ACCOUNT ↔ DIRECT_DEBIT:
+    set_up_on, deducts_from
+
+  CUSTOMER ↔ ACCOUNT_HOLDER:
+    designated_as, has_role_as
+
+  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
+    party_to, has_rights_in, liable_under
+
+  CUSTOMER ↔ AML_SCREENING:
+    screened_by, applied_to, required_for
+
+  AML_SCREENING ↔ TRANSACTION:
+    monitors, screens_for_patterns_in
+
+  AML_SCREENING ↔ SAR:
+    triggers, leads_to_filing_of
+
+  FRAUD_ALERT ↔ CARD:
+    raised_for, protects
+
+  CUSTOMER ↔ KYC_VERIFICATION:
+    required_to_complete, verified_by, subject_to
+
+  CUSTOMER ↔ SAR:
+    filed_about, concerns
+
+  CUSTOMER ↔ JOINT_ACCOUNT:
+    held_jointly_by, requires_consent_of_both
+
+  CUSTOMER ↔ STANDING_ORDER:
+    initiated_by, belongs_to
+
+  CUSTOMER ↔ DIRECT_DEBIT:
+    authorised_by, belongs_to
+
+  FRAUD_ALERT ↔ TRANSACTION:
+    triggered_by, raised_on
+
+  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
+    required_for_both_holders_of, applied_to
+
+  SAR ↔ TRANSACTION:
+    triggered_by, based_on_evidence_from
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

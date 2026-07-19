@@ -1,0 +1,107 @@
+name: banking.cases
+description: Banking incident and customer case records, including investigations, complaints, retention decisions, impact assessments, and remediation.
+
+entity_types:
+  - ACCOUNT
+  - ACCOUNT_HOLDER
+  - AML_SCREENING
+  - CARD
+  - CASE
+  - CUSTOMER
+  - CUSTOMER_COMPLAINT
+  - DIRECT_DEBIT
+  - FRAUD_ALERT
+  - IMPACT_ASSESSMENT
+  - INCIDENT_EVENT
+  - JOINT_ACCOUNT
+  - KYC_VERIFICATION
+  - REMEDIATION_ACTION
+  - RETENTION_DECISION
+  - SAR
+  - STANDING_ORDER
+  - TRANSACTION
+
+temporal:
+  document:
+    valid_from:
+    - Opened
+    - Received
+    - Decision Date
+    - Reporting Date
+    - Effective Date
+    version:
+    - Version
+  entities:
+    CASE:
+      valid_from: opened
+    INCIDENT_EVENT:
+      event_at: date_or_time
+    CUSTOMER_COMPLAINT:
+      event_at: received_date
+    RETENTION_DECISION:
+      event_at: decision_date
+    IMPACT_ASSESSMENT:
+      event_at: assessment_date
+    REMEDIATION_ACTION:
+      event_at: due_date
+  relative_anchor: document.valid_from
+  defaults:
+    valid_from: ingestion_date
+    valid_to: null
+    superseded_by: null
+    time_source: default_ingestion
+    valid_from_inferred: true
+
+entities_prompt: |
+  Extract CASE, INCIDENT_EVENT, CUSTOMER_COMPLAINT, RETENTION_DECISION, IMPACT_ASSESSMENT, and REMEDIATION_ACTION entities. Preserve attributed conflicting counts and their source; never infer a final count when reconciliation is pending.
+
+
+
+
+  ACCOUNT
+    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
+    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
+
+  ACCOUNT_HOLDER
+    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
+    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
+
+  AML_SCREENING
+    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
+    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
+
+  CARD
+    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
+    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
+
+  CUSTOMER
+    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
+    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
+
+  DIRECT_DEBIT
+    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
+    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
+
+  FRAUD_ALERT
+    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
+    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
+
+  JOINT_ACCOUNT
+    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
+    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
+
+  KYC_VERIFICATION
+    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
+    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
+
+  SAR
+    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
+    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
+
+  STANDING_ORDER
+    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
+    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
+
+  TRANSACTION
+    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
+    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction

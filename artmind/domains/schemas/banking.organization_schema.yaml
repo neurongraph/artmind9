@@ -1,12 +1,38 @@
-name: banking_organization
+name: banking.organization
 description: Organizational structure, business ontology, technology systems, and governance model documents for FirstUK Bank — covering departments, executive roles, core banking applications, ontology entity definitions, and operational metrics.
+
+entity_types:
+  - ACCOUNT
+  - ACCOUNT_HOLDER
+  - AML_SCREENING
+  - BANKING_CONCEPT
+  - BUSINESS_RULE
+  - CARD
+  - CUSTOMER
+  - DIRECT_DEBIT
+  - FRAUD_ALERT
+  - JOINT_ACCOUNT
+  - KYC_VERIFICATION
+  - METRIC_TARGET
+  - ORGANIZATIONAL_UNIT
+  - ROLE_PERSON
+  - SAR
+  - STANDING_ORDER
+  - SYSTEM_APPLICATION
+  - TRANSACTION
 
 temporal:
   document:
-    valid_from: [Effective Date, Issued Date, Reporting Date, Last Updated]
-    version: [Version]
+    valid_from:
+    - Effective Date
+    - Issued Date
+    - Reporting Date
+    - Last Updated
+    version:
+    - Version
   entities:
-    SYSTEM: { valid_from: effective_date }
+    SYSTEM:
+      valid_from: effective_date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -47,6 +73,56 @@ entities_prompt: |
   BUSINESS_RULE
     A constraint, decision authority, operational rule, regulatory obligation, or approval threshold that governs how the bank or its systems must behave. Include both hard constraints (cannot be violated) and governance rules (who must approve what).
     example type values: constraint | decision_authority | regulatory_obligation | approval_threshold | compliance_requirement | control | data_rule | operational_limit
+
+
+  ACCOUNT
+    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
+    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
+
+  ACCOUNT_HOLDER
+    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
+    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
+
+  AML_SCREENING
+    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
+    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
+
+  CARD
+    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
+    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
+
+  CUSTOMER
+    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
+    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
+
+  DIRECT_DEBIT
+    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
+    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
+
+  FRAUD_ALERT
+    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
+    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
+
+  JOINT_ACCOUNT
+    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
+    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
+
+  KYC_VERIFICATION
+    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
+    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
+
+  SAR
+    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
+    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
+
+  STANDING_ORDER
+    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
+    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
+
+  TRANSACTION
+    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
+    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -110,7 +186,6 @@ entities_prompt: |
   __text__
 
   {text}
-
 properties_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
   Your job is to read a FirstUK Bank document passage and enrich the provided entities with detailed properties based on the text.
@@ -186,6 +261,79 @@ properties_prompt: |
     - consequence (what happens if violated)
     - exception_process (how exceptions are handled if stated)
 
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - account_state (new | active | dormant | frozen | closed)
+    - balance_rules (minimum/maximum balance, dormancy threshold)
+    - closure_or_freeze_conditions
+
+  For ACCOUNT_HOLDER, consider:
+    - holder_type (primary | joint | secondary)
+    - liability_scope
+    - withdrawal_or_signing_authority
+    - due_diligence_requirement
+
+  For AML_SCREENING, consider:
+    - mandatory (yes/no)
+    - screening_lists_or_scope
+    - hit_or_match_response
+    - regulatory_basis
+
+  For CARD, consider:
+    - card_type (debit | credit | prepaid)
+    - card_state (issuance | active | blocked | replacement)
+    - block_or_replacement_conditions
+    - daily_or_contactless_limit
+
+  For CUSTOMER, consider:
+    - customer_type (individual | joint_applicant | existing | new | high_risk | pep)
+    - risk_classification (standard | high_risk | pep | sanctioned)
+    - eligibility_or_verification_status (as stated in this document)
+    - context_role (how this customer appears in this document)
+
+  For DIRECT_DEBIT, consider:
+    - mandate_process
+    - dd_guarantee_coverage
+    - cancellation_or_dispute_process
+
+  For FRAUD_ALERT, consider:
+    - generation_trigger
+    - investigation_or_escalation_path
+    - customer_notification
+    - reimbursement_obligation
+
+  For JOINT_ACCOUNT, consider:
+    - liability_type (joint_and_several | tenants_in_common)
+    - consent_requirements
+    - dual_kyc_or_aml_requirement
+    - closure_consent
+
+  For KYC_VERIFICATION, consider:
+    - mandatory (yes/no)
+    - timing_or_refresh_frequency
+    - verification_method
+    - consequence_of_failure
+
+  For SAR, consider:
+    - filing_obligation
+    - filing_deadline
+    - confidentiality_rule
+    - consequence_of_non_filing
+
+  For STANDING_ORDER, consider:
+    - setup_or_amendment_process
+    - beneficiary_validation
+    - cancellation_process
+    - failure_handling
+
+  For TRANSACTION, consider:
+    - transaction_type (deposit | withdrawal | transfer | fee_charge | suspicious | disputed)
+    - monitoring_or_reporting_obligation
+    - thresholds (monetary value that triggers a rule)
+    - dispute_or_reversal_rules
+
+
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "key_functions" not "kf")
     2. Use arrays for multiple values
@@ -237,7 +385,6 @@ properties_prompt: |
 
   __text__
   {text}
-
 relationships_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
   Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank document.
@@ -315,6 +462,80 @@ relationships_prompt: |
 
   METRIC_TARGET ↔ ORGANIZATIONAL_UNIT:
     owned_by, reported_to
+
+
+  CUSTOMER ↔ ACCOUNT:
+    holds, opens, closes, liable_for
+
+  ACCOUNT ↔ ACCOUNT_HOLDER:
+    has_holder, held_by
+
+  ACCOUNT ↔ CARD:
+    linked_to, issues
+
+  ACCOUNT ↔ JOINT_ACCOUNT:
+    classified_as, structured_as
+
+  ACCOUNT ↔ TRANSACTION:
+    records, generates, has_associated
+
+  ACCOUNT ↔ KYC_VERIFICATION:
+    gate_for_opening, required_before_activating
+
+  ACCOUNT ↔ AML_SCREENING:
+    required_before_opening, ongoing_monitoring_of
+
+  ACCOUNT ↔ FRAUD_ALERT:
+    raised_on, results_in_freeze_of
+
+  ACCOUNT ↔ STANDING_ORDER:
+    set_up_on, deducts_from
+
+  ACCOUNT ↔ DIRECT_DEBIT:
+    set_up_on, deducts_from
+
+  CUSTOMER ↔ ACCOUNT_HOLDER:
+    designated_as, has_role_as
+
+  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
+    party_to, has_rights_in, liable_under
+
+  CUSTOMER ↔ AML_SCREENING:
+    screened_by, applied_to, required_for
+
+  AML_SCREENING ↔ TRANSACTION:
+    monitors, screens_for_patterns_in
+
+  AML_SCREENING ↔ SAR:
+    triggers, leads_to_filing_of
+
+  FRAUD_ALERT ↔ CARD:
+    raised_for, protects
+
+  CUSTOMER ↔ KYC_VERIFICATION:
+    required_to_complete, verified_by, subject_to
+
+  CUSTOMER ↔ SAR:
+    filed_about, concerns
+
+  CUSTOMER ↔ JOINT_ACCOUNT:
+    held_jointly_by, requires_consent_of_both
+
+  CUSTOMER ↔ STANDING_ORDER:
+    initiated_by, belongs_to
+
+  CUSTOMER ↔ DIRECT_DEBIT:
+    authorised_by, belongs_to
+
+  FRAUD_ALERT ↔ TRANSACTION:
+    triggered_by, raised_on
+
+  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
+    required_for_both_holders_of, applied_to
+
+  SAR ↔ TRANSACTION:
+    triggered_by, based_on_evidence_from
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:

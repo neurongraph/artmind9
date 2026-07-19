@@ -59,6 +59,16 @@ def candidate_pairs(
        secondary tie-break added to the sort key, never the primary generator.
     Deterministic dedupe by (min_id,max_id); truncated to max_pairs.
     """
+    # TODO(hierarchical-domains): `domains` here is matched with exact `IN`
+    # (below and in `others` at the ANN query) — a parent domain like `banking`
+    # does NOT auto-expand to its `banking.*` children the way the query-layer
+    # `domain_predicate()` rollup does (graph_query.py). So
+    # `candidate_pairs(["banking"], ...)` finds nothing cross-child; pass the
+    # concrete children explicitly instead, e.g.
+    # `candidate_pairs(["banking.reference", "banking.products"], ...)`.
+    # Future fix: expand a parent domain to its concrete children at this
+    # entry point (the cross-domain pairing logic needs the concrete list,
+    # not a STARTS WITH predicate).
     seen: set[tuple[str, str]] = set()
     scored: list[tuple[float, float, dict]] = []
     with neo4j_session() as session:

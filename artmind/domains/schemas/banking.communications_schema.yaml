@@ -1,12 +1,39 @@
-name: banking_communications
+name: banking.communications
 description: Staff training materials and customer communication templates for FirstUK Bank — covering mandatory compliance training modules (AML, KYC, GDPR, fraud), product training, branch operations training, email/SMS templates, and call centre scripts.
+
+entity_types:
+  - ACCOUNT
+  - ACCOUNT_HOLDER
+  - AML_SCREENING
+  - CARD
+  - COMMUNICATION_TEMPLATE
+  - COMPLIANCE_OBLIGATION
+  - CUSTOMER
+  - DIRECT_DEBIT
+  - FRAUD_ALERT
+  - JOINT_ACCOUNT
+  - KYC_VERIFICATION
+  - LEARNING_OBJECTIVE
+  - PRODUCT
+  - SAR
+  - STANDING_ORDER
+  - TEMPLATE_VARIABLE
+  - TRAINING_MODULE
+  - TRANSACTION
+  - WARNING_SIGN
 
 temporal:
   document:
-    valid_from: [Effective Date, Issued Date, Reporting Date, Last Updated]
-    version: [Version]
+    valid_from:
+    - Effective Date
+    - Issued Date
+    - Reporting Date
+    - Last Updated
+    version:
+    - Version
   entities:
-    COMMUNICATION_TEMPLATE: { valid_from: effective_date }
+    COMMUNICATION_TEMPLATE:
+      valid_from: effective_date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -48,41 +75,59 @@ entities_prompt: |
     A specific compliance requirement, duty, or prohibition explained in training — something staff MUST do, MUST NOT do, MUST report, or MUST document. These are the actionable obligations extracted from training content, distinct from warning signs (which are inputs) and actions (which are responses).
     example type values: reporting_obligation | mandatory_action | prohibition | escalation_duty | documentation_requirement | confidentiality_obligation | training_completion | consent_requirement | data_handling_rule
 
-  CUSTOMER
-    A bank customer referenced in a communication template (as recipient or subject) or in training content (as the person being served or protected). Extract when templates are addressed to customers or training content governs customer-facing interactions.
-    example type values: individual_customer | new_customer | existing_customer | joint_account_holder | at_risk_customer
-
-  ACCOUNT
-    A customer account referenced in communication templates (account confirmation, statement, alert) or in training content (account opening, account management). Extract when account details are central to the communication or the training objective.
-    example type values: savings_account | current_account | joint_account | new_account | dormant_account
-
-  TRANSACTION
-    A financial event referenced in a communication template (transaction alert, account statement) or training module (suspicious transaction patterns, fraud scenarios). Extract when transactions are the trigger or subject of a communication or a warning sign taught in training.
-    example type values: transaction_alert | suspicious_transaction | large_transaction | disputed_transaction | statement_entry
-
-  CARD
-    A payment card referenced in communication templates (fraud alert, card issuance confirmation) or training content (card fraud detection, card security). Extract when card events trigger communications or are the subject of security training.
-    example type values: debit_card | card_fraud_alert | lost_stolen_card | contactless | card_security
-
-  KYC_VERIFICATION
-    The KYC process referenced in training modules or as a compliance obligation taught to staff. Extract when KYC is a named topic in a training module, a learning objective, or a compliance duty explained in the document.
-    example type values: identity_check | address_verification | document_collection | edd_process | kyc_refresh
-
-  AML_SCREENING
-    AML screening as taught in training content — the process, the red flags, the reporting obligations. Extract when AML screening is a named topic in a training module or a compliance obligation.
-    example type values: sanctions_screening | pep_check | transaction_monitoring | aml_red_flag | screening_process
-
-  SAR
-    A Suspicious Activity Report as taught in training — the obligation to file, when to file, how to file, and the confidentiality requirement. Extract when SAR filing is a compliance obligation or learning objective in training content.
-    example type values: sar_filing_obligation | internal_reporting | sar_deadline | confidentiality_rule | nca_reporting
-
-  FRAUD_ALERT
-    A fraud alert referenced in communication templates (security alert to customer) or training content (fraud detection, fraud response). Extract when fraud alerts trigger customer communications or are the subject of fraud awareness training.
-    example type values: security_alert_template | fraud_detection_training | account_takeover_signal | card_fraud_alert | velocity_check_training
-
   PRODUCT
     A banking product referenced in a product training module or customer communication template. Extract when the product is the primary subject of training content or the context for a communication template.
     example type values: smartsaver_account | current_account | mortgage | debit_card | savings_product
+
+
+  ACCOUNT
+    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
+    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
+
+  ACCOUNT_HOLDER
+    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
+    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
+
+  AML_SCREENING
+    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
+    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
+
+  CARD
+    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
+    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
+
+  CUSTOMER
+    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
+    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
+
+  DIRECT_DEBIT
+    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
+    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
+
+  FRAUD_ALERT
+    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
+    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
+
+  JOINT_ACCOUNT
+    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
+    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
+
+  KYC_VERIFICATION
+    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
+    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
+
+  SAR
+    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
+    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
+
+  STANDING_ORDER
+    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
+    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
+
+  TRANSACTION
+    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
+    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
@@ -149,7 +194,6 @@ entities_prompt: |
   __text__
 
   {text}
-
 properties_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking communications and training document analysis.
   Your job is to read a FirstUK Bank training or template document passage and enrich the provided entities with detailed properties based on the text.
@@ -224,56 +268,84 @@ properties_prompt: |
     - verification_method (how the bank checks compliance)
     - exceptions (any stated exemptions)
 
-  For CUSTOMER, consider:
-    - communication_context (what type of communication targets this customer)
-    - training_context (how customers are described in training content)
-    - customer_type (new, existing, joint holder, at-risk)
-    - protection_taught (what customer protection training covers)
-
-  For ACCOUNT, consider:
-    - account_type (savings | current | joint)
-    - communication_context (account confirmation, dormancy notice, statement)
-    - training_context (account opening training, account management guidance)
-
-  For TRANSACTION, consider:
-    - transaction_context (what type of transaction triggers a communication or is taught)
-    - alert_threshold (amount or pattern that triggers a transaction alert)
-    - warning_sign_link (whether this transaction type is a trained warning sign)
-
-  For CARD, consider:
-    - card_event (issuance, fraud alert, lost/stolen, replacement)
-    - communication_trigger (what card event sends which template)
-    - training_context (card security, card fraud awareness)
-
-  For KYC_VERIFICATION, consider:
-    - training_module (which module covers KYC)
-    - learning_objectives (what staff must be able to do after KYC training)
-    - common_errors_taught (mistakes staff are trained to avoid)
-    - regulatory_basis (which regulation is explained in the training)
-
-  For AML_SCREENING, consider:
-    - training_module (which module covers AML)
-    - red_flags_taught (specific AML indicators taught to staff)
-    - reporting_process_taught (how to report suspicions as taught)
-    - regulatory_basis (MLR 2017, POCA 2002, etc. as referenced in training)
-
-  For SAR, consider:
-    - training_module (which module covers SAR filing)
-    - filing_steps_taught (steps staff are taught for internal SAR reporting)
-    - confidentiality_emphasis (how tipping-off prohibition is taught)
-    - consequence_of_non_filing (what training says about regulatory risk)
-
-  For FRAUD_ALERT, consider:
-    - template_context (which communication template involves a fraud alert)
-    - training_module (which module covers fraud detection)
-    - fraud_patterns_taught (specific fraud patterns staff are trained to spot)
-    - customer_communication_trigger (what fraud event sends a customer alert)
-
   For PRODUCT, consider:
     - training_module (which training module covers this product)
     - communication_template (which templates are associated with this product)
     - key_features_taught (product features covered in training)
     - customer_facing_messaging (tone and key points of customer communications)
+
+
+  For ACCOUNT, consider:
+    - account_type (savings | current | joint)
+    - account_state (new | active | dormant | frozen | closed)
+    - balance_rules (minimum/maximum balance, dormancy threshold)
+    - closure_or_freeze_conditions
+
+  For ACCOUNT_HOLDER, consider:
+    - holder_type (primary | joint | secondary)
+    - liability_scope
+    - withdrawal_or_signing_authority
+    - due_diligence_requirement
+
+  For AML_SCREENING, consider:
+    - mandatory (yes/no)
+    - screening_lists_or_scope
+    - hit_or_match_response
+    - regulatory_basis
+
+  For CARD, consider:
+    - card_type (debit | credit | prepaid)
+    - card_state (issuance | active | blocked | replacement)
+    - block_or_replacement_conditions
+    - daily_or_contactless_limit
+
+  For CUSTOMER, consider:
+    - customer_type (individual | joint_applicant | existing | new | high_risk | pep)
+    - risk_classification (standard | high_risk | pep | sanctioned)
+    - eligibility_or_verification_status (as stated in this document)
+    - context_role (how this customer appears in this document)
+
+  For DIRECT_DEBIT, consider:
+    - mandate_process
+    - dd_guarantee_coverage
+    - cancellation_or_dispute_process
+
+  For FRAUD_ALERT, consider:
+    - generation_trigger
+    - investigation_or_escalation_path
+    - customer_notification
+    - reimbursement_obligation
+
+  For JOINT_ACCOUNT, consider:
+    - liability_type (joint_and_several | tenants_in_common)
+    - consent_requirements
+    - dual_kyc_or_aml_requirement
+    - closure_consent
+
+  For KYC_VERIFICATION, consider:
+    - mandatory (yes/no)
+    - timing_or_refresh_frequency
+    - verification_method
+    - consequence_of_failure
+
+  For SAR, consider:
+    - filing_obligation
+    - filing_deadline
+    - confidentiality_rule
+    - consequence_of_non_filing
+
+  For STANDING_ORDER, consider:
+    - setup_or_amendment_process
+    - beneficiary_validation
+    - cancellation_process
+    - failure_handling
+
+  For TRANSACTION, consider:
+    - transaction_type (deposit | withdrawal | transfer | fee_charge | suspicious | disputed)
+    - monitoring_or_reporting_obligation
+    - thresholds (monetary value that triggers a rule)
+    - dispute_or_reversal_rules
+
 
   KEY RULES FOR PROPERTIES:
     1. Use clear, readable key names (e.g., "trigger_event" not "trigger")
@@ -329,7 +401,6 @@ properties_prompt: |
 
   __text__
   {text}
-
 relationships_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking communications and training document analysis.
   Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank training or template document.
@@ -449,6 +520,80 @@ relationships_prompt: |
 
   COMPLIANCE_OBLIGATION ↔ FRAUD_ALERT:
     requires_response_to, mandates_reporting_of
+
+
+  CUSTOMER ↔ ACCOUNT:
+    holds, opens, closes, liable_for
+
+  ACCOUNT ↔ ACCOUNT_HOLDER:
+    has_holder, held_by
+
+  ACCOUNT ↔ CARD:
+    linked_to, issues
+
+  ACCOUNT ↔ JOINT_ACCOUNT:
+    classified_as, structured_as
+
+  ACCOUNT ↔ TRANSACTION:
+    records, generates, has_associated
+
+  ACCOUNT ↔ KYC_VERIFICATION:
+    gate_for_opening, required_before_activating
+
+  ACCOUNT ↔ AML_SCREENING:
+    required_before_opening, ongoing_monitoring_of
+
+  ACCOUNT ↔ FRAUD_ALERT:
+    raised_on, results_in_freeze_of
+
+  ACCOUNT ↔ STANDING_ORDER:
+    set_up_on, deducts_from
+
+  ACCOUNT ↔ DIRECT_DEBIT:
+    set_up_on, deducts_from
+
+  CUSTOMER ↔ ACCOUNT_HOLDER:
+    designated_as, has_role_as
+
+  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
+    party_to, has_rights_in, liable_under
+
+  CUSTOMER ↔ AML_SCREENING:
+    screened_by, applied_to, required_for
+
+  AML_SCREENING ↔ TRANSACTION:
+    monitors, screens_for_patterns_in
+
+  AML_SCREENING ↔ SAR:
+    triggers, leads_to_filing_of
+
+  FRAUD_ALERT ↔ CARD:
+    raised_for, protects
+
+  CUSTOMER ↔ KYC_VERIFICATION:
+    required_to_complete, verified_by, subject_to
+
+  CUSTOMER ↔ SAR:
+    filed_about, concerns
+
+  CUSTOMER ↔ JOINT_ACCOUNT:
+    held_jointly_by, requires_consent_of_both
+
+  CUSTOMER ↔ STANDING_ORDER:
+    initiated_by, belongs_to
+
+  CUSTOMER ↔ DIRECT_DEBIT:
+    authorised_by, belongs_to
+
+  FRAUD_ALERT ↔ TRANSACTION:
+    triggered_by, raised_on
+
+  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
+    required_for_both_holders_of, applied_to
+
+  SAR ↔ TRANSACTION:
+    triggered_by, based_on_evidence_from
+
 
   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   EXTRACTION RULES:
