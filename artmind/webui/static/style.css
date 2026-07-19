@@ -10,6 +10,7 @@
   --accent-contrast: #ffffff;
   --user-pill: #edebe3;
   --error: #b3423f;
+  --warn: #b8863b;
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
 }
 :root[data-theme="dark"] {
@@ -23,6 +24,7 @@
   --accent-contrast: #1e1e1c;
   --user-pill: #3a3a37;
   --error: #e07a77;
+  --warn: #d1a25e;
   --shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
