@@ -101,10 +101,11 @@ document.getElementById("ingest-form").addEventListener("submit", async (event) 
   const path = document.getElementById("ingest-path").value.trim();
   if (!domain || !path) return;
   try {
+    const stageOnly = document.getElementById("ingest-stage-only").checked;
     await api("/api/ingest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ domain, path }),
+      body: JSON.stringify({ domain, path, stageOnly }),
     });
     document.getElementById("ingest-path").value = "";
     refreshActiveJobs();
