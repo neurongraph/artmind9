@@ -30,123 +30,170 @@
   </header>
 
   <main class="dash">
-    <section class="dash-panel" id="stats-panel">
-      <h2>Stats</h2>
-      <div class="stat-row" id="stat-cards"></div>
-    </section>
+    <div class="stat-row" id="stat-cards"></div>
 
-    <section class="dash-panel" id="ingest-panel">
-      <h2>Ingest</h2>
-      <form id="ingest-form" class="dash-form">
-        <label>
-          Domain
-          <select id="ingest-domain" required></select>
-        </label>
-        <label class="grow">
-          Path
-          <input id="ingest-path" type="text" placeholder="/path/to/file/or/folder" required>
-        </label>
-        <button type="submit" class="btn-primary">Ingest</button>
-      </form>
-      <div class="dash-form" style="margin-top: 10px;">
-        <label>
-          Backfill embeddings for
-          <select id="embed-domain"></select>
-        </label>
-        <button id="embed-btn" type="button" class="btn-secondary">Run</button>
-        <span id="embed-result" class="dash-note"></span>
-      </div>
-    </section>
+    <div class="dash-grid">
+      <div class="col-side">
 
-    <section class="dash-panel" id="active-panel">
-      <h2>Active jobs</h2>
-      <div id="active-jobs" class="job-cards">
-        <p class="dash-empty">No active or queued jobs.</p>
-      </div>
-    </section>
+        <section class="dash-panel" id="ingest-panel">
+          <h2>Ingest</h2>
+          <p class="dash-hint">Raw file → job → worker → graph.</p>
+          <form id="ingest-form" class="dash-form stacked">
+            <label>
+              Domain
+              <select id="ingest-domain" required></select>
+            </label>
+            <label>
+              Path
+              <input id="ingest-path" type="text" placeholder="/path/to/file/or/folder" required>
+            </label>
+            <label class="checkbox">
+              <input id="ingest-stage-only" type="checkbox">
+              Stage only — extract, don't write to graph
+            </label>
+            <button type="submit" class="btn-primary">Ingest</button>
+          </form>
+        </section>
 
-    <section class="dash-panel" id="completed-panel">
-      <h2>Completed jobs</h2>
-      <table class="dash-table" id="completed-table">
-        <thead>
-          <tr><th>Job</th><th>Domain</th><th>Files</th><th>Status</th><th>Completed</th><th></th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
+        <section class="dash-panel" id="embed-panel">
+          <h2>Embeddings</h2>
+          <p class="dash-hint">Backfill after a snapshot restore or a consolidate run.</p>
+          <div class="dash-form stacked">
+            <label>
+              Backfill for domain
+              <select id="embed-domain"></select>
+            </label>
+            <button id="embed-btn" type="button" class="btn-secondary">Run backfill</button>
+          </div>
+          <span id="embed-result" class="dash-note"></span>
+        </section>
 
-    <section class="dash-panel" id="artifacts-panel">
-      <h2>Knowledge artifacts</h2>
-      <div class="dash-form">
-        <label>
-          Domain
-          <select id="artifacts-domain"></select>
-        </label>
-      </div>
-      <div id="artifact-cards" class="job-cards" style="margin-top: 12px;">
-        <p class="dash-empty">No documents extracted yet for this domain.</p>
+        <section class="dash-panel" id="artifacts-panel">
+          <h2>Browse</h2>
+          <p class="dash-hint">Staged extraction output for one domain.</p>
+          <div class="dash-form stacked">
+            <label>
+              Domain
+              <select id="artifacts-domain"></select>
+            </label>
+          </div>
+          <div id="artifact-cards" class="job-cards" style="margin-top: 12px;">
+            <p class="dash-empty">No documents extracted yet for this domain.</p>
+          </div>
+        </section>
+
       </div>
 
-      <h3 class="dash-subhead">Pull from repo</h3>
-      <form id="pull-kg-form" class="dash-form">
-        <label class="grow">
-          Repo URL
-          <input id="pull-repo" type="text" placeholder="git@github.com:acme/kg-store.git" required>
-        </label>
-        <label class="grow">
-          Repo path
-          <input id="pull-repo-path" type="text" placeholder="data/kg/sales_collateral" required>
-        </label>
-        <label>
-          Domain
-          <select id="pull-domain"></select>
-        </label>
-        <button type="submit" class="btn-secondary">Pull</button>
-      </form>
-      <span id="pull-result" class="dash-note"></span>
+      <div class="col-main">
 
-      <h3 class="dash-subhead">Import bundle</h3>
-      <form id="import-kg-form" class="dash-form">
-        <label>
-          Doc name
-          <input id="import-doc" type="text" placeholder="myfile" required>
-        </label>
-        <label>
-          Domain
-          <select id="import-domain"></select>
-        </label>
-        <label class="grow">
-          Bundle .zip
-          <input id="import-file" type="file" accept=".zip" required>
-        </label>
-        <button type="submit" class="btn-secondary">Import</button>
-      </form>
-      <span id="import-result" class="dash-note"></span>
-    </section>
+        <section class="dash-panel" id="jobs-panel">
+          <h2>Jobs</h2>
+          <div class="tabs" data-tab-group="jobs">
+            <button type="button" class="tab active" data-tab="active">
+              Active <span id="active-tab-count" class="tab-count"></span>
+            </button>
+            <button type="button" class="tab" data-tab="completed">Completed</button>
+          </div>
 
-    <section class="dash-panel" id="snapshots-panel">
-      <h2>Snapshots</h2>
+          <div class="tab-panel active" data-tab-group="jobs" data-tab-panel="active">
+            <div id="active-jobs" class="job-cards">
+              <p class="dash-empty">No active or queued jobs.</p>
+            </div>
+          </div>
+
+          <div class="tab-panel" data-tab-group="jobs" data-tab-panel="completed">
+            <div class="table-scroll">
+              <table class="dash-table" id="completed-table">
+                <thead>
+                  <tr><th>Job</th><th>Domain</th><th>Files</th><th>Status</th><th>Completed</th><th></th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="dash-panel" id="add-kg-panel">
+          <h2>Add extracted KG</h2>
+          <p class="dash-hint">Bring in artifacts extracted elsewhere. No job, no worker.</p>
+          <div class="tabs" data-tab-group="addkg">
+            <button type="button" class="tab active" data-tab="pull">Pull from repo</button>
+            <button type="button" class="tab" data-tab="import">Import bundle</button>
+          </div>
+
+          <div class="tab-panel active" data-tab-group="addkg" data-tab-panel="pull">
+            <form id="pull-kg-form" class="dash-form">
+              <label class="grow">
+                Repo URL
+                <input id="pull-repo" type="text" placeholder="git@github.com:acme/kg-store.git" required>
+              </label>
+              <label class="grow">
+                Repo path
+                <input id="pull-repo-path" type="text" placeholder="data/kg/sales_collateral" required>
+              </label>
+              <label>
+                Domain
+                <select id="pull-domain"></select>
+              </label>
+              <button type="submit" class="btn-secondary">Pull</button>
+            </form>
+            <p class="dash-hint">Stages files only. They appear in Browse as <strong>staged</strong> — use "Write to graph" there to commit.</p>
+            <span id="pull-result" class="dash-note"></span>
+          </div>
+
+          <div class="tab-panel" data-tab-group="addkg" data-tab-panel="import">
+            <form id="import-kg-form" class="dash-form">
+              <label>
+                Doc name
+                <input id="import-doc" type="text" placeholder="myfile" required>
+              </label>
+              <label>
+                Domain
+                <select id="import-domain"></select>
+              </label>
+              <label class="grow">
+                Bundle .zip
+                <input id="import-file" type="file" accept=".zip" required>
+              </label>
+              <button type="submit" class="btn-secondary">Import</button>
+            </form>
+            <p class="dash-hint">Writes to the graph immediately on upload.</p>
+            <span id="import-result" class="dash-note"></span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <section class="dash-panel dash-zone-maint" id="snapshots-panel">
+      <h2>Maintain — snapshots</h2>
+      <p class="dash-hint">Infrequent and destructive. Restoring replaces the entire graph.</p>
       <div id="snapshot-guardrail" class="guardrail-callout"></div>
-      <div class="dash-form">
-        <button id="create-snapshot-btn" type="button" class="btn-primary">Create snapshot</button>
-        <span id="snapshot-create-result" class="dash-note"></span>
+      <div class="zone-maint-body">
+        <div>
+          <div class="table-scroll">
+            <table class="dash-table" id="snapshots-table">
+              <thead>
+                <tr><th>Name</th><th>Size</th><th>Created</th><th></th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <button id="create-snapshot-btn" type="button" class="btn-primary">Create snapshot</button>
+          <span id="snapshot-create-result" class="dash-note"></span>
+          <h3 class="dash-subhead">Upload and restore</h3>
+          <form id="snapshot-import-form" class="dash-form stacked">
+            <label>
+              Snapshot .tar.gz
+              <input id="snapshot-import-file" type="file" accept=".tar.gz" required>
+            </label>
+            <button type="submit" class="btn-secondary">Upload &amp; restore</button>
+          </form>
+          <span id="snapshot-import-result" class="dash-note"></span>
+        </div>
       </div>
-      <table class="dash-table" id="snapshots-table" style="margin-top: 12px;">
-        <thead>
-          <tr><th>Name</th><th>Size</th><th>Created</th><th></th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-
-      <h3 class="dash-subhead">Upload and restore</h3>
-      <form id="snapshot-import-form" class="dash-form">
-        <label class="grow">
-          Snapshot .tar.gz
-          <input id="snapshot-import-file" type="file" accept=".tar.gz" required>
-        </label>
-        <button type="submit" class="btn-secondary">Upload &amp; restore</button>
-      </form>
-      <span id="snapshot-import-result" class="dash-note"></span>
     </section>
   </main>
 
