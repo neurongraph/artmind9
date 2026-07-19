@@ -9,6 +9,12 @@ temporal:
     ACTIVITY:      { event_at: date_or_time }
     STATE_CHANGE:  { event_at: date_or_time }
   relative_anchor: document.valid_from
+  defaults:
+    valid_from: ingestion_date
+    valid_to: null
+    superseded_by: null
+    time_source: default_ingestion
+    valid_from_inferred: true
 
 entity_types:
   - PERSON

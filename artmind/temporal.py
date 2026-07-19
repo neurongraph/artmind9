@@ -73,7 +73,7 @@ def _find_header_value(md_text: str, labels: list[str]) -> str | None:
     return None
 
 
-def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict) -> dict:
+def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict, defaults: dict | None = None) -> dict:
     """Return canonical document props from header labels / frontmatter.
 
     mapping example: {"valid_from": ["Effective Date"], "version": ["Version"]}
@@ -103,6 +103,10 @@ def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict) -> dict:
             out[canon] = iso if iso else raw
     if out:
         out["time_source"] = source or "header"
+    elif defaults and defaults.get("valid_from") == "ingestion_date":
+        out["valid_from"] = datetime.now(timezone.utc).date().isoformat()
+        out["time_source"] = defaults.get("time_source", "default_ingestion")
+        out["valid_from_inferred"] = defaults.get("valid_from_inferred", True)
     return out
 
 
@@ -170,7 +174,8 @@ def normalize_time(domain: str, dry_run: bool = False) -> dict:
             if md_file.exists():
                 from artmind.ingest import _parse_md_frontmatter
                 fm, md_text = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
-            lifted = lift_document_dates(md_text, fm, doc_map) if doc_map else {}
+            defaults = (schema.get("temporal") or {}).get("defaults") or {}
+            lifted = lift_document_dates(md_text, fm, doc_map, defaults) if doc_map else {}
             if lifted:
                 stats["documents"] += 1
                 stats["deterministic"] += 1
@@ -231,7 +236,8 @@ def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
     if md_file.exists():
         from artmind.ingest import _parse_md_frontmatter
         fm, md_text = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
-    lifted = lift_document_dates(md_text, fm, doc_map) if doc_map else {}
+    defaults = (schema.get("temporal") or {}).get("defaults") or {}
+    lifted = lift_document_dates(md_text, fm, doc_map, defaults) if doc_map else {}
     written = {"documents": 0, "entities": 0}
     with neo4j_session() as session:
         if lifted:

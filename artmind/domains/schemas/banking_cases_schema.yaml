@@ -13,6 +13,12 @@ temporal:
     IMPACT_ASSESSMENT: { event_at: assessment_date }
     REMEDIATION_ACTION: { event_at: due_date }
   relative_anchor: document.valid_from
+  defaults:
+    valid_from: ingestion_date
+    valid_to: null
+    superseded_by: null
+    time_source: default_ingestion
+    valid_from_inferred: true
 
 entities_prompt: |
   Extract CASE, INCIDENT_EVENT, CUSTOMER_COMPLAINT, RETENTION_DECISION, IMPACT_ASSESSMENT, and REMEDIATION_ACTION entities. Preserve attributed conflicting counts and their source; never infer a final count when reconciliation is pending.

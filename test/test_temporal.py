@@ -44,6 +44,16 @@ def test_lift_document_dates_frontmatter_fallback():
     assert out["time_source"] == "frontmatter"
 
 
+def test_lift_document_dates_uses_schema_default_with_provenance():
+    out = lift_document_dates(
+        "Body with no date", {}, {"valid_from": ["Effective Date"]},
+        {"valid_from": "ingestion_date", "time_source": "default_ingestion", "valid_from_inferred": True},
+    )
+    assert parse_iso(out["valid_from"]) == out["valid_from"]
+    assert out["time_source"] == "default_ingestion"
+    assert out["valid_from_inferred"] is True
+
+
 def test_lift_document_dates_from_metadata_table():
     # Real corpus format (verified against banking_document_corpus/policies/*.md):
     # a markdown "| Field | Value |" table, NOT colon-delimited prose.
