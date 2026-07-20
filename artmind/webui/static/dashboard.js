@@ -538,5 +538,5 @@ refreshActiveJobs();
 refreshCompletedJobs();
 refreshSnapshots();
 refreshGuardrail();
-setInterval(refreshActiveJobs, 2000);
+setInterval(refreshActiveJobs, 10000);
 setInterval(refreshCompletedJobs, 5000);
