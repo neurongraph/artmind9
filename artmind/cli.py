@@ -39,6 +39,7 @@ from artmind.refine_pipeline import run_pipeline
 from paths import (
     DOMAIN_SCHEMAS_DIR,
     INGEST_LOG_FILE,
+    PACKAGE_SCHEMAS_DIR,
     REFINE_DIR,
     WORKER_LOG,
     WORKER_PID_FILE,
@@ -345,24 +346,37 @@ def get_relationships(domain_name: str):
 @domains.command("render-html")
 @click.argument("prefix")
 @click.option(
+    "--package", is_flag=True,
+    help=(
+        "Read schemas from the package's own directory "
+        f"({PACKAGE_SCHEMAS_DIR}) instead of the run folder. Use this to "
+        "regenerate a reference doc checked into the repo, since the run "
+        "folder's copies can lag behind package edits until `artmind init` "
+        "re-seeds them."
+    ),
+)
+@click.option(
     "--output", "-o",
     type=click.Path(),
     default=None,
-    help="Output HTML path (default: domains/schemas/<prefix>_schemas_reference.html)",
+    help="Output HTML path (default: <source dir>/<prefix>_schemas_reference.html)",
 )
-def render_domains_html(prefix: str, output: str | None):
+def render_domains_html(prefix: str, package: bool, output: str | None):
     """Render a browsable HTML reference for all schemas matching PREFIX (e.g. 'banking').
 
-    Consolidates every domains/schemas/<prefix>*_schema.yaml file's entity
+    Consolidates every <source dir>/<prefix>*_schema.yaml file's entity
     classes, property guidance, and relationship model into one
-    self-contained, searchable HTML page.
+    self-contained, searchable HTML page. Reads from the run folder's domain
+    schemas by default; pass --package to read from the package's own
+    domains/schemas/ (the checkout) instead — see --package's help.
     """
     from artmind.schema_reference import build_schema_dict, render_html
 
-    matches = sorted(DOMAIN_SCHEMAS_DIR.glob(f"{prefix}*_schema.yaml"))
+    schemas_dir = PACKAGE_SCHEMAS_DIR if package else DOMAIN_SCHEMAS_DIR
+    matches = sorted(schemas_dir.glob(f"{prefix}*_schema.yaml"))
     if not matches:
         raise click.ClickException(
-            f"No schema files found matching '{prefix}*_schema.yaml' in {DOMAIN_SCHEMAS_DIR}"
+            f"No schema files found matching '{prefix}*_schema.yaml' in {schemas_dir}"
         )
 
     schemas = [build_schema_dict(f) for f in matches]
@@ -370,7 +384,7 @@ def render_domains_html(prefix: str, output: str | None):
     subtitle = f"Knowledge-graph extraction schemas for the '{prefix}' domain group"
     html_doc = render_html(schemas, title=title, prefix=prefix, subtitle=subtitle)
 
-    out_path = Path(output) if output else DOMAIN_SCHEMAS_DIR / f"{prefix}_schemas_reference.html"
+    out_path = Path(output) if output else schemas_dir / f"{prefix}_schemas_reference.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(html_doc)
     click.echo(f"Rendered {len(schemas)} schema(s) to {out_path}")
