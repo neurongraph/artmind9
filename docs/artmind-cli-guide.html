@@ -250,7 +250,7 @@ classes, property guidance, and relationship model into one
 self-contained, searchable html page. reads from the run folder&#x27;s domain
 schemas by default; pass --package to read from the package&#x27;s own
 domains/schemas/ (the checkout) instead — see --package&#x27;s help.
-  prefix prefix  package --package read schemas from the package&#x27;s own directory (/users/surjitdas/projects/artmind9/artmind/domains/schemas) instead of the run folder. use this to regenerate a reference doc checked into the repo, since the run folder&#x27;s copies can lag behind package edits until `artmind init` re-seeds them. output --output, -o output html path (default: &lt;source dir&gt;/&lt;prefix&gt;_schemas_reference.html)">
+  prefix prefix  package --package read schemas from the package&#x27;s own directory (/home/runner/work/artmind9/artmind9/artmind/domains/schemas) instead of the run folder. use this to regenerate a reference doc checked into the repo, since the run folder&#x27;s copies can lag behind package edits until `artmind init` re-seeds them. output --output, -o output html path (default: &lt;source dir&gt;/&lt;prefix&gt;_schemas_reference.html)">
         <div class="cmd-header" onclick="toggleCmd(this)">
           <span class="cmd-path">artmind domains render-html</span>
           <span class="cmd-brief">Render a browsable HTML reference for all schemas matching PREFIX (e.g. &#x27;banking&#x27;).</span>
@@ -263,7 +263,7 @@ domains/schemas/ (the checkout) instead — see --package&#x27;s help.
           
       <div class="cmd-options-title">Options &amp; Arguments</div>
       <table class="opt-table">
-        <tr><td><span class="opt-name" style="color:#fbbf24">PREFIX</span><br><span class="opt-type">TEXT</span></td><td></td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--package</span><br><span class="opt-type">FLAG</span></td><td>Read schemas from the package&#x27;s own directory (/Users/surjitdas/projects/artmind9/artmind/domains/schemas) instead of the run folder. Use this to regenerate a reference doc checked into the repo, since the run folder&#x27;s copies can lag behind package edits until `artmind init` re-seeds them.</td><td><span class="opt-default">default: False</span></td></tr><tr><td><span class="opt-name">--output, -o</span><br><span class="opt-type">PATH</span></td><td>Output HTML path (default: &lt;source dir&gt;/&lt;prefix&gt;_schemas_reference.html)</td><td></td></tr>
+        <tr><td><span class="opt-name" style="color:#fbbf24">PREFIX</span><br><span class="opt-type">TEXT</span></td><td></td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--package</span><br><span class="opt-type">FLAG</span></td><td>Read schemas from the package&#x27;s own directory (/home/runner/work/artmind9/artmind9/artmind/domains/schemas) instead of the run folder. Use this to regenerate a reference doc checked into the repo, since the run folder&#x27;s copies can lag behind package edits until `artmind init` re-seeds them.</td><td><span class="opt-default">default: False</span></td></tr><tr><td><span class="opt-name">--output, -o</span><br><span class="opt-type">PATH</span></td><td>Output HTML path (default: &lt;source dir&gt;/&lt;prefix&gt;_schemas_reference.html)</td><td></td></tr>
       </table>
 
           <div class="example-block">artmind domains render-html banking -o docs/banking_ref.html</div>
