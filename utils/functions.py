@@ -4,6 +4,7 @@ import os
 import re
 import shlex
 import subprocess
+import threading
 import time
 from pathlib import Path
 from dotenv import load_dotenv, dotenv_values
@@ -36,6 +37,11 @@ def resolve_llm_model(env: dict, override: str | None = None) -> str:
 
 
 _SEP = "=" * 72
+# Serializes appends to the shared LLM audit log. Concurrent ingest workers
+# (chunk-level fan-out) each log their call here; without the lock, large
+# prompt/response entries can interleave in the file. Held only for the write,
+# never around the LLM request itself, so it doesn't throttle concurrency.
+_LLM_LOG_LOCK = threading.Lock()
 
 
 def log_llm_call(call_type: str, model: str, prompt: str, response: str) -> None:
@@ -50,8 +56,9 @@ def log_llm_call(call_type: str, model: str, prompt: str, response: str) -> None
         f"# === RESPONSE ===\n"
         f"{response}\n"
     )
-    with open(LLM_CALLS_LOG_FILE, "a", encoding="utf-8") as f:
-        f.write(entry)
+    with _LLM_LOG_LOCK:
+        with open(LLM_CALLS_LOG_FILE, "a", encoding="utf-8") as f:
+            f.write(entry)
 
 
 _ANSI_ESCAPE = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
