@@ -61,6 +61,42 @@ def _init_db() -> None:
         )
     """)
     cursor.execute("""
+        CREATE TABLE IF NOT EXISTS benchmark_runs (
+            run_id           TEXT PRIMARY KEY,
+            name             TEXT,
+            domain_hint      TEXT,
+            source_path      TEXT NOT NULL,
+            backend          TEXT NOT NULL DEFAULT 'claude-sdk',
+            status           TEXT NOT NULL DEFAULT 'queued',
+            question_count   INTEGER NOT NULL,
+            processed_count  INTEGER DEFAULT 0,
+            queued_at        TEXT NOT NULL,
+            started_at       TEXT,
+            completed_at     TEXT,
+            error_message    TEXT
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS benchmark_questions (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            run_id        TEXT NOT NULL REFERENCES benchmark_runs(run_id),
+            seq           INTEGER NOT NULL,
+            qid           TEXT,
+            title         TEXT,
+            question      TEXT NOT NULL,
+            eval_comment  TEXT,
+            status        TEXT NOT NULL DEFAULT 'queued',
+            answer_text   TEXT,
+            trace_json    TEXT,
+            turns         INTEGER,
+            duration_s    REAL,
+            cost_usd      REAL,
+            started_at    TEXT,
+            completed_at  TEXT,
+            error_message TEXT
+        )
+    """)
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS update_sessions (
             session_id    TEXT PRIMARY KEY,
             domain        TEXT NOT NULL,

@@ -182,3 +182,9 @@
 .dash-zone-maint h2 { color: var(--warn); }
 .zone-maint-body { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; margin-top: 12px; }
 @media (max-width: 900px) { .zone-maint-body { grid-template-columns: 1fr; } }
+
+/* ── full-width panel (non-maintenance) ───────────────────────────────
+   Same "outside the two-column grid" slot as .dash-zone-maint, without the
+   warning styling -- for panels like Benchmark that are horizontal like
+   Jobs but shouldn't compete with Jobs for column width. ── */
+.dash-zone-wide { margin-top: 26px; }

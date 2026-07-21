@@ -53,6 +53,20 @@ This is not a coding session: do not explore or explain the artmind source code
 and never use graphify. Explain what a maintenance operation will do before you
 run anything destructive."""
 
+BENCHMARK_SYSTEM_APPEND = """\
+You are answering ONE question from an unattended batch benchmark run. There is
+no user on the other end of this conversation and no memory of any other
+question in the batch — treat this as a cold, standalone question. Follow the
+artmind-query skill's protocol exactly. Critical difference from an interactive
+chat: you must NEVER ask a clarifying question back, because nobody will
+answer it. If the domain or an entity reference is ambiguous, resolve it
+yourself using the skill's own routing/resolution steps (domains-overview,
+entity-resolve) and state the ambiguity and your choice in the answer instead
+of stopping. Always state which domain(s) and documents grounded the answer.
+Do not use artmind-update — this is a read-only benchmark, never write to the
+graph. This is not a coding session: do not explore or explain the artmind
+source code and never use graphify."""
+
 
 @dataclass(frozen=True)
 class AgentProfile:
@@ -87,4 +101,13 @@ ADMIN_PROFILE = AgentProfile(
     acp_mode="artmind-admin",
 )
 
-PROFILES: dict[str, AgentProfile] = {p.name: p for p in (QA_PROFILE, ADMIN_PROFILE)}
+BENCHMARK_PROFILE = AgentProfile(
+    name="benchmark",
+    skills=("artmind-query",),
+    system_append=BENCHMARK_SYSTEM_APPEND,
+    acp_mode="artmind",
+)
+
+PROFILES: dict[str, AgentProfile] = {
+    p.name: p for p in (QA_PROFILE, ADMIN_PROFILE, BENCHMARK_PROFILE)
+}

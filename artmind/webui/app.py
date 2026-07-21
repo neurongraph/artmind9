@@ -13,6 +13,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, field_validator
 
 from artmind.webui.backends import ADMIN_PROFILE, BACKEND_NAMES, DEFAULT_BACKEND, backend_factory
+from artmind.webui.benchmark_routes import register_benchmark_routes
 from artmind.webui.dashboard_routes import register_dashboard_routes
 from artmind.webui.sessions import SessionRegistry
 
@@ -95,6 +96,7 @@ def create_app(
 
     if admin_routes:
         register_dashboard_routes(app, templates)
+        register_benchmark_routes(app, templates)
 
     return app
 

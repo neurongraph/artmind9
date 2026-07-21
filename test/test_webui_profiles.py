@@ -5,7 +5,7 @@ import pytest
 
 from artmind.webui.agent import agent_options
 from artmind.webui.backends import backend_factory, create_backend
-from artmind.webui.profiles import ADMIN_PROFILE, PROFILES, QA_PROFILE
+from artmind.webui.profiles import ADMIN_PROFILE, BENCHMARK_PROFILE, PROFILES, QA_PROFILE
 
 
 @pytest.fixture(autouse=True)
@@ -21,9 +21,17 @@ def _clean_acp_env(monkeypatch):
 
 
 def test_profile_registry_and_acp_modes():
-    assert PROFILES == {"qa": QA_PROFILE, "admin": ADMIN_PROFILE}
+    assert PROFILES == {
+        "qa": QA_PROFILE, "admin": ADMIN_PROFILE, "benchmark": BENCHMARK_PROFILE,
+    }
     assert QA_PROFILE.acp_mode == "artmind"
     assert ADMIN_PROFILE.acp_mode == "artmind-admin"
+    assert BENCHMARK_PROFILE.acp_mode == "artmind"
+
+
+def test_benchmark_is_query_only():
+    # Batch benchmark runs must never write to the graph.
+    assert set(BENCHMARK_PROFILE.skills) == {"artmind-query"}
 
 
 def test_qa_is_read_and_contribute_only():

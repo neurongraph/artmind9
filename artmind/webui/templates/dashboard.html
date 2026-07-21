@@ -165,6 +165,60 @@
       </div>
     </div>
 
+    <section class="dash-panel dash-zone-wide" id="benchmark-panel">
+      <h2>Benchmark</h2>
+      <p class="dash-hint">Run a batch of Q&amp;A questions through the artmind query agent, one after another, and record every answer.</p>
+
+      <form id="benchmark-form" class="dash-form">
+        <label class="grow">
+          Questions file path
+          <input id="benchmark-path" type="text" placeholder="/path/to/questions.md" required>
+        </label>
+        <label>
+          Domain hint (optional)
+          <input id="benchmark-domain-hint" type="text" placeholder="banking (comma-splittable, cross-domain OK)">
+        </label>
+        <label>
+          Backend
+          <select id="benchmark-backend">
+            <option value="claude-sdk" selected>Claude (SDK)</option>
+            <option value="acp">opencode (ACP)</option>
+          </select>
+        </label>
+        <label class="grow">
+          Run name (optional)
+          <input id="benchmark-name" type="text" placeholder="banking corpus v1">
+        </label>
+        <button id="benchmark-preview-btn" type="button" class="btn-secondary">Preview</button>
+        <button id="benchmark-start-btn" type="submit" class="btn-primary" disabled>Start run</button>
+      </form>
+      <div id="benchmark-preview" class="dash-note"></div>
+
+      <div class="tabs" data-tab-group="benchmark">
+        <button type="button" class="tab active" data-tab="active">
+          Active <span id="benchmark-active-tab-count" class="tab-count"></span>
+        </button>
+        <button type="button" class="tab" data-tab="completed">Completed</button>
+      </div>
+
+      <div class="tab-panel active" data-tab-group="benchmark" data-tab-panel="active">
+        <div id="benchmark-active-runs" class="job-cards">
+          <p class="dash-empty">No active or queued benchmark runs.</p>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-tab-group="benchmark" data-tab-panel="completed">
+        <div class="table-scroll">
+          <table class="dash-table" id="benchmark-completed-table">
+            <thead>
+              <tr><th>Run</th><th>Domain hint</th><th>Questions</th><th>Status</th><th>Completed</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <section class="dash-panel dash-zone-maint" id="snapshots-panel">
       <h2>Maintain — snapshots</h2>
       <p class="dash-hint">Infrequent and destructive. Restoring replaces the entire graph.</p>
@@ -210,5 +264,6 @@
   </aside>
 
   <script src="/static/dashboard.js"></script>
+  <script src="/static/benchmark.js"></script>
 </body>
 </html>

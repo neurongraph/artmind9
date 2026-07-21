@@ -288,7 +288,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   transition: transform 0.25s ease;
   display: flex; flex-direction: column;
 }
-body.drawer-open .drawer { transform: translateX(0); }
+body.drawer-open .drawer:not(#help-drawer) { transform: translateX(0); }
 /* wide screens: drawer pushes content instead of covering it */
 @media (min-width: 1200px) {
   body.drawer-open .chat, body.drawer-open .composer-wrap { margin-right: 380px; }
