@@ -1,6 +1,6 @@
 [project]
 name = "artmind9"
-version = "0.4.0"
+version = "0.5.0"
 description = "A knowledge system that synchronizes with your mind using artificial intelligence - artmind"
 readme = "README.md"
 requires-python = ">=3.14.4"
