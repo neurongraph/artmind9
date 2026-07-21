@@ -191,6 +191,73 @@ def test_detect_supersession_notice_ignores_metadata_table_dates():
     assert out["effective"] == "2026-06-01"
 
 
+def test_detect_supersession_ignores_unrelated_doc_sharing_version(monkeypatch):
+    # Real bug: policy_complaints_v3.md's prose notice says "supersedes ... Version
+    # 2.0", and TWO unrelated documents in banking.policy independently carry
+    # version "2.0" — the real target (policy_complaints.md, same title family)
+    # and an unrelated document (policy_operational_risk.md) that happens to share
+    # both the version string and the effective date. The old by_version.get()
+    # lookup was a flat dict keyed only on version, so whichever of the two Neo4j
+    # returned last silently won, sometimes wiring the SUPERSEDES edge to the
+    # unrelated document. Resolution must prefer the title-family match
+    # (policy_complaints) and never resolve to the unrelated one.
+    docs = [
+        {"id": "complaints-v2", "name": "policy_complaints.md", "version": "2.0"},
+        {"id": "oprisk-v2", "name": "policy_operational_risk.md", "version": "2.0"},
+        {"id": "complaints-v3", "name": "policy_complaints_v3.md", "version": "3.0"},
+    ]
+
+    class _Result:
+        def data(self):
+            return docs
+
+    class FakeSession:
+        def run(self, *a, **k):
+            return _Result()
+        def __enter__(self):
+            return self
+        def __exit__(self, *a):
+            return False
+
+    bodies = {
+        "policy_complaints.md": "no notice here",
+        "policy_operational_risk.md": "no notice here",
+        "policy_complaints_v3.md": (
+            "## Supersession Notice\n\n"
+            "**This policy (Version 3.0, effective 2026-06-01) supersedes and replaces "
+            "Version 2.0 (effective 2026-01-15) in full.**"
+        ),
+    }
+    applied = []
+
+    monkeypatch.setattr(t, "neo4j_session", lambda: FakeSession())
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: bodies[name], raising=False)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older, eff)),
+    )
+
+    report = t.detect_supersession("banking.policy", dry_run=False)
+
+    assert applied == [("complaints-v3", "complaints-v2", "2026-06-01")]
+    assert report["applied"] == [{"newer": "complaints-v3", "older": "complaints-v2", "effective": "2026-06-01"}]
+
+
+def test_resolve_version_candidate_skips_when_no_unique_title_family_match():
+    citing = {"id": "citing", "name": "unrelated_notice.md"}
+    by_version_group = {
+        "2.0": [
+            {"id": "a", "name": "policy_complaints.md"},
+            {"id": "b", "name": "policy_operational_risk.md"},
+        ],
+    }
+    assert t._resolve_version_candidate(citing, "2.0", by_version_group) is None
+
+
+def test_title_stem_strips_v_suffix():
+    assert t._title_stem("policy_complaints_v3.md") == t._title_stem("policy_complaints.md")
+
+
 def test_detect_supersession_only_doc_name_filters_application(monkeypatch):
     """only_doc_name applies just that doc's notice; version map still sees all docs."""
     import artmind.temporal as temporal

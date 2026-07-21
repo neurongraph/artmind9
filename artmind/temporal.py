@@ -334,18 +334,18 @@ _EFFECTIVE_RE = re.compile(
     re.IGNORECASE,
 )
 _NOTICE_SECTION_RE = re.compile(r"##\s*Supersession Notice\s*\n(.*?)(?=\n##|\n---|\Z)", re.IGNORECASE | re.DOTALL)
-_TRAILING_NUMERIC_SUFFIX_RE = re.compile(r"_\d+$")
+_TRAILING_NUMERIC_SUFFIX_RE = re.compile(r"_v?\d+$", re.IGNORECASE)
 _WIKILINK_TARGET_RE = re.compile(r"\[\[([^\]|#]+)")
 
 
 def _title_stem(name: str) -> str:
     """Normalize a document name to its title family for collision/candidate matching.
 
-    Strips the extension and any trailing numeric suffixes (repeatedly) so that
-    dated/versioned siblings of the same document family compare equal — e.g.
-    interest_rate_schedule_2026, _2026_02, _2026_03 all reduce to
-    'interest_rate_schedule'. Names with non-numeric suffixes (e.g. two distinct
-    case-file exhibits that both happen to be version "1.0") are left distinct.
+    Strips the extension and any trailing numeric or "_v<N>" suffixes (repeatedly) so
+    that dated/versioned siblings of the same document family compare equal — e.g.
+    interest_rate_schedule_2026, _2026_02, _2026_03 and policy_complaints, _v2, _v3
+    all reduce to their shared family stem. Names with non-numeric suffixes (e.g. two
+    distinct case-file exhibits that both happen to be version "1.0") are left distinct.
     """
     stem = Path(name).stem
     while True:
@@ -497,6 +497,33 @@ def _read_doc_body(name: str) -> str | None:
     return body
 
 
+def _resolve_version_candidate(citing_doc: dict, version: str, by_version_group: dict) -> dict | None:
+    """Resolve a "Supersedes ... Version X" reference to the Document that version names.
+
+    A bare version string like "2.0" is not a reliable global key on its own — unrelated
+    documents routinely share the same boilerplate version (see the collision warning in
+    detect_supersession). When more than one document in the domain carries `version`,
+    only pick the one that also shares the citing document's title family (_title_stem);
+    an unresolved collision is skipped rather than guessed, since a silently wrong
+    SUPERSEDES link is worse than a missed one.
+    """
+    candidates = [g for g in by_version_group.get(version, []) if g["id"] != citing_doc["id"]]
+    if not candidates:
+        return None
+    if len(candidates) == 1:
+        return candidates[0]
+    citing_stem = _title_stem(citing_doc["name"])
+    stem_matches = [g for g in candidates if _title_stem(g["name"]) == citing_stem]
+    if len(stem_matches) == 1:
+        return stem_matches[0]
+    logger.warning(
+        "supersession: version {!r} ambiguous for {!r} ({}) — {} same-version candidates, "
+        "none uniquely matching title family {!r}; skipping",
+        version, citing_doc["name"], citing_doc["id"], len(candidates), citing_stem,
+    )
+    return None
+
+
 def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str | None = None) -> dict:
     """Scan each document's markdown for an explicit supersession notice and apply it.
 
@@ -523,27 +550,28 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
             "MATCH (d:Document) WHERE d.domain=$domain RETURN d.id AS id, d.name AS name, d.version AS version",
             domain=domain,
         ).data()
-    by_version: dict = {}
     by_version_group: dict = {}
     for d in docs:
         if not d.get("version"):
             continue
         version = str(d["version"])
-        by_version[version] = d
         by_version_group.setdefault(version, []).append(d)
     for version, group in by_version_group.items():
         if len(group) < 2:
             continue
         # A shared version string alone isn't a real collision — boilerplate values
         # like "1.0" are commonly reused across unrelated documents. Only warn when
-        # the documents also look like the same title family (see _title_stem).
+        # the documents also look like the same title family (see _title_stem); a
+        # cross-family collision (e.g. two unrelated policies both at "2.0") is
+        # silent here and instead handled by _resolve_version_candidate below, which
+        # skips rather than guesses when a citing document's notice is ambiguous.
         stems = {_title_stem(g["name"]) for g in group}
         if len(stems) > 1:
             continue
         for older, newer in zip(group, group[1:]):
             logger.warning(
                 "supersession: version {!r} collision in domain {!r} between document {!r} ({}) and {!r} ({}); "
-                "keeping the latter",
+                "resolution requires a title-family match",
                 version, domain, older["name"], older["id"], newer["name"], newer["id"],
             )
     by_stem_name = {Path(d["name"]).stem: d for d in docs}
@@ -557,8 +585,8 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
         effective = None
         notice = parse_supersession_notice(body)
         if notice:
-            candidate = by_version.get(notice["superseded_version"])
-            if candidate and candidate["id"] != d["id"]:
+            candidate = _resolve_version_candidate(d, notice["superseded_version"], by_version_group)
+            if candidate:
                 older, effective = candidate, notice["effective"]
         if older is None:
             table_notice = parse_supersession_metadata_table(body)
