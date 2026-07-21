@@ -37,13 +37,12 @@ dev-install: dev-stop-daemons
 dev-uninstall:
     uv tool uninstall artmind9
 
-# stop running artmind daemons (`serve`, ingestion worker). They load code at
-# start, so one left running keeps serving the OLD build after a reinstall —
-# and `serve` holding its port makes the next `artmind serve` fail to bind.
+# stop running artmind daemons (`serve`, `chat-ui`, `admin-ui`, ingestion worker).
+# They load code at start, so one left running keeps serving the OLD build after
+# a reinstall — and each holding its port makes the next `artmind <cmd>` fail to bind.
 dev-stop-daemons:
     #!/usr/bin/env bash
     set -uo pipefail
-    port="${ARTMIND_SERVE_PORT:-8377}"
     stopped=0
 
     # SIGTERM, wait, then SIGKILL if it ignored us
@@ -58,20 +57,25 @@ dev-stop-daemons:
         kill -9 "$1" 2>/dev/null || true
     }
 
-    # `artmind serve`: identify by the port it holds (that's the actual conflict),
-    # then confirm it really is artmind — never string-match a command line, which
-    # would also hit shells/editors that merely mention "artmind serve".
-    for pid in $(lsof -ti ":$port" -sTCP:LISTEN 2>/dev/null || true); do
-        cmd=$(ps -o command= -p "$pid" 2>/dev/null || true)
-        case "$cmd" in
-            *artmind*)
-                _stop "$pid" "artmind serve on port $port"
-                stopped=1
-                ;;
-            *)
-                echo "port $port held by a non-artmind process (pid $pid) — leaving it alone"
-                ;;
-        esac
+    # identify each by the port it holds (that's the actual conflict), then confirm
+    # it really is artmind — never string-match a command line, which would also
+    # hit shells/editors that merely mention "artmind serve"/"chat-ui"/"admin-ui".
+    serve_port="${ARTMIND_SERVE_PORT:-8377}"
+    for portspec in "$serve_port:artmind serve" "8378:artmind chat-ui" "8379:artmind admin-ui"; do
+        port="${portspec%%:*}"
+        label="${portspec#*:}"
+        for pid in $(lsof -ti ":$port" -sTCP:LISTEN 2>/dev/null || true); do
+            cmd=$(ps -o command= -p "$pid" 2>/dev/null || true)
+            case "$cmd" in
+                *artmind*)
+                    _stop "$pid" "$label on port $port"
+                    stopped=1
+                    ;;
+                *)
+                    echo "port $port held by a non-artmind process (pid $pid) — leaving it alone"
+                    ;;
+            esac
+        done
     done
 
     # background ingestion worker: match the script path, and never ourselves
