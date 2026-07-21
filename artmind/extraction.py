@@ -48,6 +48,17 @@ def extract_with_retry(
     prompt: str,
     debug_dir: Path | None = None,
 ) -> tuple[list, bool]:
+    # TODO(429-backoff): this retries once, immediately, on ANY exception. That was
+    # fine while ingestion issued LLM calls one-at-a-time. Now that extract_kg fans
+    # chunks out concurrently (ARTMIND_INGEST_MAX_WORKERS / --maxWorkers), several
+    # requests can hit a rate-limited provider (e.g. OpenRouter) at once and come
+    # back HTTP 429 "Too Many Requests". An immediate retry likely just earns
+    # another 429 and then marks the chunk failed — not a real extraction failure,
+    # just backpressure. If 429s show up in practice, special-case them here:
+    # detect the 429 (vs a genuine error), and retry with exponential backoff +
+    # jitter (e.g. 1s, 2s, 4s) for a few attempts before giving up. Honour a
+    # Retry-After header if the provider sends one. Keep the current fast single
+    # retry for non-rate-limit errors so real failures still fail fast.
     raw_llm = ""
     for attempt in range(2):
         try:

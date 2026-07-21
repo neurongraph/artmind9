@@ -7,6 +7,11 @@ from paths import DB_PATH
 def _init_db() -> None:
     DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
+    # WAL lets concurrent readers/writers coexist without "database is locked":
+    # required now that KG extraction fans chunks out across threads, each of
+    # which writes its own kg_chunk_status row. Persists on the db file, so
+    # setting it here (called on every _get_db) is idempotent and cheap.
+    conn.execute("PRAGMA journal_mode=WAL")
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS documents (
@@ -160,7 +165,10 @@ def _init_db() -> None:
 
 def _get_db() -> sqlite3.Connection:
     _init_db()
-    return sqlite3.connect(DB_PATH)
+    # 30s busy-timeout (up from sqlite's 5s default) so a chunk's short status
+    # UPDATE waits out a concurrent writer under thread fan-out instead of
+    # raising OperationalError("database is locked").
+    return sqlite3.connect(DB_PATH, timeout=30.0)
 
 
 def _create_update_session(session_id: str, domain: str, created_by: str) -> None:

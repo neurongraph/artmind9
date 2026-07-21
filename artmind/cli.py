@@ -347,12 +347,16 @@ def get_relationships(domain_name: str):
 @click.argument("prefix")
 @click.option(
     "--package", is_flag=True,
+    # Deliberately a RELATIVE path, not f"{PACKAGE_SCHEMAS_DIR}": that global is
+    # an absolute, machine-specific install path (e.g. /home/runner/... on CI vs
+    # /Users/... locally). Interpolating it here baked the build host's path into
+    # docs/artmind-cli-guide.html, so the generated guide differed per machine and
+    # the test_cli_guide check-in test could never stay green across environments.
     help=(
-        "Read schemas from the package's own directory "
-        f"({PACKAGE_SCHEMAS_DIR}) instead of the run folder. Use this to "
-        "regenerate a reference doc checked into the repo, since the run "
-        "folder's copies can lag behind package edits until `artmind init` "
-        "re-seeds them."
+        "Read schemas from the package's own bundled artmind/domains/schemas/ "
+        "directory instead of the run folder. Use this to regenerate a reference "
+        "doc checked into the repo, since the run folder's copies can lag behind "
+        "package edits until `artmind init` re-seeds them."
     ),
 )
 @click.option(
@@ -587,7 +591,10 @@ def ingest_embed_entities(domain: str, compact: bool) -> None:
 @ingest.command("extract-kg")
 @click.argument("document_name")
 @click.option("--domain", required=True, help="Domain the document belongs to")
-def ingest_extract_kg(document_name: str, domain: str) -> None:
+@click.option("--maxWorkers", "max_workers", type=int, default=None,
+              help="Chunk-level concurrency (default: 4 for openrouter, 1 for ollama; "
+                   "or ARTMIND_INGEST_MAX_WORKERS)")
+def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) -> None:
     """Re-run or resume KG extraction for a document (skips already-ok chunks).
 
     DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
@@ -608,7 +615,7 @@ def ingest_extract_kg(document_name: str, domain: str) -> None:
         )
 
     logger.info("extract_kg: {} (domain={}) — {} chunk(s)", document_name, domain, file_result["chunk_count"])
-    doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model)
+    doc_kg_dir = extract_kg(file_result, domain, text_model, embed_model, max_workers=max_workers)
     if doc_kg_dir:
         logger.info("extract_kg complete — merged JSON in {}", doc_kg_dir)
     else:

@@ -5,6 +5,7 @@ import sqlite3
 import time
 import uuid
 import datetime as _datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from hashlib import sha256
 from pathlib import Path
@@ -1185,16 +1186,46 @@ def ingest_to_kg(
     return commit_to_graph(doc_kg_dir, domain)
 
 
+def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:
+    """Chunk-level fan-out width, clamped to [1, chunk_count].
+
+    Chunks are independent units of work (each does its own embedding + 3 LLM
+    calls and writes its own JSON/status row), so they parallelize cleanly. The
+    win is real only when the LLM backend serves concurrent requests: OpenRouter
+    does, local Ollama largely serializes on one GPU. So the default is
+    provider-aware — 4 for openrouter, 1 (today's sequential behaviour) for
+    ollama — and either can be overridden via ARTMIND_INGEST_MAX_WORKERS or the
+    `override` argument (CLI/caller).
+    """
+    if override is None:
+        env = load_env()
+        raw = env.get("ARTMIND_INGEST_MAX_WORKERS")
+        if raw is not None and str(raw).strip():
+            try:
+                override = int(raw)
+            except ValueError:
+                logger.warning("Invalid ARTMIND_INGEST_MAX_WORKERS={!r}; ignoring", raw)
+        if override is None:
+            provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
+            override = 4 if provider == "openrouter" else 1
+    return max(1, min(override, chunk_count)) if chunk_count > 0 else 1
+
+
 def extract_kg(
     file_result: dict,
     domain: str,
     text_model: str = "ministral-3:14b",
     embed_model: str = "nomic-embed-text:latest",
+    max_workers: int | None = None,
 ) -> Path | None:
     """Extract KG from persisted chunks and merge into document-level JSON files.
 
     Resumable: already-ok steps are skipped. Failed steps get a second attempt
     in the pre-merge retry pass before the merge proceeds.
+
+    Chunks in the first pass are processed concurrently across a bounded thread
+    pool (see _resolve_ingest_workers); the 3 extraction steps stay sequential
+    *within* a chunk (properties/relationships depend on the entities output).
     Returns doc_kg_dir on success, None if prerequisites are missing.
     """
     doc_sha256 = file_result.get("sha256", "")
@@ -1359,9 +1390,41 @@ def extract_kg(
 
     # ── first pass ────────────────────────────────────────────────────────────
     statuses = _get_chunk_statuses(doc_sha256)
-    for seq, chunk_file in enumerate(chunk_files, start=1):
-        logger.info("Chunk {}/{} ({} bytes)", seq, chunk_count, chunk_file.stat().st_size)
-        _process_chunk(seq, chunk_file, statuses)
+    workers = _resolve_ingest_workers(chunk_count, max_workers)
+    if workers <= 1:
+        for seq, chunk_file in enumerate(chunk_files, start=1):
+            logger.info("Chunk {}/{} ({} bytes)", seq, chunk_count, chunk_file.stat().st_size)
+            _process_chunk(seq, chunk_file, statuses)
+    else:
+        # NOTE(429-backoff): this fan-out is exactly what can trip a provider's
+        # rate limit — `workers` concurrent LLM requests per document. If you raise
+        # ARTMIND_INGEST_MAX_WORKERS / --maxWorkers and start seeing HTTP 429s,
+        # the fix lives in extract_with_retry (extraction.py), not here.
+        logger.info("Extracting {} chunk(s) with {} workers", chunk_count, workers)
+        # Fan out per-chunk. Each _process_chunk is self-contained: it reads its
+        # own chunk file, writes chunk_{seq}.json to a unique path, and records
+        # status in its own SQLite row (WAL + busy-timeout make concurrent writes
+        # safe). Completion order is irrelevant — the merge pass below reads back
+        # by seq. A worker that raises is logged; the first exception is re-raised
+        # after the pool drains so an unexpected failure still surfaces (matching
+        # the sequential path), while chunks that did finish stay on disk for
+        # resume.
+        first_exc: Exception | None = None
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {
+                pool.submit(_process_chunk, seq, chunk_file, statuses): seq
+                for seq, chunk_file in enumerate(chunk_files, start=1)
+            }
+            for future in as_completed(futures):
+                seq = futures[future]
+                try:
+                    future.result()
+                except Exception as e:
+                    logger.error("Chunk {} raised during extraction: {}", seq, e)
+                    if first_exc is None:
+                        first_exc = e
+        if first_exc is not None:
+            raise first_exc
 
     # ── pre-merge retry pass ───────────────────────────────────────────────────
     statuses = _get_chunk_statuses(doc_sha256)
