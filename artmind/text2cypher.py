@@ -2,6 +2,7 @@ import json
 import re
 
 from loguru import logger
+from neo4j.exceptions import Neo4jError
 
 from artmind.extraction import call_llm, parse_json_response
 from artmind.graph_query import (
@@ -107,8 +108,11 @@ write a READ-ONLY Cypher query that answers the user's question.
 RULES:
 - The query MUST be read-only. Never use CREATE, DELETE, DETACH, SET, REMOVE, MERGE, or DROP.
 - Always scope results to the domains by including a WHERE clause:
-    (n.domain IN $domains OR any(d IN $domains WHERE n.domain STARTS WITH (d + '.')))
-  Apply this filter to every unbound node in the MATCH pattern.
+    (n.domain IN $domains OR any(_dom IN $domains WHERE n.domain STARTS WITH (_dom + '.')))
+  Apply this filter to every unbound node in the MATCH pattern. Always use `_dom`
+  (exactly as shown) as the any() loop variable — never reuse a node's own alias
+  (e.g. `d` for a :Document node) there, since that shadows the node inside the
+  any() clause and produces a Cypher type-mismatch error at query time.
 - Use entity names exactly as they appear in the entity listing when matching.
 - For Document/DocChunk/UserChat/Entity queries, use ONLY the relationship names
   from the STRUCTURAL GRAPH section below. Do NOT invent relationship names.
@@ -216,5 +220,17 @@ def execute_text2cypher(
         output["dry_run"] = True
         return output
 
-    output["rows"] = strip_embeddings(_run_read_query(cypher, parameters))
+    try:
+        output["rows"] = strip_embeddings(_run_read_query(cypher, parameters))
+    except Neo4jError as exc:
+        # neo4j exception classes often carry an empty str()/repr() (message lives on
+        # .message/.code instead), so a bare `raise` or `str(exc)` surfaces nothing
+        # useful — always report the generated Cypher alongside whatever detail the
+        # driver did give us.
+        detail = getattr(exc, "message", None) or str(exc) or exc.__class__.__name__
+        raise ValueError(
+            f"Generated Cypher failed ({getattr(exc, 'code', exc.__class__.__name__)}): {detail}\n"
+            f"Cypher: {cypher}\n"
+            f"Parameters: {parameters}"
+        ) from exc
     return output

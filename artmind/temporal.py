@@ -334,6 +334,45 @@ _EFFECTIVE_RE = re.compile(
     re.IGNORECASE,
 )
 _NOTICE_SECTION_RE = re.compile(r"##\s*Supersession Notice\s*\n(.*?)(?=\n##|\n---|\Z)", re.IGNORECASE | re.DOTALL)
+_TRAILING_NUMERIC_SUFFIX_RE = re.compile(r"_\d+$")
+_WIKILINK_TARGET_RE = re.compile(r"\[\[([^\]|#]+)")
+
+
+def _title_stem(name: str) -> str:
+    """Normalize a document name to its title family for collision/candidate matching.
+
+    Strips the extension and any trailing numeric suffixes (repeatedly) so that
+    dated/versioned siblings of the same document family compare equal — e.g.
+    interest_rate_schedule_2026, _2026_02, _2026_03 all reduce to
+    'interest_rate_schedule'. Names with non-numeric suffixes (e.g. two distinct
+    case-file exhibits that both happen to be version "1.0") are left distinct.
+    """
+    stem = Path(name).stem
+    while True:
+        m = _TRAILING_NUMERIC_SUFFIX_RE.search(stem)
+        if not m:
+            return stem
+        stem = stem[:m.start()]
+
+
+def parse_supersession_metadata_table(md_text: str) -> dict | None:
+    """Parse an explicit metadata-table 'Supersedes' row as an alternate notice format.
+
+    Some documents self-declare lineage via a `| Supersedes | [[doc_name]] |`
+    metadata-table row (naming the superseded document directly) plus an
+    `| Effective Date | ... |` row, instead of a prose "## Supersession Notice"
+    section referencing a version number (see parse_supersession_notice). Returns
+    the older document's name (not a version) so callers must resolve it by name.
+    """
+    raw = _find_header_value(md_text, ["Supersedes"])
+    if not raw or raw.strip().lower() == "none":
+        return None
+    link = _WIKILINK_TARGET_RE.search(raw)
+    doc_name = (link.group(1) if link else raw).strip()
+    if not doc_name:
+        return None
+    effective = parse_iso(_find_header_value(md_text, ["Effective Date"]))
+    return {"superseded_doc_name": doc_name, "effective": effective}
 
 
 def parse_supersession_notice(md_text: str) -> dict | None:
@@ -459,16 +498,24 @@ def _read_doc_body(name: str) -> str | None:
 
 
 def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str | None = None) -> dict:
-    """Scan each document's markdown for an explicit Supersession Notice and apply it.
+    """Scan each document's markdown for an explicit supersession notice and apply it.
 
-    Matches the superseded Version against another Document in the same domain
-    (via lifted `version`). Additive; safe to re-run.
+    Recognizes two notice formats:
+      1. A prose "## Supersession Notice" section naming a superseded Version
+         number (parse_supersession_notice) — resolved against another Document
+         in the same domain via lifted `version`.
+      2. A metadata-table `| Supersedes | [[doc_name]] |` row naming the older
+         document directly (parse_supersession_metadata_table) — resolved by
+         document name instead of version, since these documents don't carry
+         distinguishing version numbers (many independently use "1.0").
 
-    When `only_doc_name` is set, the version map is still built from ALL documents
-    in the domain (needed to resolve the older side of the notice), but the notice
-    is only parsed and applied for the named document — this lets commit-time
-    per-document callers reuse the same resolution logic without re-scanning or
-    re-applying notices for every other document in the domain.
+    Additive; safe to re-run.
+
+    When `only_doc_name` is set, the version/name maps are still built from ALL
+    documents in the domain (needed to resolve the older side of the notice),
+    but the notice is only parsed and applied for the named document — this lets
+    commit-time per-document callers reuse the same resolution logic without
+    re-scanning or re-applying notices for every other document in the domain.
     """
     report: dict = {"domain": domain, "applied": [], "dry_run": dry_run}
     with neo4j_session() as session:
@@ -477,31 +524,51 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
             domain=domain,
         ).data()
     by_version: dict = {}
+    by_version_group: dict = {}
     for d in docs:
         if not d.get("version"):
             continue
         version = str(d["version"])
-        existing = by_version.get(version)
-        if existing is not None and existing["id"] != d["id"]:
+        by_version[version] = d
+        by_version_group.setdefault(version, []).append(d)
+    for version, group in by_version_group.items():
+        if len(group) < 2:
+            continue
+        # A shared version string alone isn't a real collision — boilerplate values
+        # like "1.0" are commonly reused across unrelated documents. Only warn when
+        # the documents also look like the same title family (see _title_stem).
+        stems = {_title_stem(g["name"]) for g in group}
+        if len(stems) > 1:
+            continue
+        for older, newer in zip(group, group[1:]):
             logger.warning(
                 "supersession: version {!r} collision in domain {!r} between document {!r} ({}) and {!r} ({}); "
                 "keeping the latter",
-                version, domain, existing["name"], existing["id"], d["name"], d["id"],
+                version, domain, older["name"], older["id"], newer["name"], newer["id"],
             )
-        by_version[version] = d
+    by_stem_name = {Path(d["name"]).stem: d for d in docs}
     for d in docs:
         if only_doc_name is not None and d["name"] != only_doc_name:
             continue
         body = _read_doc_body(d["name"])
         if body is None:
             continue
+        older = None
+        effective = None
         notice = parse_supersession_notice(body)
-        if not notice:
+        if notice:
+            candidate = by_version.get(notice["superseded_version"])
+            if candidate and candidate["id"] != d["id"]:
+                older, effective = candidate, notice["effective"]
+        if older is None:
+            table_notice = parse_supersession_metadata_table(body)
+            if table_notice:
+                candidate = by_stem_name.get(table_notice["superseded_doc_name"])
+                if candidate and candidate["id"] != d["id"]:
+                    older, effective = candidate, table_notice["effective"]
+        if older is None:
             continue
-        older = by_version.get(notice["superseded_version"])
-        if not older or older["id"] == d["id"]:
-            continue
-        report["applied"].append({"newer": d["id"], "older": older["id"], "effective": notice["effective"]})
+        report["applied"].append({"newer": d["id"], "older": older["id"], "effective": effective})
         if not dry_run:
-            apply_supersession(d["id"], older["id"], "document", notice["effective"], detected_by="notice")
+            apply_supersession(d["id"], older["id"], "document", effective, detected_by="notice")
     return report
