@@ -524,6 +524,37 @@ def _resolve_version_candidate(citing_doc: dict, version: str, by_version_group:
     return None
 
 
+def _infer_family_supersessions(
+    docs: list[dict], only_doc_name: str | None
+) -> list[tuple[dict, dict, str]]:
+    """Infer supersession pairs among same-title-family documents by valid_from.
+
+    Only documents carrying a canonical valid_from participate. Members of a
+    family are sorted by valid_from and linked as a chain of consecutive pairs
+    (each newer document supersedes its immediate predecessor). A tie on
+    valid_from is skipped — ambiguity is never guessed. When only_doc_name is
+    set, only pairs whose NEWER side is that document are returned (the
+    commit-time per-document scope). Returns (newer, older, effective) tuples
+    with effective = the newer document's valid_from.
+    """
+    families: dict[str, list[dict]] = {}
+    for d in docs:
+        if d.get("valid_from"):
+            families.setdefault(_title_stem(d["name"]), []).append(d)
+    pairs: list[tuple[dict, dict, str]] = []
+    for group in families.values():
+        if len(group) < 2:
+            continue
+        group.sort(key=lambda d: str(d["valid_from"]))
+        for older, newer in zip(group, group[1:]):
+            if str(older["valid_from"]) == str(newer["valid_from"]):
+                continue
+            if only_doc_name is not None and newer["name"] != only_doc_name:
+                continue
+            pairs.append((newer, older, str(newer["valid_from"])))
+    return pairs
+
+
 def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str | None = None) -> dict:
     """Scan each document's markdown for an explicit supersession notice and apply it.
 
@@ -535,6 +566,12 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
          document directly (parse_supersession_metadata_table) — resolved by
          document name instead of version, since these documents don't carry
          distinguishing version numbers (many independently use "1.0").
+      3. When the domain schema sets temporal.defaults.supersede_on_title_family,
+         a version chain is inferred among same-title-family documents ordered by
+         canonical valid_from (see _infer_family_supersessions). Off by default:
+         dated series (meeting notes, monthly reports) share a title family
+         without superseding each other — only the schema author knows which
+         semantics a domain has. Explicit notices take precedence per pair.
 
     Additive; safe to re-run.
 
@@ -547,7 +584,8 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
     report: dict = {"domain": domain, "applied": [], "dry_run": dry_run}
     with neo4j_session() as session:
         docs = session.run(
-            "MATCH (d:Document) WHERE d.domain=$domain RETURN d.id AS id, d.name AS name, d.version AS version",
+            "MATCH (d:Document) WHERE d.domain=$domain "
+            "RETURN d.id AS id, d.name AS name, d.version AS version, d.valid_from AS valid_from",
             domain=domain,
         ).data()
     by_version_group: dict = {}
@@ -599,4 +637,27 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
         report["applied"].append({"newer": d["id"], "older": older["id"], "effective": effective})
         if not dry_run:
             apply_supersession(d["id"], older["id"], "document", effective, detected_by="notice")
+
+    # ── title-family inference (schema-gated third route) ─────────────────────
+    # Explicit notices above take precedence: any pair they already applied this
+    # run is skipped here. detected_by distinguishes the routes in the report and
+    # on the SUPERSEDES edge; notice-derived report entries keep their original
+    # shape (no detected_by key).
+    defaults = (load_schema(domain).get("temporal") or {}).get("defaults") or {}
+    if defaults.get("supersede_on_title_family"):
+        applied_pairs = {(a["newer"], a["older"]) for a in report["applied"]}
+        for newer, older, effective in _infer_family_supersessions(docs, only_doc_name):
+            pair = (newer["id"], older["id"])
+            if pair in applied_pairs:
+                continue
+            applied_pairs.add(pair)
+            report["applied"].append(
+                {"newer": newer["id"], "older": older["id"],
+                 "effective": effective, "detected_by": "title_family"}
+            )
+            if not dry_run:
+                apply_supersession(
+                    newer["id"], older["id"], "document", effective,
+                    detected_by="title_family",
+                )
     return report

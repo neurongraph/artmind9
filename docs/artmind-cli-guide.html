@@ -695,20 +695,26 @@ workflow:
         </div>
       </div>
 
-      <div class="cmd-card" data-search="artmind ingest detect supersession scan documents for explicit supersession notice sections and apply supersedes edges.  domain --domain domain to scan for explicit supersession notice sections dry_run --dry-run report matches without writing compact --compact emit compact json">
+      <div class="cmd-card" data-search="artmind ingest detect supersession scan documents for supersession declarations and apply supersedes edges.
+
+recognizes prose &quot;## supersession notice&quot; sections, metadata-table
+&quot;| supersedes | [[doc]] |&quot; rows, and — when the domain schema sets
+temporal.defaults.supersede_on_title_family — inferred version chains among
+same-title-family documents ordered by valid_from.
+  domain --domain domain to scan for supersession declarations (notices, metadata rows, and — when the schema enables supersede_on_title_family — title-family version chains) dry_run --dry-run report matches without writing compact --compact emit compact json">
         <div class="cmd-header" onclick="toggleCmd(this)">
           <span class="cmd-path">artmind ingest detect-supersession</span>
-          <span class="cmd-brief">Scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges.</span>
+          <span class="cmd-brief">Scan documents for supersession declarations and apply SUPERSEDES edges.</span>
           <span class="cmd-badge badge-required">--domain required</span>
           <span class="cmd-expand">▶</span>
         </div>
         <div class="cmd-detail">
-          <div class="cmd-description">Scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges.</div>
+          <div class="cmd-description">Scan documents for supersession declarations and apply SUPERSEDES edges.<br><br>Recognizes prose &quot;## Supersession Notice&quot; sections, metadata-table<br>&quot;| Supersedes | [[doc]] |&quot; rows, and — when the domain schema sets<br>temporal.defaults.supersede_on_title_family — inferred version chains among<br>same-title-family documents ordered by valid_from.<br></div>
           <div class="cmd-usage">artmind ingest detect-supersession <span class="opt">[OPTIONS]</span></div>
           
       <div class="cmd-options-title">Options &amp; Arguments</div>
       <table class="opt-table">
-        <tr><td><span class="opt-name">--domain</span><br><span class="opt-type">TEXT</span></td><td>Domain to scan for explicit Supersession Notice sections</td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--dry-run</span><br><span class="opt-type">FLAG</span></td><td>Report matches without writing</td><td><span class="opt-default">default: False</span></td></tr><tr><td><span class="opt-name">--compact</span><br><span class="opt-type">FLAG</span></td><td>Emit compact JSON</td><td><span class="opt-default">default: False</span></td></tr>
+        <tr><td><span class="opt-name">--domain</span><br><span class="opt-type">TEXT</span></td><td>Domain to scan for supersession declarations (notices, metadata rows, and — when the schema enables supersede_on_title_family — title-family version chains)</td><td><span class="opt-required">required</span></td></tr><tr><td><span class="opt-name">--dry-run</span><br><span class="opt-type">FLAG</span></td><td>Report matches without writing</td><td><span class="opt-default">default: False</span></td></tr><tr><td><span class="opt-name">--compact</span><br><span class="opt-type">FLAG</span></td><td>Emit compact JSON</td><td><span class="opt-default">default: False</span></td></tr>
       </table>
 
           

@@ -304,3 +304,168 @@ def test_detect_supersession_only_doc_name_filters_application(monkeypatch):
     applied.clear()
     result = temporal.detect_supersession("d", only_doc_name="v3.md")
     assert applied == [("docA", "docB")]
+
+
+# ── title-family inference (schema-gated) ─────────────────────────────────────
+
+
+class _FamilySession:
+    """FakeSession whose docs query returns the given rows."""
+
+    def __init__(self, docs):
+        self._docs = docs
+
+    def run(self, *a, **k):
+        docs = self._docs
+
+        class _Result:
+            def data(self):
+                return docs
+
+        return _Result()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+
+def _family_gate_on(domain):
+    return {"temporal": {"defaults": {"supersede_on_title_family": True}}}
+
+
+def test_family_inference_links_dated_siblings_without_notice(monkeypatch):
+    # Neither document carries a notice; the schema gate is on; valid_from
+    # ordering alone infers the chain. effective = the newer doc's valid_from.
+    docs = [
+        {"id": "irs-03", "name": "interest_rate_schedule_2026_03.md", "version": None, "valid_from": "2026-03-01"},
+        {"id": "irs-02", "name": "interest_rate_schedule_2026_02.md", "version": None, "valid_from": "2026-02-01"},
+    ]
+    applied = []
+    monkeypatch.setattr(t, "neo4j_session", lambda: _FamilySession(docs))
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: "plain body, no notice", raising=False)
+    monkeypatch.setattr(t, "load_schema", _family_gate_on)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older, eff, detected_by)),
+    )
+
+    report = t.detect_supersession("banking.reference")
+
+    assert applied == [("irs-03", "irs-02", "2026-03-01", "title_family")]
+    assert report["applied"] == [
+        {"newer": "irs-03", "older": "irs-02", "effective": "2026-03-01", "detected_by": "title_family"}
+    ]
+
+
+def test_family_inference_off_by_default(monkeypatch):
+    # No schema flag → no inference, even with perfectly ordered siblings.
+    docs = [
+        {"id": "a", "name": "notes_2026_01.md", "version": None, "valid_from": "2026-01-05"},
+        {"id": "b", "name": "notes_2026_02.md", "version": None, "valid_from": "2026-02-05"},
+    ]
+    applied = []
+    monkeypatch.setattr(t, "neo4j_session", lambda: _FamilySession(docs))
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: "plain body", raising=False)
+    monkeypatch.setattr(t, "load_schema", lambda domain: {})
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda *a, **k: applied.append(a),
+    )
+
+    report = t.detect_supersession("meetings")
+
+    assert applied == []
+    assert report["applied"] == []
+
+
+def test_family_inference_skips_valid_from_ties_and_undated_docs(monkeypatch):
+    docs = [
+        {"id": "a", "name": "sched_v1.md", "version": None, "valid_from": "2026-02-01"},
+        {"id": "b", "name": "sched_v2.md", "version": None, "valid_from": "2026-02-01"},  # tie with a
+        {"id": "c", "name": "sched_v3.md", "version": None, "valid_from": None},           # undated
+    ]
+    applied = []
+    monkeypatch.setattr(t, "neo4j_session", lambda: _FamilySession(docs))
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: "plain body", raising=False)
+    monkeypatch.setattr(t, "load_schema", _family_gate_on)
+    monkeypatch.setattr(t, "apply_supersession", lambda *a, **k: applied.append(a))
+
+    report = t.detect_supersession("banking.reference")
+
+    assert applied == []
+    assert report["applied"] == []
+
+
+def test_family_inference_chains_consecutive_pairs(monkeypatch):
+    docs = [
+        {"id": "v1", "name": "sched.md", "version": None, "valid_from": "2026-01-01"},
+        {"id": "v3", "name": "sched_v3.md", "version": None, "valid_from": "2026-03-01"},
+        {"id": "v2", "name": "sched_v2.md", "version": None, "valid_from": "2026-02-01"},
+    ]
+    applied = []
+    monkeypatch.setattr(t, "neo4j_session", lambda: _FamilySession(docs))
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: "plain body", raising=False)
+    monkeypatch.setattr(t, "load_schema", _family_gate_on)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older)),
+    )
+
+    t.detect_supersession("banking.reference")
+
+    # Consecutive chain by valid_from: v2 supersedes v1, v3 supersedes v2.
+    assert applied == [("v2", "v1"), ("v3", "v2")]
+
+
+def test_family_inference_respects_only_doc_name(monkeypatch):
+    # Commit-time per-document scope: only pairs whose NEWER side is the
+    # committing document apply.
+    docs = [
+        {"id": "v1", "name": "sched.md", "version": None, "valid_from": "2026-01-01"},
+        {"id": "v2", "name": "sched_v2.md", "version": None, "valid_from": "2026-02-01"},
+        {"id": "v3", "name": "sched_v3.md", "version": None, "valid_from": "2026-03-01"},
+    ]
+    applied = []
+    monkeypatch.setattr(t, "neo4j_session", lambda: _FamilySession(docs))
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: "plain body", raising=False)
+    monkeypatch.setattr(t, "load_schema", _family_gate_on)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older)),
+    )
+
+    t.detect_supersession("banking.reference", only_doc_name="sched_v2.md")
+
+    assert applied == [("v2", "v1")]
+
+
+def test_family_inference_defers_to_explicit_notice(monkeypatch):
+    # The newer doc self-declares via a metadata-table row. The notice pass
+    # applies first (detected_by="notice"); the family pass must then skip the
+    # same pair rather than re-apply it as "title_family".
+    docs = [
+        {"id": "irs-01", "name": "interest_rate_schedule_2026.md", "version": "1.0", "valid_from": "2026-01-01"},
+        {"id": "irs-02", "name": "interest_rate_schedule_2026_02.md", "version": "1.0", "valid_from": "2026-02-01"},
+    ]
+    bodies = {
+        "interest_rate_schedule_2026.md": "| Supersedes | None |\n",
+        "interest_rate_schedule_2026_02.md": (
+            "| Effective Date | 2026-02-01 |\n"
+            "| Supersedes | [[interest_rate_schedule_2026]] |\n"
+        ),
+    }
+    applied = []
+    monkeypatch.setattr(t, "neo4j_session", lambda: _FamilySession(docs))
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: bodies[name], raising=False)
+    monkeypatch.setattr(t, "load_schema", _family_gate_on)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older, detected_by)),
+    )
+
+    report = t.detect_supersession("banking.reference")
+
+    assert applied == [("irs-02", "irs-01", "notice")]
+    assert len(report["applied"]) == 1

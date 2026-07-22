@@ -1063,11 +1063,17 @@ def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, 
 
 
 @ingest.command("detect-supersession")
-@click.option("--domain", required=True, help="Domain to scan for explicit Supersession Notice sections")
+@click.option("--domain", required=True, help="Domain to scan for supersession declarations (notices, metadata rows, and — when the schema enables supersede_on_title_family — title-family version chains)")
 @click.option("--dry-run", is_flag=True, help="Report matches without writing")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> None:
-    """Scan documents for explicit Supersession Notice sections and apply SUPERSEDES edges."""
+    """Scan documents for supersession declarations and apply SUPERSEDES edges.
+
+    Recognizes prose "## Supersession Notice" sections, metadata-table
+    "| Supersedes | [[doc]] |" rows, and — when the domain schema sets
+    temporal.defaults.supersede_on_title_family — inferred version chains among
+    same-title-family documents ordered by valid_from.
+    """
     _setup_logger()
     from artmind.temporal import detect_supersession
     _echo_json(detect_supersession(domain, dry_run=dry_run), compact)

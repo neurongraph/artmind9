@@ -42,6 +42,10 @@ temporal:
     superseded_by: null
     time_source: default_ingestion
     valid_from_inferred: true
+    # Documents in this domain are versioned policies: a same-title-family
+    # sibling with a newer valid_from IS a newer version. Enables inferred
+    # SUPERSEDES chains for re-ingested updates that omit an explicit notice.
+    supersede_on_title_family: true
 
 entities_prompt: |
   You are a Knowledge Graph extraction engine specialised in banking policy document analysis.
