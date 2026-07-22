@@ -259,10 +259,16 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
                 if f.is_file():
                     zf.write(f, arcname=f.relative_to(doc_dir))
         buf.seek(0)
+        # macOS Archive Utility truncates the extracted folder name at the
+        # *first* dot in the zip's filename (treating the rest as a compound
+        # extension) — e.g. "banking.cases_foo.zip" unzips into a folder
+        # named just "banking". Swap dots in the domain segment only, so a
+        # dotted domain (e.g. "banking.cases") can't trigger this.
+        safe_name = f"{domain.replace('.', '_')}_{doc}.zip"
         return StreamingResponse(
             buf,
             media_type="application/zip",
-            headers={"Content-Disposition": f'attachment; filename="{domain}_{doc}.zip"'},
+            headers={"Content-Disposition": f'attachment; filename="{safe_name}"'},
         )
 
     @app.post("/api/artifacts/import")
