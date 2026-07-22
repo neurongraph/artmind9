@@ -4,7 +4,7 @@ Two independent roots decouple artmind from the source checkout:
 
 - ``ARTMIND_HOME`` (default ``~/.artmind``) — the *run folder*: config (.env),
   skills, domain schemas, and logs. Needed by every command (query/serve/web-ui).
-- ``ARTMIND_DATA_DIR`` (default ``~/artmind-data``) — *ingestion-only* data
+- ``ARTMIND_DATA_DIR`` (default ``~/artmind_data``) — *ingestion-only* data
   (originals, markdowns, registry db, jobs, kg staging, snapshots). A pure
   query/serve host never touches it and may omit it entirely.
 
@@ -38,7 +38,7 @@ for _candidate in (ARTMIND_HOME / ".env", _SELF_DIR / ".env"):
 
 # ── ingestion data root (query never touches this) ─────────────────────────────
 ARTMIND_DATA_DIR = Path(
-    os.environ.get("ARTMIND_DATA_DIR") or (Path.home() / "artmind-data")
+    os.environ.get("ARTMIND_DATA_DIR") or (Path.home() / "artmind_data")
 ).expanduser().resolve()
 
 # ── package-shipped seed defaults (read-only; copied into the run folder) ──────

@@ -98,7 +98,7 @@ uv tool install --force --editable . && artmind init
 
 `artmind` then works from any directory. Config, skills, and domain schemas live
 in the run folder (`~/.artmind`); ingestion data lives separately under
-`~/artmind-data` (`$ARTMIND_DATA_DIR`). See [docs/INSTALL.md](docs/INSTALL.md)
+`~/artmind_data` (`$ARTMIND_DATA_DIR`). See [docs/INSTALL.md](docs/INSTALL.md)
 for the full layout, the `.env` setup, and `artmind setup`.
 
 To uninstall (leaves `~/.artmind` and your data intact):

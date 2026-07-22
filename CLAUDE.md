@@ -52,7 +52,7 @@ Two roots, both **decoupled from this checkout** (see `paths.py`, `docs/INSTALL.
 - **Run folder** — `$ARTMIND_HOME`, default `~/.artmind`. Holds `.env`,
   `.claude/skills/`, `.opencode/`, `domains/schemas/`, `logs/`. Every command reads it.
   Resolved *before* `.env` is loaded, so it can only be overridden by a real env var.
-- **Data dir** — `$ARTMIND_DATA_DIR`, default `~/artmind-data`. Ingestion artifacts
+- **Data dir** — `$ARTMIND_DATA_DIR`, default `~/artmind_data`. Ingestion artifacts
   only (originals, markdowns, registry DB, jobs, KG staging, snapshots). Query-only
   hosts never touch it.
 

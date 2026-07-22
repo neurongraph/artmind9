@@ -8,7 +8,7 @@ folder** — it does not need to be launched from this source checkout.
 | Location | Default | Holds | Used by |
 |---|---|---|---|
 | **Run folder** — `$ARTMIND_HOME` | `~/.artmind` | `.env`, `.claude/skills/`, `.opencode/agent/`, `domains/schemas/`, `logs/` | every command (query / serve / chat-ui / ingest) |
-| **Data dir** — `$ARTMIND_DATA_DIR` | `~/artmind-data` | originals, markdowns, `document_registry.db`, jobs, kg staging, snapshots | ingestion only |
+| **Data dir** — `$ARTMIND_DATA_DIR` | `~/artmind_data` | originals, markdowns, `document_registry.db`, jobs, kg staging, snapshots | ingestion only |
 
 Query / `serve` / `chat-ui` read almost nothing from disk (config + Neo4j);
 the corpus and all ingestion artifacts live under the separate data dir, so a
@@ -35,7 +35,7 @@ editable, so code edits are live, and because paths are decoupled from the
 checkout the `artmind` command runs from any directory. (For a deploy where the
 checkout won't stay in place, drop `--editable` in the `install` recipe.)
 
-`artmind init` scaffolds `~/.artmind` and `~/artmind-data`, seeds
+`artmind init` scaffolds `~/.artmind` and `~/artmind_data`, seeds
 `~/.artmind/.env` from the bundled template, and copies the skills, opencode
 persona, and default domain schemas into the run folder. It is idempotent and
 needs no Neo4j.
@@ -73,7 +73,7 @@ and document corpus are not present there.
 
 ## Keeping data in the checkout (optional)
 
-By default ingestion data lives at `~/artmind-data`. To keep it (and config)
+By default ingestion data lives at `~/artmind_data`. To keep it (and config)
 inside the repo during development, point the two roots at repo-local paths and
 re-run init:
 
