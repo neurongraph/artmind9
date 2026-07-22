@@ -1511,6 +1511,55 @@ def write_to_graph(doc_kg_dir: Path) -> bool:
     return _write_to_neo4j(doc_kg_dir)
 
 
+def _reassert_superseding_properties(doc_kg_dir: Path, domain: str) -> dict:
+    """Overwrite merged entity properties with the superseding document's own values.
+
+    _upsert_entity's merge is accretive — strings become "old | new" and
+    numbers/booleans keep the existing value — which is right for peer documents
+    but wrong once THIS document is known to supersede a contributor of those
+    values. Called from commit_to_graph only after detect_supersession applied a
+    SUPERSEDES edge for this document. Scoped to the domain properties this
+    document itself asserts (properties.json); name/description/aliases/context
+    live in entities.json and keep their accretive behaviour (consolidation's
+    job). Matches by (name, entity_class, domain), the same key _upsert_entity
+    merges on. Idempotent.
+    """
+    try:
+        entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
+        properties_path = doc_kg_dir / "properties.json"
+        properties_list = (
+            json.loads(properties_path.read_text(encoding="utf-8")) if properties_path.exists() else []
+        )
+    except Exception as e:
+        logger.warning("reassert_superseding_properties: could not load staged JSON: {}", e)
+        return {"entities_reasserted": 0}
+
+    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
+    from artmind.graph_query import neo4j_session
+
+    reasserted = 0
+    with neo4j_session() as session:
+        for e in entities:
+            props = _flatten_props(props_by_id.get(e["id"], {}))
+            if not props:
+                continue
+            rec = session.run(
+                "MATCH (n:Entity {name:$name, entity_class:$ec, domain:$domain}) "
+                "SET n += $props RETURN count(n) AS matched",
+                name=e["name"],
+                ec=e["entity_class"],
+                domain=e.get("domain") or domain,
+                props=props,
+            ).single()
+            reasserted += rec["matched"] if rec else 0
+    if reasserted:
+        logger.info(
+            "reassert_superseding_properties: {} entity node(s) updated from {}",
+            reasserted, doc_kg_dir.name,
+        )
+    return {"entities_reasserted": reasserted}
+
+
 def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
     """Complete commit of staged KG JSON to Neo4j: write, then the per-document
     self-asserted-truth hooks (temporal normalization, then supersession).
@@ -1532,12 +1581,17 @@ def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
     except Exception as e:
         logger.warning("commit_to_graph: temporal hook failed for {}: {}", doc_kg_dir, e)
 
-    # 2. Supersession from this document's own notice (must follow temporal so
-    #    canonical dates/version exist). Scoped to just this document.
+    # 2. Supersession from this document's own declaration (must follow temporal
+    #    so canonical dates/version exist). Scoped to just this document. When a
+    #    SUPERSEDES edge was applied, re-assert this document's extracted entity
+    #    properties over the accretive merge — the superseding version's values
+    #    win (see _reassert_superseding_properties).
     try:
         from artmind.temporal import detect_supersession
         document = json.loads((doc_kg_dir / "document.json").read_text(encoding="utf-8"))
-        detect_supersession(domain, only_doc_name=document.get("name"))
+        sup_report = detect_supersession(domain, only_doc_name=document.get("name"))
+        if (sup_report or {}).get("applied"):
+            _reassert_superseding_properties(doc_kg_dir, domain)
     except Exception as e:
         logger.warning("commit_to_graph: supersession hook failed for {}: {}", doc_kg_dir, e)
 

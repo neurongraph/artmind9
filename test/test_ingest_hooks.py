@@ -119,3 +119,86 @@ def test_commit_to_graph_survives_temporal_hook_exception_and_still_runs_superse
     ok = ing.commit_to_graph(tmp_path, "mydomain")
     assert ok is True
     assert calls == ["write", "temporal", "super:f.md"]
+
+
+def test_reassert_superseding_properties_overwrites_by_entity_key(monkeypatch, tmp_path):
+    import json
+    import artmind.ingest as ing
+
+    (tmp_path / "entities.json").write_text(json.dumps([
+        {"id": "c1_e1", "name": "Standard Fee", "entity_class": "FEE", "domain": "banking.reference"},
+        {"id": "c1_e2", "name": "No Props", "entity_class": "FEE", "domain": "banking.reference"},
+    ]), encoding="utf-8")
+    (tmp_path / "properties.json").write_text(json.dumps([
+        {"id": "c1_e1", "properties": {"monthly_amount": 6.0, "effective_date": "2026-06-01"}},
+    ]), encoding="utf-8")
+
+    runs = []
+
+    class FakeResult:
+        def single(self):
+            return {"matched": 1}
+
+    class FakeSession:
+        def run(self, cypher, **kwargs):
+            runs.append((cypher, kwargs))
+            return FakeResult()
+
+    class FakeCtx:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, *exc):
+            return False
+
+    import artmind.graph_query as gq
+    monkeypatch.setattr(gq, "neo4j_session", lambda: FakeCtx())
+
+    out = ing._reassert_superseding_properties(tmp_path, "banking.reference")
+
+    assert out == {"entities_reasserted": 1}
+    assert len(runs) == 1  # the props-less entity is skipped entirely
+    cypher, kwargs = runs[0]
+    # Must match by the same key _upsert_entity merges on — never by the
+    # staged chunk-scoped extraction id (graph nodes carry uuid ids).
+    assert "{id:" not in cypher
+    assert "name:$name" in cypher and "entity_class:$ec" in cypher and "domain:$domain" in cypher
+    assert "SET n += $props" in cypher
+    assert kwargs["name"] == "Standard Fee"
+    assert kwargs["ec"] == "FEE"
+    assert kwargs["domain"] == "banking.reference"
+    assert kwargs["props"]["monthly_amount"] == 6.0
+    assert kwargs["props"]["effective_date"] == "2026-06-01"
+
+
+def test_commit_to_graph_reasserts_props_only_when_supersession_applied(monkeypatch, tmp_path):
+    import json
+    import artmind.ingest as ing
+    import artmind.temporal as temporal
+
+    (tmp_path / "document.json").write_text(json.dumps({"id": "d1", "name": "f.md"}), encoding="utf-8")
+    monkeypatch.setattr(ing, "write_to_graph", lambda p: True)
+    monkeypatch.setattr(temporal, "normalize_ingested_document", lambda p, d: None)
+
+    reasserts = []
+    monkeypatch.setattr(
+        ing, "_reassert_superseding_properties",
+        lambda p, d: reasserts.append((p, d)) or {"entities_reasserted": 1},
+    )
+
+    # Supersession applied something → re-assert runs.
+    monkeypatch.setattr(
+        temporal, "detect_supersession",
+        lambda d, only_doc_name=None: {"applied": [{"newer": "d1", "older": "d0"}]},
+    )
+    assert ing.commit_to_graph(tmp_path, "mydomain") is True
+    assert reasserts == [(tmp_path, "mydomain")]
+
+    # Nothing applied → no re-assert.
+    reasserts.clear()
+    monkeypatch.setattr(
+        temporal, "detect_supersession",
+        lambda d, only_doc_name=None: {"applied": []},
+    )
+    assert ing.commit_to_graph(tmp_path, "mydomain") is True
+    assert reasserts == []
