@@ -158,6 +158,12 @@
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
+/* ── top-level view switcher (Ingest & browse / Benchmark / Maintenance) ─
+   Reuses the .tabs/.tab machinery but sizes tabs to their label and sits
+   at page scope rather than inside a panel. ── */
+.view-tabs { display: inline-flex; margin: 0 0 22px; padding: 4px; border-radius: 10px; }
+.view-tabs .tab { flex: 0 0 auto; padding: 8px 18px; font-size: 13px; }
+
 /* ── active job file rows + chunk drill-down ─────────────────────────── */
 .file-rows { margin-top: 8px; border-top: 1px solid var(--border); padding-top: 6px; }
 .file-row + .file-row { margin-top: 2px; }

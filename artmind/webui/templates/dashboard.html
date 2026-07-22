@@ -30,6 +30,13 @@
   </header>
 
   <main class="dash">
+    <div class="tabs view-tabs" data-tab-group="view">
+      <button type="button" class="tab active" data-tab="operate">Ingest &amp; browse</button>
+      <button type="button" class="tab" data-tab="benchmark">Benchmark</button>
+      <button type="button" class="tab" data-tab="maintenance">Maintenance</button>
+    </div>
+
+    <div class="tab-panel active" data-tab-group="view" data-tab-panel="operate">
     <div class="stat-row" id="stat-cards"></div>
 
     <section class="dash-panel dash-zone-wide" id="artifacts-panel">
@@ -164,7 +171,9 @@
 
       </div>
     </div>
+    </div>
 
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="benchmark">
     <section class="dash-panel dash-zone-wide" id="benchmark-panel">
       <h2>Benchmark</h2>
       <p class="dash-hint">Run a batch of Q&amp;A questions through the artmind query agent, one after another, and record every answer.</p>
@@ -218,7 +227,9 @@
         </div>
       </div>
     </section>
+    </div>
 
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="maintenance">
     <section class="dash-panel dash-zone-maint" id="snapshots-panel">
       <h2>Maintain — snapshots</h2>
       <p class="dash-hint">Infrequent and destructive. Restoring replaces the entire graph.</p>
@@ -249,6 +260,7 @@
         </div>
       </div>
     </section>
+    </div>
   </main>
 
   <aside id="job-drawer" class="drawer" aria-hidden="true">
