@@ -188,3 +188,11 @@
    warning styling -- for panels like Benchmark that are horizontal like
    Jobs but shouldn't compete with Jobs for column width. ── */
 .dash-zone-wide { margin-top: 26px; }
+
+/* ── Browse: artifact cards fill the wide panel as a grid, not a single
+      column, now that they're not confined to the sidebar. ── */
+#artifact-cards.job-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  align-items: start;
+}
