@@ -558,7 +558,7 @@ def _infer_family_supersessions(
 def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str | None = None) -> dict:
     """Scan each document's markdown for an explicit supersession notice and apply it.
 
-    Recognizes two notice formats:
+    Recognizes three supersession signals:
       1. A prose "## Supersession Notice" section naming a superseded Version
          number (parse_supersession_notice) — resolved against another Document
          in the same domain via lifted `version`.
