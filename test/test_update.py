@@ -343,6 +343,58 @@ def test_write_user_chat_supersedes_defaults_effective_to_today():
     assert kwargs["effective"] == "2026-07-18"
 
 
+def test_write_user_chat_skips_reserved_rel_type_and_writes_normal_one():
+    """rel_type normalizing to a reserved system-managed type (e.g. SUPERSEDES)
+    must never be written by this extraction-driven loop — only the audited
+    temporal helpers may create those edges."""
+    resolutions = [
+        {"entity_temp_id": "e0", "action": "create", "node_id": None},
+        {"entity_temp_id": "e1", "action": "create", "node_id": None},
+    ]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Rate A", "entity_class": "RATE", "properties": {}},
+        {"temp_id": "e1", "name": "Rate B", "entity_class": "RATE", "properties": {}},
+    ]
+    extracted_relationships = [
+        {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "supersedes"},
+        {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "relates_to"},
+    ]
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update.logger") as mock_logger:
+        mock_session = mock_ctx.return_value.__enter__.return_value
+        calls = []
+
+        def run_side_effect(cypher, **kwargs):
+            calls.append((cypher, kwargs))
+            return MagicMock()
+
+        mock_session.run.side_effect = run_side_effect
+
+        result = write_user_chat(
+            session_id="sess1",
+            raw_text="text",
+            domain="general",
+            user_id="alice@example.com",
+            resolutions=resolutions,
+            extracted_entities=extracted_entities,
+            extracted_relationships=extracted_relationships,
+        )
+
+    rel_calls = [(c, kw) for c, kw in calls if "apoc.merge.relationship" in c]
+    rel_types_written = {kw["type"] for _, kw in rel_calls}
+
+    assert "SUPERSEDES" not in rel_types_written
+    assert "RELATES_TO" in rel_types_written
+    assert result["relationships_written"] == 1
+
+    assert any(
+        "Rate A" in str(call.args) and "Rate B" in str(call.args) and "SUPERSEDES" in str(call.args)
+        for call in mock_logger.warning.call_args_list
+    )
+
+
 def test_write_user_chat_no_supersedes_leaves_count_zero():
     resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None}]
     extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}]

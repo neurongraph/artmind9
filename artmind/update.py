@@ -25,6 +25,7 @@ from artmind.extraction import (
 )
 from artmind.graph_query import neo4j_session
 from artmind.ingest import (
+    RESERVED_REL_TYPES,
     _flatten_props,
     _sanitize_label,
     embed_missing_entity_embeddings,
@@ -325,6 +326,15 @@ def write_user_chat(
             if not src_name or not tgt_name:
                 continue
             rel_type = _sanitize_label(rel.get("rel_type", "RELATED_TO"))
+            if rel_type in RESERVED_REL_TYPES:
+                # System-managed edge type — only the audited temporal helpers
+                # (apply_supersession / apply_node_supersession) may create these.
+                logger.warning(
+                    "Reserved relationship type skipped ({} -[{}]-> {}); "
+                    "only audited helpers may create this edge type",
+                    src_name, rel_type, tgt_name,
+                )
+                continue
             rel_props = _flatten_props({
                 "source_chat_id": chat_id,
                 "created_at": now,

@@ -703,6 +703,14 @@ def _sanitize_label(s: str) -> str:
     return re.sub(r"[^A-Za-z0-9_]", "_", s.strip()).upper() or "UNKNOWN"
 
 
+# Edge types created ONLY by their audited helpers (temporal.apply_supersession /
+# apply_node_supersession set scope/detected_by/effective and retire the older side;
+# PART_OF / EXTRACTED_FROM are structural, written only by this module's own upsert
+# code). LLM-extracted relationships must never mint these — an unaudited SUPERSEDES
+# with null provenance corrupts lineage silently.
+RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "PART_OF", "EXTRACTED_FROM"})
+
+
 def _neo4j_value(value):
     """Convert a value to a Neo4j-compatible type (no nested maps)."""
     if isinstance(value, dict):
@@ -967,6 +975,17 @@ def _write_to_neo4j(doc_kg_dir: Path) -> bool:
                                 domain=domain,
                             )
                             rel_count += 1
+                    elif rel_type in RESERVED_REL_TYPES:
+                        # System-managed edge type — only the audited temporal
+                        # helpers may create these. An LLM-extracted relationship
+                        # normalizing to one of these must never be written here.
+                        logger.warning(
+                            "Neo4j: reserved relationship type skipped ({} -[{}]-> {}); "
+                            "only audited helpers may create this edge type",
+                            source_name,
+                            rel_type,
+                            target_name,
+                        )
                     else:
                         # Entity → Entity (matched by canonical name + domain)
                         if source_name and target_name:
