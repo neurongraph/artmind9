@@ -2,8 +2,13 @@
 
 SUPERSEDES (document- and node-scope) is created ONLY by the audited helpers in
 artmind.temporal (apply_supersession / apply_node_supersession), which always stamp
-provenance (scope/detected_by/effective or detected_by/at). PART_OF and
-EXTRACTED_FROM are structural edges written only by this module's own upsert code.
+provenance (scope/detected_by/effective or detected_by/at). EXTRACTED_FROM is not
+sanctioned by any shipped domain schema as an Entity<->Entity rel_type either — it's
+structural, written only by this module's own Entity->DocChunk provenance code — so
+it stays reserved as defense-in-depth. PART_OF is deliberately NOT reserved: several
+shipped schemas list it as a legitimate LLM-extractable Entity->Entity relationship
+(e.g. "Branch X part_of Region Y"); the only structural PART_OF edge is the hardcoded
+DocChunk->Document edge, a different code path from the Entity->Entity loop below.
 The two unrestricted relationship writers below — _write_to_neo4j's Entity->Entity
 branch and write_user_chat's relationship loop — must skip any normalized rel_type
 that falls in RESERVED_REL_TYPES rather than silently writing (or silently dropping
@@ -165,5 +170,8 @@ def test_write_to_neo4j_still_allows_extracted_from_entity_to_docchunk(monkeypat
     assert rel_calls[0][1]["type"] == "EXTRACTED_FROM"
 
 
-def test_reserved_rel_types_constant_covers_supersedes_part_of_extracted_from():
-    assert ing.RESERVED_REL_TYPES == frozenset({"SUPERSEDES", "PART_OF", "EXTRACTED_FROM"})
+def test_reserved_rel_types_constant_covers_supersedes_and_extracted_from_only():
+    """PART_OF is deliberately excluded — it's a legitimate, schema-sanctioned
+    LLM-extractable Entity->Entity relationship type (see module docstring)."""
+    assert ing.RESERVED_REL_TYPES == frozenset({"SUPERSEDES", "EXTRACTED_FROM"})
+    assert "PART_OF" not in ing.RESERVED_REL_TYPES

@@ -703,12 +703,24 @@ def _sanitize_label(s: str) -> str:
     return re.sub(r"[^A-Za-z0-9_]", "_", s.strip()).upper() or "UNKNOWN"
 
 
-# Edge types created ONLY by their audited helpers (temporal.apply_supersession /
-# apply_node_supersession set scope/detected_by/effective and retire the older side;
-# PART_OF / EXTRACTED_FROM are structural, written only by this module's own upsert
-# code). LLM-extracted relationships must never mint these — an unaudited SUPERSEDES
-# with null provenance corrupts lineage silently.
-RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "PART_OF", "EXTRACTED_FROM"})
+# SUPERSEDES is created ONLY by the audited temporal helpers (apply_supersession /
+# apply_node_supersession), which stamp provenance (scope/detected_by/effective) and
+# retire the older side. An LLM-extracted Entity->Entity relationship must never mint
+# a bare SUPERSEDES edge with no provenance — that corrupts lineage silently.
+#
+# EXTRACTED_FROM is reserved too: no shipped domain schema lists it as a legitimate
+# Entity<->Entity rel_type (it's structural, written only by this module's own
+# Entity->DocChunk provenance code), so blocking it as an Entity->Entity type is
+# defense-in-depth with no known cost.
+#
+# PART_OF is deliberately NOT reserved: multiple shipped schemas (general_schema,
+# banking.organization_schema, sales_collateral_schema, project_governance_schema)
+# list part_of as a legitimate LLM-extractable Entity->Entity relationship (e.g.
+# "Branch X part_of Region Y"). The only structural PART_OF edge is the hardcoded
+# DocChunk->Document edge written elsewhere in this module's own upsert code — a
+# different code path from this Entity->Entity loop — so reserving PART_OF here
+# would silently drop legitimate, schema-sanctioned extractions.
+RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "EXTRACTED_FROM"})
 
 
 def _neo4j_value(value):
