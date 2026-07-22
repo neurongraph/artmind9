@@ -320,8 +320,18 @@ def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
             canon = canonical_entity_dates(entity_with_props, ent_map, anchor)
             clean = {k: v for k, v in canon.items() if not k.startswith("_")}
             if clean:
-                session.run("MATCH (e:Entity {id:$id}) SET e += $props", id=e["id"], props=clean)
-                written["entities"] += 1
+                # entities.json ids are chunk-scoped extraction ids; graph nodes get a
+                # fresh uuid from _upsert_entity, keyed by (name, entity_class, domain).
+                # Match on that key, and count only entities that actually matched.
+                record = session.run(
+                    "MATCH (e:Entity {name:$name, entity_class:$entity_class, domain:$domain}) "
+                    "SET e += $props RETURN count(e) AS matched",
+                    name=e["name"],
+                    entity_class=e["entity_class"],
+                    domain=e.get("domain") or domain,
+                    props=clean,
+                ).single()
+                written["entities"] += record["matched"] if record else 0
     logger.info("normalize_ingested_document({}): {}", document.get("name"), written)
     return {"domain": domain, **written}
 

@@ -136,12 +136,20 @@ def test_normalize_ingested_document_merges_properties_json(tmp_path, monkeypatc
         lambda domain: {"temporal": {"entities": {"POLICY": {"valid_from": "effective_date"}}}},
     )
 
-    written_props = {}
+    entity_runs = []
+
+    class FakeResult:
+        def __init__(self, matched):
+            self._matched = matched
+
+        def single(self):
+            return {"matched": self._matched}
 
     class FakeSession:
         def run(self, cypher, **kwargs):
             if "Entity" in cypher:
-                written_props.update(kwargs.get("props", {}))
+                entity_runs.append((cypher, kwargs))
+            return FakeResult(matched=1)
 
     class FakeSessionContext:
         def __enter__(self):
@@ -155,7 +163,63 @@ def test_normalize_ingested_document_merges_properties_json(tmp_path, monkeypatc
     result = temporal.normalize_ingested_document(doc_kg_dir, "banking_policy")
 
     assert result["entities"] == 1
-    assert written_props["valid_from"] == "2026-06-01"
+    assert len(entity_runs) == 1
+    cypher, kwargs = entity_runs[0]
+    assert kwargs["props"]["valid_from"] == "2026-06-01"
+    # Graph Entity nodes get a fresh uuid id from _upsert_entity — the staged
+    # extraction id ("ent-1") never lands on any node. The hook must therefore
+    # match by the same key _upsert_entity merges on: (name, entity_class, domain).
+    assert "{id:" not in cypher
+    assert "name:$name" in cypher and "entity_class:$entity_class" in cypher and "domain:$domain" in cypher
+    assert kwargs["name"] == "Fee Policy"
+    assert kwargs["entity_class"] == "POLICY"
+    assert kwargs["domain"] == "banking_policy"
+
+
+def test_normalize_ingested_document_counts_only_matched_entities(tmp_path, monkeypatch):
+    # The written["entities"] count must reflect nodes the MATCH actually found,
+    # not merely attempts — a no-op SET (e.g. entity not yet in the graph) must
+    # not inflate the count.
+    import artmind.temporal as temporal
+
+    doc_kg_dir = tmp_path
+    (doc_kg_dir / "document.json").write_text(
+        json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8"
+    )
+    (doc_kg_dir / "entities.json").write_text(
+        json.dumps([{"id": "ent-1", "name": "Fee Policy", "entity_class": "POLICY"}]),
+        encoding="utf-8",
+    )
+    (doc_kg_dir / "properties.json").write_text(
+        json.dumps([{"id": "ent-1", "properties": {"effective_date": "2026-06-01"}}]),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        temporal, "load_schema",
+        lambda domain: {"temporal": {"entities": {"POLICY": {"valid_from": "effective_date"}}}},
+    )
+
+    class FakeResult:
+        def single(self):
+            return {"matched": 0}
+
+    class FakeSession:
+        def run(self, cypher, **kwargs):
+            return FakeResult()
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr(temporal, "neo4j_session", lambda: FakeSessionContext())
+
+    result = temporal.normalize_ingested_document(doc_kg_dir, "banking_policy")
+
+    assert result["entities"] == 0
 
 
 def test_asof_predicate_shape():
