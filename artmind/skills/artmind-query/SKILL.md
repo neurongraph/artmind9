@@ -133,11 +133,14 @@ Routing notes:
 - All commands accept repeatable `--domain` (comma-splittable) and roll sub-domains up.
   Rows carry `.domain` on chunks/documents — every fact you state must be attributed
   to BOTH its document name AND its domain.
-- Add `--asOf today` for present-tense questions ("who can approve…"); it resolves to
-  the current date (any ISO date works for historical questions). Untimed knowledge is
-  always visible. EXCEPTION: pattern5 and pattern10 cannot currency-scope their results
-  and ignore `--asOf` — their JSON then carries `asOf_ignored: true`; judge currency
-  yourself from the returned `valid_to`/`superseded_by` fields.
+- **Default to `--asOf today` on every retrieval** — without it there is NO temporal
+  filter, and superseded documents and chunks surface alongside current ones. Omit it
+  (or pass a past ISO date, e.g. `--asOf 2026-01`) only when the question is explicitly
+  historical: "what did the policy say in January", "history of…", "previous version",
+  "what changed". Untimed knowledge is always visible either way. EXCEPTION: pattern5
+  and pattern10 cannot currency-scope their results and ignore `--asOf` — their JSON
+  then carries `asOf_ignored: true`; judge currency yourself from the returned
+  `valid_to`/`superseded_by` fields.
 
 ### 4. Ground — pull source text when narrative evidence is needed
 
