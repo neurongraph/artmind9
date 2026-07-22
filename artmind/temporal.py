@@ -97,6 +97,10 @@ def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict, defaults
         if raw is None:
             continue
         if canon == "version":
+            # Strip trailing annotations like "1.0 (Updated Monthly)" down to the bare
+            # numeric token — supersession notices cite a bare version ("Version 1.0")
+            # and resolution matches by exact string equality, so an annotated value
+            # would never match. Non-numeric version schemes are kept as-is.
             m = re.match(r"\s*(\d+(?:\.\d+)*)", raw)
             out["version"] = m.group(1) if m else raw.strip()
         else:
