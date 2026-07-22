@@ -26,11 +26,17 @@ def test_detect_supersession_notice_parses_version():
 
 def test_detect_supersession_notice_parses_intervening_words():
     # Real fixture phrasing (banking_document_corpus/policies/policy_complaints_v3.md,
-    # line 24): "supersedes and replaces Version 2.0" — words between "supersedes"
-    # and "Version" broke a tight `supersedes?\s+Version` regex during plan review
+    # line 25, inside the "## Supersession Notice" section that starts at line 23):
+    # "supersedes and replaces Version 2.0" — words between "supersedes" and
+    # "Version" broke a tight `supersedes?\s+Version` regex during plan review
     # (verified by running that regex against the actual file: no match). This test
     # locks in the real phrasing so a regression can't reintroduce the tight version.
+    # The "## Supersession Notice" heading is included here (as it is in the real
+    # file) since parse_supersession_notice is strictly scoped to that section and
+    # returns None when it's absent (see the metadata-table-row bug this guards
+    # against, tested separately).
     md = (
+        "## Supersession Notice\n\n"
         "**This policy (Version 3.0, effective 2026-06-01) supersedes and replaces "
         "Version 2.0 (effective 2026-01-15) in full.**"
     )
@@ -241,6 +247,171 @@ def test_detect_supersession_ignores_unrelated_doc_sharing_version(monkeypatch):
 
     assert applied == [("complaints-v3", "complaints-v2", "2026-06-01")]
     assert report["applied"] == [{"newer": "complaints-v3", "older": "complaints-v2", "effective": "2026-06-01"}]
+
+
+def test_prose_notice_ignores_metadata_supersedes_row_with_no_section():
+    # The confirmed live-graph bug: sop_account_opening_v3.md has NO "##
+    # Supersession Notice" section, only a metadata-table "| Supersedes | ... |"
+    # row. Before Part A, the whole-body fallback let _SUPERSEDES_VER_RE match
+    # that table row directly. parse_supersession_notice must now return None
+    # so the metadata-table route (built for this exact shape) handles it instead.
+    md = (
+        "| Field | Value |\n"
+        "|---|---|\n"
+        "| Version | 3.0 |\n"
+        "| Supersedes | Version 2.1, [[sop_account_opening]] |\n"
+        "| Effective Date | 2026-03-01 |\n"
+    )
+    assert t.parse_supersession_notice(md) is None
+
+
+def test_prose_notice_still_parses_real_section():
+    # Regression guard: Part A must not over-narrow the parser — a real
+    # "## Supersession Notice" section (mirroring policy_complaints_v3.md) still
+    # parses correctly.
+    md = (
+        "## Supersession Notice\n\n"
+        "This policy (Version 3.0, effective 2026-06-01) supersedes and replaces "
+        "Version 2.0 (effective 2026-01-15) in full.\n"
+    )
+    out = t.parse_supersession_notice(md)
+    assert out is not None
+    assert out["superseded_version"] == "2.0"
+    assert out["effective"] == "2026-06-01"
+
+
+def test_metadata_table_route_supplies_effective_when_prose_notice_absent(monkeypatch):
+    # End-to-end reproduction of the sop_account_opening bug: the only document
+    # body has a metadata-table "| Supersedes | Version 2.1, [[old]] |" row
+    # (naming a version, not just a doc name) plus an Effective Date row, and NO
+    # prose notice section. With Part A in place, parse_supersession_notice
+    # returns None for this body, so the metadata-table route runs and supplies
+    # the effective date.
+    docs = [
+        {"id": "sop-v3", "name": "sop_account_opening_v3.md", "version": "3.0", "valid_from": "2026-03-01"},
+        {"id": "sop-v2", "name": "sop_account_opening.md", "version": "2.1", "valid_from": "2025-09-01"},
+    ]
+
+    class _Result:
+        def data(self):
+            return docs
+
+    class FakeSession:
+        def run(self, *a, **k):
+            return _Result()
+        def __enter__(self):
+            return self
+        def __exit__(self, *a):
+            return False
+
+    bodies = {
+        "sop_account_opening_v3.md": (
+            "| Field | Value |\n"
+            "|---|---|\n"
+            "| Version | 3.0 |\n"
+            "| Supersedes | Version 2.1, [[sop_account_opening]] |\n"
+            "| Effective Date | 2026-03-01 |\n"
+        ),
+        "sop_account_opening.md": "| Version | 2.1 |\n",
+    }
+    applied = []
+
+    monkeypatch.setattr(t, "neo4j_session", lambda: FakeSession())
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: bodies[name], raising=False)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older, eff, detected_by)),
+    )
+
+    report = t.detect_supersession("banking", dry_run=False)
+
+    assert applied == [("sop-v3", "sop-v2", "2026-03-01", "notice")]
+    assert report["applied"] == [
+        {"newer": "sop-v3", "older": "sop-v2", "effective": "2026-03-01"}
+    ]
+
+
+def test_supersession_effective_falls_back_to_newer_doc_valid_from(monkeypatch):
+    # Part B: when a pair resolves but the parsed effective comes back None, fall
+    # back to the newer document's own valid_from rather than leaving the older
+    # document "current" forever.
+    docs = [
+        {"id": "irs-02", "name": "interest_rate_schedule_2026_02.md", "version": "1.0", "valid_from": "2026-02-01"},
+        {"id": "irs-01", "name": "interest_rate_schedule_2026.md", "version": "1.0", "valid_from": "2026-01-01"},
+    ]
+
+    class _Result:
+        def data(self):
+            return docs
+
+    class FakeSession:
+        def run(self, *a, **k):
+            return _Result()
+        def __enter__(self):
+            return self
+        def __exit__(self, *a):
+            return False
+
+    bodies = {
+        "interest_rate_schedule_2026_02.md": "| Supersedes | [[interest_rate_schedule_2026]] |\n",
+        "interest_rate_schedule_2026.md": "| Supersedes | None |\n",
+    }
+    applied = []
+
+    monkeypatch.setattr(t, "neo4j_session", lambda: FakeSession())
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: bodies[name], raising=False)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older, eff, detected_by)),
+    )
+
+    report = t.detect_supersession("banking.reference", dry_run=False)
+
+    assert applied == [("irs-02", "irs-01", "2026-02-01", "notice")]
+    assert report["applied"] == [
+        {"newer": "irs-02", "older": "irs-01", "effective": "2026-02-01"}
+    ]
+
+
+def test_supersession_effective_stays_none_when_newer_doc_also_undated(monkeypatch):
+    # Same shape as above, but the newer doc also lacks a valid_from — no date
+    # should be invented from nothing.
+    docs = [
+        {"id": "irs-02", "name": "interest_rate_schedule_2026_02.md", "version": "1.0", "valid_from": None},
+        {"id": "irs-01", "name": "interest_rate_schedule_2026.md", "version": "1.0", "valid_from": "2026-01-01"},
+    ]
+
+    class _Result:
+        def data(self):
+            return docs
+
+    class FakeSession:
+        def run(self, *a, **k):
+            return _Result()
+        def __enter__(self):
+            return self
+        def __exit__(self, *a):
+            return False
+
+    bodies = {
+        "interest_rate_schedule_2026_02.md": "| Supersedes | [[interest_rate_schedule_2026]] |\n",
+        "interest_rate_schedule_2026.md": "| Supersedes | None |\n",
+    }
+    applied = []
+
+    monkeypatch.setattr(t, "neo4j_session", lambda: FakeSession())
+    monkeypatch.setattr(t, "_read_doc_body", lambda name: bodies[name], raising=False)
+    monkeypatch.setattr(
+        t, "apply_supersession",
+        lambda newer, older, scope, eff, detected_by: applied.append((newer, older, eff, detected_by)),
+    )
+
+    report = t.detect_supersession("banking.reference", dry_run=False)
+
+    assert applied == [("irs-02", "irs-01", None, "notice")]
+    assert report["applied"] == [
+        {"newer": "irs-02", "older": "irs-01", "effective": None}
+    ]
 
 
 def test_resolve_version_candidate_skips_when_no_unique_title_family_match():

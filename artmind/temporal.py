@@ -388,17 +388,24 @@ def parse_supersession_metadata_table(md_text: str) -> dict | None:
 def parse_supersession_notice(md_text: str) -> dict | None:
     """Parse an explicit 'Supersession Notice' section for the superseded version + effective date.
 
-    Scoped to the "## Supersession Notice" section when present, NOT the whole
-    document body (see module docstring context on the Metadata-table bug this
-    guards against). The superseded version's OWN date is typically given in a
-    parenthetical immediately following its "Version X" mention (e.g. "Version 2.0
-    (Effective Date: 2026-01-15)") — that span is excluded before searching for
-    the effective date, so the search isn't fooled by which one merely comes first
-    in reading order (the new document's effective date can appear before OR after
-    the "supersedes" clause depending on phrasing).
+    Strictly scoped to the "## Supersession Notice" section — if no such section
+    exists, returns None immediately rather than falling back to scanning the
+    whole document body. A whole-body fallback would let this prose-oriented
+    regex match a metadata-table "| Supersedes | Version X, [[doc]] |" row
+    instead (that shape belongs exclusively to parse_supersession_metadata_table,
+    which handles it correctly, including the separate "| Effective Date | ... |"
+    row that this function's colon/whitespace-based effective-date regex cannot
+    parse out of a table cell). The superseded version's OWN date is typically
+    given in a parenthetical immediately following its "Version X" mention (e.g.
+    "Version 2.0 (Effective Date: 2026-01-15)") — that span is excluded before
+    searching for the effective date, so the search isn't fooled by which one
+    merely comes first in reading order (the new document's effective date can
+    appear before OR after the "supersedes" clause depending on phrasing).
     """
     section_match = _NOTICE_SECTION_RE.search(md_text)
-    scope = section_match.group(1) if section_match else md_text
+    if not section_match:
+        return None
+    scope = section_match.group(1)
     m = _SUPERSEDES_VER_RE.search(scope)
     if not m:
         return None
@@ -644,6 +651,15 @@ def detect_supersession(domain: str, dry_run: bool = False, only_doc_name: str |
                     older, effective = candidate, table_notice["effective"]
         if older is None:
             continue
+        # Guarantee an effective date whenever we can: without one,
+        # apply_supersession never sets older.valid_to and the old version
+        # stays "current" forever (the confirmed sop_account_opening bug). Fall
+        # back to the newer document's own valid_from — the date the new
+        # version itself takes effect is a reasonable, safe default. If the
+        # newer document also lacks one, leave effective as None rather than
+        # inventing a date from nothing.
+        if not effective:
+            effective = d.get("valid_from")
         report["applied"].append({"newer": d["id"], "older": older["id"], "effective": effective})
         if not dry_run:
             apply_supersession(d["id"], older["id"], "document", effective, detected_by="notice")
