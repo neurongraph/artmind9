@@ -89,6 +89,56 @@ def test_lift_document_dates_ignores_extra_table_columns():
     assert out["version"] == "3.0"
 
 
+def test_lift_document_dates_version_strips_parenthetical_annotation():
+    # Real corpus format (banking-corpus interest_rate_schedule_2026.md): the
+    # Version header carries a trailing annotation that must not be kept
+    # verbatim, or version-based supersession matching against a bare
+    # "supersedes Version 1.0" notice would never match this document.
+    md = (
+        "# Policy\n\n"
+        "| Field | Value |\n"
+        "|-------|-------|\n"
+        "| Effective Date | 2026-06-01 |\n"
+        "| Version | 1.0 (Updated Monthly) |\n\n"
+        "Body."
+    )
+    mapping = {"valid_from": ["Effective Date"], "version": ["Version"]}
+    out = lift_document_dates(md, {}, mapping)
+    assert out["version"] == "1.0"
+
+
+def test_lift_document_dates_version_clean_numeric_unaffected():
+    # Regression guard: a clean numeric version with no parenthetical must
+    # continue to lift verbatim.
+    md = (
+        "# Policy\n\n"
+        "| Field | Value |\n"
+        "|-------|-------|\n"
+        "| Effective Date | 2026-06-01 |\n"
+        "| Version | 2.0 |\n\n"
+        "Body."
+    )
+    mapping = {"valid_from": ["Effective Date"], "version": ["Version"]}
+    out = lift_document_dates(md, {}, mapping)
+    assert out["version"] == "2.0"
+
+
+def test_lift_document_dates_version_non_numeric_preserved():
+    # A genuinely non-numeric version scheme has no leading numeric token to
+    # extract — the fix must not discard data it wasn't designed to handle.
+    md = (
+        "# Policy\n\n"
+        "| Field | Value |\n"
+        "|-------|-------|\n"
+        "| Effective Date | 2026-06-01 |\n"
+        "| Version | Draft |\n\n"
+        "Body."
+    )
+    mapping = {"valid_from": ["Effective Date"], "version": ["Version"]}
+    out = lift_document_dates(md, {}, mapping)
+    assert out["version"] == "Draft"
+
+
 def test_canonical_entity_dates_valid_from():
     schema_entities = {"POLICY": {"valid_from": "effective_date"}}
     entity = {"entity_class": "POLICY", "properties": {"effective_date": "2026-01-15"}}

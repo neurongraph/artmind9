@@ -97,7 +97,8 @@ def lift_document_dates(md_text: str, frontmatter: dict, mapping: dict, defaults
         if raw is None:
             continue
         if canon == "version":
-            out["version"] = raw
+            m = re.match(r"\s*(\d+(?:\.\d+)*)", raw)
+            out["version"] = m.group(1) if m else raw.strip()
         else:
             iso = parse_iso(raw)
             out[canon] = iso if iso else raw
