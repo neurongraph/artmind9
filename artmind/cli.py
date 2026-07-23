@@ -26,6 +26,8 @@ from artmind.ingest import (
     ingest_to_kg,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
+from artmind.structured import is_structured_source
+from artmind.structured.pipeline import ingest_structured_file
 from artmind.jobs import (
     _create_job,
     _get_job_results,
@@ -471,6 +473,10 @@ def ingest_sync(file_path: str, domain: str | None, force: bool, stage_only: boo
     ok_count, fail_count = 0, 0
     for f in files:
         try:
+            if is_structured_source(f):
+                res = ingest_structured_file(f, domain, force=force)
+                ok_count += 1 if res.get("status") == "ok" else 0
+                continue
             result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
             if result.get("status") == "ok":
                 ok_count += 1

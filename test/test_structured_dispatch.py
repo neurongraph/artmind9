@@ -96,3 +96,90 @@ def test_refresh_table_unregistered_raises(tmp_path, monkeypatch):
 
     with pytest.raises(ValueError):
         refresh_table("nope", "banking")
+
+
+# ── ingest_sync CLI dispatch (Task 1.5) ─────────────────────────────────────────
+
+
+def test_ingest_sync_dispatches_structured_file_not_kg(monkeypatch, tmp_path):
+    from click.testing import CliRunner
+    import artmind.cli as cli
+
+    csv_path = tmp_path / "products.csv"
+    csv.writer(open(csv_path, "w", newline="")).writerows([["id", "name"], [1, "Widget"]])
+
+    spy = {"called": False}
+
+    def fake_ingest_structured(source, domain, **kwargs):
+        spy["called"] = True
+        spy["source"] = source
+        spy["domain"] = domain
+        return {"status": "ok", "tables": []}
+
+    monkeypatch.setattr(cli, "ingest_structured_file", fake_ingest_structured)
+    monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: pytest.fail("KG path should not run"))
+    monkeypatch.setattr(cli, "ingest_to_kg", lambda *a, **k: pytest.fail("KG path should not run"))
+    monkeypatch.setattr(cli, "load_env", lambda: {})
+    monkeypatch.setattr(cli, "resolve_llm_model", lambda env: "m")
+
+    result = CliRunner().invoke(cli.ingest_sync, [str(csv_path), "--domain", "banking"])
+    assert result.exit_code == 0
+    assert spy["called"]
+    assert spy["domain"] == "banking"
+
+
+def test_ingest_sync_txt_file_uses_kg_path_not_structured(monkeypatch, tmp_path):
+    from click.testing import CliRunner
+    import artmind.cli as cli
+
+    f = tmp_path / "a.txt"
+    f.write_text("hello")
+
+    monkeypatch.setattr(
+        cli, "ingest_structured_file", lambda *a, **k: pytest.fail("structured path should not run")
+    )
+    monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: {"status": "ok"})
+    kg_called = {}
+    monkeypatch.setattr(cli, "ingest_to_kg", lambda *a, **k: kg_called.setdefault("yes", True))
+    monkeypatch.setattr(cli, "load_env", lambda: {})
+    monkeypatch.setattr(cli, "resolve_llm_model", lambda env: "m")
+
+    result = CliRunner().invoke(cli.ingest_sync, [str(f), "--domain", "banking"])
+    assert result.exit_code == 0
+    assert kg_called.get("yes")
+
+
+# ── worker dispatch (Task 1.5) ───────────────────────────────────────────────────
+
+
+def test_process_job_dispatches_structured_source(monkeypatch, tmp_path):
+    import artmind.worker as worker
+
+    csv_path = tmp_path / "products.csv"
+    csv.writer(open(csv_path, "w", newline="")).writerows([["id", "name"], [1, "Widget"]])
+
+    monkeypatch.setattr(worker, "_get_queued_files", lambda job_id: [str(csv_path)])
+    monkeypatch.setattr(worker, "_count_processed", lambda job_id: 0)
+    monkeypatch.setattr(worker, "_final_file_statuses", lambda job_id: ["completed"])
+    monkeypatch.setattr(worker, "_update_job_status", lambda *a, **k: None)
+
+    file_statuses = []
+    monkeypatch.setattr(
+        worker,
+        "_update_job_file_status",
+        lambda job_id, filename, **k: file_statuses.append(k),
+    )
+
+    spy = {"called": False}
+    monkeypatch.setattr(
+        worker,
+        "ingest_structured_file",
+        lambda *a, **k: (spy.update(called=True), {"status": "ok"})[1],
+    )
+    monkeypatch.setattr(worker, "ingest_file", lambda *a, **k: pytest.fail("KG path should not run"))
+    monkeypatch.setattr(worker, "ingest_to_kg", lambda *a, **k: pytest.fail("KG path should not run"))
+
+    worker._process_job("job-1", "banking", {})
+
+    assert spy["called"]
+    assert any(s.get("status") == "completed" for s in file_statuses)
