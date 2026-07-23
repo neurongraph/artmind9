@@ -137,3 +137,63 @@ def test_mapping_upsert_confirm_list_clear(tmp_path, monkeypatch):
     cleared = registry.clear_mappings(table_id, column="product_name")
     assert cleared == 1
     assert registry.list_mappings(table_id) == []
+
+
+def test_dump_all_and_restore_all_round_trip(tmp_path, monkeypatch):
+    import sqlite3
+
+    from artmind.structured import registry
+
+    db = _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    table_id = registry.register_table(
+        "default", "products", "banking",
+        source_file="/tmp/products.csv", sheet=None,
+        parquet_path="/tmp/products.parquet", row_count=2, sha256="abc",
+    )
+    registry.replace_columns(table_id, [
+        {"name": "id", "dtype": "BIGINT", "profile_json": None},
+        {"name": "name", "dtype": "VARCHAR", "profile_json": None},
+    ])
+    registry.upsert_mapping(table_id, "name", "PRODUCT", 0.9, confirmed=True)
+
+    dump = registry.dump_all()
+    assert len(dump["tables"]) == 1
+    assert dump["tables"][0]["id"] == table_id
+    assert len(dump["columns"]) == 2
+    assert len(dump["column_mappings"]) == 1
+
+    # simulate total loss
+    registry.delete_table(table_id)
+    conn = sqlite3.connect(db.DB_PATH)
+    conn.execute("DELETE FROM datasources")
+    conn.commit()
+    conn.close()
+    assert registry.list_tables() == []
+
+    registry.restore_all(dump)
+
+    restored = registry.get_table("products", domain="banking")
+    assert restored is not None
+    assert restored["id"] == table_id  # id preserved so columns/mappings FKs still resolve
+    assert restored["row_count"] == 2
+    assert registry.get_columns(table_id) == dump["columns"]
+    mappings = registry.list_mappings(table_id)
+    assert len(mappings) == 1
+    assert mappings[0]["entity_class"] == "PRODUCT"
+    assert mappings[0]["confirmed"] == 1
+
+
+def test_restore_all_wipes_before_reinserting(tmp_path, monkeypatch):
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    stale_id = registry.register_table(
+        "default", "stale_table", "general",
+        parquet_path="/tmp/stale.parquet", row_count=1,
+    )
+
+    registry.restore_all({"datasources": [], "tables": [], "columns": [], "column_mappings": []})
+
+    assert registry.get_table("stale_table", domain="general") is None

@@ -246,3 +246,73 @@ def delete_table(table_id: int) -> None:
         conn.commit()
     finally:
         conn.close()
+
+
+def dump_all() -> dict:
+    """Dump every row of the four registry tables, for backup/restore.
+
+    ``column_mappings`` explicitly aliases the quoted ``"column"`` column back
+    to ``column`` in the result, matching ``list_mappings``'s existing shape."""
+    conn = _connect()
+    try:
+        return {
+            "datasources": [dict(r) for r in conn.execute("SELECT * FROM datasources").fetchall()],
+            "tables": [dict(r) for r in conn.execute('SELECT * FROM "tables"').fetchall()],
+            "columns": [dict(r) for r in conn.execute('SELECT * FROM "columns"').fetchall()],
+            "column_mappings": [
+                dict(r) for r in conn.execute(
+                    'SELECT table_id, "column" AS "column", entity_class, confirmed,'
+                    " confidence, updated_at FROM column_mappings"
+                ).fetchall()
+            ],
+        }
+    finally:
+        conn.close()
+
+
+def restore_all(dump: dict) -> None:
+    """Wipe the four registry tables and reinsert rows exactly as dumped,
+    preserving primary keys so columns/column_mappings foreign keys stay valid."""
+    conn = _get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM column_mappings")
+        cursor.execute('DELETE FROM "columns"')
+        cursor.execute('DELETE FROM "tables"')
+        cursor.execute("DELETE FROM datasources")
+
+        for row in dump.get("datasources", []):
+            cursor.execute(
+                "INSERT INTO datasources (name, type, path_or_dsn, created_at) VALUES (?, ?, ?, ?)",
+                (row["name"], row["type"], row["path_or_dsn"], row["created_at"]),
+            )
+        for row in dump.get("tables", []):
+            cursor.execute(
+                'INSERT INTO "tables" (id, datasource, table_name, domain, source_file, sheet,'
+                " parquet_path, version, row_count, refresh_mode, business_key,"
+                " effective_date_column, ingested_at, sha256)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    row["id"], row["datasource"], row["table_name"], row["domain"],
+                    row["source_file"], row["sheet"], row["parquet_path"], row["version"],
+                    row["row_count"], row["refresh_mode"], row["business_key"],
+                    row["effective_date_column"], row["ingested_at"], row["sha256"],
+                ),
+            )
+        for row in dump.get("columns", []):
+            cursor.execute(
+                'INSERT INTO "columns" (table_id, name, dtype, profile_json) VALUES (?, ?, ?, ?)',
+                (row["table_id"], row["name"], row["dtype"], row["profile_json"]),
+            )
+        for row in dump.get("column_mappings", []):
+            cursor.execute(
+                'INSERT INTO column_mappings (table_id, "column", entity_class, confirmed,'
+                " confidence, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+                (
+                    row["table_id"], row["column"], row["entity_class"],
+                    row["confirmed"], row["confidence"], row["updated_at"],
+                ),
+            )
+        conn.commit()
+    finally:
+        conn.close()
