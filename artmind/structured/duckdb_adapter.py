@@ -1,0 +1,118 @@
+"""DuckDB-over-parquet implementation of the ``Datasource`` connector.
+
+xlsx/xlsm are read via ``openpyxl`` (bundled dep) rather than DuckDB's
+``excel`` extension, which needs a network install at first use — that would
+violate the no-network rule for hermetic tests (see plan Phase 1 risk (a)).
+An excel sheet is staged to a temp CSV and loaded through the same
+``read_csv_auto`` path as a native csv, so both formats infer types
+identically.
+"""
+
+import csv
+import tempfile
+from pathlib import Path
+
+import duckdb
+from openpyxl import load_workbook
+
+import paths
+from artmind.structured.connector import Column
+
+
+def structured_db_path() -> Path:
+    return paths.STRUCTURED_DIR / "artmind.duckdb"
+
+
+def parquet_path_for(domain: str, table: str) -> Path:
+    return paths.STRUCTURED_DIR / domain / f"{table}.parquet"
+
+
+def _sql_quote_literal(path: Path) -> str:
+    return "'" + str(path).replace("'", "''") + "'"
+
+
+class DuckDBDatasource:
+    def __init__(self, db_path: Path | None = None):
+        self.db_path = Path(db_path) if db_path else structured_db_path()
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        self.con = duckdb.connect(str(self.db_path))
+
+    def load_table(
+        self,
+        source: Path,
+        table: str,
+        domain: str,
+        *,
+        sheet: str | None = None,
+        header_row: int = 0,
+    ) -> int:
+        source = Path(source)
+        parquet = parquet_path_for(domain, table)
+        parquet.parent.mkdir(parents=True, exist_ok=True)
+
+        suffix = source.suffix.lower()
+        cleanup: Path | None = None
+        if suffix == ".csv":
+            csv_path = source
+        elif suffix in (".xlsx", ".xlsm"):
+            csv_path = self._excel_sheet_to_csv(source, sheet=sheet)
+            cleanup = csv_path
+        else:
+            raise ValueError(f"unsupported structured source: {source}")
+
+        try:
+            # DuckDB's COPY ... TO destination must be a literal, not a bind
+            # parameter — the source can still be parameterized via read_csv_auto.
+            self.con.execute(
+                "COPY (SELECT * FROM read_csv_auto(?, header=true, skip="
+                f"{int(header_row)})) TO {_sql_quote_literal(parquet)} (FORMAT PARQUET)",
+                [str(csv_path)],
+            )
+        finally:
+            if cleanup is not None:
+                cleanup.unlink(missing_ok=True)
+
+        self._create_view(table, parquet)
+        return self.con.execute(
+            "SELECT count(*) FROM read_parquet(?)", [str(parquet)]
+        ).fetchone()[0]
+
+    def _excel_sheet_to_csv(self, source: Path, *, sheet: str | None) -> Path:
+        wb = load_workbook(source, read_only=True, data_only=True)
+        try:
+            ws = wb[sheet] if sheet else wb.active
+            fd, tmp_name = tempfile.mkstemp(suffix=".csv")
+            tmp_path = Path(tmp_name)
+            with open(fd, "w", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
+                for row in ws.iter_rows(values_only=True):
+                    writer.writerow(row)
+            return tmp_path
+        finally:
+            wb.close()
+
+    def _create_view(self, table: str, parquet: Path) -> None:
+        # DDL statements can't be prepared/bound in DuckDB — the path must be a literal.
+        self.con.execute(
+            f'CREATE OR REPLACE VIEW "{table}" AS SELECT * FROM read_parquet({_sql_quote_literal(parquet)})'
+        )
+
+    def ensure_views(self, tables: list[dict]) -> None:
+        """Recreate a VIEW per registered parquet so a fresh connection sees every table."""
+        for t in tables:
+            self._create_view(t["table_name"], Path(t["parquet_path"]))
+
+    def introspect_schema(self, table: str) -> list[Column]:
+        rows = self.con.execute(f'DESCRIBE SELECT * FROM "{table}"').fetchall()
+        return [Column(name=r[0], dtype=r[1]) for r in rows]
+
+    def run_sql(self, sql: str) -> list[dict]:
+        cursor = self.con.execute(sql)
+        if cursor.description is None:
+            return []
+        columns = [d[0] for d in cursor.description]
+        return [dict(zip(columns, row, strict=True)) for row in cursor.fetchall()]
+
+    def profile_columns(self, table: str) -> dict:
+        # Wired to artmind.structured.profile.profile_column in Phase 2.
+        return {}
