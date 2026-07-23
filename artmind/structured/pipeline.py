@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 
 import click
+from loguru import logger
 
 from artmind.ingest import _compute_sha256
 from artmind.structured import registry, sanitize_identifier
@@ -129,12 +130,24 @@ def _write_table(
     ]
     registry.replace_columns(table_id, columns)
     table_row = registry.get_table(spec["table_name"], domain=domain)
+
+    # Best-effort: propose column-to-entity-class mappings from the domain KG.
+    # A down/unreachable graph must not fail the load (mirrors commit_to_graph's
+    # hook guarding in artmind/ingest.py).
+    try:
+        from artmind.structured.mappings import propose_mappings
+
+        propose_mappings(table_id, [domain])
+    except Exception as e:
+        logger.warning("ingest_structured_file: mapping proposal failed for {}: {}", spec["table_name"], e)
+
     return {
         "table_name": spec["table_name"],
         "domain": domain,
         "row_count": row_count,
         "parquet_path": str(parquet_path),
         "version": table_row["version"],
+        "table_id": table_id,
     }
 
 

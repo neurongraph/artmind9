@@ -88,6 +88,50 @@ def test_ingest_structured_file_messy_header_errors(tmp_path, monkeypatch):
         ingest_structured_file(csv_path, "banking")
 
 
+def test_ingest_structured_file_attempts_mapping_proposal(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file
+    import artmind.structured.mappings as mappings
+
+    spy = {"called": False}
+
+    def fake_propose_mappings(table_id, domains, **kwargs):
+        spy["called"] = True
+        spy["table_id"] = table_id
+        spy["domains"] = domains
+        return []
+
+    monkeypatch.setattr(mappings, "propose_mappings", fake_propose_mappings)
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
+
+    result = ingest_structured_file(csv_path, "banking")
+
+    assert result["status"] == "ok"
+    assert spy["called"]
+    assert spy["domains"] == ["banking"]
+    assert spy["table_id"] == result["tables"][0]["table_id"]
+
+
+def test_ingest_structured_file_mapping_proposal_failure_is_non_fatal(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file
+    import artmind.structured.mappings as mappings
+
+    def failing_propose_mappings(table_id, domains, **kwargs):
+        raise RuntimeError("graph is down")
+
+    monkeypatch.setattr(mappings, "propose_mappings", failing_propose_mappings)
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"]])
+
+    result = ingest_structured_file(csv_path, "banking")
+
+    assert result["status"] == "ok"
+
+
 def test_refresh_table_bumps_version(tmp_path, monkeypatch):
     _patch_stores(tmp_path, monkeypatch)
     from artmind.structured.pipeline import ingest_structured_file, refresh_table
