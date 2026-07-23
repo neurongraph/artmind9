@@ -269,6 +269,14 @@ db-schema table="":
 db-sql sql:
     uv run artmind db sql "{{ sql }}"
 
+# snapshot the structured store (parquet + registry) to a tar.gz  (usage: just db-backup)
+db-backup:
+    uv run artmind db backup
+
+# wipe and restore the structured store from a snapshot  (usage: just db-restore [path])
+db-restore path="":
+    uv run artmind db restore {{ path }} --confirm
+
 # ── artmind query ────────────────────────────────────────────────────────────
 
 # graph metadata for a domain  (usage: just query-graph-metadata <domain>)

@@ -31,6 +31,7 @@ from artmind.structured import is_structured_source
 from artmind.structured import registry as structured_registry
 from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file
+from artmind.structured_snapshot import export_structured, import_structured
 from artmind.jobs import (
     _create_job,
     _get_job_results,
@@ -1110,7 +1111,7 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 
 @cli.group()
 def db():
-    """Manage and read the structured (SQL) store: list/schema/sql/mappings/refresh/connect."""
+    """Manage and read the structured (SQL) store: list/schema/sql/mappings/refresh/connect/backup/restore."""
     pass
 
 
@@ -1166,6 +1167,29 @@ def db_sql(sql, compact):
 def db_connect(dsn):
     """Reserve the external-adapter surface (stubbed in v1 — DuckDB only)."""
     raise click.ClickException("external adapters not available in v1 — DuckDB only")
+
+
+@db.command("backup")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_backup(compact):
+    """Snapshot the structured store (parquet files + registry rows) to a tar.gz."""
+    path = export_structured()
+    _echo_json({"path": str(path), "name": path.name}, compact)
+
+
+@db.command("restore")
+@click.argument("path", required=False, type=click.Path(exists=True))
+@click.option("--confirm", is_flag=True, help="Required — restoring wipes the current structured store")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_restore(path, confirm, compact):
+    """Wipe and restore the structured store from a snapshot (latest if PATH omitted)."""
+    if not confirm:
+        raise click.ClickException("pass --confirm — restoring wipes the current structured store")
+    try:
+        summary = import_structured(Path(path) if path else None)
+    except FileNotFoundError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(summary, compact)
 
 
 @cli.group()

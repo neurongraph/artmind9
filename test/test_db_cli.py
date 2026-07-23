@@ -12,6 +12,7 @@ def _patch_stores(tmp_path, monkeypatch):
 
     monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
     monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    monkeypatch.setattr(paths, "STRUCTURED_SNAPSHOT_DIR", tmp_path / "structured_snapshot")
     db._init_db()
 
 
@@ -81,3 +82,47 @@ def test_db_connect_stubbed(tmp_path, monkeypatch):
     result = CliRunner().invoke(cli.cli, ["db", "connect", "postgresql://x"])
     assert result.exit_code != 0
     assert "not available in v1" in result.output
+
+
+def test_db_backup_creates_snapshot(ingested):
+    import artmind.cli as cli
+    import paths
+
+    result = CliRunner().invoke(cli.cli, ["db", "backup"])
+    assert result.exit_code == 0, result.output
+    assert list(paths.STRUCTURED_SNAPSHOT_DIR.glob("*.tar.gz"))
+
+
+def test_db_restore_requires_confirm(ingested):
+    import artmind.cli as cli
+
+    CliRunner().invoke(cli.cli, ["db", "backup"])
+    result = CliRunner().invoke(cli.cli, ["db", "restore"])
+    assert result.exit_code != 0
+
+
+def test_db_restore_round_trips_data(ingested):
+    import shutil
+
+    import artmind.cli as cli
+    import paths
+    from artmind.structured import registry
+
+    CliRunner().invoke(cli.cli, ["db", "backup"])
+
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    table = registry.get_table("products", domain="banking")
+    registry.delete_table(table["id"])
+    assert registry.get_table("products", domain="banking") is None
+
+    result = CliRunner().invoke(cli.cli, ["db", "restore", "--confirm"])
+    assert result.exit_code == 0, result.output
+
+    restored = registry.get_table("products", domain="banking")
+    assert restored is not None
+    assert restored["row_count"] == 2
+
+    sql_result = CliRunner().invoke(
+        cli.cli, ["db", "sql", "SELECT count(*) AS n FROM products"]
+    )
+    assert '"n": 2' in sql_result.output
