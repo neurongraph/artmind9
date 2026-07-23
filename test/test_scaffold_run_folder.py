@@ -97,3 +97,33 @@ def test_ds_store_is_never_seeded(tmp_path):
 
     assert _seed_tree(src, dest, overwrite=True) == 1
     assert not (dest / ".DS_Store").exists()
+
+
+# ── scaffold_run_folder ───────────────────────────────────────────────────────
+
+
+def test_scaffold_run_folder_creates_structured_snapshot_dir(tmp_path, monkeypatch):
+    import artmind.setup as setup
+
+    home = tmp_path / "home"
+    data = tmp_path / "data"
+    monkeypatch.setattr(setup, "ARTMIND_HOME", home)
+    monkeypatch.setattr(setup, "ARTMIND_DATA_DIR", data)
+    monkeypatch.setattr(setup, "DOMAIN_SCHEMAS_DIR", home / "domains" / "schemas")
+    monkeypatch.setattr(setup, "LOGS_DIR", home / "logs")
+    monkeypatch.setattr(setup, "ORIGINALS_DIR", data / "documents" / "originals")
+    monkeypatch.setattr(setup, "MARKDOWNS_DIR", data / "documents" / "markdowns")
+    monkeypatch.setattr(setup, "JOBS_DIR", data / "ingestion_jobs")
+    monkeypatch.setattr(setup, "KG_DIR", data / "kg")
+    monkeypatch.setattr(setup, "REFINE_DIR", data / "refine")
+    monkeypatch.setattr(setup, "GRAPH_SNAPSHOT_DIR", data / "graph_snapshot")
+    monkeypatch.setattr(setup, "STRUCTURED_DIR", data / "structured")
+    monkeypatch.setattr(setup, "STRUCTURED_SNAPSHOT_DIR", data / "structured_snapshot")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "PACKAGE_SKILLS_DIR", tmp_path / "no-such-skills")
+    monkeypatch.setattr(setup, "PACKAGE_OPENCODE_DIR", tmp_path / "no-such-opencode")
+    monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", tmp_path / "no-such-schemas")
+
+    setup.scaffold_run_folder()
+
+    assert (data / "structured_snapshot").is_dir()

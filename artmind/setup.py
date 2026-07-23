@@ -18,6 +18,7 @@ from paths import (
     PACKAGE_SKILLS_DIR,
     REFINE_DIR,
     STRUCTURED_DIR,
+    STRUCTURED_SNAPSHOT_DIR,
 )
 from utils.functions import load_env
 
@@ -95,6 +96,7 @@ def scaffold_run_folder() -> dict:
         REFINE_DIR,
         GRAPH_SNAPSHOT_DIR,
         STRUCTURED_DIR,
+        STRUCTURED_SNAPSHOT_DIR,
     ):
         directory.mkdir(parents=True, exist_ok=True)
 
