@@ -706,3 +706,28 @@ def test_help_concepts_camelizes_and_wraps_generator(monkeypatch):
     assert response.json() == [
         {"key": "artmind-refine", "title": "refine", "description": "d", "source": "skill", "destructive": True}
     ]
+
+
+def test_structured_tables_lists_all(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "list_tables",
+        lambda domains=None: [{"table_name": "products", "domain": "banking", "row_count": 2}],
+    )
+    response = _client().get("/api/structured/tables")
+    assert response.status_code == 200
+    assert response.json() == {
+        "tables": [{"tableName": "products", "domain": "banking", "rowCount": 2}]
+    }
+
+
+def test_structured_tables_splits_comma_domains(monkeypatch):
+    seen = {}
+
+    def fake(domains=None):
+        seen["domains"] = domains
+        return []
+
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_tables", fake)
+    response = _client().get("/api/structured/tables?domain=general,banking")
+    assert response.status_code == 200
+    assert seen["domains"] == ["general", "banking"]

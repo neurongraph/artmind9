@@ -31,6 +31,7 @@ from artmind.jobs import (
     _retry_job,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
+from artmind.structured import registry as structured_registry
 from artmind.webui.help import get_concepts
 from paths import GRAPH_SNAPSHOT_DIR, KG_DIR
 from utils.functions import load_env, resolve_llm_model
@@ -388,5 +389,11 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     @app.post("/api/embed-entities")
     async def api_embed_entities(payload: EmbedEntitiesRequest):
         return _camelize(embed_entities_backfill(payload.domain))
+
+    # ── structured data tab (Lane B) ──────────────────────────────────
+    @app.get("/api/structured/tables")
+    async def api_structured_tables(domain: str | None = None):
+        domains = [d.strip() for d in domain.split(",") if d.strip()] if domain else None
+        return _camelize({"tables": structured_registry.list_tables(domains)})
 
     return app
