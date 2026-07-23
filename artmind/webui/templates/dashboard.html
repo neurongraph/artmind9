@@ -34,6 +34,7 @@
       <button type="button" class="tab active" data-tab="operate">Ingest &amp; browse</button>
       <button type="button" class="tab" data-tab="benchmark">Benchmark</button>
       <button type="button" class="tab" data-tab="maintenance">Maintenance</button>
+      <button type="button" class="tab" data-tab="structured">Structured data</button>
     </div>
 
     <div class="tab-panel active" data-tab-group="view" data-tab-panel="operate">
@@ -260,6 +261,114 @@
         </div>
       </div>
     </section>
+
+    <section class="dash-panel dash-zone-maint" id="structured-snapshots-panel">
+      <h2>Maintain — structured store</h2>
+      <p class="dash-hint">Infrequent and destructive. Restoring replaces all parquet files and registry rows.</p>
+      <div class="zone-maint-body">
+        <div>
+          <div class="table-scroll">
+            <table class="dash-table" id="structured-snapshots-table">
+              <thead>
+                <tr><th>Name</th><th>Size</th><th>Created</th><th></th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <button id="create-structured-snapshot-btn" type="button" class="btn-primary">Create snapshot</button>
+          <span id="structured-snapshot-create-result" class="dash-note"></span>
+          <h3 class="dash-subhead">Upload and restore</h3>
+          <form id="structured-snapshot-import-form" class="dash-form stacked">
+            <label>
+              Snapshot .tar.gz
+              <input id="structured-snapshot-import-file" type="file" accept=".tar.gz" required>
+            </label>
+            <button type="submit" class="btn-secondary">Upload &amp; restore</button>
+          </form>
+          <span id="structured-snapshot-import-result" class="dash-note"></span>
+        </div>
+      </div>
+    </section>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="structured">
+    <div class="stat-row" id="structured-stat-cards"></div>
+
+    <div class="dash-grid">
+      <div class="col-side">
+
+        <section class="dash-panel" id="structured-ingest-panel">
+          <h2>Ingest structured file</h2>
+          <p class="dash-hint">csv/xlsx/xlsm → parquet + registry. No graph write.</p>
+          <form id="structured-ingest-form" class="dash-form stacked">
+            <label>
+              Domain
+              <select id="structured-ingest-domain" required></select>
+            </label>
+            <label class="grow">
+              File
+              <input id="structured-ingest-file" type="file" accept=".csv,.xlsx,.xlsm" required>
+            </label>
+            <details>
+              <summary class="dash-hint">Advanced</summary>
+              <label>
+                Table name (optional)
+                <input id="structured-ingest-table" type="text" placeholder="defaults to the file name">
+              </label>
+              <label>
+                Sheet (optional, xlsx only)
+                <input id="structured-ingest-sheet" type="text" placeholder="defaults to the only/first sheet">
+              </label>
+              <label>
+                Header row (optional)
+                <input id="structured-ingest-header-row" type="number" min="0" value="0">
+              </label>
+            </details>
+            <label class="checkbox">
+              <input id="structured-ingest-force" type="checkbox">
+              Force re-ingest (bumps version even if unchanged)
+            </label>
+            <button type="submit" class="btn-primary">Ingest</button>
+          </form>
+          <span id="structured-ingest-result" class="dash-note"></span>
+        </section>
+
+        <section class="dash-panel" id="structured-sql-panel">
+          <h2>Run SQL</h2>
+          <p class="dash-hint">Read-only. Works with Neo4j down.</p>
+          <form id="structured-sql-form" class="dash-form stacked">
+            <textarea id="structured-sql-input" rows="4" placeholder="SELECT * FROM my_table LIMIT 20" required></textarea>
+            <button type="submit" class="btn-primary">Run</button>
+          </form>
+          <div id="structured-sql-result" style="margin-top: 10px;"></div>
+        </section>
+
+      </div>
+
+      <div class="col-main">
+
+        <section class="dash-panel" id="structured-tables-panel">
+          <h2>Tables</h2>
+          <div class="dash-form stacked">
+            <label>
+              Domain
+              <select id="structured-tables-domain"></select>
+            </label>
+          </div>
+          <div class="table-scroll">
+            <table class="dash-table" id="structured-tables-table">
+              <thead>
+                <tr><th>Name</th><th>Domain</th><th>Rows</th><th>Version</th><th>Ingested</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </div>
     </div>
   </main>
 
