@@ -1175,7 +1175,7 @@ class _TableFirstGroup(click.RichGroup):
     both parse correctly.
     """
 
-    def parse_args(self, ctx: click.Context, args: list) -> list:
+    def parse_args(self, ctx: click.Context, args: list[str]) -> list[str]:
         if args and args[0] not in ("--help", "-h"):
             if args[0].startswith("-"):
                 raise click.UsageError("Missing argument 'TABLE'.", ctx=ctx)
