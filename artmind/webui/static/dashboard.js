@@ -69,6 +69,25 @@ async function loadDomains() {
   }
 }
 
+const structuredIngestDomainEl = document.getElementById("structured-ingest-domain");
+const structuredTablesDomainEl = document.getElementById("structured-tables-domain");
+
+async function loadStructuredDomains() {
+  const domains = await api("/api/domains");
+  structuredIngestDomainEl.innerHTML = "";
+  for (const domain of domains) structuredIngestDomainEl.appendChild(el("option", null, domain));
+
+  structuredTablesDomainEl.innerHTML = "";
+  const allOpt = el("option", null, "All domains");
+  allOpt.value = "";
+  structuredTablesDomainEl.appendChild(allOpt);
+  for (const domain of domains) structuredTablesDomainEl.appendChild(el("option", null, domain));
+
+  refreshStructuredTables();
+}
+
+structuredTablesDomainEl.addEventListener("change", refreshStructuredTables);
+
 // ── stats ────────────────────────────────────────────────────────────
 async function refreshStats(domains) {
   const statCardsEl = document.getElementById("stat-cards");
@@ -531,9 +550,172 @@ document.getElementById("snapshot-import-form").addEventListener("submit", async
   }
 });
 
+// ── structured data tab ──────────────────────────────────────────────
+function fmtRowCount(n) {
+  return n === null || n === undefined ? "—" : String(n);
+}
+
+async function refreshStructuredTables() {
+  const tbody = document.querySelector("#structured-tables-table tbody");
+  const statCardsEl = document.getElementById("structured-stat-cards");
+  const domain = structuredTablesDomainEl.value;
+  const url = domain ? `/api/structured/tables?domain=${encodeURIComponent(domain)}` : "/api/structured/tables";
+  const { tables } = await api(url);
+
+  statCardsEl.innerHTML = "";
+  const totalRows = tables.reduce((sum, t) => sum + (t.rowCount || 0), 0);
+  const domainCount = new Set(tables.map((t) => t.domain)).size;
+  const card = el("div", "stat-card");
+  card.appendChild(el("div", "stat-card-title", "Structured store"));
+  const statRows = el("div", "stat-card-rows");
+  for (const [label, value] of [["tables", tables.length], ["total rows", totalRows], ["domains", domainCount]]) {
+    const row = el("div", "stat-card-row");
+    row.appendChild(el("span", "stat-key", label));
+    row.appendChild(el("span", "stat-value", String(value)));
+    statRows.appendChild(row);
+  }
+  card.appendChild(statRows);
+  statCardsEl.appendChild(card);
+
+  tbody.innerHTML = "";
+  if (!tables.length) {
+    const tr = document.createElement("tr");
+    const td = el("td", "dash-empty", "No structured tables registered yet.");
+    td.colSpan = 5;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    return;
+  }
+
+  for (const t of tables) {
+    const tr = document.createElement("tr");
+    tr.style.cursor = "pointer";
+    tr.appendChild(el("td", null, t.tableName));
+    tr.appendChild(el("td", null, t.domain));
+    tr.appendChild(el("td", null, fmtRowCount(t.rowCount)));
+    tr.appendChild(el("td", null, String(t.version)));
+    tr.appendChild(el("td", null, fmtTime(t.ingestedAt)));
+
+    const detailTr = document.createElement("tr");
+    const detailTd = el("td");
+    detailTd.colSpan = 5;
+    detailTd.style.display = "none";
+    detailTr.appendChild(detailTd);
+
+    tr.addEventListener("click", async () => {
+      const showing = detailTd.style.display !== "none";
+      if (showing) {
+        detailTd.style.display = "none";
+        return;
+      }
+      detailTd.style.display = "";
+      detailTd.innerHTML = "Loading…";
+      try {
+        const schema = await api(
+          `/api/structured/tables/${encodeURIComponent(t.tableName)}/schema?domain=${encodeURIComponent(t.domain)}`
+        );
+        detailTd.innerHTML = "";
+        const colTable = el("table", "dash-table");
+        const thead = document.createElement("thead");
+        thead.innerHTML = "<tr><th>Column</th><th>Type</th><th>Mapping</th></tr>";
+        colTable.appendChild(thead);
+        const colBody = document.createElement("tbody");
+        const mappingByColumn = {};
+        for (const m of schema.mappings || []) {
+          mappingByColumn[m.column] = `${m.entityClass} (${m.confirmed ? "confirmed" : "proposed"})`;
+        }
+        for (const c of schema.columns || []) {
+          const ctr = document.createElement("tr");
+          ctr.appendChild(el("td", null, c.name));
+          ctr.appendChild(el("td", null, c.dtype));
+          ctr.appendChild(el("td", "dash-note", mappingByColumn[c.name] || "—"));
+          colBody.appendChild(ctr);
+        }
+        colTable.appendChild(colBody);
+        detailTd.appendChild(colTable);
+      } catch (err) {
+        detailTd.innerHTML = "";
+        detailTd.appendChild(el("div", "dash-note", `Failed to load schema: ${err.message}`));
+      }
+    });
+
+    tbody.appendChild(tr);
+    tbody.appendChild(detailTr);
+  }
+}
+
+document.getElementById("structured-ingest-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const resultEl = document.getElementById("structured-ingest-result");
+  const fileInput = document.getElementById("structured-ingest-file");
+  const file = fileInput.files[0];
+  if (!file) return;
+  resultEl.textContent = "Ingesting…";
+  const formData = new FormData();
+  formData.append("domain", structuredIngestDomainEl.value);
+  formData.append("file", file);
+  const table = document.getElementById("structured-ingest-table").value.trim();
+  if (table) formData.append("table", table);
+  const sheet = document.getElementById("structured-ingest-sheet").value.trim();
+  if (sheet) formData.append("sheet", sheet);
+  formData.append("headerRow", document.getElementById("structured-ingest-header-row").value || "0");
+  formData.append("force", document.getElementById("structured-ingest-force").checked ? "true" : "false");
+  try {
+    const result = await api("/api/structured/ingest", { method: "POST", body: formData });
+    resultEl.textContent = result.status === "skipped"
+      ? "Unchanged — skipped (use Force to re-ingest)."
+      : `Ingested ${result.tables.length} table(s).`;
+    fileInput.value = "";
+    refreshStructuredTables();
+  } catch (err) {
+    resultEl.textContent = `Failed: ${err.message}`;
+  }
+});
+
+document.getElementById("structured-sql-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const resultEl = document.getElementById("structured-sql-result");
+  const sql = document.getElementById("structured-sql-input").value.trim();
+  if (!sql) return;
+  resultEl.innerHTML = "Running…";
+  try {
+    const result = await api("/api/structured/sql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sql }),
+    });
+    resultEl.innerHTML = "";
+    const rows = result.rows || [];
+    if (!rows.length) {
+      resultEl.appendChild(el("p", "dash-empty", "Query returned no rows."));
+      return;
+    }
+    const wrap = el("div", "table-scroll");
+    const table = el("table", "dash-table");
+    const thead = document.createElement("thead");
+    const headRow = document.createElement("tr");
+    for (const key of Object.keys(rows[0])) headRow.appendChild(el("th", null, key));
+    thead.appendChild(headRow);
+    table.appendChild(thead);
+    const tableBody = document.createElement("tbody");
+    for (const row of rows) {
+      const tr = document.createElement("tr");
+      for (const key of Object.keys(rows[0])) tr.appendChild(el("td", null, String(row[key])));
+      tableBody.appendChild(tr);
+    }
+    table.appendChild(tableBody);
+    wrap.appendChild(table);
+    resultEl.appendChild(wrap);
+  } catch (err) {
+    resultEl.innerHTML = "";
+    resultEl.appendChild(el("div", "dash-note", `Failed: ${err.message}`));
+  }
+});
+
 // ── polling ──────────────────────────────────────────────────────────
 initTabs();
 loadDomains();
+loadStructuredDomains();
 refreshActiveJobs();
 refreshCompletedJobs();
 refreshSnapshots();
