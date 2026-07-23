@@ -712,6 +712,85 @@ document.getElementById("structured-sql-form").addEventListener("submit", async 
   }
 });
 
+// ── structured store snapshots ───────────────────────────────────────
+function confirmWipeStructured(snapshotName) {
+  return confirm(
+    `Restoring "${snapshotName}" will DELETE ALL current parquet files and registry rows ` +
+    `in the structured store and replace them with the snapshot's contents. This cannot be undone. Continue?`
+  );
+}
+
+async function restoreStructuredSnapshot(name) {
+  if (!confirmWipeStructured(name)) return;
+  try {
+    const summary = await api(`/api/structured/snapshots/${encodeURIComponent(name)}/restore`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ confirm: true }),
+    });
+    alert(`Restored ${name}: ${summary.tableCount} table(s).`);
+    refreshStructuredSnapshots();
+    refreshStructuredTables();
+  } catch (err) {
+    alert(`Restore failed: ${err.message}`);
+  }
+}
+
+async function refreshStructuredSnapshots() {
+  const tbody = document.querySelector("#structured-snapshots-table tbody");
+  const snapshots = await api("/api/structured/snapshots");
+  tbody.innerHTML = "";
+  for (const snap of snapshots) {
+    const tr = document.createElement("tr");
+    tr.appendChild(el("td", null, snap.name));
+    tr.appendChild(el("td", null, fmtBytes(snap.sizeBytes)));
+    tr.appendChild(el("td", null, fmtTime(snap.createdAt)));
+
+    const actions = el("td");
+    const downloadLink = el("a", "btn-link", "Download");
+    downloadLink.href = `/api/structured/snapshots/${encodeURIComponent(snap.name)}`;
+    actions.appendChild(downloadLink);
+    const restoreBtn = el("button", "btn-link", "Restore");
+    restoreBtn.addEventListener("click", () => restoreStructuredSnapshot(snap.name));
+    actions.appendChild(restoreBtn);
+    tr.appendChild(actions);
+    tbody.appendChild(tr);
+  }
+}
+
+document.getElementById("create-structured-snapshot-btn").addEventListener("click", async () => {
+  const resultEl = document.getElementById("structured-snapshot-create-result");
+  resultEl.textContent = "Exporting…";
+  try {
+    const snap = await api("/api/structured/snapshots", { method: "POST" });
+    resultEl.textContent = `Created ${snap.name} (${fmtBytes(snap.sizeBytes)}).`;
+    refreshStructuredSnapshots();
+  } catch (err) {
+    resultEl.textContent = `Failed: ${err.message}`;
+  }
+});
+
+document.getElementById("structured-snapshot-import-form").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const fileInput = document.getElementById("structured-snapshot-import-file");
+  const file = fileInput.files[0];
+  if (!file) return;
+  if (!confirmWipeStructured(file.name)) return;
+  const resultEl = document.getElementById("structured-snapshot-import-result");
+  resultEl.textContent = "Uploading and restoring…";
+  const formData = new FormData();
+  formData.append("confirm", "true");
+  formData.append("file", file);
+  try {
+    const summary = await api("/api/structured/snapshots/import", { method: "POST", body: formData });
+    resultEl.textContent = `Restored: ${summary.tableCount} table(s).`;
+    fileInput.value = "";
+    refreshStructuredSnapshots();
+  } catch (err) {
+    resultEl.textContent = `Failed: ${err.message}`;
+  }
+});
+
 // ── polling ──────────────────────────────────────────────────────────
 initTabs();
 loadDomains();
@@ -719,6 +798,7 @@ loadStructuredDomains();
 refreshActiveJobs();
 refreshCompletedJobs();
 refreshSnapshots();
+refreshStructuredSnapshots();
 refreshGuardrail();
 setInterval(refreshActiveJobs, 10000);
 setInterval(refreshCompletedJobs, 5000);
