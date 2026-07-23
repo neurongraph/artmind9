@@ -18,7 +18,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
-from artmind.cli import _ensure_worker_running, _get_available_domains
+from artmind.cli import _ensure_worker_running, _get_available_domains, _validate_read_only_sql
 from artmind.graph_query import structural_metadata
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.ingest import _build_file_result_from_db, commit_to_graph, embed_entities_backfill, extract_kg
@@ -35,6 +35,7 @@ from artmind.jobs import (
 from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.structured import STRUCTURED_EXTENSIONS
 from artmind.structured import registry as structured_registry
+from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file
 from artmind.webui.help import get_concepts
 from paths import GRAPH_SNAPSHOT_DIR, KG_DIR
@@ -86,6 +87,10 @@ class PullKgRequest(BaseModel):
 
 class RestoreRequest(BaseModel):
     confirm: bool = False
+
+
+class StructuredSqlRequest(BaseModel):
+    sql: str
 
 
 def _json_len(path: Path) -> int:
@@ -438,5 +443,19 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         finally:
             tmp_path.unlink(missing_ok=True)
         return _camelize(result)
+
+    @app.post("/api/structured/sql")
+    async def api_structured_sql(payload: StructuredSqlRequest):
+        try:
+            _validate_read_only_sql(payload.sql)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        ds = DuckDBDatasource()
+        ds.ensure_views(structured_registry.list_tables())
+        try:
+            rows = await asyncio.to_thread(ds.run_sql, payload.sql)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=f"SQL error: {exc}") from exc
+        return {"query_type": "sql", "command": "db sql", "rows": rows}
 
     return app

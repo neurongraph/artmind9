@@ -838,3 +838,39 @@ def test_structured_ingest_pipeline_error_is_400(monkeypatch):
     )
     assert response.status_code == 400
     assert "Sheet9" in response.json()["detail"]
+
+
+def test_structured_sql_returns_rows(monkeypatch):
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_tables", lambda domains=None: [])
+
+    class FakeDs:
+        def ensure_views(self, tables):
+            pass
+
+        def run_sql(self, sql):
+            return [{"n": 2}]
+
+    monkeypatch.setattr(dashboard_routes, "DuckDBDatasource", lambda: FakeDs())
+    response = _client().post("/api/structured/sql", json={"sql": "SELECT count(*) AS n FROM products"})
+    assert response.status_code == 200
+    assert response.json() == {"query_type": "sql", "command": "db sql", "rows": [{"n": 2}]}
+
+
+def test_structured_sql_rejects_write_statement():
+    response = _client().post("/api/structured/sql", json={"sql": "DELETE FROM products"})
+    assert response.status_code == 400
+
+
+def test_structured_sql_error_is_400(monkeypatch):
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_tables", lambda domains=None: [])
+
+    class FakeDs:
+        def ensure_views(self, tables):
+            pass
+
+        def run_sql(self, sql):
+            raise RuntimeError("no such table: nope")
+
+    monkeypatch.setattr(dashboard_routes, "DuckDBDatasource", lambda: FakeDs())
+    response = _client().post("/api/structured/sql", json={"sql": "SELECT * FROM nope"})
+    assert response.status_code == 400
