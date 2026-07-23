@@ -21,6 +21,7 @@ Read `CLAUDE.md` at the repo root first — especially "Installed, not run from 
 - **Two roots** (`paths.py`): the **run folder** `$ARTMIND_HOME` (config/skills/schemas) and the **data dir** `$ARTMIND_DATA_DIR` (ingestion artifacts). The structured store lives under the **data dir**: `$ARTMIND_DATA_DIR/structured/`. Add its constant to `paths.py`.
 - The registry SQLite lives at `paths.DB_PATH`. `artmind/db.py:_init_db()` is the single migration point — it runs on every `_get_db()` and on `artmind init`/`setup`. **New tables must be created there** so `init`/setup and every command get them. Tests patch `db.DB_PATH` to a tmp file (see `test/test_jobs_stage_only.py`).
 - The domain schema YAML is **untouched** by this feature — it remains purely about document extraction.
+- **Quote SQL identifiers.** The new `column` column in `column_mappings` and the table names `tables`/`columns` are legal in SQLite but reserved-ish; always double-quote identifiers wherever SQL is string-built (registry DDL/DML and every DuckDB query — column names may also contain spaces). Keep the profiler's `"<col>"` quoting discipline everywhere.
 
 ### Patterns to mirror exactly (verified against the tree)
 
@@ -31,7 +32,8 @@ Read `CLAUDE.md` at the repo root first — especially "Installed, not run from 
 | Registry CRUD helpers | `artmind/jobs.py` (`_create_job`, `_update_job_status`, connection open/close via `_get_db()`) | `artmind/structured/registry.py` |
 | Ingest orchestration | `artmind/ingest.py` (`ingest_file` → `ingest_to_kg`; sha256 dedup; `_register_document`) | `artmind/structured/pipeline.py` |
 | Worker dispatch | `artmind/worker.py:_process_job` (`ingest_file` → `ingest_to_kg`) | branch on file type |
-| Neo4j MERGE writes | `artmind/ingest.py:_write_to_neo4j` (`MERGE (d:Document {id}) SET d += $props`; `neo4j_session`) | `artmind/structured/catalogue.py` |
+| Neo4j MERGE style | `artmind/ingest.py:_write_to_neo4j` (`MERGE (d:Document {id}) SET d += $props`) | `artmind/structured/catalogue.py` |
+| Neo4j **write session** | `artmind/graph_query.py:neo4j_session(access_mode="WRITE")` (context manager) — `_write_to_neo4j` builds its **own** driver from env; the catalogue writer should use this helper, NOT a hand-rolled driver | `catalogue.py` imports `neo4j_session` from `graph_query` |
 | Neo4j constraints/indexes | `artmind/setup.py:_setup_neo4j` | add catalogue constraints |
 | CLI group + subcommands | `artmind/cli.py` `@cli.group() def query()` / `@query.group() def graph()`; `_echo_json`, `_parse_domains` | `@cli.group() def db()` |
 | Consuming `artmind query` | `artmind/text2cypher.py` importing `graph_query.entity_listing` | mapping proposer imports `graph_query.entity_listing` (in-process, not shelling out) |
@@ -422,7 +424,7 @@ Add these labels to the `setup_all` return summary. (Structural test asserts the
 
 **Files:** Create `artmind/structured/catalogue.py`; Test: `test/test_structured_catalogue.py`
 
-- [ ] **Step 1: `project_catalogue(domain: str) -> dict`** — using `neo4j_session()` (write) and mirroring `_write_to_neo4j`'s MERGE style:
+- [ ] **Step 1: `project_catalogue(domain: str) -> dict`** — import and use `graph_query.neo4j_session(access_mode="WRITE")` (the context manager at `graph_query.py:150`; do **not** hand-roll a driver — `_write_to_neo4j` does, but the catalogue writer should not), mirroring `_write_to_neo4j`'s MERGE style. Confirm the helper accepts a write access mode:
   1. **Wipe** the domain's catalogue nodes (nothing authoritative lives here): `MATCH (t:Table {domain:$domain}) OPTIONAL MATCH (t)-[:HAS_COLUMN]->(c:TableColumn) DETACH DELETE t, c`.
   2. For each `registry.list_tables([domain])`: MERGE the table node —
      `MERGE (t:Table {key:$key}) SET t += {name, domain, row_count, parquet_path, datasource}` with `key = f"{datasource}::{table_name}"`.
@@ -503,26 +505,41 @@ Opt-in per-table SCD Type-2 history inside parquet, mirroring the graph's valid-
 
 - [ ] **Step 1:** system columns on a temporal table's parquet: `_valid_from`, `_valid_to` (null = open), `_is_current` (bool). Config from the registry: `business_key` (comma-joined columns identifying the same logical row), optional `effective_date_column`.
 
-- [ ] **Step 2: `apply_scd2_refresh(con, table, incoming_rel, business_key: list[str], effective_date: str, *, effective_date_column: str | None = None) -> dict`** — operate on a DuckDB relation/staged table `incoming_rel` vs the current parquet-backed table. Hash over **non-key, non-system** columns:
+- [ ] **Step 2: `apply_scd2_refresh(con, table, incoming_rel, business_key: list[str], effective_date: str, *, effective_date_column: str | None = None) -> dict`.**
+
+  **Critical: DuckDB cannot `UPDATE`/`INSERT` a parquet-backed VIEW in place.** A temporal table is a VIEW over `read_parquet(...)`, so the refresh must **materialize the current history into a real temp table, apply the diff there, then `COPY` the full history back to parquet** — reading existing history first and never truncating it. The pseudocode below is *intent only*; the four-case tests in Step 4 are the actual contract — derive the exact set logic from them, and prefer anti-joins (`NOT EXISTS`/`LEFT JOIN … IS NULL`) over `(cols) NOT IN (…)` to stay NULL-safe with composite keys (`COALESCE` NULL key parts).
+
+  Procedure (identifiers **quoted**; `<bk>` = business-key columns, `<nonkey>` = all non-key, non-system columns; `<eff>` = `COALESCE("<effective_date_column>", DATE '<effective_date>')` when a column is set, else the literal batch date):
 
 ```sql
--- 0. effective date per incoming row: the effective_date_column if present, else the batch date
--- 1. hash current + incoming over non-key columns
-WITH cur AS (SELECT *, hash(<non_key_cols>) AS _h FROM <table>),
-     inc AS (SELECT *, hash(<non_key_cols>) AS _h, <eff> AS _eff FROM incoming)
--- 2. CLOSE changed + disappeared current rows
-UPDATE <table> SET _valid_to = :eff, _is_current = false
+-- 1. Materialize current history into a real temp table (the parquet VIEW is not writable)
+CREATE OR REPLACE TEMP TABLE _cur AS SELECT * FROM read_parquet('<parquet>');
+-- 2. Stage incoming rows with effective date + a change-hash over non-key columns
+CREATE OR REPLACE TEMP TABLE _inc AS
+  SELECT *, hash(<nonkey>) AS _h, <eff> AS _eff FROM <incoming_rel>;
+-- 3. Current open versions + their hash, for comparison
+CREATE OR REPLACE TEMP TABLE _cur_open AS
+  SELECT *, hash(<nonkey>) AS _h FROM _cur WHERE _is_current;
+-- 4. CLOSE current rows whose key changed (hash differs) OR disappeared:
+--    keep-open ONLY where an incoming row has the identical non-key hash.
+UPDATE _cur SET _valid_to = DATE '<effective_date>', _is_current = false
 WHERE _is_current
-  AND (<bk> , _h) NOT IN (SELECT <bk>, _h FROM inc);       -- changed OR disappeared
--- 3. INSERT new keys AND changed keys (new version rows)
-INSERT INTO <table>
-SELECT inc.*, inc._eff AS _valid_from, NULL AS _valid_to, true AS _is_current
-FROM inc
-WHERE (<bk>, _h) NOT IN (SELECT <bk>, _h FROM <table> WHERE _is_current OR NOT _is_current);
--- unchanged rows (same bk + same _h still current) → no-op
+  AND NOT EXISTS (
+    SELECT 1 FROM _inc i JOIN _cur_open c USING (<bk>)
+    WHERE c."<pk>" = _cur."<pk>" AND i._h = c._h);          -- adapt join to the row identity
+-- 5. INSERT new + changed keys as new open versions:
+--    every incoming key NOT currently open with the identical hash.
+INSERT INTO _cur BY NAME
+SELECT i.* EXCLUDE (_h, _eff), i._eff AS _valid_from, NULL AS _valid_to, true AS _is_current
+FROM _inc i
+WHERE NOT EXISTS (
+  SELECT 1 FROM _cur_open c WHERE c.<bk> = i.<bk> AND c._h = i._h);
+-- 6. unchanged (same key + identical hash still open) → excluded by both anti-joins → no-op
+-- 7. Write the full history back, then recreate the VIEW
+COPY _cur TO '<parquet>' (FORMAT PARQUET);
 ```
 
-The four cases (spec §7.2): *new key* → insert (open); *same key, changed hash* → close current + insert new; *unchanged* → no-op; *disappeared key* → soft-close (`_valid_to = eff`). Effective-date source: `effective_date_column` if present, else the batch/ingest date (mirrors the graph deriving `valid_from` from a doc field, falling back to ingestion date). Return `{inserted, closed, unchanged}`.
+The four cases (spec §7.2): *new key* → inserted open (step 5); *same key, changed hash* → old closed (step 4) + new open (step 5); *unchanged* → matched by identical hash in both anti-joins → no-op; *disappeared key* → closed (step 4), never re-inserted. Effective-date source: `effective_date_column` if present, else the batch/ingest date (mirrors the graph deriving `valid_from` from a doc field, falling back to ingestion date). Return `{inserted, closed, unchanged}`.
 
 - [ ] **Step 3: `asof_view_sql(table, as_of=None) -> str`** — `<table>_current` view = `WHERE _is_current`; as-of filter = `WHERE _valid_from <= :asOf AND (_valid_to IS NULL OR :asOf < _valid_to)` — the **same** `--asOf` semantics as `graph_query.asof_predicate`.
 
