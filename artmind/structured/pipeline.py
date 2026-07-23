@@ -4,6 +4,8 @@ Mirrors ``artmind/ingest.py``'s sha256 dedup shape, but the unit of dedup is
 per registered table rather than per document.
 """
 
+import dataclasses
+import json
 from pathlib import Path
 
 import click
@@ -114,8 +116,15 @@ def _write_table(
         row_count=row_count,
         sha256=file_sha256,
     )
+    profiles = ds.profile_columns(spec["table_name"])
     columns = [
-        {"name": c.name, "dtype": c.dtype, "profile_json": None}
+        {
+            "name": c.name,
+            "dtype": c.dtype,
+            "profile_json": json.dumps(dataclasses.asdict(profiles[c.name]))
+            if c.name in profiles
+            else None,
+        }
         for c in ds.introspect_schema(spec["table_name"])
     ]
     registry.replace_columns(table_id, columns)

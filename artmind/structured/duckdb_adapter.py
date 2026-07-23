@@ -17,6 +17,7 @@ from openpyxl import load_workbook
 
 import paths
 from artmind.structured.connector import Column
+from artmind.structured.profile import profile_column
 
 
 def structured_db_path() -> Path:
@@ -114,5 +115,7 @@ class DuckDBDatasource:
         return [dict(zip(columns, row, strict=True)) for row in cursor.fetchall()]
 
     def profile_columns(self, table: str) -> dict:
-        # Wired to artmind.structured.profile.profile_column in Phase 2.
-        return {}
+        return {
+            col.name: profile_column(self.con, table, col.name, col.dtype)
+            for col in self.introspect_schema(table)
+        }

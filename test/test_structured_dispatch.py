@@ -43,6 +43,19 @@ def test_ingest_structured_file_creates_table_and_columns(tmp_path, monkeypatch)
     columns = registry.get_columns(table_row["id"])
     assert {c["name"] for c in columns} == {"id", "name"}
 
+    import json
+
+    columns_by_name = {c["name"]: c for c in columns}
+    assert all(c["profile_json"] for c in columns)
+    id_profile = json.loads(columns_by_name["id"]["profile_json"])
+    assert id_profile["kind"] == "numeric"
+    assert id_profile["minimum"] == 1
+    assert id_profile["maximum"] == 2
+    name_profile = json.loads(columns_by_name["name"]["profile_json"])
+    assert name_profile["kind"] == "categorical"
+    assert name_profile["cardinality"] == 2
+    assert set(name_profile["distinct_sample"]) == {"Widget", "Gadget"}
+
 
 def test_ingest_structured_file_dedup_skip_and_force(tmp_path, monkeypatch):
     _patch_stores(tmp_path, monkeypatch)
