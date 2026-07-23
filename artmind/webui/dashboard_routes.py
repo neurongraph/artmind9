@@ -125,6 +125,12 @@ def _safe_snapshot_path(name: str) -> Path:
     return path
 
 
+def _run_structured_sql(sql: str) -> list[dict]:
+    ds = DuckDBDatasource()
+    ds.ensure_views(structured_registry.list_tables())
+    return ds.run_sql(sql)
+
+
 def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastAPI:
     @app.get("/dashboard")
     async def dashboard_page(request: Request):
@@ -450,10 +456,8 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             _validate_read_only_sql(payload.sql)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
-        ds = DuckDBDatasource()
-        ds.ensure_views(structured_registry.list_tables())
         try:
-            rows = await asyncio.to_thread(ds.run_sql, payload.sql)
+            rows = await asyncio.to_thread(_run_structured_sql, payload.sql)
         except Exception as exc:
             raise HTTPException(status_code=400, detail=f"SQL error: {exc}") from exc
         return {"query_type": "sql", "command": "db sql", "rows": rows}

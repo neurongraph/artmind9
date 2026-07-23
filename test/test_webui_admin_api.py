@@ -874,3 +874,4 @@ def test_structured_sql_error_is_400(monkeypatch):
     monkeypatch.setattr(dashboard_routes, "DuckDBDatasource", lambda: FakeDs())
     response = _client().post("/api/structured/sql", json={"sql": "SELECT * FROM nope"})
     assert response.status_code == 400
+    assert "no such table: nope" in response.json()["detail"]
