@@ -12,6 +12,7 @@ import zipfile
 from datetime import datetime
 from pathlib import Path
 
+import click
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
@@ -427,10 +428,13 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         try:
             tmp.write(content)
             tmp.close()
-            result = await asyncio.to_thread(
-                ingest_structured_file, tmp_path, domain,
-                table=table, sheet=sheet, header_row=header_row, force=force,
-            )
+            try:
+                result = await asyncio.to_thread(
+                    ingest_structured_file, tmp_path, domain,
+                    table=table, sheet=sheet, header_row=header_row, force=force,
+                )
+            except click.ClickException as exc:
+                raise HTTPException(status_code=400, detail=str(exc)) from exc
         finally:
             tmp_path.unlink(missing_ok=True)
         return _camelize(result)

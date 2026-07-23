@@ -822,3 +822,19 @@ def test_structured_ingest_rejects_traversal_domain(monkeypatch):
     )
     assert response.status_code == 400
     assert "called" not in called
+
+
+def test_structured_ingest_pipeline_error_is_400(monkeypatch):
+    import click
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        raise click.ClickException("sheet 'Sheet9' not found (or empty/hidden) in 'data.xlsx'")
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking", "sheet": "Sheet9"},
+        files={"file": ("data.xlsx", io.BytesIO(b"fake"), "application/vnd.openxmlformats")},
+    )
+    assert response.status_code == 400
+    assert "Sheet9" in response.json()["detail"]
