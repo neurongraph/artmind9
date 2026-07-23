@@ -41,6 +41,12 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
 - `artmind db schema <table> --compact` — columns, types, and (once confirmed)
   column→entity-class mappings for a table.
 - `artmind db sql "<SQL>" --compact` — raw read-only SQL, no LLM involved.
+- `artmind db mappings <table> --compact` — review proposed vs confirmed
+  column→entityClass mappings for a table (registry rows, not a file). Bulk-confirm
+  everything proposed with `--acceptProposed`, or manage one mapping at a time with
+  the `set`/`confirm`/`clear` subcommands (`db mappings <table> set --column c
+  --entityClass PRODUCT`, `... confirm --column c --entityClass PRODUCT`,
+  `... clear --column c` or `... clear` for all).
 
 Full graph/SQL/hybrid routing logic lands in a later increment of this skill —
 for now, check `db list` for the domain when a question is clearly analytical

@@ -1162,6 +1162,105 @@ def db_sql(sql, compact):
     _echo_json({"query_type": "sql", "command": "db sql", "rows": rows}, compact)
 
 
+class _TableFirstGroup(click.RichGroup):
+    """Group whose first positional token is always TABLE.
+
+    Click's MultiCommand disables interspersed-argument parsing (it has to, to
+    know where a subcommand name begins), which means a Group's own
+    ``@click.argument`` can't have trailing Options when no subcommand follows —
+    any token after the argument gets misread as an attempted (nonexistent)
+    subcommand, producing a confusing "Missing argument" error. Peeling TABLE off
+    manually here, before Click's own parser runs, sidesteps that limitation and
+    lets ``db mappings TABLE --acceptProposed`` / ``db mappings TABLE set ...``
+    both parse correctly.
+    """
+
+    def parse_args(self, ctx: click.Context, args: list) -> list:
+        if args and args[0] not in ("--help", "-h"):
+            if args[0].startswith("-"):
+                raise click.UsageError("Missing argument 'TABLE'.", ctx=ctx)
+            table, *rest = args
+            ctx.params["table"] = table
+            args = rest
+        elif not args:
+            raise click.UsageError("Missing argument 'TABLE'.", ctx=ctx)
+        return super().parse_args(ctx, args)
+
+
+def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
+    """Resolve TABLE to a single table_id, mirroring db_schema's --domain handling."""
+    domains = _parse_domains(domain) if domain else None
+    matches = [t for t in structured_registry.list_tables(domains) if t["table_name"] == table_name]
+    if not matches:
+        raise click.ClickException(f"table '{table_name}' not found")
+    if len(matches) > 1:
+        doms = [t["domain"] for t in matches]
+        raise click.ClickException(
+            f"table '{table_name}' is ambiguous across domains {doms} — narrow with --domain"
+        )
+    return matches[0]["id"]
+
+
+@db.group("mappings", cls=_TableFirstGroup, invoke_without_command=True)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option("--acceptProposed", "accept_proposed", is_flag=True, help="Confirm all proposed mappings (bulk/non-interactive)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings(ctx, table, domain, accept_proposed, compact):
+    """List proposed vs confirmed mappings for TABLE (default action)."""
+    table_id = _resolve_table_id(table, domain)
+    ctx.obj = {"table_id": table_id}
+    if ctx.invoked_subcommand is not None:
+        return
+    if accept_proposed:
+        for m in structured_registry.list_mappings(table_id):
+            if not m["confirmed"]:
+                structured_registry.set_mapping_confirmed(
+                    table_id, m["column"], m["entity_class"], True
+                )
+    _echo_json({"table": table, "mappings": structured_registry.list_mappings(table_id)}, compact)
+
+
+@db_mappings.command("set")
+@click.option("--column", required=True)
+@click.option("--entityClass", "entity_class", required=True)
+@click.option("--confidence", type=float, default=1.0)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings_set(ctx, column, entity_class, confidence, compact):
+    """Upsert a confirmed column-to-entityClass mapping."""
+    table_id = ctx.obj["table_id"]
+    structured_registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=True)
+    _echo_json({"mappings": structured_registry.list_mappings(table_id)}, compact)
+
+
+@db_mappings.command("confirm")
+@click.option("--column", required=True)
+@click.option("--entityClass", "entity_class", required=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings_confirm(ctx, column, entity_class, compact):
+    """Flip an existing proposed mapping to confirmed."""
+    table_id = ctx.obj["table_id"]
+    rowcount = structured_registry.set_mapping_confirmed(table_id, column, entity_class, True)
+    if rowcount == 0:
+        raise click.ClickException(
+            f"no mapping found for column '{column}' / entityClass '{entity_class}'"
+        )
+    _echo_json({"mappings": structured_registry.list_mappings(table_id)}, compact)
+
+
+@db_mappings.command("clear")
+@click.option("--column", default=None, help="Clear only this column's mappings (omit to clear all of the table's mappings)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings_clear(ctx, column, compact):
+    """Remove mapping(s) for TABLE — one column, or all if --column omitted."""
+    table_id = ctx.obj["table_id"]
+    structured_registry.clear_mappings(table_id, column)
+    _echo_json({"mappings": structured_registry.list_mappings(table_id)}, compact)
+
+
 @db.command("connect")
 @click.argument("dsn")
 def db_connect(dsn):

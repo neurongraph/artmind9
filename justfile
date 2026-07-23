@@ -269,6 +269,22 @@ db-schema table="":
 db-sql sql:
     uv run artmind db sql "{{ sql }}"
 
+# list proposed vs confirmed column-to-entityClass mappings for a table  (usage: just db-mappings <table> [--acceptProposed])
+db-mappings table flags="":
+    uv run artmind db mappings {{ table }} {{ flags }}
+
+# upsert a confirmed column-to-entityClass mapping  (usage: just db-mappings-set <table> <column> <entityClass> [confidence])
+db-mappings-set table column entity_class confidence="1.0":
+    uv run artmind db mappings {{ table }} set --column {{ column }} --entityClass {{ entity_class }} --confidence {{ confidence }}
+
+# confirm an existing proposed mapping  (usage: just db-mappings-confirm <table> <column> <entityClass>)
+db-mappings-confirm table column entity_class:
+    uv run artmind db mappings {{ table }} confirm --column {{ column }} --entityClass {{ entity_class }}
+
+# remove mapping(s) for a table  (usage: just db-mappings-clear <table> [column])
+db-mappings-clear table column="":
+    uv run artmind db mappings {{ table }} clear {{ if column != "" { "--column " + column } else { "" } }}
+
 # snapshot the structured store (parquet + registry) to a tar.gz  (usage: just db-backup)
 db-backup:
     uv run artmind db backup
