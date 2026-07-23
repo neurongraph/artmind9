@@ -875,3 +875,115 @@ def test_structured_sql_error_is_400(monkeypatch):
     response = _client().post("/api/structured/sql", json={"sql": "SELECT * FROM nope"})
     assert response.status_code == 400
     assert "no such table: nope" in response.json()["detail"]
+
+
+def test_list_structured_snapshots_empty_when_dir_missing(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path / "nope")
+    response = _client().get("/api/structured/snapshots")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_list_structured_snapshots_returns_name_size_date(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "structured_snapshot_2026-01-01_000000.tar.gz").write_bytes(b"fake-tarball")
+    response = _client().get("/api/structured/snapshots")
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body) == 1
+    assert body[0]["name"] == "structured_snapshot_2026-01-01_000000.tar.gz"
+    assert body[0]["sizeBytes"] == len(b"fake-tarball")
+    assert "createdAt" in body[0]
+
+
+def test_create_structured_snapshot_calls_export_structured(monkeypatch, tmp_path):
+    snap = tmp_path / "structured_snapshot_new.tar.gz"
+    snap.write_bytes(b"data")
+    monkeypatch.setattr(dashboard_routes, "export_structured", lambda: snap)
+    response = _client().post("/api/structured/snapshots")
+    assert response.status_code == 200
+    assert response.json()["name"] == "structured_snapshot_new.tar.gz"
+
+
+def test_download_structured_snapshot_success(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"content")
+    response = _client().get("/api/structured/snapshots/snap.tar.gz")
+    assert response.status_code == 200
+    assert response.content == b"content"
+
+
+def test_download_structured_snapshot_404(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    response = _client().get("/api/structured/snapshots/nope.tar.gz")
+    assert response.status_code == 404
+
+
+def test_download_structured_snapshot_rejects_path_traversal(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path / "snapshots")
+    (tmp_path / "snapshots").mkdir()
+    (tmp_path / "secret.txt").write_text("nope")
+    response = _client().get("/api/structured/snapshots/..%2Fsecret.txt")
+    assert response.status_code in (400, 404)
+
+
+def test_restore_structured_snapshot_requires_confirm(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"data")
+    response = _client().post("/api/structured/snapshots/snap.tar.gz/restore", json={"confirm": False})
+    assert response.status_code == 400
+
+
+def test_restore_structured_snapshot_success(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"data")
+    monkeypatch.setattr(
+        dashboard_routes, "import_structured",
+        lambda path: {"snapshot": path.name, "table_count": 1, "elapsed_seconds": 0.1},
+    )
+    response = _client().post("/api/structured/snapshots/snap.tar.gz/restore", json={"confirm": True})
+    assert response.status_code == 200
+    assert response.json()["snapshot"] == "snap.tar.gz"
+
+
+def test_restore_structured_snapshot_not_found(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    response = _client().post("/api/structured/snapshots/nope.tar.gz/restore", json={"confirm": True})
+    assert response.status_code == 404
+
+
+def test_restore_structured_snapshot_import_failure_is_400(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"data")
+
+    def fake(path):
+        raise ValueError("corrupt snapshot")
+
+    monkeypatch.setattr(dashboard_routes, "import_structured", fake)
+    response = _client().post("/api/structured/snapshots/snap.tar.gz/restore", json={"confirm": True})
+    assert response.status_code == 400
+
+
+def test_import_structured_snapshot_requires_confirm(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    response = _client().post(
+        "/api/structured/snapshots/import",
+        data={"confirm": "false"},
+        files={"file": ("snap.tar.gz", io.BytesIO(b"data"), "application/gzip")},
+    )
+    assert response.status_code == 400
+
+
+def test_import_structured_snapshot_success(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    monkeypatch.setattr(
+        dashboard_routes, "import_structured",
+        lambda path: {"snapshot": path.name, "table_count": 0, "elapsed_seconds": 0.1},
+    )
+    response = _client().post(
+        "/api/structured/snapshots/import",
+        data={"confirm": "true"},
+        files={"file": ("uploaded.tar.gz", io.BytesIO(b"data"), "application/gzip")},
+    )
+    assert response.status_code == 200
+    assert (tmp_path / "uploaded.tar.gz").exists()
