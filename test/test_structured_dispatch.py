@@ -108,10 +108,14 @@ def test_ingest_structured_file_attempts_mapping_proposal(tmp_path, monkeypatch)
 
     result = ingest_structured_file(csv_path, "banking")
 
+    from artmind.structured import registry
+
+    expected_table_id = registry.get_table("products", domain="banking")["id"]
+
     assert result["status"] == "ok"
     assert spy["called"]
     assert spy["domains"] == ["banking"]
-    assert spy["table_id"] == result["tables"][0]["table_id"]
+    assert spy["table_id"] == expected_table_id
 
 
 def test_ingest_structured_file_mapping_proposal_failure_is_non_fatal(tmp_path, monkeypatch):

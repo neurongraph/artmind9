@@ -147,7 +147,6 @@ def _write_table(
         "row_count": row_count,
         "parquet_path": str(parquet_path),
         "version": table_row["version"],
-        "table_id": table_id,
     }
 
 

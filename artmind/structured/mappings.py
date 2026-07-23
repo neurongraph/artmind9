@@ -16,14 +16,41 @@ from artmind.structured import registry
 CONFIDENCE_FLOOR = 0.4
 
 
-def _values_match(value: str, names: set[str], *, fuzzy_threshold: float) -> bool:
-    value_lower = value.lower()
-    if value_lower in {n.lower() for n in names}:
+def _lowered(names: set[str]) -> tuple[set[str], list[str]]:
+    """Case-fold ``names`` once: a set for exact membership, a list for fuzzy scan."""
+    lowered_list = [n.lower() for n in names]
+    return set(lowered_list), lowered_list
+
+
+def _value_matches(
+    value_lower: str, lowered_set: set[str], lowered_list: list[str], *, fuzzy_threshold: float
+) -> bool:
+    if value_lower in lowered_set:
         return True
     return any(
-        difflib.SequenceMatcher(None, value_lower, name.lower()).ratio() >= fuzzy_threshold
-        for name in names
+        difflib.SequenceMatcher(None, value_lower, name).ratio() >= fuzzy_threshold
+        for name in lowered_list
     )
+
+
+def _candidate_columns(table_id: int) -> list[tuple[str, list]]:
+    """Categorical columns with a non-empty sample, as ``[(name, distinct_sample)]``.
+
+    Cheap and local (SQLite only) — callers use this to decide whether the
+    ``entity_listing`` graph round trip is even worth making.
+    """
+    candidates = []
+    for column in registry.get_columns(table_id):
+        if column.get("profile_json") is None:
+            continue
+        profile = json.loads(column["profile_json"])
+        if profile.get("kind") != "categorical":
+            continue
+        sample = profile.get("distinct_sample") or []
+        if not sample:
+            continue
+        candidates.append((column["name"], sample))
+    return candidates
 
 
 def _entity_names_by_class(domains: list[str]) -> dict[str, set[str]]:
@@ -43,44 +70,60 @@ def propose_mappings(
     """Propose and persist ``column -> entity_class`` mappings for ``table_id``'s
     categorical columns, matched against ``domains``' KG entities.
 
+    A confirmed mapping (set via the review CLI, Task 2.3) is never
+    overwritten by a re-proposal — refreshing a table must not silently
+    un-confirm a user-reviewed mapping.
+
     Returns the list of persisted proposals (``{"column", "entity_class",
-    "confidence"}``); columns with no class above ``CONFIDENCE_FLOOR`` are
-    omitted entirely (nothing persisted for them).
+    "confidence"}``); columns with no class above ``CONFIDENCE_FLOOR``, and
+    columns whose best class matches an already-confirmed mapping, are
+    omitted (nothing persisted for either).
     """
+    # Cheap local SQLite check first — only pay for the entity_listing graph
+    # round trip if the table actually has a categorical column to match.
+    candidate_columns = _candidate_columns(table_id)
+    if not candidate_columns:
+        return []
+
     names_by_class = _entity_names_by_class(domains)
     if not names_by_class:
         return []
 
-    proposals: list[dict] = []
-    for column in registry.get_columns(table_id):
-        if column.get("profile_json") is None:
-            continue
-        profile = json.loads(column["profile_json"])
-        if profile.get("kind") != "categorical":
-            continue
-        sample = profile.get("distinct_sample") or []
-        if not sample:
-            continue
+    # Case-fold each class's names once, not once per sampled value.
+    lowered_by_class = {
+        entity_class: _lowered(names) for entity_class, names in names_by_class.items()
+    }
 
+    already_confirmed = {
+        (mapping["column"], mapping["entity_class"])
+        for mapping in registry.list_mappings(table_id)
+        if mapping.get("confirmed")
+    }
+
+    proposals: list[dict] = []
+    for column_name, sample in candidate_columns:
         best_class = None
         best_confidence = 0.0
-        for entity_class, names in names_by_class.items():
+        for entity_class, (lowered_set, lowered_list) in lowered_by_class.items():
             matched = sum(
-                1 for value in sample if _values_match(str(value), names, fuzzy_threshold=fuzzy_threshold)
+                1
+                for value in sample
+                if _value_matches(
+                    str(value).lower(), lowered_set, lowered_list, fuzzy_threshold=fuzzy_threshold
+                )
             )
             confidence = matched / len(sample)
             if confidence > best_confidence:
                 best_confidence = confidence
                 best_class = entity_class
 
-        if best_class is not None and best_confidence >= CONFIDENCE_FLOOR:
-            proposals.append(
-                {
-                    "column": column["name"],
-                    "entity_class": best_class,
-                    "confidence": best_confidence,
-                }
-            )
+        if best_class is None or best_confidence < CONFIDENCE_FLOOR:
+            continue
+        if (column_name, best_class) in already_confirmed:
+            continue  # leave a user-confirmed mapping untouched
+        proposals.append(
+            {"column": column_name, "entity_class": best_class, "confidence": best_confidence}
+        )
 
     for proposal in proposals:
         registry.upsert_mapping(
