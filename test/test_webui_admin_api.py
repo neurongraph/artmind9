@@ -755,3 +755,70 @@ def test_structured_table_schema_404(monkeypatch):
     monkeypatch.setattr(dashboard_routes.structured_registry, "get_table", lambda table, domain=None: None)
     response = _client().get("/api/structured/tables/nope/schema")
     assert response.status_code == 404
+
+
+def test_structured_ingest_writes_table(monkeypatch, tmp_path):
+    seen = {}
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        seen["source_suffix"] = source.suffix
+        seen["domain"] = domain
+        seen["header_row"] = header_row
+        seen["force"] = force
+        return {"status": "ok", "tables": [{"table_name": "data", "domain": domain, "row_count": 2}]}
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking"},
+        files={"file": ("data.csv", io.BytesIO(b"a,b\n1,2\n"), "text/csv")},
+    )
+    assert response.status_code == 200
+    assert response.json() == {
+        "status": "ok", "tables": [{"tableName": "data", "domain": "banking", "rowCount": 2}]
+    }
+    assert seen["source_suffix"] == ".csv"
+    assert seen["domain"] == "banking"
+    assert seen["header_row"] == 0
+    assert seen["force"] is False
+
+
+def test_structured_ingest_passes_advanced_fields(monkeypatch, tmp_path):
+    seen = {}
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        seen.update(table=table, sheet=sheet, header_row=header_row, force=force)
+        return {"status": "ok", "tables": []}
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking", "table": "custom", "sheet": "Sheet2", "headerRow": "2", "force": "true"},
+        files={"file": ("data.xlsx", io.BytesIO(b"fake"), "application/vnd.openxmlformats")},
+    )
+    assert response.status_code == 200
+    assert seen == {"table": "custom", "sheet": "Sheet2", "header_row": 2, "force": True}
+
+
+def test_structured_ingest_rejects_unsupported_extension():
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking"},
+        files={"file": ("data.txt", io.BytesIO(b"not tabular"), "text/plain")},
+    )
+    assert response.status_code == 400
+
+
+def test_structured_ingest_rejects_traversal_domain(monkeypatch):
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "ingest_structured_file",
+        lambda *a, **k: called.setdefault("called", True) or {"status": "ok", "tables": []},
+    )
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": ".."},
+        files={"file": ("data.csv", io.BytesIO(b"a\n1\n"), "text/csv")},
+    )
+    assert response.status_code == 400
+    assert "called" not in called

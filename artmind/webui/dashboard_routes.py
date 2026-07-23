@@ -7,6 +7,7 @@ Deterministic (no LLM in the loop) — plain wrappers around `artmind.jobs`,
 import asyncio
 import io
 import json
+import tempfile
 import zipfile
 from datetime import datetime
 from pathlib import Path
@@ -31,7 +32,9 @@ from artmind.jobs import (
     _retry_job,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
+from artmind.structured import STRUCTURED_EXTENSIONS
 from artmind.structured import registry as structured_registry
+from artmind.structured.pipeline import ingest_structured_file
 from artmind.webui.help import get_concepts
 from paths import GRAPH_SNAPSHOT_DIR, KG_DIR
 from utils.functions import load_env, resolve_llm_model
@@ -404,5 +407,32 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         columns = structured_registry.get_columns(row["id"])
         mappings = structured_registry.list_mappings(row["id"])
         return _camelize({**row, "columns": columns, "mappings": mappings})
+
+    @app.post("/api/structured/ingest")
+    async def api_structured_ingest(
+        domain: str = Form(...),
+        file: UploadFile = File(...),
+        table: str | None = Form(None),
+        sheet: str | None = Form(None),
+        header_row: int = Form(0, alias="headerRow"),
+        force: bool = Form(False),
+    ):
+        _validate_artifact_segment(domain)
+        suffix = Path(file.filename).suffix.lower()
+        if suffix not in STRUCTURED_EXTENSIONS:
+            raise HTTPException(status_code=400, detail=f"unsupported file type: {suffix}")
+        content = await file.read()
+        tmp = tempfile.NamedTemporaryFile(suffix=suffix, delete=False)
+        tmp_path = Path(tmp.name)
+        try:
+            tmp.write(content)
+            tmp.close()
+            result = await asyncio.to_thread(
+                ingest_structured_file, tmp_path, domain,
+                table=table, sheet=sheet, header_row=header_row, force=force,
+            )
+        finally:
+            tmp_path.unlink(missing_ok=True)
+        return _camelize(result)
 
     return app
