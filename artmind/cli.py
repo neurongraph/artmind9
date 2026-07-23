@@ -1173,10 +1173,28 @@ class _TableFirstGroup(click.RichGroup):
     manually here, before Click's own parser runs, sidesteps that limitation and
     lets ``db mappings TABLE --acceptProposed`` / ``db mappings TABLE set ...``
     both parse correctly.
+
+    The group still declares a real (but ``required=False, expose_value=False``)
+    ``table`` Argument — see ``db_mappings`` below — purely so ``--help``/usage
+    rendering knows about it (``get_params`` picks it up). ``make_parser`` below
+    excludes that phantom Argument from the actual token-consuming parser, since
+    real parsing is handled entirely by ``parse_args``'s manual peel; leaving it
+    in would let it re-swallow whatever token comes right after TABLE (e.g. a
+    subcommand name).
     """
 
+    def make_parser(self, ctx: click.Context):
+        original_params = self.params
+        self.params = [p for p in original_params if p.name != "table"]
+        try:
+            return super().make_parser(ctx)
+        finally:
+            self.params = original_params
+
     def parse_args(self, ctx: click.Context, args: list[str]) -> list[str]:
-        if args and args[0] not in ("--help", "-h"):
+        # Only "--help" is wired anywhere in this CLI (no help_option_names
+        # override), so that's the only alias recognized here too.
+        if args and args[0] != "--help":
             if args[0].startswith("-"):
                 raise click.UsageError("Missing argument 'TABLE'.", ctx=ctx)
             table, *rest = args
@@ -1202,6 +1220,7 @@ def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
 
 
 @db.group("mappings", cls=_TableFirstGroup, invoke_without_command=True)
+@click.argument("table", required=False, expose_value=False)
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @click.option("--acceptProposed", "accept_proposed", is_flag=True, help="Confirm all proposed mappings (bulk/non-interactive)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
@@ -1209,7 +1228,7 @@ def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
 def db_mappings(ctx, table, domain, accept_proposed, compact):
     """List proposed vs confirmed mappings for TABLE (default action)."""
     table_id = _resolve_table_id(table, domain)
-    ctx.obj = {"table_id": table_id}
+    ctx.obj = {"table_id": table_id, "table": table}
     if ctx.invoked_subcommand is not None:
         return
     if accept_proposed:
@@ -1231,7 +1250,9 @@ def db_mappings_set(ctx, column, entity_class, confidence, compact):
     """Upsert a confirmed column-to-entityClass mapping."""
     table_id = ctx.obj["table_id"]
     structured_registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=True)
-    _echo_json({"mappings": structured_registry.list_mappings(table_id)}, compact)
+    _echo_json(
+        {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
+    )
 
 
 @db_mappings.command("confirm")
@@ -1240,14 +1261,23 @@ def db_mappings_set(ctx, column, entity_class, confidence, compact):
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.pass_context
 def db_mappings_confirm(ctx, column, entity_class, compact):
-    """Flip an existing proposed mapping to confirmed."""
+    """Flip an existing proposed mapping to confirmed.
+
+    Unlike ``clear`` (below), a no-match here is an error rather than a silent
+    no-op: this command asserts a specific state transition on a specific row
+    the caller believes already exists (typically from a proposal an operator
+    is reviewing), so a typo'd --column/--entityClass should fail loudly rather
+    than let the caller believe they confirmed something they didn't.
+    """
     table_id = ctx.obj["table_id"]
     rowcount = structured_registry.set_mapping_confirmed(table_id, column, entity_class, True)
     if rowcount == 0:
         raise click.ClickException(
             f"no mapping found for column '{column}' / entityClass '{entity_class}'"
         )
-    _echo_json({"mappings": structured_registry.list_mappings(table_id)}, compact)
+    _echo_json(
+        {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
+    )
 
 
 @db_mappings.command("clear")
@@ -1255,10 +1285,19 @@ def db_mappings_confirm(ctx, column, entity_class, compact):
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.pass_context
 def db_mappings_clear(ctx, column, compact):
-    """Remove mapping(s) for TABLE — one column, or all if --column omitted."""
+    """Remove mapping(s) for TABLE — one column, or all if --column omitted.
+
+    Deliberately idempotent: a --column with no matching mappings is not an
+    error (delete-if-present, like ``rm -f``), unlike ``confirm`` above, which
+    asserts a specific row exists. Clearing is inherently "make sure this
+    column has no mappings" rather than "act on this exact row", so a no-op is
+    the correct, unsurprising result.
+    """
     table_id = ctx.obj["table_id"]
     structured_registry.clear_mappings(table_id, column)
-    _echo_json({"mappings": structured_registry.list_mappings(table_id)}, compact)
+    _echo_json(
+        {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
+    )
 
 
 @db.command("connect")

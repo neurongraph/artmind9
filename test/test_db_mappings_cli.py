@@ -148,6 +148,39 @@ def test_db_mappings_unknown_table_errors(ingested):
     assert result.exit_code != 0
 
 
+# _TableFirstGroup edge cases — see its docstring in artmind/cli.py for the Click
+# limitation this class works around (a Group's own required Argument can't have
+# trailing Options when no subcommand follows). These lock in that the shim fails
+# safely (a clear, non-zero-exit "Missing argument" error) rather than silently
+# misrouting, so a future Click upgrade or refactor can't quietly break it.
+
+
+def test_db_mappings_no_table_errors_clearly(ingested):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "mappings"])
+    assert result.exit_code != 0
+    assert "Missing argument" in result.output
+    assert "TABLE" in result.output
+
+
+def test_db_mappings_flag_before_table_errors_clearly(ingested):
+    """--acceptProposed with no table first isn't silently misread as TABLE."""
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "mappings", "--acceptProposed"])
+    assert result.exit_code != 0
+    assert "Missing argument" in result.output
+
+
+def test_db_mappings_help_documents_table(ingested):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "mappings", "--help"])
+    assert result.exit_code == 0, result.output
+    assert "TABLE" in result.output
+
+
 # Note: cross-domain table-name ambiguity (same table_name, two domains) is not
 # reachable through the registry as written — "tables" has a global
 # UNIQUE(datasource, table_name) constraint (artmind/db.py), so re-registering the
