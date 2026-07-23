@@ -255,6 +255,20 @@ ingest-supersede domain newer older flags="":
 ingest-detect-supersession domain dry_run="":
     uv run artmind ingest detect-supersession --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
 
+# ── artmind db (structured store) ───────────────────────────────────────────
+
+# list registered structured tables  (usage: just db-list [domain])
+db-list domain="":
+    uv run artmind db list {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# show columns/types (+profiles/mappings) for a table  (usage: just db-schema [table])
+db-schema table="":
+    uv run artmind db schema {{ table }}
+
+# run raw read-only SQL against the structured store  (usage: just db-sql "SELECT ...")
+db-sql sql:
+    uv run artmind db sql "{{ sql }}"
+
 # ── artmind query ────────────────────────────────────────────────────────────
 
 # graph metadata for a domain  (usage: just query-graph-metadata <domain>)

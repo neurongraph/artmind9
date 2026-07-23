@@ -30,6 +30,22 @@ Every extracted entity carries the `:Entity` label plus a class label (e.g. `PER
 
 Add `--compact` to every command — it halves the JSON you must read.
 
+## Structured store (`db`)
+
+A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
+in a separate SQL store, independent of the graph above. Rows never become graph
+nodes — the graph only ever holds a catalogue of what tables/columns exist.
+
+- `artmind db list --domain <d> --compact` — which structured tables (if any)
+  exist for this domain.
+- `artmind db schema <table> --compact` — columns, types, and (once confirmed)
+  column→entity-class mappings for a table.
+- `artmind db sql "<SQL>" --compact` — raw read-only SQL, no LLM involved.
+
+Full graph/SQL/hybrid routing logic lands in a later increment of this skill —
+for now, check `db list` for the domain when a question is clearly analytical
+("average/total/count by X") and the graph patterns below don't fit.
+
 ## The Query Protocol: Route → Discover → Resolve → Retrieve → Ground → Adjudicate
 
 ### 0. Route — pick the domain set

@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -27,6 +28,8 @@ from artmind.ingest import (
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.structured import is_structured_source
+from artmind.structured import registry as structured_registry
+from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file
 from artmind.jobs import (
     _create_job,
@@ -71,6 +74,23 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     from artmind.graph_query import normalize_domains
 
     return normalize_domains(list(values))
+
+
+# Minimal Phase-1 read-only guard for `db sql`. Folded into
+# artmind.text2sql.validate_read_only_sql in Phase 4 — text2sql's version is
+# the shared source of truth going forward.
+_SQL_WRITE_VERBS_RE = re.compile(
+    r"\b(INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|COPY|ATTACH|PRAGMA)\b", re.IGNORECASE
+)
+
+
+def _validate_read_only_sql(sql: str) -> None:
+    match = _SQL_WRITE_VERBS_RE.search(sql)
+    if match:
+        raise ValueError(
+            f"only read-only SQL is allowed — found '{match.group(1).upper()}'"
+            " (no INSERT/UPDATE/DELETE/CREATE/DROP/ALTER/COPY/ATTACH/PRAGMA)"
+        )
 
 
 # ── worker helpers ────────────────────────────────────────────────────────────
@@ -1086,6 +1106,66 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 
 
 # ── artmind query ──────────────────────────────────────────────────────────────
+
+
+@cli.group()
+def db():
+    """Manage and read the structured (SQL) store: list/schema/sql/mappings/refresh/connect."""
+    pass
+
+
+@db.command("list")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_list(domain, compact):
+    """List registered structured tables, optionally domain-scoped."""
+    domains = _parse_domains(domain) if domain else None
+    _echo_json({"tables": structured_registry.list_tables(domains)}, compact)
+
+
+@db.command("schema")
+@click.argument("table", required=False)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_schema(table, domain, compact):
+    """Show columns/types (+ profiles/mappings once populated) — the context an LLM needs to write SQL."""
+    domains = _parse_domains(domain) if domain else None
+    tables = structured_registry.list_tables(domains)
+    if table:
+        tables = [t for t in tables if t["table_name"] == table]
+        if not tables:
+            raise click.ClickException(f"table '{table}' not found")
+    result = []
+    for t in tables:
+        columns = structured_registry.get_columns(t["id"])
+        mappings = structured_registry.list_mappings(t["id"])
+        result.append({**t, "columns": columns, "mappings": mappings})
+    _echo_json({"tables": result}, compact)
+
+
+@db.command("sql")
+@click.argument("sql")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_sql(sql, compact):
+    """Run raw read-only SQL against the structured store — no LLM (the independent-query guarantee)."""
+    try:
+        _validate_read_only_sql(sql)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    ds = DuckDBDatasource()
+    ds.ensure_views(structured_registry.list_tables())
+    try:
+        rows = ds.run_sql(sql)
+    except Exception as exc:
+        raise click.ClickException(f"SQL error: {exc}") from exc
+    _echo_json({"query_type": "sql", "command": "db sql", "rows": rows}, compact)
+
+
+@db.command("connect")
+@click.argument("dsn")
+def db_connect(dsn):
+    """Reserve the external-adapter surface (stubbed in v1 — DuckDB only)."""
+    raise click.ClickException("external adapters not available in v1 — DuckDB only")
 
 
 @cli.group()
