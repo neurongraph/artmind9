@@ -84,6 +84,63 @@ def test_profile_column_null_rate(tmp_path, monkeypatch):
     assert profile.null_rate == pytest.approx(1 / 3)
 
 
+def test_profile_column_zero_rows(tmp_path, monkeypatch):
+    from artmind.structured.profile import profile_column
+
+    rows = [["id", "category", "amount"]]  # header only, no data rows
+    ds = _build_datasource(tmp_path, monkeypatch, rows)
+
+    profile = profile_column(ds.con, "widgets", "category", "VARCHAR")
+    assert profile.kind == "categorical"
+    assert profile.cardinality == 0
+    assert profile.distinct_sample == []
+    assert profile.null_rate is None
+
+
+def test_profile_column_all_null(tmp_path, monkeypatch):
+    from artmind.structured.profile import profile_column
+
+    rows = [
+        ["id", "category", "amount"],
+        ["1", None, 1.0],
+        ["2", None, 2.0],
+        ["3", None, 3.0],
+    ]
+    ds = _build_datasource(tmp_path, monkeypatch, rows)
+
+    profile = profile_column(ds.con, "widgets", "category", "VARCHAR")
+    assert profile.kind == "categorical"
+    assert profile.null_rate == 1.0
+    assert profile.cardinality == 0
+    assert profile.distinct_sample == []
+
+
+def test_profile_column_name_with_quote_and_space_does_not_inject(tmp_path, monkeypatch):
+    """A header containing a literal ``"`` (as DuckDB would parse from an
+    uploaded CSV) must not break out of the quoted identifier. Regression test
+    for the SQL-injection issue in profile.py's f-string SQL construction."""
+    from artmind.structured.profile import profile_column
+
+    weird_name = 'w"eird col'
+    rows = [
+        ["id", weird_name, "amount"],
+        ["1", "red", 1.0],
+        ["2", "blue", 2.0],
+        ["3", "red", 3.0],
+    ]
+    ds = _build_datasource(tmp_path, monkeypatch, rows)
+
+    schema = {c.name: c.dtype for c in ds.introspect_schema("widgets")}
+    assert weird_name in schema, "DuckDB should preserve the literal quote in the column name"
+
+    profile = profile_column(ds.con, "widgets", weird_name, schema[weird_name])
+
+    assert profile.kind == "categorical"
+    assert profile.cardinality == 2
+    assert set(profile.distinct_sample) == {"red", "blue"}
+    assert profile.null_rate == 0.0
+
+
 def test_datasource_profile_columns_returns_profile_per_column(tmp_path, monkeypatch):
     # 250 unique ids exceeds the default categorical_max=200, so "id" profiles as "other".
     ds = _build_datasource(tmp_path, monkeypatch, _rows(250))
