@@ -800,6 +800,23 @@ def test_structured_ingest_passes_advanced_fields(monkeypatch, tmp_path):
     assert seen == {"table": "custom", "sheet": "Sheet2", "header_row": 2, "force": True}
 
 
+def test_structured_ingest_defaults_table_to_original_filename_stem(monkeypatch):
+    seen = {}
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        seen["table"] = table
+        return {"status": "ok", "tables": []}
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking"},
+        files={"file": ("products_2026.csv", io.BytesIO(b"a,b\n1,2\n"), "text/csv")},
+    )
+    assert response.status_code == 200
+    assert seen["table"] == "products_2026"
+
+
 def test_structured_ingest_rejects_unsupported_extension():
     response = _client().post(
         "/api/structured/ingest",
