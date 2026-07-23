@@ -396,4 +396,13 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         domains = [d.strip() for d in domain.split(",") if d.strip()] if domain else None
         return _camelize({"tables": structured_registry.list_tables(domains)})
 
+    @app.get("/api/structured/tables/{table}/schema")
+    async def api_structured_table_schema(table: str, domain: str | None = None):
+        row = structured_registry.get_table(table, domain=domain)
+        if row is None:
+            raise HTTPException(status_code=404, detail=f"table '{table}' not found")
+        columns = structured_registry.get_columns(row["id"])
+        mappings = structured_registry.list_mappings(row["id"])
+        return _camelize({**row, "columns": columns, "mappings": mappings})
+
     return app

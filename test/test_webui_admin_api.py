@@ -731,3 +731,27 @@ def test_structured_tables_splits_comma_domains(monkeypatch):
     response = _client().get("/api/structured/tables?domain=general,banking")
     assert response.status_code == 200
     assert seen["domains"] == ["general", "banking"]
+
+
+def test_structured_table_schema_found(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "get_table",
+        lambda table, domain=None: {"id": 1, "table_name": "products", "domain": "banking"},
+    )
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "get_columns",
+        lambda table_id: [{"name": "id", "dtype": "BIGINT"}],
+    )
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_mappings", lambda table_id: [])
+    response = _client().get("/api/structured/tables/products/schema?domain=banking")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["tableName"] == "products"
+    assert body["columns"] == [{"name": "id", "dtype": "BIGINT"}]
+    assert body["mappings"] == []
+
+
+def test_structured_table_schema_404(monkeypatch):
+    monkeypatch.setattr(dashboard_routes.structured_registry, "get_table", lambda table, domain=None: None)
+    response = _client().get("/api/structured/tables/nope/schema")
+    assert response.status_code == 404
