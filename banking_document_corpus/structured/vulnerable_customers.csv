@@ -1,0 +1,8 @@
+customer_id,vulnerability_driver,support_needed,identified_date,reviewed_by
+CUST-0004,Health,Extra Time,2024-03-10,Michael O'Brien
+CUST-0008,Capability,Interpreter,2023-11-02,Andrew Stewart
+CUST-0012,Resilience,Priority Routing,2024-06-18,Thomas O'Donnell
+CUST-0015,Health,Extra Time,2022-09-25,Emma Thompson
+CUST-0019,Life Events,Safe Space,2024-01-30,Fiona MacLeod
+CUST-0022,Capability,Interpreter,2023-05-14,Peter Newton
+CUST-0002,Life Events,Safe Space,2024-08-05,James Chen

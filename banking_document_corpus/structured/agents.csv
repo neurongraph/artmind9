@@ -1,0 +1,17 @@
+agent_id,name,role,branch,department,hire_date
+AG-001,Sarah Williams,Branch Manager,London Head Office,Retail Banking,2015-02-01
+AG-002,James Chen,Branch Manager,London Canary Wharf,Retail Banking,2017-06-15
+AG-003,Emma Thompson,Branch Manager,Manchester Central,Retail Banking,2016-09-20
+AG-004,Michael O'Brien,Branch Manager,Birmingham Business,Retail Banking,2018-01-10
+AG-005,Rachel Murphy,Branch Manager,Leeds Financial,Retail Banking,2019-04-22
+AG-006,David Kumar,Branch Manager,Bristol South,Retail Banking,2017-11-05
+AG-007,Fiona MacLeod,Branch Manager,Edinburgh Royal,Retail Banking,2016-03-18
+AG-008,Andrew Stewart,Branch Manager,Glasgow Merchant,Retail Banking,2018-07-30
+AG-009,Catherine Brown,Branch Manager,Liverpool Pier,Retail Banking,2019-10-12
+AG-010,Peter Newton,Branch Manager,Norwich Market,Retail Banking,2020-02-14
+AG-011,Jennifer Adams,Branch Manager,Southampton Water,Retail Banking,2017-08-08
+AG-012,Thomas O'Donnell,Branch Manager,Belfast Central,Retail Banking,2019-05-27
+AG-013,Priya Anand,Complaints Handler,Central,Customer Service,2021-03-01
+AG-014,Daniel Foster,Complaints Handler,Central,Customer Service,2020-11-16
+AG-015,Megan Ellis,Complaints Handler,Central,Customer Service,2022-06-09
+AG-016,Robert Hale,Complaints Handler,Central,Customer Service,2021-09-23

@@ -1,0 +1,25 @@
+customer_id,name,segment,primary_product,branch,date_joined
+CUST-0001,Oliver Bennett,Standard,SmartSaver Account,London Head Office,2019-03-14
+CUST-0002,Amelia Clarke,Premier,Current Account,London Canary Wharf,2020-07-02
+CUST-0003,Harry Fisher,Standard,Debit Card,Manchester Central,2021-11-19
+CUST-0004,Isla Robinson,Private,Mortgage,Birmingham Business,2017-05-08
+CUST-0005,George Walsh,Standard,SmartSaver Account,Leeds Financial,2022-02-27
+CUST-0006,Freya Sutton,Premier,SmartSaver Plus,Bristol South,2018-09-30
+CUST-0007,Jack Palmer,Standard,Current Account,Edinburgh Royal,2023-01-15
+CUST-0008,Grace Whitfield,Private,Mortgage,Glasgow Merchant,2016-04-11
+CUST-0009,Charlie Hendry,Standard,SmartSaver Account,Liverpool Pier,2021-06-23
+CUST-0010,Poppy Sinclair,Premier,Current Account,Norwich Market,2019-12-05
+CUST-0011,Thomas Grant,Standard,Debit Card,Southampton Water,2022-08-17
+CUST-0012,Lily Osborne,Standard,SmartSaver Account,Belfast Central,2020-10-02
+CUST-0013,Jacob Fairweather,Premier,SmartSaver Plus,London Head Office,2017-01-29
+CUST-0014,Ruby Duncan,Standard,SmartSaver Account,London Canary Wharf,2023-05-06
+CUST-0015,Noah Pemberton,Private,Mortgage,Manchester Central,2015-11-20
+CUST-0016,Ivy Radcliffe,Standard,Current Account,Birmingham Business,2021-03-09
+CUST-0017,Leo Fenwick,Premier,SmartSaver Plus,Leeds Financial,2018-06-14
+CUST-0018,Mason Blackwood,Standard,Debit Card,Bristol South,2022-12-01
+CUST-0019,Sophie Ashworth,Standard,SmartSaver Account,Edinburgh Royal,2020-04-25
+CUST-0020,Alfie Kingston,Premier,Current Account,Glasgow Merchant,2019-09-08
+CUST-0021,Chloe Redmond,Standard,SmartSaver Account,Liverpool Pier,2023-07-19
+CUST-0022,Arthur Sheldon,Private,Mortgage,Norwich Market,2016-08-03
+CUST-0023,Daisy Winterbourne,Standard,Debit Card,Southampton Water,2021-02-14
+CUST-0024,Ella Whitmore,Premier,SmartSaver Plus,Belfast Central,2018-11-27
