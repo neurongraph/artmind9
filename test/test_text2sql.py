@@ -336,3 +336,74 @@ def test_build_text2sql_prompt_unchanged_when_as_of_omitted():
     # The static prose already mentions "an as-of date" in the abstract; only
     # the concrete injected line (naming the actual date value) must be absent.
     assert "The user's as-of date is" not in with_default
+
+
+def test_execute_text2sql_as_of_today_resolves_to_real_date(monkeypatch):
+    """`--asOf today` (the value the artmind-query skill recommends by default)
+    must reach the prompt and the output as the actual resolved ISO date, not
+    the literal string 'today' -- DuckDB rejects a bare 'today'::DATE literal,
+    so leaving it unresolved reliably breaks generated SQL at execution time."""
+    from datetime import date
+
+    _patch_registry(monkeypatch)
+
+    captured = {}
+
+    def fake_call_llm(model, prompt):
+        captured["prompt"] = prompt
+        return json.dumps({"sql": "SELECT 1", "notes": ""})
+
+    monkeypatch.setattr(text2sql, "call_llm", fake_call_llm)
+
+    today_iso = date.today().isoformat()
+
+    result = text2sql.execute_text2sql(
+        "How many accounts are open today?",
+        "banking",
+        model="test-model",
+        dry_run=True,
+        as_of="today",
+    )
+
+    assert result["asOf"] == today_iso
+    assert today_iso in captured["prompt"]
+    assert "The user's as-of date is today" not in captured["prompt"]
+
+
+def test_execute_text2sql_as_of_now_resolves_to_real_date(monkeypatch):
+    """'now' resolves the same way 'today' does (case-insensitively)."""
+    from datetime import date
+
+    _patch_registry(monkeypatch)
+    monkeypatch.setattr(
+        text2sql, "call_llm", lambda model, prompt: json.dumps({"sql": "SELECT 1", "notes": ""})
+    )
+
+    result = text2sql.execute_text2sql(
+        "How many accounts as of NOW?",
+        "banking",
+        model="test-model",
+        dry_run=True,
+        as_of="NOW",
+    )
+
+    assert result["asOf"] == date.today().isoformat()
+
+
+def test_execute_text2sql_invalid_as_of_raises_clear_error(monkeypatch):
+    """A malformed as_of value must raise ValueError (mirroring
+    graph_query.resolve_as_of's validation) rather than silently reaching the
+    LLM prompt or crashing unhelpfully deep inside DuckDB."""
+    _patch_registry(monkeypatch)
+    monkeypatch.setattr(
+        text2sql, "call_llm", lambda model, prompt: json.dumps({"sql": "SELECT 1", "notes": ""})
+    )
+
+    with pytest.raises(ValueError, match="--asOf must be an ISO date"):
+        text2sql.execute_text2sql(
+            "How many accounts?",
+            "banking",
+            model="test-model",
+            dry_run=True,
+            as_of="not-a-date",
+        )

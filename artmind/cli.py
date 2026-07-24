@@ -1797,7 +1797,7 @@ def query_entity_context(domain: tuple, entity_id: str, include_chunks: int, as_
 
 @query.command("text2sql")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) to scope (repeatable; comma-splittable)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter for temporal (SCD-2) tables, forward-compat")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; rows without temporal history always shown")
 @click.option("--dry-run", "dry_run", is_flag=True, help="Generate SQL without executing it")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")

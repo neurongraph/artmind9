@@ -180,9 +180,14 @@ def execute_text2sql(
     additional filtering is applied on the Python side — the generated SQL
     itself is expected to carry the as-of predicate.
     """
-    from artmind.graph_query import _domain_output, normalize_domains
+    from artmind.graph_query import _domain_output, normalize_domains, resolve_as_of
 
     domains = normalize_domains(domains)
+    # Resolve 'today'/'now' (and validate the format) the same way every
+    # graph-query function does before threading as_of anywhere -- otherwise
+    # the literal string 'today' reaches the LLM prompt and DuckDB rejects a
+    # bare 'today'::DATE cast at execution time.
+    as_of = resolve_as_of(as_of)
     result = generate_sql(question, domains, model, as_of=as_of)
     sql = result["sql"]
 
