@@ -18,7 +18,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
-from artmind.cli import _ensure_worker_running, _get_available_domains, _validate_read_only_sql
+from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.ingest import _build_file_result_from_db, commit_to_graph, embed_entities_backfill, extract_kg
@@ -38,6 +38,7 @@ from artmind.structured import registry as structured_registry
 from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file
 from artmind.structured_snapshot import export_structured, import_structured
+from artmind.text2sql import validate_read_only_sql
 from artmind.webui.help import get_concepts
 from paths import GRAPH_SNAPSHOT_DIR, KG_DIR, STRUCTURED_SNAPSHOT_DIR
 from utils.functions import load_env, resolve_llm_model
@@ -465,7 +466,7 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     @app.post("/api/structured/sql")
     async def api_structured_sql(payload: StructuredSqlRequest):
         try:
-            _validate_read_only_sql(payload.sql)
+            validate_read_only_sql(payload.sql)
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         try:

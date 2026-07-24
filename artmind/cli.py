@@ -1,5 +1,4 @@
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -12,7 +11,7 @@ import rich_click as click
 import yaml
 from loguru import logger
 
-from artmind import graph_query, text2cypher, vector_query
+from artmind import graph_query, text2cypher, text2sql, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
@@ -75,23 +74,6 @@ def _parse_domains(values: "tuple[str, ...]") -> list[str]:
     from artmind.graph_query import normalize_domains
 
     return normalize_domains(list(values))
-
-
-# Minimal Phase-1 read-only guard for `db sql`. Folded into
-# artmind.text2sql.validate_read_only_sql in Phase 4 — text2sql's version is
-# the shared source of truth going forward.
-_SQL_WRITE_VERBS_RE = re.compile(
-    r"\b(INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|COPY|ATTACH|PRAGMA)\b", re.IGNORECASE
-)
-
-
-def _validate_read_only_sql(sql: str) -> None:
-    match = _SQL_WRITE_VERBS_RE.search(sql)
-    if match:
-        raise ValueError(
-            f"only read-only SQL is allowed — found '{match.group(1).upper()}'"
-            " (no INSERT/UPDATE/DELETE/CREATE/DROP/ALTER/COPY/ATTACH/PRAGMA)"
-        )
 
 
 # ── worker helpers ────────────────────────────────────────────────────────────
@@ -1150,7 +1132,7 @@ def db_schema(table, domain, compact):
 def db_sql(sql, compact):
     """Run raw read-only SQL against the structured store — no LLM (the independent-query guarantee)."""
     try:
-        _validate_read_only_sql(sql)
+        text2sql.validate_read_only_sql(sql)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     ds = DuckDBDatasource()
@@ -1744,6 +1726,22 @@ def query_entity_context(domain: tuple, entity_id: str, include_chunks: int, as_
     domains = _parse_domains(domain)
     try:
         result = graph_query.entity_context(domains, entity_id, include_chunks=include_chunks, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("text2sql")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) to scope (repeatable; comma-splittable)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter for temporal (SCD-2) tables, forward-compat")
+@click.option("--dry-run", "dry_run", is_flag=True, help="Generate SQL without executing it")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question")
+def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: bool, question: str) -> None:
+    """Natural language to read-only DuckDB SQL against the structured store, then execute it."""
+    domains = _parse_domains(domain)
+    try:
+        result = text2sql.execute_text2sql(question, domains, dry_run=dry_run, as_of=as_of)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
