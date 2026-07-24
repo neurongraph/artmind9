@@ -11,7 +11,7 @@ import rich_click as click
 import yaml
 from loguru import logger
 
-from artmind import graph_query, text2cypher, vector_query
+from artmind import graph_query, resolve_key, text2cypher, text2sql, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
@@ -26,6 +26,11 @@ from artmind.ingest import (
     ingest_to_kg,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
+from artmind.structured import is_structured_source
+from artmind.structured import registry as structured_registry
+from artmind.structured.duckdb_adapter import DuckDBDatasource
+from artmind.structured.pipeline import ingest_structured_file
+from artmind.structured_snapshot import export_structured, import_structured
 from artmind.jobs import (
     _create_job,
     _get_job_results,
@@ -471,6 +476,10 @@ def ingest_sync(file_path: str, domain: str | None, force: bool, stage_only: boo
     ok_count, fail_count = 0, 0
     for f in files:
         try:
+            if is_structured_source(f):
+                res = ingest_structured_file(f, domain, force=force)
+                ok_count += 1 if res.get("status") == "ok" else 0
+                continue
             result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
             if result.get("status") == "ok":
                 ok_count += 1
@@ -1083,6 +1092,249 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 
 
 @cli.group()
+def db():
+    """Manage and read the structured (SQL) store: list/schema/sql/mappings/catalogue/refresh/connect/backup/restore."""
+    pass
+
+
+@db.command("list")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_list(domain, compact):
+    """List registered structured tables, optionally domain-scoped."""
+    domains = _parse_domains(domain) if domain else None
+    _echo_json({"tables": structured_registry.list_tables(domains)}, compact)
+
+
+@db.command("schema")
+@click.argument("table", required=False)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_schema(table, domain, compact):
+    """Show columns/types (+ profiles/mappings once populated) — the context an LLM needs to write SQL."""
+    domains = _parse_domains(domain) if domain else None
+    tables = structured_registry.list_tables(domains)
+    if table:
+        tables = [t for t in tables if t["table_name"] == table]
+        if not tables:
+            raise click.ClickException(f"table '{table}' not found")
+    result = []
+    for t in tables:
+        columns = structured_registry.get_columns(t["id"])
+        mappings = structured_registry.list_mappings(t["id"])
+        result.append({**t, "columns": columns, "mappings": mappings})
+    _echo_json({"tables": result}, compact)
+
+
+@db.command("sql")
+@click.argument("sql")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_sql(sql, compact):
+    """Run raw read-only SQL against the structured store — no LLM (the independent-query guarantee)."""
+    try:
+        text2sql.validate_read_only_sql(sql)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    ds = DuckDBDatasource()
+    ds.ensure_views(structured_registry.list_tables())
+    try:
+        rows = ds.run_sql(sql)
+    except Exception as exc:
+        raise click.ClickException(f"SQL error: {exc}") from exc
+    _echo_json({"query_type": "sql", "command": "db sql", "rows": rows}, compact)
+
+
+class _TableFirstGroup(click.RichGroup):
+    """Group whose first positional token is always TABLE.
+
+    Click's MultiCommand disables interspersed-argument parsing (it has to, to
+    know where a subcommand name begins), which means a Group's own
+    ``@click.argument`` can't have trailing Options when no subcommand follows —
+    any token after the argument gets misread as an attempted (nonexistent)
+    subcommand, producing a confusing "Missing argument" error. Peeling TABLE off
+    manually here, before Click's own parser runs, sidesteps that limitation and
+    lets ``db mappings TABLE --acceptProposed`` / ``db mappings TABLE set ...``
+    both parse correctly.
+
+    The group still declares a real (but ``required=False, expose_value=False``)
+    ``table`` Argument — see ``db_mappings`` below — purely so ``--help``/usage
+    rendering knows about it (``get_params`` picks it up). ``make_parser`` below
+    excludes that phantom Argument from the actual token-consuming parser, since
+    real parsing is handled entirely by ``parse_args``'s manual peel; leaving it
+    in would let it re-swallow whatever token comes right after TABLE (e.g. a
+    subcommand name).
+    """
+
+    def make_parser(self, ctx: click.Context):
+        original_params = self.params
+        self.params = [p for p in original_params if p.name != "table"]
+        try:
+            return super().make_parser(ctx)
+        finally:
+            self.params = original_params
+
+    def parse_args(self, ctx: click.Context, args: list[str]) -> list[str]:
+        # Only "--help" is wired anywhere in this CLI (no help_option_names
+        # override), so that's the only alias recognized here too.
+        if args and args[0] != "--help":
+            if args[0].startswith("-"):
+                raise click.UsageError("Missing argument 'TABLE'.", ctx=ctx)
+            table, *rest = args
+            ctx.params["table"] = table
+            args = rest
+        elif not args:
+            raise click.UsageError("Missing argument 'TABLE'.", ctx=ctx)
+        return super().parse_args(ctx, args)
+
+
+def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
+    """Resolve TABLE to a single table_id, mirroring db_schema's --domain handling."""
+    domains = _parse_domains(domain) if domain else None
+    matches = [t for t in structured_registry.list_tables(domains) if t["table_name"] == table_name]
+    if not matches:
+        raise click.ClickException(f"table '{table_name}' not found")
+    if len(matches) > 1:
+        doms = [t["domain"] for t in matches]
+        raise click.ClickException(
+            f"table '{table_name}' is ambiguous across domains {doms} — narrow with --domain"
+        )
+    return matches[0]["id"]
+
+
+@db.group("mappings", cls=_TableFirstGroup, invoke_without_command=True)
+@click.argument("table", required=False, expose_value=False)
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option("--acceptProposed", "accept_proposed", is_flag=True, help="Confirm all proposed mappings (bulk/non-interactive)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings(ctx, table, domain, accept_proposed, compact):
+    """List proposed vs confirmed mappings for TABLE (default action)."""
+    table_id = _resolve_table_id(table, domain)
+    ctx.obj = {"table_id": table_id, "table": table}
+    if ctx.invoked_subcommand is not None:
+        return
+    if accept_proposed:
+        for m in structured_registry.list_mappings(table_id):
+            if not m["confirmed"]:
+                structured_registry.set_mapping_confirmed(
+                    table_id, m["column"], m["entity_class"], True
+                )
+    _echo_json({"table": table, "mappings": structured_registry.list_mappings(table_id)}, compact)
+
+
+@db_mappings.command("set")
+@click.option("--column", required=True)
+@click.option("--entityClass", "entity_class", required=True)
+@click.option("--confidence", type=float, default=1.0)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings_set(ctx, column, entity_class, confidence, compact):
+    """Upsert a confirmed column-to-entityClass mapping."""
+    table_id = ctx.obj["table_id"]
+    structured_registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=True)
+    _echo_json(
+        {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
+    )
+
+
+@db_mappings.command("confirm")
+@click.option("--column", required=True)
+@click.option("--entityClass", "entity_class", required=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings_confirm(ctx, column, entity_class, compact):
+    """Flip an existing proposed mapping to confirmed.
+
+    Unlike ``clear`` (below), a no-match here is an error rather than a silent
+    no-op: this command asserts a specific state transition on a specific row
+    the caller believes already exists (typically from a proposal an operator
+    is reviewing), so a typo'd --column/--entityClass should fail loudly rather
+    than let the caller believe they confirmed something they didn't.
+    """
+    table_id = ctx.obj["table_id"]
+    rowcount = structured_registry.set_mapping_confirmed(table_id, column, entity_class, True)
+    if rowcount == 0:
+        raise click.ClickException(
+            f"no mapping found for column '{column}' / entityClass '{entity_class}'"
+        )
+    _echo_json(
+        {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
+    )
+
+
+@db_mappings.command("clear")
+@click.option("--column", default=None, help="Clear only this column's mappings (omit to clear all of the table's mappings)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.pass_context
+def db_mappings_clear(ctx, column, compact):
+    """Remove mapping(s) for TABLE — one column, or all if --column omitted.
+
+    Deliberately idempotent: a --column with no matching mappings is not an
+    error (delete-if-present, like ``rm -f``), unlike ``confirm`` above, which
+    asserts a specific row exists. Clearing is inherently "make sure this
+    column has no mappings" rather than "act on this exact row", so a no-op is
+    the correct, unsurprising result.
+    """
+    table_id = ctx.obj["table_id"]
+    structured_registry.clear_mappings(table_id, column)
+    _echo_json(
+        {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
+    )
+
+
+@db.command("catalogue")
+@click.option("--domain", "domain", required=True, help="Domain to rebuild the catalogue subgraph for (rolls up sub-domains)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_catalogue(domain, compact):
+    """Rebuild the Neo4j catalogue subgraph (Table/TableColumn/EntityClass) for a domain from the registry.
+
+    Manual/on-demand — the ingest pipeline already best-effort-projects on
+    every write, but confirming a mapping later (`db mappings ... set`/
+    `confirm`) doesn't re-ingest, so this is how that later confirmation gets
+    reflected in the graph without a re-ingest. Unlike the ingest hook, a
+    failure here is surfaced (not swallowed) — the operator explicitly asked
+    for this projection to happen.
+    """
+    from artmind.structured.catalogue import project_catalogue
+
+    try:
+        result = project_catalogue(domain)
+    except Exception as exc:
+        raise click.ClickException(f"catalogue projection failed: {exc}") from exc
+    _echo_json({"domain": domain, **result}, compact)
+
+
+@db.command("connect")
+@click.argument("dsn")
+def db_connect(dsn):
+    """Reserve the external-adapter surface (stubbed in v1 — DuckDB only)."""
+    raise click.ClickException("external adapters not available in v1 — DuckDB only")
+
+
+@db.command("backup")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_backup(compact):
+    """Snapshot the structured store (parquet files + registry rows) to a tar.gz."""
+    path = export_structured()
+    _echo_json({"path": str(path), "name": path.name}, compact)
+
+
+@db.command("restore")
+@click.argument("path", required=False, type=click.Path(exists=True))
+@click.option("--confirm", is_flag=True, help="Required — restoring wipes the current structured store")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_restore(path, confirm, compact):
+    """Wipe and restore the structured store from a snapshot (latest if PATH omitted)."""
+    if not confirm:
+        raise click.ClickException("pass --confirm — restoring wipes the current structured store")
+    try:
+        summary = import_structured(Path(path) if path else None)
+    except FileNotFoundError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(summary, compact)
+
+
+@cli.group()
 def query():
     """Query the knowledge graph and vector index."""
     pass
@@ -1474,6 +1726,39 @@ def query_entity_context(domain: tuple, entity_id: str, include_chunks: int, as_
     domains = _parse_domains(domain)
     try:
         result = graph_query.entity_context(domains, entity_id, include_chunks=include_chunks, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("text2sql")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) to scope (repeatable; comma-splittable)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter for temporal (SCD-2) tables, forward-compat")
+@click.option("--dry-run", "dry_run", is_flag=True, help="Generate SQL without executing it")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("question")
+def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: bool, question: str) -> None:
+    """Natural language to read-only DuckDB SQL against the structured store, then execute it."""
+    domains = _parse_domains(domain)
+    try:
+        result = text2sql.execute_text2sql(question, domains, dry_run=dry_run, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("resolve-key")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--column", "column", default=None, help="Scope matching to this column's profiled values (omit to resolve against the graph only)")
+@click.option("--table", "table", default=None, help="Table containing --column, if ambiguous across tables (optional)")
+@click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("phrase")
+def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_k: int, compact: bool, phrase: str) -> None:
+    """Resolve a free-text value to a canonical column value and/or graph entity."""
+    domains = _parse_domains(domain)
+    try:
+        result = resolve_key.resolve_key(phrase, domains, column=column, table=table, top_k=top_k)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

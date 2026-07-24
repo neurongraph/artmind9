@@ -6,7 +6,9 @@ seeding skipped entries that already existed, a fixed skill stayed broken there
 indefinitely and no reinstall could dislodge it.
 """
 
-from artmind.setup import _seed_tree
+import inspect
+
+from artmind.setup import _seed_tree, _setup_neo4j, setup_all
 
 
 def _write(path, text):
@@ -97,3 +99,62 @@ def test_ds_store_is_never_seeded(tmp_path):
 
     assert _seed_tree(src, dest, overwrite=True) == 1
     assert not (dest / ".DS_Store").exists()
+
+
+# ── scaffold_run_folder ───────────────────────────────────────────────────────
+
+
+def test_scaffold_run_folder_creates_structured_snapshot_dir(tmp_path, monkeypatch):
+    import artmind.setup as setup
+
+    home = tmp_path / "home"
+    data = tmp_path / "data"
+    monkeypatch.setattr(setup, "ARTMIND_HOME", home)
+    monkeypatch.setattr(setup, "ARTMIND_DATA_DIR", data)
+    monkeypatch.setattr(setup, "DOMAIN_SCHEMAS_DIR", home / "domains" / "schemas")
+    monkeypatch.setattr(setup, "LOGS_DIR", home / "logs")
+    monkeypatch.setattr(setup, "ORIGINALS_DIR", data / "documents" / "originals")
+    monkeypatch.setattr(setup, "MARKDOWNS_DIR", data / "documents" / "markdowns")
+    monkeypatch.setattr(setup, "JOBS_DIR", data / "ingestion_jobs")
+    monkeypatch.setattr(setup, "KG_DIR", data / "kg")
+    monkeypatch.setattr(setup, "REFINE_DIR", data / "refine")
+    monkeypatch.setattr(setup, "GRAPH_SNAPSHOT_DIR", data / "graph_snapshot")
+    monkeypatch.setattr(setup, "STRUCTURED_DIR", data / "structured")
+    monkeypatch.setattr(setup, "STRUCTURED_SNAPSHOT_DIR", data / "structured_snapshot")
+    monkeypatch.setattr(setup, "PACKAGE_ENV_EXAMPLE", tmp_path / "no-such-env-example")
+    monkeypatch.setattr(setup, "PACKAGE_SKILLS_DIR", tmp_path / "no-such-skills")
+    monkeypatch.setattr(setup, "PACKAGE_OPENCODE_DIR", tmp_path / "no-such-opencode")
+    monkeypatch.setattr(setup, "PACKAGE_SCHEMAS_DIR", tmp_path / "no-such-schemas")
+
+    setup.scaffold_run_folder()
+
+    assert (data / "structured_snapshot").is_dir()
+
+
+# ── _setup_neo4j: structured-store catalogue constraints ─────────────────────
+# No live Neo4j in this suite, so these are structural checks: the DDL strings
+# must appear verbatim in the function source (`session.run(...)` never
+# actually executes here).
+
+
+def test_setup_neo4j_declares_catalogue_constraints():
+    src = inspect.getsource(_setup_neo4j)
+    assert (
+        "CREATE CONSTRAINT cat_table_key IF NOT EXISTS FOR (n:Table) REQUIRE n.key IS UNIQUE"
+        in src
+    )
+    assert (
+        "CREATE CONSTRAINT cat_column_key IF NOT EXISTS FOR (n:TableColumn) REQUIRE n.key IS UNIQUE"
+        in src
+    )
+    assert (
+        "CREATE CONSTRAINT cat_entityclass_key IF NOT EXISTS FOR (n:EntityClass) REQUIRE n.key IS UNIQUE"
+        in src
+    )
+    assert "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n.domain)" in src
+
+
+def test_setup_all_summary_includes_catalogue_labels():
+    src = inspect.getsource(setup_all)
+    for name in ("cat_table_key", "cat_column_key", "cat_entityclass_key", "cat_table_domain"):
+        assert name in src

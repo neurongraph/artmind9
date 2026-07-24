@@ -13,6 +13,8 @@ from loguru import logger
 from artmind.db import _get_db
 from artmind.ingest import ingest_file, ingest_to_kg
 from artmind.jobs import _update_job_file_status, _update_job_status
+from artmind.structured import is_structured_source
+from artmind.structured.pipeline import ingest_structured_file
 from paths import LOGS_DIR, PROJECT_ROOT, WORKER_LOG, WORKER_PID_FILE
 from utils.functions import load_env, resolve_llm_model
 
@@ -86,38 +88,60 @@ def _process_job(
         logger.info("File: {}", file_path.name)
 
         try:
-            result = ingest_file(
-                file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size, force=force
-            )
-            if result.get("status") == "ok":
-                _update_job_file_status(
-                    job_id, file_path_str,
-                    current_step="extract_kg",
-                    doc_sha256=result.get("sha256"),
-                )
-                kg_ok = ingest_to_kg(
-                    result, domain, text_model, embed_model, chunk_size, stage_only=stage_only
-                )
-                _update_job_file_status(
-                    job_id,
-                    file_path_str,
-                    status="completed" if kg_ok else "failed",
-                    current_step=None,
-                    completed_at=datetime.now().isoformat(),
-                    error_message=None if kg_ok else "KG ingestion failed",
-                )
-            elif result.get("status") == "skipped":
-                # ingest_file already updated status to "skipped"
-                pass
+            if is_structured_source(file_path):
+                # No stage_only waypoint for structured files — a parquet load
+                # is inherently a single commit, so the flag is ignored here.
+                res = ingest_structured_file(file_path, domain, force=force)
+                if res.get("status") in ("ok", "skipped"):
+                    _update_job_file_status(
+                        job_id,
+                        file_path_str,
+                        status="completed",
+                        current_step=None,
+                        completed_at=datetime.now().isoformat(),
+                    )
+                else:
+                    _update_job_file_status(
+                        job_id,
+                        file_path_str,
+                        status="failed",
+                        current_step=None,
+                        completed_at=datetime.now().isoformat(),
+                        error_message=res.get("error", "ingest_structured_file failed"),
+                    )
             else:
-                _update_job_file_status(
-                    job_id,
-                    file_path_str,
-                    status="failed",
-                    current_step=None,
-                    completed_at=datetime.now().isoformat(),
-                    error_message=result.get("error", "ingest_file failed"),
+                result = ingest_file(
+                    file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size, force=force
                 )
+                if result.get("status") == "ok":
+                    _update_job_file_status(
+                        job_id, file_path_str,
+                        current_step="extract_kg",
+                        doc_sha256=result.get("sha256"),
+                    )
+                    kg_ok = ingest_to_kg(
+                        result, domain, text_model, embed_model, chunk_size, stage_only=stage_only
+                    )
+                    _update_job_file_status(
+                        job_id,
+                        file_path_str,
+                        status="completed" if kg_ok else "failed",
+                        current_step=None,
+                        completed_at=datetime.now().isoformat(),
+                        error_message=None if kg_ok else "KG ingestion failed",
+                    )
+                elif result.get("status") == "skipped":
+                    # ingest_file already updated status to "skipped"
+                    pass
+                else:
+                    _update_job_file_status(
+                        job_id,
+                        file_path_str,
+                        status="failed",
+                        current_step=None,
+                        completed_at=datetime.now().isoformat(),
+                        error_message=result.get("error", "ingest_file failed"),
+                    )
         except Exception as e:
             logger.error("Unexpected error on {}: {}", file_path.name, e)
             _update_job_file_status(

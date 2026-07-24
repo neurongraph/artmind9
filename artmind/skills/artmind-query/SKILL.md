@@ -30,6 +30,42 @@ Every extracted entity carries the `:Entity` label plus a class label (e.g. `PER
 
 Add `--compact` to every command — it halves the JSON you must read.
 
+## Structured store (`db`)
+
+A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) living
+in a separate SQL store, independent of the graph above. Rows never become graph
+nodes — the graph only ever holds a catalogue of what tables/columns exist.
+
+- `artmind db list --domain <d> --compact` — which structured tables (if any)
+  exist for this domain.
+- `artmind db schema <table> --compact` — columns, types, and (once confirmed)
+  column→entity-class mappings for a table.
+- `artmind db sql "<SQL>" --compact` — raw read-only SQL, no LLM involved.
+- `artmind db mappings <table> --compact` — review proposed vs confirmed
+  column→entityClass mappings for a table (registry rows, not a file). Bulk-confirm
+  everything proposed with `--acceptProposed`, or manage one mapping at a time with
+  the `set`/`confirm`/`clear` subcommands (`db mappings <table> set --column c
+  --entityClass PRODUCT`, `... confirm --column c --entityClass PRODUCT`,
+  `... clear --column c` or `... clear` for all).
+- `artmind db catalogue --domain <d> --compact` — rebuild the Neo4j catalogue
+  subgraph (Table/TableColumn/EntityClass) for a domain from the registry. Ingest
+  already does this automatically; use this on demand after confirming mappings
+  later, to reflect that confirmation in the graph without re-ingesting.
+- `artmind query text2sql "<question>" --domain <d> --compact` — natural language
+  to read-only DuckDB SQL against the structured store, then executes it (add
+  `--dry-run` to see the generated SQL without running it). The SQL/graph analogue
+  of `query graph text2cypher`.
+- `artmind query resolve-key "<phrase>" --domain <d> --column <col> --compact` —
+  resolve a free-text value (e.g. from a user question or a structured row) to a
+  canonical column value and/or graph entity name, via exact/fuzzy matching.
+  `--column` is optional; omit it to resolve against the graph only. Useful to
+  normalize a value before using it in `text2sql`/graph retrieval, or to check
+  whether a structured column value and a KG entity name refer to the same thing.
+
+Full graph/SQL/hybrid routing logic lands in a later increment of this skill —
+for now, check `db list` for the domain when a question is clearly analytical
+("average/total/count by X") and the graph patterns below don't fit.
+
 ## The Query Protocol: Route → Discover → Resolve → Retrieve → Ground → Adjudicate
 
 ### 0. Route — pick the domain set

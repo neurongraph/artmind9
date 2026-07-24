@@ -123,6 +123,53 @@ def _init_db() -> None:
             created_at      TEXT NOT NULL
         )
     """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS datasources (
+            name        TEXT PRIMARY KEY,
+            type        TEXT NOT NULL,              -- 'duckdb' in v1
+            path_or_dsn TEXT NOT NULL,
+            created_at  TEXT NOT NULL
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS tables (
+            id                     INTEGER PRIMARY KEY AUTOINCREMENT,
+            datasource             TEXT NOT NULL REFERENCES datasources(name),
+            table_name             TEXT NOT NULL,
+            domain                 TEXT NOT NULL,
+            source_file            TEXT,
+            sheet                  TEXT,
+            parquet_path           TEXT NOT NULL,
+            version                INTEGER NOT NULL DEFAULT 1,
+            row_count              INTEGER,
+            refresh_mode           TEXT NOT NULL DEFAULT 'replace',   -- 'replace' | 'temporal'
+            business_key           TEXT,             -- comma-joined column names (temporal only)
+            effective_date_column  TEXT,
+            ingested_at            TEXT NOT NULL,
+            sha256                 TEXT,
+            UNIQUE(datasource, table_name)
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS columns (
+            table_id     INTEGER NOT NULL REFERENCES tables(id) ON DELETE CASCADE,
+            name         TEXT NOT NULL,
+            dtype        TEXT NOT NULL,
+            profile_json TEXT,
+            PRIMARY KEY (table_id, name)
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS column_mappings (
+            table_id     INTEGER NOT NULL REFERENCES tables(id) ON DELETE CASCADE,
+            column       TEXT NOT NULL,
+            entity_class TEXT NOT NULL,
+            confirmed    INTEGER NOT NULL DEFAULT 0,   -- 0 = proposed, 1 = confirmed
+            confidence   REAL,
+            updated_at   TEXT NOT NULL,
+            PRIMARY KEY (table_id, column, entity_class)
+        )
+    """)
     # Migrations for columns added after initial schema deployment
     existing = {row[1] for row in cursor.execute("PRAGMA table_info(ingestion_job_files)")}
     if "doc_sha256" not in existing:

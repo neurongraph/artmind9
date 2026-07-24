@@ -1,0 +1,21 @@
+complaint_id,customer_id,date_received,category,product,severity,status,assigned_agent,resolution_days,compensation_gbp
+CMP-0001,CUST-0001,2026-01-12,Fee Dispute,SmartSaver Account,Simple,Resolved,Priya Anand,1,0
+CMP-0002,CUST-0003,2026-01-20,Service,Debit Card,Simple,Resolved,Daniel Foster,2,50
+CMP-0003,CUST-0004,2026-02-02,Account Balance,Mortgage,Standard,Upheld,Megan Ellis,6,150
+CMP-0004,CUST-0006,2026-02-10,Fraud/Unauthorized Transaction,SmartSaver Plus,Complex,Upheld,Robert Hale,12,400
+CMP-0005,CUST-0007,2026-02-18,Service,Current Account,Simple,Rejected,Priya Anand,1,0
+CMP-0006,CUST-0009,2026-03-01,Fee Dispute,SmartSaver Account,Standard,Partial,Daniel Foster,5,75
+CMP-0007,CUST-0010,2026-03-08,Account Balance,Current Account,Standard,Upheld,Megan Ellis,7,200
+CMP-0008,CUST-0012,2026-03-15,Account Takeover,SmartSaver Account,Complex,Upheld,Robert Hale,9,500
+CMP-0009,CUST-0013,2026-03-22,Service,SmartSaver Plus,Simple,Resolved,Priya Anand,1,25
+CMP-0010,CUST-0014,2026-04-02,Fee Dispute,SmartSaver Account,Simple,Rejected,Daniel Foster,2,0
+CMP-0011,CUST-0015,2026-04-11,Account Balance,Mortgage,Standard,Upheld,Megan Ellis,6,180
+CMP-0012,CUST-0016,2026-04-19,Service,Current Account,Simple,Resolved,Robert Hale,1,30
+CMP-0013,CUST-0017,2026-04-27,Fraud/Unauthorized Transaction,SmartSaver Plus,Complex,Partial,Priya Anand,15,350
+CMP-0014,CUST-0018,2026-05-05,Fee Dispute,Debit Card,Simple,Resolved,Daniel Foster,1,20
+CMP-0015,CUST-0019,2026-05-13,Service,SmartSaver Account,Standard,Open,Megan Ellis,3,0
+CMP-0016,CUST-0020,2026-05-21,Account Balance,Current Account,Standard,Upheld,Robert Hale,8,220
+CMP-0017,CUST-0021,2026-05-29,Fee Dispute,SmartSaver Account,Simple,Rejected,Priya Anand,2,0
+CMP-0018,CUST-0022,2026-06-06,Account Takeover,Mortgage,Complex,Upheld,Daniel Foster,11,600
+CMP-0019,CUST-0023,2026-06-14,Service,Debit Card,Simple,Resolved,Megan Ellis,1,15
+CMP-0020,CUST-0024,2026-06-22,Fraud/Unauthorized Transaction,SmartSaver Plus,Complex,Open,Robert Hale,4,0

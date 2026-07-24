@@ -255,6 +255,48 @@ ingest-supersede domain newer older flags="":
 ingest-detect-supersession domain dry_run="":
     uv run artmind ingest detect-supersession --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
 
+# ── artmind db (structured store) ───────────────────────────────────────────
+
+# list registered structured tables  (usage: just db-list [domain])
+db-list domain="":
+    uv run artmind db list {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# show columns/types (+profiles/mappings) for a table  (usage: just db-schema [table])
+db-schema table="":
+    uv run artmind db schema {{ table }}
+
+# run raw read-only SQL against the structured store  (usage: just db-sql "SELECT ...")
+db-sql sql:
+    uv run artmind db sql "{{ sql }}"
+
+# list proposed vs confirmed column-to-entityClass mappings for a table  (usage: just db-mappings <table> [--acceptProposed])
+db-mappings table flags="":
+    uv run artmind db mappings {{ table }} {{ flags }}
+
+# upsert a confirmed column-to-entityClass mapping  (usage: just db-mappings-set <table> <column> <entityClass> [confidence])
+db-mappings-set table column entity_class confidence="1.0":
+    uv run artmind db mappings {{ table }} set --column {{ column }} --entityClass {{ entity_class }} --confidence {{ confidence }}
+
+# confirm an existing proposed mapping  (usage: just db-mappings-confirm <table> <column> <entityClass>)
+db-mappings-confirm table column entity_class:
+    uv run artmind db mappings {{ table }} confirm --column {{ column }} --entityClass {{ entity_class }}
+
+# remove mapping(s) for a table  (usage: just db-mappings-clear <table> [column])
+db-mappings-clear table column="":
+    uv run artmind db mappings {{ table }} clear {{ if column != "" { "--column " + column } else { "" } }}
+
+# rebuild the Neo4j catalogue subgraph for a domain on demand  (usage: just db-catalogue <domain>)
+db-catalogue domain:
+    uv run artmind db catalogue --domain {{ domain }}
+
+# snapshot the structured store (parquet + registry) to a tar.gz  (usage: just db-backup)
+db-backup:
+    uv run artmind db backup
+
+# wipe and restore the structured store from a snapshot  (usage: just db-restore [path])
+db-restore path="":
+    uv run artmind db restore {{ path }} --confirm
+
 # ── artmind query ────────────────────────────────────────────────────────────
 
 # graph metadata for a domain  (usage: just query-graph-metadata <domain>)
@@ -340,6 +382,14 @@ query-chunks domain chunk_id expand="0":
 # entity properties + one-hop relationships + source chunk text in one call  (usage: just query-entity-context <domain> <entity_id>)
 query-entity-context domain entity_id:
     uv run artmind query entity-context --domain {{ domain }} --entityId {{ entity_id }}
+
+# natural language to read-only DuckDB SQL against the structured store  (usage: just query-text2sql <domain> "question" [dry_run])
+query-text2sql domain question dry_run="":
+    uv run artmind query text2sql --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }} "{{ question }}"
+
+# resolve a free-text value to a canonical column value and/or graph entity  (usage: just query-resolve-key <domain> "phrase" [column] [table])
+query-resolve-key domain phrase column="" table="":
+    uv run artmind query resolve-key --domain {{ domain }} {{ if column != "" { "--column " + column } else { "" } }} {{ if table != "" { "--table " + table } else { "" } }} "{{ phrase }}"
 
 # ── artmind serve & chat UI ──────────────────────────────────────────────────
 

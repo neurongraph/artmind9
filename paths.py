@@ -71,3 +71,5 @@ KG_DIR = DATA_DIR / "kg"
 REFINE_DIR = DATA_DIR / "refine"
 GRAPH_SNAPSHOT_DIR = DATA_DIR / "graph_snapshot"
 WORKER_PID_FILE = DATA_DIR / "worker.pid"
+STRUCTURED_DIR = DATA_DIR / "structured"   # DuckDB catalog + <domain>/<table>.parquet
+STRUCTURED_SNAPSHOT_DIR = DATA_DIR / "structured_snapshot"   # db backup/restore .tar.gz files

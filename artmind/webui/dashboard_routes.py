@@ -7,10 +7,12 @@ Deterministic (no LLM in the loop) — plain wrappers around `artmind.jobs`,
 import asyncio
 import io
 import json
+import tempfile
 import zipfile
 from datetime import datetime
 from pathlib import Path
 
+import click
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
@@ -31,8 +33,14 @@ from artmind.jobs import (
     _retry_job,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
+from artmind.structured import STRUCTURED_EXTENSIONS
+from artmind.structured import registry as structured_registry
+from artmind.structured.duckdb_adapter import DuckDBDatasource
+from artmind.structured.pipeline import ingest_structured_file
+from artmind.structured_snapshot import export_structured, import_structured
+from artmind.text2sql import validate_read_only_sql
 from artmind.webui.help import get_concepts
-from paths import GRAPH_SNAPSHOT_DIR, KG_DIR
+from paths import GRAPH_SNAPSHOT_DIR, KG_DIR, STRUCTURED_SNAPSHOT_DIR
 from utils.functions import load_env, resolve_llm_model
 
 
@@ -83,6 +91,10 @@ class RestoreRequest(BaseModel):
     confirm: bool = False
 
 
+class StructuredSqlRequest(BaseModel):
+    sql: str
+
+
 def _json_len(path: Path) -> int:
     if not path.exists():
         return 0
@@ -113,6 +125,22 @@ def _safe_snapshot_path(name: str) -> Path:
     if snapshot_dir != path.parent:
         raise HTTPException(status_code=400, detail="Invalid snapshot name")
     return path
+
+
+def _safe_structured_snapshot_path(name: str) -> Path:
+    if not name or "/" in name or "\\" in name or name in (".", ".."):
+        raise HTTPException(status_code=400, detail="Invalid snapshot name")
+    path = (STRUCTURED_SNAPSHOT_DIR / name).resolve()
+    snapshot_dir = STRUCTURED_SNAPSHOT_DIR.resolve()
+    if snapshot_dir != path.parent:
+        raise HTTPException(status_code=400, detail="Invalid snapshot name")
+    return path
+
+
+def _run_structured_sql(sql: str) -> list[dict]:
+    ds = DuckDBDatasource()
+    ds.ensure_views(structured_registry.list_tables())
+    return ds.run_sql(sql)
 
 
 def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastAPI:
@@ -388,5 +416,127 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     @app.post("/api/embed-entities")
     async def api_embed_entities(payload: EmbedEntitiesRequest):
         return _camelize(embed_entities_backfill(payload.domain))
+
+    # ── structured data tab (Lane B) ──────────────────────────────────
+    @app.get("/api/structured/tables")
+    async def api_structured_tables(domain: str | None = None):
+        domains = [d.strip() for d in domain.split(",") if d.strip()] if domain else None
+        return _camelize({"tables": structured_registry.list_tables(domains)})
+
+    @app.get("/api/structured/tables/{table}/schema")
+    async def api_structured_table_schema(table: str, domain: str | None = None):
+        row = structured_registry.get_table(table, domain=domain)
+        if row is None:
+            raise HTTPException(status_code=404, detail=f"table '{table}' not found")
+        columns = structured_registry.get_columns(row["id"])
+        mappings = structured_registry.list_mappings(row["id"])
+        return _camelize({**row, "columns": columns, "mappings": mappings})
+
+    @app.post("/api/structured/ingest")
+    async def api_structured_ingest(
+        domain: str = Form(...),
+        file: UploadFile = File(...),
+        table: str | None = Form(None),
+        sheet: str | None = Form(None),
+        header_row: int = Form(0, alias="headerRow"),
+        force: bool = Form(False),
+    ):
+        _validate_artifact_segment(domain)
+        suffix = Path(file.filename).suffix.lower()
+        if suffix not in STRUCTURED_EXTENSIONS:
+            raise HTTPException(status_code=400, detail=f"unsupported file type: {suffix}")
+        content = await file.read()
+        tmp = tempfile.NamedTemporaryFile(suffix=suffix, delete=False)
+        tmp_path = Path(tmp.name)
+        try:
+            tmp.write(content)
+            tmp.close()
+            try:
+                resolved_table = table or Path(file.filename).stem
+                result = await asyncio.to_thread(
+                    ingest_structured_file, tmp_path, domain,
+                    table=resolved_table, sheet=sheet, header_row=header_row, force=force,
+                )
+            except click.ClickException as exc:
+                raise HTTPException(status_code=400, detail=str(exc)) from exc
+        finally:
+            tmp_path.unlink(missing_ok=True)
+        return _camelize(result)
+
+    @app.post("/api/structured/sql")
+    async def api_structured_sql(payload: StructuredSqlRequest):
+        try:
+            validate_read_only_sql(payload.sql)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        try:
+            rows = await asyncio.to_thread(_run_structured_sql, payload.sql)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=f"SQL error: {exc}") from exc
+        return {"query_type": "sql", "command": "db sql", "rows": rows}
+
+    @app.get("/api/structured/snapshots")
+    async def api_list_structured_snapshots():
+        if not STRUCTURED_SNAPSHOT_DIR.exists():
+            return []
+        snapshots = []
+        for path in sorted(STRUCTURED_SNAPSHOT_DIR.glob("*.tar.gz"), reverse=True):
+            stat = path.stat()
+            snapshots.append({
+                "name": path.name,
+                "size_bytes": stat.st_size,
+                "created_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+            })
+        return _camelize(snapshots)
+
+    @app.post("/api/structured/snapshots")
+    async def api_create_structured_snapshot():
+        path = await asyncio.to_thread(export_structured)
+        stat = path.stat()
+        return {
+            "name": path.name,
+            "sizeBytes": stat.st_size,
+            "createdAt": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+        }
+
+    @app.get("/api/structured/snapshots/{name}")
+    async def api_download_structured_snapshot(name: str):
+        path = _safe_structured_snapshot_path(name)
+        if not path.is_file():
+            raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
+        return FileResponse(path, media_type="application/gzip", filename=name)
+
+    @app.post("/api/structured/snapshots/{name}/restore")
+    async def api_restore_structured_snapshot(name: str, payload: RestoreRequest):
+        if not payload.confirm:
+            raise HTTPException(
+                status_code=400,
+                detail="Set confirm=true to restore — this wipes the structured store",
+            )
+        path = _safe_structured_snapshot_path(name)
+        if not path.is_file():
+            raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
+        try:
+            summary = await asyncio.to_thread(import_structured, path)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return _camelize(summary)
+
+    @app.post("/api/structured/snapshots/import")
+    async def api_import_structured_snapshot(confirm: bool = Form(...), file: UploadFile = File(...)):
+        if not confirm:
+            raise HTTPException(
+                status_code=400,
+                detail="Set confirm=true to restore — this wipes the structured store",
+            )
+        STRUCTURED_SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+        dest = STRUCTURED_SNAPSHOT_DIR / Path(file.filename).name
+        content = await file.read()
+        dest.write_bytes(content)
+        try:
+            summary = await asyncio.to_thread(import_structured, dest)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return _camelize(summary)
 
     return app

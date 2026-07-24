@@ -18,3 +18,26 @@ that all children inherit via `artmind domains harmonize`). Querying
 | `banking.reference` | reference/ | interest_rate_schedule_2026.md, incident_response_plan.md, technology_production_runbook.md, technology_application_landscape.md, welcome_pack.md |
 | `banking.communications` | templates/, training/ | email_templates.md, sms_templates.md, call_centre_script.md, compliance_training_manual.md, product_training_manual.md, branch_operations_training.md |
 | `banking.cases` | cases/ | case_2026_041_overview.md, case_2026_041_incident_timeline.md, case_2026_041_complaint_record.md, case_2026_041_retention_decision.md |
+
+## Structured store (`structured/`)
+
+Not a document domain — these csv files feed the **structured data ingestion**
+pipeline (`artmind ingest sync <file> --domain banking`), landing in DuckDB/
+parquet + the registry rather than the graph. Ingested against the literal
+`banking` domain (not a `banking.*` child) so `artmind db list/schema --domain
+banking` finds them directly, and so the mapping proposer's `entity_listing(["banking"])`
+call rolls up and sees `PRODUCT` entities (from `banking.products`) and
+`ROLE_PERSON` entities (branch managers, from `banking.organization`) across
+every sibling domain — `product`/`branch`/`assigned_agent`/`reviewed_by`
+columns below are deliberately spelled to match those entity names exactly.
+
+| File | Rows | Purpose |
+|---|---|---|
+| `customers.csv` | 24 | Customer master: segment (Standard/Premier/Private), primary product, branch, join date |
+| `vulnerable_customers.csv` | 7 | FCA four-drivers vulnerability flags (Health/Life Events/Resilience/Capability) for a subset of customers, reviewed by the customer's branch manager |
+| `agents.csv` | 16 | Staff roster: the 12 branch managers from `organization/branches.md` plus 4 central complaints handlers |
+| `complaints.csv` | 20 | Complaint history: category/severity/status per `policies/policy_complaints.md`, product, assigned agent, resolution time, compensation |
+| `csat_scores.csv` | 30 | CSAT survey scores by customer and agent, across Branch/Phone/Online/Mobile App channels |
+
+All customer/agent/branch/product names are fictional and consistent with the
+rest of this corpus (FirstUK Bank).

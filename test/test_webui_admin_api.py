@@ -706,3 +706,301 @@ def test_help_concepts_camelizes_and_wraps_generator(monkeypatch):
     assert response.json() == [
         {"key": "artmind-refine", "title": "refine", "description": "d", "source": "skill", "destructive": True}
     ]
+
+
+def test_structured_tables_lists_all(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "list_tables",
+        lambda domains=None: [{"table_name": "products", "domain": "banking", "row_count": 2}],
+    )
+    response = _client().get("/api/structured/tables")
+    assert response.status_code == 200
+    assert response.json() == {
+        "tables": [{"tableName": "products", "domain": "banking", "rowCount": 2}]
+    }
+
+
+def test_structured_tables_splits_comma_domains(monkeypatch):
+    seen = {}
+
+    def fake(domains=None):
+        seen["domains"] = domains
+        return []
+
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_tables", fake)
+    response = _client().get("/api/structured/tables?domain=general,banking")
+    assert response.status_code == 200
+    assert seen["domains"] == ["general", "banking"]
+
+
+def test_structured_table_schema_found(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "get_table",
+        lambda table, domain=None: {"id": 1, "table_name": "products", "domain": "banking"},
+    )
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "get_columns",
+        lambda table_id: [{"name": "id", "dtype": "BIGINT"}],
+    )
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_mappings", lambda table_id: [])
+    response = _client().get("/api/structured/tables/products/schema?domain=banking")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["tableName"] == "products"
+    assert body["columns"] == [{"name": "id", "dtype": "BIGINT"}]
+    assert body["mappings"] == []
+
+
+def test_structured_table_schema_404(monkeypatch):
+    monkeypatch.setattr(dashboard_routes.structured_registry, "get_table", lambda table, domain=None: None)
+    response = _client().get("/api/structured/tables/nope/schema")
+    assert response.status_code == 404
+
+
+def test_structured_ingest_writes_table(monkeypatch, tmp_path):
+    seen = {}
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        seen["source_suffix"] = source.suffix
+        seen["domain"] = domain
+        seen["header_row"] = header_row
+        seen["force"] = force
+        return {"status": "ok", "tables": [{"table_name": "data", "domain": domain, "row_count": 2}]}
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking"},
+        files={"file": ("data.csv", io.BytesIO(b"a,b\n1,2\n"), "text/csv")},
+    )
+    assert response.status_code == 200
+    assert response.json() == {
+        "status": "ok", "tables": [{"tableName": "data", "domain": "banking", "rowCount": 2}]
+    }
+    assert seen["source_suffix"] == ".csv"
+    assert seen["domain"] == "banking"
+    assert seen["header_row"] == 0
+    assert seen["force"] is False
+
+
+def test_structured_ingest_passes_advanced_fields(monkeypatch, tmp_path):
+    seen = {}
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        seen.update(table=table, sheet=sheet, header_row=header_row, force=force)
+        return {"status": "ok", "tables": []}
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking", "table": "custom", "sheet": "Sheet2", "headerRow": "2", "force": "true"},
+        files={"file": ("data.xlsx", io.BytesIO(b"fake"), "application/vnd.openxmlformats")},
+    )
+    assert response.status_code == 200
+    assert seen == {"table": "custom", "sheet": "Sheet2", "header_row": 2, "force": True}
+
+
+def test_structured_ingest_defaults_table_to_original_filename_stem(monkeypatch):
+    seen = {}
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        seen["table"] = table
+        return {"status": "ok", "tables": []}
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking"},
+        files={"file": ("products_2026.csv", io.BytesIO(b"a,b\n1,2\n"), "text/csv")},
+    )
+    assert response.status_code == 200
+    assert seen["table"] == "products_2026"
+
+
+def test_structured_ingest_rejects_unsupported_extension():
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking"},
+        files={"file": ("data.txt", io.BytesIO(b"not tabular"), "text/plain")},
+    )
+    assert response.status_code == 400
+
+
+def test_structured_ingest_rejects_traversal_domain(monkeypatch):
+    called = {}
+    monkeypatch.setattr(
+        dashboard_routes, "ingest_structured_file",
+        lambda *a, **k: called.setdefault("called", True) or {"status": "ok", "tables": []},
+    )
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": ".."},
+        files={"file": ("data.csv", io.BytesIO(b"a\n1\n"), "text/csv")},
+    )
+    assert response.status_code == 400
+    assert "called" not in called
+
+
+def test_structured_ingest_pipeline_error_is_400(monkeypatch):
+    import click
+
+    def fake_ingest(source, domain, *, table=None, sheet=None, header_row=0, force=False):
+        raise click.ClickException("sheet 'Sheet9' not found (or empty/hidden) in 'data.xlsx'")
+
+    monkeypatch.setattr(dashboard_routes, "ingest_structured_file", fake_ingest)
+    response = _client().post(
+        "/api/structured/ingest",
+        data={"domain": "banking", "sheet": "Sheet9"},
+        files={"file": ("data.xlsx", io.BytesIO(b"fake"), "application/vnd.openxmlformats")},
+    )
+    assert response.status_code == 400
+    assert "Sheet9" in response.json()["detail"]
+
+
+def test_structured_sql_returns_rows(monkeypatch):
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_tables", lambda domains=None: [])
+
+    class FakeDs:
+        def ensure_views(self, tables):
+            pass
+
+        def run_sql(self, sql):
+            return [{"n": 2}]
+
+    monkeypatch.setattr(dashboard_routes, "DuckDBDatasource", lambda: FakeDs())
+    response = _client().post("/api/structured/sql", json={"sql": "SELECT count(*) AS n FROM products"})
+    assert response.status_code == 200
+    assert response.json() == {"query_type": "sql", "command": "db sql", "rows": [{"n": 2}]}
+
+
+def test_structured_sql_rejects_write_statement():
+    response = _client().post("/api/structured/sql", json={"sql": "DELETE FROM products"})
+    assert response.status_code == 400
+
+
+def test_structured_sql_error_is_400(monkeypatch):
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_tables", lambda domains=None: [])
+
+    class FakeDs:
+        def ensure_views(self, tables):
+            pass
+
+        def run_sql(self, sql):
+            raise RuntimeError("no such table: nope")
+
+    monkeypatch.setattr(dashboard_routes, "DuckDBDatasource", lambda: FakeDs())
+    response = _client().post("/api/structured/sql", json={"sql": "SELECT * FROM nope"})
+    assert response.status_code == 400
+    assert "no such table: nope" in response.json()["detail"]
+
+
+def test_list_structured_snapshots_empty_when_dir_missing(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path / "nope")
+    response = _client().get("/api/structured/snapshots")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_list_structured_snapshots_returns_name_size_date(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "structured_snapshot_2026-01-01_000000.tar.gz").write_bytes(b"fake-tarball")
+    response = _client().get("/api/structured/snapshots")
+    assert response.status_code == 200
+    body = response.json()
+    assert len(body) == 1
+    assert body[0]["name"] == "structured_snapshot_2026-01-01_000000.tar.gz"
+    assert body[0]["sizeBytes"] == len(b"fake-tarball")
+    assert "createdAt" in body[0]
+
+
+def test_create_structured_snapshot_calls_export_structured(monkeypatch, tmp_path):
+    snap = tmp_path / "structured_snapshot_new.tar.gz"
+    snap.write_bytes(b"data")
+    monkeypatch.setattr(dashboard_routes, "export_structured", lambda: snap)
+    response = _client().post("/api/structured/snapshots")
+    assert response.status_code == 200
+    assert response.json()["name"] == "structured_snapshot_new.tar.gz"
+
+
+def test_download_structured_snapshot_success(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"content")
+    response = _client().get("/api/structured/snapshots/snap.tar.gz")
+    assert response.status_code == 200
+    assert response.content == b"content"
+
+
+def test_download_structured_snapshot_404(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    response = _client().get("/api/structured/snapshots/nope.tar.gz")
+    assert response.status_code == 404
+
+
+def test_download_structured_snapshot_rejects_path_traversal(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path / "snapshots")
+    (tmp_path / "snapshots").mkdir()
+    (tmp_path / "secret.txt").write_text("nope")
+    response = _client().get("/api/structured/snapshots/..%2Fsecret.txt")
+    assert response.status_code in (400, 404)
+
+
+def test_restore_structured_snapshot_requires_confirm(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"data")
+    response = _client().post("/api/structured/snapshots/snap.tar.gz/restore", json={"confirm": False})
+    assert response.status_code == 400
+
+
+def test_restore_structured_snapshot_success(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"data")
+    monkeypatch.setattr(
+        dashboard_routes, "import_structured",
+        lambda path: {"snapshot": path.name, "table_count": 1, "elapsed_seconds": 0.1},
+    )
+    response = _client().post("/api/structured/snapshots/snap.tar.gz/restore", json={"confirm": True})
+    assert response.status_code == 200
+    assert response.json()["snapshot"] == "snap.tar.gz"
+
+
+def test_restore_structured_snapshot_not_found(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    response = _client().post("/api/structured/snapshots/nope.tar.gz/restore", json={"confirm": True})
+    assert response.status_code == 404
+
+
+def test_restore_structured_snapshot_import_failure_is_400(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    (tmp_path / "snap.tar.gz").write_bytes(b"data")
+
+    def fake(path):
+        raise ValueError("corrupt snapshot")
+
+    monkeypatch.setattr(dashboard_routes, "import_structured", fake)
+    response = _client().post("/api/structured/snapshots/snap.tar.gz/restore", json={"confirm": True})
+    assert response.status_code == 400
+
+
+def test_import_structured_snapshot_requires_confirm(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    response = _client().post(
+        "/api/structured/snapshots/import",
+        data={"confirm": "false"},
+        files={"file": ("snap.tar.gz", io.BytesIO(b"data"), "application/gzip")},
+    )
+    assert response.status_code == 400
+
+
+def test_import_structured_snapshot_success(monkeypatch, tmp_path):
+    monkeypatch.setattr(dashboard_routes, "STRUCTURED_SNAPSHOT_DIR", tmp_path)
+    monkeypatch.setattr(
+        dashboard_routes, "import_structured",
+        lambda path: {"snapshot": path.name, "table_count": 0, "elapsed_seconds": 0.1},
+    )
+    response = _client().post(
+        "/api/structured/snapshots/import",
+        data={"confirm": "true"},
+        files={"file": ("uploaded.tar.gz", io.BytesIO(b"data"), "application/gzip")},
+    )
+    assert response.status_code == 200
+    assert (tmp_path / "uploaded.tar.gz").exists()

@@ -204,6 +204,46 @@ disagreement rather than silently inventing certainty.
 
 **Evaluation comment:** Tests end-to-end traversal through the four `cases/case_2026_041_*.md` records and their linked incident, privacy, retention, AML, complaint, and governance documents. Preserve workstream ownership and distinguish immediate response from later review.
 
+## E. Structured store + graph (hybrid)
+
+These questions require both stores: numbers/records from the structured
+tables in `structured/` (customers, vulnerable_customers, agents, complaints,
+csat_scores — ingested via `artmind ingest sync --domain banking`) and
+narrative/policy reasoning from the graph. A strong answer keeps the SQL fact
+and the policy explanation distinct rather than blending them, and — matching
+this corpus's broader evaluation ethos — discloses a tie or a thin sample
+instead of manufacturing false precision.
+
+### Q32 — Vulnerable customer with an unresolved complaint
+
+**Question:** Which vulnerable customer currently has an open, unresolved complaint, and what extra care does our training and complaints guidance require when handling their case?
+
+**Evaluation comment:** Tests resolving a structured record to the right graph guidance. Joining `structured/complaints.csv` (`status = 'Open'`) against `structured/vulnerable_customers.csv` on `customer_id` surfaces exactly one match: CUST-0019, driver `Life Events`, support need `Safe Space`, complaint category `Service`. The answer should combine `training/branch_operations_training.md`'s vulnerable-customer guidance (abuse victims: offer a safe space, confidential help) with `policies/policy_complaints_v3.md`'s timeframe/escalation rule for a Service complaint, not generic vulnerable-customer platitudes.
+
+### Q33 — Escalation authority for the largest Account Takeover payout
+
+**Question:** What is the largest compensation amount recorded for an Account Takeover complaint, and per the complaint escalation matrix, what authority level and timeline would that payout require?
+
+**Evaluation comment:** Tests a resolve-then-govern chain, mirroring the reasoning in Q07–Q09 but sourced from real transaction data instead of a hypothetical figure. `structured/complaints.csv` filtered to `category = 'Account Takeover'` gives two rows — CMP-0018 (£600) and CMP-0008 (£500) — so the largest is unambiguous. The answer should then apply `policies/policy_complaints_v3.md`'s (or `policy_complaints.md`'s, if the decision date requires the earlier version) escalation-by-loss table: payouts above £500 require Director / Head of Customer Service approval within 8 days, not frontline sign-off.
+
+### Q34 — Fee-dispute customer satisfaction versus the policy remedy
+
+**Question:** For customers who raised a Fee Dispute complaint on their SmartSaver Account, what is their average CSAT score, and what does the complaints policy require when a fee was applied correctly versus in error?
+
+**Evaluation comment:** Tests keeping a SQL aggregate and a two-branch policy answer distinct rather than merging them. Joining `structured/complaints.csv` (`category = 'Fee Dispute'`, `product = 'SmartSaver Account'`) to `structured/customers.csv` and `structured/csat_scores.csv` covers four customers (CUST-0001, CUST-0009, CUST-0014, CUST-0021) with six survey rows. The policy answer should separately state: fee applied correctly per T&Cs → explain and decline reversal; fee error → reverse charge + interest (`policies/policy_complaints.md` / `policy_complaints_v3.md`, Fee Disputes).
+
+### Q35 — Branch manager vulnerable-customer review load
+
+**Question:** Which branch manager has reviewed the most vulnerable-customer cases on record, and according to branch operations training, what should they be doing differently depending on each case's vulnerability driver?
+
+**Evaluation comment:** Tests refusing false precision. `structured/vulnerable_customers.csv` grouped by `reviewed_by` shows seven different branch managers, each with exactly one case — there is no single "busiest" reviewer, and a good answer says so instead of naming one arbitrarily. It should then map each represented driver to `training/branch_operations_training.md`'s per-driver guidance: Health/Capability (elderly or mentally incapacitated) → slow down, be patient; Capability (language barriers) → arrange an interpreter; Life Events (abuse victims) → offer a safe space; Resilience (financial abuse) → escalate to compliance.
+
+### Q36 — CSAT gap between open and resolved complaints
+
+**Question:** Do customers with an open, unresolved complaint show a different average CSAT score from customers whose complaints have already been resolved, and what does the complaints policy say should happen if a response is at risk of running late?
+
+**Evaluation comment:** Tests not overclaiming from a thin sample — an intentional parallel to Q28's "distinguish, don't collapse" pattern. Only two customers have an `Open` complaint in `structured/complaints.csv` (CUST-0019, CUST-0024), and only CUST-0019 has any `structured/csat_scores.csv` rows (a single survey, score 3) versus 25 CSAT rows across resolved-complaint customers (avg. ~3.6) — a good answer flags the n=1 comparison as too thin to generalise rather than asserting a trend, and notes CUST-0024 has no CSAT record at all. It should then use `policies/policy_complaints.md` / `policy_complaints_v3.md`'s 8-day/8-week response clock and escalation rule for at-risk responses.
+
 ## Optional corpus enhancements for future benchmark rounds
 
 These are recommendations, not evidence assumed by the questions above.
