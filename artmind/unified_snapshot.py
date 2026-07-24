@@ -169,7 +169,7 @@ def create_snapshot(include: set[str] | None = None) -> Path:
             encoding="utf-8"
         )
 
-        # Create zip
+        # Create zip (flat structure: manifest.json at root, not nested)
         GRAPH_SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
         timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
         zip_path = GRAPH_SNAPSHOT_DIR / f"artmind_snapshot_{timestamp}.zip"
@@ -177,7 +177,14 @@ def create_snapshot(include: set[str] | None = None) -> Path:
         with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
             for file_path in tmp_path.glob("*"):
                 if file_path.is_file():
+                    # Add file at root level, not nested
                     zf.write(file_path, arcname=file_path.name)
+                elif file_path.is_dir():
+                    # If it's a directory (shouldn't happen, but be safe)
+                    for item in file_path.rglob("*"):
+                        if item.is_file():
+                            arcname = item.relative_to(tmp_path)
+                            zf.write(item, arcname=str(arcname))
 
     elapsed = time.monotonic() - t0
     size_mb = zip_path.stat().st_size / (1024 * 1024)
@@ -196,10 +203,19 @@ def _read_manifest_from_zip(zip_path: Path) -> dict:
     with tempfile.TemporaryDirectory() as tmp_dir:
         tmp_path = Path(tmp_dir)
         with zipfile.ZipFile(zip_path, "r") as zf:
-            zf.extract("manifest.json", path=tmp_path)
-        manifest_path = tmp_path / "manifest.json"
-        if not manifest_path.exists():
-            raise ValueError(f"Snapshot missing manifest.json")
+            # Find manifest.json (may be nested in a directory)
+            manifest_in_zip = None
+            for name in zf.namelist():
+                if name.endswith("manifest.json"):
+                    manifest_in_zip = name
+                    break
+
+            if not manifest_in_zip:
+                raise ValueError("Snapshot missing manifest.json")
+
+            zf.extract(manifest_in_zip, path=tmp_path)
+
+        manifest_path = tmp_path / manifest_in_zip
         return json.loads(manifest_path.read_text(encoding="utf-8"))
 
 
@@ -233,17 +249,42 @@ def _warn_stale_state(manifest: dict, restore_components: set[str]) -> None:
 def _extract_snapshot_files(zip_path: Path) -> tuple[Path, dict]:
     """Extract snapshot zip to persistent temp dir. Returns (extract_dir, manifest).
 
-    Caller is responsible for cleanup.
+    Handles both flat structure (manifest.json at root) and nested structure
+    (artmind_snapshot_*/manifest.json). Caller is responsible for cleanup.
     """
     extract_dir = Path(tempfile.mkdtemp(prefix="artmind_restore_"))
     with zipfile.ZipFile(zip_path, "r") as zf:
         zf.extractall(extract_dir)
 
-    manifest_path = extract_dir / "manifest.json"
-    if not manifest_path.exists():
+    # Find manifest.json (may be nested in a directory)
+    manifest_path = None
+    for path in extract_dir.rglob("manifest.json"):
+        manifest_path = path
+        break
+
+    if not manifest_path or not manifest_path.exists():
         shutil.rmtree(extract_dir)
         raise ValueError("Snapshot missing manifest.json")
 
+    # If manifest is nested, move all files to extract_dir root
+    manifest_dir = manifest_path.parent
+    if manifest_dir != extract_dir:
+        for item in manifest_dir.iterdir():
+            if item.name != "manifest.json":
+                dest = extract_dir / item.name
+                if dest.exists():
+                    if dest.is_dir():
+                        shutil.rmtree(dest)
+                    else:
+                        dest.unlink()
+                shutil.move(str(item), str(dest))
+            else:
+                shutil.move(str(item), str(extract_dir / item.name))
+        # Remove the now-empty nested directory
+        if manifest_dir != extract_dir:
+            shutil.rmtree(manifest_dir)
+
+    manifest_path = extract_dir / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     return extract_dir, manifest
 
