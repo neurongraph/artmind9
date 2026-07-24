@@ -89,7 +89,8 @@ def test_project_catalogue_wipes_then_merges_table_columns_and_confirmed_mapping
     wipe_calls = [(c, p) for c, p in fake.calls if "DETACH DELETE" in c]
     assert len(wipe_calls) == 1
     wipe_cypher, wipe_params = wipe_calls[0]
-    assert "MATCH (t:Table {domain:" in wipe_cypher or "domain: $domain" in wipe_cypher
+    assert "t.domain = $domain" in wipe_cypher
+    assert "t.domain STARTS WITH $domain" in wipe_cypher
     assert "OPTIONAL MATCH (t)-[:HAS_COLUMN]->(c:TableColumn)" in wipe_cypher
     assert wipe_params["domain"] == "banking"
 
@@ -106,6 +107,68 @@ def test_project_catalogue_wipes_then_merges_table_columns_and_confirmed_mapping
     assert len(mapping_calls) == 1
     _, mapping_params = mapping_calls[0]
     assert mapping_params["eckey"] == "banking::Customer"
+
+
+def test_project_catalogue_rolls_up_sub_domain_tables(tmp_path, monkeypatch):
+    """registry.list_tables() rolls sub-domains up into the parent — the same
+    convention as graph_query.domain_predicate() and every `query graph *`
+    command. project_catalogue("banking") must pick up a "banking.retail"
+    table too, and the wipe query must share that rollup scope (so a table
+    later removed from "banking.retail" still gets its stale node swept by a
+    "banking" rebuild)."""
+    _patch_db(tmp_path, monkeypatch)
+    from artmind.structured import registry
+
+    registry.register_datasource("default", "duckdb", "/tmp/artmind.duckdb")
+    parent_id = registry.register_table(
+        "default",
+        "customers",
+        "banking",
+        parquet_path="/tmp/structured/banking/customers.parquet",
+        row_count=5,
+    )
+    registry.replace_columns(
+        parent_id,
+        [{"name": "customer_name", "dtype": "VARCHAR", "profile_json": "{}"}],
+    )
+    sub_id = registry.register_table(
+        "default",
+        "loans",
+        "banking.retail",
+        parquet_path="/tmp/structured/banking/retail/loans.parquet",
+        row_count=7,
+    )
+    registry.replace_columns(
+        sub_id,
+        [{"name": "loan_officer", "dtype": "VARCHAR", "profile_json": "{}"}],
+    )
+    registry.upsert_mapping(sub_id, "loan_officer", "Employee", 0.8, confirmed=True)
+
+    fake = FakeSession()
+    monkeypatch.setattr(catalogue, "neo4j_session", lambda **kw: fake)
+
+    result = catalogue.project_catalogue("banking")
+
+    assert result == {"tables": 2, "columns": 2, "mappings": 1}
+
+    table_calls = [(c, p) for c, p in fake.calls if "MERGE (t:Table" in c]
+    assert {p["key"] for _, p in table_calls} == {
+        "default::customers",
+        "default::loans",
+    }
+
+    mapping_calls = [(c, p) for c, p in fake.calls if "MAPS_TO_CLASS" in c]
+    assert len(mapping_calls) == 1
+    _, mapping_params = mapping_calls[0]
+    # Scoped to the table's own domain ("banking.retail"), not the broader
+    # "banking" argument project_catalogue was called with.
+    assert mapping_params["eckey"] == "banking.retail::Employee"
+    assert mapping_params["domain"] == "banking.retail"
+
+    wipe_cypher, wipe_params = next((c, p) for c, p in fake.calls if "DETACH DELETE" in c)
+    assert "t.domain = $domain" in wipe_cypher
+    assert "t.domain STARTS WITH $domain" in wipe_cypher
+    assert wipe_params["domain"] == "banking"
 
 
 def test_project_catalogue_skips_unconfirmed_proposed_mapping(tmp_path, monkeypatch):

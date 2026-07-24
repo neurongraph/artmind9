@@ -41,9 +41,14 @@ def project_catalogue(domain: str) -> dict:
     with neo4j_session(access_mode="WRITE") as session:
         # ── Wipe: nothing authoritative lives here, so a clean slate per
         # domain is cheap and avoids stale nodes for renamed/removed tables.
+        # Scope matches registry.list_tables()'s rollup convention (also
+        # graph_query.domain_predicate()'s): "banking" wipes "banking" and
+        # every "banking.*" sub-domain too, so a table that moved or was
+        # deleted from a sub-domain still gets its stale node swept here.
         session.run(
             """
-            MATCH (t:Table {domain: $domain})
+            MATCH (t:Table)
+            WHERE t.domain = $domain OR t.domain STARTS WITH $domain + '.'
             OPTIONAL MATCH (t)-[:HAS_COLUMN]->(c:TableColumn)
             DETACH DELETE t, c
             """,
@@ -51,13 +56,6 @@ def project_catalogue(domain: str) -> dict:
         )
 
         for table in tables:
-            # list_tables() rolls sub-domains up into the parent (e.g. a
-            # "banking" query also returns "banking.retail" tables) — but the
-            # wipe above only clears nodes tagged with this exact domain, so
-            # keep projection scoped the same way to stay idempotent.
-            if table["domain"] != domain:
-                continue
-
             table_key = f"{table['datasource']}::{table['table_name']}"
             session.run(
                 """
@@ -104,7 +102,13 @@ def project_catalogue(domain: str) -> dict:
                     if not mapping["confirmed"]:
                         continue
                     entity_class = mapping["entity_class"]
-                    entity_class_key = f"{domain}::{entity_class}"
+                    # Scoped to the table's own domain, not the (possibly
+                    # broader, rolled-up) `domain` argument — a
+                    # "banking.retail" table's mapping belongs to
+                    # "banking.retail", the same way its Table/TableColumn
+                    # nodes do.
+                    table_domain = table["domain"]
+                    entity_class_key = f"{table_domain}::{entity_class}"
                     session.run(
                         """
                         MERGE (ec:EntityClass {key: $eckey})
@@ -115,7 +119,7 @@ def project_catalogue(domain: str) -> dict:
                         """,
                         eckey=entity_class_key,
                         name=entity_class,
-                        domain=domain,
+                        domain=table_domain,
                         colkey=column_key,
                     )
                     mappings_count += 1
