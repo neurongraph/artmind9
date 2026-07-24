@@ -289,6 +289,10 @@ db-mappings-clear table column="":
 db-catalogue domain:
     uv run artmind db catalogue --domain {{ domain }}
 
+# re-ingest a table from its recorded source file (replace or SCD-2 temporal merge)  (usage: just db-refresh <table> [domain])
+db-refresh table domain="":
+    uv run artmind db refresh {{ table }} {{ if domain != "" { "--domain " + domain } else { "" } }}
+
 # snapshot the structured store (parquet + registry) to a tar.gz  (usage: just db-backup)
 db-backup:
     uv run artmind db backup

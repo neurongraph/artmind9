@@ -1400,7 +1400,7 @@ def db_restore(path, confirm, compact):
 
 @cli.group()
 def query():
-    """Query the knowledge graph and vector index."""
+    """Query the knowledge graph and vector index, plus the structured store (text2sql, resolve-key)."""
     pass
 
 

@@ -62,9 +62,9 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
   normalize a value before using it in `text2sql`/graph retrieval, or to check
   whether a structured column value and a KG entity name refer to the same thing.
 
-Full graph/SQL/hybrid routing logic lands in a later increment of this skill —
-for now, check `db list` for the domain when a question is clearly analytical
-("average/total/count by X") and the graph patterns below don't fit.
+There is no monolithic `hybrid` command — the skill itself is the router/fuser,
+composing `resolve-key`, `text2sql`/`db sql`, and graph patterns in its own
+reasoning. See "Route — graph vs SQL vs hybrid" below for how to decide.
 
 ## The Query Protocol: Route → Discover → Resolve → Retrieve → Ground → Adjudicate
 
@@ -89,6 +89,67 @@ artmind query domains-overview --compact
   Main context never sees the raw listings.
 - Pass `--domain` once per selected domain on every subsequent command; a single
   command call now spans all of them.
+
+#### Route — graph vs SQL vs hybrid
+
+Once the domain set is fixed, check whether it has a structured store at all
+before deciding how to answer:
+
+```bash
+artmind db list --domain <d> --compact
+```
+
+An empty table list means the domain is pure-graph — skip SQL/hybrid entirely
+and go straight to Discover below. If tables exist, pull their shape once per
+session with `artmind db schema --domain <d> --compact` (or `db schema <table>`
+for one table), then classify the question:
+
+- **Narrative/relationship** ("tell me about X", "how are X and Y related",
+  "why did…") → graph path — Discover/Resolve/Retrieve as documented below
+  (patterns / `text2cypher`). No structured store involved.
+- **Analytical/aggregate** ("average/total/count/sum by X") → SQL only —
+  `artmind query text2sql "<question>" --domain <d> --compact` (or `db sql
+  "<SQL>"` if you already know the exact query — e.g. from a prior `--dry-run`).
+  No graph retrieval needed.
+- **Hybrid** (the question names something that lives as a graph entity but
+  needs a number that lives in a table) → canonicalize first, then query SQL,
+  then optionally add graph context, then synthesize:
+  1. `artmind query resolve-key "<phrase>" --domain <d> --column <col> --compact`
+     to turn the user's phrase into the exact value stored in the column (and/or
+     the matching graph entity name) — don't hand a raw user phrase to
+     `text2sql`/`db sql` and hope it matches the stored spelling.
+  2. `artmind query text2sql "<question with canonical value>" --domain <d>
+     --compact` (or `db sql` with the canonical value substituted in) for the
+     numbers.
+  3. If the question also needs relationship context (not just a number), add
+     one graph pattern or `entity-context` call on the resolved entity.
+  4. Synthesize the combined answer yourself in this turn — there is no
+     "fusion" command; steps 1-3 are already composed by you, the skill.
+
+Worked examples:
+
+- **Usage A — "Total balance across SmartSaver accounts."** Hybrid: `SmartSaver`
+  is a PRODUCT entity in the graph but `balance` lives in a table. Run
+  `resolve-key "SmartSaver" --domain banking --column product_name --compact` to
+  get the canonical `product_name` value, then `text2sql "total balance where
+  product_name is <canonical>" --domain banking --compact` (or `db sql` with the
+  literal substituted in) for the sum. Add a graph pattern only if the answer
+  also needs product relationships/ownership, not just the total.
+- **Usage B — "Average X by month."** Analytical-only: no entity to resolve, no
+  graph involvement — go straight to `text2sql "average X by month" --domain
+  <d> --compact`, or `db sql` if you already have the exact SQL from a prior
+  `--dry-run`.
+
+`--asOf` consistency: if the question is temporal ("as of last quarter", "as of
+<date>"), pass the SAME `--asOf <date>` to every command in the hybrid chain —
+graph retrieval and `query text2sql` both honor it (`db sql` does not, since raw
+SQL has no notion of "as of"; filter `_valid_from`/`_valid_to` yourself in the
+query text if you need that on `db sql`). This is the same rule as "Default to
+`--asOf today` on every retrieval" in Retrieve below — one date, threaded through
+both stores, not decided independently per command.
+
+`--compact` applies to `db`/`query text2sql`/`query resolve-key` exactly like
+every other command in this skill (line 31) — nothing SQL-specific changes that.
 
 ### 1. Discover — learn the domain's shape
 
