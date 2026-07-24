@@ -383,6 +383,14 @@ query-chunks domain chunk_id expand="0":
 query-entity-context domain entity_id:
     uv run artmind query entity-context --domain {{ domain }} --entityId {{ entity_id }}
 
+# natural language to read-only DuckDB SQL against the structured store  (usage: just query-text2sql <domain> "question" [dry_run])
+query-text2sql domain question dry_run="":
+    uv run artmind query text2sql --domain {{ domain }} {{ if dry_run == "true" { "--dry-run" } else { "" } }} "{{ question }}"
+
+# resolve a free-text value to a canonical column value and/or graph entity  (usage: just query-resolve-key <domain> "phrase" [column] [table])
+query-resolve-key domain phrase column="" table="":
+    uv run artmind query resolve-key --domain {{ domain }} {{ if column != "" { "--column " + column } else { "" } }} {{ if table != "" { "--table " + table } else { "" } }} "{{ phrase }}"
+
 # ── artmind serve & chat UI ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)

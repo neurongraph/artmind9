@@ -11,7 +11,7 @@ import rich_click as click
 import yaml
 from loguru import logger
 
-from artmind import graph_query, text2cypher, text2sql, vector_query
+from artmind import graph_query, resolve_key, text2cypher, text2sql, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
 from artmind.harmonizer import harmonize_all, harmonize_schema
@@ -1742,6 +1742,23 @@ def query_text2sql(domain: tuple, as_of: str | None, dry_run: bool, compact: boo
     domains = _parse_domains(domain)
     try:
         result = text2sql.execute_text2sql(question, domains, dry_run=dry_run, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("resolve-key")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain to query (repeatable; comma-splittable)")
+@click.option("--column", "column", default=None, help="Scope matching to this column's profiled values (omit to resolve against the graph only)")
+@click.option("--table", "table", default=None, help="Table containing --column, if ambiguous across tables (optional)")
+@click.option("--topK", "top_k", type=int, default=5, show_default=True)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+@click.argument("phrase")
+def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_k: int, compact: bool, phrase: str) -> None:
+    """Resolve a free-text value to a canonical column value and/or graph entity."""
+    domains = _parse_domains(domain)
+    try:
+        result = resolve_key.resolve_key(phrase, domains, column=column, table=table, top_k=top_k)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
