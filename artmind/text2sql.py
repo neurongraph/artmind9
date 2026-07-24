@@ -191,8 +191,14 @@ def execute_text2sql(
         output["dry_run"] = True
         return output
 
-    ds = DuckDBDatasource()
-    ds.ensure_views(structured_registry.list_tables())
+    # Isolated, ephemeral, domain-scoped connection — NOT the shared persistent
+    # catalog. That catalog carries a permanent view for every table ever
+    # ingested (across every domain); ``ensure_views(list_tables(domains))``
+    # against it would still leave out-of-domain tables' views reachable from
+    # an earlier ingest. An in-memory connection starts with no views at all,
+    # so only the tables explicitly listed here are queryable.
+    ds = DuckDBDatasource.in_memory()
+    ds.ensure_views(structured_registry.list_tables(domains))
     try:
         output["rows"] = ds.run_sql(sql)
     except duckdb.Error as exc:

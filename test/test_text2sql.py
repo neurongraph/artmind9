@@ -1,3 +1,4 @@
+import csv
 import json
 
 import pytest
@@ -176,6 +177,10 @@ def test_execute_text2sql_runs_query(monkeypatch):
         def __init__(self, *args, **kwargs):
             pass
 
+        @classmethod
+        def in_memory(cls):
+            return cls()
+
         def ensure_views(self, tables):
             pass
 
@@ -202,6 +207,10 @@ def test_execute_text2sql_wraps_duckdb_error_with_sql(monkeypatch):
         def __init__(self, *args, **kwargs):
             pass
 
+        @classmethod
+        def in_memory(cls):
+            return cls()
+
         def ensure_views(self, tables):
             pass
 
@@ -212,3 +221,76 @@ def test_execute_text2sql_wraps_duckdb_error_with_sql(monkeypatch):
 
     with pytest.raises(ValueError, match="SELECT \\* FROM nope"):
         text2sql.execute_text2sql("bogus question", "banking", model="test-model")
+
+
+def _patch_stores(tmp_path, monkeypatch):
+    import artmind.db as db
+    import paths
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    db._init_db()
+
+
+def _write_csv(path, rows):
+    with open(path, "w", newline="") as f:
+        csv.writer(f).writerows(rows)
+
+
+def _ingest_domain_table(tmp_path, domain, table_name, rows):
+    from artmind.structured.pipeline import ingest_structured_file
+
+    csv_path = tmp_path / f"{table_name}.csv"
+    _write_csv(csv_path, rows)
+    result = ingest_structured_file(csv_path, domain, table=table_name)
+    assert result["status"] == "ok"
+
+
+def test_execute_text2sql_cannot_see_out_of_domain_table(tmp_path, monkeypatch):
+    """Cross-domain isolation: text2sql scoped to ``banking`` must not be able
+    to read a table that only exists in ``retail``, even though both tables
+    are ingested into the same shared, persistent DuckDB catalog file."""
+    pytest.importorskip("openpyxl")
+    _patch_stores(tmp_path, monkeypatch)
+
+    _ingest_domain_table(
+        tmp_path, "banking", "banking_table", [["id", "name"], [1, "Checking"]]
+    )
+    _ingest_domain_table(
+        tmp_path, "retail", "retail_table", [["id", "name"], [1, "Widget"]]
+    )
+
+    # A misbehaving/malicious LLM response naming the out-of-domain table.
+    llm_response = json.dumps({"sql": "SELECT * FROM retail_table", "notes": ""})
+    monkeypatch.setattr(text2sql, "call_llm", lambda model, prompt: llm_response)
+
+    with pytest.raises(ValueError, match="Generated SQL failed"):
+        text2sql.execute_text2sql(
+            "Show me the retail table", domains=["banking"], model="test-model"
+        )
+
+
+def test_execute_text2sql_in_domain_table_still_works(tmp_path, monkeypatch):
+    """Regression check: the isolation fix doesn't break the legitimate,
+    in-domain path — a domain-scoped query against its own table still
+    executes and returns real rows."""
+    pytest.importorskip("openpyxl")
+    _patch_stores(tmp_path, monkeypatch)
+
+    _ingest_domain_table(
+        tmp_path, "banking", "banking_table", [["id", "name"], [1, "Checking"]]
+    )
+    _ingest_domain_table(
+        tmp_path, "retail", "retail_table", [["id", "name"], [1, "Widget"]]
+    )
+
+    llm_response = json.dumps(
+        {"sql": "SELECT id, name FROM banking_table", "notes": ""}
+    )
+    monkeypatch.setattr(text2sql, "call_llm", lambda model, prompt: llm_response)
+
+    result = text2sql.execute_text2sql(
+        "Show me the banking table", domains=["banking"], model="test-model"
+    )
+
+    assert result["rows"] == [{"id": 1, "name": "Checking"}]

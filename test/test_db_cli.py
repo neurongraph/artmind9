@@ -75,6 +75,30 @@ def test_db_sql_rejects_write_statement(ingested):
     assert result.exit_code != 0
 
 
+def test_db_sql_is_unscoped_across_domains(tmp_path, monkeypatch):
+    """`db sql` is deliberately domain-unscoped (operator-facing raw SQL) —
+    unlike text2sql's execution, it must still see tables from every domain
+    in the same invocation."""
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file
+
+    banking_csv = tmp_path / "banking_table.csv"
+    _write_csv(banking_csv, [["id", "name"], [1, "Checking"]])
+    ingest_structured_file(banking_csv, "banking", table="banking_table")
+
+    retail_csv = tmp_path / "retail_table.csv"
+    _write_csv(retail_csv, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(retail_csv, "retail", table="retail_table")
+
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(
+        cli.cli, ["db", "sql", "SELECT count(*) AS n FROM retail_table"]
+    )
+    assert result.exit_code == 0, result.output
+    assert '"n": 1' in result.output
+
+
 def test_db_catalogue_invokes_projection_and_returns_json(ingested, monkeypatch):
     import artmind.cli as cli
     import artmind.structured.catalogue as catalogue

@@ -33,10 +33,32 @@ def _sql_quote_literal(path: Path) -> str:
 
 
 class DuckDBDatasource:
-    def __init__(self, db_path: Path | None = None):
+    #: Sentinel accepted by ``db_path`` to open an ephemeral, in-memory catalog
+    #: instead of connecting to the shared persistent ``artmind.duckdb`` file.
+    #: Callers that need query isolation (e.g. text2sql's domain-scoped
+    #: execution) pass this explicitly rather than relying on a real path.
+    IN_MEMORY = ":memory:"
+
+    def __init__(self, db_path: "Path | str | None" = None):
+        if db_path == self.IN_MEMORY:
+            self.db_path = None
+            self.con = duckdb.connect(self.IN_MEMORY)
+            return
         self.db_path = Path(db_path) if db_path else structured_db_path()
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         self.con = duckdb.connect(str(self.db_path))
+
+    @classmethod
+    def in_memory(cls) -> "DuckDBDatasource":
+        """Open an ephemeral, in-memory catalog with no shared state.
+
+        Used where a caller must guarantee that only explicitly-created views
+        are reachable — e.g. text2sql's domain-scoped query execution, where
+        the shared persistent catalog would still expose every other domain's
+        already-ingested tables regardless of what ``ensure_views`` is called
+        with.
+        """
+        return cls(db_path=cls.IN_MEMORY)
 
     def load_table(
         self,
