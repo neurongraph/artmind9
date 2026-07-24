@@ -7,6 +7,7 @@ import json
 from datetime import date, datetime
 from pathlib import Path
 
+import duckdb
 import rich_click as click
 import yaml
 from loguru import logger
@@ -1357,6 +1358,13 @@ def db_refresh(table, domain, compact):
         result = refresh_table(table, resolved_domain)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
+    except duckdb.Error as exc:
+        # Defensive backstop: pipeline.py validates the common schema-drift
+        # case (column set mismatch) up front and raises ValueError for it
+        # (handled above with a clear message); this catches any other
+        # DuckDB-level surprise so a temporal refresh never leaks a raw
+        # traceback to the CLI.
+        raise click.ClickException(f"refresh failed: {exc}") from exc
     _echo_json(result, compact)
 
 

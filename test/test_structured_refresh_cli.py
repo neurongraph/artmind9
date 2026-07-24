@@ -285,46 +285,37 @@ def test_db_refresh_ambiguous_table_requires_domain(tmp_path, monkeypatch):
     assert scoped.exit_code == 0, scoped.output
 
 
-# ── text2sql: as_of threads through the prompt ───────────────────────────────
+# ── db refresh: temporal schema-drift is a clean error, not a raw traceback ──
 
 
-def test_execute_text2sql_as_of_reaches_prompt(monkeypatch):
-    """Task 9 Step 4: `execute_text2sql(as_of=...)` must thread the concrete
-    date value into the actual prompt string sent to the LLM -- previously it
-    was only echoed back in the output, never seen by the model."""
-    from artmind import text2sql
+def test_db_refresh_temporal_schema_drift_raises_clean_error(tmp_path, monkeypatch):
+    """Code-review followup: a dropped/added non-key column on refresh used to
+    surface as a raw duckdb.BinderException from deep inside
+    scd2.apply_scd2_refresh's hash(ROW(...)) construction. pipeline.py now
+    validates the incoming columns against the existing history up front and
+    raises a clean ValueError, which `db refresh` turns into a ClickException."""
+    _patch_stores(tmp_path, monkeypatch)
+    import artmind.cli as cli
 
-    monkeypatch.setattr(text2sql.structured_registry, "list_tables", lambda domains=None: [])
-
-    captured = {}
-
-    def fake_call_llm(model, prompt):
-        captured["prompt"] = prompt
-        return json.dumps({"sql": "SELECT 1", "notes": ""})
-
-    monkeypatch.setattr(text2sql, "call_llm", fake_call_llm)
-
-    result = text2sql.execute_text2sql(
-        "How many accounts as of last quarter?",
-        "banking",
-        model="test-model",
-        dry_run=True,
-        as_of="2026-03-31",
+    csv_path = tmp_path / "accounts.csv"
+    _write_csv(csv_path, [["id", "balance"], [1, 100]])
+    seed = CliRunner().invoke(
+        cli.cli,
+        [
+            "ingest", "sync", str(csv_path),
+            "--domain", "banking",
+            "--refreshMode", "temporal",
+            "--businessKey", "id",
+        ],
     )
+    assert seed.exit_code == 0, seed.output
 
-    assert result["asOf"] == "2026-03-31"
-    assert "2026-03-31" in captured["prompt"]
+    # Drop the "balance" column and add an unrelated "region" column instead.
+    _write_csv(csv_path, [["id", "region"], [1, "west"]])
 
-
-def test_build_text2sql_prompt_unchanged_when_as_of_omitted():
-    """No regression: as_of=None must not alter the prompt at all vs. the
-    pre-Task-9 two-argument call shape."""
-    from artmind import text2sql
-
-    schema_info = text2sql._schema_summary_sql([], {}, {})
-    with_default = text2sql.build_text2sql_prompt("q", schema_info, ["banking"])
-    explicit_none = text2sql.build_text2sql_prompt("q", schema_info, ["banking"], as_of=None)
-    assert with_default == explicit_none
-    # The static prose already mentions "an as-of date" in the abstract; only
-    # the concrete injected line (naming the actual date value) must be absent.
-    assert "The user's as-of date is" not in with_default
+    result = CliRunner().invoke(cli.cli, ["db", "refresh", "accounts", "--domain", "banking"])
+    assert result.exit_code != 0
+    assert result.exception is None or isinstance(result.exception, SystemExit)
+    assert "columns don't match" in result.output
+    assert "balance" in result.output
+    assert "region" in result.output

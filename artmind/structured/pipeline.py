@@ -133,6 +133,23 @@ def _seed_temporal_history(
 
     con = ds.con
     parquet_literal = _quote_literal(str(parquet_path))
+
+    # Catch a typo'd --businessKey/--effectiveDateColumn now, at seed time,
+    # rather than silently seeding an unrefreshable table and only surfacing
+    # the mistake at the next `db refresh` (mirrors scd2.py's own
+    # missing_bk check).
+    cur_columns = {
+        r[0] for r in con.execute(f"DESCRIBE SELECT * FROM read_parquet({parquet_literal})").fetchall()
+    }
+    key_columns = [c.strip() for c in business_key.split(",") if c.strip()]
+    missing_bk = [c for c in key_columns if c not in cur_columns]
+    if missing_bk:
+        raise click.ClickException(f"--businessKey column(s) not found in source: {missing_bk}")
+    if effective_date_column and effective_date_column not in cur_columns:
+        raise click.ClickException(
+            f"--effectiveDateColumn '{effective_date_column}' not found in source"
+        )
+
     batch_date = date.today().isoformat()
     eff_expr = (
         f"COALESCE({_quote_ident(effective_date_column)}, DATE {_quote_literal(batch_date)})"
@@ -146,6 +163,81 @@ def _seed_temporal_history(
     )
     con.execute(f"COPY _seed_temporal TO {parquet_literal} (FORMAT PARQUET)")
     return con.execute(f"SELECT count(*) FROM read_parquet({parquet_literal})").fetchone()[0]
+
+
+def _register_columns_and_mappings(
+    ds: DuckDBDatasource, table_id: int, table_name: str, domain: str, *, exclude_system_cols: bool
+) -> None:
+    """Introspect + profile ``table_name``'s current schema, persist it to the
+    registry's ``columns`` table, and best-effort propose column-to-entity-
+    class mappings. Shared by the initial-ingest (``_write_table``) and
+    temporal-refresh (``_refresh_temporal_table``) paths so this bookkeeping
+    can't drift between them.
+
+    ``exclude_system_cols`` must be true whenever ``table_name`` carries the
+    SCD-2 system columns (``_valid_from``/``_valid_to``/``_is_current``) --
+    they're internal bookkeeping, not real data columns, and profiling their
+    DATE-valued ``distinct_sample`` would otherwise not be JSON-serializable.
+    """
+    profiles = ds.profile_columns(table_name)
+    columns = [
+        {
+            "name": c.name,
+            "dtype": c.dtype,
+            "profile_json": json.dumps(dataclasses.asdict(profiles[c.name]))
+            if c.name in profiles
+            else None,
+        }
+        for c in ds.introspect_schema(table_name)
+        if not (exclude_system_cols and c.name in SYSTEM_COLUMNS)
+    ]
+    registry.replace_columns(table_id, columns)
+
+    # Best-effort: propose column-to-entity-class mappings from the domain KG.
+    # A down/unreachable graph must not fail the load (mirrors commit_to_graph's
+    # hook guarding in artmind/ingest.py).
+    try:
+        from artmind.structured.mappings import propose_mappings
+
+        propose_mappings(table_id, [domain])
+    except Exception as e:
+        logger.warning("structured pipeline: mapping proposal failed for {}: {}", table_name, e)
+
+
+def _validate_temporal_incoming_columns(
+    ds: DuckDBDatasource, parquet_path: Path, staged_rel: str, table_name: str
+) -> None:
+    """Guard against schema drift between a temporal table's existing history
+    and the incoming batch, before ``scd2.apply_scd2_refresh`` ever runs.
+
+    Without this check, a dropped/added non-key column surfaces as a raw
+    ``duckdb.BinderException`` from deep inside ``apply_scd2_refresh``'s
+    ``hash(ROW(...))`` construction -- this raises a clear ``ValueError``
+    instead, matching ``refresh_table``'s own error-reporting convention (the
+    CLI's ``db refresh`` catches ``ValueError`` and re-raises as a
+    ``ClickException``).
+    """
+    parquet_literal = _quote_literal(str(parquet_path))
+    cur_columns = {
+        r[0] for r in ds.con.execute(f"DESCRIBE SELECT * FROM read_parquet({parquet_literal})").fetchall()
+    }
+    expected = cur_columns - set(SYSTEM_COLUMNS)
+    incoming = {r[0] for r in ds.con.execute(f"DESCRIBE {staged_rel}").fetchall()}
+
+    missing = sorted(expected - incoming)
+    extra = sorted(incoming - expected)
+    if missing or extra:
+        detail = []
+        if missing:
+            detail.append(f"missing column(s) {missing}")
+        if extra:
+            detail.append(f"unexpected new column(s) {extra}")
+        raise ValueError(
+            f"table '{table_name}': incoming source's columns don't match the existing"
+            f" temporal history ({'; '.join(detail)}) -- a temporal refresh requires the"
+            " same column set as the seeded history; reconcile the columns first, or"
+            " re-ingest as a fresh table if the schema is meant to change"
+        )
 
 
 def _write_table(
@@ -182,35 +274,10 @@ def _write_table(
         business_key=business_key,
         effective_date_column=effective_date_column,
     )
-    profiles = ds.profile_columns(spec["table_name"])
-    columns = [
-        {
-            "name": c.name,
-            "dtype": c.dtype,
-            "profile_json": json.dumps(dataclasses.asdict(profiles[c.name]))
-            if c.name in profiles
-            else None,
-        }
-        for c in ds.introspect_schema(spec["table_name"])
-        # SCD-2 system columns are internal bookkeeping, not real data columns:
-        # exclude them from the registered schema/mapping surface. This also
-        # sidesteps profile_column's distinct_sample not being JSON-safe for
-        # DATE values (_valid_from/_valid_to) -- excluding them here means
-        # they're never serialized in the first place.
-        if not (refresh_mode == "temporal" and c.name in SYSTEM_COLUMNS)
-    ]
-    registry.replace_columns(table_id, columns)
+    _register_columns_and_mappings(
+        ds, table_id, spec["table_name"], domain, exclude_system_cols=(refresh_mode == "temporal")
+    )
     table_row = registry.get_table(spec["table_name"], domain=domain)
-
-    # Best-effort: propose column-to-entity-class mappings from the domain KG.
-    # A down/unreachable graph must not fail the load (mirrors commit_to_graph's
-    # hook guarding in artmind/ingest.py).
-    try:
-        from artmind.structured.mappings import propose_mappings
-
-        propose_mappings(table_id, [domain])
-    except Exception as e:
-        logger.warning("ingest_structured_file: mapping proposal failed for {}: {}", spec["table_name"], e)
 
     return {
         "table_name": spec["table_name"],
@@ -313,8 +380,9 @@ def _refresh_temporal_table(
 
     parquet_path = Path(existing["parquet_path"])
     staged_rel = ds.stage_source(source, sheet=existing["sheet"], header_row=0)
+    _validate_temporal_incoming_columns(ds, parquet_path, staged_rel, table_name)
 
-    effective_date_column = existing.get("effective_date_column")
+    effective_date_column = existing["effective_date_column"]
     scd2_result = apply_scd2_refresh(
         ds.con,
         parquet_path,
@@ -342,30 +410,8 @@ def _refresh_temporal_table(
         effective_date_column=effective_date_column,
     )
 
-    profiles = ds.profile_columns(table_name)
-    columns = [
-        {
-            "name": c.name,
-            "dtype": c.dtype,
-            "profile_json": json.dumps(dataclasses.asdict(profiles[c.name]))
-            if c.name in profiles
-            else None,
-        }
-        for c in ds.introspect_schema(table_name)
-        # Exclude SCD-2 system columns -- see the matching comment in
-        # _write_table for why (not real data columns, and DATE-valued
-        # distinct_sample profiles aren't JSON-serializable).
-        if c.name not in SYSTEM_COLUMNS
-    ]
-    registry.replace_columns(table_id, columns)
+    _register_columns_and_mappings(ds, table_id, table_name, domain, exclude_system_cols=True)
     table_row = registry.get_table(table_name, domain=domain)
-
-    try:
-        from artmind.structured.mappings import propose_mappings
-
-        propose_mappings(table_id, [domain])
-    except Exception as e:
-        logger.warning("refresh_table: mapping proposal failed for {}: {}", table_name, e)
 
     return {
         "table_name": table_name,

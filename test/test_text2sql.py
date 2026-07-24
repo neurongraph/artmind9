@@ -294,3 +294,45 @@ def test_execute_text2sql_in_domain_table_still_works(tmp_path, monkeypatch):
     )
 
     assert result["rows"] == [{"id": 1, "name": "Checking"}]
+
+
+# ── as_of threading (Task 9 / Phase 5.2) ─────────────────────────────────────
+
+
+def test_execute_text2sql_as_of_reaches_prompt(monkeypatch):
+    """`execute_text2sql(as_of=...)` must thread the concrete date value into
+    the actual prompt string sent to the LLM -- previously it was only echoed
+    back in the output, never seen by the model."""
+    _patch_registry(monkeypatch)
+
+    captured = {}
+
+    def fake_call_llm(model, prompt):
+        captured["prompt"] = prompt
+        return json.dumps({"sql": "SELECT 1", "notes": ""})
+
+    monkeypatch.setattr(text2sql, "call_llm", fake_call_llm)
+
+    result = text2sql.execute_text2sql(
+        "How many accounts as of last quarter?",
+        "banking",
+        model="test-model",
+        dry_run=True,
+        as_of="2026-03-31",
+    )
+
+    assert result["asOf"] == "2026-03-31"
+    assert "2026-03-31" in captured["prompt"]
+
+
+def test_build_text2sql_prompt_unchanged_when_as_of_omitted():
+    """No regression: as_of=None must not alter the prompt at all vs. the
+    pre-Task-9 two-argument call shape."""
+    schema_info = text2sql._schema_summary_sql(FAKE_TABLES, FAKE_COLUMNS_BY_TABLE, FAKE_MAPPINGS_BY_TABLE)
+
+    with_default = text2sql.build_text2sql_prompt("q", schema_info, ["banking"])
+    explicit_none = text2sql.build_text2sql_prompt("q", schema_info, ["banking"], as_of=None)
+    assert with_default == explicit_none
+    # The static prose already mentions "an as-of date" in the abstract; only
+    # the concrete injected line (naming the actual date value) must be absent.
+    assert "The user's as-of date is" not in with_default
