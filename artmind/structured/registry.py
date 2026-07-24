@@ -46,24 +46,23 @@ def register_table(
     business_key: str | None = None,
     effective_date_column: str | None = None,
 ) -> int:
-    """Insert or, on a ``(datasource, table_name)`` conflict, bump ``version`` and
-    refresh the mutable fields. Returns the table id."""
+    """Insert or, on a ``(datasource, domain, table_name)`` conflict, bump
+    ``version`` and refresh the mutable fields. Returns the table id."""
     conn = _get_db()
     cursor = conn.cursor()
     try:
         now = datetime.now().isoformat()
         existing = cursor.execute(
-            'SELECT id, version FROM "tables" WHERE datasource = ? AND table_name = ?',
-            (datasource, table_name),
+            'SELECT id, version FROM "tables" WHERE datasource = ? AND domain = ? AND table_name = ?',
+            (datasource, domain, table_name),
         ).fetchone()
         if existing:
             table_id, version = existing
             cursor.execute(
-                'UPDATE "tables" SET domain = ?, source_file = ?, sheet = ?, parquet_path = ?,'
+                'UPDATE "tables" SET source_file = ?, sheet = ?, parquet_path = ?,'
                 " version = ?, row_count = ?, refresh_mode = ?, business_key = ?,"
                 " effective_date_column = ?, ingested_at = ?, sha256 = ? WHERE id = ?",
                 (
-                    domain,
                     source_file,
                     sheet,
                     str(parquet_path),

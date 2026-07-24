@@ -146,7 +146,11 @@ Two levels under `query`, and mixing them up is a common error:
 - `artmind query graph <cmd>` — `metadata`, `structural-metadata`, `entity-listing`,
   `pattern1`–`pattern10`, `text2cypher`, `conflicts`, `timeline`
 - `artmind query <cmd>` — `domains-overview`, `vector-text`, `entity-resolve`,
-  `chunks`, `entity-context`
+  `chunks`, `entity-context`, `text2sql`, `resolve-key`
+
+`text2sql`/`resolve-key` query the structured (SQL) store, not the graph — see
+`artmind db <cmd>` (`list`, `schema`, `sql`, `mappings`, `catalogue`, `refresh`,
+`connect`, `backup`, `restore`) for managing/reading that store directly.
 
 ## Conventions
 

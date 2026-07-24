@@ -7,6 +7,7 @@ import json
 from datetime import date, datetime
 from pathlib import Path
 
+import duckdb
 import rich_click as click
 import yaml
 from loguru import logger
@@ -29,7 +30,7 @@ from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.structured import is_structured_source
 from artmind.structured import registry as structured_registry
 from artmind.structured.duckdb_adapter import DuckDBDatasource
-from artmind.structured.pipeline import ingest_structured_file
+from artmind.structured.pipeline import ingest_structured_file, refresh_table
 from artmind.structured_snapshot import export_structured, import_structured
 from artmind.jobs import (
     _create_job,
@@ -444,7 +445,31 @@ def ingest():
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
-def ingest_sync(file_path: str, domain: str | None, force: bool, stage_only: bool):
+@click.option(
+    "--refreshMode", "refresh_mode",
+    type=click.Choice(["replace", "temporal"]), default="replace",
+    help="Structured (csv/xlsx) files only: replace (default) overwrites the table on re-ingest;"
+    " temporal keeps full SCD-2 history (requires --businessKey). Ignored for KG documents.",
+)
+@click.option(
+    "--businessKey", "business_key", default=None,
+    help="Structured files only: business-key column(s) identifying the same logical row across"
+    " refreshes, comma-splittable (e.g. 'id' or 'id,region'). Required with --refreshMode temporal.",
+)
+@click.option(
+    "--effectiveDateColumn", "effective_date_column", default=None,
+    help="Structured files only: column supplying each row's effective date for temporal refresh"
+    " (falls back to the ingest date when omitted or null on a row).",
+)
+def ingest_sync(
+    file_path: str,
+    domain: str | None,
+    force: bool,
+    stage_only: bool,
+    refresh_mode: str,
+    business_key: str | None,
+    effective_date_column: str | None,
+):
     """Ingest a file or directory synchronously (blocking)."""
     _setup_logger()
     env = load_env()
@@ -477,7 +502,14 @@ def ingest_sync(file_path: str, domain: str | None, force: bool, stage_only: boo
     for f in files:
         try:
             if is_structured_source(f):
-                res = ingest_structured_file(f, domain, force=force)
+                res = ingest_structured_file(
+                    f,
+                    domain,
+                    force=force,
+                    refresh_mode=refresh_mode,
+                    business_key=business_key,
+                    effective_date_column=effective_date_column,
+                )
                 ok_count += 1 if res.get("status") == "ok" else 0
                 continue
             result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
@@ -1187,8 +1219,8 @@ class _TableFirstGroup(click.RichGroup):
         return super().parse_args(ctx, args)
 
 
-def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
-    """Resolve TABLE to a single table_id, mirroring db_schema's --domain handling."""
+def _resolve_table_row(table_name: str, domain: "tuple[str, ...]") -> dict:
+    """Resolve TABLE to a single registry row, mirroring db_schema's --domain handling."""
     domains = _parse_domains(domain) if domain else None
     matches = [t for t in structured_registry.list_tables(domains) if t["table_name"] == table_name]
     if not matches:
@@ -1198,7 +1230,12 @@ def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
         raise click.ClickException(
             f"table '{table_name}' is ambiguous across domains {doms} — narrow with --domain"
         )
-    return matches[0]["id"]
+    return matches[0]
+
+
+def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
+    """Resolve TABLE to a single table_id, mirroring db_schema's --domain handling."""
+    return _resolve_table_row(table_name, domain)["id"]
 
 
 @db.group("mappings", cls=_TableFirstGroup, invoke_without_command=True)
@@ -1304,6 +1341,33 @@ def db_catalogue(domain, compact):
     _echo_json({"domain": domain, **result}, compact)
 
 
+@db.command("refresh")
+@click.argument("table")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable) — needed only if TABLE is ambiguous across domains.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_refresh(table, domain, compact):
+    """Re-ingest TABLE from its recorded source_file.
+
+    ``replace``-mode tables are overwritten wholesale (same as a fresh
+    ingest); ``temporal``-mode tables are diffed against their existing SCD-2
+    history and the parquet is rewritten with the merged full history — prior
+    versions of changed/removed rows are preserved, not discarded.
+    """
+    resolved_domain = _resolve_table_row(table, domain)["domain"]
+    try:
+        result = refresh_table(table, resolved_domain)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    except duckdb.Error as exc:
+        # Defensive backstop: pipeline.py validates the common schema-drift
+        # case (column set mismatch) up front and raises ValueError for it
+        # (handled above with a clear message); this catches any other
+        # DuckDB-level surprise so a temporal refresh never leaks a raw
+        # traceback to the CLI.
+        raise click.ClickException(f"refresh failed: {exc}") from exc
+    _echo_json(result, compact)
+
+
 @db.command("connect")
 @click.argument("dsn")
 def db_connect(dsn):
@@ -1336,7 +1400,7 @@ def db_restore(path, confirm, compact):
 
 @cli.group()
 def query():
-    """Query the knowledge graph and vector index."""
+    """Query the knowledge graph and vector index, plus the structured store (text2sql, resolve-key)."""
     pass
 
 
@@ -1733,7 +1797,7 @@ def query_entity_context(domain: tuple, entity_id: str, include_chunks: int, as_
 
 @query.command("text2sql")
 @click.option("--domain", "domain", required=True, multiple=True, help="Domain(s) to scope (repeatable; comma-splittable)")
-@click.option("--asOf", "as_of", default=None, help="Valid-time filter for temporal (SCD-2) tables, forward-compat")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; rows without temporal history always shown")
 @click.option("--dry-run", "dry_run", is_flag=True, help="Generate SQL without executing it")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.argument("question")

@@ -56,7 +56,10 @@ def project_catalogue(domain: str) -> dict:
         )
 
         for table in tables:
-            table_key = f"{table['datasource']}::{table['table_name']}"
+            # Domain-qualified: two domains can register a same-named table
+            # (registry key is (datasource, domain, table_name)), and without
+            # domain in the key here they'd collide onto the same :Table node.
+            table_key = f"{table['datasource']}::{table['domain']}::{table['table_name']}"
             session.run(
                 """
                 MERGE (t:Table {key: $key})

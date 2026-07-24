@@ -85,9 +85,17 @@ def test_ensure_views_recreates_view_on_fresh_connection(tmp_path, monkeypatch):
 
     fresh = DuckDBDatasource(db_path=db_path)
     fresh.ensure_views(
-        [{"table_name": "products", "parquet_path": str(parquet_path_for("banking", "products"))}]
+        [
+            {
+                "table_name": "products",
+                "domain": "banking",
+                "parquet_path": str(parquet_path_for("banking", "products")),
+            }
+        ]
     )
     rows = fresh.run_sql("SELECT count(*) AS n FROM products")
+    assert rows == [{"n": 1}]
+    rows = fresh.run_sql("SELECT count(*) AS n FROM banking__products")
     assert rows == [{"n": 1}]
 
 
@@ -111,6 +119,7 @@ def test_in_memory_instances_do_not_share_views(tmp_path, monkeypatch):
         [
             {
                 "table_name": "products",
+                "domain": "banking",
                 "parquet_path": str(parquet_path_for("banking", "products")),
             }
         ]

@@ -16,6 +16,7 @@ import duckdb
 from openpyxl import load_workbook
 
 import paths
+from artmind.structured import view_name
 from artmind.structured.connector import Column
 from artmind.structured.profile import profile_column
 
@@ -100,6 +101,49 @@ class DuckDBDatasource:
             "SELECT count(*) FROM read_parquet(?)", [str(parquet)]
         ).fetchone()[0]
 
+    def stage_source(
+        self,
+        source: Path,
+        *,
+        sheet: str | None = None,
+        header_row: int = 0,
+    ) -> str:
+        """Load a csv/xlsx source into a TEMP TABLE on this connection, without
+        touching any target parquet file.
+
+        Unlike ``load_table``, this never writes to ``parquet_path_for(...)`` —
+        it's the staging primitive for a temporal refresh, where the incoming
+        batch must be diffed against existing history (``scd2.apply_scd2_refresh``)
+        rather than overwrite it outright. Reuses ``_excel_sheet_to_csv`` for
+        xlsx so both formats go through the same ``read_csv_auto`` inference
+        path as ``load_table``. Returns the temp table name, usable directly
+        as a bare FROM-clause relation (e.g. ``apply_scd2_refresh``'s
+        ``incoming_rel``).
+        """
+        source = Path(source)
+        suffix = source.suffix.lower()
+        cleanup: Path | None = None
+        if suffix == ".csv":
+            csv_path = source
+        elif suffix in (".xlsx", ".xlsm"):
+            csv_path = self._excel_sheet_to_csv(source, sheet=sheet)
+            cleanup = csv_path
+        else:
+            raise ValueError(f"unsupported structured source: {source}")
+
+        table_name = "_staged_source"
+        try:
+            self.con.execute(
+                f"CREATE OR REPLACE TEMP TABLE {table_name} AS "
+                "SELECT * FROM read_csv_auto(?, header=true, skip="
+                f"{int(header_row)})",
+                [str(csv_path)],
+            )
+        finally:
+            if cleanup is not None:
+                cleanup.unlink(missing_ok=True)
+        return table_name
+
     def _excel_sheet_to_csv(self, source: Path, *, sheet: str | None) -> Path:
         wb = load_workbook(source, read_only=True, data_only=True)
         try:
@@ -121,9 +165,28 @@ class DuckDBDatasource:
         )
 
     def ensure_views(self, tables: list[dict]) -> None:
-        """Recreate a VIEW per registered parquet so a fresh connection sees every table."""
+        """Recreate a VIEW per registered parquet so a fresh connection sees every table.
+
+        Each table always gets its domain-qualified view (``view_name``,
+        collision-free). It also gets the bare ``table_name`` as a convenience
+        alias, but only when that name is unambiguous within this call — if two
+        of the given tables share a ``table_name`` (same or different domain),
+        neither gets the bare alias; any stale bare view left behind by an
+        earlier, single-table ``load_table`` call is dropped too, so a query
+        against the ambiguous bare name fails loudly instead of silently
+        reading whichever domain's data was loaded last.
+        """
+        name_counts: dict[str, int] = {}
         for t in tables:
-            self._create_view(t["table_name"], Path(t["parquet_path"]))
+            name_counts[t["table_name"]] = name_counts.get(t["table_name"], 0) + 1
+
+        for t in tables:
+            parquet = Path(t["parquet_path"])
+            self._create_view(view_name(t["domain"], t["table_name"]), parquet)
+            if name_counts[t["table_name"]] == 1:
+                self._create_view(t["table_name"], parquet)
+            else:
+                self.con.execute(f'DROP VIEW IF EXISTS "{t["table_name"]}"')
 
     def introspect_schema(self, table: str) -> list[Column]:
         rows = self.con.execute(f'DESCRIBE SELECT * FROM "{table}"').fetchall()

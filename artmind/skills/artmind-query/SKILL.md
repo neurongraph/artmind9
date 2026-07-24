@@ -62,9 +62,9 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
   normalize a value before using it in `text2sql`/graph retrieval, or to check
   whether a structured column value and a KG entity name refer to the same thing.
 
-Full graph/SQL/hybrid routing logic lands in a later increment of this skill —
-for now, check `db list` for the domain when a question is clearly analytical
-("average/total/count by X") and the graph patterns below don't fit.
+There is no monolithic `hybrid` command — the skill itself is the router/fuser,
+composing `resolve-key`, `text2sql`/`db sql`, and graph patterns in its own
+reasoning. See "Store routing" below for how to decide.
 
 ## The Query Protocol: Route → Discover → Resolve → Retrieve → Ground → Adjudicate
 
@@ -89,6 +89,74 @@ artmind query domains-overview --compact
   Main context never sees the raw listings.
 - Pass `--domain` once per selected domain on every subsequent command; a single
   command call now spans all of them.
+
+#### Store routing
+
+Once the domain set is fixed, check whether it has a structured store at all
+before deciding how to answer:
+
+```bash
+artmind db list --domain <d> --compact
+```
+
+An empty table list means the domain is pure-graph — skip SQL/hybrid entirely
+and go straight to Discover below. Otherwise classify the question first —
+only pull table shape if the classification needs it, so a narrative-only
+session in a domain that happens to have tables never pays for a schema call
+it doesn't use:
+
+- **Narrative/relationship** ("tell me about X", "how are X and Y related",
+  "why did…") → graph path — Discover/Resolve/Retrieve as documented below
+  (patterns / `text2cypher`). No structured store involved, no `db schema` call.
+- **Analytical/aggregate** ("average/total/count/sum by X") → pull the table
+  shape you need with `artmind db schema --domain <d> --compact` (or `db schema
+  <table>` for one table) — the column/type context an LLM needs to write SQL —
+  then SQL only: `artmind query text2sql "<question>" --domain <d> --compact`
+  (or `db sql "<SQL>"` if you already know the exact query — e.g. from a prior
+  `--dry-run`). No graph retrieval needed.
+- **Hybrid** (the question names something that lives as a graph entity but
+  needs a number that lives in a table) → pull `db schema` as above, then
+  canonicalize, then query SQL, then optionally add graph context, then
+  synthesize:
+  1. `artmind query resolve-key "<phrase>" --domain <d> --column <col> --compact`
+     to turn the user's phrase into the exact value stored in the column (and/or
+     the matching graph entity name) — don't hand a raw user phrase to
+     `text2sql`/`db sql` and hope it matches the stored spelling.
+  2. `artmind query text2sql "<question with canonical value>" --domain <d>
+     --compact` (or `db sql` with the canonical value substituted in) for the
+     numbers.
+  3. If the question also needs relationship context (not just a number), add
+     one graph pattern or `entity-context` call on the resolved entity.
+  4. Synthesize the combined answer yourself in this turn — there is no
+     "fusion" command; steps 1-3 are already composed by you, the skill.
+
+Worked examples:
+
+- **Usage A — "Total balance across SmartSaver accounts."** Hybrid: `SmartSaver`
+  is a PRODUCT entity in the graph but `balance` lives in a table. Run
+  `resolve-key "SmartSaver" --domain banking --column product_name --compact` to
+  get the canonical `product_name` value, then `text2sql "total balance where
+  product_name is <canonical>" --domain banking --compact` (or `db sql` with the
+  literal substituted in) for the sum. Add a graph pattern only if the answer
+  also needs product relationships/ownership, not just the total.
+- **Usage B — "Average X by month."** Analytical-only: no entity to resolve, no
+  graph involvement — go straight to `text2sql "average X by month" --domain
+  <d> --compact`, or `db sql` if you already have the exact SQL from a prior
+  `--dry-run`.
+
+`--asOf` consistency: if the question is temporal ("as of last quarter", "as of
+<date>"), pass the SAME `--asOf <date>` to every command in the hybrid chain —
+graph retrieval and `query text2sql` both honor it (`db sql` does not, since raw
+SQL has no notion of "as of"; filter `_valid_from`/`_valid_to` yourself in the
+query text if you need that on `db sql`). Note `_valid_from`/`_valid_to` only
+exist on `refresh_mode: temporal` tables (check `db schema`'s `refresh_mode`
+field) — filtering by them on a `replace`-mode table is a raw DuckDB "column not
+found" error, not a temporal miss. This is the same rule as "Default to
+`--asOf today` on every retrieval" in Retrieve below — one date, threaded through
+both stores, not decided independently per command.
+
+`--compact` applies to `db`/`query text2sql`/`query resolve-key` exactly like
+every other command in this skill (line 31) — nothing SQL-specific changes that.
 
 ### 1. Discover — learn the domain's shape
 
@@ -257,6 +325,8 @@ it isn't a structural guarantee, so re-check at query time using each side's
 5. text2cypher returns no rows but data should exist → run `artmind query graph structural-metadata`, then `artmind query graph text2cypher --dry-run` and compare relationship names; rephrase the question naming the correct relationship (e.g. "use PART_OF to connect DocChunk to Document").
 6. text2cypher generates invalid Cypher → vector-text.
 7. vector-text sparse or weak → state that the available artmind data does not answer the question.
+8. `text2sql` returns no rows but data should exist → re-run with `--dry-run` and compare the generated SQL against `db schema`'s column list; rephrase the question naming the exact table/column, or fall back to `db sql` with hand-written SQL if the phrasing keeps generating the wrong filter.
+9. `resolve-key` returns no confident match → widen `--topK`, or drop `--column` to resolve against the graph only (the phrase may be a graph entity name with no structured-column analogue).
 
 ## Answer Style
 

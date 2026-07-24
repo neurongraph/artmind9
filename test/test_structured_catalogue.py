@@ -97,7 +97,7 @@ def test_project_catalogue_wipes_then_merges_table_columns_and_confirmed_mapping
     table_calls = [(c, p) for c, p in fake.calls if "MERGE (t:Table" in c]
     assert len(table_calls) == 1
     _, table_params = table_calls[0]
-    assert table_params["key"] == "default::customers"
+    assert table_params["key"] == "default::banking::customers"
 
     column_calls = [c for c, _ in fake.calls if "MERGE (c:TableColumn" in c]
     assert len(column_calls) == 2
@@ -153,8 +153,8 @@ def test_project_catalogue_rolls_up_sub_domain_tables(tmp_path, monkeypatch):
 
     table_calls = [(c, p) for c, p in fake.calls if "MERGE (t:Table" in c]
     assert {p["key"] for _, p in table_calls} == {
-        "default::customers",
-        "default::loans",
+        "default::banking::customers",
+        "default::banking.retail::loans",
     }
 
     mapping_calls = [(c, p) for c, p in fake.calls if "MAPS_TO_CLASS" in c]
