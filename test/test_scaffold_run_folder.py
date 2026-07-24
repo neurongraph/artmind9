@@ -6,7 +6,9 @@ seeding skipped entries that already existed, a fixed skill stayed broken there
 indefinitely and no reinstall could dislodge it.
 """
 
-from artmind.setup import _seed_tree
+import inspect
+
+from artmind.setup import _seed_tree, _setup_neo4j, setup_all
 
 
 def _write(path, text):
@@ -127,3 +129,32 @@ def test_scaffold_run_folder_creates_structured_snapshot_dir(tmp_path, monkeypat
     setup.scaffold_run_folder()
 
     assert (data / "structured_snapshot").is_dir()
+
+
+# ── _setup_neo4j: structured-store catalogue constraints ─────────────────────
+# No live Neo4j in this suite, so these are structural checks: the DDL strings
+# must appear verbatim in the function source (`session.run(...)` never
+# actually executes here).
+
+
+def test_setup_neo4j_declares_catalogue_constraints():
+    src = inspect.getsource(_setup_neo4j)
+    assert (
+        "CREATE CONSTRAINT cat_table_key IF NOT EXISTS FOR (n:Table) REQUIRE n.key IS UNIQUE"
+        in src
+    )
+    assert (
+        "CREATE CONSTRAINT cat_column_key IF NOT EXISTS FOR (n:TableColumn) REQUIRE n.key IS UNIQUE"
+        in src
+    )
+    assert (
+        "CREATE CONSTRAINT cat_entityclass_key IF NOT EXISTS FOR (n:EntityClass) REQUIRE n.key IS UNIQUE"
+        in src
+    )
+    assert "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n.domain)" in src
+
+
+def test_setup_all_summary_includes_catalogue_labels():
+    src = inspect.getsource(setup_all)
+    for name in ("cat_table_key", "cat_column_key", "cat_entityclass_key", "cat_table_domain"):
+        assert name in src

@@ -222,6 +222,24 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     except Exception:
         pass
 
+    # ── Structured-store catalogue (Table/TableColumn/EntityClass) ────────────
+    # MERGE keys are synthetic composite `key` props (not node-key constraints,
+    # which are Enterprise-only). These labels are distinct from :Entity by
+    # design — never carry :Entity — so they stay out of query graph
+    # pattern*/vector search/metadata.
+    session.run(
+        "CREATE CONSTRAINT cat_table_key IF NOT EXISTS FOR (n:Table) REQUIRE n.key IS UNIQUE"
+    )
+    session.run(
+        "CREATE CONSTRAINT cat_column_key IF NOT EXISTS FOR (n:TableColumn) REQUIRE n.key IS UNIQUE"
+    )
+    session.run(
+        "CREATE CONSTRAINT cat_entityclass_key IF NOT EXISTS FOR (n:EntityClass) REQUIRE n.key IS UNIQUE"
+    )
+    session.run(
+        "CREATE INDEX cat_table_domain IF NOT EXISTS FOR (n:Table) ON (n.domain)"
+    )
+
     return {"entity_id_schema": entity_id_schema}
 
 
@@ -249,6 +267,9 @@ def setup_all() -> dict:
             "user_chat_id",
             "conflict_id",
             neo4j_notes["entity_id_schema"],
+            "cat_table_key",
+            "cat_column_key",
+            "cat_entityclass_key",
         ],
         "neo4j_indexes": [
             "entity_lookup",
@@ -265,6 +286,7 @@ def setup_all() -> dict:
             "document_valid_from",
             "document_valid_to",
             "conflict_status",
+            "cat_table_domain",
         ],
         "neo4j_vector_indexes": [
             f"chunk_embedding (dim={embedding_dim})",
