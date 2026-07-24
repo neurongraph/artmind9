@@ -235,17 +235,8 @@
       <h2>Maintain — system snapshots</h2>
       <p class="dash-hint">Infrequent and destructive. Unified snapshots include graph, registry, structured data, and KG staging.</p>
       <div id="snapshot-guardrail" class="guardrail-callout"></div>
-      <div class="zone-maint-body">
-        <div>
-          <div class="table-scroll">
-            <table class="dash-table" id="snapshots-table">
-              <thead>
-                <tr><th>Name</th><th>Components</th><th>Size</th><th>Created</th><th></th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
+      <div class="zone-maint-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <!-- Left column: Create & Upload -->
         <div>
           <h3 class="dash-subhead">Create snapshot</h3>
           <div id="create-snapshot-components" class="dash-checkbox-group">
@@ -257,7 +248,7 @@
           <button id="create-snapshot-btn" type="button" class="btn-primary">Create snapshot</button>
           <span id="snapshot-create-result" class="dash-note"></span>
 
-          <h3 class="dash-subhead">Upload and restore</h3>
+          <h3 class="dash-subhead" style="margin-top: 20px;">Upload and restore</h3>
           <form id="snapshot-import-form" class="dash-form stacked">
             <label>
               Snapshot .zip
@@ -273,6 +264,19 @@
             <button type="submit" class="btn-secondary">Upload &amp; restore</button>
           </form>
           <span id="snapshot-import-result" class="dash-note"></span>
+        </div>
+
+        <!-- Right column: Snapshots list -->
+        <div>
+          <h3 class="dash-subhead">Available snapshots</h3>
+          <div class="table-scroll">
+            <table class="dash-table" id="snapshots-table">
+              <thead>
+                <tr><th>Name</th><th>Components</th><th>Size</th><th>Created</th><th></th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

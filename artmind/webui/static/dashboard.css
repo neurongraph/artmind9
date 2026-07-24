@@ -147,17 +147,19 @@
 .dash-form label.checkbox input { width: auto; }
 
 .dash-checkbox-group {
-  display: flex; flex-direction: column; gap: 8px;
-  padding: 10px 0; margin: 10px 0;
+  display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px;
+  padding: 10px; margin: 10px 0;
   border: 1px solid var(--bg-inset);
-  border-radius: 6px; padding: 10px;
+  border-radius: 6px;
+  align-items: center;
 }
 .dash-checkbox-group label {
-  display: flex; align-items: center; gap: 8px;
+  display: inline-flex; align-items: center; gap: 6px;
   font-size: 12px; cursor: pointer;
   color: var(--text-muted);
+  margin: 0;
 }
-.dash-checkbox-group input[type="checkbox"] { width: auto; }
+.dash-checkbox-group input[type="checkbox"] { width: auto; margin: 0; }
 
 .dash-warning {
   background-color: rgba(255, 180, 0, 0.1);
