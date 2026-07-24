@@ -104,6 +104,13 @@ def test_resolve_key_matches_column_and_graph_agree(tmp_path, monkeypatch):
     assert result["column"] == "product_name"
     assert result["candidates"]
     assert result["candidates"][0]["score"] == pytest.approx(1.0)
+    # The graph match ("SmartSaver", entity_class=PRODUCT) and the column
+    # match ("SmartSaver") agree, so they collapse into a single "both"
+    # candidate rather than appearing as two separate entries.
+    smartsaver_candidates = [c for c in result["candidates"] if c["value"] == "SmartSaver"]
+    assert len(smartsaver_candidates) == 1
+    assert smartsaver_candidates[0]["source"] == "both"
+    assert smartsaver_candidates[0]["entity_class"] == "PRODUCT"
 
 
 def test_resolve_key_graph_only_when_no_column_given(tmp_path, monkeypatch):
@@ -230,6 +237,110 @@ def test_query_resolve_key_cli_dispatches_and_outputs_json():
         "smartsaver", ["banking"], column="product_name", table="products", top_k=5
     )
     assert json.loads(result.output) == payload
+
+
+def test_resolve_key_table_disambiguates_same_named_column(tmp_path, monkeypatch):
+    """Two tables register the same column name; without --table the first hit
+    (alphabetical by table_name) wins and misses a phrase only present in the
+    second table's sample; with --table the correct table's sample is used."""
+    _patch_stores(tmp_path, monkeypatch)
+    import artmind.resolve_key as resolve_key
+
+    monkeypatch.setattr(resolve_key, "entity_listing", _empty_entity_listing)
+    _register_table(tmp_path, [_categorical_column("product_name", ["Apple"])], table_name="products_a")
+    _register_table(tmp_path, [_categorical_column("product_name", ["Banana"])], table_name="products_b")
+
+    without_table = resolve_key.resolve_key("banana", ["banking"], column="product_name")
+    assert without_table["canonical"] is None
+    assert without_table["candidates"] == []
+
+    with_table = resolve_key.resolve_key(
+        "banana", ["banking"], column="product_name", table="products_b"
+    )
+    assert with_table["canonical"] == "Banana"
+    assert with_table["source"] == "column"
+
+
+def test_resolve_key_top_k_truncates_ranked_candidates(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    import artmind.resolve_key as resolve_key
+
+    monkeypatch.setattr(resolve_key, "entity_listing", _empty_entity_listing)
+    _register_table(
+        tmp_path,
+        [
+            _categorical_column(
+                "product_name",
+                ["SmartSaver", "SmartSaver Plus", "SmartSaverX", "SmartSavers"],
+            )
+        ],
+    )
+
+    result = resolve_key.resolve_key(
+        "smartsaver", ["banking"], column="product_name", table="products", top_k=2
+    )
+
+    assert len(result["candidates"]) == 2
+    assert result["candidates"][0]["value"] == "SmartSaver"
+    assert result["candidates"][0]["score"] == pytest.approx(1.0)
+    # canonical/source are unaffected by the candidates cap.
+    assert result["canonical"] == "SmartSaver"
+    assert result["source"] == "column"
+
+
+def test_resolve_key_top_k_zero_rejected(tmp_path, monkeypatch):
+    """top_k=0 must not silently produce an empty candidates list while
+    canonical/source are still populated — that would contradict the
+    documented 'candidates empty only when nothing matched' invariant."""
+    _patch_stores(tmp_path, monkeypatch)
+    import artmind.resolve_key as resolve_key
+
+    monkeypatch.setattr(resolve_key, "entity_listing", _fake_entity_listing)
+
+    with pytest.raises(ValueError, match="top_k"):
+        resolve_key.resolve_key("smartsaver", ["banking"], top_k=0)
+
+
+def test_resolve_key_match_threshold_boundary(tmp_path, monkeypatch):
+    """A value scoring at/just above MATCH_THRESHOLD is included; one scoring
+    just below is excluded. Scores are computed directly via resolve_key's
+    own _score function rather than assumed, so the boundary is verified,
+    not guessed."""
+    _patch_stores(tmp_path, monkeypatch)
+    import artmind.resolve_key as resolve_key
+
+    phrase = "abcdefghijklmnopqrstuvwxyz"
+    # Zeroing out a prefix of the phrase lowers the SequenceMatcher ratio
+    # roughly linearly with how much of the string is replaced; 10/26 zeroed
+    # chars lands just above MATCH_THRESHOLD (0.6), 11/26 lands just below.
+    included_value = "0" * 10 + phrase[10:]
+    excluded_value = "0" * 11 + phrase[11:]
+
+    included_score = resolve_key._score(phrase, included_value)
+    excluded_score = resolve_key._score(phrase, excluded_value)
+    assert included_score >= resolve_key.MATCH_THRESHOLD, included_score
+    assert excluded_score < resolve_key.MATCH_THRESHOLD, excluded_score
+
+    def _boundary_listing(domains, name_filter=None, count_all=False, as_of=None):
+        return {
+            "rows": [
+                {
+                    "label": "PRODUCT",
+                    "typeGroups": [
+                        {"type": "PRODUCT", "names": [included_value, excluded_value]}
+                    ],
+                }
+            ]
+        }
+
+    monkeypatch.setattr(resolve_key, "entity_listing", _boundary_listing)
+
+    result = resolve_key.resolve_key(phrase, ["banking"], top_k=10)
+
+    values = {c["value"] for c in result["candidates"]}
+    assert included_value in values
+    assert excluded_value not in values
+    assert result["canonical"] == included_value
 
 
 def test_query_resolve_key_cli_graph_only_without_column():

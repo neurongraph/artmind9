@@ -62,6 +62,38 @@ def _rank(phrase_lower: str, entries: list[tuple[str, str | None]], source: str)
     return scored
 
 
+def _merge_candidates(graph_ranked: list[dict], column_ranked: list[dict]) -> list[dict]:
+    """Union ``graph_ranked`` and ``column_ranked``, collapsing a graph entry and
+    a column entry into one ``source: "both"`` candidate when they name the same
+    value (case-insensitive) — mirrors the case-insensitive equality check that
+    already decides the top-level ``source``, so the two never disagree about
+    whether a given value was a "both" match."""
+    column_by_lower = {c["value"].lower(): c for c in column_ranked}
+    merged: list[dict] = []
+    matched_column_lower: set[str] = set()
+
+    for g in graph_ranked:
+        key = g["value"].lower()
+        col_match = column_by_lower.get(key)
+        if col_match is not None:
+            merged.append(
+                {
+                    "value": g["value"],
+                    "entity_class": g["entity_class"],
+                    "score": max(g["score"], col_match["score"]),
+                    "source": "both",
+                }
+            )
+            matched_column_lower.add(key)
+        else:
+            merged.append(g)
+
+    merged.extend(c for c in column_ranked if c["value"].lower() not in matched_column_lower)
+
+    merged.sort(key=lambda c: c["score"], reverse=True)
+    return merged
+
+
 def _find_table_id(domains: list[str], table: str | None, column: str) -> int | None:
     """Resolve a ``table_id`` for ``column``, scoped to ``domains``.
 
@@ -134,9 +166,20 @@ def resolve_key(
       otherwise — a column-only match has no known entity class.
     - ``candidates`` is the ranked union of both sides' matches (score
       descending, ties broken by insertion order) above ``MATCH_THRESHOLD``,
-      capped at ``top_k``. Empty when nothing matched — an unknown phrase
-      resolves to ``canonical: None, source: None, candidates: []``.
+      capped at ``top_k`` — a value matched on both sides collapses into a
+      single ``source: "both"`` entry rather than appearing twice. Empty when
+      nothing matched — an unknown phrase resolves to
+      ``canonical: None, source: None, candidates: []``.
+
+    Raises ``ValueError`` if ``top_k < 1`` (mirroring ``normalize_domains``'s
+    validation, caught the same way by the CLI) — a non-positive cap would
+    otherwise silently empty ``candidates`` even when ``canonical``/``source``
+    are populated, contradicting the "empty only when nothing matched"
+    invariant above.
     """
+    if top_k < 1:
+        raise ValueError(f"top_k must be >= 1, got {top_k}")
+
     domains = normalize_domains(domains)
     phrase_lower = phrase.lower()
 
@@ -171,7 +214,7 @@ def resolve_key(
     elif best_column:
         canonical, source = best_column["value"], "column"
 
-    candidates = sorted(graph_ranked + column_ranked, key=lambda c: c["score"], reverse=True)[:top_k]
+    candidates = _merge_candidates(graph_ranked, column_ranked)[:top_k]
 
     return {
         "phrase": phrase,
