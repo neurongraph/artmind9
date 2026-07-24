@@ -39,9 +39,9 @@ class DuckDBDatasource:
     #: execution) pass this explicitly rather than relying on a real path.
     IN_MEMORY = ":memory:"
 
-    def __init__(self, db_path: "Path | str | None" = None):
+    def __init__(self, db_path: Path | str | None = None):
         if db_path == self.IN_MEMORY:
-            self.db_path = None
+            self.db_path = Path(self.IN_MEMORY)
             self.con = duckdb.connect(self.IN_MEMORY)
             return
         self.db_path = Path(db_path) if db_path else structured_db_path()
