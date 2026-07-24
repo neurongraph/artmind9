@@ -14,9 +14,13 @@ from utils.functions import load_env, resolve_llm_model
 # POST /api/structured/sql route, and text2sql's own generated queries — do not
 # duplicate this list elsewhere. INSTALL/LOAD are included because DuckDB's
 # extension loading is a side-effect (potential RCE/network access), not a read.
+# EXPORT (as in EXPORT DATABASE) is COPY's multi-table sibling — arbitrary-path
+# filesystem write. CHECKPOINT forces a WAL flush to disk. SET mutates
+# session/global config (memory limits, temp/home dirs, etc.) — none of these
+# are reads either.
 _SQL_WRITE_VERBS_RE = re.compile(
     r"\b(INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|TRUNCATE|COPY|ATTACH|DETACH"
-    r"|PRAGMA|CALL|INSTALL|LOAD)\b",
+    r"|PRAGMA|CALL|INSTALL|LOAD|SET|EXPORT|CHECKPOINT)\b",
     re.IGNORECASE,
 )
 
@@ -80,7 +84,8 @@ SQL query that answers the user's question.
 
 RULES:
 - The query MUST be read-only. Never use INSERT, UPDATE, DELETE, CREATE, DROP,
-  ALTER, TRUNCATE, COPY, ATTACH, DETACH, PRAGMA, CALL, INSTALL, or LOAD.
+  ALTER, TRUNCATE, COPY, ATTACH, DETACH, PRAGMA, CALL, INSTALL, LOAD, SET,
+  EXPORT, or CHECKPOINT.
 - Use ONLY the tables and columns listed in the schema below — do not invent
   table or column names.
 - The tables listed are already scoped to the requested domain(s): {domains_str}.

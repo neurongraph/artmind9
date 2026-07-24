@@ -108,6 +108,9 @@ def test_validate_read_only_sql_accepts_select():
         "CALL some_proc()",
         "INSTALL httpfs",
         "LOAD httpfs",
+        "SET threads=4",
+        "EXPORT DATABASE 'x'",
+        "CHECKPOINT",
     ],
 )
 def test_validate_read_only_sql_rejects_write_operations(sql):
