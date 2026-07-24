@@ -101,6 +101,49 @@ class DuckDBDatasource:
             "SELECT count(*) FROM read_parquet(?)", [str(parquet)]
         ).fetchone()[0]
 
+    def stage_source(
+        self,
+        source: Path,
+        *,
+        sheet: str | None = None,
+        header_row: int = 0,
+    ) -> str:
+        """Load a csv/xlsx source into a TEMP TABLE on this connection, without
+        touching any target parquet file.
+
+        Unlike ``load_table``, this never writes to ``parquet_path_for(...)`` —
+        it's the staging primitive for a temporal refresh, where the incoming
+        batch must be diffed against existing history (``scd2.apply_scd2_refresh``)
+        rather than overwrite it outright. Reuses ``_excel_sheet_to_csv`` for
+        xlsx so both formats go through the same ``read_csv_auto`` inference
+        path as ``load_table``. Returns the temp table name, usable directly
+        as a bare FROM-clause relation (e.g. ``apply_scd2_refresh``'s
+        ``incoming_rel``).
+        """
+        source = Path(source)
+        suffix = source.suffix.lower()
+        cleanup: Path | None = None
+        if suffix == ".csv":
+            csv_path = source
+        elif suffix in (".xlsx", ".xlsm"):
+            csv_path = self._excel_sheet_to_csv(source, sheet=sheet)
+            cleanup = csv_path
+        else:
+            raise ValueError(f"unsupported structured source: {source}")
+
+        table_name = "_staged_source"
+        try:
+            self.con.execute(
+                f"CREATE OR REPLACE TEMP TABLE {table_name} AS "
+                "SELECT * FROM read_csv_auto(?, header=true, skip="
+                f"{int(header_row)})",
+                [str(csv_path)],
+            )
+        finally:
+            if cleanup is not None:
+                cleanup.unlink(missing_ok=True)
+        return table_name
+
     def _excel_sheet_to_csv(self, source: Path, *, sheet: str | None) -> Path:
         wb = load_workbook(source, read_only=True, data_only=True)
         try:

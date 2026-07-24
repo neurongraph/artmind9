@@ -76,8 +76,16 @@ def _schema_summary_sql(
     return "\n".join(lines)
 
 
-def build_text2sql_prompt(question: str, schema_info: str, domains: list[str]) -> str:
+def build_text2sql_prompt(
+    question: str, schema_info: str, domains: list[str], as_of: str | None = None
+) -> str:
     domains_str = ", ".join(domains)
+    as_of_line = (
+        f"- The user's as-of date is {as_of} — if a table has _valid_from/_valid_to or a"
+        f" _current view, use {as_of} as the actual date value in your filter/view choice.\n"
+        if as_of
+        else ""
+    )
     return f"""\
 You are a DuckDB SQL expert. Given the table schema below, write a READ-ONLY
 SQL query that answers the user's question.
@@ -99,7 +107,7 @@ RULES:
   `valid_from <= asOf AND (valid_to IS NULL OR valid_to > asOf)`; this wiring
   is forward-compat for tables that carry temporal history and may not be
   present on every table yet.
-- Return meaningful column aliases.
+{as_of_line}- Return meaningful column aliases.
 - Keep the query concise.
 
 TABLE SCHEMA (domains: {domains}):
@@ -118,6 +126,7 @@ def generate_sql(
     question: str,
     domains,
     model: str | None = None,
+    as_of: str | None = None,
 ) -> dict:
     """Generate a SQL query from a natural-language question.
 
@@ -136,7 +145,7 @@ def generate_sql(
 
     schema_info = _schema_summary_sql(tables, columns_by_table, mappings_by_table)
 
-    prompt = build_text2sql_prompt(question, schema_info, domains)
+    prompt = build_text2sql_prompt(question, schema_info, domains, as_of=as_of)
     raw = call_llm(resolved_model, prompt)
     parsed = parse_json_response(raw)
 
@@ -165,14 +174,16 @@ def execute_text2sql(
     """Generate and optionally execute a SQL query from natural language.
 
     If dry_run is True, returns the generated SQL without executing it.
-    ``as_of`` is forward-compat for Phase 5's SCD-2 temporal wiring — the
-    prompt already knows to honour it when a table supports it; the value is
-    echoed back in the output but no additional filtering is applied here yet.
+    ``as_of``, when set, is threaded into the prompt (``build_text2sql_prompt``)
+    so the LLM sees the concrete date value to filter/view by for tables that
+    carry SCD-2 temporal history; it's also echoed back in the output. No
+    additional filtering is applied on the Python side — the generated SQL
+    itself is expected to carry the as-of predicate.
     """
     from artmind.graph_query import _domain_output, normalize_domains
 
     domains = normalize_domains(domains)
-    result = generate_sql(question, domains, model)
+    result = generate_sql(question, domains, model, as_of=as_of)
     sql = result["sql"]
 
     output: dict = {
