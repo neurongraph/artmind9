@@ -136,6 +136,46 @@ def test_ingest_structured_file_mapping_proposal_failure_is_non_fatal(tmp_path, 
     assert result["status"] == "ok"
 
 
+def test_ingest_structured_file_projects_catalogue(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file
+    import artmind.structured.catalogue as catalogue
+
+    spy = {"calls": []}
+
+    def fake_project_catalogue(domain):
+        spy["calls"].append(domain)
+        return {"tables": 1, "columns": 2, "mappings": 0}
+
+    monkeypatch.setattr(catalogue, "project_catalogue", fake_project_catalogue)
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
+
+    result = ingest_structured_file(csv_path, "banking")
+
+    assert result["status"] == "ok"
+    assert spy["calls"] == ["banking"]
+
+
+def test_ingest_structured_file_catalogue_projection_failure_is_non_fatal(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file
+    import artmind.structured.catalogue as catalogue
+
+    def failing_project_catalogue(domain):
+        raise RuntimeError("neo4j is down")
+
+    monkeypatch.setattr(catalogue, "project_catalogue", failing_project_catalogue)
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"]])
+
+    result = ingest_structured_file(csv_path, "banking")
+
+    assert result["status"] == "ok"
+
+
 def test_refresh_table_bumps_version(tmp_path, monkeypatch):
     _patch_stores(tmp_path, monkeypatch)
     from artmind.structured.pipeline import ingest_structured_file, refresh_table
@@ -149,6 +189,30 @@ def test_refresh_table_bumps_version(tmp_path, monkeypatch):
     assert result["status"] == "ok"
     assert result["row_count"] == 2
     assert result["version"] == 2
+
+
+def test_refresh_table_projects_catalogue(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured.pipeline import ingest_structured_file, refresh_table
+    import artmind.structured.catalogue as catalogue
+
+    csv_path = tmp_path / "products.csv"
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"]])
+    ingest_structured_file(csv_path, "banking")
+
+    spy = {"calls": []}
+
+    def fake_project_catalogue(domain):
+        spy["calls"].append(domain)
+        return {"tables": 1, "columns": 2, "mappings": 0}
+
+    monkeypatch.setattr(catalogue, "project_catalogue", fake_project_catalogue)
+
+    _write_csv(csv_path, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
+    result = refresh_table("products", "banking")
+
+    assert result["status"] == "ok"
+    assert spy["calls"] == ["banking"]
 
 
 def test_refresh_table_unregistered_raises(tmp_path, monkeypatch):

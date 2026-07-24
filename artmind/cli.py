@@ -1111,7 +1111,7 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 
 @cli.group()
 def db():
-    """Manage and read the structured (SQL) store: list/schema/sql/mappings/refresh/connect/backup/restore."""
+    """Manage and read the structured (SQL) store: list/schema/sql/mappings/catalogue/refresh/connect/backup/restore."""
     pass
 
 
@@ -1298,6 +1298,28 @@ def db_mappings_clear(ctx, column, compact):
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
     )
+
+
+@db.command("catalogue")
+@click.option("--domain", "domain", required=True, help="Domain to rebuild the catalogue subgraph for (rolls up sub-domains)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_catalogue(domain, compact):
+    """Rebuild the Neo4j catalogue subgraph (Table/TableColumn/EntityClass) for a domain from the registry.
+
+    Manual/on-demand — the ingest pipeline already best-effort-projects on
+    every write, but confirming a mapping later (`db mappings ... set`/
+    `confirm`) doesn't re-ingest, so this is how that later confirmation gets
+    reflected in the graph without a re-ingest. Unlike the ingest hook, a
+    failure here is surfaced (not swallowed) — the operator explicitly asked
+    for this projection to happen.
+    """
+    from artmind.structured.catalogue import project_catalogue
+
+    try:
+        result = project_catalogue(domain)
+    except Exception as exc:
+        raise click.ClickException(f"catalogue projection failed: {exc}") from exc
+    _echo_json({"domain": domain, **result}, compact)
 
 
 @db.command("connect")

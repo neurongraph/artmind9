@@ -47,6 +47,10 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
   the `set`/`confirm`/`clear` subcommands (`db mappings <table> set --column c
   --entityClass PRODUCT`, `... confirm --column c --entityClass PRODUCT`,
   `... clear --column c` or `... clear` for all).
+- `artmind db catalogue --domain <d> --compact` — rebuild the Neo4j catalogue
+  subgraph (Table/TableColumn/EntityClass) for a domain from the registry. Ingest
+  already does this automatically; use this on demand after confirming mappings
+  later, to reflect that confirmation in the graph without re-ingesting.
 
 Full graph/SQL/hybrid routing logic lands in a later increment of this skill —
 for now, check `db list` for the domain when a question is clearly analytical

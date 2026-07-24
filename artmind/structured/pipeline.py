@@ -150,6 +150,19 @@ def _write_table(
     }
 
 
+def _project_catalogue_best_effort(domain: str) -> None:
+    """Re-project the Neo4j catalogue subgraph for ``domain`` after a table
+    write. A down/unreachable graph must not fail the load (mirrors
+    commit_to_graph's hook guarding in artmind/ingest.py, and the mapping-
+    proposal hook above)."""
+    try:
+        from artmind.structured.catalogue import project_catalogue
+
+        project_catalogue(domain)
+    except Exception as e:
+        logger.warning("structured pipeline: catalogue projection failed for domain '{}': {}", domain, e)
+
+
 def ingest_structured_file(
     source: Path,
     domain: str,
@@ -183,6 +196,9 @@ def ingest_structured_file(
     results = [
         _write_table(ds, source, domain, spec, file_sha256, header_row) for spec in table_specs
     ]
+
+    _project_catalogue_best_effort(domain)
+
     return {"status": "ok", "tables": results}
 
 
@@ -205,4 +221,7 @@ def refresh_table(table_name: str, domain: str) -> dict:
     ds = DuckDBDatasource()
     spec = {"table_name": table_name, "sheet": existing["sheet"]}
     result = _write_table(ds, source, domain, spec, file_sha256, header_row=0)
+
+    _project_catalogue_best_effort(domain)
+
     return {"status": "ok", **result}

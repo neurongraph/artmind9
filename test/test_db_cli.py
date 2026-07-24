@@ -75,6 +75,46 @@ def test_db_sql_rejects_write_statement(ingested):
     assert result.exit_code != 0
 
 
+def test_db_catalogue_invokes_projection_and_returns_json(ingested, monkeypatch):
+    import artmind.cli as cli
+    import artmind.structured.catalogue as catalogue
+
+    spy = {"calls": []}
+
+    def fake_project_catalogue(domain):
+        spy["calls"].append(domain)
+        return {"tables": 1, "columns": 2, "mappings": 0}
+
+    monkeypatch.setattr(catalogue, "project_catalogue", fake_project_catalogue)
+
+    result = CliRunner().invoke(cli.cli, ["db", "catalogue", "--domain", "banking"])
+    assert result.exit_code == 0, result.output
+    assert spy["calls"] == ["banking"]
+    assert '"domain": "banking"' in result.output
+    assert '"tables": 1' in result.output
+
+
+def test_db_catalogue_requires_domain(ingested):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "catalogue"])
+    assert result.exit_code != 0
+
+
+def test_db_catalogue_surfaces_failure_as_click_exception(ingested, monkeypatch):
+    import artmind.cli as cli
+    import artmind.structured.catalogue as catalogue
+
+    def failing_project_catalogue(domain):
+        raise RuntimeError("neo4j is down")
+
+    monkeypatch.setattr(catalogue, "project_catalogue", failing_project_catalogue)
+
+    result = CliRunner().invoke(cli.cli, ["db", "catalogue", "--domain", "banking"])
+    assert result.exit_code != 0
+    assert "catalogue projection failed" in result.output
+
+
 def test_db_connect_stubbed(tmp_path, monkeypatch):
     _patch_stores(tmp_path, monkeypatch)
     import artmind.cli as cli

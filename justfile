@@ -285,6 +285,10 @@ db-mappings-confirm table column entity_class:
 db-mappings-clear table column="":
     uv run artmind db mappings {{ table }} clear {{ if column != "" { "--column " + column } else { "" } }}
 
+# rebuild the Neo4j catalogue subgraph for a domain on demand  (usage: just db-catalogue <domain>)
+db-catalogue domain:
+    uv run artmind db catalogue --domain {{ domain }}
+
 # snapshot the structured store (parquet + registry) to a tar.gz  (usage: just db-backup)
 db-backup:
     uv run artmind db backup
