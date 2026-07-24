@@ -215,6 +215,54 @@ def test_refresh_table_projects_catalogue(tmp_path, monkeypatch):
     assert spy["calls"] == ["banking"]
 
 
+def test_ingest_structured_file_same_table_name_two_domains_no_overwrite(tmp_path, monkeypatch):
+    """Two domains ingesting a same-named table must both retain their own
+    row/data — no silent overwrite of one domain's registration by the other
+    (the bug: the registry's old UNIQUE(datasource, table_name) key, with no
+    domain, let a later domain's ingest reassign an earlier domain's row)."""
+    _patch_stores(tmp_path, monkeypatch)
+    from artmind.structured import registry
+    from artmind.structured.duckdb_adapter import DuckDBDatasource
+    from artmind.structured.pipeline import ingest_structured_file
+
+    banking_csv = tmp_path / "banking_products.csv"
+    _write_csv(banking_csv, [["id", "name"], [1, "Checking Account"]])
+    retail_csv = tmp_path / "retail_products.csv"
+    _write_csv(retail_csv, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
+
+    banking_result = ingest_structured_file(banking_csv, "banking", table="products")
+    retail_result = ingest_structured_file(retail_csv, "retail", table="products")
+    assert banking_result["status"] == "ok"
+    assert retail_result["status"] == "ok"
+
+    banking_row = registry.get_table("products", domain="banking")
+    retail_row = registry.get_table("products", domain="retail")
+    assert banking_row["id"] != retail_row["id"]
+    assert banking_row["row_count"] == 1
+    assert retail_row["row_count"] == 2
+
+    all_rows = registry.list_tables()
+    assert {r["id"] for r in all_rows if r["table_name"] == "products"} == {
+        banking_row["id"],
+        retail_row["id"],
+    }
+
+    # Both domains' views coexist in the shared persistent catalog, reachable
+    # by their domain-qualified names since the bare "products" name is
+    # ambiguous across the two domains.
+    ds = DuckDBDatasource()
+    ds.ensure_views(registry.list_tables())
+    banking_rows = ds.run_sql("SELECT name FROM banking__products ORDER BY id")
+    retail_rows = ds.run_sql("SELECT name FROM retail__products ORDER BY id")
+    assert banking_rows == [{"name": "Checking Account"}]
+    assert retail_rows == [{"name": "Widget"}, {"name": "Gadget"}]
+
+    import duckdb
+
+    with pytest.raises(duckdb.CatalogException):
+        ds.run_sql("SELECT * FROM products")
+
+
 def test_refresh_table_unregistered_raises(tmp_path, monkeypatch):
     _patch_stores(tmp_path, monkeypatch)
     from artmind.structured.pipeline import refresh_table

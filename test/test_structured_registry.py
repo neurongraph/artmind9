@@ -80,6 +80,65 @@ def test_register_table_domain_scoping_and_version_bump(tmp_path, monkeypatch):
     assert {r["table_name"] for r in rows} == {"products"}
 
 
+def test_register_table_same_name_different_domains_creates_separate_rows(tmp_path, monkeypatch):
+    """Two domains registering a table with the same name must not collide:
+    each gets its own row, and registering the second must not silently
+    reassign/overwrite the first's domain or data (the bug this guards
+    against: a UNIQUE(datasource, table_name) key without domain let a later
+    same-named ingest in another domain clobber an earlier domain's row)."""
+    _patch_db(tmp_path, monkeypatch)
+    from artmind.structured import registry
+
+    registry.register_datasource("default", "duckdb", "/tmp/artmind.duckdb")
+
+    banking_id = registry.register_table(
+        "default",
+        "products",
+        "banking",
+        parquet_path="/tmp/structured/banking/products.parquet",
+        row_count=10,
+        sha256="banking-sha",
+    )
+    retail_id = registry.register_table(
+        "default",
+        "products",
+        "retail",
+        parquet_path="/tmp/structured/retail/products.parquet",
+        row_count=99,
+        sha256="retail-sha",
+    )
+
+    assert banking_id != retail_id
+
+    banking_row = registry.get_table("products", domain="banking")
+    retail_row = registry.get_table("products", domain="retail")
+    assert banking_row["id"] == banking_id
+    assert banking_row["row_count"] == 10
+    assert banking_row["sha256"] == "banking-sha"
+    assert banking_row["parquet_path"] == "/tmp/structured/banking/products.parquet"
+    assert retail_row["id"] == retail_id
+    assert retail_row["row_count"] == 99
+    assert retail_row["sha256"] == "retail-sha"
+    assert retail_row["parquet_path"] == "/tmp/structured/retail/products.parquet"
+
+    all_rows = registry.list_tables()
+    assert {r["id"] for r in all_rows if r["table_name"] == "products"} == {banking_id, retail_id}
+
+    # re-registering under "banking" again must version-bump the banking row
+    # only, still leaving retail's row untouched.
+    same_id = registry.register_table(
+        "default",
+        "products",
+        "banking",
+        parquet_path="/tmp/structured/banking/products.parquet",
+        row_count=11,
+        sha256="banking-sha-2",
+    )
+    assert same_id == banking_id
+    assert registry.get_table("products", domain="banking")["version"] == 2
+    assert registry.get_table("products", domain="retail")["row_count"] == 99
+
+
 def test_replace_and_get_columns_round_trip(tmp_path, monkeypatch):
     _patch_db(tmp_path, monkeypatch)
     from artmind.structured import registry

@@ -147,7 +147,7 @@ def _init_db() -> None:
             effective_date_column  TEXT,
             ingested_at            TEXT NOT NULL,
             sha256                 TEXT,
-            UNIQUE(datasource, table_name)
+            UNIQUE(datasource, domain, table_name)
         )
     """)
     cursor.execute("""

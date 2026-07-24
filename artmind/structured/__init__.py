@@ -16,3 +16,16 @@ def sanitize_identifier(name: str) -> str:
     if s[0].isdigit():
         s = f"t_{s}"
     return s
+
+
+def view_name(domain: str, table_name: str) -> str:
+    """Domain-qualified DuckDB view identifier for a registered table.
+
+    Two domains can register a same-named table (the registry key is now
+    ``(datasource, domain, table_name)``), but the shared persistent DuckDB
+    catalog has a single view namespace — this gives each domain's table a
+    collision-free identifier there, distinct from the bare ``table_name``
+    convenience alias ``duckdb_adapter.ensure_views`` also creates when it's
+    unambiguous.
+    """
+    return f"{sanitize_identifier(domain)}__{table_name}"
