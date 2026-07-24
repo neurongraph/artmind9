@@ -162,14 +162,15 @@
   width: 100%;
 }
 .dash-checkbox-group label {
-  display: inline-flex;
+  display: inline-flex !important;
+  flex-direction: row !important;
   align-items: center;
   gap: 6px;
   font-size: 12px;
   cursor: pointer;
   color: var(--text-muted);
   margin: 0;
-  width: auto;
+  width: auto !important;
 }
 .dash-checkbox-group input[type="checkbox"] {
   width: auto;
