@@ -206,6 +206,54 @@ def _init_db() -> None:
         )
         cursor.execute("DROP TABLE documents_pre_force_migration")
 
+    # Migrate the `tables` registry's UNIQUE constraint from
+    # (datasource, table_name) to (datasource, domain, table_name) so two
+    # domains can register a same-named table without colliding. The
+    # CREATE TABLE IF NOT EXISTS above is a no-op on any DB that already has
+    # a `tables` table from before this change (i.e. any real install that
+    # ingested structured data before this branch), so without this
+    # migration, register_table's per-domain existence check finds no
+    # conflict but the INSERT still hits the old 2-column UNIQUE index and
+    # raises sqlite3.IntegrityError. No FK-enforcement concern here: this
+    # codebase never turns on `PRAGMA foreign_keys`, so `columns` and
+    # `column_mappings` rows (which reference tables(id)) are unaffected by
+    # the rename/recreate as long as `id` values are preserved verbatim,
+    # which the copy below does.
+    tables_sql = cursor.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='tables'"
+    ).fetchone()
+    if tables_sql and "UNIQUE(datasource, domain, table_name)" not in tables_sql[0]:
+        cursor.execute('ALTER TABLE "tables" RENAME TO tables_pre_domain_unique_migration')
+        cursor.execute("""
+            CREATE TABLE "tables" (
+                id                     INTEGER PRIMARY KEY AUTOINCREMENT,
+                datasource             TEXT NOT NULL REFERENCES datasources(name),
+                table_name             TEXT NOT NULL,
+                domain                 TEXT NOT NULL,
+                source_file            TEXT,
+                sheet                  TEXT,
+                parquet_path           TEXT NOT NULL,
+                version                INTEGER NOT NULL DEFAULT 1,
+                row_count              INTEGER,
+                refresh_mode           TEXT NOT NULL DEFAULT 'replace',
+                business_key           TEXT,
+                effective_date_column  TEXT,
+                ingested_at            TEXT NOT NULL,
+                sha256                 TEXT,
+                UNIQUE(datasource, domain, table_name)
+            )
+        """)
+        cursor.execute(
+            'INSERT INTO "tables" (id, datasource, table_name, domain, source_file, sheet,'
+            " parquet_path, version, row_count, refresh_mode, business_key,"
+            " effective_date_column, ingested_at, sha256)"
+            " SELECT id, datasource, table_name, domain, source_file, sheet,"
+            " parquet_path, version, row_count, refresh_mode, business_key,"
+            " effective_date_column, ingested_at, sha256"
+            " FROM tables_pre_domain_unique_migration"
+        )
+        cursor.execute("DROP TABLE tables_pre_domain_unique_migration")
+
     conn.commit()
     conn.close()
 

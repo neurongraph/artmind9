@@ -6,6 +6,129 @@ def _patch_db(tmp_path, monkeypatch):
     return db
 
 
+def _seed_pre_domain_unique_schema(db_path):
+    """Seed a temp SQLite file with the OLD `tables` schema (pre-58b7d62):
+    `domain` column already present, but the UNIQUE key is still
+    (datasource, table_name) without `domain` -- the exact shape of any real
+    install (Phases 1-4, already on origin/master) that ran `artmind init` /
+    ingested structured data before this branch added the migration."""
+    import sqlite3
+
+    conn = sqlite3.connect(db_path)
+    conn.execute("""
+        CREATE TABLE datasources (
+            name        TEXT PRIMARY KEY,
+            type        TEXT NOT NULL,
+            path_or_dsn TEXT NOT NULL,
+            created_at  TEXT NOT NULL
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE tables (
+            id                     INTEGER PRIMARY KEY AUTOINCREMENT,
+            datasource             TEXT NOT NULL REFERENCES datasources(name),
+            table_name             TEXT NOT NULL,
+            domain                 TEXT NOT NULL,
+            source_file            TEXT,
+            sheet                  TEXT,
+            parquet_path           TEXT NOT NULL,
+            version                INTEGER NOT NULL DEFAULT 1,
+            row_count              INTEGER,
+            refresh_mode           TEXT NOT NULL DEFAULT 'replace',
+            business_key           TEXT,
+            effective_date_column  TEXT,
+            ingested_at            TEXT NOT NULL,
+            sha256                 TEXT,
+            UNIQUE(datasource, table_name)
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE columns (
+            table_id     INTEGER NOT NULL REFERENCES tables(id) ON DELETE CASCADE,
+            name         TEXT NOT NULL,
+            dtype        TEXT NOT NULL,
+            profile_json TEXT,
+            PRIMARY KEY (table_id, name)
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE column_mappings (
+            table_id     INTEGER NOT NULL REFERENCES tables(id) ON DELETE CASCADE,
+            column       TEXT NOT NULL,
+            entity_class TEXT NOT NULL,
+            confirmed    INTEGER NOT NULL DEFAULT 0,
+            confidence   REAL,
+            updated_at   TEXT NOT NULL,
+            PRIMARY KEY (table_id, column, entity_class)
+        )
+    """)
+    conn.execute(
+        "INSERT INTO datasources (name, type, path_or_dsn, created_at)"
+        " VALUES ('default', 'duckdb', '/tmp/artmind.duckdb', '2026-01-01T00:00:00')"
+    )
+    conn.execute(
+        "INSERT INTO \"tables\" (id, datasource, table_name, domain, source_file, sheet,"
+        " parquet_path, version, row_count, refresh_mode, business_key,"
+        " effective_date_column, ingested_at, sha256)"
+        " VALUES (1, 'default', 'products', 'banking', NULL, NULL,"
+        " '/tmp/structured/banking/products.parquet', 1, 10, 'replace', NULL,"
+        " NULL, '2026-01-01T00:00:00', 'pre-migration-sha')"
+    )
+    conn.commit()
+    conn.close()
+
+
+def test_init_db_migrates_pre_domain_unique_tables_schema(tmp_path, monkeypatch):
+    """Bug 1 regression: commit 58b7d62 changed `tables`'s UNIQUE key from
+    (datasource, table_name) to (datasource, domain, table_name), but
+    `CREATE TABLE IF NOT EXISTS` is a no-op on any registry DB that already
+    has a `tables` table -- i.e. every real install that predates this
+    branch. Without an explicit migration, register_table's per-domain
+    existence check finds no conflict but the INSERT still hits the old
+    2-column UNIQUE index and raises sqlite3.IntegrityError. `_init_db()`
+    must detect and migrate the old constraint, preserving existing rows."""
+    import sqlite3
+
+    import artmind.db as db
+
+    db_path = tmp_path / "reg.db"
+    _seed_pre_domain_unique_schema(db_path)
+    monkeypatch.setattr(db, "DB_PATH", db_path)
+
+    # Fresh CREATE TABLE IF NOT EXISTS is a no-op here; the migration path
+    # inside _init_db() is what must actually fix the constraint.
+    db._init_db()
+
+    conn = sqlite3.connect(db_path)
+    tables_sql = conn.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='tables'"
+    ).fetchone()[0]
+    assert "UNIQUE(datasource, domain, table_name)" in tables_sql
+    assert "UNIQUE(datasource, table_name)" not in tables_sql
+
+    # Pre-existing row survived the migration with its data intact.
+    row = conn.execute(
+        "SELECT id, table_name, domain, row_count, sha256, parquet_path"
+        " FROM \"tables\" WHERE id = 1"
+    ).fetchone()
+    assert row == (1, "products", "banking", 10, "pre-migration-sha", "/tmp/structured/banking/products.parquet")
+    conn.close()
+
+    # The scenario the fix targets: a second domain registering the same
+    # table_name must now succeed instead of raising IntegrityError.
+    from artmind.structured import registry
+
+    retail_id = registry.register_table(
+        "default", "products", "retail", parquet_path="/tmp/structured/retail/products.parquet",
+    )
+    banking_row = registry.get_table("products", domain="banking")
+    retail_row = registry.get_table("products", domain="retail")
+    assert banking_row["id"] == 1
+    assert banking_row["sha256"] == "pre-migration-sha"
+    assert retail_row["id"] == retail_id
+    assert retail_id != 1
+
+
 def test_init_db_creates_structured_tables(tmp_path, monkeypatch):
     import sqlite3
 
