@@ -232,62 +232,47 @@
 
     <div class="tab-panel" data-tab-group="view" data-tab-panel="maintenance">
     <section class="dash-panel dash-zone-maint" id="snapshots-panel">
-      <h2>Maintain — snapshots</h2>
-      <p class="dash-hint">Infrequent and destructive. Restoring replaces the entire graph.</p>
+      <h2>Maintain — system snapshots</h2>
+      <p class="dash-hint">Infrequent and destructive. Unified snapshots include graph, registry, structured data, and KG staging.</p>
       <div id="snapshot-guardrail" class="guardrail-callout"></div>
       <div class="zone-maint-body">
         <div>
           <div class="table-scroll">
             <table class="dash-table" id="snapshots-table">
               <thead>
-                <tr><th>Name</th><th>Size</th><th>Created</th><th></th></tr>
+                <tr><th>Name</th><th>Components</th><th>Size</th><th>Created</th><th></th></tr>
               </thead>
               <tbody></tbody>
             </table>
           </div>
         </div>
         <div>
+          <h3 class="dash-subhead">Create snapshot</h3>
+          <div id="create-snapshot-components" class="dash-checkbox-group">
+            <label><input type="checkbox" class="snapshot-component" value="graph" checked> Graph (Neo4j)</label>
+            <label><input type="checkbox" class="snapshot-component" value="registry" checked> Registry (documents)</label>
+            <label><input type="checkbox" class="snapshot-component" value="structured" checked> Structured (SQL)</label>
+            <label><input type="checkbox" class="snapshot-component" value="kg_staging" checked> KG staging (JSON)</label>
+          </div>
           <button id="create-snapshot-btn" type="button" class="btn-primary">Create snapshot</button>
           <span id="snapshot-create-result" class="dash-note"></span>
+
           <h3 class="dash-subhead">Upload and restore</h3>
           <form id="snapshot-import-form" class="dash-form stacked">
             <label>
-              Snapshot .tar.gz
-              <input id="snapshot-import-file" type="file" accept=".tar.gz" required>
+              Snapshot .zip
+              <input id="snapshot-import-file" type="file" accept=".zip" required>
             </label>
+            <div id="import-snapshot-components" class="dash-checkbox-group">
+              <label><input type="checkbox" class="import-component" value="graph" checked> Graph</label>
+              <label><input type="checkbox" class="import-component" value="registry" checked> Registry</label>
+              <label><input type="checkbox" class="import-component" value="structured" checked> Structured</label>
+              <label><input type="checkbox" class="import-component" value="kg_staging" checked> KG staging</label>
+            </div>
+            <div id="import-snapshot-warnings" class="dash-warning" style="display: none;"></div>
             <button type="submit" class="btn-secondary">Upload &amp; restore</button>
           </form>
           <span id="snapshot-import-result" class="dash-note"></span>
-        </div>
-      </div>
-    </section>
-
-    <section class="dash-panel dash-zone-maint" id="structured-snapshots-panel">
-      <h2>Maintain — structured store</h2>
-      <p class="dash-hint">Infrequent and destructive. Restoring replaces all parquet files and registry rows.</p>
-      <div class="zone-maint-body">
-        <div>
-          <div class="table-scroll">
-            <table class="dash-table" id="structured-snapshots-table">
-              <thead>
-                <tr><th>Name</th><th>Size</th><th>Created</th><th></th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </div>
-        <div>
-          <button id="create-structured-snapshot-btn" type="button" class="btn-primary">Create snapshot</button>
-          <span id="structured-snapshot-create-result" class="dash-note"></span>
-          <h3 class="dash-subhead">Upload and restore</h3>
-          <form id="structured-snapshot-import-form" class="dash-form stacked">
-            <label>
-              Snapshot .tar.gz
-              <input id="structured-snapshot-import-file" type="file" accept=".tar.gz" required>
-            </label>
-            <button type="submit" class="btn-secondary">Upload &amp; restore</button>
-          </form>
-          <span id="structured-snapshot-import-result" class="dash-note"></span>
         </div>
       </div>
     </section>
