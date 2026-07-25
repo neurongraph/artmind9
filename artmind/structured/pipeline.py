@@ -176,15 +176,16 @@ def _register_columns_and_mappings(
 
     ``exclude_system_cols`` must be true whenever ``table_name`` carries the
     SCD-2 system columns (``_valid_from``/``_valid_to``/``_is_current``) --
-    they're internal bookkeeping, not real data columns, and profiling their
-    DATE-valued ``distinct_sample`` would otherwise not be JSON-serializable.
+    they're internal bookkeeping, not real data columns and shouldn't be
+    profiled at all. Any *real* data column can still have a DATE/DECIMAL/etc
+    ``distinct_sample`` -- ``default=str`` below handles those.
     """
     profiles = ds.profile_columns(table_name)
     columns = [
         {
             "name": c.name,
             "dtype": c.dtype,
-            "profile_json": json.dumps(dataclasses.asdict(profiles[c.name]))
+            "profile_json": json.dumps(dataclasses.asdict(profiles[c.name]), default=str)
             if c.name in profiles
             else None,
         }
