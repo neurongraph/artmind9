@@ -44,15 +44,34 @@ FAKE_MAPPINGS_BY_TABLE = {
 }
 
 
-def _patch_registry(monkeypatch, tables=FAKE_TABLES):
+FAKE_ROLES_BY_TABLE = {
+    1: [
+        {
+            "table_id": 1,
+            "column": "name",
+            "bridge_role": "term",
+            "confirmed": False,
+            "confidence": 0.9,
+        },
+    ],
+}
+
+
+def _patch_registry(monkeypatch, tables=FAKE_TABLES, roles=None):
     from artmind.structured import registry as structured_registry
 
-    monkeypatch.setattr(structured_registry, "list_tables", lambda domains=None: tables)
+    roles = FAKE_ROLES_BY_TABLE if roles is None else roles
+    monkeypatch.setattr(
+        structured_registry, "list_tables", lambda domains=None, **kw: tables
+    )
     monkeypatch.setattr(
         structured_registry, "get_columns", lambda table_id: FAKE_COLUMNS_BY_TABLE.get(table_id, [])
     )
     monkeypatch.setattr(
         structured_registry, "list_mappings", lambda table_id: FAKE_MAPPINGS_BY_TABLE.get(table_id, [])
+    )
+    monkeypatch.setattr(
+        structured_registry, "list_column_roles", lambda table_id, **kw: roles.get(table_id, [])
     )
 
 
@@ -71,6 +90,60 @@ def test_schema_summary_includes_table_column_and_mapping():
 
 def test_schema_summary_handles_no_tables():
     assert "no tables" in text2sql._schema_summary_sql([], {}, {})
+
+
+def test_schema_summary_marks_bridge_columns_regardless_of_confirmation():
+    """A [bridge] column's values are what the caller searches the documents
+    with. Omitting one costs the fusion step entirely, while an extra column in
+    the SELECT is harmless — so unlike [→ CLASS] this ignores `confirmed`."""
+    summary = text2sql._schema_summary_sql(
+        FAKE_TABLES, FAKE_COLUMNS_BY_TABLE, FAKE_MAPPINGS_BY_TABLE, FAKE_ROLES_BY_TABLE
+    )
+
+    assert "name:VARCHAR [→ PRODUCT] [bridge]" in summary
+    assert "id:BIGINT" in summary and "[bridge]" not in summary.split("id:BIGINT")[1].split(",")[0]
+
+
+def test_schema_summary_flags_normative_grain_only():
+    instance_only = text2sql._schema_summary_sql(
+        FAKE_TABLES, FAKE_COLUMNS_BY_TABLE, FAKE_MAPPINGS_BY_TABLE
+    )
+    assert "grain=" not in instance_only
+
+    normative = [{**FAKE_TABLES[0], "grain": "normative"}]
+    summary = text2sql._schema_summary_sql(
+        normative, FAKE_COLUMNS_BY_TABLE, FAKE_MAPPINGS_BY_TABLE
+    )
+    assert "grain=normative" in summary
+
+
+def test_fusion_hints_surface_bridge_columns(monkeypatch):
+    _patch_registry(monkeypatch)
+
+    hints = text2sql._fusion_hints(["banking"])
+
+    assert hints["bridge_columns"] == [
+        {"table": "products", "column": "name", "bridge_role": "term", "confirmed": False}
+    ]
+    assert "quarantine" not in hints
+
+
+def test_fusion_hints_quarantine_requires_normative_and_class_scope(monkeypatch):
+    """The rule fires on the conjunction, not on grain alone — a normative table
+    with no class scope has nothing to collide with."""
+    normative = [{**FAKE_TABLES[0], "grain": "normative"}]
+    _patch_registry(monkeypatch, tables=normative)
+
+    hints = text2sql._fusion_hints(["banking"])
+    assert hints["quarantine"]["tables"] == [
+        {"table": "products", "entity_classes": ["PRODUCT", "SKU"]}
+    ]
+    assert "graph wins" in hints["quarantine"]["rule"]
+
+    from artmind.structured import registry as structured_registry
+
+    monkeypatch.setattr(structured_registry, "list_mappings", lambda table_id: [])
+    assert "quarantine" not in text2sql._fusion_hints(["banking"])
 
 
 def test_build_prompt_includes_schema_and_domains():

@@ -4,8 +4,9 @@
 Hermetic — no live Neo4j. Uses the same fake-session-recording-calls pattern
 as test_supersession.py, extended to actually record ``run(cypher, **params)``
 calls (rather than just stub a return value) so we can assert on the wipe
-query, the Table MERGE, the HAS_COLUMN edges, and MAPS_TO_CLASS for confirmed
-mappings only.
+query, the Table MERGE, the HAS_COLUMN edges, and the MAPS_TO_CLASS edges
+(projected for proposed and confirmed mappings alike, flagged via
+``m.confirmed``).
 """
 
 import json
@@ -171,7 +172,13 @@ def test_project_catalogue_rolls_up_sub_domain_tables(tmp_path, monkeypatch):
     assert wipe_params["domain"] == "banking"
 
 
-def test_project_catalogue_skips_unconfirmed_proposed_mapping(tmp_path, monkeypatch):
+def test_project_catalogue_projects_unconfirmed_mapping_flagged(tmp_path, monkeypatch):
+    """Behaviour change: an unconfirmed mapping is now projected carrying
+    ``confirmed: false`` rather than dropped. Dropping it meant a freshly
+    ingested table routed to nothing until a human reviewed it, and on a
+    query-only host (no $ARTMIND_DATA_DIR, hence no registry DB) this subgraph
+    is the only place the mapping exists at all. The reported ``mappings``
+    count still means *confirmed* edges, so its meaning is unchanged."""
     _seed(tmp_path, monkeypatch, confirmed_mapping=False)
 
     fake = FakeSession()
@@ -179,8 +186,41 @@ def test_project_catalogue_skips_unconfirmed_proposed_mapping(tmp_path, monkeypa
 
     result = catalogue.project_catalogue("banking")
 
-    assert result["mappings"] == 0
-    assert [c for c, _ in fake.calls if "MAPS_TO_CLASS" in c] == []
+    assert result["mappings"] == 0, "count still tracks confirmed edges only"
+
+    mapping_calls = [(c, p) for c, p in fake.calls if "MAPS_TO_CLASS" in c]
+    assert len(mapping_calls) == 1
+    cypher, params = mapping_calls[0]
+    assert "m.confirmed" in cypher
+    assert params["confirmed"] is False
+    assert params["confidence"] == 0.9
+
+
+def test_project_catalogue_projects_grain_and_bridge_role(tmp_path, monkeypatch):
+    """Routing and quarantine inputs have to reach the graph: a query-only host
+    has no registry DB, so this subgraph is its only source for them."""
+    from artmind.structured import registry
+
+    table_id = _seed(tmp_path, monkeypatch)
+    registry.set_grain(table_id, "lookup", confirmed=True)
+    registry.upsert_column_role(table_id, "customer_name", "term", 0.9, confirmed=True)
+
+    fake = FakeSession()
+    monkeypatch.setattr(catalogue, "neo4j_session", lambda **kw: fake)
+
+    catalogue.project_catalogue("banking")
+
+    _, table_params = next((c, p) for c, p in fake.calls if "MERGE (t:Table" in c)
+    assert table_params["props"]["grain"] == "lookup"
+    assert table_params["props"]["grain_confirmed"] is True
+
+    column_params = [p for c, p in fake.calls if "MERGE (c:TableColumn" in c]
+    by_name = {p["props"]["name"]: p["props"] for p in column_params}
+    assert by_name["customer_name"]["bridge_role"] == "term"
+    assert by_name["customer_name"]["bridge_role_confirmed"] is True
+    # A column with no declared role carries an explicit null, not a missing key.
+    assert by_name["balance"]["bridge_role"] is None
+    assert by_name["balance"]["bridge_role_confirmed"] is False
 
 
 def test_project_catalogue_never_labels_catalogue_nodes_entity(tmp_path, monkeypatch):

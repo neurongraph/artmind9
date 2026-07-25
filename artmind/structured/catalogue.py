@@ -27,12 +27,24 @@ def project_catalogue(domain: str) -> dict:
     """Wipe and re-project the catalogue subgraph for ``domain``.
 
     Returns ``{"tables": n, "columns": n, "mappings": n}`` — counts of nodes/
-    edges written, not touched-but-unchanged. ``mappings`` only counts
-    *confirmed* column→EntityClass mappings; proposed-but-unconfirmed
-    mappings are not projected (spec: the confirm gate is what makes a
-    mapping trustworthy enough to surface to text2sql/query).
+    edges written, not touched-but-unchanged. ``mappings`` counts only
+    *confirmed* column→EntityClass edges, preserving the original meaning of
+    that number.
+
+    Unconfirmed mappings *are* now projected, carrying ``confirmed: false`` and
+    their ``confidence`` on the ``MAPS_TO_CLASS`` edge, rather than being
+    dropped. The confirm gate still exists — it just moved from "is this edge
+    written?" to "does this consumer trust it?". Dropping them entirely meant a
+    freshly ingested table routed to nothing at all until a human reviewed it,
+    which under-reaches silently; and on a query-only host (no
+    $ARTMIND_DATA_DIR, so no registry DB) this subgraph is the only place that
+    information exists. Consumers that need the old strictness — anything
+    surfacing a mapping as fact — filter on ``m.confirmed``.
     """
-    tables = registry.list_tables([domain])
+    # Descendant-only: the wipe below covers `domain` plus `domain.*`, so an
+    # ancestor table (which registry.list_tables now returns by default) would
+    # be MERGEd here by a wipe that never clears it.
+    tables = registry.list_tables([domain], include_ancestors=False)
 
     tables_count = 0
     columns_count = 0
@@ -72,6 +84,13 @@ def project_catalogue(domain: str) -> dict:
                     "row_count": table.get("row_count"),
                     "parquet_path": table.get("parquet_path"),
                     "datasource": table["datasource"],
+                    # Routing/quarantine inputs. They are projected rather than
+                    # read from the registry because the registry DB lives in
+                    # $ARTMIND_DATA_DIR, which a query-only host never has --
+                    # there, this subgraph is the only routing surface.
+                    "grain": table.get("grain") or "instance",
+                    "grain_confirmed": bool(table.get("grain_confirmed")),
+                    "refresh_mode": table.get("refresh_mode"),
                 },
             )
             tables_count += 1
@@ -80,9 +99,13 @@ def project_catalogue(domain: str) -> dict:
             mappings_by_column: dict[str, list[dict]] = {}
             for mapping in registry.list_mappings(table["id"]):
                 mappings_by_column.setdefault(mapping["column"], []).append(mapping)
+            roles_by_column = {
+                role["column"]: role for role in registry.list_column_roles(table["id"])
+            }
 
             for column in columns:
                 column_key = f"{table_key}::{column['name']}"
+                role = roles_by_column.get(column["name"])
                 session.run(
                     """
                     MERGE (c:TableColumn {key: $colkey})
@@ -96,14 +119,16 @@ def project_catalogue(domain: str) -> dict:
                         "name": column["name"],
                         "dtype": column["dtype"],
                         "profile": column.get("profile_json"),
+                        # Which columns' values seed graph retrieval during
+                        # fusion. Null when the column plays no bridge role.
+                        "bridge_role": role["bridge_role"] if role else None,
+                        "bridge_role_confirmed": bool(role["confirmed"]) if role else False,
                     },
                     key=table_key,
                 )
                 columns_count += 1
 
                 for mapping in mappings_by_column.get(column["name"], []):
-                    if not mapping["confirmed"]:
-                        continue
                     entity_class = mapping["entity_class"]
                     # Scoped to the table's own domain, not the (possibly
                     # broader, rolled-up) `domain` argument — a
@@ -118,14 +143,18 @@ def project_catalogue(domain: str) -> dict:
                         SET ec += {name: $name, domain: $domain}
                         WITH ec
                         MATCH (c:TableColumn {key: $colkey})
-                        MERGE (c)-[:MAPS_TO_CLASS]->(ec)
+                        MERGE (c)-[m:MAPS_TO_CLASS]->(ec)
+                        SET m.confirmed = $confirmed, m.confidence = $confidence
                         """,
                         eckey=entity_class_key,
                         name=entity_class,
                         domain=table_domain,
                         colkey=column_key,
+                        confirmed=bool(mapping["confirmed"]),
+                        confidence=mapping.get("confidence"),
                     )
-                    mappings_count += 1
+                    if mapping["confirmed"]:
+                        mappings_count += 1
 
                     # RESOLVES_AGAINST (spec §4.3) — deliberately not built
                     # here. It would link (:TableColumn)-[:RESOLVES_AGAINST]->

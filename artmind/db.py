@@ -145,6 +145,8 @@ def _init_db() -> None:
             refresh_mode           TEXT NOT NULL DEFAULT 'replace',   -- 'replace' | 'temporal'
             business_key           TEXT,             -- comma-joined column names (temporal only)
             effective_date_column  TEXT,
+            grain                  TEXT NOT NULL DEFAULT 'instance',  -- 'instance' | 'lookup' | 'normative'
+            grain_confirmed        INTEGER NOT NULL DEFAULT 0,        -- 0 = proposed/default, 1 = operator-confirmed
             ingested_at            TEXT NOT NULL,
             sha256                 TEXT,
             UNIQUE(datasource, domain, table_name)
@@ -168,6 +170,25 @@ def _init_db() -> None:
             confidence   REAL,
             updated_at   TEXT NOT NULL,
             PRIMARY KEY (table_id, column, entity_class)
+        )
+    """)
+    # Which columns' *values* seed graph retrieval during fusion (e.g.
+    # vulnerable_customers.vulnerability_driver), as opposed to identifiers that
+    # mean nothing to the graph (customer_id). Deliberately NOT a column on
+    # `columns`: replace_columns() DELETEs and re-INSERTs that table on every
+    # ingest/refresh, which would wipe an operator's confirmed role. Durable
+    # semantic annotation belongs alongside column_mappings, same
+    # proposed→confirmed shape. `bridge_role` is an open vocabulary; 'term' is
+    # the only value the fusion path reads today.
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS column_roles (
+            table_id    INTEGER NOT NULL REFERENCES tables(id) ON DELETE CASCADE,
+            column      TEXT NOT NULL,
+            bridge_role TEXT NOT NULL,                -- 'term' = values seed graph retrieval
+            confirmed   INTEGER NOT NULL DEFAULT 0,   -- 0 = proposed, 1 = confirmed
+            confidence  REAL,
+            updated_at  TEXT NOT NULL,
+            PRIMARY KEY (table_id, column)
         )
     """)
     # Migrations for columns added after initial schema deployment
@@ -253,6 +274,20 @@ def _init_db() -> None:
             " FROM tables_pre_domain_unique_migration"
         )
         cursor.execute("DROP TABLE tables_pre_domain_unique_migration")
+
+    # `grain` is additive with a default, so a plain ADD COLUMN suffices — no need
+    # for the rename/recreate dance above, which exists only to change a UNIQUE
+    # constraint. Runs after that block deliberately: the recreate path rebuilds
+    # `tables` from the pre-grain definition, so this has to be the last word.
+    existing = {row[1] for row in cursor.execute('PRAGMA table_info("tables")')}
+    if "grain" not in existing:
+        cursor.execute(
+            'ALTER TABLE "tables" ADD COLUMN grain TEXT NOT NULL DEFAULT \'instance\''
+        )
+    if "grain_confirmed" not in existing:
+        cursor.execute(
+            'ALTER TABLE "tables" ADD COLUMN grain_confirmed INTEGER NOT NULL DEFAULT 0'
+        )
 
     conn.commit()
     conn.close()

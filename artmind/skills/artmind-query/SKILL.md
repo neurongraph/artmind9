@@ -36,8 +36,11 @@ A domain can also have tabular data (csv/xlsx ingested via `artmind ingest`) liv
 in a separate SQL store, independent of the graph above. Rows never become graph
 nodes — the graph only ever holds a catalogue of what tables/columns exist.
 
+- `artmind db bridge --domain <d> --compact` — **the routing entry point.** Per
+  table: `entity_classes` (routing key), `bridge_columns` (values that seed graph
+  retrieval), and `grain`. Add `--entityClass <CLASS>` for class-first discovery.
 - `artmind db list --domain <d> --compact` — which structured tables (if any)
-  exist for this domain.
+  exist for this domain. Physical listing only; prefer `db bridge` for routing.
 - `artmind db schema <table> --compact` — columns, types, and (once confirmed)
   column→entity-class mappings for a table.
 - `artmind db sql "<SQL>" --compact` — raw read-only SQL, no LLM involved.
@@ -92,18 +95,35 @@ artmind query domains-overview --compact
 
 #### Store routing
 
-Once the domain set is fixed, check whether it has a structured store at all
-before deciding how to answer:
+Once the domain set is fixed, read the **bridge** — the one call that says
+whether a structured store exists here, which tables are about the classes in
+the question, and which of their columns hold values worth searching the graph
+for:
 
 ```bash
-artmind db list --domain <d> --compact
+artmind db bridge --domain <d> --compact
 ```
 
-An empty table list means the domain is pure-graph — skip SQL/hybrid entirely
-and go straight to Discover below. Otherwise classify the question first —
-only pull table shape if the classification needs it, so a narrative-only
-session in a domain that happens to have tables never pays for a schema call
-it doesn't use:
+Per table it returns `entity_classes` (the routing key — many-to-many with
+tables, which a single dotted `--domain` never could be), `bridge_columns`
+(whose *values* seed graph retrieval), and `grain`.
+
+Do not route on `--domain` alone. Documents usually carry a genre-scoped domain
+(`<corpus>.<genre>`) because that is the level an extraction schema lives at,
+while tables carry the corpus root (`<corpus>`), because a table has no genre.
+`db bridge` matches the hierarchy in both directions, so asking from a leaf
+domain still finds tables registered at the root. To go the other way — "which
+tables involve this class at all?" — use `--entityClass`:
+
+```bash
+artmind db bridge --entityClass <CLASS> --compact
+```
+
+An empty `tables` list means the domain is genuinely pure-graph — skip
+SQL/hybrid entirely and go straight to Discover below. Otherwise classify the
+question first; only pull table shape if the classification needs it, so a
+narrative-only session in a domain that happens to have tables never pays for a
+schema call it doesn't use:
 
 - **Narrative/relationship** ("tell me about X", "how are X and Y related",
   "why did…") → graph path — Discover/Resolve/Retrieve as documented below
@@ -129,6 +149,26 @@ it doesn't use:
      one graph pattern or `entity-context` call on the resolved entity.
   4. Synthesize the combined answer yourself in this turn — there is no
      "fusion" command; steps 1-3 are already composed by you, the skill.
+- **Records-plus-guidance** ("which X is in state Y, and what does our
+  policy/training require when handling it") → the two stores hold
+  *complementary* content, not overlapping content: the tables record what IS
+  true of particular people and cases, the graph states what SHOULD be done
+  about that kind of case. Do not try to join them by class: a subject class the
+  tables are full of is often nearly empty in the graph, because documents state
+  rules *about* that subject rather than instantiating it. Join on **values**
+  instead:
+  1. `db sql`/`text2sql` for the records, selecting the `bridge_columns` that
+     `db bridge` listed, not just the ids.
+  2. Feed those returned cell values as the query string to
+     `artmind query vector-text "<values + question terms>" --domain <corpus>
+     --asOf today --compact`. Unscoped across the corpus is fine and fast;
+     `--asOf today` matters — without it retired policy versions rank
+     alongside current ones.
+  3. Synthesize, citing the guidance documents by name.
+
+If a table's `grain` is `normative`, it asserts rules a document may also
+state. The graph wins on disagreement — report the difference rather than
+silently picking a side.
 
 Worked examples:
 
@@ -143,6 +183,17 @@ Worked examples:
   graph involvement — go straight to `text2sql "average X by month" --domain
   <d> --compact`, or `db sql` if you already have the exact SQL from a prior
   `--dry-run`.
+- **Usage C — "Which vulnerable customer has an open complaint, and what extra
+  care does our training and complaints guidance require?"** Records-plus-
+  guidance. `db bridge --domain banking --compact` shows
+  `vulnerable_customers` carrying `vulnerability_driver` and `support_needed`
+  as `bridge_columns`. `db sql` joins it to `complaints` on the open status,
+  returning those two columns alongside the customer. Their *values* then
+  become the retrieval phrase: `query vector-text "<driver> <support> handling
+  complaints extra care" --domain banking --asOf today --compact`, which
+  reaches the training and complaints-policy documents. Note the class join
+  would have failed here — the graph has almost no CUSTOMER entities, because
+  the documents set rules about vulnerable customers rather than listing them.
 
 `--asOf` consistency: if the question is temporal ("as of last quarter", "as of
 <date>"), pass the SAME `--asOf <date>` to every command in the hybrid chain —

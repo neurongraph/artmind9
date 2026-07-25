@@ -1,7 +1,4 @@
 # test/test_db_update.py
-import sqlite3
-from datetime import datetime
-
 import pytest
 
 from artmind.db import (
@@ -14,6 +11,28 @@ from artmind.db import (
     _update_draft_status,
     _list_update_sessions,
 )
+
+
+@pytest.fixture(autouse=True)
+def _isolated_registry(tmp_path, monkeypatch):
+    """Point ``artmind.db`` at a per-test SQLite file.
+
+    ``test/conftest.py``'s ``_no_live_registry_db`` already guarantees this
+    suite-wide, but this module is *why* that guard exists: it calls ``_get_db``
+    directly with no patching of its own, so it read and WROTE the developer's
+    real registry — 5 bogus update_sessions and 465 update_drafts rows had
+    accumulated there before anyone noticed. Declaring the dependency here keeps
+    the intent legible rather than leaving it to a global that a reader of this
+    file would never think to look for.
+
+    The functions under test resolve ``DB_PATH`` through ``artmind.db``'s module
+    globals at call time, so patching the attribute works even though they were
+    imported by name above.
+    """
+    import artmind.db as db
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    yield
 
 
 def test_update_sessions_and_drafts_tables_exist():

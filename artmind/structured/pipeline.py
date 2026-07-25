@@ -204,6 +204,22 @@ def _register_columns_and_mappings(
     except Exception as e:
         logger.warning("structured pipeline: mapping proposal failed for {}: {}", table_name, e)
 
+    # Grain and bridge_role describe what the table *means*, which doesn't change
+    # when rows arrive -- so unlike the mapping proposal above, this runs only on
+    # first registration, never on a replace refresh and never per SCD-2 batch.
+    # `artmind db propose` re-runs it on demand. Also best-effort: this one costs
+    # an LLM call, and an unreachable model must not fail the load.
+    table = registry.get_table_by_id(table_id)
+    if table is not None and table.get("version") == 1:
+        try:
+            from artmind.structured.semantics import propose_semantics
+
+            propose_semantics(table_id)
+        except Exception as e:
+            logger.warning(
+                "structured pipeline: semantics proposal failed for {}: {}", table_name, e
+            )
+
 
 def _validate_temporal_incoming_columns(
     ds: DuckDBDatasource, parquet_path: Path, staged_rel: str, table_name: str

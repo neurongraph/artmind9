@@ -272,6 +272,83 @@ def test_normalize_ingested_document_counts_only_matched_entities(tmp_path, monk
     assert result["entities"] == 0
 
 
+def test_stamp_chunk_valid_from_writes_to_chunks():
+    # asof_predicate is NULL-safe, so a chunk with no valid_from always passes the
+    # "in force yet?" half of the filter. Stamping it is what lets --asOf hide
+    # not-yet-effective content, the counterpart to apply_supersession's valid_to.
+    import artmind.temporal as temporal
+
+    session = MagicMock()
+    temporal._stamp_chunk_valid_from(session, "doc-1", "2026-06-01")
+
+    session.run.assert_called_once()
+    cypher, kwargs = session.run.call_args[0][0], session.run.call_args[1]
+    assert "DocChunk" in cypher
+    assert "c.valid_from" in cypher
+    assert kwargs == {"docId": "doc-1", "validFrom": "2026-06-01"}
+
+
+def test_stamp_chunk_valid_from_is_noop_without_a_date():
+    import artmind.temporal as temporal
+
+    session = MagicMock()
+    temporal._stamp_chunk_valid_from(session, "doc-1", None)
+    temporal._stamp_chunk_valid_from(session, "doc-1", "")
+
+    session.run.assert_not_called()
+
+
+def test_normalize_ingested_document_propagates_valid_from_to_chunks(tmp_path, monkeypatch):
+    # Document.valid_from is stamped by normalize_*, not at _write_to_neo4j
+    # (document.json carries no valid_from), so chunk propagation has to happen
+    # here too or chunk-level --asOf stays half-inert.
+    import artmind.temporal as temporal
+
+    doc_kg_dir = tmp_path
+    (doc_kg_dir / "document.json").write_text(
+        json.dumps({"id": "doc-1", "name": "policy.md"}), encoding="utf-8"
+    )
+    (doc_kg_dir / "entities.json").write_text(json.dumps([]), encoding="utf-8")
+    (doc_kg_dir / "properties.json").write_text(json.dumps([]), encoding="utf-8")
+
+    monkeypatch.setattr(
+        temporal, "load_schema",
+        lambda domain: {
+            "temporal": {
+                "document": {"valid_from": ["Effective Date"]},
+                "defaults": {"valid_from": "ingestion_date"},
+            }
+        },
+    )
+
+    calls = []
+
+    class FakeResult:
+        def single(self):
+            return {"matched": 0}
+
+    class FakeSession:
+        def run(self, cypher, **kwargs):
+            calls.append((cypher, kwargs))
+            return FakeResult()
+
+    class FakeSessionContext:
+        def __enter__(self):
+            return FakeSession()
+
+        def __exit__(self, *exc):
+            return False
+
+    monkeypatch.setattr(temporal, "neo4j_session", lambda: FakeSessionContext())
+
+    temporal.normalize_ingested_document(doc_kg_dir, "banking_policy")
+
+    chunk_writes = [(c, k) for c, k in calls if "DocChunk" in c and "c.valid_from" in c]
+    assert len(chunk_writes) == 1, calls
+    assert chunk_writes[0][1]["docId"] == "doc-1"
+    assert chunk_writes[0][1]["validFrom"]
+
+
 def test_asof_predicate_shape():
     from artmind.graph_query import asof_predicate
     pred = asof_predicate("e")

@@ -203,7 +203,11 @@ def cli():
 
 
 def _echo_json(payload: dict, compact: bool = False) -> None:
-    kwargs = {"ensure_ascii": False}
+    # DuckDB DATE/TIMESTAMP/DECIMAL values arrive here straight off a result set
+    # (`db sql`, `query text2sql`) and aren't JSON-serializable. `default=str`
+    # renders them rather than crashing the CLI's only output path -- same call
+    # this repo already makes for column profiles in `structured/pipeline.py`.
+    kwargs = {"ensure_ascii": False, "default": str}
     if compact:
         kwargs["separators"] = (",", ":")
     else:
@@ -1126,7 +1130,12 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 
 @cli.group()
 def db():
-    """Manage and read the structured (SQL) store: list/schema/sql/mappings/catalogue/refresh/connect/backup/restore."""
+    """Manage and read the structured (SQL) store: bridge/list/schema/sql/grain/propose/mappings/catalogue/refresh/connect/backup/restore.
+
+    `db bridge` is the routing entry point — it answers whether a structured
+    store exists for a domain, which tables are about which entity classes, and
+    which columns' values are worth searching the graph for.
+    """
     pass
 
 
@@ -1317,6 +1326,100 @@ def db_mappings_clear(ctx, column, compact):
     structured_registry.clear_mappings(table_id, column)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
+    )
+
+
+@db.command("bridge")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
+@click.option("--entityClass", "entity_class", default=None, help="Only tables whose class scope contains this class.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_bridge(domain, entity_class, compact):
+    """Read the structured↔graph bridge: class scope, bridge columns, grain.
+
+    One call answers the three routing questions: does a structured store exist
+    for this area, which tables are about the classes in the question, and which
+    of their columns hold values worth searching the graph for.
+
+    `entity_class` is the routing key — it is many-to-many with tables, which a
+    single dotted `--domain` never could be. `bridge_columns` are the fusion
+    step: feed those cell values to `query vector-text`/`entity-resolve`.
+    """
+    domains = _parse_domains(domain) if domain else None
+    _echo_json(
+        {
+            "query_type": "structured",
+            "command": "db bridge",
+            "tables": structured_registry.routing_surface(domains, entity_class),
+        },
+        compact,
+    )
+
+
+@db.command("propose")
+@click.argument("table")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option("--model", default=None, help="Override the LLM model used for the grain/bridge proposal.")
+@click.option("--skipSemantics", "skip_semantics", is_flag=True, help="Re-propose mappings only — no LLM call.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_propose(table, domain, model, skip_semantics, compact):
+    """Re-run semantic proposals for TABLE: mappings, grain, and bridge columns.
+
+    The ingest pipeline proposes mappings on every write and grain/bridge_role
+    only on first registration, so this is how a table gets re-examined without
+    re-ingesting the source file — the same role ``db catalogue`` plays for the
+    Neo4j projection. Confirmed values are never overwritten by a re-proposal.
+    """
+    from artmind.structured.mappings import propose_mappings
+
+    row = _resolve_table_row(table, domain)
+    table_id = row["id"]
+    result = {"table": table, "domain": row["domain"]}
+
+    try:
+        result["mappings"] = propose_mappings(table_id, [row["domain"]])
+    except Exception as exc:
+        raise click.ClickException(f"mapping proposal failed: {exc}") from exc
+
+    if not skip_semantics:
+        from artmind.structured.semantics import propose_semantics
+
+        try:
+            result["semantics"] = propose_semantics(table_id, model=model)
+        except Exception as exc:
+            raise click.ClickException(f"semantics proposal failed: {exc}") from exc
+
+    _echo_json(result, compact)
+
+
+@db.command("grain")
+@click.argument("table")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option("--set", "grain", default=None, type=click.Choice(structured_registry.GRAINS), help="Confirm TABLE's grain. Omit to just show it.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_grain(table, domain, grain, compact):
+    """Show or confirm what TABLE's rows denote — instance, lookup, or normative.
+
+    Only `normative` changes behaviour: it means a document also asserts this
+    content, so the graph wins on disagreement and the table is quarantined from
+    answer synthesis. Confirming it requires refresh_mode=temporal.
+    """
+    row = _resolve_table_row(table, domain)
+    if grain is not None:
+        try:
+            structured_registry.set_grain(row["id"], grain, confirmed=True)
+        except ValueError as exc:
+            raise click.ClickException(str(exc)) from exc
+        row = structured_registry.get_table_by_id(row["id"])
+    _echo_json(
+        {
+            "table": row["table_name"],
+            "domain": row["domain"],
+            "grain": row["grain"],
+            "grainConfirmed": bool(row["grain_confirmed"]),
+            "refreshMode": row["refresh_mode"],
+            "bridgeColumns": structured_registry.list_column_roles(row["id"]),
+        },
+        compact,
     )
 
 

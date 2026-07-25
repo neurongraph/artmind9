@@ -44,9 +44,16 @@ graph nodes.
    parquet is the *default embedded reference adapter*. External adapters
    (Postgres/Snowflake/…) are a later increment; the interface is designed for
    them now.
-5. **Domain is the unifying scope across both stores.** Every table is assigned a
+5. ~~**Domain is the unifying scope across both stores.** Every table is assigned a
    domain; hybrid queries are always domain-bounded; the resolver only matches a
-   column's values against entities in the same domain.
+   column's values against entities in the same domain.~~
+   > **Superseded (2026-07-25)** by
+   > [`2026-07-25-cross-store-join-model-design.md`](2026-07-25-cross-store-join-model-design.md).
+   > This principle breaks on hierarchical domains: documents live in `banking.policy`,
+   > `banking.cases`, … while tables live at bare `banking`, so "the same domain" never
+   > matches and structured data becomes invisible to per-domain discovery. `domain` is
+   > now a query filter and an extraction-schema scope only; `entity_class` carries
+   > routing, and fusion runs on values.
 
 ## 3. Enrichment depth: Level 1 at ingest, Level 2 at query time
 
@@ -59,6 +66,10 @@ graph nodes.
   profiled values and graph entity names. **No anchor nodes are persisted** — the
   only thing linking the two stores at rest is shared strings scoped by domain,
   resolved on demand. This avoids graph bloat and any sync problem on re-ingest.
+  > **Amended (2026-07-25):** "scoped by domain" no longer holds — see
+  > [`2026-07-25-cross-store-join-model-design.md`](2026-07-25-cross-store-join-model-design.md).
+  > The rest of Level 2 stands and is now the *primary* fusion mechanism, verified
+  > end to end against the banking corpus.
 
 ## 4. Storage: three homes
 

@@ -66,6 +66,64 @@ def _null_neo4j_session(*args, **kwargs):
     return _NullSession()
 
 
+def _refuse_llm_call(model, prompt):
+    raise RuntimeError(
+        "A test reached artmind.extraction.call_llm. The suite is hermetic — no "
+        "network, no local model. Stub the call in the test itself if the path "
+        "under test needs one."
+    )
+
+
+@pytest.fixture(autouse=True)
+def _no_live_llm(monkeypatch):
+    """Third instance of the hazard ``_no_live_neo4j`` guards, for the LLM.
+
+    The structured ingest pipeline was LLM-free until ``pipeline.py`` gained a
+    ``propose_semantics()`` hook. Every pre-existing fixture that ingests a CSV
+    (test_db_cli.py, test_structured_*.py) suddenly reached a real ollama call
+    and blocked on ARTMIND_OLLAMA_TIMEOUT — the suite went from ~6s to hanging.
+    Exactly the drift this file's opening docstring describes: a hook added deep
+    in a call path that older tests already exercise unmocked.
+
+    Raising rather than returning a canned string is deliberate: an accidental
+    LLM dependency should be loud where nothing catches it, and the ingest hook's
+    own try/except already treats an unreachable model as a non-fatal warning,
+    which is the behaviour we want to exercise anyway.
+
+    Only ``artmind.extraction.call_llm`` is patched. Modules that bind the name
+    at import (``from artmind.extraction import call_llm``, as text2sql does)
+    keep their own reference and their existing per-test stubs still apply;
+    callers that resolve it at call time — semantics.py — get this guard.
+    """
+    import artmind.extraction as extraction
+
+    monkeypatch.setattr(extraction, "call_llm", _refuse_llm_call)
+    yield
+
+
+@pytest.fixture(autouse=True)
+def _no_live_registry_db(tmp_path, monkeypatch):
+    """Same hazard as ``_no_live_neo4j`` below, for the SQLite registry.
+
+    ``artmind.db`` resolves ``DB_PATH`` from ``paths`` at import, defaulting to
+    ``$ARTMIND_DATA_DIR/document_registry.db`` — a real user's data. Most tests
+    monkeypatch ``db.DB_PATH`` themselves, but that is per-test discipline, and
+    a test that merely imports ``_get_db`` and calls it (test_db_update.py did
+    exactly this) silently reads and WRITES the developer's live registry.
+    Observed on this machine: 5 bogus update_sessions and 465 update_drafts
+    rows ("Alice is the CEO", alice@example.com), three more appended per run
+    since 2026-07-16.
+
+    Redirecting the module global for every test makes the whole class
+    impossible. Tests that set ``db.DB_PATH`` themselves still win: the same
+    function-scoped ``monkeypatch`` applies their value after this fixture's.
+    """
+    import artmind.db as db
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "test_registry.db")
+    yield
+
+
 @pytest.fixture(autouse=True)
 def _no_live_neo4j(monkeypatch):
     import artmind.graph_query as graph_query

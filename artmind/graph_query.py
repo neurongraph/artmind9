@@ -344,7 +344,7 @@ def entity_listing(
     MATCH (n:Entity)
     WHERE {domain_predicate("n")} AND n.name IS NOT NULL
       AND ($nameFilter IS NULL OR toLower(n.name) CONTAINS toLower($nameFilter)){asof_node}
-    UNWIND labels(n) AS label
+    UNWIND [l IN labels(n) WHERE l <> 'Entity'] AS label
     WITH label, n.type AS type, collect(DISTINCT n.name) AS names
     RETURN label, collect({{type: type, names: names}}) AS typeGroups
     ORDER BY label
@@ -933,6 +933,35 @@ def domains_overview() -> dict:
                 entry["entity_count"] = p["c"]
             elif p["k"] == "top_classes":
                 entry["top_classes"] = p["names"]
+
+    # Union in domains that hold structured tables. Without this the aggregation
+    # above only ever reports domains with Document/Entity nodes, so a corpus
+    # whose tables sit at a coarser root than its documents (banking.cases,
+    # banking.policy, ... for documents; bare banking for tables) never surfaces
+    # the table-bearing domain at all -- and the routing workflow that starts
+    # here can't discover a structured store that plainly exists.
+    try:
+        from artmind.structured import registry as structured_registry
+
+        for table in structured_registry.list_tables():
+            entry = overview.setdefault(table["domain"], {"domain": table["domain"]})
+            entry["table_count"] = entry.get("table_count", 0) + 1
+            entry.setdefault("tables", []).append(table["table_name"])
+    except Exception:
+        # A query-only host has no registry DB ($ARTMIND_DATA_DIR absent). The
+        # graph half of this overview must still work there.
+        pass
+
+    for entry in overview.values():
+        entry["stores"] = [
+            name
+            for name, present in (
+                ("graph", bool(entry.get("document_count") or entry.get("entity_count"))),
+                ("structured", bool(entry.get("table_count"))),
+            )
+            if present
+        ]
+
     return {
         "query_type": "graph",
         "command": "domains_overview",

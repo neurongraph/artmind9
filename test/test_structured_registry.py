@@ -379,3 +379,243 @@ def test_restore_all_wipes_before_reinserting(tmp_path, monkeypatch):
     registry.restore_all({"datasources": [], "tables": [], "columns": [], "column_mappings": []})
 
     assert registry.get_table("stale_table", domain="general") is None
+
+
+def test_list_tables_matches_ancestor_domains(tmp_path, monkeypatch):
+    """Bug 2: documents live at genre domains (banking.cases) while tables live
+    at the corpus root (banking), because a table has no genre. Matching only
+    downwards made `db list --domain banking.cases` return [] and an agent
+    conclude no structured store existed, with six populated tables sitting at
+    banking."""
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    registry.register_table("default", "customers", "banking", parquet_path="/tmp/c.parquet")
+    registry.register_table("default", "loans", "banking.retail", parquet_path="/tmp/l.parquet")
+
+    # Ancestor: a leaf domain reaches the root's tables.
+    assert [t["table_name"] for t in registry.list_tables(["banking.cases"])] == ["customers"]
+    # Descendant: unchanged behaviour.
+    assert sorted(t["table_name"] for t in registry.list_tables(["banking"])) == [
+        "customers", "loans",
+    ]
+    # Unrelated domain matches neither.
+    assert registry.list_tables(["fiction"]) == []
+    # The opt-out restores descendant-only scope for project_catalogue.
+    assert registry.list_tables(["banking.cases"], include_ancestors=False) == []
+
+
+def test_routing_surface_shape_and_class_filter(tmp_path, monkeypatch):
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    vc_id = registry.register_table(
+        "default", "vulnerable_customers", "banking", parquet_path="/tmp/v.parquet", row_count=7
+    )
+    other_id = registry.register_table(
+        "default", "products", "banking", parquet_path="/tmp/p.parquet"
+    )
+    registry.upsert_mapping(vc_id, "reviewed_by", "ROLE_PERSON", 1.0, confirmed=True)
+    registry.upsert_mapping(vc_id, "customer_id", "CUSTOMER", 0.6)
+    registry.upsert_mapping(other_id, "name", "PRODUCT", 0.9)
+    registry.upsert_column_role(vc_id, "vulnerability_driver", "term", 0.9)
+
+    surface = registry.routing_surface(["banking.cases"])  # ancestor match
+    by_table = {t["table"]: t for t in surface}
+    vc = by_table["vulnerable_customers"]
+    assert vc["grain"] == "instance"
+    assert [c["entity_class"] for c in vc["entity_classes"]] == ["CUSTOMER", "ROLE_PERSON"]
+    assert [c["confirmed"] for c in vc["entity_classes"]] == [False, True]
+    assert vc["bridge_columns"] == [
+        {"column": "vulnerability_driver", "bridge_role": "term", "confirmed": False}
+    ]
+
+    # Class-first discovery: many-to-many, which a single dotted domain can't express.
+    filtered = registry.routing_surface(None, entity_class="ROLE_PERSON")
+    assert [t["table"] for t in filtered] == ["vulnerable_customers"]
+
+
+def test_init_db_adds_grain_to_pre_grain_schema(tmp_path, monkeypatch):
+    """A registry seeded before `grain` existed must gain the column without
+    losing rows. The seed here also has the old UNIQUE key, so this exercises
+    the ordering that matters: the rename/recreate block rebuilds `tables` from
+    the pre-grain definition, and the ADD COLUMN migration has to run after it."""
+    import sqlite3
+
+    import artmind.db as db
+
+    db_path = tmp_path / "reg.db"
+    _seed_pre_domain_unique_schema(db_path)
+    monkeypatch.setattr(db, "DB_PATH", db_path)
+
+    db._init_db()
+
+    conn = sqlite3.connect(db_path)
+    cols = {row[1] for row in conn.execute('PRAGMA table_info("tables")')}
+    assert "grain" in cols
+    row = conn.execute('SELECT grain, table_name, sha256 FROM "tables" WHERE id = 1').fetchone()
+    conn.close()
+    assert row == ("instance", "products", "pre-migration-sha")
+
+
+def test_register_table_grain_defaults_and_validates(tmp_path, monkeypatch):
+    import pytest
+
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+
+    registry.register_table("default", "customers", "banking", parquet_path="/tmp/c.parquet")
+    assert registry.get_table("customers", domain="banking")["grain"] == "instance"
+
+    registry.register_table(
+        "default", "rate_card", "banking", parquet_path="/tmp/r.parquet", grain="normative"
+    )
+    assert registry.get_table("rate_card", domain="banking")["grain"] == "normative"
+
+    with pytest.raises(ValueError, match="grain must be one of"):
+        registry.register_table(
+            "default", "bogus", "banking", parquet_path="/tmp/b.parquet", grain="nonsense"
+        )
+
+
+def test_register_table_update_preserves_grain(tmp_path, monkeypatch):
+    """Re-ingesting a table must not silently reset an operator's confirmed
+    grain back to the 'instance' default — the same durability guarantee
+    column_mappings confirmations have."""
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    # Temporal because confirming 'normative' requires it — normative rows get
+    # superseded, so they need SCD-2 history.
+    registry.register_table(
+        "default", "rate_card", "banking", parquet_path="/tmp/r.parquet",
+        refresh_mode="temporal", business_key="product,tier",
+    )
+    registry.set_grain(
+        registry.get_table("rate_card", domain="banking")["id"], "normative"
+    )
+
+    # Re-ingest: same datasource/domain/table_name, so this takes the UPDATE path.
+    registry.register_table(
+        "default", "rate_card", "banking", parquet_path="/tmp/r2.parquet", row_count=99,
+        refresh_mode="temporal", business_key="product,tier",
+    )
+
+    row = registry.get_table("rate_card", domain="banking")
+    assert row["grain"] == "normative"
+    assert row["grain_confirmed"] == 1
+    assert row["row_count"] == 99
+    assert row["version"] == 2
+
+
+def test_set_grain_validates(tmp_path, monkeypatch):
+    import pytest
+
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    table_id = registry.register_table(
+        "default", "customers", "banking", parquet_path="/tmp/c.parquet"
+    )
+    with pytest.raises(ValueError, match="grain must be one of"):
+        registry.set_grain(table_id, "nonsense")
+    assert registry.get_table("customers", domain="banking")["grain"] == "instance"
+
+
+def test_column_roles_survive_replace_columns(tmp_path, monkeypatch):
+    """The reason bridge_role lives in its own table rather than on `columns`:
+    replace_columns() DELETEs and re-INSERTs every row on each ingest/refresh,
+    so a role stored there would be wiped whenever the table is refreshed."""
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    table_id = registry.register_table(
+        "default", "vulnerable_customers", "banking", parquet_path="/tmp/v.parquet"
+    )
+    registry.replace_columns(table_id, [{"name": "vulnerability_driver", "dtype": "VARCHAR"}])
+    registry.upsert_column_role(table_id, "vulnerability_driver", "term", 0.9, confirmed=True)
+
+    # Simulate a refresh re-profiling the same table.
+    registry.replace_columns(table_id, [{"name": "vulnerability_driver", "dtype": "VARCHAR"}])
+
+    roles = registry.list_column_roles(table_id)
+    assert len(roles) == 1
+    assert roles[0]["column"] == "vulnerability_driver"
+    assert roles[0]["bridge_role"] == "term"
+    assert roles[0]["confirmed"] == 1
+
+
+def test_column_role_confirm_filter_and_clear(tmp_path, monkeypatch):
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    table_id = registry.register_table(
+        "default", "vulnerable_customers", "banking", parquet_path="/tmp/v.parquet"
+    )
+    registry.upsert_column_role(table_id, "vulnerability_driver", "term", 0.9)
+    registry.upsert_column_role(table_id, "support_needed", "term", 0.8)
+
+    assert len(registry.list_column_roles(table_id)) == 2
+    assert registry.list_column_roles(table_id, confirmed_only=True) == []
+
+    registry.set_column_role_confirmed(table_id, "vulnerability_driver", True)
+    confirmed = registry.list_column_roles(table_id, confirmed_only=True)
+    assert [r["column"] for r in confirmed] == ["vulnerability_driver"]
+
+    registry.clear_column_roles(table_id, "support_needed")
+    assert [r["column"] for r in registry.list_column_roles(table_id)] == ["vulnerability_driver"]
+
+
+def test_dump_restore_round_trips_grain_and_column_roles(tmp_path, monkeypatch):
+    """restore_all rebuilds `tables` from an explicit column list, so a new
+    column has to be added there too or a snapshot restore silently resets it."""
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.register_datasource("default", "duckdb", "/tmp/x.duckdb")
+    table_id = registry.register_table(
+        "default", "rate_card", "banking", parquet_path="/tmp/r.parquet", grain="normative"
+    )
+    registry.upsert_column_role(table_id, "tier", "term", 0.7, confirmed=True)
+
+    dump = registry.dump_all()
+    assert dump["tables"][0]["grain"] == "normative"
+    assert dump["column_roles"][0]["bridge_role"] == "term"
+
+    registry.restore_all(dump)
+
+    restored = registry.get_table("rate_card", domain="banking")
+    assert restored["grain"] == "normative"
+    roles = registry.list_column_roles(restored["id"])
+    assert [(r["column"], r["bridge_role"], r["confirmed"]) for r in roles] == [("tier", "term", 1)]
+
+
+def test_restore_all_tolerates_pre_grain_dump(tmp_path, monkeypatch):
+    """Snapshots taken before this change carry neither grain nor column_roles."""
+    from artmind.structured import registry
+
+    _patch_db(tmp_path, monkeypatch)
+    registry.restore_all({
+        "datasources": [
+            {"name": "default", "type": "duckdb", "path_or_dsn": "/tmp/x.duckdb",
+             "created_at": "2026-01-01T00:00:00"},
+        ],
+        "tables": [
+            {"id": 1, "datasource": "default", "table_name": "products", "domain": "banking",
+             "source_file": None, "sheet": None, "parquet_path": "/tmp/p.parquet", "version": 1,
+             "row_count": 2, "refresh_mode": "replace", "business_key": None,
+             "effective_date_column": None, "ingested_at": "2026-01-01T00:00:00", "sha256": "x"},
+        ],
+        "columns": [],
+        "column_mappings": [],
+    })
+
+    assert registry.get_table("products", domain="banking")["grain"] == "instance"

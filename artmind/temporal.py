@@ -259,6 +259,7 @@ def normalize_time(domain: str, dry_run: bool = False) -> dict:
                         id=doc["id"], props=lifted,
                         now=datetime.now(timezone.utc).isoformat(),
                     )
+                    _stamp_chunk_valid_from(session, doc["id"], lifted.get("valid_from"))
         if ent_map:
             ents = session.run(
                 "MATCH (e:Entity) WHERE e.domain = $domain RETURN e.id AS id, e.entity_class AS entity_class, properties(e) AS properties",
@@ -319,6 +320,7 @@ def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
                 "MATCH (d:Document {id:$id}) SET d += $props, d.ingested_at = coalesce(d.ingested_at, $now)",
                 id=document["id"], props=lifted, now=datetime.now(timezone.utc).isoformat(),
             )
+            _stamp_chunk_valid_from(session, document["id"], lifted.get("valid_from"))
             written["documents"] = 1
         for e in entities:
             entity_with_props = {**e, "properties": props_by_id.get(e["id"], {})}
@@ -424,6 +426,24 @@ def parse_supersession_notice(md_text: str) -> dict | None:
     if em:
         eff = parse_iso(em.group(1))
     return {"superseded_version": m.group(1).strip(), "effective": eff}
+
+
+def _stamp_chunk_valid_from(session, doc_id: str, valid_from: str | None) -> None:
+    """Mirror a document's canonical `valid_from` onto its chunks.
+
+    The counterpart to `apply_supersession`'s `valid_to` stamp below. Without
+    this, only half of `asof_predicate` works on chunk queries: the predicate is
+    NULL-safe by design, so a NULL `valid_from` always passes and `--asOf` can
+    retire superseded content but cannot hide content that is not yet in force.
+    Denormalized onto the chunk the way `domain` and `doc_id` already are, which
+    keeps the predicate a plain property test rather than a PART_OF traversal.
+    """
+    if not valid_from:
+        return
+    session.run(
+        "MATCH (c:DocChunk {doc_id:$docId}) SET c.valid_from = $validFrom",
+        docId=doc_id, validFrom=valid_from,
+    )
 
 
 def apply_supersession(

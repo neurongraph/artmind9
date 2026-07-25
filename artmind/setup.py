@@ -173,6 +173,7 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run("CREATE INDEX entity_valid_from IF NOT EXISTS FOR (n:Entity) ON (n.valid_from)")
     session.run("CREATE INDEX entity_valid_to IF NOT EXISTS FOR (n:Entity) ON (n.valid_to)")
     session.run("CREATE INDEX entity_event_at IF NOT EXISTS FOR (n:Entity) ON (n.event_at)")
+    session.run("CREATE INDEX chunk_valid_from IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_from)")
     session.run("CREATE INDEX chunk_valid_to IF NOT EXISTS FOR (n:DocChunk) ON (n.valid_to)")
     session.run("CREATE INDEX document_valid_from IF NOT EXISTS FOR (n:Document) ON (n.valid_from)")
     session.run("CREATE INDEX document_valid_to IF NOT EXISTS FOR (n:Document) ON (n.valid_to)")
@@ -282,6 +283,7 @@ def setup_all() -> dict:
             "entity_valid_from",
             "entity_valid_to",
             "entity_event_at",
+            "chunk_valid_from",
             "chunk_valid_to",
             "document_valid_from",
             "document_valid_to",

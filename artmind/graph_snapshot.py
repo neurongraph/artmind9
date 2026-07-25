@@ -226,7 +226,16 @@ def _restore_nodes(session, nodes: dict[str, list[dict]]) -> dict[str, int]:
             if base_label == "Entity":
                 # Build label string from stored labels (e.g. "CHARACTER:Entity")
                 label_parts = [_sanitize_label(l) for l in labels if l != "Entity"]
-                label_str = ":".join(label_parts + ["Entity"]) if label_parts else "Entity"
+                if not label_parts:
+                    # A snapshot with no `labels` field for this node (old format,
+                    # hand-edited, foreign) would otherwise restore a bare :Entity.
+                    # Nothing in artmind can *create* one -- `_upsert_entity` always
+                    # writes `<CLASS>:Entity` and `_sanitize_label` falls back to
+                    # UNKNOWN -- and readers key off the class label, so
+                    # `entity_listing` would never surface it again. Reconstruct the
+                    # label from the node's own entity_class, exactly as ingest would.
+                    label_parts = [_sanitize_label(str(props.get("entity_class") or ""))]
+                label_str = ":".join(label_parts + ["Entity"])
             else:
                 label_str = base_label
 

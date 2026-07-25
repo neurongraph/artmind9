@@ -9,6 +9,7 @@ from artmind.graph_snapshot import (
     _find_latest_snapshot,
     _read_snapshot,
     _export_relationships,
+    _restore_nodes,
     _restore_relationships,
 )
 
@@ -120,6 +121,42 @@ class FakeSession:
     def run(self, cypher, **params):
         self.calls.append((cypher, params))
         return FakeResult(self._records)
+
+
+class TestRestoreNodes:
+    def test_entity_keeps_its_class_label(self):
+        fake = FakeSession(records=[])
+        _restore_nodes(fake, {"Entity": [
+            {"labels": ["CHARACTER", "Entity"], "name": "Holmes", "entity_class": "CHARACTER"},
+        ]})
+        cypher = fake.calls[0][0]
+        assert "CREATE (n:CHARACTER:Entity)" in cypher
+
+    def test_entity_without_stored_labels_rebuilds_from_entity_class(self):
+        """A snapshot missing `labels` (old format, hand-edited, foreign) used to
+        restore a bare :Entity. Nothing in artmind can create one — _upsert_entity
+        always writes `<CLASS>:Entity` — and readers key off the class label, so
+        `entity_listing` would never surface such a node again."""
+        fake = FakeSession(records=[])
+        _restore_nodes(fake, {"Entity": [
+            {"name": "Holmes", "entity_class": "CHARACTER"},
+        ]})
+        cypher = fake.calls[0][0]
+        assert "CREATE (n:CHARACTER:Entity)" in cypher
+        assert "CREATE (n:Entity)" not in cypher
+
+    def test_entity_with_no_class_at_all_falls_back_to_unknown(self):
+        """Never a bare :Entity — _sanitize_label's UNKNOWN fallback applies here
+        the same way it does on the ingest path."""
+        fake = FakeSession(records=[])
+        _restore_nodes(fake, {"Entity": [{"name": "Mystery"}]})
+        cypher = fake.calls[0][0]
+        assert "CREATE (n:UNKNOWN:Entity)" in cypher
+
+    def test_non_entity_label_is_used_verbatim(self):
+        fake = FakeSession(records=[])
+        _restore_nodes(fake, {"Document": [{"id": "doc1"}]})
+        assert "CREATE (n:Document)" in fake.calls[0][0]
 
 
 class TestExportRelationships:

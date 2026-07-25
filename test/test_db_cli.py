@@ -44,6 +44,79 @@ def test_db_list_shows_table_domain_scoped(ingested):
     assert "products" not in result_other.output
 
 
+def test_db_bridge_returns_routing_surface(ingested):
+    """The read side of everything the bridge stores — without this the grain,
+    class scope and bridge columns are write-only and no agent can route on them."""
+    import json
+
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    table_id = registry.get_table("products", domain="banking")["id"]
+    registry.upsert_mapping(table_id, "name", "PRODUCT", 0.9, confirmed=True)
+    registry.upsert_column_role(table_id, "name", "term", 0.9, confirmed=True)
+
+    result = CliRunner().invoke(cli.cli, ["db", "bridge", "--domain", "banking", "--compact"])
+    assert result.exit_code == 0, result.output
+    body = json.loads(result.output)
+    table = body["tables"][0]
+    assert table["table"] == "products"
+    assert table["grain"] == "instance"
+    assert [c["entity_class"] for c in table["entity_classes"]] == ["PRODUCT"]
+    assert table["bridge_columns"][0]["column"] == "name"
+
+
+def test_db_bridge_entity_class_filter(ingested):
+    import json
+
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    table_id = registry.get_table("products", domain="banking")["id"]
+    registry.upsert_mapping(table_id, "name", "PRODUCT", 0.9, confirmed=True)
+
+    hit = CliRunner().invoke(cli.cli, ["db", "bridge", "--entityClass", "PRODUCT", "--compact"])
+    miss = CliRunner().invoke(cli.cli, ["db", "bridge", "--entityClass", "CUSTOMER", "--compact"])
+    assert [t["table"] for t in json.loads(hit.output)["tables"]] == ["products"]
+    assert json.loads(miss.output)["tables"] == []
+
+
+def test_db_list_finds_root_tables_from_a_leaf_domain(ingested):
+    """The reported repro: `db list --domain banking.cases` returned {"tables": []}
+    while six tables sat at bare `banking`."""
+    import json
+
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "list", "--domain", "banking.cases", "--compact"])
+    assert result.exit_code == 0, result.output
+    assert [t["table_name"] for t in json.loads(result.output)["tables"]] == ["products"]
+
+
+def test_db_grain_shows_and_confirms(ingested):
+    import json
+
+    import artmind.cli as cli
+
+    shown = CliRunner().invoke(cli.cli, ["db", "grain", "products", "--compact"])
+    assert json.loads(shown.output)["grain"] == "instance"
+    assert json.loads(shown.output)["grainConfirmed"] is False
+
+    setres = CliRunner().invoke(
+        cli.cli, ["db", "grain", "products", "--set", "lookup", "--compact"]
+    )
+    assert setres.exit_code == 0, setres.output
+    assert json.loads(setres.output)["grain"] == "lookup"
+    assert json.loads(setres.output)["grainConfirmed"] is True
+
+    # normative needs SCD-2 history; this table is refresh_mode=replace.
+    bad = CliRunner().invoke(
+        cli.cli, ["db", "grain", "products", "--set", "normative", "--compact"]
+    )
+    assert bad.exit_code != 0
+    assert "temporal" in bad.output
+
+
 def test_db_schema_shows_columns(ingested):
     import artmind.cli as cli
 
@@ -73,6 +146,30 @@ def test_db_sql_rejects_write_statement(ingested):
 
     result = CliRunner().invoke(cli.cli, ["db", "sql", "DELETE FROM products"])
     assert result.exit_code != 0
+
+
+def test_db_sql_serializes_date_columns(tmp_path, monkeypatch):
+    """DATE/TIMESTAMP/DECIMAL values come off the DuckDB result set as Python
+    objects `json.dumps` can't encode. Before `_echo_json` passed `default=str`,
+    any query touching a date column died with "Object of type date is not JSON
+    serializable" and the only workaround was CAST(... AS VARCHAR)."""
+    import artmind.cli as cli
+    from artmind.structured.pipeline import ingest_structured_file
+
+    _patch_stores(tmp_path, monkeypatch)
+    csv_path = tmp_path / "complaints.csv"
+    _write_csv(
+        csv_path,
+        [["complaint_id", "date_received"], [1, "2026-07-01"], [2, "2026-07-02"]],
+    )
+    ingest_structured_file(csv_path, "banking")
+
+    result = CliRunner().invoke(
+        cli.cli,
+        ["db", "sql", "SELECT complaint_id, date_received FROM complaints", "--compact"],
+    )
+    assert result.exit_code == 0, result.output
+    assert "2026-07-01" in result.output
 
 
 def test_db_sql_is_unscoped_across_domains(tmp_path, monkeypatch):

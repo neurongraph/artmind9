@@ -143,6 +143,82 @@ def test_entity_listing_passes_name_filter_as_parameter(monkeypatch):
     assert "total_entities" not in result
 
 
+def test_domains_overview_unions_structured_only_domains(monkeypatch):
+    """Bug 2, other half: the aggregation only reports domains holding
+    Document/Entity nodes, so a corpus whose tables sit at a coarser root than
+    its documents never surfaced the table-bearing domain — and the routing
+    workflow that starts here could not discover a structured store that
+    plainly exists."""
+    monkeypatch.setattr(
+        graph_query, "_run_read_query",
+        lambda cypher, params: [
+            {"domain": "banking.policy",
+             "parts": [{"k": "documents", "c": 10, "names": ["p.md"]},
+                       {"k": "entities", "c": 500, "names": None}]},
+        ],
+    )
+
+    import artmind.structured.registry as registry
+
+    monkeypatch.setattr(
+        registry, "list_tables",
+        lambda *a, **kw: [
+            {"domain": "banking", "table_name": "customers"},
+            {"domain": "banking", "table_name": "complaints"},
+        ],
+    )
+
+    out = graph_query.domains_overview()
+    by_domain = {r["domain"]: r for r in out["rows"]}
+
+    assert out["domains"] == ["banking", "banking.policy"]
+    assert by_domain["banking"]["table_count"] == 2
+    assert by_domain["banking"]["stores"] == ["structured"]
+    assert by_domain["banking.policy"]["stores"] == ["graph"]
+
+
+def test_domains_overview_survives_missing_registry(monkeypatch):
+    """A query-only host has no $ARTMIND_DATA_DIR and therefore no registry DB.
+    The graph half of the overview must still work there."""
+    monkeypatch.setattr(
+        graph_query, "_run_read_query",
+        lambda cypher, params: [
+            {"domain": "fiction", "parts": [{"k": "documents", "c": 2, "names": ["a.md"]}]},
+        ],
+    )
+
+    import artmind.structured.registry as registry
+
+    def boom(*a, **kw):
+        raise RuntimeError("no registry db on this host")
+
+    monkeypatch.setattr(registry, "list_tables", boom)
+
+    out = graph_query.domains_overview()
+    assert out["domains"] == ["fiction"]
+    assert out["rows"][0]["stores"] == ["graph"]
+
+
+def test_entity_listing_excludes_the_generic_entity_label(monkeypatch):
+    """Every node carries two labels — :Entity plus its class — so a plain
+    `UNWIND labels(n)` emitted an extra 'Entity' row holding the whole domain
+    (5,400 of 5,426 names on the banking corpus). That catch-all then beat every
+    real class in propose_mappings: 8 of 11 persisted mappings pointed at the
+    non-existent class 'Entity', mostly at confidence 1.0. No node carries only
+    :Entity, so filtering it out loses nothing."""
+    captured = {}
+
+    def fake_run(cypher, params):
+        captured["cypher"] = cypher
+        return []
+
+    monkeypatch.setattr(graph_query, "_run_read_query", fake_run)
+    graph_query.entity_listing("banking")
+
+    assert "UNWIND labels(n) AS label" not in captured["cypher"]
+    assert "l <> 'Entity'" in captured["cypher"]
+
+
 def test_entity_listing_count_all_runs_count_query(monkeypatch):
     call_count = [0]
 

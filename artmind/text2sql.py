@@ -39,15 +39,23 @@ def _schema_summary_sql(
     tables: list[dict],
     columns_by_table: dict,
     mappings_by_table: dict,
+    roles_by_table: dict | None = None,
 ) -> str:
     """Format registered tables/columns/mappings into a compact text block for the prompt.
 
     This is the same information ``db schema`` returns, condensed for an LLM:
-    ``TABLE <name> (domain=<d>, rows=N): col:dtype [-> CLASS], ...`` per table.
+    ``TABLE <name> (domain=<d>, rows=N): col:dtype [-> CLASS] [bridge], ...``.
+
+    ``[bridge]`` marks a column whose *values* also appear in the document
+    corpus, so returning it lets the caller search the graph with those values.
+    Unlike the ``[→ CLASS]`` annotation, this deliberately ignores the confirmed
+    flag: omitting a real bridge column costs the caller the fusion step
+    entirely, while an extra column in the SELECT is harmless.
     """
     if not tables:
         return "  (no tables registered)"
 
+    roles_by_table = roles_by_table or {}
     lines: list[str] = []
     for t in tables:
         table_id = t["id"]
@@ -56,6 +64,7 @@ def _schema_summary_sql(
         row_count = t.get("row_count")
         columns = columns_by_table.get(table_id, [])
         mappings = mappings_by_table.get(table_id, [])
+        bridge_columns = {r["column"] for r in roles_by_table.get(table_id, [])}
 
         confirmed_classes: dict[str, list[str]] = {}
         for m in mappings:
@@ -68,12 +77,58 @@ def _schema_summary_sql(
             classes = confirmed_classes.get(c["name"])
             if classes:
                 col_str += f" [→ {', '.join(classes)}]"
+            if c["name"] in bridge_columns:
+                col_str += " [bridge]"
             col_strs.append(col_str)
 
+        grain = t.get("grain") or "instance"
+        grain_note = f", grain={grain}" if grain != "instance" else ""
         lines.append(
-            f"  TABLE {name} (domain={domain}, rows={row_count}): {', '.join(col_strs)}"
+            f"  TABLE {name} (domain={domain}, rows={row_count}{grain_note}):"
+            f" {', '.join(col_strs)}"
         )
     return "\n".join(lines)
+
+
+def _fusion_hints(domains: list[str]) -> dict:
+    """Bridge columns in scope, plus a quarantine notice for normative tables.
+
+    ``bridge_columns`` tells the caller which of the returned values are worth
+    searching the document corpus with — the fusion step. ``quarantine`` fires
+    only on the conjunction the design specifies: a table declaring
+    ``grain='normative'`` (it asserts rules a document may also state) that has
+    a non-empty class scope to collide on. Graph wins; the caller is told, not
+    overruled.
+    """
+    hints: dict = {}
+    bridge, quarantined = [], []
+    for table in structured_registry.list_tables(domains):
+        for role in structured_registry.list_column_roles(table["id"]):
+            bridge.append({
+                "table": table["table_name"],
+                "column": role["column"],
+                "bridge_role": role["bridge_role"],
+                "confirmed": bool(role["confirmed"]),
+            })
+        if (table.get("grain") or "instance") == "normative":
+            classes = sorted(
+                {m["entity_class"] for m in structured_registry.list_mappings(table["id"])}
+            )
+            if classes:
+                quarantined.append({"table": table["table_name"], "entity_classes": classes})
+
+    if bridge:
+        hints["bridge_columns"] = bridge
+    if quarantined:
+        hints["quarantine"] = {
+            "tables": quarantined,
+            "rule": (
+                "These tables declare grain='normative' — they assert rules a document "
+                "may also state. On disagreement the graph wins; surface the difference "
+                "rather than silently choosing a side."
+            ),
+        }
+    return hints
 
 
 def build_text2sql_prompt(
@@ -101,6 +156,12 @@ RULES:
 - Columns annotated "[→ CLASS]" are confirmed mappings to knowledge-graph
   entity classes — useful context for reasoning about the data, not a syntax
   requirement.
+- Columns annotated "[bridge]" hold values that also appear in the document
+  corpus (e.g. a vulnerability driver, a complaint category). When the question
+  asks what guidance, policy or training applies to the rows — not just for a
+  number — INCLUDE these columns in the SELECT even if the user did not name
+  them. Their values are what the caller searches the documents with; omitting
+  them makes that impossible.
 - Some tables may expose a `<table>_current` view or `valid_from`/`valid_to`
   columns for temporal (SCD-2) history. If the user supplies an as-of date,
   prefer the `_current` view or filter with
@@ -142,8 +203,13 @@ def generate_sql(
     tables = structured_registry.list_tables(domains)
     columns_by_table = {t["id"]: structured_registry.get_columns(t["id"]) for t in tables}
     mappings_by_table = {t["id"]: structured_registry.list_mappings(t["id"]) for t in tables}
+    roles_by_table = {
+        t["id"]: structured_registry.list_column_roles(t["id"]) for t in tables
+    }
 
-    schema_info = _schema_summary_sql(tables, columns_by_table, mappings_by_table)
+    schema_info = _schema_summary_sql(
+        tables, columns_by_table, mappings_by_table, roles_by_table
+    )
 
     prompt = build_text2sql_prompt(question, schema_info, domains, as_of=as_of)
     raw = call_llm(resolved_model, prompt)
@@ -201,6 +267,13 @@ def execute_text2sql(
     }
     if as_of:
         output["asOf"] = as_of
+
+    # Fusion hand-off. There is no fusion *command* — the caller composes SQL and
+    # graph retrieval itself — so the bridge and the quarantine rule are surfaced
+    # here as data rather than enforced, and the caller decides. Silently
+    # dropping a normative table's rows would be worse: the disagreement is the
+    # thing worth seeing.
+    output.update(_fusion_hints(domains))
 
     if dry_run:
         output["rows"] = []

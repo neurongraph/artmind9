@@ -257,9 +257,21 @@ ingest-detect-supersession domain dry_run="":
 
 # ── artmind db (structured store) ───────────────────────────────────────────
 
+# read the structured-to-graph bridge: class scope, bridge columns, grain  (usage: just db-bridge [domain] [entityClass])
+db-bridge domain="" entity_class="":
+    uv run artmind db bridge {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if entity_class != "" { "--entityClass " + entity_class } else { "" } }}
+
 # list registered structured tables  (usage: just db-list [domain])
 db-list domain="":
     uv run artmind db list {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# show or confirm what a table's rows denote: instance | lookup | normative  (usage: just db-grain <table> [grain])
+db-grain table grain="":
+    uv run artmind db grain {{ table }} {{ if grain != "" { "--set " + grain } else { "" } }}
+
+# re-run semantic proposals (mappings, grain, bridge columns) for a table  (usage: just db-propose <table> [--skipSemantics])
+db-propose table flags="":
+    uv run artmind db propose {{ table }} {{ flags }}
 
 # show columns/types (+profiles/mappings) for a table  (usage: just db-schema [table])
 db-schema table="":
