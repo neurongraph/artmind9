@@ -181,9 +181,10 @@ def test_db_mappings_help_documents_table(ingested):
     assert "TABLE" in result.output
 
 
-# Note: cross-domain table-name ambiguity (same table_name, two domains) is not
-# reachable through the registry as written — "tables" has a global
-# UNIQUE(datasource, table_name) constraint (artmind/db.py), so re-registering the
-# same table_name just updates the existing row's domain in place rather than
-# creating a second row. _resolve_table_id's ambiguity guard is therefore
-# defensive-only under the current schema and isn't exercised here.
+# Note: cross-domain table-name ambiguity (same table_name, two domains) is
+# reachable through the registry as written — "tables" has a
+# UNIQUE(datasource, domain, table_name) constraint (artmind/db.py), so
+# registering the same table_name under a different domain creates a second
+# row rather than overwriting the first (see register_table in
+# artmind/structured/registry.py). _resolve_table_id's ambiguity guard exists
+# to handle exactly that case, but isn't exercised here.
