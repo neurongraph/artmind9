@@ -6,6 +6,7 @@ crash handling are exercised for real.
 """
 
 import asyncio
+import json
 import sys
 from pathlib import Path
 
@@ -128,6 +129,32 @@ async def test_connect_with_mode_selects_it_and_still_works(tmp_path):
     finally:
         await backend.disconnect()
     assert events[-1]["type"] == "turn_done"
+
+
+def test_subprocess_env_without_model_is_unset(tmp_path):
+    backend = ACPBackend(agent_cmd=["opencode", "acp"], cwd=str(tmp_path))
+    assert backend._subprocess_env() is None
+
+
+def test_subprocess_env_with_model_sets_opencode_config_content(tmp_path, monkeypatch):
+    monkeypatch.delenv("OPENCODE_CONFIG_CONTENT", raising=False)
+    backend = ACPBackend(
+        agent_cmd=["opencode", "acp"], cwd=str(tmp_path), model="anthropic/claude-sonnet-4"
+    )
+    env = backend._subprocess_env()
+    assert json.loads(env["OPENCODE_CONFIG_CONTENT"]) == {"model": "anthropic/claude-sonnet-4"}
+
+
+def test_subprocess_env_merges_onto_existing_opencode_config_content(tmp_path, monkeypatch):
+    monkeypatch.setenv("OPENCODE_CONFIG_CONTENT", json.dumps({"small_model": "ollama/gemma4:12b"}))
+    backend = ACPBackend(
+        agent_cmd=["opencode", "acp"], cwd=str(tmp_path), model="ollama/gemma4:26b-mlx"
+    )
+    env = backend._subprocess_env()
+    assert json.loads(env["OPENCODE_CONFIG_CONTENT"]) == {
+        "small_model": "ollama/gemma4:12b",
+        "model": "ollama/gemma4:26b-mlx",
+    }
 
 
 async def test_connect_failure_propagates(tmp_path):

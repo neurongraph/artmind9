@@ -53,6 +53,7 @@ body {
   font: 15px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  transition: padding-right 0.25s ease;
 }
 button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
 /* inline <svg> doesn't honor the HTML hidden attribute on its own */
@@ -120,7 +121,6 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   max-width: 48rem;
   margin: 0 auto;
   padding: 72px 20px 160px;
-  transition: margin-right 0.25s ease;
   font-family: 'Ysabeau Infant', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-size: 16.5px;
@@ -248,10 +248,11 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 /* ── composer ────────────────────────────────────────────────────── */
 .composer-wrap {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 20;
+  position: fixed; bottom: 0; left: 0; z-index: 20;
+  width: 100%;
   padding: 24px 20px 20px;
   background: linear-gradient(transparent, var(--bg) 45%);
-  transition: margin-right 0.25s ease;
+  transition: width 0.25s ease;
 }
 .composer {
   display: flex; align-items: flex-end; gap: 8px;
@@ -291,7 +292,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 body.drawer-open .drawer:not(#help-drawer) { transform: translateX(0); }
 /* wide screens: drawer pushes content instead of covering it */
 @media (min-width: 1200px) {
-  body.drawer-open .chat, body.drawer-open .composer-wrap { margin-right: 380px; }
+  body.drawer-open { padding-right: 380px; }
+  body.drawer-open .composer-wrap { width: calc(100% - 380px); }
 }
 /* help drawer toggles independently of the trace drawer's body class */
 #help-drawer.open { transform: translateX(0); }

@@ -13,6 +13,7 @@ commands. Acceptable for the localhost-bound chat UI; do not expose beyond it.
 import asyncio
 import json
 import logging
+import os
 import time
 from typing import Any, AsyncIterator
 
@@ -35,6 +36,7 @@ class ACPBackend:
         cwd: str,
         prompt_preamble: bool = False,
         mode: str | None = None,
+        model: str | None = None,
         preamble_text: str | None = None,
         connect_timeout_s: float = CONNECT_TIMEOUT_S,
     ) -> None:
@@ -42,6 +44,7 @@ class ACPBackend:
         self._cwd = cwd
         self._prompt_preamble = prompt_preamble
         self._mode = mode
+        self._model = model
         # Profile persona to prepend when ``prompt_preamble`` is set; falls back
         # to the Q&A persona to preserve the pre-profile default behaviour.
         self._preamble_text = preamble_text or QA_PROFILE.system_append
@@ -62,6 +65,7 @@ class ACPBackend:
         self._proc = await asyncio.create_subprocess_exec(
             *self._agent_cmd,
             cwd=self._cwd,
+            env=self._subprocess_env(),
             stdin=asyncio.subprocess.PIPE,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
@@ -158,6 +162,24 @@ class ACPBackend:
             except TimeoutError:
                 proc.kill()
                 await proc.wait()
+
+    def _subprocess_env(self) -> dict[str, str] | None:
+        """Inject ``self._model`` for opencode via ``OPENCODE_CONFIG_CONTENT``.
+
+        opencode has no ``--model`` flag on its ``acp`` subcommand and ACP has
+        no standard model-selection method, so the only way to steer the
+        model per-invocation is opencode's own ``OPENCODE_CONFIG_CONTENT`` env
+        var (raw JSON, merged over its on-disk config). Other ACP agents just
+        won't recognize the var. Merges onto any config JSON already present
+        in the inherited environment rather than clobbering it.
+        """
+        if not self._model:
+            return None
+        env = dict(os.environ)
+        config = json.loads(env["OPENCODE_CONFIG_CONTENT"]) if env.get("OPENCODE_CONFIG_CONTENT") else {}
+        config["model"] = self._model
+        env["OPENCODE_CONFIG_CONTENT"] = json.dumps(config)
+        return env
 
     # ---- JSON-RPC plumbing ------------------------------------------------
 

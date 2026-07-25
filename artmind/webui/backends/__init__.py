@@ -15,6 +15,12 @@ works, configured via:
   opencode agent defined in ``.opencode/agent/artmind.md``; unknown modes are
   ignored with a warning, so other ACP agents still work). Set to an empty
   string to skip mode selection.
+- ``ARTMIND_ACP_MODEL``: model for the ACP agent to use, e.g.
+  ``anthropic/claude-sonnet-4`` or ``ollama/gemma4:26b-mlx``. opencode-specific:
+  passed via the ``OPENCODE_CONFIG_CONTENT`` env var (opencode's ``acp``
+  subcommand has no ``--model`` flag, and ACP itself has no standard
+  model-selection method). Unset leaves opencode's own config (global
+  ``opencode.jsonc`` or project config) in charge; other ACP agents ignore it.
 """
 
 import os
@@ -59,6 +65,7 @@ def create_backend(name: str, profile: AgentProfile = QA_PROFILE) -> AgentBacken
             cwd=os.environ.get("ARTMIND_ACP_CWD", str(ARTMIND_HOME)),
             prompt_preamble=os.environ.get("ARTMIND_ACP_PROMPT_PREAMBLE") == "1",
             mode=os.environ.get("ARTMIND_ACP_MODE", profile.acp_mode) or None,
+            model=os.environ.get("ARTMIND_ACP_MODEL") or None,
             preamble_text=profile.system_append,
         )
     raise ValueError(f"unknown chat backend: {name!r}")
