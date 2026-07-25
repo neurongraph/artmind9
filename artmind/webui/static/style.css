@@ -30,14 +30,14 @@
 
 /* ── chat font (self-hosted, Latin subset only) ─────────────────────── */
 @font-face {
-  font-family: 'Ysabeau Infant';
+  font-family: 'Raleway';
   font-style: normal;
   font-weight: 1 1000;
   font-display: swap;
   src: url('/static/fonts/ysabeau-infant-latin.woff2') format('woff2');
 }
 @font-face {
-  font-family: 'Ysabeau Infant';
+  font-family: 'Raleway';
   font-style: italic;
   font-weight: 1 1000;
   font-display: swap;
@@ -121,7 +121,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   max-width: 48rem;
   margin: 0 auto;
   padding: 72px 20px 160px;
-  font-family: 'Ysabeau Infant', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  font-family: 'Raleway', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   font-size: 16.5px;
 }
