@@ -297,7 +297,11 @@ def restore_snapshot_impl(zip_path: Path, include: set[str] | None = None) -> di
         include: Set of component names to restore. If None, restores all available.
 
     Returns:
-        Summary dict with restoration results per component.
+        Summary dict with restoration results per component. If "structured"
+        was restored, this also (best-effort) rebuilds Neo4j's structured-data
+        catalogue subgraph from the freshly-restored registry and reports it
+        under the "catalogue" key — that subgraph is a derived projection the
+        graph snapshot itself never carries (see graph_snapshot._export_relationships).
     """
     if not zip_path.exists():
         raise FileNotFoundError(f"Snapshot not found: {zip_path}")
@@ -383,6 +387,41 @@ def restore_snapshot_impl(zip_path: Path, include: set[str] | None = None) -> di
             except Exception as exc:
                 errors.append(f"Registry restore failed: {exc}")
                 logger.error("Registry restore failed: {}", exc)
+
+        # Rebuild the structured-store catalogue subgraph in Neo4j. It's a
+        # derived projection (project_catalogue's own docstring: "nothing
+        # authoritative lives in this subgraph"), and graph_snapshot.py
+        # deliberately excludes it from graph export/import (see
+        # _export_relationships), so a restore of "structured" leaves Neo4j's
+        # copy stale/absent until something re-projects it. Best-effort:
+        # Neo4j may legitimately be unreachable here, so a failure is
+        # reported but doesn't fail the rest of the restore.
+        if "structured" in restored_components:
+            try:
+                logger.info("Rebuilding structured-data catalogue subgraph...")
+                from artmind.structured import registry as structured_registry
+                from artmind.structured.catalogue import project_catalogue
+
+                domains = sorted({
+                    table["domain"].split(".", 1)[0]
+                    for table in structured_registry.list_tables()
+                })
+                catalogue_summary = {"tables": 0, "columns": 0, "mappings": 0, "domains": domains}
+                for domain in domains:
+                    domain_result = project_catalogue(domain)
+                    catalogue_summary["tables"] += domain_result["tables"]
+                    catalogue_summary["columns"] += domain_result["columns"]
+                    catalogue_summary["mappings"] += domain_result["mappings"]
+
+                restored_components["catalogue"] = catalogue_summary
+                logger.info(
+                    "Catalogue rebuilt for {} domain(s): {} table(s), {} column(s), {} mapping(s)",
+                    len(domains), catalogue_summary["tables"],
+                    catalogue_summary["columns"], catalogue_summary["mappings"],
+                )
+            except Exception as exc:
+                errors.append(f"Catalogue rebuild failed: {exc}")
+                logger.error("Catalogue rebuild failed: {}", exc)
 
         # Restore KG staging JSONs
         if "kg_staging" in include:

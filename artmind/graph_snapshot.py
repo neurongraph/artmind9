@@ -61,12 +61,24 @@ def _export_nodes(session) -> dict[str, list[dict]]:
 
 
 def _export_relationships(session) -> list[dict]:
-    """Query all relationships with start/end match keys."""
+    """Query relationships between KG nodes, with start/end match keys.
+
+    Scoped to endpoints that carry a BASE_LABELS label. Derived projections
+    like the structured-store catalogue (:Table/:TableColumn, see
+    artmind/structured/catalogue.py) are excluded on purpose: _restore_nodes
+    never recreates those node types, so a relationship to one could never be
+    matched back up on restore anyway. The catalogue is non-authoritative and
+    gets rebuilt separately (unified_snapshot.py calls project_catalogue()
+    after a structured-store restore).
+    """
     result = session.run(
         "MATCH (s)-[r]->(e) "
+        "WHERE any(l IN labels(s) WHERE l IN $base_labels) "
+        "  AND any(l IN labels(e) WHERE l IN $base_labels) "
         "RETURN labels(s) AS start_labels, properties(s) AS start_props, "
         "       type(r) AS rel_type, properties(r) AS rel_props, "
-        "       labels(e) AS end_labels, properties(e) AS end_props"
+        "       labels(e) AS end_labels, properties(e) AS end_props",
+        base_labels=list(BASE_LABELS),
     )
     relationships = []
     for record in result:
@@ -232,6 +244,17 @@ def _restore_relationships(session, relationships: list[dict]) -> int:
         start_match = rel["start_match"]
         end_match = rel["end_match"]
         rel_props = rel.get("properties", {})
+
+        if not start_match or not end_match:
+            # No match keys means an unrestorable endpoint (e.g. a catalogue
+            # node from a snapshot taken before _export_relationships started
+            # excluding those). An empty WHERE clause would be a Cypher
+            # syntax error, not a harmless no-op, so skip explicitly.
+            logger.warning(
+                "Skipped relationship {} -> {}: unmatched endpoint(s) for {}",
+                start_match, end_match, rel_type,
+            )
+            continue
 
         # Build WHERE clauses from match keys
         start_conditions = " AND ".join(f"s.{k} = $start_{k}" for k in start_match)

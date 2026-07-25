@@ -8,6 +8,8 @@ from artmind.graph_snapshot import (
     _match_keys_for_node,
     _find_latest_snapshot,
     _read_snapshot,
+    _export_relationships,
+    _restore_relationships,
 )
 
 
@@ -100,6 +102,85 @@ class TestReadSnapshot:
 
         with pytest.raises(ValueError, match="snapshot.json"):
             _read_snapshot(tar_path)
+
+
+class FakeResult:
+    def __init__(self, records):
+        self._records = records
+
+    def __iter__(self):
+        return iter(self._records)
+
+
+class FakeSession:
+    def __init__(self, records=None):
+        self.calls = []
+        self._records = records or []
+
+    def run(self, cypher, **params):
+        self.calls.append((cypher, params))
+        return FakeResult(self._records)
+
+
+class TestExportRelationships:
+    def test_scopes_cypher_to_base_labels(self):
+        fake = FakeSession(records=[])
+        _export_relationships(fake)
+        assert len(fake.calls) == 1
+        cypher, params = fake.calls[0]
+        assert "any(l IN labels(s) WHERE l IN $base_labels)" in cypher
+        assert "any(l IN labels(e) WHERE l IN $base_labels)" in cypher
+        assert set(params["base_labels"]) == {"Document", "DocChunk", "Entity", "UserChat"}
+
+    def test_builds_relationship_dict_from_kg_nodes(self):
+        records = [{
+            "start_labels": ["Document"],
+            "start_props": {"id": "doc1"},
+            "rel_type": "HAS_CHUNK",
+            "rel_props": {"weight": 1},
+            "end_labels": ["DocChunk"],
+            "end_props": {"id": "chunk1"},
+        }]
+        fake = FakeSession(records=records)
+        result = _export_relationships(fake)
+        assert result == [{
+            "type": "HAS_CHUNK",
+            "start_labels": ["Document"],
+            "start_match": {"id": "doc1"},
+            "end_labels": ["DocChunk"],
+            "end_match": {"id": "chunk1"},
+            "properties": {"weight": 1},
+        }]
+
+
+class TestRestoreRelationships:
+    def test_skips_relationship_with_no_match_keys_without_querying(self):
+        """A catalogue-style relationship (e.g. HAS_COLUMN between :Table/
+        :TableColumn nodes) that slipped into an old snapshot has empty
+        start_match/end_match since those node types were never restored.
+        An empty WHERE clause would be a Cypher syntax error, so this must
+        be skipped before ever calling session.run."""
+        fake = FakeSession()
+        relationships = [
+            {"type": "HAS_COLUMN", "start_match": {}, "end_match": {}, "properties": {}},
+        ]
+        count = _restore_relationships(fake, relationships)
+        assert count == 0
+        assert fake.calls == []
+
+    def test_restores_relationship_with_valid_match_keys(self):
+        fake = FakeSession()
+        relationships = [
+            {
+                "type": "HAS_CHUNK",
+                "start_match": {"id": "doc1"},
+                "end_match": {"id": "chunk1"},
+                "properties": {},
+            },
+        ]
+        count = _restore_relationships(fake, relationships)
+        assert count == 1
+        assert len(fake.calls) == 1
 
 
 from unittest.mock import patch
