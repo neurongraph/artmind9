@@ -285,6 +285,23 @@
     <div class="tab-panel" data-tab-group="view" data-tab-panel="structured">
     <div class="stat-row" id="structured-stat-cards"></div>
 
+    <section class="dash-panel dash-zone-wide" id="structured-sql-panel">
+      <h2>Run SQL</h2>
+      <p class="dash-hint">Read-only. Works with Neo4j down.</p>
+      <form id="structured-sql-form" class="dash-form">
+        <label class="grow">
+          Query
+          <textarea id="structured-sql-input" rows="4" placeholder="SELECT * FROM my_table" required></textarea>
+        </label>
+        <label style="width: 90px;">
+          Limit
+          <input id="structured-sql-limit" type="number" min="1" placeholder="100">
+        </label>
+        <button type="submit" class="btn-primary">Run</button>
+      </form>
+      <div id="structured-sql-result" style="margin-top: 10px;"></div>
+    </section>
+
     <div class="dash-grid">
       <div class="col-side">
 
@@ -322,16 +339,6 @@
             <button type="submit" class="btn-primary">Ingest</button>
           </form>
           <span id="structured-ingest-result" class="dash-note"></span>
-        </section>
-
-        <section class="dash-panel" id="structured-sql-panel">
-          <h2>Run SQL</h2>
-          <p class="dash-hint">Read-only. Works with Neo4j down.</p>
-          <form id="structured-sql-form" class="dash-form stacked">
-            <textarea id="structured-sql-input" rows="4" placeholder="SELECT * FROM my_table LIMIT 20" required></textarea>
-            <button type="submit" class="btn-primary">Run</button>
-          </form>
-          <div id="structured-sql-result" style="margin-top: 10px;"></div>
         </section>
 
       </div>

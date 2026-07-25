@@ -705,8 +705,13 @@ document.getElementById("structured-ingest-form").addEventListener("submit", asy
 document.getElementById("structured-sql-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   const resultEl = document.getElementById("structured-sql-result");
-  const sql = document.getElementById("structured-sql-input").value.trim();
+  let sql = document.getElementById("structured-sql-input").value.trim();
   if (!sql) return;
+  const limit = document.getElementById("structured-sql-limit").value.trim();
+  if (limit && !/\blimit\b/i.test(sql)) {
+    sql = sql.replace(/;\s*$/, "");
+    sql += ` LIMIT ${parseInt(limit, 10)}`;
+  }
   resultEl.innerHTML = "Running…";
   try {
     const result = await api("/api/structured/sql", {
