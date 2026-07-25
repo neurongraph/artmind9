@@ -20,7 +20,6 @@ from pydantic import BaseModel, Field
 
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
-from artmind.graph_snapshot import export_graph, import_graph
 from artmind.ingest import _build_file_result_from_db, commit_to_graph, embed_entities_backfill, extract_kg
 from artmind.jobs import (
     _create_job,
@@ -37,8 +36,8 @@ from artmind.structured import STRUCTURED_EXTENSIONS
 from artmind.structured import registry as structured_registry
 from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file
-from artmind.structured_snapshot import export_structured, import_structured
 from artmind.text2sql import validate_read_only_sql
+from artmind.unified_snapshot import analyze_snapshot, create_snapshot, restore_snapshot_impl
 from artmind.webui.help import get_concepts
 from paths import GRAPH_SNAPSHOT_DIR, KG_DIR, STRUCTURED_SNAPSHOT_DIR
 from utils.functions import load_env, resolve_llm_model
@@ -89,6 +88,7 @@ class PullKgRequest(BaseModel):
 
 class RestoreRequest(BaseModel):
     confirm: bool = False
+    components: list[str] = Field(default_factory=lambda: ["graph", "registry", "structured", "kg_staging"])
 
 
 class StructuredSqlRequest(BaseModel):
@@ -117,22 +117,15 @@ def _validate_artifact_segment(value: str) -> None:
         raise HTTPException(status_code=400, detail="invalid domain/doc value")
 
 
-def _safe_snapshot_path(name: str) -> Path:
+def _safe_snapshot_path(name: str, snapshot_dir: Path | None = None) -> Path:
+    """Validate a snapshot filename and return its safe path."""
     if not name or "/" in name or "\\" in name or name in (".", ".."):
         raise HTTPException(status_code=400, detail="Invalid snapshot name")
-    path = (GRAPH_SNAPSHOT_DIR / name).resolve()
-    snapshot_dir = GRAPH_SNAPSHOT_DIR.resolve()
-    if snapshot_dir != path.parent:
-        raise HTTPException(status_code=400, detail="Invalid snapshot name")
-    return path
-
-
-def _safe_structured_snapshot_path(name: str) -> Path:
-    if not name or "/" in name or "\\" in name or name in (".", ".."):
-        raise HTTPException(status_code=400, detail="Invalid snapshot name")
-    path = (STRUCTURED_SNAPSHOT_DIR / name).resolve()
-    snapshot_dir = STRUCTURED_SNAPSHOT_DIR.resolve()
-    if snapshot_dir != path.parent:
+    if snapshot_dir is None:
+        snapshot_dir = GRAPH_SNAPSHOT_DIR
+    path = (snapshot_dir / name).resolve()
+    safe_dir = snapshot_dir.resolve()
+    if safe_dir != path.parent:
         raise HTTPException(status_code=400, detail="Invalid snapshot name")
     return path
 
@@ -342,63 +335,113 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=400, detail=str(exc)) from exc
         return _camelize(result)
 
+    # ── unified snapshots (graph, registry, structured, kg_staging) ────────────
+
     @app.get("/api/snapshots")
     async def api_list_snapshots():
+        """List all unified snapshots (.zip files)."""
         if not GRAPH_SNAPSHOT_DIR.exists():
             return []
         snapshots = []
-        for path in sorted(GRAPH_SNAPSHOT_DIR.glob("*.tar.gz"), reverse=True):
+        for path in sorted(GRAPH_SNAPSHOT_DIR.glob("artmind_snapshot_*.zip"), reverse=True):
             stat = path.stat()
-            snapshots.append({
-                "name": path.name,
-                "size_bytes": stat.st_size,
-                "created_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
-            })
+            try:
+                analysis = await asyncio.to_thread(analyze_snapshot, path, include=None)
+                snapshots.append({
+                    "name": path.name,
+                    "size_bytes": stat.st_size,
+                    "created_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                    "components": analysis.get("available_components", []),
+                })
+            except Exception:
+                # Skip snapshots that can't be read
+                pass
         return _camelize(snapshots)
 
     @app.post("/api/snapshots")
-    async def api_create_snapshot():
-        path = await asyncio.to_thread(export_graph)
-        stat = path.stat()
-        return {
-            "name": path.name,
-            "sizeBytes": stat.st_size,
-            "createdAt": datetime.fromtimestamp(stat.st_mtime).isoformat(),
-        }
+    async def api_create_snapshot(components: str = "graph,registry,structured,kg_staging"):
+        """Create a unified snapshot with selected components."""
+        try:
+            component_set = set(c.strip() for c in components.split(",") if c.strip())
+            valid = {"graph", "registry", "structured", "kg_staging"}
+            if not component_set or not component_set <= valid:
+                raise HTTPException(
+                    status_code=400,
+                    detail=f"Invalid components. Choose from: {', '.join(sorted(valid))}"
+                )
+            path = await asyncio.to_thread(create_snapshot, component_set)
+            stat = path.stat()
+            return _camelize({
+                "name": path.name,
+                "size_bytes": stat.st_size,
+                "created_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
+                "components": sorted(component_set),
+            })
+        except HTTPException:
+            raise
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     @app.get("/api/snapshots/{name}")
     async def api_download_snapshot(name: str):
-        path = _safe_snapshot_path(name)
+        """Download a snapshot zip file."""
+        path = _safe_snapshot_path(name, GRAPH_SNAPSHOT_DIR)
         if not path.is_file():
             raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
-        return FileResponse(path, media_type="application/gzip", filename=name)
+        return FileResponse(path, media_type="application/zip", filename=name)
+
+    @app.post("/api/snapshots/{name}/analyze")
+    async def api_analyze_snapshot(name: str, components: str | None = None):
+        """Analyze a snapshot and show what would be restored (with stale warnings)."""
+        path = _safe_snapshot_path(name, GRAPH_SNAPSHOT_DIR)
+        if not path.is_file():
+            raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
+        try:
+            component_set = None
+            if components:
+                component_set = set(c.strip() for c in components.split(",") if c.strip())
+            analysis = await asyncio.to_thread(analyze_snapshot, path, include=component_set)
+            return _camelize(analysis)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
 
     @app.post("/api/snapshots/{name}/restore")
     async def api_restore_snapshot(name: str, payload: RestoreRequest):
+        """Restore selected components from a snapshot."""
         if not payload.confirm:
-            raise HTTPException(status_code=400, detail="Set confirm=true to restore — this wipes Neo4j")
-        path = _safe_snapshot_path(name)
+            raise HTTPException(status_code=400, detail="Set confirm=true to restore")
+        path = _safe_snapshot_path(name, GRAPH_SNAPSHOT_DIR)
         if not path.is_file():
             raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
         try:
-            summary = await asyncio.to_thread(import_graph, path)
+            component_set = set(payload.components) if payload.components else None
+            result = await asyncio.to_thread(restore_snapshot_impl, path, component_set)
+            return _camelize(result)
         except Exception as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
-        return _camelize(summary)
 
     @app.post("/api/snapshots/import")
-    async def api_import_snapshot(confirm: bool = Form(...), file: UploadFile = File(...)):
+    async def api_import_snapshot(
+        file: UploadFile = File(...),
+        components: str = "graph,registry,structured,kg_staging",
+        confirm: bool = Form(False),
+    ):
+        """Upload and restore a snapshot."""
         if not confirm:
-            raise HTTPException(status_code=400, detail="Set confirm=true to restore — this wipes Neo4j")
-        GRAPH_SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
-        dest = GRAPH_SNAPSHOT_DIR / Path(file.filename).name
-        content = await file.read()
-        dest.write_bytes(content)
+            raise HTTPException(status_code=400, detail="Set confirm=true to restore")
         try:
-            summary = await asyncio.to_thread(import_graph, dest)
+            GRAPH_SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+            dest = GRAPH_SNAPSHOT_DIR / Path(file.filename).name
+            content = await file.read()
+            dest.write_bytes(content)
+
+            component_set = set(c.strip() for c in components.split(",") if c.strip())
+            result = await asyncio.to_thread(restore_snapshot_impl, dest, component_set)
+            return _camelize(result)
+        except HTTPException:
+            raise
         except Exception as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
-        return _camelize(summary)
 
     @app.get("/api/help/concepts")
     async def api_help_concepts():
@@ -475,68 +518,5 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=400, detail=f"SQL error: {exc}") from exc
         return {"query_type": "sql", "command": "db sql", "rows": rows}
 
-    @app.get("/api/structured/snapshots")
-    async def api_list_structured_snapshots():
-        if not STRUCTURED_SNAPSHOT_DIR.exists():
-            return []
-        snapshots = []
-        for path in sorted(STRUCTURED_SNAPSHOT_DIR.glob("*.tar.gz"), reverse=True):
-            stat = path.stat()
-            snapshots.append({
-                "name": path.name,
-                "size_bytes": stat.st_size,
-                "created_at": datetime.fromtimestamp(stat.st_mtime).isoformat(),
-            })
-        return _camelize(snapshots)
-
-    @app.post("/api/structured/snapshots")
-    async def api_create_structured_snapshot():
-        path = await asyncio.to_thread(export_structured)
-        stat = path.stat()
-        return {
-            "name": path.name,
-            "sizeBytes": stat.st_size,
-            "createdAt": datetime.fromtimestamp(stat.st_mtime).isoformat(),
-        }
-
-    @app.get("/api/structured/snapshots/{name}")
-    async def api_download_structured_snapshot(name: str):
-        path = _safe_structured_snapshot_path(name)
-        if not path.is_file():
-            raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
-        return FileResponse(path, media_type="application/gzip", filename=name)
-
-    @app.post("/api/structured/snapshots/{name}/restore")
-    async def api_restore_structured_snapshot(name: str, payload: RestoreRequest):
-        if not payload.confirm:
-            raise HTTPException(
-                status_code=400,
-                detail="Set confirm=true to restore — this wipes the structured store",
-            )
-        path = _safe_structured_snapshot_path(name)
-        if not path.is_file():
-            raise HTTPException(status_code=404, detail=f"Snapshot not found: {name}")
-        try:
-            summary = await asyncio.to_thread(import_structured, path)
-        except Exception as exc:
-            raise HTTPException(status_code=400, detail=str(exc)) from exc
-        return _camelize(summary)
-
-    @app.post("/api/structured/snapshots/import")
-    async def api_import_structured_snapshot(confirm: bool = Form(...), file: UploadFile = File(...)):
-        if not confirm:
-            raise HTTPException(
-                status_code=400,
-                detail="Set confirm=true to restore — this wipes the structured store",
-            )
-        STRUCTURED_SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
-        dest = STRUCTURED_SNAPSHOT_DIR / Path(file.filename).name
-        content = await file.read()
-        dest.write_bytes(content)
-        try:
-            summary = await asyncio.to_thread(import_structured, dest)
-        except Exception as exc:
-            raise HTTPException(status_code=400, detail=str(exc)) from exc
-        return _camelize(summary)
 
     return app

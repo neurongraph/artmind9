@@ -15,6 +15,7 @@ from loguru import logger
 from artmind import graph_query, resolve_key, text2cypher, text2sql, vector_query
 import artmind.update as update_backend
 from artmind.graph_snapshot import export_graph, import_graph
+from artmind.unified_snapshot import create_snapshot, analyze_snapshot, restore_snapshot_impl
 from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import scaffold_run_folder, setup_all
 from artmind.ingest import (
@@ -2046,6 +2047,146 @@ def session_initiate(snapshot_file: str | None, yes: bool):
         click.echo(f"  Nodes: {' | '.join(parts)}")
         click.echo(f"  Relationships: {summary['relationship_count']}")
         click.echo(f"  Elapsed: {summary['elapsed_seconds']}s")
+    except FileNotFoundError as e:
+        raise click.ClickException(str(e))
+    except Exception as e:
+        raise click.ClickException(str(e))
+
+
+# ── artmind snapshot ───────────────────────────────────────────────────────────
+
+
+@cli.group()
+def snapshot():
+    """Create and restore unified snapshots (graph, registry, structured, KG JSONs)."""
+    pass
+
+
+@snapshot.command("create")
+@click.option(
+    "--only",
+    default=None,
+    help="Comma-separated components to include (graph,registry,structured,kg_staging). "
+         "Default: all",
+)
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def snapshot_create(only: str | None, compact: bool):
+    """Create a unified snapshot of all system state.
+
+    Bundles graph, registry, structured data, and KG staging JSONs into one zip file
+    with a manifest for selective restore.
+    """
+    _setup_logger()
+    try:
+        components = None
+        if only:
+            components = set(only.replace(" ", "").split(","))
+            valid = {"graph", "registry", "structured", "kg_staging"}
+            invalid = components - valid
+            if invalid:
+                raise click.ClickException(
+                    f"Invalid components: {invalid}. Choose from: {', '.join(sorted(valid))}"
+                )
+
+        snapshot_path = create_snapshot(include=components)
+        size_mb = snapshot_path.stat().st_size / (1024 * 1024)
+        summary = {
+            "snapshot": snapshot_path.name,
+            "path": str(snapshot_path),
+            "size_mb": round(size_mb, 2),
+        }
+        if components:
+            summary["components"] = sorted(components)
+        click.echo(f"Snapshot created: {snapshot_path.name}")
+        click.echo(f"  Size: {size_mb:.2f} MB")
+        if components:
+            click.echo(f"  Components: {', '.join(sorted(components))}")
+        _echo_json(summary, compact)
+    except Exception as e:
+        raise click.ClickException(str(e))
+
+
+@snapshot.command("restore")
+@click.argument("snapshot_path", type=click.Path(exists=True))
+@click.option(
+    "--only",
+    default=None,
+    help="Comma-separated components to restore (graph,registry,structured,kg_staging). "
+         "Default: all available",
+)
+@click.option("--yes", is_flag=True, help="Skip confirmation prompt")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def snapshot_restore(snapshot_path: str, only: str | None, yes: bool, compact: bool):
+    """Restore from a unified snapshot.
+
+    Wipes and restores selected components (or all if --only not specified).
+    Warns if restoring a subset could cause state divergence.
+    """
+    _setup_logger()
+    try:
+        zip_path = Path(snapshot_path)
+        components = None
+        if only:
+            components = set(only.replace(" ", "").split(","))
+            valid = {"graph", "registry", "structured", "kg_staging"}
+            invalid = components - valid
+            if invalid:
+                raise click.ClickException(
+                    f"Invalid components: {invalid}. Choose from: {', '.join(sorted(valid))}"
+                )
+
+        # Analyze snapshot first
+        analysis = analyze_snapshot(zip_path, include=components)
+
+        # Show what will be restored
+        requested = set(analysis.get("requested_components", []))
+        available = set(analysis.get("available_components", []))
+
+        click.echo(f"Snapshot: {analysis['snapshot']}")
+        click.echo(f"  Available components: {', '.join(sorted(available))}")
+        click.echo(f"  Will restore: {', '.join(sorted(requested))}")
+
+        # Show warnings
+        warnings = analysis.get("warnings", [])
+        if warnings:
+            click.echo("\nWarnings:")
+            for warning in warnings:
+                click.echo(f"  ⚠️  {warning}")
+
+        if not yes:
+            if "graph" in requested:
+                env = load_env()
+                db_name = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
+                if not click.confirm(
+                    f"This will delete all data in Neo4j database '{db_name}'. Continue?"
+                ):
+                    raise click.Abort()
+            elif warnings:
+                if not click.confirm("Proceed with restore despite warnings?"):
+                    raise click.Abort()
+            else:
+                if not click.confirm("Proceed with restore?"):
+                    raise click.Abort()
+
+        # Perform the actual restore
+        click.echo("\nRestoring...")
+        result = restore_snapshot_impl(zip_path, include=components)
+
+        # Display results
+        click.echo(f"\n✓ Restore complete ({result['elapsed_seconds']}s)")
+        for comp in result.get("components_restored", []):
+            click.echo(f"  ✓ {comp}")
+
+        # Show errors if any
+        if result.get("errors"):
+            click.echo("\nErrors encountered:")
+            for error in result["errors"]:
+                click.echo(f"  ✗ {error}")
+
+        _echo_json(result, compact)
+
+    except click.Abort:
+        raise
     except FileNotFoundError as e:
         raise click.ClickException(str(e))
     except Exception as e:

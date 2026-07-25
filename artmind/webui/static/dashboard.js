@@ -447,18 +447,16 @@ document.getElementById("import-kg-form").addEventListener("submit", async (even
   }
 });
 
-// ── snapshots panel ──────────────────────────────────────────────────
+// ── unified snapshots panel ─────────────────────────────────────────
 function fmtBytes(n) {
   if (n < 1024) return `${n} B`;
   if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
   return `${(n / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function confirmWipe(snapshotName) {
-  return confirm(
-    `Restoring "${snapshotName}" will DELETE ALL current data in the Neo4j database ` +
-    `and replace it with the snapshot's contents. This cannot be undone. Continue?`
-  );
+function getSelectedComponents(containerSelector) {
+  const checkboxes = document.querySelectorAll(`${containerSelector} .snapshot-component, ${containerSelector} .import-component`);
+  return Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
 }
 
 async function refreshGuardrail() {
@@ -478,16 +476,35 @@ async function refreshGuardrail() {
   }
 }
 
-async function restoreSnapshot(name) {
-  if (!confirmWipe(name)) return;
+async function restoreSnapshot(name, components) {
+  const componentStr = components.join(",");
   try {
-    const summary = await api(`/api/snapshots/${encodeURIComponent(name)}/restore`, {
+    // First analyze to show warnings
+    const analysis = await api(
+      `/api/snapshots/${encodeURIComponent(name)}/analyze?components=${encodeURIComponent(componentStr)}`,
+      { method: "POST" }
+    );
+
+    // Show warnings and ask for confirmation
+    let msg = `Restore "${name}" with components: ${components.join(", ")}?\n`;
+    if (analysis.warnings && analysis.warnings.length) {
+      msg += "\nWarnings:\n";
+      for (const w of analysis.warnings) {
+        msg += `• ${w}\n`;
+      }
+    }
+    msg += "\nThis action is destructive and cannot be undone. Continue?";
+
+    if (!confirm(msg)) return;
+
+    // Perform restore
+    const result = await api(`/api/snapshots/${encodeURIComponent(name)}/restore`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ confirm: true }),
+      body: JSON.stringify({ confirm: true, components }),
     });
-    alert(`Restored ${name}: ${summary.relationshipCount} relationships, ` +
-      `${Object.values(summary.nodeCounts || {}).reduce((a, b) => a + b, 0)} nodes.`);
+
+    alert(`Restore complete: ${result.componentsRestored.join(", ")} restored in ${result.elapsedSeconds}s`);
     refreshSnapshots();
     if (artifactsDomainEl.value) refreshStats([artifactsDomainEl.value]);
   } catch (err) {
@@ -502,6 +519,8 @@ async function refreshSnapshots() {
   for (const snap of snapshots) {
     const tr = document.createElement("tr");
     tr.appendChild(el("td", null, snap.name));
+    const componentsText = (snap.components || []).join(", ") || "—";
+    tr.appendChild(el("td", null, componentsText));
     tr.appendChild(el("td", null, fmtBytes(snap.sizeBytes)));
     tr.appendChild(el("td", null, fmtTime(snap.createdAt)));
 
@@ -509,8 +528,13 @@ async function refreshSnapshots() {
     const downloadLink = el("a", "btn-link", "Download");
     downloadLink.href = `/api/snapshots/${encodeURIComponent(snap.name)}`;
     actions.appendChild(downloadLink);
+
     const restoreBtn = el("button", "btn-link", "Restore");
-    restoreBtn.addEventListener("click", () => restoreSnapshot(snap.name));
+    restoreBtn.addEventListener("click", () => {
+      // Default to restoring all available components
+      const components = snap.components || ["graph", "registry", "structured", "kg_staging"];
+      restoreSnapshot(snap.name, components);
+    });
     actions.appendChild(restoreBtn);
     tr.appendChild(actions);
     tbody.appendChild(tr);
@@ -519,9 +543,11 @@ async function refreshSnapshots() {
 
 document.getElementById("create-snapshot-btn").addEventListener("click", async () => {
   const resultEl = document.getElementById("snapshot-create-result");
-  resultEl.textContent = "Exporting…";
+  resultEl.textContent = "Creating snapshot…";
   try {
-    const snap = await api("/api/snapshots", { method: "POST" });
+    const components = getSelectedComponents("#create-snapshot-components");
+    const componentStr = components.join(",");
+    const snap = await api(`/api/snapshots?components=${encodeURIComponent(componentStr)}`, { method: "POST" });
     resultEl.textContent = `Created ${snap.name} (${fmtBytes(snap.sizeBytes)}).`;
     refreshSnapshots();
   } catch (err) {
@@ -534,15 +560,19 @@ document.getElementById("snapshot-import-form").addEventListener("submit", async
   const fileInput = document.getElementById("snapshot-import-file");
   const file = fileInput.files[0];
   if (!file) return;
-  if (!confirmWipe(file.name)) return;
+
+  const components = getSelectedComponents("#import-snapshot-components");
+
   const resultEl = document.getElementById("snapshot-import-result");
   resultEl.textContent = "Uploading and restoring…";
   const formData = new FormData();
   formData.append("confirm", "true");
   formData.append("file", file);
+  formData.append("components", components.join(","));
+
   try {
-    const summary = await api("/api/snapshots/import", { method: "POST", body: formData });
-    resultEl.textContent = `Restored: ${summary.relationshipCount} relationships.`;
+    const result = await api("/api/snapshots/import", { method: "POST", body: formData });
+    resultEl.textContent = `Restored: ${result.componentsRestored.join(", ")}.`;
     fileInput.value = "";
     refreshSnapshots();
   } catch (err) {
@@ -712,84 +742,6 @@ document.getElementById("structured-sql-form").addEventListener("submit", async 
   }
 });
 
-// ── structured store snapshots ───────────────────────────────────────
-function confirmWipeStructured(snapshotName) {
-  return confirm(
-    `Restoring "${snapshotName}" will DELETE ALL current parquet files and registry rows ` +
-    `in the structured store and replace them with the snapshot's contents. This cannot be undone. Continue?`
-  );
-}
-
-async function restoreStructuredSnapshot(name) {
-  if (!confirmWipeStructured(name)) return;
-  try {
-    const summary = await api(`/api/structured/snapshots/${encodeURIComponent(name)}/restore`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ confirm: true }),
-    });
-    alert(`Restored ${name}: ${summary.tableCount} table(s).`);
-    refreshStructuredSnapshots();
-    refreshStructuredTables();
-  } catch (err) {
-    alert(`Restore failed: ${err.message}`);
-  }
-}
-
-async function refreshStructuredSnapshots() {
-  const tbody = document.querySelector("#structured-snapshots-table tbody");
-  const snapshots = await api("/api/structured/snapshots");
-  tbody.innerHTML = "";
-  for (const snap of snapshots) {
-    const tr = document.createElement("tr");
-    tr.appendChild(el("td", null, snap.name));
-    tr.appendChild(el("td", null, fmtBytes(snap.sizeBytes)));
-    tr.appendChild(el("td", null, fmtTime(snap.createdAt)));
-
-    const actions = el("td");
-    const downloadLink = el("a", "btn-link", "Download");
-    downloadLink.href = `/api/structured/snapshots/${encodeURIComponent(snap.name)}`;
-    actions.appendChild(downloadLink);
-    const restoreBtn = el("button", "btn-link", "Restore");
-    restoreBtn.addEventListener("click", () => restoreStructuredSnapshot(snap.name));
-    actions.appendChild(restoreBtn);
-    tr.appendChild(actions);
-    tbody.appendChild(tr);
-  }
-}
-
-document.getElementById("create-structured-snapshot-btn").addEventListener("click", async () => {
-  const resultEl = document.getElementById("structured-snapshot-create-result");
-  resultEl.textContent = "Exporting…";
-  try {
-    const snap = await api("/api/structured/snapshots", { method: "POST" });
-    resultEl.textContent = `Created ${snap.name} (${fmtBytes(snap.sizeBytes)}).`;
-    refreshStructuredSnapshots();
-  } catch (err) {
-    resultEl.textContent = `Failed: ${err.message}`;
-  }
-});
-
-document.getElementById("structured-snapshot-import-form").addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const fileInput = document.getElementById("structured-snapshot-import-file");
-  const file = fileInput.files[0];
-  if (!file) return;
-  if (!confirmWipeStructured(file.name)) return;
-  const resultEl = document.getElementById("structured-snapshot-import-result");
-  resultEl.textContent = "Uploading and restoring…";
-  const formData = new FormData();
-  formData.append("confirm", "true");
-  formData.append("file", file);
-  try {
-    const summary = await api("/api/structured/snapshots/import", { method: "POST", body: formData });
-    resultEl.textContent = `Restored: ${summary.tableCount} table(s).`;
-    fileInput.value = "";
-    refreshStructuredSnapshots();
-  } catch (err) {
-    resultEl.textContent = `Failed: ${err.message}`;
-  }
-});
 
 // ── polling ──────────────────────────────────────────────────────────
 initTabs();
