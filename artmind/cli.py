@@ -46,7 +46,6 @@ from artmind.refine_pipeline import run_pipeline
 from paths import (
     DOMAIN_SCHEMAS_DIR,
     INGEST_LOG_FILE,
-    PACKAGE_SCHEMAS_DIR,
     REFINE_DIR,
     WORKER_LOG,
     WORKER_PID_FILE,
@@ -367,57 +366,6 @@ def get_relationships(domain_name: str):
     """The prompt used to extract relationships from a document chunk"""
     data = _load_domain_schema(domain_name)
     click.echo(data.get("relationships_prompt", []))
-
-
-@domains.command("render-html")
-@click.argument("prefix")
-@click.option(
-    "--package", is_flag=True,
-    # Deliberately a RELATIVE path, not f"{PACKAGE_SCHEMAS_DIR}": that global is
-    # an absolute, machine-specific install path (e.g. /home/runner/... on CI vs
-    # /Users/... locally). Help text is rendered verbatim into `--help` and the
-    # admin-ui CLI guide, so interpolating it would show readers the install
-    # path of whichever machine happened to render it.
-    help=(
-        "Read schemas from the package's own bundled artmind/domains/schemas/ "
-        "directory instead of the run folder. Use this to regenerate a reference "
-        "doc checked into the repo, since the run folder's copies can lag behind "
-        "package edits until `artmind init` re-seeds them."
-    ),
-)
-@click.option(
-    "--output", "-o",
-    type=click.Path(),
-    default=None,
-    help="Output HTML path (default: <source dir>/<prefix>_schemas_reference.html)",
-)
-def render_domains_html(prefix: str, package: bool, output: str | None):
-    """Render a browsable HTML reference for all schemas matching PREFIX (e.g. 'banking').
-
-    Consolidates every <source dir>/<prefix>*_schema.yaml file's entity
-    classes, property guidance, and relationship model into one
-    self-contained, searchable HTML page. Reads from the run folder's domain
-    schemas by default; pass --package to read from the package's own
-    domains/schemas/ (the checkout) instead — see --package's help.
-    """
-    from artmind.schema_reference import build_schema_dict, render_html
-
-    schemas_dir = PACKAGE_SCHEMAS_DIR if package else DOMAIN_SCHEMAS_DIR
-    matches = sorted(schemas_dir.glob(f"{prefix}*_schema.yaml"))
-    if not matches:
-        raise click.ClickException(
-            f"No schema files found matching '{prefix}*_schema.yaml' in {schemas_dir}"
-        )
-
-    schemas = [build_schema_dict(f) for f in matches]
-    title = f"{prefix.replace('_', ' ').title()} Domain Schemas"
-    subtitle = f"Knowledge-graph extraction schemas for the '{prefix}' domain group"
-    html_doc = render_html(schemas, title=title, prefix=prefix, subtitle=subtitle)
-
-    out_path = Path(output) if output else schemas_dir / f"{prefix}_schemas_reference.html"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(html_doc)
-    click.echo(f"Rendered {len(schemas)} schema(s) to {out_path}")
 
 
 @domains.command("harmonize")

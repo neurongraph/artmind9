@@ -344,6 +344,92 @@
   .cg-cat-desc, .cg-brief { display: none; }
 }
 
+/* ── Schemas tab ──────────────────────────────────────────────────────
+   Styles for the fragment served by /api/schema-reference (schema_reference.py).
+   Same division of labour as .cg-* above: the fragment carries no CSS of its
+   own, everything it looks like is defined here. ── */
+.sr-root { margin-top: 4px; }
+
+.sr-overview { display: flex; gap: 24px; padding: 10px 2px 16px; }
+.sr-stat-num { font-size: 1.4rem; font-weight: 700; }
+.sr-stat-label { font-size: 11.5px; color: var(--text-muted); }
+
+.sr-schema { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+.sr-schema:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+.sr-schema-head {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  width: 100%; padding: 4px 0; text-align: left;
+}
+.sr-schema-head:hover { opacity: 0.85; }
+.sr-schema-toggle { font-size: 10px; color: var(--text-muted); flex-shrink: 0; transition: transform 0.15s; }
+.sr-schema.collapsed .sr-schema-toggle { transform: rotate(-90deg); }
+.sr-schema.collapsed .sr-schema-body { display: none; }
+.sr-schema-head h3 { margin: 0; font-size: 14px; font-weight: 700; }
+.sr-file-badge { color: var(--text-muted); font-size: 11px; }
+.sr-schema-counts { margin-left: auto; font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+.sr-schema-body { padding-top: 6px; }
+.sr-schema-desc { font-size: 12.5px; color: var(--text-muted); max-width: 760px; margin: 4px 0 0; }
+.sr-temporal {
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-elev));
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 8px 12px; margin: 10px 0; font-size: 11.5px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+
+.sr-subhead {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  margin: 18px 0 8px; display: flex; align-items: center; gap: 8px;
+}
+.sr-count-badge {
+  font-size: 10px; font-weight: 600; color: var(--text-muted);
+  background: var(--bg-inset); padding: 1px 7px; border-radius: 10px;
+}
+
+.sr-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+.sr-card {
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--bg-elev); padding: 10px 12px;
+}
+.sr-card.hidden { display: none; }
+.sr-card h4 { margin: 0 0 4px; font-size: 12.5px; font-weight: 700; letter-spacing: 0.01em; }
+.sr-desc { font-size: 11.5px; color: var(--text-muted); margin: 0 0 8px; }
+.sr-types { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 6px; }
+.sr-chip {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10.5px; color: var(--text-muted);
+  background: var(--bg-inset); padding: 2px 8px; border-radius: 12px;
+}
+.sr-chip-rel { color: var(--warn); background: color-mix(in srgb, var(--warn) 12%, var(--bg-inset)); }
+.sr-props { margin-top: 6px; font-size: 11.5px; }
+.sr-props summary { cursor: pointer; color: var(--accent); font-size: 11px; }
+.sr-props ul { margin: 6px 0 0; padding-left: 16px; }
+.sr-props li { margin-bottom: 3px; }
+.sr-hint { color: var(--text-muted); }
+
+.sr-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.sr-table th {
+  text-align: left; padding: 7px 10px; background: var(--bg-inset);
+  border-bottom: 1px solid var(--border); font-weight: 600;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-muted);
+}
+.sr-table td { padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.sr-table tr:last-child td { border-bottom: none; }
+.sr-table tr.hidden { display: none; }
+.sr-rel-entity a, .sr-rel-entity code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11.5px; }
+/* Unstyled <a> falls back to the browser's default link blue, which reads as
+   nearly invisible against a dark background -- and default :visited (purple)
+   would kick in almost immediately here, since these are same-page anchor
+   jumps. Pin both to the theme's accent color instead. */
+.sr-rel-entity a, .sr-rel-entity a:visited { color: var(--accent); text-decoration: none; }
+.sr-rel-entity a:hover { text-decoration: underline; }
+.sr-rel-arrow { color: var(--text-muted); text-align: center; width: 20px; }
+.sr-rel-types { display: flex; flex-wrap: wrap; gap: 4px; }
+
+@media (max-width: 700px) {
+  .sr-overview { gap: 16px; }
+}
+
 /* ── Browse: artifact cards fill the wide panel as a grid, not a single
       column, now that they're not confined to the sidebar. ── */
 #artifact-cards.job-cards {

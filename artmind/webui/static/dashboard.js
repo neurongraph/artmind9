@@ -829,6 +829,115 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+// ── schemas ──────────────────────────────────────────────────────────
+// Same division of labour as cli guide above: the fragment from
+// /api/schema-reference carries no script, so interaction is delegated here.
+const schemaRefFamily = document.getElementById("schema-ref-family");
+const schemaRefBody = document.getElementById("schema-ref-body");
+const schemaRefSearch = document.getElementById("schema-ref-search");
+const schemaRefStats = document.getElementById("schema-ref-stats");
+const schemaRefEmpty = document.getElementById("schema-ref-empty");
+let schemaRefLoaded = false;
+
+async function loadSchemaRefFamilies(preserveSelection) {
+  const previous = preserveSelection ? schemaRefFamily.value : null;
+  const families = await api("/api/schema-reference/families");
+  schemaRefFamily.innerHTML = "";
+  for (const family of families) {
+    const opt = el("option", null, family);
+    opt.value = family;
+    schemaRefFamily.appendChild(opt);
+  }
+  if (previous && families.includes(previous)) schemaRefFamily.value = previous;
+  return families;
+}
+
+async function loadSchemaRef() {
+  const prefix = schemaRefFamily.value;
+  if (!prefix) {
+    schemaRefBody.innerHTML = "";
+    schemaRefBody.appendChild(el("p", "dash-empty", "No domain schemas found."));
+    return;
+  }
+  schemaRefBody.innerHTML = "<p class='dash-empty'>Loading…</p>";
+  try {
+    const response = await fetch(`/api/schema-reference?prefix=${encodeURIComponent(prefix)}`);
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+    schemaRefBody.innerHTML = await response.text();
+    schemaRefLoaded = true;
+    filterSchemaRef();
+  } catch (err) {
+    schemaRefBody.innerHTML = "";
+    schemaRefBody.appendChild(el("p", "dash-note", `Failed to load schemas: ${err.message}`));
+  }
+}
+
+function filterSchemaRef() {
+  const q = schemaRefSearch.value.toLowerCase().trim();
+  let visible = 0;
+  for (const card of schemaRefBody.querySelectorAll(".sr-card")) {
+    const hay = (card.dataset.search + " " + card.textContent).toLowerCase();
+    const match = !q || hay.includes(q);
+    card.classList.toggle("hidden", !match);
+    if (match) visible++;
+  }
+  for (const row of schemaRefBody.querySelectorAll(".sr-table tr[data-search]")) {
+    const match = !q || row.dataset.search.toLowerCase().includes(q);
+    row.classList.toggle("hidden", !match);
+  }
+  // While searching, collapse schema sections that have nothing left to show
+  // (checking both cards and relationship rows -- a match can live in either).
+  // Clearing the box re-expands every section, same rationale as cli guide's
+  // category collapse: otherwise a search that matched nothing leaves the
+  // whole tab collapsed with no hint why.
+  for (const schema of schemaRefBody.querySelectorAll(".sr-schema")) {
+    const hasVisibleCard = schema.querySelector(".sr-card:not(.hidden)");
+    const hasVisibleRow = schema.querySelector(".sr-table tr[data-search]:not(.hidden)");
+    schema.classList.toggle("collapsed", Boolean(q) && !hasVisibleCard && !hasVisibleRow);
+  }
+  schemaRefStats.textContent = q ? `${visible} entit${visible === 1 ? "y" : "ies"} found` : "";
+  schemaRefEmpty.hidden = !(q && visible === 0);
+}
+
+schemaRefBody.addEventListener("click", (event) => {
+  const head = event.target.closest(".sr-schema-head");
+  if (head) head.closest(".sr-schema").classList.toggle("collapsed");
+});
+
+schemaRefFamily.addEventListener("change", () => {
+  schemaRefSearch.value = "";
+  loadSchemaRef();
+});
+schemaRefSearch.addEventListener("input", filterSchemaRef);
+
+document.getElementById("schema-ref-refresh-btn").addEventListener("click", async () => {
+  await loadSchemaRefFamilies(true);
+  await loadSchemaRef();
+});
+
+// Load lazily, so opening the dashboard doesn't pay to render this tab.
+document.querySelector('.tab[data-tab="schemas"]').addEventListener("click", async () => {
+  if (schemaRefLoaded) return;
+  await loadSchemaRefFamilies(false);
+  await loadSchemaRef();
+});
+
+// "/" to focus search, Escape to clear -- same scoping rationale as cli guide.
+document.addEventListener("keydown", (event) => {
+  const panel = document.querySelector('.tab-panel[data-tab-panel="schemas"]');
+  if (!panel || !panel.classList.contains("active")) return;
+  const active = document.activeElement;
+  const typing = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable);
+  if (event.key === "/" && !typing) {
+    event.preventDefault();
+    schemaRefSearch.focus();
+  } else if (event.key === "Escape" && active === schemaRefSearch) {
+    schemaRefSearch.value = "";
+    filterSchemaRef();
+    schemaRefSearch.blur();
+  }
+});
+
 // ── polling ──────────────────────────────────────────────────────────
 initTabs();
 loadDomains();

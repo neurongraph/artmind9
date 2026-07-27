@@ -39,7 +39,7 @@ from artmind.structured.pipeline import ingest_structured_file
 from artmind.text2sql import validate_read_only_sql
 from artmind.unified_snapshot import analyze_snapshot, create_snapshot, restore_snapshot_impl
 from artmind.webui.help import get_concepts
-from paths import GRAPH_SNAPSHOT_DIR, KG_DIR, STRUCTURED_SNAPSHOT_DIR
+from paths import DOMAIN_SCHEMAS_DIR, GRAPH_SNAPSHOT_DIR, KG_DIR, STRUCTURED_SNAPSHOT_DIR
 from utils.functions import load_env, resolve_llm_model
 
 
@@ -154,6 +154,30 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         from artmind.cli_guide import render_fragment
 
         return HTMLResponse(content=render_fragment(), headers={"Cache-Control": "no-store"})
+
+    @app.get("/api/schema-reference/families")
+    async def api_schema_reference_families():
+        """Domain families with at least one schema, for the Schemas tab's picker."""
+        from artmind.schema_reference import list_schema_families
+
+        return list_schema_families(DOMAIN_SCHEMAS_DIR)
+
+    @app.get("/api/schema-reference", response_class=HTMLResponse)
+    async def api_schema_reference(prefix: str):
+        """A domain family's schemas as an HTML fragment, injected into the Schemas tab.
+
+        Reads the run folder's live schemas on every request — there is no
+        checked-in copy to go stale. `prefix` groups by the part of a schema's
+        filename before its first `.` (see `list_schema_families`), so
+        `banking` pulls in `banking_schema.yaml` and every `banking.*`.
+        """
+        from artmind.schema_reference import build_schema_dict, find_family_schemas, render_fragment
+
+        matches = find_family_schemas(DOMAIN_SCHEMAS_DIR, prefix)
+        if not matches:
+            raise HTTPException(status_code=404, detail=f"No schemas found for family '{prefix}'")
+        schemas = [build_schema_dict(f) for f in matches]
+        return HTMLResponse(content=render_fragment(schemas, prefix=prefix), headers={"Cache-Control": "no-store"})
 
     @app.get("/api/jobs")
     async def api_list_jobs(status: str | None = None):

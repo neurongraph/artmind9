@@ -150,13 +150,6 @@ domains-relationships-prompt domain:
 domains-harmonize domain="" dry_run="":
     uv run artmind domains harmonize {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if dry_run == "true" { "--dry-run" } else { "" } }}
 
-# render a browsable HTML reference for all schemas matching a prefix, reading
-# from the checkout's own domains/schemas/ so the output lands there too and
-# stays in sync with source edits rather than a possibly-stale run folder
-# (usage: just domains-render-html <prefix>)
-domains-render-html prefix:
-    uv run artmind domains render-html {{ prefix }} --package
-
 # ── artmind ingest ───────────────────────────────────────────────────────────
 
 # ingest a file or directory synchronously  (usage: just ingest-sync path/to/file [domain])

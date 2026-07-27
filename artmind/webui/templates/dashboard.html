@@ -36,6 +36,7 @@
       <button type="button" class="tab" data-tab="maintenance">Maintenance</button>
       <button type="button" class="tab" data-tab="structured">Structured data</button>
       <button type="button" class="tab" data-tab="cli-guide">CLI guide</button>
+      <button type="button" class="tab" data-tab="schemas">Schemas</button>
     </div>
 
     <div class="tab-panel active" data-tab-group="view" data-tab-panel="operate">
@@ -387,6 +388,32 @@
         <p class="dash-empty">Loading…</p>
       </div>
       <p class="dash-empty" id="cli-guide-empty" hidden>No commands match your search.</p>
+    </section>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="schemas">
+    <section class="dash-panel dash-zone-wide" id="schema-ref-panel">
+      <h2>Schemas</h2>
+      <p class="dash-hint">Entity classes, property guidance, and relationship model — read from the run folder's live domain schemas.</p>
+
+      <form class="dash-form" id="schema-ref-form" onsubmit="return false">
+        <label>
+          Domain family
+          <select id="schema-ref-family"></select>
+        </label>
+        <label class="grow">
+          Search
+          <input id="schema-ref-search" type="search" autocomplete="off" spellcheck="false"
+                 placeholder="Entity class, property, or relationship type">
+        </label>
+        <button id="schema-ref-refresh-btn" type="button" class="btn-secondary">Refresh</button>
+      </form>
+      <p class="dash-note" id="schema-ref-stats"></p>
+
+      <div id="schema-ref-body" class="sr-root">
+        <p class="dash-empty">Loading…</p>
+      </div>
+      <p class="dash-empty" id="schema-ref-empty" hidden>No entities or relationships match your search.</p>
     </section>
     </div>
   </main>

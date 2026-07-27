@@ -9,11 +9,6 @@
       "artmind domains harmonize --domain fiction.thriller"
     ]
   },
-  "artmind domains render-html": {
-    "examples": [
-      "artmind domains render-html banking -o docs/banking_ref.html"
-    ]
-  },
   "artmind ingest sync": {
     "examples": [
       "artmind ingest sync ./report.pdf",

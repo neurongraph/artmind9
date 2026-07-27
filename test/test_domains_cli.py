@@ -1,6 +1,5 @@
 """Tests for `artmind domains` CLI commands using test/schemas/test_schema.yaml."""
 
-import shutil
 from pathlib import Path
 
 import pytest
@@ -10,7 +9,6 @@ from artmind.cli import cli
 
 TEST_SCHEMA = Path(__file__).parent / "schemas" / "test_schema.yaml"
 DOMAIN_NAME = "test"
-PROMPT_SCHEMA = Path(__file__).parent / "schemas" / "test_prompt_schema.yaml"
 
 
 @pytest.fixture(autouse=True)
@@ -93,33 +91,3 @@ class TestDelete:
         runner.invoke(cli, ["domains", "delete", DOMAIN_NAME])
         result = runner.invoke(cli, ["domains", "list"])
         assert DOMAIN_NAME not in result.output
-
-
-# ── render-html ───────────────────────────────────────────────────────────────
-
-class TestRenderHtml:
-    def test_render_html_writes_reference_page(self, runner, clean_domain, tmp_path):
-        shutil.copy(PROMPT_SCHEMA, clean_domain / "test_prompt_schema.yaml")
-
-        result = runner.invoke(cli, ["domains", "render-html", "test_prompt"])
-        assert result.exit_code == 0, result.output
-
-        out_file = clean_domain / "test_prompt_schemas_reference.html"
-        assert out_file.exists()
-        content = out_file.read_text()
-        assert "WIDGET" in content
-        assert "GADGET" in content
-
-    def test_render_html_respects_output_option(self, runner, clean_domain, tmp_path):
-        shutil.copy(PROMPT_SCHEMA, clean_domain / "test_prompt_schema.yaml")
-        dest = tmp_path / "out" / "custom.html"
-
-        result = runner.invoke(
-            cli, ["domains", "render-html", "test_prompt", "--output", str(dest)]
-        )
-        assert result.exit_code == 0, result.output
-        assert dest.exists()
-
-    def test_render_html_no_match_fails(self, runner, clean_domain):
-        result = runner.invoke(cli, ["domains", "render-html", "nonexistent-prefix"])
-        assert result.exit_code != 0
