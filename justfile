@@ -9,6 +9,15 @@
 #           (install, uninstall, daemon management, tests, skill sync,
 #           docs generation scripts)
 
+# The three ports artmind daemons bind. Single source of truth: `_free-port`
+# uses them to stop a daemon, the serve-* recipes to (re)start one. Only
+# SERVE_PORT is configurable, matching `artmind serve`'s own default.
+# NB: this reads a real environment variable — setting ARTMIND_SERVE_PORT in
+# ~/.artmind/.env changes the daemon but not these recipes (they don't parse .env).
+SERVE_PORT := env_var_or_default('ARTMIND_SERVE_PORT', '8377')
+CHAT_UI_PORT := '8378'
+ADMIN_UI_PORT := '8379'
+
 # list available recipes
 default:
     @just --list
@@ -40,56 +49,27 @@ dev-uninstall:
 # stop running artmind daemons (`serve`, `chat-ui`, `admin-ui`, ingestion worker).
 # They load code at start, so one left running keeps serving the OLD build after
 # a reinstall — and each holding its port makes the next `artmind <cmd>` fail to bind.
-dev-stop-daemons:
+dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_UI_PORT "artmind chat-ui" "0") (_free-port ADMIN_UI_PORT "artmind admin-ui" "0")
     #!/usr/bin/env bash
     set -uo pipefail
-    stopped=0
-
-    # SIGTERM, wait, then SIGKILL if it ignored us
-    _stop() {
-        echo "stopping $2 (pid $1)"
-        kill "$1" 2>/dev/null || true
-        for _ in 1 2 3 4 5 6 7 8; do
-            kill -0 "$1" 2>/dev/null || return 0
-            sleep 0.25
-        done
-        echo "  forcing pid $1"
-        kill -9 "$1" 2>/dev/null || true
-    }
-
-    # identify each by the port it holds (that's the actual conflict), then confirm
-    # it really is artmind — never string-match a command line, which would also
-    # hit shells/editors that merely mention "artmind serve"/"chat-ui"/"admin-ui".
-    serve_port="${ARTMIND_SERVE_PORT:-8377}"
-    for portspec in "$serve_port:artmind serve" "8378:artmind chat-ui" "8379:artmind admin-ui"; do
-        port="${portspec%%:*}"
-        label="${portspec#*:}"
-        for pid in $(lsof -ti ":$port" -sTCP:LISTEN 2>/dev/null || true); do
-            cmd=$(ps -o command= -p "$pid" 2>/dev/null || true)
-            case "$cmd" in
-                *artmind*)
-                    _stop "$pid" "$label on port $port"
-                    stopped=1
-                    ;;
-                *)
-                    echo "port $port held by a non-artmind process (pid $pid) — leaving it alone"
-                    ;;
-            esac
-        done
-    done
-
-    # background ingestion worker: match the script path, and never ourselves
+    # The three listeners are handled by _free-port above. The ingestion worker
+    # binds no port, so it's the one daemon that must be matched by script path
+    # instead — and we must never match ourselves.
     for pid in $(pgrep -f "artmind/worker\.py" 2>/dev/null || true); do
         if [ "$pid" = "$$" ] || [ "$pid" = "${PPID:-0}" ]; then
             continue
         fi
-        _stop "$pid" "artmind ingestion worker"
-        stopped=1
+        echo "stopping artmind ingestion worker (pid $pid)"
+        kill "$pid" 2>/dev/null || true
+        for _ in 1 2 3 4 5 6 7 8; do
+            kill -0 "$pid" 2>/dev/null || break
+            sleep 0.25
+        done
+        kill -0 "$pid" 2>/dev/null && { echo "  forcing pid $pid"; kill -9 "$pid" 2>/dev/null || true; }
     done
-
-    if [ "$stopped" = 0 ]; then
-        echo "no artmind daemons running"
-    fi
+    # Always confirm we ran: _free-port is silent when a port was already clear,
+    # so without this a no-op looks indistinguishable from the recipe not firing.
+    echo "artmind daemons stopped"
     exit 0
 
 # run all tests
@@ -100,9 +80,9 @@ dev-test:
 dev-cli-help:
     uv run python scripts/click_cli_hierarchy.py artmind.cli:cli
 
-# regenerate docs/artmind-cli-guide.html from the live CLI
-dev-cli-guide:
-    uv run python scripts/generate_cli_guide.py
+# check every command is routed into the admin-ui CLI guide (see cli_guide.py)
+dev-cli-guide-check:
+    uv run --group dev pytest test/test_cli_guide.py -v
 
 # copy (not symlink) artmind/skills into .claude/skills and .pi/skills
 dev-copy-skills:
@@ -407,39 +387,79 @@ query-text2sql domain question dry_run="":
 query-resolve-key domain phrase column="" table="":
     uv run artmind query resolve-key --domain {{ domain }} {{ if column != "" { "--column " + column } else { "" } }} {{ if table != "" { "--table " + table } else { "" } }} "{{ phrase }}"
 
-# ── artmind serve & chat UI ──────────────────────────────────────────────────
+# ── artmind serve & web UIs ──────────────────────────────────────────────────
 
 # start the warm query daemon in the background if not already up (logs to logs/serve.log)
 serve-start:
     #!/usr/bin/env bash
     set -euo pipefail
-    port="${ARTMIND_SERVE_PORT:-8377}"
-    if curl -s -m 1 "http://127.0.0.1:${port}/health" >/dev/null 2>&1; then
-        echo "artmind serve already running on port ${port}"
+    if curl -s -m 1 "http://127.0.0.1:{{SERVE_PORT}}/health" >/dev/null 2>&1; then
+        echo "artmind serve already running on port {{SERVE_PORT}}"
     else
         mkdir -p logs
         nohup uv run artmind serve >> logs/serve.log 2>&1 &
-        echo "artmind serve starting on port ${port} (pid $!) — logs/serve.log"
+        echo "artmind serve starting on port {{SERVE_PORT}} (pid $!) — logs/serve.log"
     fi
 
 # stop the query daemon
-serve-stop:
-    #!/usr/bin/env bash
-    port="${ARTMIND_SERVE_PORT:-8377}"
-    pids=$(lsof -ti "tcp:${port}" || true)
-    if [ -n "$pids" ]; then
-        kill $pids && echo "artmind serve stopped (pid $pids)"
-    else
-        echo "artmind serve not running on port ${port}"
-    fi
+serve-stop: (_free-port SERVE_PORT "artmind serve")
 
-# start the serve daemon (background) plus the chat web UI (foreground; Ctrl-C stops the UI only)
-serve-ui: serve-start
+# restart the query daemon. Every daemon imports the code once at start, so a
+# long-lived one keeps answering from the build it booted with — see CLAUDE.md
+# "A running daemon serves stale code". This is why the UI recipes below restart
+# rather than reuse it.
+serve-restart: serve-stop serve-start
+
+# start the query daemon plus the chat web UI (foreground; Ctrl-C stops the UI only)
+serve-ui: serve-restart (_free-port CHAT_UI_PORT "artmind chat-ui")
     uv run artmind chat-ui
 
-# start the serve daemon (background) plus the admin web UI (foreground; Ctrl-C stops the UI only)
-serve-admin-ui: serve-start
+# start the query daemon plus the admin web UI (foreground; Ctrl-C stops the UI only)
+serve-admin-ui: serve-restart (_free-port ADMIN_UI_PORT "artmind admin-ui")
     uv run artmind admin-ui
+
+# ── shared primitive ─────────────────────────────────────────────────────────
+
+# Stop the artmind daemon listening on {{port}} so a recipe can rebind it, then
+# wait for the socket to clear. The one place this repo kills a daemon.
+#
+# Identifies the process by the port it holds (that's the actual conflict) and
+# then confirms it really is artmind -- never string-matches a command line,
+# which would also hit a shell or editor that merely mentions "artmind serve".
+#
+# strict="1" (default): a foreign process on the port is a hard error, because
+#   the caller is about to bind that port and would otherwise fail confusingly.
+# strict="0": warn and carry on, for callers that only want artmind's daemons
+#   gone (dev-stop-daemons) and don't care who else is on the port.
+_free-port port label strict="1":
+    #!/usr/bin/env bash
+    set -uo pipefail
+    for pid in $(lsof -ti ":{{port}}" -sTCP:LISTEN 2>/dev/null || true); do
+        case "$(ps -o command= -p "$pid" 2>/dev/null || true)" in
+            *artmind*)
+                echo "stopping {{label}} on port {{port}} (pid $pid)"
+                kill "$pid" 2>/dev/null || true
+                for _ in 1 2 3 4 5 6 7 8; do
+                    kill -0 "$pid" 2>/dev/null || break
+                    sleep 0.25
+                done
+                kill -0 "$pid" 2>/dev/null && { echo "  forcing pid $pid"; kill -9 "$pid" 2>/dev/null || true; }
+                ;;
+            *)
+                if [ "{{strict}}" = "1" ]; then
+                    echo "port {{port}} is held by a non-artmind process (pid $pid) — refusing to kill it" >&2
+                    exit 1
+                fi
+                echo "port {{port}} held by a non-artmind process (pid $pid) — leaving it alone"
+                ;;
+        esac
+    done
+    # the socket can linger a moment after the process goes
+    for _ in 1 2 3 4 5 6 7 8 9 10; do
+        lsof -ti ":{{port}}" -sTCP:LISTEN >/dev/null 2>&1 || exit 0
+        sleep 0.2
+    done
+    exit 0
 
 # ── artmind session ──────────────────────────────────────────────────────────
 

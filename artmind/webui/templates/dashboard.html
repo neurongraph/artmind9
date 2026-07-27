@@ -35,6 +35,7 @@
       <button type="button" class="tab" data-tab="benchmark">Benchmark</button>
       <button type="button" class="tab" data-tab="maintenance">Maintenance</button>
       <button type="button" class="tab" data-tab="structured">Structured data</button>
+      <button type="button" class="tab" data-tab="cli-guide">CLI guide</button>
     </div>
 
     <div class="tab-panel active" data-tab-group="view" data-tab-panel="operate">
@@ -365,6 +366,28 @@
 
       </div>
     </div>
+    </div>
+
+    <div class="tab-panel" data-tab-group="view" data-tab-panel="cli-guide">
+    <section class="dash-panel dash-zone-wide" id="cli-guide-panel">
+      <h2>CLI guide</h2>
+      <p class="dash-hint">Live reference introspected from the running <code>artmind</code> CLI.</p>
+
+      <form class="dash-form" id="cli-guide-form" onsubmit="return false">
+        <label class="grow">
+          Search
+          <input id="cli-guide-search" type="search" autocomplete="off" spellcheck="false"
+                 placeholder="Command, option, or description — press / to focus">
+        </label>
+        <button id="cli-guide-refresh-btn" type="button" class="btn-secondary">Refresh</button>
+      </form>
+      <p class="dash-note" id="cli-guide-stats"></p>
+
+      <div id="cli-guide-body" class="cg-root">
+        <p class="dash-empty">Loading…</p>
+      </div>
+      <p class="dash-empty" id="cli-guide-empty" hidden>No commands match your search.</p>
+    </section>
     </div>
   </main>
 

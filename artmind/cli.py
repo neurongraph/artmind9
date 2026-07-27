@@ -158,11 +158,12 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind": [
         {"name": "Domains", "commands": ["domains"]},
         {"name": "Ingestion", "commands": ["ingest"]},
+        {"name": "Structured store", "commands": ["db"]},
         {"name": "Query", "commands": ["query"]},
         {"name": "Documents", "commands": ["docs"]},
         {"name": "Updates", "commands": ["update"]},
-        {"name": "Sessions", "commands": ["session"]},
-        {"name": "Setup & tools", "commands": ["setup"]},
+        {"name": "Sessions", "commands": ["session", "snapshot"]},
+        {"name": "Setup & tools", "commands": ["setup", "init", "serve", "chat-ui", "admin-ui"]},
     ],
     "artmind ingest": [
         {
@@ -186,11 +187,25 @@ click.rich_click.COMMAND_GROUPS = {
             ],
         },
     ],
+    "artmind db": [
+        {"name": "Explore", "commands": ["bridge", "list", "schema", "catalogue"]},
+        {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain"]},
+        {"name": "Query", "commands": ["sql"]},
+        {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore"]},
+    ],
     "artmind query": [
         {"name": "Graph patterns", "commands": ["graph"]},
         {
             "name": "Lookups",
-            "commands": ["domains-overview", "vector-text", "entity-resolve", "chunks", "entity-context"],
+            "commands": [
+                "domains-overview",
+                "vector-text",
+                "entity-resolve",
+                "chunks",
+                "entity-context",
+                "text2sql",
+                "resolve-key",
+            ],
         },
     ],
 }
@@ -360,9 +375,9 @@ def get_relationships(domain_name: str):
     "--package", is_flag=True,
     # Deliberately a RELATIVE path, not f"{PACKAGE_SCHEMAS_DIR}": that global is
     # an absolute, machine-specific install path (e.g. /home/runner/... on CI vs
-    # /Users/... locally). Interpolating it here baked the build host's path into
-    # docs/artmind-cli-guide.html, so the generated guide differed per machine and
-    # the test_cli_guide check-in test could never stay green across environments.
+    # /Users/... locally). Help text is rendered verbatim into `--help` and the
+    # admin-ui CLI guide, so interpolating it would show readers the install
+    # path of whichever machine happened to render it.
     help=(
         "Read schemas from the package's own bundled artmind/domains/schemas/ "
         "directory instead of the run folder. Use this to regenerate a reference "
@@ -1186,6 +1201,26 @@ def db_sql(sql, compact):
     _echo_json({"query_type": "sql", "command": "db sql", "rows": rows}, compact)
 
 
+class _PeeledArgument(click.Argument):
+    """An Argument whose value is consumed by the group, not by Click's parser.
+
+    ``consume_value`` normally reads only from the parser's ``opts``, so an
+    Argument excluded from the parser (see ``_TableFirstGroup.make_parser``)
+    always looks absent — which forced it to be declared ``required=False``
+    even though it is mandatory. That lie propagated: both ``--help`` and the
+    admin-ui CLI guide rendered ``[TABLE]`` with "no required args", while
+    omitting it actually errors.
+
+    Reading the value the group already peeled into ``ctx.params`` lets the
+    Argument be declared honestly as ``required=True``.
+    """
+
+    def consume_value(self, ctx: click.Context, opts):
+        if self.name in ctx.params:
+            return ctx.params[self.name], click.core.ParameterSource.COMMANDLINE
+        return super().consume_value(ctx, opts)
+
+
 class _TableFirstGroup(click.RichGroup):
     """Group whose first positional token is always TABLE.
 
@@ -1198,13 +1233,13 @@ class _TableFirstGroup(click.RichGroup):
     lets ``db mappings TABLE --acceptProposed`` / ``db mappings TABLE set ...``
     both parse correctly.
 
-    The group still declares a real (but ``required=False, expose_value=False``)
-    ``table`` Argument — see ``db_mappings`` below — purely so ``--help``/usage
-    rendering knows about it (``get_params`` picks it up). ``make_parser`` below
-    excludes that phantom Argument from the actual token-consuming parser, since
-    real parsing is handled entirely by ``parse_args``'s manual peel; leaving it
-    in would let it re-swallow whatever token comes right after TABLE (e.g. a
-    subcommand name).
+    The group still declares a real ``table`` Argument — see ``db_mappings``
+    below — so ``--help``/usage rendering knows about it (``get_params`` picks
+    it up). ``make_parser`` below excludes it from the actual token-consuming
+    parser, since real parsing is handled entirely by ``parse_args``'s manual
+    peel; leaving it in would let it re-swallow whatever token comes right
+    after TABLE (e.g. a subcommand name). It is a ``_PeeledArgument`` so that
+    exclusion doesn't force it to be mis-declared as optional.
     """
 
     def make_parser(self, ctx: click.Context):
@@ -1248,18 +1283,38 @@ def _resolve_table_id(table_name: str, domain: "tuple[str, ...]") -> int:
     return _resolve_table_row(table_name, domain)["id"]
 
 
+def _ctx_table_id(ctx: click.Context) -> int:
+    """Resolve (once, then cache) the TABLE that ``_TableFirstGroup`` peeled off.
+
+    Deliberately lazy. Click runs a group's callback *before* it parses the
+    subcommand, so resolving in ``db_mappings`` itself meant a bad table
+    short-circuited everything downstream — including
+    ``db mappings SOME_TABLE clear --help``, which printed "table not found"
+    rather than the help the user asked for. Resolving at point of use keeps
+    ``--help`` free of database lookups while still failing loudly whenever a
+    subcommand actually needs the table.
+
+    ``ctx.obj`` is the parent group's dict (Click hands children the same
+    object), so the cache is shared across the invocation.
+    """
+    if "table_id" not in ctx.obj:
+        ctx.obj["table_id"] = _resolve_table_id(ctx.obj["table"], ctx.obj["domain"])
+    return ctx.obj["table_id"]
+
+
 @db.group("mappings", cls=_TableFirstGroup, invoke_without_command=True)
-@click.argument("table", required=False, expose_value=False)
+@click.argument("table", cls=_PeeledArgument, required=True, expose_value=False)
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
 @click.option("--acceptProposed", "accept_proposed", is_flag=True, help="Confirm all proposed mappings (bulk/non-interactive)")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 @click.pass_context
 def db_mappings(ctx, table, domain, accept_proposed, compact):
     """List proposed vs confirmed mappings for TABLE (default action)."""
-    table_id = _resolve_table_id(table, domain)
-    ctx.obj = {"table_id": table_id, "table": table}
+    # Resolution is deferred to _ctx_table_id -- see its docstring.
+    ctx.obj = {"table": table, "domain": domain}
     if ctx.invoked_subcommand is not None:
         return
+    table_id = _ctx_table_id(ctx)
     if accept_proposed:
         for m in structured_registry.list_mappings(table_id):
             if not m["confirmed"]:
@@ -1277,7 +1332,7 @@ def db_mappings(ctx, table, domain, accept_proposed, compact):
 @click.pass_context
 def db_mappings_set(ctx, column, entity_class, confidence, compact):
     """Upsert a confirmed column-to-entityClass mapping."""
-    table_id = ctx.obj["table_id"]
+    table_id = _ctx_table_id(ctx)
     structured_registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=True)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact
@@ -1298,7 +1353,7 @@ def db_mappings_confirm(ctx, column, entity_class, compact):
     is reviewing), so a typo'd --column/--entityClass should fail loudly rather
     than let the caller believe they confirmed something they didn't.
     """
-    table_id = ctx.obj["table_id"]
+    table_id = _ctx_table_id(ctx)
     rowcount = structured_registry.set_mapping_confirmed(table_id, column, entity_class, True)
     if rowcount == 0:
         raise click.ClickException(
@@ -1322,7 +1377,7 @@ def db_mappings_clear(ctx, column, compact):
     column has no mappings" rather than "act on this exact row", so a no-op is
     the correct, unsurprising result.
     """
-    table_id = ctx.obj["table_id"]
+    table_id = _ctx_table_id(ctx)
     structured_registry.clear_mappings(table_id, column)
     _echo_json(
         {"table": ctx.obj["table"], "mappings": structured_registry.list_mappings(table_id)}, compact

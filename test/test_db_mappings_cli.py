@@ -181,6 +181,55 @@ def test_db_mappings_help_documents_table(ingested):
     assert "TABLE" in result.output
 
 
+def test_db_mappings_declares_table_as_required(ingested):
+    """TABLE is mandatory, and must be *declared* that way, not just enforced.
+
+    _TableFirstGroup excludes the argument from Click's parser, which used to
+    force `required=False` — so `--help` (and the admin-ui CLI guide, which
+    reads the same Click metadata) advertised an optional `[TABLE]` for an
+    argument that errors when omitted. `_PeeledArgument` lets it be declared
+    honestly; this guards the declaration, since the runtime behaviour it must
+    agree with is already covered above.
+    """
+    import artmind.cli as cli
+
+    table_param = next(p for p in cli.db_mappings.params if p.name == "table")
+    assert table_param.required is True
+
+
+@pytest.mark.parametrize("subcommand", ["set", "confirm", "clear"])
+def test_db_mappings_subcommand_help_works_with_unknown_table(ingested, subcommand):
+    """`--help` must not require a table that exists.
+
+    Click runs a group's callback before parsing the subcommand, so resolving
+    TABLE eagerly in db_mappings made `db mappings BAD clear --help` fail with
+    "table 'BAD' not found" instead of printing help. Resolution is deferred to
+    _ctx_table_id for exactly this reason.
+    """
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "mappings", "no_such_table", subcommand, "--help"])
+    assert result.exit_code == 0, result.output
+    assert "not found" not in result.output
+
+
+@pytest.mark.parametrize(
+    "argv",
+    [
+        ["clear"],
+        ["set", "--column", "c", "--entityClass", "E"],
+        ["confirm", "--column", "c", "--entityClass", "E"],
+    ],
+)
+def test_db_mappings_subcommands_still_reject_unknown_table(ingested, argv):
+    """Deferring resolution must not let a bad table slip through to a real run."""
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "mappings", "no_such_table", *argv])
+    assert result.exit_code != 0
+    assert "not found" in result.output
+
+
 # Note: cross-domain table-name ambiguity (same table_name, two domains) is
 # reachable through the registry as written — "tables" has a
 # UNIQUE(datasource, domain, table_name) constraint (artmind/db.py), so

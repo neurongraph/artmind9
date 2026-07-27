@@ -748,6 +748,87 @@ document.getElementById("structured-sql-form").addEventListener("submit", async 
 });
 
 
+// ── cli guide ────────────────────────────────────────────────────────
+// The fragment from /api/cli-guide carries no script of its own (a <script>
+// injected via innerHTML would never run anyway), so every interaction is
+// delegated from here.
+const cliGuideBody = document.getElementById("cli-guide-body");
+const cliGuideSearch = document.getElementById("cli-guide-search");
+const cliGuideStats = document.getElementById("cli-guide-stats");
+const cliGuideEmpty = document.getElementById("cli-guide-empty");
+let cliGuideLoaded = false;
+
+async function loadCliGuide() {
+  cliGuideBody.innerHTML = "<p class='dash-empty'>Loading…</p>";
+  try {
+    const response = await fetch("/api/cli-guide");
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+    cliGuideBody.innerHTML = await response.text();
+    cliGuideLoaded = true;
+    filterCliGuide();
+  } catch (err) {
+    cliGuideBody.innerHTML = "";
+    cliGuideBody.appendChild(el("p", "dash-note", `Failed to load CLI guide: ${err.message}`));
+  }
+}
+
+function filterCliGuide() {
+  const q = cliGuideSearch.value.toLowerCase().trim();
+  let visible = 0;
+  for (const card of cliGuideBody.querySelectorAll(".cg-card")) {
+    const hay = (card.dataset.search + " " + card.textContent).toLowerCase();
+    const match = !q || hay.includes(q);
+    card.classList.toggle("hidden", !match);
+    if (!match) card.classList.remove("open");
+    if (match) visible++;
+  }
+  // While searching, collapse categories that have nothing left to show.
+  // Clearing the box restores every category -- otherwise a search that
+  // matched nothing would leave the whole guide collapsed with no hint why.
+  for (const cat of cliGuideBody.querySelectorAll(".cg-category")) {
+    cat.classList.toggle("collapsed", Boolean(q) && !cat.querySelector(".cg-card:not(.hidden)"));
+  }
+  cliGuideStats.textContent = q ? `${visible} command${visible === 1 ? "" : "s"} found` : "";
+  cliGuideEmpty.hidden = !(q && visible === 0);
+}
+
+cliGuideBody.addEventListener("click", (event) => {
+  const cardHead = event.target.closest(".cg-card-head");
+  if (cardHead) {
+    cardHead.closest(".cg-card").classList.toggle("open");
+    return;
+  }
+  const catHead = event.target.closest(".cg-cat-head");
+  if (catHead) catHead.closest(".cg-category").classList.toggle("collapsed");
+});
+
+cliGuideSearch.addEventListener("input", filterCliGuide);
+
+document.getElementById("cli-guide-refresh-btn").addEventListener("click", loadCliGuide);
+
+// Load lazily, so opening the dashboard doesn't pay to render the guide.
+document.querySelector('.tab[data-tab="cli-guide"]').addEventListener("click", () => {
+  if (!cliGuideLoaded) loadCliGuide();
+});
+
+// "/" to focus search, Escape to clear -- scoped to the CLI guide tab, and
+// never while the caret is in a field (the ingest/benchmark path inputs take
+// literal "/" characters).
+document.addEventListener("keydown", (event) => {
+  const panel = document.querySelector('.tab-panel[data-tab-panel="cli-guide"]');
+  if (!panel || !panel.classList.contains("active")) return;
+  const active = document.activeElement;
+  const typing = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA" || active.isContentEditable);
+  if (event.key === "/" && !typing) {
+    event.preventDefault();
+    cliGuideSearch.focus();
+  } else if (event.key === "Escape" && active === cliGuideSearch) {
+    cliGuideSearch.value = "";
+    filterCliGuide();
+    cliGuideSearch.blur();
+  }
+});
+
 // ── polling ──────────────────────────────────────────────────────────
 initTabs();
 loadDomains();

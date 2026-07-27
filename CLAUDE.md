@@ -23,6 +23,7 @@ ingest dashboard).
 | `artmind/skills/` | **Source of truth for agent skills.** Shipped in the wheel and seeded into the run folder. |
 | `artmind/domains/schemas/` | Default domain schemas (YAML), also seeded. |
 | `artmind/webui/` | Chat UI (`index.html`), admin console (`admin.html` + Lane A agent chat + Lane B `dashboard.html`/`dashboard_routes.py`), and the generated help/concept catalogue (`help.py`). |
+| `artmind/cli_guide.py` | Renders the CLI as an HTML **fragment** for the admin-ui's "CLI guide" tab (`GET /api/cli-guide`), styled by `dashboard.css`. Ordering comes from `COMMAND_GROUPS` in `cli.py`; `test/test_cli_guide.py` fails if a command isn't routed there. There is no checked-in HTML copy. |
 | `artmind/server.py` | The warm `serve` daemon. |
 | `artmind/opencode/` | opencode/ACP persona, seeded into the run folder. |
 | `artmind/setup.py` | `scaffold_run_folder()` (the `init` command) and Neo4j constraint/index setup. |

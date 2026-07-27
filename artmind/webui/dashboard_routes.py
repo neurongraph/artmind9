@@ -14,7 +14,7 @@ from pathlib import Path
 
 import click
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
@@ -140,6 +140,20 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     @app.get("/dashboard")
     async def dashboard_page(request: Request):
         return templates.TemplateResponse(request, "dashboard.html", {})
+
+    @app.get("/api/cli-guide", response_class=HTMLResponse)
+    async def api_cli_guide():
+        """The CLI guide as an HTML fragment, injected into the dashboard's CLI guide tab.
+
+        Generated fresh from this process's live `artmind.cli` import on every
+        request (no file on disk involved) — always in sync with whatever
+        `cli.py` this admin-ui process started with. Note it can still go
+        stale relative to *uncommitted* edits until admin-ui is restarted,
+        same as the `serve` daemon (see CLAUDE.md).
+        """
+        from artmind.cli_guide import render_fragment
+
+        return HTMLResponse(content=render_fragment(), headers={"Cache-Control": "no-store"})
 
     @app.get("/api/jobs")
     async def api_list_jobs(status: str | None = None):
