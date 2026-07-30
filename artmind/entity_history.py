@@ -126,3 +126,72 @@ def capture_prior_values(doc_kg_dir: Path, domain: str) -> dict:
             "values": {k: v for k, v in (rec["prior"] or []) if v is not None},
         }
     return out
+
+
+_SNAPSHOT_CYPHER = """
+MATCH (e:Entity {id: $entityId})
+MERGE (v:EntityVersion {entity_id: $entityId, superseded_by_doc: $supersededByDoc})
+ON CREATE SET v = $props,
+    v.id                = $versionId,
+    v.name              = $name,
+    v.entity_class      = $entityClass,
+    v.domain            = $domain,
+    v.valid_from        = $validFrom,
+    v.valid_to          = $validTo,
+    v.closed_by         = $closedBy,
+    v.snapshot_at       = $snapshotAt
+MERGE (e)-[:PRIOR_STATE]->(v)
+"""
+
+
+def snapshot_changed_values(
+    prior: dict,
+    incoming: dict,
+    effective: str | None,
+    newer_doc_id: str,
+) -> int:
+    """Preserve the prior values of properties this document overwrites.
+
+    Only genuinely changed keys are recorded — an entity re-asserted with
+    identical values produces no snapshot, so the history zone holds real
+    changes rather than noise.
+
+    Snapshots record the graph's *then-current state*, not "what the older
+    document claimed". That is the right answer for point-in-time questions and
+    honest about the multi-document case, where a prior value may legitimately
+    blend several still-live sources.
+    """
+    now = datetime.now(timezone.utc).isoformat()
+    written = 0
+    pending: list[dict] = []
+    for key, snap in prior.items():
+        new_values = incoming.get(key) or {}
+        changed = {
+            k: v for k, v in (snap.get("values") or {}).items()
+            if k in new_values and new_values[k] != v
+        }
+        if not changed:
+            continue
+        name, entity_class, domain = key
+        pending.append({
+            "props": changed,
+            "versionId": uuid.uuid4().hex,
+            "entityId": snap["entity_id"],
+            "name": name,
+            "entityClass": entity_class,
+            "domain": domain,
+            "validFrom": snap.get("valid_from"),
+            "validTo": effective,
+            "closedBy": "supersession",
+            "supersededByDoc": newer_doc_id,
+            "snapshotAt": now,
+        })
+
+    if not pending:
+        return 0
+    with neo4j_session() as session:
+        for params in pending:
+            session.run(_SNAPSHOT_CYPHER, **params)
+            written += 1
+    logger.info("entity_history: wrote {} snapshot(s) for {}", written, newer_doc_id)
+    return written

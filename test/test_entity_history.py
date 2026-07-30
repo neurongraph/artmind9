@@ -210,3 +210,108 @@ def test_capture_is_empty_when_no_entity_asserts_properties(tmp_path, monkeypatc
 
     assert eh.capture_prior_values(tmp_path, "banking.policy") == {}
     assert session.runs == []
+
+
+def test_snapshot_written_only_for_changed_values(monkeypatch):
+    """Case 1 writes history; case 3 (identical values) writes nothing."""
+    session = CaptureSession()
+    monkeypatch.setattr(eh, "neo4j_session", lambda: session)
+
+    prior = {
+        ("Fee Policy", "POLICY", "banking.policy"): {
+            "entity_id": "live-1", "valid_from": "2026-01-15",
+            "values": {"approval_limit": "£500", "owner": "Ops"},
+        },
+    }
+    incoming = {
+        ("Fee Policy", "POLICY", "banking.policy"): {"approval_limit": "£2,000", "owner": "Ops"},
+    }
+
+    written = eh.snapshot_changed_values(
+        prior, incoming, effective="2026-06-01", newer_doc_id="doc-v3",
+    )
+
+    assert written == 1
+    cypher, kwargs = session.runs[0]
+    assert ":EntityVersion" in cypher
+    assert "PRIOR_STATE" in cypher
+    # Only the property that actually changed is preserved.
+    assert kwargs["props"]["approval_limit"] == "£500"
+    assert "owner" not in kwargs["props"]
+    assert kwargs["validFrom"] == "2026-01-15"
+    assert kwargs["validTo"] == "2026-06-01"
+    assert kwargs["closedBy"] == "supersession"
+    assert kwargs["supersededByDoc"] == "doc-v3"
+    assert kwargs["entityId"] == "live-1"
+
+
+def test_snapshot_skipped_when_nothing_changed(monkeypatch):
+    session = CaptureSession()
+    monkeypatch.setattr(eh, "neo4j_session", lambda: session)
+
+    prior = {
+        ("Fee Policy", "POLICY", "banking.policy"): {
+            "entity_id": "live-1", "valid_from": None,
+            "values": {"approval_limit": "£2,000"},
+        },
+    }
+    incoming = {("Fee Policy", "POLICY", "banking.policy"): {"approval_limit": "£2,000"}}
+
+    assert eh.snapshot_changed_values(prior, incoming, "2026-06-01", "doc-v3") == 0
+    assert session.runs == []
+
+
+def test_snapshot_preserves_the_clean_prior_value(monkeypatch):
+    """Guards the Task 6 ordering contract: capture precedes the accretive write.
+
+    If capture ever moves after write_to_graph, prior values arrive already
+    merged as "old | new" and the history zone silently fills with
+    concatenations instead of the values that were actually superseded. This
+    asserts the clean value survives end to end.
+    """
+    session = CaptureSession()
+    monkeypatch.setattr(eh, "neo4j_session", lambda: session)
+
+    prior = {
+        ("Fee Policy", "POLICY", "banking.policy"): {
+            "entity_id": "live-1", "valid_from": None,
+            "values": {"approval_limit": "£500"},
+        },
+    }
+    incoming = {("Fee Policy", "POLICY", "banking.policy"): {"approval_limit": "£2,000"}}
+
+    eh.snapshot_changed_values(prior, incoming, "2026-06-01", "doc-v3")
+
+    _, kwargs = session.runs[0]
+    assert kwargs["props"]["approval_limit"] == "£500"
+    assert " | " not in kwargs["props"]["approval_limit"]
+
+
+def test_snapshot_is_idempotent_on_rerun(monkeypatch):
+    """A re-run after a partial commit_to_graph failure must not duplicate history.
+
+    The Cypher must MERGE on (entity_id, superseded_by_doc) rather than blindly
+    CREATE, so re-running snapshot_changed_values for the same entity closed out
+    by the same superseding document lands on the same :EntityVersion node
+    instead of minting a second one.
+    """
+    session = CaptureSession()
+    monkeypatch.setattr(eh, "neo4j_session", lambda: session)
+
+    prior = {
+        ("Fee Policy", "POLICY", "banking.policy"): {
+            "entity_id": "live-1", "valid_from": "2026-01-15",
+            "values": {"approval_limit": "£500"},
+        },
+    }
+    incoming = {("Fee Policy", "POLICY", "banking.policy"): {"approval_limit": "£2,000"}}
+
+    eh.snapshot_changed_values(prior, incoming, "2026-06-01", "doc-v3")
+    eh.snapshot_changed_values(prior, incoming, "2026-06-01", "doc-v3")
+
+    assert len(session.runs) == 2
+    for cypher, kwargs in session.runs:
+        assert "MERGE (v:EntityVersion {entity_id:" in cypher
+        assert "CREATE (v:EntityVersion)" not in cypher
+        assert kwargs["entityId"] == "live-1"
+        assert kwargs["supersededByDoc"] == "doc-v3"
