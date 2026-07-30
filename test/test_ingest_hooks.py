@@ -202,3 +202,145 @@ def test_commit_to_graph_reasserts_props_only_when_supersession_applied(monkeypa
     )
     assert ing.commit_to_graph(tmp_path, "mydomain") is True
     assert reasserts == []
+
+
+def test_commit_to_graph_skips_capture_when_supersession_impossible(monkeypatch, tmp_path):
+    """The gate saves a Neo4j read on the vast majority of ingests."""
+    import json
+    import artmind.ingest as ing
+    import artmind.entity_history as eh
+    import artmind.temporal as temporal
+
+    (tmp_path / "document.json").write_text(
+        json.dumps({"id": "d1", "name": "f.md"}), encoding="utf-8"
+    )
+    monkeypatch.setattr(ing, "write_to_graph", lambda p: True)
+    monkeypatch.setattr(temporal, "normalize_ingested_document", lambda p, d: None)
+    monkeypatch.setattr(temporal, "detect_supersession", lambda d, only_doc_name=None: {"applied": []})
+    monkeypatch.setattr(eh, "supersession_possible", lambda name, domain: False)
+
+    captured = []
+    monkeypatch.setattr(eh, "capture_prior_values", lambda p, d: captured.append(1) or {})
+
+    assert ing.commit_to_graph(tmp_path, "banking.policy") is True
+    assert captured == [], "capture must not run when the gate is closed"
+
+
+def test_commit_to_graph_captures_before_write_and_snapshots_after(monkeypatch, tmp_path):
+    """Ordering is the whole correctness story: capture, then write, then snapshot.
+
+    Capturing after write_to_graph would record _upsert_entity's accretive
+    "old | new" concatenation instead of the clean prior value.
+    """
+    import json
+    import artmind.ingest as ing
+    import artmind.entity_history as eh
+    import artmind.temporal as temporal
+
+    (tmp_path / "document.json").write_text(
+        json.dumps({"id": "d1", "name": "f.md"}), encoding="utf-8"
+    )
+    order = []
+    monkeypatch.setattr(eh, "supersession_possible", lambda name, domain: True)
+    monkeypatch.setattr(
+        eh, "capture_prior_values",
+        lambda p, d: order.append("capture") or {"k": {"entity_id": "e1"}},
+    )
+    monkeypatch.setattr(ing, "write_to_graph", lambda p: order.append("write") or True)
+    monkeypatch.setattr(temporal, "normalize_ingested_document", lambda p, d: None)
+    monkeypatch.setattr(
+        temporal, "detect_supersession",
+        lambda d, only_doc_name=None: {"applied": [{"newer": "d1", "older": "d0", "effective": "2026-06-01"}]},
+    )
+    monkeypatch.setattr(ing, "_reassert_superseding_properties", lambda *a, **k: {"entities_reasserted": 0})
+
+    snapshots = []
+    monkeypatch.setattr(
+        eh, "snapshot_changed_values",
+        lambda prior, incoming, effective, newer_doc_id: snapshots.append(
+            (effective, newer_doc_id)
+        ) or len(snapshots),
+    )
+
+    assert ing.commit_to_graph(tmp_path, "banking.policy") is True
+    assert order == ["capture", "write"], f"wrong ordering: {order}"
+    assert snapshots == [("2026-06-01", "d1")]
+
+
+def test_incoming_property_values_merges_across_chunks_for_the_same_entity(tmp_path):
+    """entities.json ids are chunk-scoped: one logical entity mentioned in two
+
+    chunks appears as two rows sharing (name, entity_class, domain) but with
+    different chunk-scoped ids and different asserted property subsets. The
+    incoming picture must union those keys into a single row, not silently drop
+    one chunk's contribution — otherwise snapshot_changed_values compares the
+    prior state against an incomplete "incoming" side.
+    """
+    import json
+    import artmind.ingest as ing
+
+    (tmp_path / "entities.json").write_text(json.dumps([
+        {"id": "c1_e1", "name": "Fee Policy", "entity_class": "POLICY", "domain": "banking.policy"},
+        {"id": "c7_e3", "name": "Fee Policy", "entity_class": "POLICY", "domain": "banking.policy"},
+    ]), encoding="utf-8")
+    (tmp_path / "properties.json").write_text(json.dumps([
+        {"id": "c1_e1", "properties": {"approval_limit": "£2,000"}},
+        {"id": "c7_e3", "properties": {"effective_date": "2026-01-01"}},
+    ]), encoding="utf-8")
+
+    out = ing._incoming_property_values(tmp_path, "banking.policy")
+
+    key = ("Fee Policy", "POLICY", "banking.policy")
+    assert out[key] == {
+        "approval_limit": "£2,000",
+        "effective_date": "2026-01-01",
+    }
+
+
+def test_incoming_property_values_last_chunk_wins_on_key_collision(tmp_path):
+    """Two chunks asserting the SAME key for the same entity: the later
+    entities.json entry wins, mirroring _reassert_superseding_properties'
+    sequential unconditional `SET n += $props` (last-processed chunk lands on
+    the node), not _upsert_entity's merge (which keeps the existing scalar).
+    """
+    import json
+    import artmind.ingest as ing
+
+    (tmp_path / "entities.json").write_text(json.dumps([
+        {"id": "c1_e1", "name": "Fee Policy", "entity_class": "POLICY", "domain": "banking.policy"},
+        {"id": "c7_e3", "name": "Fee Policy", "entity_class": "POLICY", "domain": "banking.policy"},
+    ]), encoding="utf-8")
+    (tmp_path / "properties.json").write_text(json.dumps([
+        {"id": "c1_e1", "properties": {"approval_limit": "£500"}},
+        {"id": "c7_e3", "properties": {"approval_limit": "£2,000"}},
+    ]), encoding="utf-8")
+
+    out = ing._incoming_property_values(tmp_path, "banking.policy")
+
+    key = ("Fee Policy", "POLICY", "banking.policy")
+    assert out[key] == {"approval_limit": "£2,000"}
+
+
+def test_commit_to_graph_capture_failure_does_not_block_commit(monkeypatch, tmp_path):
+    """Capture is best-effort: if the gate or the capture itself blows up,
+    commit_to_graph must still write and return True, with prior defaulting
+    to {} rather than propagating the exception.
+    """
+    import json
+    import artmind.ingest as ing
+    import artmind.entity_history as eh
+    import artmind.temporal as temporal
+
+    (tmp_path / "document.json").write_text(
+        json.dumps({"id": "d1", "name": "f.md"}), encoding="utf-8"
+    )
+
+    def boom(name, domain):
+        raise RuntimeError("gate blew up")
+
+    monkeypatch.setattr(eh, "supersession_possible", boom)
+    monkeypatch.setattr(ing, "write_to_graph", lambda p: True)
+    monkeypatch.setattr(temporal, "normalize_ingested_document", lambda p, d: None)
+    monkeypatch.setattr(temporal, "detect_supersession", lambda d, only_doc_name=None: {"applied": []})
+
+    assert ing.commit_to_graph(tmp_path, "banking.policy") is True
