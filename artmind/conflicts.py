@@ -15,7 +15,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from artmind.graph_query import neo4j_session
+from artmind.graph_query import expand_domain_family, neo4j_session
 from artmind.ingest import _call_llm_text, _parse_json_response
 from artmind.temporal import apply_supersession
 
@@ -59,16 +59,9 @@ def candidate_pairs(
        secondary tie-break added to the sort key, never the primary generator.
     Deterministic dedupe by (min_id,max_id); truncated to max_pairs.
     """
-    # TODO(hierarchical-domains): `domains` here is matched with exact `IN`
-    # (below and in `others` at the ANN query) — a parent domain like `banking`
-    # does NOT auto-expand to its `banking.*` children the way the query-layer
-    # `domain_predicate()` rollup does (graph_query.py). So
-    # `candidate_pairs(["banking"], ...)` finds nothing cross-child; pass the
-    # concrete children explicitly instead, e.g.
-    # `candidate_pairs(["banking.reference", "banking.products"], ...)`.
-    # Future fix: expand a parent domain to its concrete children at this
-    # entry point (the cross-domain pairing logic needs the concrete list,
-    # not a STARTS WITH predicate).
+    # `domains` arrives already expanded by detect_conflicts (see
+    # expand_domain_family), so a parent like `banking` reaches its concrete
+    # children here and cross-child pairing works as intended.
     seen: set[tuple[str, str]] = set()
     scored: list[tuple[float, float, dict]] = []
     with neo4j_session() as session:
@@ -293,8 +286,16 @@ def detect_conflicts(
     from_file: Path | None = None,
 ) -> dict:
     """Two-phase orchestrator mirroring refine-graph's dry-run/apply workflow."""
+    requested = list(domains)
+    domains = []
+    for d in requested:
+        for expanded in expand_domain_family(d):
+            if expanded not in domains:
+                domains.append(expanded)
+
     report: dict = {"domains": domains, "candidates": 0, "llm_calls": 0,
                     "conflicts": [], "stats": {}, "candidate_seconds": 0.0, "llm_seconds": 0.0}
+    report["domains_requested"] = requested
 
     if from_file:
         data = json.loads(Path(from_file).read_text(encoding="utf-8"))

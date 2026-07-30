@@ -59,6 +59,40 @@ def domain_predicate(var: str, param: str = "domains") -> str:
     )
 
 
+def expand_domain_family(domain: str) -> list[str]:
+    """A domain plus every descendant domain that actually holds data.
+
+    Retrieval paths get hierarchy free via `domain_predicate`'s STARTS WITH
+    rollup, but two write/analysis paths need a *concrete list* rather than a
+    predicate: normalize_time loads a schema per domain, and candidate_pairs
+    restricts ANN neighbours to specific other domains. Both matched `domain`
+    exactly before this, so a parent-scoped run silently did nothing.
+
+    Children are derived from the graph rather than the schema directory: no
+    filesystem dependency, no cli import, and the result is exactly the domains
+    holding data.
+
+    Restricted to :Document and :Entity — both carry domain indexes, so the
+    STARTS WITH stays index-backed. An unlabelled MATCH (n) would scan every
+    node in the database, including the history zone.
+    """
+    with read_session() as session:
+        rows = session.run(
+            """
+            CALL () {
+              MATCH (d:Document) WHERE d.domain STARTS WITH ($d + '.')
+              RETURN DISTINCT d.domain AS dom
+            UNION
+              MATCH (e:Entity) WHERE e.domain STARTS WITH ($d + '.')
+              RETURN DISTINCT e.domain AS dom
+            }
+            RETURN dom
+            """,
+            d=domain,
+        ).data()
+    return [domain] + sorted({r["dom"] for r in rows if r.get("dom")})
+
+
 def asof_predicate(var: str, param: str = "asOf") -> str:
     """NULL-safe valid-time filter. Untimed nodes are always visible.
 
