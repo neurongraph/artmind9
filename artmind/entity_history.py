@@ -11,6 +11,14 @@ entity_embedding vector index, refine-graph clustering, candidate_pairs — matc
 on :Entity or a class label, so none can see history without asking. That
 isolation is structural, not a filter anyone has to remember.
 """
+import json
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
+
+from loguru import logger
+
+from artmind.graph_query import neo4j_session
 from artmind.temporal import (
     _read_doc_body,
     load_schema,
@@ -39,3 +47,82 @@ def supersession_possible(doc_name: str, domain: str) -> bool:
     if not body:
         return False
     return bool(parse_supersession_notice(body) or parse_supersession_metadata_table(body))
+
+
+_CAPTURE_CYPHER = """
+UNWIND $rows AS r
+MATCH (n:Entity {name: r.name, entity_class: r.ec, domain: r.domain})
+RETURN r.idx AS idx, n.id AS id, n.valid_from AS vf, [k IN r.keys | [k, n[k]]] AS prior
+"""
+
+
+def _staged_assertions(doc_kg_dir: Path, domain: str) -> list[dict]:
+    """The (identity, asserted property keys) pairs this document will write.
+
+    entities.json ids are chunk-scoped — the same logical entity mentioned in
+    multiple chunks appears as multiple entries sharing one (name, entity_class,
+    domain) identity but different chunk-scoped ids and different property
+    subsets. Group by identity and union the keys, or a later chunk's row would
+    silently overwrite an earlier chunk's captured values for the same entity
+    (and the batched Cypher query would carry redundant MATCH lookups for one
+    node). Emit exactly one row per unique identity.
+
+    Mirrors _reassert_superseding_properties' own scope: only the domain
+    properties from properties.json. name/description/aliases/context stay
+    accretive — that is consolidation's job, not history's.
+    """
+    try:
+        entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
+        properties_path = doc_kg_dir / "properties.json"
+        properties_list = (
+            json.loads(properties_path.read_text(encoding="utf-8"))
+            if properties_path.exists() else []
+        )
+    except Exception as e:
+        logger.warning("entity_history: could not load staged JSON from {}: {}", doc_kg_dir, e)
+        return []
+
+    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
+    keys_by_identity: dict[tuple, set] = {}
+    for e in entities:
+        keys = {k for k, v in props_by_id.get(e["id"], {}).items() if v not in (None, "", [])}
+        if not keys:
+            continue
+        identity = (e["name"], e["entity_class"], e.get("domain") or domain)
+        keys_by_identity.setdefault(identity, set()).update(keys)
+
+    rows: list[dict] = []
+    for idx, ((name, ec, dom), keys) in enumerate(sorted(keys_by_identity.items())):
+        rows.append({"idx": idx, "name": name, "ec": ec, "domain": dom, "keys": sorted(keys)})
+    return rows
+
+
+def capture_prior_values(doc_kg_dir: Path, domain: str) -> dict:
+    """Read the live values of exactly the keys this document is about to assert.
+
+    Must run BEFORE write_to_graph(). _upsert_entity's merge is accretive — two
+    documents asserting the same string property produce "old | new" — so
+    capturing after the write would record the concatenation rather than the
+    clean prior value.
+
+    Returns {(name, entity_class, domain): {entity_id, valid_from, values}}.
+    An entity with no pre-write node is simply absent: nothing to preserve.
+    """
+    rows = _staged_assertions(doc_kg_dir, domain)
+    if not rows:
+        return {}
+    with neo4j_session() as session:
+        records = session.run(_CAPTURE_CYPHER, rows=rows).data()
+
+    by_idx = {r["idx"]: r for r in rows}
+    out: dict = {}
+    for rec in records:
+        row = by_idx.get(rec["idx"])
+        if not row:
+            continue
+        out[(row["name"], row["ec"], row["domain"])] = {
+            "entity_id": rec["id"],
+            "valid_from": rec["vf"],
+            "values": {k: v for k, v in (rec["prior"] or []) if v is not None},
+        }
+    return out
