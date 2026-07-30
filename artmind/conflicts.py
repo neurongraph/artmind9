@@ -361,3 +361,48 @@ def detect_conflicts(
         report["candidate_seconds"], report["llm_seconds"],
     )
     return report
+
+
+RESOLUTION_STATUSES = ("resolved", "dismissed")
+
+
+def resolve_conflict(conflict_id: str, status: str, reason: str | None = None) -> dict:
+    """Close a materialized conflict as resolved or dismissed.
+
+    Detection is deliberately one-way: materialize() only ever creates
+    conflicts with status 'open', and nothing closes them automatically. A
+    conflict represents two authorities genuinely disagreeing, which a
+    re-detection pass cannot adjudicate — closing it is a human judgment, so it
+    is an explicit command and never a side effect.
+
+    Raises ValueError when the id matches no Conflict node. That includes the
+    orphaned-edge case: a CONFLICTS_WITH edge whose Conflict node was deleted
+    still surfaces in list_conflicts (reported as 'open' via coalesce) but has
+    nowhere to record a status.
+    """
+    if status not in RESOLUTION_STATUSES:
+        raise ValueError(
+            f"status must be one of {', '.join(RESOLUTION_STATUSES)}; got {status!r}"
+        )
+    with neo4j_session() as session:
+        rec = session.run(
+            """
+            MATCH (co:Conflict {id: $id})
+            SET co.status = $status,
+                co.resolved_at = $now,
+                co.resolution_reason = $reason
+            RETURN co.id AS id, co.status AS status
+            """,
+            id=conflict_id,
+            status=status,
+            now=datetime.now(timezone.utc).isoformat(),
+            reason=reason,
+        ).single()
+    if not rec:
+        raise ValueError(
+            f"No Conflict node with id {conflict_id!r}. If `query graph conflicts` "
+            "listed it, the row may come from an orphaned CONFLICTS_WITH edge whose "
+            "Conflict node no longer exists — such rows report as 'open' but carry no status."
+        )
+    logger.info("conflict {} → {} ({})", conflict_id, status, reason or "no reason given")
+    return {"id": rec["id"], "status": rec["status"], "reason": reason}

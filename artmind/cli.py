@@ -189,6 +189,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "consolidate-descriptions",
                 "normalize-time",
                 "detect-conflicts",
+                "resolve-conflict",
                 "supersede",
                 "detect-supersession",
             ],
@@ -1072,6 +1073,27 @@ def ingest_detect_conflicts(
         from_file=Path(from_file) if from_file else None,
     )
     _echo_json(report, compact)
+
+
+@ingest.command("resolve-conflict")
+@click.argument("conflict_id")
+@click.option("--status", type=click.Choice(["resolved", "dismissed"]), required=True, help="How this conflict was closed")
+@click.option("--reason", default=None, help="Why — recorded on the Conflict node for audit")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_resolve_conflict(conflict_id: str, status: str, reason: str | None, compact: bool) -> None:
+    """Close a materialized conflict as resolved or dismissed.
+
+    Detection never closes conflicts on its own — two authorities disagreeing is
+    a human judgment call. Use `query graph conflicts --status all` to see closed
+    ones afterwards.
+    """
+    _setup_logger()
+    from artmind.conflicts import resolve_conflict
+    try:
+        result = resolve_conflict(conflict_id, status, reason=reason)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @ingest.command("supersede")
