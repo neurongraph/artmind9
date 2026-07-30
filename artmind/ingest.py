@@ -732,6 +732,10 @@ def _sanitize_label(s: str) -> str:
 # Entity->DocChunk provenance code), so blocking it as an Entity->Entity type is
 # defense-in-depth with no known cost.
 #
+# PRIOR_STATE is reserved on the same grounds: it links a live Entity to an
+# :EntityVersion snapshot and is written only by artmind.entity_history. An
+# LLM-minted one would imply history that no snapshot node backs.
+#
 # PART_OF is deliberately NOT reserved: multiple shipped schemas (general_schema,
 # banking.organization_schema, sales_collateral_schema, project_governance_schema)
 # list part_of as a legitimate LLM-extractable Entity->Entity relationship (e.g.
@@ -739,7 +743,7 @@ def _sanitize_label(s: str) -> str:
 # DocChunk->Document edge written elsewhere in this module's own upsert code — a
 # different code path from this Entity->Entity loop — so reserving PART_OF here
 # would silently drop legitimate, schema-sanctioned extractions.
-RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "EXTRACTED_FROM"})
+RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "EXTRACTED_FROM", "PRIOR_STATE"})
 
 
 def _neo4j_value(value):
