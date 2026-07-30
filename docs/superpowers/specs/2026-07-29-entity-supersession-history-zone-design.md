@@ -169,7 +169,7 @@ Capture therefore happens **before** `write_to_graph()`:
 
 ```
 commit_to_graph(doc_kg_dir, domain):
-    prior = capture_prior_values(doc_kg_dir, domain)   # NEW — read-only
+    prior = capture_prior_values(doc_kg_dir, domain)   # NEW — gated, read-only
     ok = write_to_graph(doc_kg_dir)                    # accretive merge happens here
     if not ok: return False
     normalize_ingested_document(...)                   # temporal hook (unchanged)
@@ -187,16 +187,56 @@ An entity the newer document introduces for the first time has no pre-write node
 capture returns nothing for it and no snapshot is written. Correct by construction: there
 is no prior state to preserve.
 
-**Cost:** one extra read query per commit, including commits where supersession never
-fires. Negligible against extraction's LLM calls, and preferable to recording concatenated
-blobs.
+### 5.2 The capture is gated — most commits pay nothing
 
-**Semantics:** a snapshot records *the graph's then-current state*, not "what the older
-document claimed." This is the right answer for point-in-time questions and is honest about
-the multi-document case, where the prior value may legitimately be a blend of several
-still-live sources.
+Capture is skipped entirely unless supersession could actually fire for this document. The
+gate is pure local work, because the supersession **parse** step needs no graph access —
+`parse_supersession_notice()` and `parse_supersession_metadata_table()` are regex over
+markdown already on disk:
 
-### 5.2 Scope of the snapshot
+```
+body        = _read_doc_body(name)                                  # one file read
+has_notice  = parse_supersession_notice(body)                       # regex, pure
+has_table   = parse_supersession_metadata_table(body)               # regex, pure
+family_mode = schema.temporal.defaults.supersede_on_title_family    # already-loaded schema
+
+if not (has_notice or has_table or family_mode):
+    return {}          # no Neo4j read at all
+```
+
+Sub-millisecond, and it eliminates the read for the overwhelming majority of ingests, since
+most documents declare no supersession. The one case it cannot gate is
+`supersede_on_title_family`, where supersession is inferred from document naming with no
+in-document signal — those domains capture unconditionally, which is acceptable because the
+flag is off by default and set only by schema authors who explicitly want version chains.
+
+### 5.3 The read projects only asserted keys
+
+The capture query must **not** return `properties(n)`. That includes the `embedding`
+property — 768 floats per entity, roughly 1.2 MB for a 200-entity document, on every
+gated commit. Project only the keys the document actually asserts:
+
+```cypher
+UNWIND $rows AS r
+MATCH (n:Entity {name: r.name, entity_class: r.ec, domain: r.domain})
+RETURN r.idx AS idx, n.id AS id, n.valid_from AS vf, [k IN r.keys | [k, n[k]]] AS prior
+```
+
+One batched round trip (`UNWIND` is already used at `ingest.py:1099` and
+`graph_query.py:248`), index-backed by the existing `entity_lookup` index on
+`(name, entity_class, domain)`, and a payload of a few domain properties per entity.
+
+**Net cost:** for a document with no supersession signal, one file read and two regexes.
+For one that has a signal, additionally a single indexed Neo4j read — against an ingest
+making three LLM calls per chunk.
+
+### 5.4 Semantics
+
+A snapshot records *the graph's then-current state*, not "what the older document claimed."
+This is the right answer for point-in-time questions and is honest about the multi-document
+case, where the prior value may legitimately be a blend of several still-live sources.
+
+### 5.5 Scope of the snapshot
 
 `_reassert_superseding_properties` already overwrites only the domain-specific properties
 from `properties.json` — `name`/`description`/`aliases`/`context` stay accretive, which is
@@ -322,11 +362,14 @@ Each of §3's four cases gets an explicit test. Cases 3 and 4 are the likeliest 
 4. Entity with a second live source → **no** retirement despite the superseded source
 
 Additionally: capture-precedes-write ordering (a snapshot must never contain a `" | "`
-concatenation produced by the accretive merge); `PRIOR_STATE` rejected as an
-LLM-extractable relationship type; `apply_supersession` idempotent under re-run;
-`entity-versions --asOf` selecting the covering snapshot and falling back to the live node;
-`resolve-conflict` erroring on an unknown id; `expand_domain_family` returning parent plus
-children and leaving a childless domain unchanged.
+concatenation produced by the accretive merge); **the §5.2 gate issuing no Neo4j read for a
+document with no supersession signal, and issuing one when a notice, a metadata row, or
+`supersede_on_title_family` is present**; **the §5.3 query never requesting `embedding` or
+bare `properties(n)`**; `PRIOR_STATE` rejected as an LLM-extractable relationship type;
+`apply_supersession` idempotent under re-run; `entity-versions --asOf` selecting the
+covering snapshot and falling back to the live node; `resolve-conflict` erroring on an
+unknown id; `expand_domain_family` returning parent plus children and leaving a childless
+domain unchanged.
 
 ## 13. Out of scope
 
