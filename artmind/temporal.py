@@ -446,6 +446,46 @@ def _stamp_chunk_valid_from(session, doc_id: str, valid_from: str | None) -> Non
     )
 
 
+def _retire_orphaned_entities(
+    session, older_doc_id: str, newer_doc_id: str, effective: str | None
+) -> None:
+    """Stamp valid_to on entities the superseded document solely sourced.
+
+    The counterpart to `_stamp_chunk_valid_from` for the entity layer, and the
+    reason `--asOf` works on entity-oriented queries at all: `asof_predicate`
+    is applied per node type, so `pattern1`/`pattern2`/`pattern9` filter on
+    `Entity.valid_to` — a property nothing else ever sets from a *document*
+    supersession.
+
+    The single-source condition is the whole safety story. By the time this
+    runs the newer document is already written, so an entity it re-asserts
+    carries EXTRACTED_FROM edges to both documents and is left alone; so is an
+    entity with any unrelated live source. Only entities whose entire evidence
+    is the superseded document retire.
+
+    Idempotent via coalesce. A null `effective` is a no-op: there is no
+    boundary to stamp, and writing `status` alone would retire an entity that
+    still reads as current to every as-of query.
+    """
+    if not effective:
+        return
+    session.run(
+        """
+        MATCH (c0:DocChunk {doc_id: $olderDocId})<-[:EXTRACTED_FROM]-(e:Entity)
+        WITH DISTINCT e
+        MATCH (e)-[:EXTRACTED_FROM]->(c:DocChunk)
+        WITH e, collect(DISTINCT c.doc_id) AS docIds
+        WHERE size(docIds) = 1
+        SET e.valid_to      = coalesce(e.valid_to, $effective),
+            e.superseded_by = $newerDocId,
+            e.status        = 'superseded'
+        """,
+        olderDocId=older_doc_id,
+        newerDocId=newer_doc_id,
+        effective=effective,
+    )
+
+
 def apply_supersession(
     newer_doc_id: str,
     older_doc_id: str,
