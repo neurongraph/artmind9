@@ -1083,6 +1083,13 @@ def ingest_detect_conflicts(
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
 def ingest_supersede(domain: str, newer_name: str, older_name: str, scope: str, effective: str | None, compact: bool) -> None:
     """Manually assert that one document supersedes another (sets SUPERSEDES + valid_to)."""
+    if scope != "document":
+        raise click.ClickException(
+            f"--scope {scope} is not yet supported. Sub-document supersession needs "
+            "section/clause units the graph does not model, and applying it today "
+            "would retire the whole document while leaving its chunks live. "
+            "Use --scope document."
+        )
     _setup_logger()
     from artmind.temporal import apply_supersession
     from artmind.graph_query import neo4j_session
@@ -1900,6 +1907,21 @@ def graph_timeline(domain: tuple, entity_id: str, compact: bool) -> None:
     """Events/state-changes/supersessions for an entity, ordered by time."""
     domains = _parse_domains(domain)
     _echo_json(graph_query.list_timeline(domains, entity_id), compact)
+
+
+@graph.command("entity-versions")
+@click.option("--domain", "domain", required=True, multiple=True, help="Domain(s)")
+@click.option("--entityId", "entity_id", required=True, help="Entity id whose prior states to list")
+@click.option("--asOf", "as_of", default=None, help="Return the state in force on this ISO date (omit for the full chain)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_entity_versions(domain: tuple, entity_id: str, as_of: str | None, compact: bool) -> None:
+    """Prior states of an entity from the history zone (superseded property values)."""
+    domains = _parse_domains(domain)
+    try:
+        result = graph_query.entity_versions(domains, entity_id, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
 
 
 @query.command("domains-overview")

@@ -356,3 +356,32 @@ def test_entity_versions_asof_selects_the_covering_snapshot(monkeypatch):
     # open" — the NULL-safety disjunct from asof_predicate() must NOT appear.
     assert "v.valid_to IS NULL OR" not in seen["cypher"]
     assert "v.valid_to > $asOf" in seen["cypher"]
+
+
+from click.testing import CliRunner
+
+
+def test_supersede_rejects_non_document_scope():
+    """Sub-document scopes currently half-apply: the document retires but its
+    chunks stay live. There is no sub-document unit in the graph to scope to,
+    so fail loudly rather than produce inconsistent state.
+    """
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, [
+        "ingest", "supersede", "--domain", "banking.policy",
+        "--newer", "v3.md", "--older", "v2.md", "--scope", "clause",
+    ])
+
+    assert result.exit_code != 0
+    assert "not yet supported" in result.output.lower()
+
+
+def test_entity_versions_command_is_registered():
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["query", "graph", "entity-versions", "--help"])
+
+    assert result.exit_code == 0, result.output
+    assert "--entityId" in result.output
+    assert "--asOf" in result.output
