@@ -266,16 +266,16 @@ def test_db_refresh_ambiguous_table_requires_domain(tmp_path, monkeypatch):
 
     banking_dir = tmp_path / "banking_src"
     banking_dir.mkdir()
-    retail_dir = tmp_path / "retail_src"
-    retail_dir.mkdir()
+    contracts_dir = tmp_path / "contracts_src"
+    contracts_dir.mkdir()
 
     banking_csv = banking_dir / "shared.csv"
     _write_csv(banking_csv, [["id", "name"], [1, "Checking"]])
-    retail_csv = retail_dir / "shared.csv"
-    _write_csv(retail_csv, [["id", "name"], [1, "Widget"]])
+    contracts_csv = contracts_dir / "shared.csv"
+    _write_csv(contracts_csv, [["id", "name"], [1, "Widget"]])
 
     CliRunner().invoke(cli.cli, ["ingest", "sync", str(banking_csv), "--domain", "banking"])
-    CliRunner().invoke(cli.cli, ["ingest", "sync", str(retail_csv), "--domain", "retail"])
+    CliRunner().invoke(cli.cli, ["ingest", "sync", str(contracts_csv), "--domain", "contracts"])
 
     ambiguous = CliRunner().invoke(cli.cli, ["db", "refresh", "shared"])
     assert ambiguous.exit_code != 0

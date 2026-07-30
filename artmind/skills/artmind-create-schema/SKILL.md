@@ -44,16 +44,23 @@ Also read `assets/personal_journal_schema.yaml` to see how the same template ada
 
 Read all provided sample documents. As you read, note:
 - **What kinds of things appear?** People, places, events, systems, ideas, objects, organisations, emotions?
-- **What makes kinds distinct?** A CHARACTER is different from a LOCATION is different from an EVENT — each participates in different relationships and warrants different properties.
+- **What makes kinds distinct?** A PERSON is different from a LOCATION is different from an EVENT — each participates in different relationships and warrants different properties.
 - **What relationships are most common?** Who acts on what? What contains what? What causes what?
 - **What questions would a domain expert ask?** ("Who is connected to X?" "What happened at Y?" "What does Z achieve?") — these drive property design.
 - **What vocabulary is specific to this domain?** Use domain-native verb phrases in rel_type values.
 
 ### Step 3 — Design entity classes
 
-A good schema has **5–8 entity classes**. More than 8 creates noise; fewer than 5 loses resolution.
+**Start from the POOLE+ base types.** `PERSON`, `LOCATION`, `ORGANIZATION`, `OBJECT`, and
+`EVENT` are universal — every built-in schema maps its domain's people, places, groups,
+things, and happenings onto these five before adding anything domain-specific (a fiction
+character is a `PERSON`, a fictional setting is a `LOCATION`, not a bespoke `CHARACTER`/
+`PLACE`). Only introduce a new class for a kind of thing that doesn't fit any of the five.
 
-For each candidate class, ask:
+A good schema has **5–8 entity classes total**, POOLE+ base types included. More than 8
+creates noise; fewer than 5 loses resolution.
+
+For each candidate *domain-specific* class (beyond the POOLE+ base types), ask:
 1. Is this a fundamentally different *kind of thing* from the other classes?
 2. Does it participate in meaningfully different relationships?
 3. Would a domain expert want to query it separately?
@@ -72,7 +79,7 @@ Types are fine-grained subcategories within a class. They need not be exhaustive
 
 **Common mistakes:**
 - Classes that are too abstract (`THING`) — each class must be specific enough to have distinct relationship patterns
-- Classes that are really subtypes of another class (`VILLAIN` when `CHARACTER` with type `antagonist` would do)
+- Classes that are really subtypes of another class (`VILLAIN` when `PERSON` with type `antagonist` would do)
 - Missing the "implicit" important class — e.g. in fiction, CONCEPT (themes, mysteries) is easy to forget but valuable; in governance docs, DECISION is easy to overlook
 
 ### Step 4 — Write `entities_prompt`
@@ -82,7 +89,7 @@ Follow the fiction schema structure exactly:
 1. **Opening sentence:** `You are a Knowledge Graph extraction engine specialised in {domain} analysis.`
 2. **ENTITY TYPES section:** one block per class, with description and example type values
 3. **EXTRACTION RULES section:** keep all five standard rules (completeness, canonical names, description quality, context snippets, no hallucination) — **adapt the examples to the domain**
-4. **OUTPUT FORMAT section:** use the standard JSON shape; adapt the `id` prefix examples to this domain (e.g. `char_001`, `loc_002` for fiction vs. `per_001`, `plc_002` for journal)
+4. **OUTPUT FORMAT section:** use the standard JSON shape; adapt the `id` prefix examples to this domain's entity classes, following the POOLE+ names (e.g. `per_001`, `loc_002` for a `PERSON`/`LOCATION` pair — never a domain-specific alias like `char_001`)
 5. **QUALITY CHECKLIST section:** tailor each □ item to what matters most for this domain
 
 End the prompt with the two anchors exactly as shown:
@@ -127,7 +134,7 @@ Structure:
 **Relationship design principles:**
 - Cover every meaningful cross-class pairing, not just same-class
 - Use domain-native verb phrases: `resides_at` not `is_at`; `trained_on` not `uses`
-- Direction should read naturally: `(CHARACTER)-[VISITS]->(LOCATION)` not the reverse
+- Direction should read naturally: `(PERSON)-[VISITS]->(LOCATION)` not the reverse
 - Offer 6–12 rel_types per class-pair — specific enough to be meaningful, not so many they overlap
 - Add a `properties` guidance note for at least the 3–4 most important rel_types in the domain
 
@@ -174,8 +181,11 @@ it a canonical `STATE_CHANGE` entity class — with `what_changed`/`from_state`/
 temporal mapping — rather than letting the LLM attach ad hoc state fields to
 unrelated classes.
 
-Note: `domains harmonize` propagates a parent domain's `temporal:` block to its
-children, so a child schema created later inherits this mapping automatically.
+Note: a child schema created later inherits the parent's `temporal:` block
+automatically — this happens dynamically at load time (schema loading deep-merges
+the parent's `temporal:` block underneath the child's own), not via `domains
+harmonize`. `harmonize` only materializes missing entity/prompt blocks; it never
+touches `temporal:`.
 
 ### Step 8 — Save and verify
 

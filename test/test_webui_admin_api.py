@@ -163,11 +163,11 @@ def test_ingest_passes_stage_only_to_create_job(monkeypatch, tmp_path):
 
     resp = _client().post(
         "/api/ingest",
-        json={"domain": "mydomain", "path": str(f), "stageOnly": True},
+        json={"domain": "general", "path": str(f), "stageOnly": True},
     )
     assert resp.status_code == 200
     assert seen["stage_only"] is True
-    assert seen["domain"] == "mydomain"
+    assert seen["domain"] == "general"
 
 
 def test_ingest_defaults_stage_only_false(monkeypatch, tmp_path):
@@ -185,7 +185,7 @@ def test_ingest_defaults_stage_only_false(monkeypatch, tmp_path):
     monkeypatch.setattr(dashboard_routes, "_create_job", fake_create_job)
     monkeypatch.setattr(dashboard_routes, "_ensure_worker_running", lambda: None)
 
-    resp = _client().post("/api/ingest", json={"domain": "mydomain", "path": str(f)})
+    resp = _client().post("/api/ingest", json={"domain": "general", "path": str(f)})
     assert resp.status_code == 200
     assert seen["stage_only"] is False
 

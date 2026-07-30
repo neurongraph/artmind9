@@ -21,6 +21,7 @@ from artmind.setup import scaffold_run_folder, setup_all
 from artmind.ingest import (
     _build_file_result_from_db,
     clean_document,
+    collect_ingest_files,
     commit_to_graph,
     embed_entities_backfill,
     extract_kg,
@@ -28,13 +29,17 @@ from artmind.ingest import (
     ingest_to_kg,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
-from artmind.structured import is_structured_source
+from artmind.structured import is_structured_source, view_name
 from artmind.structured import registry as structured_registry
+from artmind.structured.scd2 import asof_view_sql
 from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file, refresh_table
 from artmind.structured_snapshot import export_structured, import_structured
 from artmind.jobs import (
     _create_job,
+    _fetch_active_jobs,
+    _fetch_chunks,
+    _fetch_completed_jobs,
     _get_job_results,
     _get_job_status,
     _list_jobs,
@@ -167,7 +172,10 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind ingest": [
         {
             "name": "Sync & jobs",
-            "commands": ["sync", "async", "jobs", "job-status", "job-results", "retry-job"],
+            "commands": [
+                "sync", "async", "jobs", "jobs-active", "jobs-completed",
+                "job-status", "job-results", "job-chunks", "retry-job",
+            ],
         },
         {
             "name": "Graph building",
@@ -189,7 +197,7 @@ click.rich_click.COMMAND_GROUPS = {
     "artmind db": [
         {"name": "Explore", "commands": ["bridge", "list", "schema", "catalogue"]},
         {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain"]},
-        {"name": "Query", "commands": ["sql"]},
+        {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore"]},
     ],
     "artmind query": [
@@ -448,11 +456,13 @@ def ingest_sync(
 
     if domain is None:
         domain = _prompt_for_domain()
+    elif domain not in _get_available_domains():
+        raise click.ClickException(
+            f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
+        )
 
     path = Path(file_path)
-    files = sorted(
-        f for f in (path.rglob("*") if path.is_dir() else [path]) if f.is_file()
-    )
+    files = collect_ingest_files(path)
 
     logger.info(
         "═══ Sync ingest: {} file(s) | domain={} | image_model={} | text_model={} | embed={} | chunk_size={}",
@@ -482,8 +492,12 @@ def ingest_sync(
                 continue
             result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
             if result.get("status") == "ok":
-                ok_count += 1
-                ingest_to_kg(result, domain, text_model, embed_model, chunk_size, stage_only=stage_only)
+                kg_ok = ingest_to_kg(result, domain, text_model, embed_model, chunk_size, stage_only=stage_only)
+                if kg_ok:
+                    ok_count += 1
+                else:
+                    fail_count += 1
+                    logger.error("KG ingestion failed for {}", f.name)
             else:
                 fail_count += 1
         except Exception as e:
@@ -508,16 +522,13 @@ def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bo
     _setup_logger()
     if domain is None:
         domain = _prompt_for_domain()
+    elif domain not in _get_available_domains():
+        raise click.ClickException(
+            f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
+        )
 
     path = Path(file_path)
-    if path.is_dir():
-        files = sorted(
-            f for f in path.rglob("*")
-            if f.is_file()
-            and not any(p.startswith(".") for p in f.relative_to(path).parts)
-        )
-    else:
-        files = [path]
+    files = collect_ingest_files(path)
     if not files:
         raise click.ClickException(f"No files found in {path}")
 
@@ -587,6 +598,36 @@ def ingest_retry_job(job_id: str, include_skipped: bool):
             click.echo(f"  {f}")
         _ensure_worker_running()
         click.echo("Worker started.")
+
+
+@ingest.command("jobs-active")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_jobs_active(compact: bool):
+    """List queued/processing jobs with full per-file rows."""
+    _echo_json(_fetch_active_jobs(), compact)
+
+
+@ingest.command("jobs-completed")
+@click.option("--limit", default=100, help="Max jobs to return")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_jobs_completed(limit: int, compact: bool):
+    """List completed/failed jobs with a per-file summary."""
+    _echo_json(_fetch_completed_jobs(limit=limit), compact)
+
+
+@ingest.command("job-chunks")
+@click.argument("job_id")
+@click.argument("document")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_job_chunks(job_id: str, document: str, compact: bool):
+    """Show per-chunk extraction status (entities/properties/relationships) for one document in a job."""
+    job = _get_job_status(job_id)
+    if job is None:
+        raise click.ClickException(f"Job '{job_id}' not found")
+    file_result = _build_file_result_from_db(document, job["domain"])
+    if file_result is None:
+        raise click.ClickException(f"Document '{document}' not found in registry for domain '{job['domain']}'")
+    _echo_json(_fetch_chunks(file_result["sha256"]), compact)
 
 
 @ingest.command("embed-entities")
@@ -1147,6 +1188,36 @@ def db_sql(sql, compact):
     except Exception as exc:
         raise click.ClickException(f"SQL error: {exc}") from exc
     _echo_json({"query_type": "sql", "command": "db sql", "rows": rows}, compact)
+
+
+@db.command("timeline")
+@click.argument("table")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option("--asOf", "as_of", default=None, help="ISO date to view TABLE's rows as of (omit for the currently-open rows).")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_timeline(table, domain, as_of, compact):
+    """Point-in-time query over a temporal (SCD-2) table's captured history.
+
+    Only applies to tables ingested with --refreshMode temporal (2.7) — a
+    replace-mode table keeps no history to query. Omit --asOf for the rows
+    currently open (not yet superseded by a later refresh).
+    """
+    row = _resolve_table_row(table, domain)
+    if row["refresh_mode"] != "temporal":
+        raise click.ClickException(
+            f"table '{table}' has refresh_mode='{row['refresh_mode']}' — timeline queries only"
+            " apply to refresh_mode='temporal' tables (see 'artmind ingest sync --refreshMode temporal')"
+        )
+    ds = DuckDBDatasource()
+    ds.ensure_views(structured_registry.list_tables())
+    view = view_name(row["domain"], row["table_name"])
+    try:
+        rows = ds.run_sql(asof_view_sql(view, as_of))
+    except Exception as exc:
+        raise click.ClickException(f"SQL error: {exc}") from exc
+    _echo_json(
+        {"table": table, "domain": row["domain"], "as_of": as_of, "rows": rows}, compact
+    )
 
 
 class _PeeledArgument(click.Argument):

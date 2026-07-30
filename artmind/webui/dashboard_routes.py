@@ -20,7 +20,13 @@ from pydantic import BaseModel, Field
 
 from artmind.cli import _ensure_worker_running, _get_available_domains
 from artmind.graph_query import structural_metadata
-from artmind.ingest import _build_file_result_from_db, commit_to_graph, embed_entities_backfill, extract_kg
+from artmind.ingest import (
+    _build_file_result_from_db,
+    collect_ingest_files,
+    commit_to_graph,
+    embed_entities_backfill,
+    extract_kg,
+)
 from artmind.jobs import (
     _create_job,
     _fetch_active_jobs,
@@ -218,10 +224,12 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
     @app.post("/api/ingest")
     async def api_ingest(payload: IngestRequest):
         _validate_artifact_segment(payload.domain)
+        if payload.domain not in _get_available_domains():
+            raise HTTPException(status_code=400, detail=f"Unknown domain '{payload.domain}'")
         path = Path(payload.path)
         if not path.exists():
             raise HTTPException(status_code=400, detail=f"Path not found: {payload.path}")
-        files = sorted(f for f in (path.rglob("*") if path.is_dir() else [path]) if f.is_file())
+        files = collect_ingest_files(path)
         if not files:
             raise HTTPException(status_code=400, detail=f"No files found in {payload.path}")
         batch_files = [str(f.resolve()) for f in files]

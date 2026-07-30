@@ -44,6 +44,12 @@ nodes — the graph only ever holds a catalogue of what tables/columns exist.
 - `artmind db schema <table> --compact` — columns, types, and (once confirmed)
   column→entity-class mappings for a table.
 - `artmind db sql "<SQL>" --compact` — raw read-only SQL, no LLM involved.
+- `artmind db timeline <table> --domain <d> [--asOf <date>] --compact` — point-in-time
+  query over a `refresh_mode: temporal` table's captured SCD-2 history: omit `--asOf`
+  for the currently-open rows, or pass a date to see the table as it stood then. Use
+  this instead of hand-writing `_valid_from`/`_valid_to` filters in `db sql` — it only
+  applies to temporal tables (check `db schema`'s `refresh_mode` field first; a
+  `replace`-mode table has no history to query and the command errors clearly if asked).
 - `artmind db mappings <table> --compact` — review proposed vs confirmed
   column→entityClass mappings for a table (registry rows, not a file). Bulk-confirm
   everything proposed with `--acceptProposed`, or manage one mapping at a time with
@@ -197,14 +203,15 @@ Worked examples:
 
 `--asOf` consistency: if the question is temporal ("as of last quarter", "as of
 <date>"), pass the SAME `--asOf <date>` to every command in the hybrid chain —
-graph retrieval and `query text2sql` both honor it (`db sql` does not, since raw
-SQL has no notion of "as of"; filter `_valid_from`/`_valid_to` yourself in the
-query text if you need that on `db sql`). Note `_valid_from`/`_valid_to` only
-exist on `refresh_mode: temporal` tables (check `db schema`'s `refresh_mode`
-field) — filtering by them on a `replace`-mode table is a raw DuckDB "column not
-found" error, not a temporal miss. This is the same rule as "Default to
-`--asOf today` on every retrieval" in Retrieve below — one date, threaded through
-both stores, not decided independently per command.
+graph retrieval and `query text2sql` both honor it. `db sql` itself has no notion
+of "as of" (raw SQL, nothing injected) — for a temporal structured table, use
+`artmind db timeline <table> --asOf <date> --compact` instead of hand-writing
+`_valid_from`/`_valid_to` filters in `db sql`. Note `_valid_from`/`_valid_to`/
+`db timeline` only apply to `refresh_mode: temporal` tables (check `db schema`'s
+`refresh_mode` field) — a `replace`-mode table has no history to query. This is
+the same rule as "Default to `--asOf today` on every retrieval" in Retrieve
+below — one date, threaded through both stores, not decided independently per
+command.
 
 `--compact` applies to `db`/`query text2sql`/`query resolve-key` exactly like
 every other command in this skill (line 31) — nothing SQL-specific changes that.

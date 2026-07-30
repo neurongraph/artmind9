@@ -50,6 +50,25 @@ IMAGE_EXTENSIONS = {
 }
 
 
+def collect_ingest_files(path: Path) -> list[Path]:
+    """Resolve a file-or-directory ingest target to the sorted list of files to ingest.
+
+    A single file ingests as itself. A directory is walked recursively, skipping
+    any file under a dotfile/dot-directory (``.DS_Store``, ``.git/``, ``.venv/``,
+    etc.) — those are OS/tooling artifacts, never ingestion targets. Shared by
+    every ingestion entry point (CLI sync/async, the admin dashboard's ingest
+    endpoint) so they can't drift out of agreement on what "ingest a directory"
+    means.
+    """
+    if path.is_dir():
+        return sorted(
+            f for f in path.rglob("*")
+            if f.is_file()
+            and not any(p.startswith(".") for p in f.relative_to(path).parts)
+        )
+    return [path]
+
+
 def _compute_sha256(file_path: Path) -> str:
     h = sha256()
     with open(file_path, "rb") as f:
