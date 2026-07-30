@@ -315,3 +315,44 @@ def test_snapshot_is_idempotent_on_rerun(monkeypatch):
         assert "CREATE (v:EntityVersion)" not in cypher
         assert kwargs["entityId"] == "live-1"
         assert kwargs["supersededByDoc"] == "doc-v3"
+
+
+def test_entity_versions_cypher_scopes_by_domain_and_orders_by_valid_from(monkeypatch):
+    import artmind.graph_query as gq
+
+    seen = {}
+    monkeypatch.setattr(
+        gq, "_run_read_query",
+        lambda cypher, params: seen.update({"cypher": cypher, "params": params}) or [],
+    )
+
+    out = gq.entity_versions(["banking.policy"], "live-1")
+
+    assert out["command"] == "entity_versions"
+    assert ":EntityVersion" in seen["cypher"]
+    assert "v.entity_id = $entityId" in seen["cypher"]
+    assert "v.domain IN $domains" in seen["cypher"]
+    assert "ORDER BY v.valid_from" in seen["cypher"]
+    assert seen["params"]["entityId"] == "live-1"
+    assert "asOf" not in out
+
+
+def test_entity_versions_asof_selects_the_covering_snapshot(monkeypatch):
+    """With --asOf, return the state in force on that date, not the whole chain."""
+    import artmind.graph_query as gq
+
+    seen = {}
+    monkeypatch.setattr(
+        gq, "_run_read_query",
+        lambda cypher, params: seen.update({"cypher": cypher, "params": params}) or [],
+    )
+
+    out = gq.entity_versions(["banking.policy"], "live-1", as_of="2026-03-01")
+
+    assert "$asOf" in seen["cypher"]
+    assert seen["params"]["asOf"] == "2026-03-01"
+    assert out["asOf"] == "2026-03-01"
+    # NULL valid_to means "closed, date unknown" for :EntityVersion, not "still
+    # open" — the NULL-safety disjunct from asof_predicate() must NOT appear.
+    assert "v.valid_to IS NULL OR" not in seen["cypher"]
+    assert "v.valid_to > $asOf" in seen["cypher"]
