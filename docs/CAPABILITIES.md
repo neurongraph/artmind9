@@ -55,6 +55,8 @@ mindmap
       Temporal normalization
       Conflict detection
       Supersession
+      Entity retirement
+      Superseded-value history
     5 Structured Data Store
       Table registry & schema
       Raw SQL guarantee
@@ -504,7 +506,10 @@ and a curated knowledge base.
 | 4.4 |  | Temporal normalization | Canonical validity fields (`valid_from` / `valid_to` / `event_at`) are backfilled from schema-declared temporal mappings. | `artmind ingest normalize-time` |
 | 4.5 |  | Conflict detection | Contradictions between entities — including across domains — are detected and materialized non-destructively as first-class objects. | `artmind ingest detect-conflicts`, `conflicts.py` |
 | 4.6 |  | Supersession (manual) | A human can assert one document supersedes another, closing the superseded document's validity. | `artmind ingest supersede` |
-| 4.7 |  | Supersession (automatic) | Documents are scanned for supersession declarations, which are applied as typed edges. | `artmind ingest detect-supersession` |
+| 4.7 |  | Supersession (automatic) | Documents are scanned for supersession declarations, which are applied as typed edges (see 4.8 for the entity-level effect). | `artmind ingest detect-supersession` |
+| 4.8 |  | Entity retirement on supersession | When a document is superseded, entities it solely sourced stop being returned as current by point-in-time queries, while entities still asserted by live documents are unaffected. | `_retire_orphaned_entities` (`temporal.py`) |
+| 4.9 |  | Superseded-value history | Property values a superseding document overwrites are preserved in a queryable history partition that is invisible to ordinary entity queries and semantic search. | `entity_history.py`, `artmind query graph entity-versions` |
+| 4.10 |  | Conflict resolution | A detected conflict can be explicitly closed as resolved or dismissed, with the reason recorded; closure is never automatic. | `artmind ingest resolve-conflict` |
 
 ## 5. Structured Data Store
 

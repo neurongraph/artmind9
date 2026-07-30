@@ -385,3 +385,13 @@ def test_entity_versions_command_is_registered():
     assert result.exit_code == 0, result.output
     assert "--entityId" in result.output
     assert "--asOf" in result.output
+
+
+def test_text2cypher_schema_documents_the_history_zone():
+    """Generated Cypher must know :EntityVersion exists — and that live entity
+    questions should not traverse into it.
+    """
+    from artmind.text2cypher import STRUCTURAL_SCHEMA
+
+    assert ":EntityVersion" in STRUCTURAL_SCHEMA
+    assert "PRIOR_STATE" in STRUCTURAL_SCHEMA

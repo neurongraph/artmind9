@@ -90,6 +90,10 @@ STRUCTURAL GRAPH (fixed for all domains — use these exact relationship names):
   Relationship (:Conflict)-[:EVIDENCE {side}]->(:DocChunk) — competing claim text
   Relationship (:Entity)-[:CONFLICTS_WITH {conflict_id, aspect}]->(:Entity)
   Relationship (:Document)-[:SUPERSEDES {scope, effective}]->(:Document)  — newer replaces older
+  Node :EntityVersion properties=[id, entity_id, name, entity_class, domain, valid_from, valid_to, closed_by, superseded_by_doc, snapshot_at]
+  Relationship (:Entity)-[:PRIOR_STATE]->(:EntityVersion) — a superseded snapshot of that entity's values
+    (history only — never traverse into it for "what is true now" questions; the
+     live :Entity node always holds current values)
   Timed nodes carry valid_from/valid_to; superseded docs also carry superseded_by.
   Entity-to-Entity relationships are domain-specific (see GRAPH SCHEMA below)."""
 
@@ -128,6 +132,11 @@ RULES:
   timed nodes: ($asOf IS NULL OR ((n.valid_from IS NULL OR n.valid_from <= $asOf)
   AND (n.valid_to IS NULL OR n.valid_to > $asOf))); include "asOf" in parameters.
   For historical questions ("what WAS the limit in 2024?") set asOf to that date.
+- :EntityVersion nodes and PRIOR_STATE edges are history only — a superseded
+  snapshot of an entity's prior values. Never traverse into them to answer a
+  "what is true now" question; the live :Entity node always holds current
+  values. Only use :EntityVersion when the question explicitly asks about a
+  prior/historical state of a specific entity.
 
 {STRUCTURAL_SCHEMA}
 

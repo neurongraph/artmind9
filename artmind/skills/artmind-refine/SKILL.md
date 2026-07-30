@@ -210,6 +210,31 @@ detection, not by manual edit.
 - `ingest supersede` sets `valid_to`/`superseded_by` — not deletion, but not
   reversible via CLI.
 
+## Closing a conflict
+
+Detection never closes conflicts — two authorities disagreeing is a human
+judgment. Once you have adjudicated one:
+
+```bash
+artmind ingest resolve-conflict <conflict_id> --status resolved --reason "<why>"
+```
+
+Use `--status dismissed` for a false positive. `query graph conflicts --status all`
+shows closed ones afterwards.
+
+## Reading superseded entity values
+
+When a document supersedes another and overwrites entity properties, the prior
+values are preserved:
+
+```bash
+artmind query graph entity-versions --domain <d> --entityId <id> --compact
+artmind query graph entity-versions --domain <d> --entityId <id> --asOf 2026-03-01 --compact
+```
+
+Entities the newer document drops entirely are retired instead (`valid_to` set),
+so `--asOf today` stops returning them.
+
 ## When NOT to run
 
 - Mid-ingestion (worker jobs still processing the domain) — refine afterwards.
