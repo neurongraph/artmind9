@@ -496,7 +496,9 @@ def apply_supersession(
     """Create (:Document)-[:SUPERSEDES]->(:Document) and set valid_to on the older side.
 
     Document scope also stamps valid_to on the older document's chunks — this is
-    what makes --asOf queries exclude stale content automatically. Idempotent.
+    what makes --asOf queries exclude stale content automatically — and retires
+    entities the older document solely sourced (see `_retire_orphaned_entities`).
+    Idempotent.
     """
     with neo4j_session() as session:
         session.run(
@@ -515,6 +517,10 @@ def apply_supersession(
                 "MATCH (c:DocChunk {doc_id:$older}) SET c.valid_to = coalesce($effective, c.valid_to)",
                 older=older_doc_id, effective=effective,
             )
+            # same gate as the chunk stamp above — retirement only makes sense
+            # at document granularity, where a whole DocChunk (and therefore
+            # its solely-sourced entities) goes stale at once
+            _retire_orphaned_entities(session, older_doc_id, newer_doc_id, effective)
     logger.info("supersession: {} supersedes {} (scope={}, effective={})", newer_doc_id, older_doc_id, scope, effective)
     return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
 

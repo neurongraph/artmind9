@@ -66,3 +66,37 @@ def test_retire_orphaned_entities_noop_without_effective_date():
     t._retire_orphaned_entities(session, "older-doc", "newer-doc", None)
 
     assert session.runs == []
+
+
+def test_apply_supersession_retires_entities_for_document_scope(monkeypatch):
+    """All three supersession routes converge here, so retirement belongs here.
+
+    Gated on document scope, matching the existing chunk stamp: a section- or
+    clause-scoped supersession does not retire whole entities.
+    """
+    session = FakeSession()
+    monkeypatch.setattr(t, "neo4j_session", lambda: session)
+    calls = []
+    monkeypatch.setattr(
+        t, "_retire_orphaned_entities",
+        lambda s, older, newer, eff: calls.append((older, newer, eff)),
+    )
+
+    t.apply_supersession("newer-doc", "older-doc", "document", "2026-06-01")
+
+    assert calls == [("older-doc", "newer-doc", "2026-06-01")]
+
+
+def test_apply_supersession_skips_retirement_for_non_document_scope(monkeypatch):
+    """Sub-document scopes retire no entities — there is no sub-document unit."""
+    session = FakeSession()
+    monkeypatch.setattr(t, "neo4j_session", lambda: session)
+    calls = []
+    monkeypatch.setattr(
+        t, "_retire_orphaned_entities",
+        lambda s, older, newer, eff: calls.append((older, newer, eff)),
+    )
+
+    t.apply_supersession("newer-doc", "older-doc", "section", "2026-06-01")
+
+    assert calls == []
