@@ -235,6 +235,17 @@ artmind query graph entity-versions --domain <d> --entityId <id> --asOf 2026-03-
 Entities the newer document drops entirely are retired instead (`valid_to` set),
 so `--asOf today` stops returning them.
 
+**On an existing graph, retirement backfills for free; history does not.**
+Retirement only depends on the SUPERSEDES edge existing, so re-running
+`detect-supersession` (or the pipeline's supersession step) retroactively
+retires entities from supersessions that happened before this capability
+existed. Snapshots are different: `snapshot_changed_values` only ever runs at
+document-commit time, when the prior (pre-overwrite) values are still on the
+live node — by the time you could retroactively try, the accretive merge has
+already overwritten them. So `entity-versions` will have no history for a
+document that was superseded before this capability shipped, even after a
+supersession re-scan. New supersessions get both.
+
 ## When NOT to run
 
 - Mid-ingestion (worker jobs still processing the domain) — refine afterwards.
