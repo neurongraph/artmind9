@@ -57,6 +57,7 @@ mindmap
       Supersession
       Entity retirement
       Superseded-value history
+      Conflict resolution
     5 Structured Data Store
       Table registry & schema
       Raw SQL guarantee
@@ -500,16 +501,163 @@ and a curated knowledge base.
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 4.1 |  | Entity merging | Similar entity names are detected and aliases merged into canonical entities. | `artmind ingest refine-graph` |
-| 4.2 |  | Refinement pipeline | All refinement steps run in dependency order in one command: time → supersession → merge → conflicts → consolidate → embed. | `artmind ingest refine-pipeline` |
-| 4.3 |  | Description consolidation | Accumulated per-chunk entity descriptions are rewritten into clean prose from their source chunks. | `artmind ingest consolidate-descriptions` |
-| 4.4 |  | Temporal normalization | Canonical validity fields (`valid_from` / `valid_to` / `event_at`) are backfilled from schema-declared temporal mappings. | `artmind ingest normalize-time` |
-| 4.5 |  | Conflict detection | Contradictions between entities — including across domains — are detected and materialized non-destructively as first-class objects. | `artmind ingest detect-conflicts`, `conflicts.py` |
-| 4.6 |  | Supersession (manual) | A human can assert one document supersedes another, closing the superseded document's validity. | `artmind ingest supersede` |
-| 4.7 |  | Supersession (automatic) | Documents are scanned for supersession declarations, which are applied as typed edges (see 4.8 for the entity-level effect). | `artmind ingest detect-supersession` |
-| 4.8 |  | Entity retirement on supersession | When a document is superseded, entities it solely sourced stop being returned as current by point-in-time queries, while entities still asserted by live documents are unaffected. | `_retire_orphaned_entities` (`temporal.py`) |
-| 4.9 |  | Superseded-value history | Property values a superseding document overwrites are preserved in a queryable history partition that is invisible to ordinary entity queries and semantic search. | `entity_history.py`, `artmind query graph entity-versions` |
-| 4.10 |  | Conflict resolution | A detected conflict can be explicitly closed as resolved or dismissed, with the reason recorded; closure is never automatic. | `artmind ingest resolve-conflict` |
+| 4.1 | ✓ | Entity merging | Entity names are clustered by string similarity within their entity class (never across classes), an LLM adjudicates which clustered names are true aliases and picks a canonical name, and approved merges re-wire every relationship from alias to canonical. Cross-domain merges are guarded by default. | `artmind ingest refine-graph`, `refine_graph.py` |
+| 4.2 | ✓ | Refinement pipeline | All refinement steps run in dependency order in one command (time → supersession → merge → conflicts → consolidate → embed); deterministic steps apply immediately while judgment-requiring steps produce reviewable proposals, applied only in an explicit second pass. Refining two or more domains together adds a cross-domain conflict pass after every domain's own steps complete. | `artmind ingest refine-pipeline`, `refine_pipeline.py` |
+| 4.3 | ✓ | Description consolidation | Accumulated per-chunk entity descriptions are rewritten into clean prose from their source chunks; the original is preserved, chunk/document provenance is recorded, entities with an unresolved conflict are skipped, and superseded source material is marked historical rather than blended in as current. | `artmind ingest consolidate-descriptions`, `consolidate.py` |
+| 4.4 | ✓ | Temporal normalization | Canonical validity fields (`valid_from` / `valid_to` / `event_at`) are backfilled from schema-declared temporal mappings, across a domain and every concrete child in its family that holds data. | `artmind ingest normalize-time`, `temporal.py` |
+| 4.5 | ✓ | Conflict detection | Contradictions between entities — within one domain family or across separate domains — are detected via embedding-similarity candidate generation and LLM adjudication, and materialized non-destructively as first-class objects; a parent-domain scope expands to every concrete child holding data. | `artmind ingest detect-conflicts`, `conflicts.py` |
+| 4.6 | ✓ | Supersession (manual) | A human can assert one document supersedes another, closing the superseded document's validity and retiring entities it solely sourced (see 4.8). Only document-level scope is supported — finer-grained scopes are rejected rather than silently half-applied. | `artmind ingest supersede`, `temporal.py` |
+| 4.7 | ✓ | Supersession (automatic) | Documents are scanned for supersession declarations, which are applied as typed edges (see 4.8 for the entity-level effect). | `artmind ingest detect-supersession` |
+| 4.8 | ✓ | Entity retirement on supersession | When a document is superseded, entities it solely sourced stop being returned as current by point-in-time queries, while entities still asserted by live documents are unaffected. | `_retire_orphaned_entities` (`temporal.py`) |
+| 4.9 | ✓ | Superseded-value history | Property values a superseding document overwrites are preserved in a queryable history partition that is invisible to ordinary entity queries and semantic search. | `entity_history.py`, `artmind query graph entity-versions` |
+| 4.10 | ✓ | Conflict resolution | A detected conflict can be explicitly closed as resolved or dismissed, with the reason recorded; closure is never automatic. | `artmind ingest resolve-conflict` |
+| 4.11 | ✓ | Supersession via conflict adjudication | When two candidate-matching entities are found not to genuinely disagree but to represent successive revisions of the same authority, a supersession relationship is recorded instead of a conflict — the entity-level effects of supersession (4.8) apply to this route too. | `conflicts.py` (`materialize`, verdict `"superseded"`) |
+
+> **Scoring note:** the reference implementation's precondition for cross-domain conflict
+> detection (a prior `refine-graph` run on each target domain) is enforced only as a
+> logged warning, not a hard block — a caller can skip it and pairing will simply operate
+> on undeduplicated entities. Not part of the baseline statement, but worth checking when
+> scoring another implementation's "candidate pairing operates on clean entities" claim.
+
+> **Scoring note:** on an existing graph, entity retirement (4.8) and superseded-value
+> history (4.9) recover asymmetrically. Retirement only depends on the `SUPERSEDES` edge
+> existing, so re-running supersession detection retroactively retires entities from
+> supersessions that predate this capability. History cannot do the same — a snapshot is
+> only captured at document-commit time, before the accretive merge overwrites the prior
+> value, so a pre-existing supersession has no recoverable history even after a rescan.
+> Worth checking whether another implementation's history mechanism has the same
+> asymmetry or backfills differently.
+
+### Grounding notes
+
+**4.1 Entity merging**
+*Why it matters* — clustering is class-constrained before it is similarity-constrained,
+which is what keeps a same-named-but-different-thing pair (e.g. a product and a fee
+named after it) from ever entering the same cluster in the first place; the LLM
+adjudication step then decides aliasing within that already-safe candidate set. The
+default cross-domain guard exists so `detect-conflicts` (4.5) still has same-named
+entities from different domains to compare — an unguarded merge would erase the very
+pairs conflict detection needs.
+*Test hint* — cluster a domain with two same-class, similarly-named-but-distinct
+entities and confirm the merge proposal does not group them; separately, run an
+all-domains merge with no `--domain` filter and confirm same-named cross-domain pairs
+are skipped and reported rather than merged.
+
+**4.2 Refinement pipeline**
+*Why it matters* — the propose/apply split exists because the six steps have real cost
+and risk asymmetry: time/supersession are cheap, additive, and safe to run unreviewed,
+while merge/conflicts/consolidate spend LLM calls and (for merges) delete nodes with no
+built-in undo. Running them all through one command also enforces the dependency order
+by construction — merges must land before cross-domain conflict detection compares
+entities, which a human running the individual commands could get wrong.
+*Test hint* — propose against two domains, confirm merge/conflict/consolidate produce
+files rather than graph writes while time/supersession show up as already-applied counts,
+then apply from that report and confirm the cross-domain conflicts pass ran only once,
+after both domains' own merge steps.
+
+**4.3 Description consolidation**
+*Why it matters* — the conflict-open skip gate is what makes 4.2's step ordering
+(conflicts before consolidate) load-bearing: consolidating an entity mid-dispute would
+force the LLM to silently pick a side. Preserving the original in `description_raw` and
+recording exact source-chunk ids means a bad consolidation is always recoverable and
+auditable, unlike a merge.
+*Test hint* — mark an entity with an open conflict and confirm a consolidation run
+skips it; separately, consolidate the same entity twice with an unchanged chunk set and
+confirm the second run is a no-op (chunk-set-idempotent).
+
+**4.4 Temporal normalization**
+*Why it matters* — before the family rollup, a parent-scoped call matched nodes stamped
+exactly with the parent domain — normally none, since abstract parent domains hold no
+documents — so `normalize-time --domain banking` silently did nothing. The fix expands to
+concrete children first and loads each child's own schema, so a family-wide backfill
+actually reaches the documents that exist.
+*Test hint* — run `normalize-time` against a parent domain whose children hold documents
+and confirm the returned `domains_processed` lists the children, not just the parent, and
+that counts are nonzero.
+
+**4.5 Conflict detection**
+*Why it matters* — candidate pairing is embedding-ANN-driven and class-blocked, not a
+brute-force cross product, which is what makes cross-domain detection tractable at all;
+string similarity is only a secondary tie-break on the ANN shortlist. The same domain
+rollup fix as 4.4 means a parent-domain call now performs real cross-child pairing
+instead of the previous no-op — the exact case the CLI's own `1=intra-domain,
+2+=cross-domain` help text describes, now also reachable via one family name.
+*Test hint* — run `detect-conflicts` against a single parent domain whose children hold
+data and confirm the candidate count is nonzero and the report's `domains` field lists
+the expanded children while `domains_requested` keeps the original single entry.
+
+**4.6 Supersession (manual)**
+*Why it matters* — this is the convergence point all three supersession routes (manual,
+automatic notice-scan, and 4.11's conflict-adjudicated route) share, so the entity
+retirement in 4.8 was added here once rather than three times. The `--scope` rejection
+exists because the alternative was worse: silently closing the whole document's validity
+while claiming a `section`/`clause` scope that the graph has no unit to represent —
+inconsistent state with no way to reach the promised behavior.
+*Test hint* — supersede two documents and confirm entities solely sourced from the older
+one retire (4.8) in the same call; separately, confirm `--scope section` or `--scope
+clause` is rejected before any graph lookup, not after a partial write.
+
+**4.7 Supersession (automatic)**
+*Why it matters* — three independent signals (prose notice, metadata-table row, and a
+schema-gated title-family chain) all resolve through the same `apply_supersession()`
+convergence point as the manual path, so a document that declares its own supersession
+gets the identical entity-retirement and history-capture treatment as one a human
+asserts by hand.
+*Test hint* — ingest a document with a genuine `## Supersession Notice` section citing an
+existing document's version, confirm the edge is applied automatically at commit time
+with no separate command, and confirm the superseded document's solely-sourced entities
+retire in the same commit.
+
+**4.8 Entity retirement on supersession**
+*Why it matters* — this is the fix for a defect where entity-oriented queries
+(`pattern1`/`pattern2`/`pattern9`, `entity-listing`) never reflected document-level
+supersession at all, because `--asOf` filtering reads `Entity.valid_to`, and nothing
+wrote it. The single-source condition — retiring only entities whose entire evidence
+traces to the superseded document — is what keeps an entity still asserted by the newer
+document, or by any unrelated live document, correctly unaffected; verified live against
+a real corpus where entities re-asserted by the newer document (e.g. a policy re-stated
+across versions) correctly stayed current while a genuinely dropped provision correctly
+retired.
+*Test hint* — supersede a document, then query an entity solely sourced from it with
+`--asOf today` (should be absent) and without `--asOf` (should reappear, carrying
+`status: superseded` and `valid_to`); separately confirm an entity also asserted by the
+newer document is unaffected by the same supersession.
+
+**4.9 Superseded-value history**
+*Why it matters* — the history zone is a real partition, not a filtered view: snapshot
+nodes carry neither the live entity's label nor a class label, so every existing entity
+query, the semantic-search vector index, and the merge/conflict machinery are structurally
+blind to them rather than relying on a filter someone has to remember. A snapshot is only
+written for property values a superseding document actually overwrites — an entity merely
+dropped (no overwrite) is handled by 4.8's retirement instead, not duplicated here.
+*Test hint* — supersede a document that overwrites a specific property on a re-asserted
+entity, confirm a history snapshot exists carrying the old value, and confirm the live
+entity and ordinary entity queries never surface the snapshot node itself.
+
+**4.10 Conflict resolution**
+*Why it matters* — before this, `query graph conflicts --status resolved|dismissed` was a
+filter over a state nothing could produce: `materialize()` only ever wrote `status='open'`
+and no other code path — including LLM-generated Cypher, which is hard-blocked from any
+write — could change it. Resolution is deliberately explicit-only, matching the system's
+stated philosophy that a real disagreement between authorities is a human judgment call,
+never something a re-detection pass silently resolves on its own.
+*Test hint* — resolve a conflict with a reason, confirm `query graph conflicts --status
+resolved` (or `--status all`) surfaces it with the reason attached, and confirm
+`--status open` (the default) no longer does.
+
+**4.11 Supersession via conflict adjudication**
+*Why it matters* — this is a third, independent path to supersession alongside the
+manual (4.6) and notice-scan (4.7) routes, and the only one that can link two documents
+neither of which declares a relationship to the other in its own text — it works by
+noticing two entities that ANN-matched as candidates are actually the same authority at
+different versions rather than a live disagreement. It shares 4.6/4.7's exact
+`apply_supersession()` convergence point, so it inherits entity retirement (4.8) for
+free; a domain-family-wide `detect-conflicts` run (per 4.5's rollup) can therefore both
+write new `SUPERSEDES` edges and retire entities across a whole family in one call.
+*Test hint* — construct two entities that are really the same authority at different
+versions (differing `valid_from`), run cross-domain or intra-family conflict detection,
+and confirm the adjudicator's `superseded` verdict produces a `SUPERSEDES` edge with
+`detected_by: adjudicator` rather than a `Conflict` node.
 
 ## 5. Structured Data Store
 
