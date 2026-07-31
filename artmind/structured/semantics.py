@@ -142,12 +142,27 @@ def build_prompt(table: dict, table_id: int) -> str:
     )
 
 
-def propose_semantics(table_id: int, model: str | None = None) -> dict:
-    """Propose ``grain`` and bridge columns for ``table_id``. Persists both.
+def propose_semantics(
+    table_id: int,
+    model: str | None = None,
+    *,
+    write_grain: bool = True,
+    only_columns: set[str] | None = None,
+) -> dict:
+    """Propose ``grain`` and bridge columns for ``table_id``. Persists both,
+    subject to ``write_grain``/``only_columns`` below.
 
     Returns ``{"grain", "grain_reason", "grain_written", "bridge_columns"}``.
     ``grain_written`` is False when an operator has already confirmed a grain,
     in which case the proposal is reported but not applied.
+
+    ``write_grain=False`` computes but never persists grain -- used by
+    ``propose_table_semantics`` when only the bridge step was requested: grain
+    and bridge share one LLM call (there's no way to ask the model just one of
+    the two questions), but the caller can still refuse to act on the grain
+    half of the answer. ``only_columns``, when given, restricts bridge-column
+    *persistence* to that column-name set (used by a replace-mode-refresh
+    new-column-only trigger elsewhere in the pipeline).
     """
     from artmind.extraction import call_llm, parse_json_response
     from utils.functions import load_env, resolve_llm_model
@@ -163,14 +178,19 @@ def propose_semantics(table_id: int, model: str | None = None) -> dict:
     grain = parsed.get("grain")
     grain_reason = parsed.get("grain_reason") or ""
     grain_written = False
-    if grain in registry.GRAINS:
-        if table.get("grain_confirmed"):
-            # An operator already ruled on this; report but do not overwrite.
-            grain = table["grain"]
+    if write_grain:
+        if grain in registry.GRAINS:
+            if table.get("grain_confirmed"):
+                # An operator already ruled on this; report but do not overwrite.
+                grain = table["grain"]
+            else:
+                registry.set_grain(table_id, grain, confirmed=False)
+                grain_written = True
         else:
-            registry.set_grain(table_id, grain, confirmed=False)
-            grain_written = True
+            grain = table["grain"]
     else:
+        # Not asked to act on grain this run -- report the existing value,
+        # same shape as the already-confirmed branch above.
         grain = table["grain"]
 
     known_columns = {c["name"] for c in registry.get_columns(table_id)}
@@ -189,6 +209,8 @@ def propose_semantics(table_id: int, model: str | None = None) -> dict:
             continue
         # Guard against a hallucinated column name reaching the registry.
         if column not in known_columns:
+            continue
+        if only_columns is not None and column not in only_columns:
             continue
         if confidence < CONFIDENCE_FLOOR:
             continue
@@ -343,3 +365,92 @@ def propose_mapping(
         persisted.append({"column": column, "entity_class": entity_class, "confidence": confidence})
 
     return persisted
+
+
+def propose_table_semantics(
+    table_id: int,
+    domain: str,
+    *,
+    steps: list[str] | None = None,
+    redo: bool = False,
+    model: str | None = None,
+    only_columns: set[str] | None = None,
+) -> dict:
+    """Run whichever of {grain, bridge, mapping} ``steps`` need attention for
+    ``table_id``, recording per-step run status, and return a combined result.
+
+    This is the one function every caller -- ``db propose``, the ingest
+    pipeline's first-registration/new-column auto-run, the admin-ui's
+    propose/propose-all routes -- goes through, mirroring ``extract_kg``'s role
+    as the single re-entry point ``ingest sync`` also calls inline.
+
+    ``steps`` defaults to all three. A step already ``'ok'`` is skipped unless
+    ``redo``. Grain and bridge share one LLM call (``propose_semantics``);
+    requesting only one of the two still makes that call, but grain is only
+    *persisted* when ``"grain"`` is actually in the step set this run needs.
+
+    Failures are caught per step, logged via loguru, and recorded as
+    ``'failed'`` -- never raised -- mirroring ``kg_chunk_status``'s best-effort
+    convention: the whole point of tracking run status is so a partial
+    failure resumes on the next call rather than crashing the caller.
+
+    ``only_columns``, forwarded to both underlying steps, restricts
+    *persistence* to that column-name set -- it does not affect which steps
+    are considered.
+    """
+    from loguru import logger
+
+    table = registry.get_table_by_id(table_id)
+    if table is None:
+        raise ValueError(f"no registered table with id {table_id}")
+
+    requested = set(steps) if steps else set(registry.SEMANTIC_STEPS)
+    to_run = {
+        step for step in requested
+        if redo or table.get(f"{step}_status", "pending") != "ok"
+    }
+
+    result = {"table": table["table_name"], "domain": domain}
+
+    if to_run & {"grain", "bridge"}:
+        run_grain = "grain" in to_run
+        run_bridge = "bridge" in to_run
+        try:
+            semantics_result = propose_semantics(
+                table_id, model=model, write_grain=run_grain, only_columns=only_columns
+            )
+            result["semantics"] = semantics_result
+            if run_grain:
+                registry.set_step_status(table_id, "grain", "ok")
+            if run_bridge:
+                registry.set_step_status(table_id, "bridge", "ok")
+        except Exception as exc:
+            logger.warning(
+                "propose_table_semantics: grain/bridge step failed for {}: {}",
+                table["table_name"], exc,
+            )
+            result["semantics_error"] = str(exc)
+            if run_grain:
+                registry.set_step_status(table_id, "grain", "failed")
+            if run_bridge:
+                registry.set_step_status(table_id, "bridge", "failed")
+
+    if "mapping" in to_run:
+        try:
+            result["mappings"] = propose_mapping(
+                table_id, domain, model=model, only_columns=only_columns
+            )
+            registry.set_step_status(table_id, "mapping", "ok")
+        except Exception as exc:
+            logger.warning(
+                "propose_table_semantics: mapping step failed for {}: {}",
+                table["table_name"], exc,
+            )
+            result["mapping_error"] = str(exc)
+            registry.set_step_status(table_id, "mapping", "failed")
+
+    fresh = registry.get_table_by_id(table_id)
+    result["grain_status"] = fresh["grain_status"]
+    result["bridge_status"] = fresh["bridge_status"]
+    result["mapping_status"] = fresh["mapping_status"]
+    return result

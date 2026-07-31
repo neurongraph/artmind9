@@ -410,3 +410,160 @@ def test_pipeline_proposes_semantics_only_on_first_registration(tmp_path, monkey
     assert result["status"] == "ok", result
     assert registry.get_table("widgets", domain="banking")["version"] == 2
     assert len(calls) == 1, "a refresh must not re-propose semantics"
+
+
+def test_propose_semantics_write_grain_false_suppresses_persistence(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table(grain="instance")
+    _stub_llm(monkeypatch, {"grain": "lookup", "bridge_columns": []})
+
+    result = semantics.propose_semantics(table_id, write_grain=False)
+
+    assert result["grain_written"] is False
+    assert result["grain"] == "instance"  # unchanged -- not asked to act on it this run
+    assert registry.get_table_by_id(table_id)["grain"] == "instance"
+
+
+def test_propose_semantics_only_columns_restricts_bridge_persistence(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_llm(monkeypatch, {
+        "grain": "instance",
+        "bridge_columns": [
+            {"column": "vulnerability_driver", "confidence": 0.9},
+            {"column": "support_needed", "confidence": 0.9},
+        ],
+    })
+
+    semantics.propose_semantics(table_id, only_columns={"support_needed"})
+
+    assert [r["column"] for r in registry.list_column_roles(table_id)] == ["support_needed"]
+
+
+def test_propose_table_semantics_runs_all_three_steps_by_default(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_schema(monkeypatch)
+    _stub_llm(monkeypatch, {
+        "grain": "instance", "grain_reason": "records", "bridge_columns": [],
+        "mappings": [],
+    })
+
+    result = semantics.propose_table_semantics(table_id, "banking")
+
+    row = registry.get_table_by_id(table_id)
+    assert row["grain_status"] == "ok"
+    assert row["bridge_status"] == "ok"
+    assert row["mapping_status"] == "ok"
+    assert result["grain_status"] == "ok"
+    assert result["mapping_status"] == "ok"
+
+
+def test_propose_table_semantics_resumes_only_failed_step(tmp_path, monkeypatch):
+    """Mirrors kg_chunk_status's resumability: a relationships-step failure
+    doesn't force re-running an already-ok entities step."""
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    registry.set_step_status(table_id, "grain", "ok")
+    registry.set_step_status(table_id, "bridge", "ok")
+    registry.set_step_status(table_id, "mapping", "failed")
+
+    calls = {"semantics": 0, "mapping": 0}
+    monkeypatch.setattr(
+        semantics, "propose_semantics",
+        lambda *a, **k: calls.__setitem__("semantics", calls["semantics"] + 1) or {"grain": "instance", "bridge_columns": []},
+    )
+    monkeypatch.setattr(
+        semantics, "propose_mapping",
+        lambda *a, **k: calls.__setitem__("mapping", calls["mapping"] + 1) or [],
+    )
+
+    semantics.propose_table_semantics(table_id, "banking")
+
+    assert calls == {"semantics": 0, "mapping": 1}
+    assert registry.get_table_by_id(table_id)["mapping_status"] == "ok"
+
+
+def test_propose_table_semantics_step_flag_targets_one_step(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+
+    calls = {"semantics": 0, "mapping": 0}
+    monkeypatch.setattr(
+        semantics, "propose_semantics",
+        lambda *a, **k: calls.__setitem__("semantics", calls["semantics"] + 1) or {"grain": "instance", "bridge_columns": []},
+    )
+    monkeypatch.setattr(
+        semantics, "propose_mapping",
+        lambda *a, **k: calls.__setitem__("mapping", calls["mapping"] + 1) or [],
+    )
+
+    semantics.propose_table_semantics(table_id, "banking", steps=["mapping"])
+
+    assert calls == {"semantics": 0, "mapping": 1}
+    assert registry.get_table_by_id(table_id)["grain_status"] == "pending"
+
+
+def test_propose_table_semantics_redo_reruns_ok_step(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    registry.set_step_status(table_id, "mapping", "ok")
+
+    calls = []
+    monkeypatch.setattr(semantics, "propose_mapping", lambda *a, **k: calls.append(1) or [])
+    monkeypatch.setattr(
+        semantics, "propose_semantics",
+        lambda *a, **k: {"grain": "instance", "bridge_columns": []},
+    )
+
+    semantics.propose_table_semantics(table_id, "banking", steps=["mapping"])
+    assert calls == []  # already ok, no redo -> skipped
+
+    semantics.propose_table_semantics(table_id, "banking", steps=["mapping"], redo=True)
+    assert calls == [1]
+
+
+def test_propose_table_semantics_records_failed_step_without_raising(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+
+    def _boom(*a, **k):
+        raise RuntimeError("model unreachable")
+
+    monkeypatch.setattr(semantics, "propose_mapping", _boom)
+    monkeypatch.setattr(
+        semantics, "propose_semantics",
+        lambda *a, **k: {"grain": "instance", "bridge_columns": []},
+    )
+
+    result = semantics.propose_table_semantics(table_id, "banking")  # must not raise
+
+    assert result["mapping_status"] == "failed"
+    assert "mapping_error" in result
+    assert registry.get_table_by_id(table_id)["mapping_status"] == "failed"
+    # grain/bridge succeeded independently of mapping's failure.
+    assert registry.get_table_by_id(table_id)["grain_status"] == "ok"
+
+
+def test_propose_table_semantics_unknown_table_raises(tmp_path, monkeypatch):
+    import pytest
+
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    with pytest.raises(ValueError, match="no registered table"):
+        semantics.propose_table_semantics(99999, "banking")
