@@ -289,6 +289,7 @@ def setup_all() -> dict:
             "cat_table_key",
             "cat_column_key",
             "cat_entityclass_key",
+            "entity_version_id",
         ],
         "neo4j_indexes": [
             "entity_lookup",
@@ -307,6 +308,9 @@ def setup_all() -> dict:
             "document_valid_to",
             "conflict_status",
             "cat_table_domain",
+            "entity_version_entity",
+            "entity_version_valid_to",
+            "entity_version_domain",
         ],
         "neo4j_vector_indexes": [
             f"chunk_embedding (dim={embedding_dim})",
