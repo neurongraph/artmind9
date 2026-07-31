@@ -203,3 +203,143 @@ def propose_semantics(table_id: int, model: str | None = None) -> dict:
         "grain_written": grain_written,
         "bridge_columns": persisted,
     }
+
+
+_MAPPING_PROMPT = """You are matching a structured table's columns to entity classes from a knowledge-graph domain schema.
+
+For each column, judge whether its SAMPLED VALUES look like instances of one of the listed
+entity classes below — based on the class's description, not by matching column/class names
+literally. Judge the values the same way you would for bridge columns: a column full of a
+bank's marketing names denotes the PRODUCT class if its values read like product names, even
+if none of them has been seen in any ingested document yet.
+
+A column can legitimately map to more than one class (e.g. a `category` column on a complaints
+table might describe both a PRODUCT and an ISSUE_TYPE). It is fine — and expected — for a
+column with no plausible class (an id, a date, a raw numeric measure) to be omitted entirely.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+name: {table_name}
+domain: {domain}
+row_count: {row_count}
+refresh_mode: {refresh_mode}
+
+columns:
+{columns}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CANDIDATE ENTITY CLASSES (from the domain schema)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{classes}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTPUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Return only this JSON object. No preamble, no explanation, no markdown fences.
+
+{{
+  "mappings": [
+    {{"column": string, "entity_class": string, "confidence": number between 0 and 1}}
+  ]
+}}
+"""
+
+
+def _class_lines(classes: list[dict]) -> str:
+    lines = []
+    for c in classes:
+        types = ", ".join(c.get("types") or [])
+        suffix = f" (e.g. {types})" if types else ""
+        lines.append(f"  - {c['class']}: {c['description']}{suffix}")
+    return "\n".join(lines) if lines else "  (no entity classes found in schema)"
+
+
+def build_mapping_prompt(table: dict, table_id: int, classes: list[dict]) -> str:
+    return _MAPPING_PROMPT.format(
+        table_name=table["table_name"],
+        domain=table["domain"],
+        row_count=table.get("row_count"),
+        refresh_mode=table.get("refresh_mode"),
+        columns=_column_lines(table_id),
+        classes=_class_lines(classes),
+    )
+
+
+def propose_mapping(
+    table_id: int, domain: str, model: str | None = None, *, only_columns: set[str] | None = None
+) -> list[dict]:
+    """Propose ``column -> entity_class`` mappings for ``table_id`` from
+    ``domain``'s schema (no live-KG dependency). Persists via the same
+    confidence floor and never-overwrite-confirmed guarantee ``propose_semantics``
+    gives bridge columns.
+
+    Raises ``ValueError`` if ``domain`` has no schema file (or no
+    ``entities_prompt``) — a distinct, clearly-reported failure from "schema
+    exists but has zero parseable classes," which returns ``[]`` instead.
+
+    ``only_columns``, when given, additionally restricts *persistence* to that
+    column-name set — used by a later replace-mode-refresh new-column trigger
+    so an existing, unrelated column's mapping state is never touched just
+    because the whole table was re-profiled.
+    """
+    from artmind.extraction import call_llm, parse_json_response
+    from artmind.schema_reference import parse_entities
+    from artmind.temporal import load_schema
+    from utils.functions import load_env, resolve_llm_model
+
+    table = registry.get_table_by_id(table_id)
+    if table is None:
+        raise ValueError(f"no registered table with id {table_id}")
+
+    schema = load_schema(domain)
+    entities_prompt = schema.get("entities_prompt")
+    if not entities_prompt:
+        raise ValueError(
+            f"domain '{domain}' has no schema file (or no entities_prompt) — the mapping"
+            " step needs the domain's entity schema to judge column classes against. Check"
+            " domains/schemas/, or run 'artmind domains harmonize' if this is a dotted"
+            " sub-domain."
+        )
+    classes = parse_entities(entities_prompt)
+    if not classes:
+        return []
+
+    resolved_model = resolve_llm_model(load_env(), model)
+    raw = call_llm(resolved_model, build_mapping_prompt(table, table_id, classes))
+    parsed = parse_json_response(raw) or {}
+
+    known_columns = {c["name"] for c in registry.get_columns(table_id)}
+    known_classes = {c["class"] for c in classes}
+    already_confirmed = {
+        (m["column"], m["entity_class"])
+        for m in registry.list_mappings(table_id)
+        if m.get("confirmed")
+    }
+
+    persisted = []
+    for entry in parsed.get("mappings") or []:
+        if not isinstance(entry, dict):
+            continue
+        column = entry.get("column")
+        entity_class = entry.get("entity_class")
+        try:
+            confidence = float(entry.get("confidence", 0.0))
+        except (TypeError, ValueError):
+            continue
+        # Hallucination guard, mirrors propose_semantics's bridge_columns check.
+        if column not in known_columns or entity_class not in known_classes:
+            continue
+        if only_columns is not None and column not in only_columns:
+            continue
+        if confidence < CONFIDENCE_FLOOR:
+            continue
+        if (column, entity_class) in already_confirmed:
+            continue
+        registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=False)
+        persisted.append({"column": column, "entity_class": entity_class, "confidence": confidence})
+
+    return persisted

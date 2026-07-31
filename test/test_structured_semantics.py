@@ -55,6 +55,190 @@ def _stub_llm(monkeypatch, payload):
     return seen
 
 
+_MAPPING_SCHEMA_ENTITIES_PROMPT = """Some preamble text a real schema file would have here.
+
+ENTITY TYPES YOU MUST EXTRACT:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PRODUCT
+  A banking product a customer holds, such as a savings account or credit card.
+  example type values: savings_account | credit_card
+
+BRANCH
+  A physical bank branch location.
+  example type values: branch
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXTRACTION RULES:
+Some trailing rules text a real schema file would have here.
+"""
+
+
+def _stub_schema(monkeypatch, entities_prompt=_MAPPING_SCHEMA_ENTITIES_PROMPT):
+    """Stub the schema lookup at the point semantics.py imports it -- same
+    lazy-import-patching approach as _stub_llm."""
+    import artmind.temporal as temporal
+
+    monkeypatch.setattr(
+        temporal, "load_schema",
+        lambda domain: {"entity_types": ["PRODUCT", "BRANCH"], "entities_prompt": entities_prompt},
+    )
+
+
+def test_mapping_prompt_includes_schema_classes_and_columns(tmp_path, monkeypatch):
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_schema(monkeypatch)
+    seen = _stub_llm(monkeypatch, {"mappings": []})
+
+    semantics.propose_mapping(table_id, "banking")
+
+    prompt = seen["prompt"]
+    assert "vulnerable_customers" in prompt
+    assert "PRODUCT" in prompt and "savings account or credit card" in prompt
+    assert "BRANCH" in prompt
+    # No live-KG dependency: nothing about entity_listing/graph names in the prompt.
+    assert "vulnerability_driver" in prompt  # still carries column samples
+
+
+def test_mapping_persists_proposals_above_floor(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_schema(monkeypatch)
+    _stub_llm(monkeypatch, {
+        "mappings": [
+            {"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.9},
+        ],
+    })
+
+    proposals = semantics.propose_mapping(table_id, "banking")
+
+    assert proposals == [
+        {"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.9}
+    ]
+    persisted = registry.list_mappings(table_id)
+    assert len(persisted) == 1
+    assert persisted[0]["column"] == "vulnerability_driver"
+    assert persisted[0]["entity_class"] == "PRODUCT"
+    assert persisted[0]["confirmed"] == 0
+
+
+def test_mapping_below_floor_unmapped(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_schema(monkeypatch)
+    _stub_llm(monkeypatch, {
+        "mappings": [{"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.1}],
+    })
+
+    proposals = semantics.propose_mapping(table_id, "banking")
+
+    assert proposals == []
+    assert registry.list_mappings(table_id) == []
+
+
+def test_mapping_ignores_hallucinated_column_or_class(tmp_path, monkeypatch):
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_schema(monkeypatch)
+    _stub_llm(monkeypatch, {
+        "mappings": [
+            {"column": "not_a_real_column", "entity_class": "PRODUCT", "confidence": 0.99},
+            {"column": "vulnerability_driver", "entity_class": "NOT_A_REAL_CLASS", "confidence": 0.99},
+            {"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.7},
+        ],
+    })
+
+    proposals = semantics.propose_mapping(table_id, "banking")
+
+    assert proposals == [
+        {"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.7}
+    ]
+
+
+def test_mapping_does_not_overwrite_confirmed(tmp_path, monkeypatch):
+    """Same guarantee propose_semantics gives to bridge columns: a re-proposal must
+    never silently un-confirm an operator's review."""
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    registry.upsert_mapping(table_id, "vulnerability_driver", "PRODUCT", 1.0, confirmed=True)
+    _stub_schema(monkeypatch)
+    _stub_llm(monkeypatch, {
+        "mappings": [{"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.3}],
+    })
+
+    proposals = semantics.propose_mapping(table_id, "banking")
+
+    assert proposals == []
+    row = registry.list_mappings(table_id)[0]
+    assert row["confirmed"] == 1
+    assert row["confidence"] == 1.0
+
+
+def test_mapping_only_columns_restricts_persistence(tmp_path, monkeypatch):
+    """The replace-refresh new-column trigger (a later task) needs to classify
+    only genuinely new columns, leaving an existing (already-classified-or-not)
+    column's mapping state untouched even if the model proposes for it too."""
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    _stub_schema(monkeypatch)
+    _stub_llm(monkeypatch, {
+        "mappings": [
+            {"column": "vulnerability_driver", "entity_class": "PRODUCT", "confidence": 0.9},
+            {"column": "support_needed", "entity_class": "BRANCH", "confidence": 0.9},
+        ],
+    })
+
+    proposals = semantics.propose_mapping(table_id, "banking", only_columns={"support_needed"})
+
+    assert proposals == [{"column": "support_needed", "entity_class": "BRANCH", "confidence": 0.9}]
+    persisted_columns = {m["column"] for m in registry.list_mappings(table_id)}
+    assert persisted_columns == {"support_needed"}
+
+
+def test_mapping_fails_clearly_when_domain_has_no_schema(tmp_path, monkeypatch):
+    import pytest
+
+    from artmind.structured import semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    import artmind.temporal as temporal
+
+    monkeypatch.setattr(temporal, "load_schema", lambda domain: {})
+
+    with pytest.raises(ValueError, match="no schema file"):
+        semantics.propose_mapping(table_id, "banking")
+
+
+def test_mapping_no_entity_classes_in_schema_returns_empty_not_error(tmp_path, monkeypatch):
+    """A schema file that exists but whose entities_prompt has no parseable
+    classes is a valid (if unusual) state -- distinct from no schema at all."""
+    from artmind.structured import registry, semantics
+
+    _patch_db(tmp_path, monkeypatch)
+    table_id = _seed_table()
+    import artmind.temporal as temporal
+
+    monkeypatch.setattr(
+        temporal, "load_schema",
+        lambda domain: {"entity_types": [], "entities_prompt": "no banner here at all"},
+    )
+
+    assert semantics.propose_mapping(table_id, "banking") == []
+    assert registry.list_mappings(table_id) == []
+
+
 def test_prompt_includes_columns_dtypes_and_samples(tmp_path, monkeypatch):
     from artmind.structured import registry, semantics
 
