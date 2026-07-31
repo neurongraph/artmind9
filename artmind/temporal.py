@@ -9,7 +9,7 @@ from pathlib import Path
 
 from loguru import logger
 
-from artmind.graph_query import neo4j_session
+from artmind.graph_query import expand_domain_family, neo4j_session
 from paths import DOMAIN_SCHEMAS_DIR, MARKDOWNS_DIR
 
 _MONTHS = {
@@ -219,19 +219,11 @@ def _temporal_mapping(schema: dict) -> tuple[dict, dict, str | None]:
     return t.get("document", {}), t.get("entities", {}), t.get("relative_anchor")
 
 
-def normalize_time(domain: str, dry_run: bool = False) -> dict:
+def _normalize_time_one_domain(domain: str, dry_run: bool = False) -> dict:
     """Backfill canonical temporal properties for every document in a domain.
 
     Additive + idempotent. Reads each Document's markdown for header dates and
     each Entity's schema-mapped property. Returns counts (deterministic vs llm).
-
-    TODO(hierarchical-domains): this matches nodes with `d.domain = $domain` /
-    `e.domain = $domain` exactly (see the Cypher below) — a parent domain like
-    `banking` does NOT fan out to its `banking.*` children here, unlike the
-    query-layer `domain_predicate()` rollup (graph_query.py). A bulk
-    `normalize-time --domain banking` therefore only touches nodes stamped
-    exactly `banking` (the abstract parent, normally none). For a group-wide
-    backfill, loop this call over each concrete child domain instead.
     """
     schema = load_schema(domain)
     doc_map, ent_map, anchor = _temporal_mapping(schema)
@@ -278,6 +270,26 @@ def normalize_time(domain: str, dry_run: bool = False) -> dict:
                         )
     logger.info("normalize_time({}): {}", domain, stats)
     return stats
+
+
+def normalize_time(domain: str, dry_run: bool = False) -> dict:
+    """Backfill canonical temporal properties across a domain family.
+
+    A parent domain fans out to every concrete child holding data, so each
+    child's own schema (and therefore its own temporal mappings) loads. The
+    return shape stays flat with summed counts so existing consumers —
+    refine_pipeline's report, skills/artmind-refine's summarize_gates.py —
+    keep working; `domains_processed` is additive.
+    """
+    domains = expand_domain_family(domain)
+    totals = {"domain": domain, "documents": 0, "entities": 0,
+              "deterministic": 0, "llm": 0, "dry_run": dry_run,
+              "domains_processed": domains}
+    for d in domains:
+        one = _normalize_time_one_domain(d, dry_run=dry_run)
+        for key in ("documents", "entities", "deterministic", "llm"):
+            totals[key] += one.get(key, 0)
+    return totals
 
 
 def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
@@ -446,6 +458,46 @@ def _stamp_chunk_valid_from(session, doc_id: str, valid_from: str | None) -> Non
     )
 
 
+def _retire_orphaned_entities(
+    session, older_doc_id: str, newer_doc_id: str, effective: str | None
+) -> None:
+    """Stamp valid_to on entities the superseded document solely sourced.
+
+    The counterpart to `_stamp_chunk_valid_from` for the entity layer, and the
+    reason `--asOf` works on entity-oriented queries at all: `asof_predicate`
+    is applied per node type, so `pattern1`/`pattern2`/`pattern9` filter on
+    `Entity.valid_to` — a property nothing else ever sets from a *document*
+    supersession.
+
+    The single-source condition is the whole safety story. By the time this
+    runs the newer document is already written, so an entity it re-asserts
+    carries EXTRACTED_FROM edges to both documents and is left alone; so is an
+    entity with any unrelated live source. Only entities whose entire evidence
+    is the superseded document retire.
+
+    Idempotent via coalesce. A null `effective` is a no-op: there is no
+    boundary to stamp, and writing `status` alone would retire an entity that
+    still reads as current to every as-of query.
+    """
+    if not effective:
+        return
+    session.run(
+        """
+        MATCH (c0:DocChunk {doc_id: $olderDocId})<-[:EXTRACTED_FROM]-(e:Entity)
+        WITH DISTINCT e
+        MATCH (e)-[:EXTRACTED_FROM]->(c:DocChunk)
+        WITH e, collect(DISTINCT c.doc_id) AS docIds
+        WHERE size(docIds) = 1
+        SET e.valid_to      = coalesce(e.valid_to, $effective),
+            e.superseded_by = $newerDocId,
+            e.status        = 'superseded'
+        """,
+        olderDocId=older_doc_id,
+        newerDocId=newer_doc_id,
+        effective=effective,
+    )
+
+
 def apply_supersession(
     newer_doc_id: str,
     older_doc_id: str,
@@ -456,7 +508,9 @@ def apply_supersession(
     """Create (:Document)-[:SUPERSEDES]->(:Document) and set valid_to on the older side.
 
     Document scope also stamps valid_to on the older document's chunks — this is
-    what makes --asOf queries exclude stale content automatically. Idempotent.
+    what makes --asOf queries exclude stale content automatically — and retires
+    entities the older document solely sourced (see `_retire_orphaned_entities`).
+    Idempotent.
     """
     with neo4j_session() as session:
         session.run(
@@ -475,6 +529,10 @@ def apply_supersession(
                 "MATCH (c:DocChunk {doc_id:$older}) SET c.valid_to = coalesce($effective, c.valid_to)",
                 older=older_doc_id, effective=effective,
             )
+            # same gate as the chunk stamp above — retirement only makes sense
+            # at document granularity, where a whole DocChunk (and therefore
+            # its solely-sourced entities) goes stale at once
+            _retire_orphaned_entities(session, older_doc_id, newer_doc_id, effective)
     logger.info("supersession: {} supersedes {} (scope={}, effective={})", newer_doc_id, older_doc_id, scope, effective)
     return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
 

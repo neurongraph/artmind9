@@ -179,6 +179,24 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run("CREATE INDEX document_valid_to IF NOT EXISTS FOR (n:Document) ON (n.valid_to)")
     session.run("CREATE INDEX conflict_status IF NOT EXISTS FOR (n:Conflict) ON (n.status)")
 
+    # ── History zone (:EntityVersion) ─────────────────────────────────────────
+    # Snapshots of overwritten entity property values. Deliberately NOT labelled
+    # :Entity and carrying no class label, so no entity query, no vector index,
+    # and no refine pass can reach them without asking explicitly.
+    session.run(
+        "CREATE CONSTRAINT entity_version_id IF NOT EXISTS "
+        "FOR (n:EntityVersion) REQUIRE n.id IS UNIQUE"
+    )
+    session.run(
+        "CREATE INDEX entity_version_entity IF NOT EXISTS FOR (n:EntityVersion) ON (n.entity_id)"
+    )
+    session.run(
+        "CREATE INDEX entity_version_valid_to IF NOT EXISTS FOR (n:EntityVersion) ON (n.valid_to)"
+    )
+    session.run(
+        "CREATE INDEX entity_version_domain IF NOT EXISTS FOR (n:EntityVersion) ON (n.domain)"
+    )
+
     # ── 2-field composite for name+domain entity lookups (ingest/update writes) ─
     session.run(
         "CREATE INDEX entity_name_domain IF NOT EXISTS FOR (n:Entity) ON (n.name, n.domain)"
@@ -271,6 +289,7 @@ def setup_all() -> dict:
             "cat_table_key",
             "cat_column_key",
             "cat_entityclass_key",
+            "entity_version_id",
         ],
         "neo4j_indexes": [
             "entity_lookup",
@@ -289,6 +308,9 @@ def setup_all() -> dict:
             "document_valid_to",
             "conflict_status",
             "cat_table_domain",
+            "entity_version_entity",
+            "entity_version_valid_to",
+            "entity_version_domain",
         ],
         "neo4j_vector_indexes": [
             f"chunk_embedding (dim={embedding_dim})",

@@ -732,6 +732,10 @@ def _sanitize_label(s: str) -> str:
 # Entity->DocChunk provenance code), so blocking it as an Entity->Entity type is
 # defense-in-depth with no known cost.
 #
+# PRIOR_STATE is reserved on the same grounds: it links a live Entity to an
+# :EntityVersion snapshot and is written only by artmind.entity_history. An
+# LLM-minted one would imply history that no snapshot node backs.
+#
 # PART_OF is deliberately NOT reserved: multiple shipped schemas (general_schema,
 # banking.organization_schema, sales_collateral_schema, project_governance_schema)
 # list part_of as a legitimate LLM-extractable Entity->Entity relationship (e.g.
@@ -739,7 +743,7 @@ def _sanitize_label(s: str) -> str:
 # DocChunk->Document edge written elsewhere in this module's own upsert code — a
 # different code path from this Entity->Entity loop — so reserving PART_OF here
 # would silently drop legitimate, schema-sanctioned extractions.
-RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "EXTRACTED_FROM"})
+RESERVED_REL_TYPES = frozenset({"SUPERSEDES", "EXTRACTED_FROM", "PRIOR_STATE"})
 
 
 def _neo4j_value(value):
@@ -1562,6 +1566,9 @@ def write_to_graph(doc_kg_dir: Path) -> bool:
 
 
 def _reassert_superseding_properties(doc_kg_dir: Path, domain: str) -> dict:
+    # NOTE: unchanged behaviour — history capture is handled by the caller
+    # (commit_to_graph) via artmind.entity_history, so this function keeps its
+    # single job of re-asserting the superseding document's own values.
     """Overwrite merged entity properties with the superseding document's own values.
 
     _upsert_entity's merge is accretive — strings become "old | new" and
@@ -1610,9 +1617,48 @@ def _reassert_superseding_properties(doc_kg_dir: Path, domain: str) -> dict:
     return {"entities_reasserted": reasserted}
 
 
+def _incoming_property_values(doc_kg_dir: Path, domain: str) -> dict:
+    """The property values this document asserts, keyed by entity identity.
+
+    The comparison side of the history snapshot: capture_prior_values supplies
+    what the graph held, this supplies what the document says, and only the
+    differences become :EntityVersion nodes.
+
+    entities.json ids are chunk-scoped — the same logical entity mentioned in
+    multiple chunks appears as multiple entries sharing one (name, entity_class,
+    domain) identity but different chunk-scoped ids and different property
+    subsets. Merge (not overwrite) property dicts across those entries so no
+    chunk's asserted keys are dropped; a literal key collision lets the later
+    chunk win, mirroring _reassert_superseding_properties' own behaviour — it
+    issues one unconditional `SET n += $props` per entities.json entry, so the
+    last-processed chunk's value for a given key is what actually lands on the
+    node (unlike _upsert_entity's merge, which keeps the existing scalar).
+    """
+    try:
+        entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
+        properties_path = doc_kg_dir / "properties.json"
+        properties_list = (
+            json.loads(properties_path.read_text(encoding="utf-8"))
+            if properties_path.exists() else []
+        )
+    except Exception as e:
+        logger.warning("_incoming_property_values: could not load staged JSON: {}", e)
+        return {}
+    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
+    out: dict = {}
+    for e in entities:
+        props = _flatten_props(props_by_id.get(e["id"], {}))
+        if not props:
+            continue
+        identity = (e["name"], e["entity_class"], e.get("domain") or domain)
+        out.setdefault(identity, {}).update(props)
+    return out
+
+
 def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
-    """Complete commit of staged KG JSON to Neo4j: write, then the per-document
-    self-asserted-truth hooks (temporal normalization, then supersession).
+    """Complete commit of staged KG JSON to Neo4j: capture prior values, write,
+    then the per-document self-asserted-truth hooks (temporal normalization,
+    then supersession).
 
     This is the single convergence point for all three ingestion sources
     (extract, pull-from-repo, import-bundle). Cross-document judgment steps
@@ -1620,6 +1666,23 @@ def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
     artmind.refine_pipeline. Hooks are best-effort: a down hook logs a warning
     but does not fail the commit, since the graph write already succeeded.
     """
+    from artmind import entity_history
+
+    # 0. Prior-value capture, for the entity history zone. Must precede the
+    #    write: _upsert_entity's merge is accretive, so afterwards the live
+    #    node holds "old | new" rather than the clean prior value. Gated on a
+    #    pure-local check so documents that declare no supersession — the
+    #    overwhelming majority — pay no Neo4j read at all.
+    prior: dict = {}
+    try:
+        document_name = json.loads(
+            (doc_kg_dir / "document.json").read_text(encoding="utf-8")
+        ).get("name")
+        if document_name and entity_history.supersession_possible(document_name, domain):
+            prior = entity_history.capture_prior_values(doc_kg_dir, domain)
+    except Exception as e:
+        logger.warning("commit_to_graph: prior-value capture failed for {}: {}", doc_kg_dir, e)
+
     ok = write_to_graph(doc_kg_dir)
     if not ok:
         return False
@@ -1633,14 +1696,25 @@ def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
 
     # 2. Supersession from this document's own declaration (must follow temporal
     #    so canonical dates/version exist). Scoped to just this document. When a
-    #    SUPERSEDES edge was applied, re-assert this document's extracted entity
-    #    properties over the accretive merge — the superseding version's values
-    #    win (see _reassert_superseding_properties).
+    #    SUPERSEDES edge was applied, snapshot the prior values this document
+    #    overwrites, then re-assert its own values over the accretive merge —
+    #    the superseding version's values win (see _reassert_superseding_properties).
     try:
         from artmind.temporal import detect_supersession
         document = json.loads((doc_kg_dir / "document.json").read_text(encoding="utf-8"))
         sup_report = detect_supersession(domain, only_doc_name=document.get("name"))
-        if (sup_report or {}).get("applied"):
+        applied = (sup_report or {}).get("applied")
+        if applied:
+            if prior:
+                try:
+                    entity_history.snapshot_changed_values(
+                        prior,
+                        _incoming_property_values(doc_kg_dir, domain),
+                        applied[0].get("effective"),
+                        document.get("id"),
+                    )
+                except Exception as e:
+                    logger.warning("commit_to_graph: history snapshot failed for {}: {}", doc_kg_dir, e)
             _reassert_superseding_properties(doc_kg_dir, domain)
     except Exception as e:
         logger.warning("commit_to_graph: supersession hook failed for {}: {}", doc_kg_dir, e)

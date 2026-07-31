@@ -59,6 +59,40 @@ def domain_predicate(var: str, param: str = "domains") -> str:
     )
 
 
+def expand_domain_family(domain: str) -> list[str]:
+    """A domain plus every descendant domain that actually holds data.
+
+    Retrieval paths get hierarchy free via `domain_predicate`'s STARTS WITH
+    rollup, but two write/analysis paths need a *concrete list* rather than a
+    predicate: normalize_time loads a schema per domain, and candidate_pairs
+    restricts ANN neighbours to specific other domains. Both matched `domain`
+    exactly before this, so a parent-scoped run silently did nothing.
+
+    Children are derived from the graph rather than the schema directory: no
+    filesystem dependency, no cli import, and the result is exactly the domains
+    holding data.
+
+    Restricted to :Document and :Entity — both carry domain indexes, so the
+    STARTS WITH stays index-backed. An unlabelled MATCH (n) would scan every
+    node in the database, including the history zone.
+    """
+    with read_session() as session:
+        rows = session.run(
+            """
+            CALL () {
+              MATCH (d:Document) WHERE d.domain STARTS WITH ($d + '.')
+              RETURN DISTINCT d.domain AS dom
+            UNION
+              MATCH (e:Entity) WHERE e.domain STARTS WITH ($d + '.')
+              RETURN DISTINCT e.domain AS dom
+            }
+            RETURN dom
+            """,
+            d=domain,
+        ).data()
+    return [domain] + sorted({r["dom"] for r in rows if r.get("dom")})
+
+
 def asof_predicate(var: str, param: str = "asOf") -> str:
     """NULL-safe valid-time filter. Untimed nodes are always visible.
 
@@ -1050,3 +1084,53 @@ def list_timeline(domains: "str | Sequence[str]", entity_id: str) -> dict:
             key=lambda x: (x.get("event_at") or x.get("valid_from") or ""),
         )
     return {**_domain_output(domains), "query_type": "graph", "command": "timeline", "rows": rows}
+
+
+def entity_versions(
+    domains: "str | Sequence[str]",
+    entity_id: str,
+    as_of: str | None = None,
+) -> dict:
+    """An entity's prior states from the history zone.
+
+    Without as_of, the full chain oldest-first. With as_of, only the snapshot
+    whose validity window covers that date — the state in force then. An empty
+    result with as_of set means no snapshot covers the date, so the live entity
+    was already current: callers fall back to the entity itself.
+
+    Deliberately a separate command rather than making pattern2 --asOf return
+    historical values: that would silently change the meaning of the most-used
+    pattern (see pattern10's asOf_ignored for the precedent this follows).
+    """
+    domains = normalize_domains(domains)
+    as_of = resolve_as_of(as_of)
+    asof_clause = ""
+    params: dict = {"domains": domains, "entityId": entity_id}
+    if as_of:
+        # Not asof_predicate(): its NULL-safety is correct for live nodes (NULL
+        # valid_to means "still open") but wrong here — temporal.py deliberately
+        # leaves :EntityVersion.valid_to as None when the supersession date is
+        # unknown, so NULL here means "closed, date unknown," not "still open."
+        # Dropping the "valid_to IS NULL OR" disjunct lets NULL > $asOf evaluate
+        # to NULL, which WHERE treats as not-satisfying — excluding it correctly.
+        asof_clause = (
+            "\n      AND (v.valid_from IS NULL OR v.valid_from <= $asOf)"
+            "\n      AND v.valid_to > $asOf"
+        )
+        params["asOf"] = as_of
+    cypher = f"""
+    MATCH (v:EntityVersion)
+    WHERE v.entity_id = $entityId
+      AND {domain_predicate("v")}{asof_clause}
+    OPTIONAL MATCH (e:Entity {{id: $entityId}})
+    RETURN v AS version, e {{ .id, .name, .entity_class, .valid_from, .valid_to }} AS entity
+    ORDER BY v.valid_from
+    """
+    return {
+        **_domain_output(domains),
+        "query_type": "graph",
+        "command": "entity_versions",
+        "entity_id": entity_id,
+        **({"asOf": as_of} if as_of else {}),
+        "rows": strip_embeddings(_run_read_query(cypher, params)),
+    }

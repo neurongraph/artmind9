@@ -210,6 +210,42 @@ detection, not by manual edit.
 - `ingest supersede` sets `valid_to`/`superseded_by` — not deletion, but not
   reversible via CLI.
 
+## Closing a conflict
+
+Detection never closes conflicts — two authorities disagreeing is a human
+judgment. Once you have adjudicated one:
+
+```bash
+artmind ingest resolve-conflict <conflict_id> --status resolved --reason "<why>"
+```
+
+Use `--status dismissed` for a false positive. `query graph conflicts --status all`
+shows closed ones afterwards.
+
+## Reading superseded entity values
+
+When a document supersedes another and overwrites entity properties, the prior
+values are preserved:
+
+```bash
+artmind query graph entity-versions --domain <d> --entityId <id> --compact
+artmind query graph entity-versions --domain <d> --entityId <id> --asOf 2026-03-01 --compact
+```
+
+Entities the newer document drops entirely are retired instead (`valid_to` set),
+so `--asOf today` stops returning them.
+
+**On an existing graph, retirement backfills for free; history does not.**
+Retirement only depends on the SUPERSEDES edge existing, so re-running
+`detect-supersession` (or the pipeline's supersession step) retroactively
+retires entities from supersessions that happened before this capability
+existed. Snapshots are different: `snapshot_changed_values` only ever runs at
+document-commit time, when the prior (pre-overwrite) values are still on the
+live node — by the time you could retroactively try, the accretive merge has
+already overwritten them. So `entity-versions` will have no history for a
+document that was superseded before this capability shipped, even after a
+supersession re-scan. New supersessions get both.
+
 ## When NOT to run
 
 - Mid-ingestion (worker jobs still processing the domain) — refine afterwards.

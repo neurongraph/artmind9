@@ -158,3 +158,17 @@ def test_setup_all_summary_includes_catalogue_labels():
     src = inspect.getsource(setup_all)
     for name in ("cat_table_key", "cat_column_key", "cat_entityclass_key", "cat_table_domain"):
         assert name in src
+
+
+def test_setup_all_summary_includes_entity_version_schema():
+    """artmind setup's terminal output must mention what it actually created.
+
+    _setup_neo4j creates the entity_version_id constraint and three indexes
+    (see test_setup_creates_entity_version_constraint_and_indexes in
+    test_entity_history.py), but setup_all's summary dict is a hand-maintained
+    mirror of that, not derived from it — so it silently omitted them until
+    this test was added.
+    """
+    src = inspect.getsource(setup_all)
+    for name in ("entity_version_id", "entity_version_entity", "entity_version_valid_to", "entity_version_domain"):
+        assert name in src
