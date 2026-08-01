@@ -663,7 +663,7 @@ async function refreshStructuredTables() {
         const stepChecks = el("div", "dash-form");
         const stepBoxes = {};
         for (const step of ["grain", "bridge", "mapping"]) {
-          const label = el("label");
+          const label = el("label", "checkbox");
           const cb = document.createElement("input");
           cb.type = "checkbox";
           cb.checked = true;
@@ -672,7 +672,7 @@ async function refreshStructuredTables() {
           label.appendChild(document.createTextNode(` ${step}`));
           stepChecks.appendChild(label);
         }
-        const redoLabel = el("label");
+        const redoLabel = el("label", "checkbox");
         const redoCb = document.createElement("input");
         redoCb.type = "checkbox";
         redoLabel.appendChild(redoCb);
