@@ -665,16 +665,125 @@ A parallel SQL store for tabular data, joined to the graph rather than flattened
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 5.1 |  | Table registry | Ingested tables are registered and listable, domain-scoped. | `artmind db list` |
-| 5.2 |  | LLM-ready schema | Table schemas (columns, types, value profiles, mappings) are exposed in the form an LLM needs to write SQL. | `artmind db schema` |
-| 5.3 |  | Independent-query guarantee | Raw read-only SQL runs against the store with no LLM in the loop. | `artmind db sql` |
+| 5.1 | ✓ | Table registry | Ingested tables are registered and listable, domain-scoped — resolution is symmetric across the domain hierarchy: a query at a child domain also reaches tables registered at an ancestor, and a query at a parent reaches every descendant's tables. | `artmind db list` |
+| 5.2 | ✓ | LLM-ready schema | Table schemas (columns, types, value profiles, mappings) are exposed in the form an LLM needs to write SQL. | `artmind db schema`, `text2sql.py` (`_schema_summary_sql`) |
+| 5.3 | ✓ | Independent-query guarantee | Raw read-only SQL runs against the store with no LLM in the loop. | `artmind db sql`, `text2sql.validate_read_only_sql` |
 | 5.4 |  | Semantic mappings | Columns are mapped to graph entity classes via a propose → confirm lifecycle (set / confirm / clear), with LLM-proposed candidates. | `artmind db mappings`, `db propose` |
-| 5.5 |  | Table grain semantics | What a table's rows denote — instance, lookup, or normative — is proposed and confirmable. | `artmind db grain` |
-| 5.6 |  | Structured↔graph bridge | The join model between store and graph (class scope, bridge columns, grain) is explicit and inspectable. | `artmind db bridge` |
-| 5.7 |  | Graph catalogue | The store's structure is mirrored as a catalogue subgraph (Table / TableColumn / EntityClass) inside the graph itself. | `artmind db catalogue` |
-| 5.8 |  | Source refresh | A table can be re-ingested from its recorded source file. | `artmind db refresh` |
-| 5.9 |  | External adapters | A surface is reserved for connecting external SQL engines beyond the embedded one. | `artmind db connect` (stub, DuckDB-only v1) |
-| 5.10 |  | Store backup/restore | The structured store snapshots to a single archive and restores from it (wipe + restore). | `artmind db backup` / `restore` |
+| 5.5 | ✓ | Table grain semantics | What a table's rows denote — instance, lookup, or normative — is proposed and confirmable. | `artmind db grain`, `db propose` (`semantics.py:propose_semantics`) |
+| 5.6 | ✓ | Structured↔graph bridge | The join model between store and graph (class scope, bridge columns, grain) is explicit and inspectable. | `artmind db bridge` |
+| 5.7 | ✓ | Graph catalogue | The store's structure is mirrored as a catalogue subgraph (Table / TableColumn / EntityClass) inside the graph itself. | `artmind db catalogue` |
+| 5.8 | ✓ | Source refresh | A table can be re-ingested from its recorded source file. | `artmind db refresh` |
+| 5.9 | ✓ | External adapters | A surface is reserved for connecting external SQL engines beyond the embedded one. | `artmind db connect` (stub, DuckDB-only v1) |
+| 5.10 | ✓ | Store backup/restore | The structured store snapshots to a single archive and restores from it (wipe + restore). | `artmind db backup` / `restore` |
+
+> **Scoring note:** the reference implementation's cross-store fusion runs on raw value
+> strings only — there is no persisted `RESOLVES_AGAINST` anchor linking a table's rows to
+> specific graph entities, and no persisted "which classes govern this table" relation.
+> Unscoped value-driven semantic search (`query vector-text`) stands in for both, per
+> measurement in `docs/superpowers/specs/2026-07-25-cross-store-join-model-design.md`. Not
+> part of the baseline statement, but worth checking whether another implementation's
+> "bridge" claim is backed by a real stored join or the same string-fusion approach.
+
+> **Scoring note:** `db sql` (5.3) is deliberately exempt from the scoping and quarantine
+> conventions that apply elsewhere in the system — it is domain-unscoped (one connection
+> sees every domain's tables at once) and blind to the `grain=normative` quarantine rule
+> (5.5/5.6), unlike `text2sql`, which honors both. This is a documented, intentional
+> asymmetry — an operator-facing raw-SQL escape hatch, not an agent-facing retrieval path —
+> not a gap to expect closed in another implementation.
+
+### Grounding notes
+
+**5.1 Table registry**
+*Why it matters* — hierarchical domain matching is symmetric by design, not an oversight:
+documents carry a genre-scoped domain (`banking.cases`, `banking.policy`) because that's
+the level an extraction schema lives at, but tables carry the corpus root because a table
+has no genre. Without the ancestor half, the documented routing workflow (take the domains
+from `domains-overview`, ask `db list --domain <d>` per one) returns empty for every one of
+them while populated tables sit at the parent — the exact defect
+`docs/superpowers/specs/2026-07-25-cross-store-join-model-design.md` measured and fixed.
+*Test hint* — register a table under a bare parent domain (e.g. `banking`), then list it via
+a child scope (`db list --domain banking.cases`) and confirm it's returned; separately
+confirm a table registered at a child is still returned by a parent-scoped list (the
+pre-existing descendant direction).
+
+**5.2 LLM-ready schema**
+*Why it matters* — `db schema`'s CLI output (columns, dtypes, profiles, confirmed mappings)
+is the operator-facing view; the fuller form actually handed to the text2sql LLM
+additionally carries `[bridge]` annotations and a grain-based quarantine note
+(`text2sql._schema_summary_sql`). The two are close but not identical — an operator
+debugging a bad generated query by eyeballing `db schema` won't see everything the LLM saw.
+*Test hint* — confirm a table with a confirmed bridge column shows `[bridge]` in the
+text2sql prompt (inspect via `text2sql --dry-run`) even though `db schema`'s own JSON output
+has no equivalent field.
+
+**5.3 Independent-query guarantee**
+*Why it matters* — the read-only check is one shared function (`validate_read_only_sql`)
+reused verbatim by `db sql`, the admin-UI's SQL route, and text2sql's own generated
+queries, so the write-verb blocklist can't drift between surfaces. Unlike every other query
+path in the system, `db sql` carries no domain filter and no grain-quarantine awareness —
+it's a deliberate operator escape hatch, not a scoped retrieval path (see scoring note
+above).
+*Test hint* — confirm a write-verb keyword embedded past a semicolon or inside a CTE is
+still rejected; separately, ingest tables under two different domains and confirm a single
+`db sql` call can query both in one statement (no scoping error).
+
+**5.5 Table grain semantics**
+*Why it matters* — grain and bridge-column proposal are a single LLM call
+(`semantics.propose_semantics`) run only at first registration, never per refresh, because
+grain is a judgment about what a table *means* rather than something that changes as rows
+arrive. Confirming `normative` requires `refresh_mode=temporal` — enforced in
+`registry.set_grain` itself, not just the CLI — because a fact that gets superseded needs
+history to stay reconstructable via `--asOf`.
+*Test hint* — confirm a fresh table's grain is proposed automatically on first ingest with
+no separate command; then attempt `db grain <table> --set normative` on a `replace`-mode
+table and confirm it's rejected before any write.
+
+**5.6 Structured↔graph bridge**
+*Why it matters* — `entity_class`, not `domain`, is the actual routing key: it's
+many-to-many with tables in a way a single dotted domain string never could be (one
+`complaints` table can map to `CUSTOMER`, `EMPLOYEE`, and `PRODUCT` at once). `db bridge`'s
+output composes the same `list_tables` domain resolution as 5.1, so it inherits the same
+ancestor/descendant symmetry.
+*Test hint* — confirm `db bridge --entityClass CUSTOMER` returns only tables whose
+confirmed-or-proposed mappings include that class, from across every table regardless of
+which domain in the hierarchy it's registered at.
+
+**5.7 Graph catalogue**
+*Why it matters* — this subgraph is the *only* routing surface on a query-only host (no
+`$ARTMIND_DATA_DIR`, so no registry DB), which is why unconfirmed mappings are projected too
+(carrying `confirmed: false` on the edge) rather than dropped — dropping them would leave a
+freshly ingested table invisible to routing until a human reviewed it. The wipe-then-rebuild
+scope is deliberately descendant-only (`include_ancestors=False`), unlike 5.1/5.6's symmetric
+read path, so a rebuild never orphans an ancestor-registered table it doesn't also re-write.
+*Test hint* — confirm an unconfirmed mapping still appears in the catalogue subgraph with
+`confirmed: false`; separately, rebuild the catalogue for a child domain and confirm a table
+registered at the parent is untouched (neither wiped nor re-projected) by that call.
+
+**5.8 Source refresh**
+*Why it matters* — `register_table`'s update path deliberately leaves `grain` untouched on
+every re-ingest (only `set_grain` changes it), so an operator's confirmed grain survives a
+refresh the same way confirmed mappings do. The catalogue is re-projected after every
+refresh, which is how a mapping confirmed after the fact (`db mappings ... confirm`) reaches
+Neo4j without a re-ingest.
+*Test hint* — confirm a table with a manually confirmed `normative` grain keeps that grain
+after `db refresh`; separately, confirm the Neo4j catalogue reflects a refresh's new row
+count without a separate `db catalogue` call.
+
+**5.9 External adapters**
+*Why it matters* — this is a reserved surface, not a partial implementation: `db connect`
+raises unconditionally regardless of the DSN given, so there's no half-working adapter path
+to accidentally rely on.
+*Test hint* — confirm `db connect` fails identically for both a plausible and an obviously
+malformed DSN — the rejection is unconditional, not DSN-shape validation.
+
+**5.10 Store backup/restore**
+*Why it matters* — `registry.restore_all` reinserts every row with its original primary key,
+which is what keeps `columns.table_id` / `column_mappings.table_id` / `column_roles.table_id`
+valid after a wipe-and-restore — a naive re-insert (letting SQLite reassign ids) would
+silently orphan every dependent row.
+*Test hint* — back up, mutate a table's mappings, restore, and confirm the mappings are back
+to the backed-up state with the same `table_id` linkage (not just the same data floating
+with new ids).
 
 ## 6. Knowledge Retrieval
 
