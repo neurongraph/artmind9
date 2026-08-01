@@ -367,14 +367,14 @@ def test_confirming_normative_allowed_on_temporal_table(tmp_path, monkeypatch):
     assert row["grain_confirmed"] == 1
 
 
-def test_pipeline_proposes_semantics_only_on_first_registration(tmp_path, monkeypatch):
-    """Grain and bridge_role describe what the table means, which does not change
-    when rows arrive — so the ingest hook must not pay for an LLM call on every
-    replace refresh or SCD-2 batch, unlike propose_mappings which runs each time."""
+def test_pipeline_proposes_all_three_steps_only_on_first_registration(tmp_path, monkeypatch):
+    """First registration auto-runs grain+bridge+mapping once; a same-column
+    replace refresh must not re-propose anything (mapping used to run
+    unconditionally on every write before this design — that's the regression
+    this guards against)."""
     import csv
 
     import artmind.db as db
-    import artmind.structured.semantics as semantics
     import paths
     from artmind.structured.pipeline import ingest_structured_file
 
@@ -383,10 +383,15 @@ def test_pipeline_proposes_semantics_only_on_first_registration(tmp_path, monkey
     monkeypatch.setattr(paths, "STRUCTURED_SNAPSHOT_DIR", tmp_path / "structured_snapshot")
     db._init_db()
 
+    import artmind.structured.semantics as semantics
+
     calls = []
     monkeypatch.setattr(
-        semantics, "propose_semantics",
-        lambda table_id, model=None: calls.append(table_id) or {"grain": "instance"},
+        semantics, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append((table_id, domain, kw)) or {
+            "table": "widgets", "domain": domain,
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        },
     )
 
     csv_path = tmp_path / "widgets.csv"
@@ -397,11 +402,11 @@ def test_pipeline_proposes_semantics_only_on_first_registration(tmp_path, monkey
 
     write_rows([[1, "Widget"], [2, "Gadget"]])
     ingest_structured_file(csv_path, "banking")
-    assert len(calls) == 1, "first registration should propose"
+    assert len(calls) == 1, "first registration should classify"
+    assert set(calls[0][2]["steps"]) == {"grain", "bridge", "mapping"}
 
-    # The content must actually change: ingest_structured_file short-circuits to
-    # {"status": "skipped"} on an unchanged sha256 and never reaches _write_table,
-    # so re-ingesting the identical file would prove nothing about the refresh path.
+    # Same columns, different content -- must not re-propose anything (no new
+    # columns, replace-mode, version > 1).
     write_rows([[1, "Widget"], [2, "Gadget"], [3, "Doohickey"]])
     result = ingest_structured_file(csv_path, "banking")
 
@@ -409,7 +414,52 @@ def test_pipeline_proposes_semantics_only_on_first_registration(tmp_path, monkey
 
     assert result["status"] == "ok", result
     assert registry.get_table("widgets", domain="banking")["version"] == 2
-    assert len(calls) == 1, "a refresh must not re-propose semantics"
+    assert len(calls) == 1, "a same-column refresh must not re-classify"
+
+
+def test_pipeline_replace_refresh_new_column_triggers_bridge_and_mapping_for_new_column_only(
+    tmp_path, monkeypatch
+):
+    """A replace-mode refresh that adds a genuinely new column proposes
+    bridge/mapping for that column only -- grain stays untouched, and existing
+    columns' mapping/bridge state is untouched too."""
+    import csv
+
+    import artmind.db as db
+    import paths
+    from artmind.structured.pipeline import ingest_structured_file
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    monkeypatch.setattr(paths, "STRUCTURED_DIR", tmp_path / "structured")
+    monkeypatch.setattr(paths, "STRUCTURED_SNAPSHOT_DIR", tmp_path / "structured_snapshot")
+    db._init_db()
+
+    import artmind.structured.semantics as semantics
+
+    calls = []
+    monkeypatch.setattr(
+        semantics, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append(kw) or {
+            "table": "widgets", "domain": domain,
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        },
+    )
+
+    csv_path = tmp_path / "widgets.csv"
+    with open(csv_path, "w", newline="") as f:
+        csv.writer(f).writerows([["id", "name"], [1, "Widget"]])
+    ingest_structured_file(csv_path, "banking")
+    assert len(calls) == 1  # first-registration run
+
+    with open(csv_path, "w", newline="") as f:
+        csv.writer(f).writerows([["id", "name", "category"], [1, "Widget", "Tools"]])
+    ingest_structured_file(csv_path, "banking", force=True)
+
+    assert len(calls) == 2
+    new_column_call = calls[1]
+    assert set(new_column_call["steps"]) == {"bridge", "mapping"}
+    assert new_column_call["only_columns"] == {"category"}
+    assert new_column_call["redo"] is True
 
 
 def test_propose_semantics_write_grain_false_suppresses_persistence(tmp_path, monkeypatch):
