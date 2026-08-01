@@ -296,7 +296,7 @@ def set_grain(table_id: int, grain: str, confirmed: bool = True) -> int:
     ``confirmed`` defaults to True because the usual caller is an operator
     making a deliberate declaration. Automated proposers pass False, and must
     themselves refuse to overwrite a row whose ``grain_confirmed`` is already
-    set — the same guarantee ``propose_mappings`` gives confirmed mappings.
+    set — the same guarantee the mapping step gives confirmed mappings.
     """
     if grain not in GRAINS:
         raise ValueError(f"grain must be one of {GRAINS}, got {grain!r}")

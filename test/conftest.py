@@ -26,7 +26,7 @@ namespace, independent of ``artmind.graph_query.neo4j_session`` itself:
   covers every caller that resolves ``neo4j_session`` via graph_query's own
   module globals at call time rather than a separate import, which includes
   ``read_session()`` and therefore ``entity_listing()`` (the read path behind
-  ``structured/mappings.py``'s ``propose_mappings`` hook).
+  ``resolve_key`` and the ``query entity-listing`` command).
 - ``artmind.structured.catalogue.neo4j_session`` — ``catalogue.py`` imports
   the name directly, so it needs its own patch (mirrors the existing
   per-test pattern in test_structured_catalogue.py).

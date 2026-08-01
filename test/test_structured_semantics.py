@@ -300,7 +300,7 @@ def test_ignores_hallucinated_column_and_low_confidence(tmp_path, monkeypatch):
 
 
 def test_does_not_overwrite_confirmed_grain_or_roles(tmp_path, monkeypatch):
-    """Same guarantee propose_mappings gives: a re-proposal must never silently
+    """Same guarantee the mapping step gives: a re-proposal must never silently
     un-confirm an operator's review."""
     from artmind.structured import registry, semantics
 

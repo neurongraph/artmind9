@@ -1,31 +1,49 @@
-"""Propose a table's ``grain`` and its bridge columns with a single LLM call.
+"""Propose a structured table's semantics: ``grain``, bridge columns, and
+``column -> entity_class`` mappings.
 
-Distinct from ``mappings.py``, which is deliberately deterministic (exact +
-difflib matching against KG entity names) because it answers a question the data
-can answer: *do this column's values look like these entities?* Grain cannot be
-settled that way. Whether rows assert rules or merely record facts is a semantic
-judgement about meaning, and no shape heuristic separates a fee schedule from a
-complaints log reliably. Guessing it wrong in the permissive direction is the
-costly one: a `normative` table mistaken for `instance` silently skips the
-quarantine rule.
+Three independently-resumable steps, each with its own run status on the
+table's registry row (``grain_status``/``bridge_status``/``mapping_status``),
+so a partial failure resumes at exactly the step that failed instead of
+re-running the ones that already succeeded. This mirrors ``kg_chunk_status``'s
+per-chunk entities/properties/relationships model rather than treating
+"classify this table" as one atomic operation. ``propose_table_semantics`` is
+the orchestrator every caller goes through -- CLI, ingest pipeline, admin-ui --
+the same role ``extract_kg`` plays for a document's chunks. Grain and bridge
+share a single LLM call (there is no way to ask the model just one of the two);
+mapping is its own call.
 
-Cadence differs from mappings for the same reason. ``propose_mappings`` re-runs
-on every write because its answer genuinely tracks the data. Grain and
-bridge_role describe what the table *means*, which does not change when rows
-arrive, so ``pipeline.py`` calls this only on first registration -- never on a
-replace refresh and never per SCD-2 batch. ``artmind db propose`` re-runs it on
-demand, mirroring how ``db catalogue`` complements the automatic projection.
+Why these are LLM judgements rather than shape heuristics: whether rows assert
+rules or merely record facts is a question about meaning, and nothing about a
+table's shape separates a fee schedule from a complaints log reliably. Guessing
+wrong in the permissive direction is the costly one -- a `normative` table
+mistaken for `instance` silently skips the quarantine rule. Mapping is the same
+kind of question one level down: whether a column's sampled values *denote*
+instances of a schema class. It reads the domain schema's class descriptions
+(``schema_reference.parse_entities``) rather than string-matching against
+whichever entities happen to have been extracted already, so a table is
+classifiable the moment it lands -- even in a domain with no ingested documents
+at all.
 
-Confirmed values are never overwritten, matching ``propose_mappings``'s
-guarantee: refreshing a table must not silently un-confirm an operator's review.
+Cadence (see ``pipeline.py``): all three steps run once at first registration.
+A ``replace``-mode refresh whose column set grew re-runs bridge and mapping for
+the *new columns only*; grain is never re-proposed on refresh, because what a
+table means does not change when rows arrive. ``artmind db propose`` is the
+standalone re-entry point for everything else, retrying any step not already
+``ok``, or forcing one with ``--redo``.
+
+Confirmed values are never overwritten by a re-proposal, for any of the three
+steps: refreshing or re-proposing a table must not silently un-confirm an
+operator's review.
 """
 
 import json
 
 from artmind.structured import registry
 
-#: Below this, a bridge-column proposal is not persisted. Matches
-#: ``mappings.CONFIDENCE_FLOOR``'s role, and the same value for consistency.
+#: Below this, a bridge-column or mapping proposal is not persisted. Shared by
+#: both steps deliberately: they answer the same shape of question (does this
+#: column's sampled content mean something to the graph?) and there is no
+#: evidence either deserves a different bar.
 CONFIDENCE_FLOOR = 0.4
 
 #: Values a column's cells can play in fusion. Open vocabulary in the schema;
