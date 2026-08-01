@@ -611,7 +611,7 @@ async function refreshStructuredTables() {
   if (!tables.length) {
     const tr = document.createElement("tr");
     const td = el("td", "dash-empty", "No structured tables registered yet.");
-    td.colSpan = 5;
+    td.colSpan = 6;
     tr.appendChild(td);
     tbody.appendChild(tr);
     return;
@@ -626,9 +626,15 @@ async function refreshStructuredTables() {
     tr.appendChild(el("td", null, String(t.version)));
     tr.appendChild(el("td", null, fmtTime(t.ingestedAt)));
 
+    const classifyTd = el("td");
+    classifyTd.appendChild(pip(t.grainStatus));
+    classifyTd.appendChild(pip(t.bridgeStatus));
+    classifyTd.appendChild(pip(t.mappingStatus));
+    tr.appendChild(classifyTd);
+
     const detailTr = document.createElement("tr");
     const detailTd = el("td");
-    detailTd.colSpan = 5;
+    detailTd.colSpan = 6;
     detailTd.style.display = "none";
     detailTr.appendChild(detailTd);
 
@@ -645,6 +651,58 @@ async function refreshStructuredTables() {
           `/api/structured/tables/${encodeURIComponent(t.tableName)}/schema?domain=${encodeURIComponent(t.domain)}`
         );
         detailTd.innerHTML = "";
+
+        const classifyBlock = el("div", "tool-card");
+        classifyBlock.appendChild(el("div", "tool-head",
+          `Grain: ${schema.grain} (${schema.grainConfirmed ? "confirmed" : "proposed"})`));
+        const bridgeNote = (schema.bridgeColumns || []).length
+          ? `Bridge columns: ${schema.bridgeColumns.map((b) => `${b.column} (${b.confirmed ? "confirmed" : "proposed"})`).join(", ")}`
+          : "Bridge columns: none";
+        classifyBlock.appendChild(el("div", "dash-note", bridgeNote));
+
+        const stepChecks = el("div", "dash-form");
+        const stepBoxes = {};
+        for (const step of ["grain", "bridge", "mapping"]) {
+          const label = el("label");
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = true;
+          stepBoxes[step] = cb;
+          label.appendChild(cb);
+          label.appendChild(document.createTextNode(` ${step}`));
+          stepChecks.appendChild(label);
+        }
+        const redoLabel = el("label");
+        const redoCb = document.createElement("input");
+        redoCb.type = "checkbox";
+        redoLabel.appendChild(redoCb);
+        redoLabel.appendChild(document.createTextNode(" redo"));
+        stepChecks.appendChild(redoLabel);
+        classifyBlock.appendChild(stepChecks);
+
+        const classifyBtn = el("button", "btn-link", "Classify");
+        classifyBtn.addEventListener("click", async (event) => {
+          event.stopPropagation();
+          const steps = Object.entries(stepBoxes).filter(([, cb]) => cb.checked).map(([s]) => s);
+          classifyBtn.disabled = true;
+          classifyBtn.textContent = "Classifying…";
+          try {
+            await api(`/api/structured/tables/${encodeURIComponent(t.tableName)}/propose`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ domain: t.domain, steps, redo: redoCb.checked }),
+            });
+            detailTd.style.display = "none";
+            await refreshStructuredTables();
+          } catch (err) {
+            alert(`Classify failed: ${err.message}`);
+            classifyBtn.disabled = false;
+            classifyBtn.textContent = "Classify";
+          }
+        });
+        classifyBlock.appendChild(classifyBtn);
+        detailTd.appendChild(classifyBlock);
+
         const colTable = el("table", "dash-table");
         const thead = document.createElement("thead");
         thead.innerHTML = "<tr><th>Column</th><th>Type</th><th>Mapping</th></tr>";
@@ -673,6 +731,46 @@ async function refreshStructuredTables() {
     tbody.appendChild(detailTr);
   }
 }
+
+document.getElementById("structured-classify-all-btn").addEventListener("click", async () => {
+  const domain = structuredTablesDomainEl.value;
+  if (!domain) {
+    alert("Select a domain first.");
+    return;
+  }
+  const redo = document.getElementById("structured-classify-all-redo").checked;
+  const btn = document.getElementById("structured-classify-all-btn");
+  const progressEl = document.getElementById("structured-classify-all-progress");
+  btn.disabled = true;
+  let polling = true;
+  const poll = async () => {
+    while (polling) {
+      try {
+        const p = await api(`/api/structured/propose-all/progress?domain=${encodeURIComponent(domain)}`);
+        if (p.total) progressEl.textContent = `Classifying ${p.done}/${p.total}…`;
+      } catch (err) {
+        // best-effort readout only; the POST below is the source of truth
+      }
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  };
+  poll();
+  try {
+    await api("/api/structured/propose-all", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ domain, redo }),
+    });
+    progressEl.textContent = "Done.";
+  } catch (err) {
+    progressEl.textContent = "";
+    alert(`Classify all failed: ${err.message}`);
+  } finally {
+    polling = false;
+    btn.disabled = false;
+    await refreshStructuredTables();
+  }
+});
 
 document.getElementById("structured-ingest-form").addEventListener("submit", async (event) => {
   event.preventDefault();
