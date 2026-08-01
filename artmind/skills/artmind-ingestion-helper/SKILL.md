@@ -241,6 +241,66 @@ artmind docs clean --domain YOUR_DOMAIN DOCUMENT_NAME
 
 ---
 
+### I. A structured table's classification is stuck, or you want to re-classify it
+
+Structured files (csv/xlsx, ingested with the same `artmind ingest sync FILE --domain DOMAIN`)
+register as **tables**, not documents. After registration each table gets classified in three
+independent steps, each tracking its own status — `pending` | `ok` | `failed`:
+
+| Step | Answers | Confirm with |
+|---|---|---|
+| `grain` | do these rows record facts (`instance`/`lookup`) or assert rules (`normative`)? | `db grain TABLE --set` |
+| `bridge` | which columns' *values* are worth searching the graph for? | (CLI-only today) |
+| `mapping` | which columns denote instances of which graph entity class? | `db mappings TABLE confirm ...` |
+
+**Check the current status:**
+```bash
+artmind db schema TABLE --domain DOMAIN     # includes grain_status / bridge_status / mapping_status
+artmind db bridge --domain DOMAIN           # same three, for every table at once
+```
+
+**Any step `failed`, or still `pending` on an older table — re-run just what's needed:**
+```bash
+artmind db propose TABLE --domain DOMAIN
+```
+By default this retries only steps that aren't already `ok`, leaving succeeded ones alone —
+the same "resume only what's broken" shape `extract-kg` has for a document's chunks
+(Situation D.1). It is safe to re-run; confirmed values are never overwritten.
+
+**Re-run one specific step** (e.g. after editing the domain schema, which only affects mapping):
+```bash
+artmind db propose TABLE --domain DOMAIN --step mapping
+```
+
+**Force a step that already succeeded** (a second opinion, or post-schema-edit):
+```bash
+artmind db propose TABLE --domain DOMAIN --step mapping --redo
+```
+Without `--redo` an already-`ok` step is skipped, so this is the only way to re-ask it.
+
+**Diagnosing a `failed` step:** no error text is stored — by design, matching the rest of the
+pipeline. Check the logs:
+```bash
+tail -50 logs/artmind_ingestion.log | grep -i "propose_table_semantics"
+```
+
+Common causes:
+- **`mapping` fails with "no schema file (or no entities_prompt)"** — the domain has no schema
+  YAML, or it's a dotted sub-domain that hasn't been harmonized. Run `artmind domains list` to
+  check; use `/artmind-create-schema` to create one, or `artmind domains harmonize`.
+- **All three `failed`** — the LLM was unreachable at the time. The ingest hook is best-effort
+  and only logs a warning rather than failing the load, so the table registered fine and just
+  needs `db propose`.
+- **All three still `pending` on a long-registered table** — it predates this pipeline. The
+  migration defaults every existing table to `pending`; it cannot know whether a step had
+  effectively already happened. `db propose` is the fix.
+
+**Classify a whole domain at once:** the admin UI's *Structured data* tab has a
+"Classify all unclassified" button (`artmind admin-ui`, then open `/dashboard`), which runs the
+same code this command does. The three dots per table row are grain/bridge/mapping status.
+
+---
+
 ## Full Pipeline Reference (happy path)
 
 ```
@@ -277,6 +337,8 @@ artmind docs clean --domain YOUR_DOMAIN DOCUMENT_NAME
 | Job stuck in `processing`, or crawling with repeated `Connection error` on chunks | Worker crashed or hit transient LLM-provider connection errors on a large document | Kill the worker (safe — progress is per-chunk/per-step durable), then run `artmind ingest extract-kg DOC --domain DOMAIN` on the specific file — **not** `retry-job`, which ignores files stuck at `processing`. See Situation D.1. |
 | Empty graph after Neo4j restart | Neo4j was ephemeral and lost data | Run `artmind session initiate` to restore from snapshot, or `write-to-graph` if JSON exists |
 | Duplicate entities after merging domains | Entity resolution not run | Run `refine-graph --dry-run` then apply |
+| A structured table shows `mapping_status`/`bridge_status`/`grain_status` = `failed`, or a long-registered table is still all `pending` | Best-effort LLM call failed at ingest time (unreachable model), or the table predates the classification pipeline | `artmind db propose TABLE --domain DOMAIN` — retries only the steps not already `ok`. See Situation I. |
+| `db propose` fails on the mapping step with "no schema file" | Domain has no schema YAML, or a dotted sub-domain was never harmonized | `artmind domains harmonize`, or create one via `/artmind-create-schema`. Grain and bridge still succeed independently. |
 
 ---
 
