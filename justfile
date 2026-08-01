@@ -242,7 +242,7 @@ db-list domain="":
 db-grain table grain="":
     uv run artmind db grain {{ table }} {{ if grain != "" { "--set " + grain } else { "" } }}
 
-# re-run semantic proposals (mappings, grain, bridge columns) for a table  (usage: just db-propose <table> [--skipSemantics])
+# re-run structured classification (grain, bridge columns, mappings) for a table  (usage: just db-propose <table> ["--step mapping --redo"])
 db-propose table flags="":
     uv run artmind db propose {{ table }} {{ flags }}
 

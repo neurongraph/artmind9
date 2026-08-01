@@ -1461,36 +1461,27 @@ def db_bridge(domain, entity_class, compact):
 @db.command("propose")
 @click.argument("table")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
-@click.option("--model", default=None, help="Override the LLM model used for the grain/bridge proposal.")
-@click.option("--skipSemantics", "skip_semantics", is_flag=True, help="Re-propose mappings only — no LLM call.")
+@click.option("--step", "steps", multiple=True, type=click.Choice(["grain", "bridge", "mapping"]), help="Restrict to specific step(s) (repeatable). Default: all three, each skipped if already 'ok' unless --redo.")
+@click.option("--redo", is_flag=True, help="Re-run a step even though its status is already 'ok'.")
+@click.option("--model", default=None, help="Override the LLM model used for grain/bridge/mapping proposal.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def db_propose(table, domain, model, skip_semantics, compact):
-    """Re-run semantic proposals for TABLE: mappings, grain, and bridge columns.
+def db_propose(table, domain, steps, redo, model, compact):
+    """Re-run classification for TABLE: grain, bridge columns, and column-to-entityClass mappings.
 
-    The ingest pipeline proposes mappings on every write and grain/bridge_role
-    only on first registration, so this is how a table gets re-examined without
-    re-ingesting the source file — the same role ``db catalogue`` plays for the
-    Neo4j projection. Confirmed values are never overwritten by a re-proposal.
+    Each step tracks its own run status (grain_status/bridge_status/mapping_status)
+    on the table row. By default only steps not already 'ok' are attempted, so a
+    partial failure at ingest time resumes here automatically — the same role
+    `extract-kg` plays for a partially-failed document. `--redo` forces a step to
+    run again even though it already succeeded (e.g. after editing the domain
+    schema). Confirmed values (grain_confirmed, column_roles/column_mappings
+    .confirmed) are never overwritten by a re-proposal.
     """
-    from artmind.structured.mappings import propose_mappings
+    from artmind.structured.semantics import propose_table_semantics
 
     row = _resolve_table_row(table, domain)
-    table_id = row["id"]
-    result = {"table": table, "domain": row["domain"]}
-
-    try:
-        result["mappings"] = propose_mappings(table_id, [row["domain"]])
-    except Exception as exc:
-        raise click.ClickException(f"mapping proposal failed: {exc}") from exc
-
-    if not skip_semantics:
-        from artmind.structured.semantics import propose_semantics
-
-        try:
-            result["semantics"] = propose_semantics(table_id, model=model)
-        except Exception as exc:
-            raise click.ClickException(f"semantics proposal failed: {exc}") from exc
-
+    result = propose_table_semantics(
+        row["id"], row["domain"], steps=list(steps) or None, redo=redo, model=model
+    )
     _echo_json(result, compact)
 
 

@@ -117,6 +117,73 @@ def test_db_grain_shows_and_confirms(ingested):
     assert "temporal" in bad.output
 
 
+def test_db_propose_runs_all_steps_by_default(ingested, monkeypatch):
+    import json
+
+    import artmind.cli as cli
+    import artmind.structured.semantics as semantics
+
+    calls = []
+    monkeypatch.setattr(
+        semantics, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append((table_id, domain, kw)) or {
+            "table": "products", "domain": domain,
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        },
+    )
+
+    result = CliRunner().invoke(cli.cli, ["db", "propose", "products", "--domain", "banking"])
+    assert result.exit_code == 0, result.output
+    assert len(calls) == 1
+    _, domain, kwargs = calls[0]
+    assert domain == "banking"
+    assert kwargs["steps"] is None
+    assert kwargs["redo"] is False
+    payload = json.loads(result.output)
+    assert payload["mapping_status"] == "ok"
+
+
+def test_db_propose_step_flag_repeatable(ingested, monkeypatch):
+    import artmind.cli as cli
+    import artmind.structured.semantics as semantics
+
+    calls = []
+    monkeypatch.setattr(
+        semantics, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append(kw) or {
+            "table": "products", "domain": domain,
+            "grain_status": "pending", "bridge_status": "pending", "mapping_status": "ok",
+        },
+    )
+
+    result = CliRunner().invoke(
+        cli.cli,
+        ["db", "propose", "products", "--domain", "banking", "--step", "mapping", "--redo"],
+    )
+    assert result.exit_code == 0, result.output
+    assert calls[0]["steps"] == ["mapping"]
+    assert calls[0]["redo"] is True
+
+
+def test_db_propose_skip_semantics_flag_removed(ingested):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(
+        cli.cli, ["db", "propose", "products", "--domain", "banking", "--skipSemantics"]
+    )
+    assert result.exit_code != 0
+    assert "no such option" in result.output.lower()
+
+
+def test_db_propose_rejects_unknown_step(ingested):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(
+        cli.cli, ["db", "propose", "products", "--domain", "banking", "--step", "nonsense"]
+    )
+    assert result.exit_code != 0
+
+
 def test_db_schema_shows_columns(ingested):
     import artmind.cli as cli
 
