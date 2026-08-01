@@ -536,6 +536,13 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
         bridge_columns = structured_registry.list_column_roles(row["id"])
         return _camelize({**row, "columns": columns, "mappings": mappings, "bridge_columns": bridge_columns})
 
+    # Bulk-classify progress readout, deliberately in-memory and non-persisted:
+    # a restart mid-run loses the counter, never a table's actual status (that
+    # is already in the registry). Keyed by domain, which is safe because this
+    # is a single-operator console driven by one button — two concurrent
+    # propose-all runs for the *same* domain would race the counter (and
+    # redundantly re-classify), so the UI debounces rather than the server
+    # locking.
     _bulk_classify_progress: dict[str, dict] = {}
 
     @app.post("/api/structured/tables/{table}/propose")
@@ -575,6 +582,13 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
                     )
                     results.append({"table": t["table_name"], **r})
                 except Exception as exc:
+                    # Defensive only. A *step* failing does NOT land here --
+                    # propose_table_semantics catches per-step failures itself
+                    # and returns normally with that step's status set to
+                    # 'failed' (plus a *_error key). So a consumer must judge
+                    # success from grain/bridge/mapping_status, not from the
+                    # presence of this "error" key, which reaching at all means
+                    # something outside the three steps broke.
                     results.append({"table": t["table_name"], "error": str(exc)})
                 _bulk_classify_progress[payload.domain]["done"] += 1
         finally:
