@@ -42,6 +42,7 @@ from artmind.structured import STRUCTURED_EXTENSIONS
 from artmind.structured import registry as structured_registry
 from artmind.structured.duckdb_adapter import DuckDBDatasource
 from artmind.structured.pipeline import ingest_structured_file
+from artmind.structured.semantics import propose_table_semantics
 from artmind.text2sql import validate_read_only_sql
 from artmind.unified_snapshot import analyze_snapshot, create_snapshot, restore_snapshot_impl
 from artmind.webui.help import get_concepts
@@ -99,6 +100,19 @@ class RestoreRequest(BaseModel):
 
 class StructuredSqlRequest(BaseModel):
     sql: str
+
+
+class StructuredProposeRequest(BaseModel):
+    domain: str
+    steps: list[str] = Field(default_factory=lambda: ["grain", "bridge", "mapping"])
+    redo: bool = False
+    model: str | None = None
+
+
+class StructuredProposeAllRequest(BaseModel):
+    domain: str
+    redo: bool = False
+    model: str | None = None
 
 
 def _json_len(path: Path) -> int:
@@ -519,7 +533,57 @@ def register_dashboard_routes(app: FastAPI, templates: Jinja2Templates) -> FastA
             raise HTTPException(status_code=404, detail=f"table '{table}' not found")
         columns = structured_registry.get_columns(row["id"])
         mappings = structured_registry.list_mappings(row["id"])
-        return _camelize({**row, "columns": columns, "mappings": mappings})
+        bridge_columns = structured_registry.list_column_roles(row["id"])
+        return _camelize({**row, "columns": columns, "mappings": mappings, "bridge_columns": bridge_columns})
+
+    _bulk_classify_progress: dict[str, dict] = {}
+
+    @app.post("/api/structured/tables/{table}/propose")
+    async def api_structured_propose(table: str, payload: StructuredProposeRequest):
+        _validate_artifact_segment(table)
+        _validate_artifact_segment(payload.domain)
+        row = structured_registry.get_table(table, domain=payload.domain)
+        if row is None:
+            raise HTTPException(status_code=404, detail=f"table '{table}' not found")
+        try:
+            result = await asyncio.to_thread(
+                propose_table_semantics, row["id"], payload.domain,
+                steps=payload.steps, redo=payload.redo, model=payload.model,
+            )
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        return _camelize(result)
+
+    @app.post("/api/structured/propose-all")
+    async def api_structured_propose_all(payload: StructuredProposeAllRequest):
+        _validate_artifact_segment(payload.domain)
+        tables = structured_registry.list_tables([payload.domain])
+        if not payload.redo:
+            tables = [
+                t for t in tables
+                if t.get("grain_status") != "ok" or t.get("bridge_status") != "ok"
+                or t.get("mapping_status") != "ok"
+            ]
+        _bulk_classify_progress[payload.domain] = {"done": 0, "total": len(tables)}
+        results = []
+        try:
+            for t in tables:
+                try:
+                    r = await asyncio.to_thread(
+                        propose_table_semantics, t["id"], payload.domain,
+                        redo=payload.redo, model=payload.model,
+                    )
+                    results.append({"table": t["table_name"], **r})
+                except Exception as exc:
+                    results.append({"table": t["table_name"], "error": str(exc)})
+                _bulk_classify_progress[payload.domain]["done"] += 1
+        finally:
+            _bulk_classify_progress.pop(payload.domain, None)
+        return _camelize({"domain": payload.domain, "results": results})
+
+    @app.get("/api/structured/propose-all/progress")
+    async def api_structured_propose_all_progress(domain: str):
+        return _camelize(_bulk_classify_progress.get(domain, {"done": 0, "total": 0}))
 
     @app.post("/api/structured/ingest")
     async def api_structured_ingest(
