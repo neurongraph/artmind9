@@ -101,8 +101,8 @@ def test_prompt_requires_entity_labels_and_entity_paths():
 
 def test_generate_cypher_returns_cypher_and_params(monkeypatch):
     llm_response = json.dumps({
-        "cypher": "MATCH (n:PERSON) WHERE n.domain = $domain RETURN count(n) AS total",
-        "parameters": {"domain": "fiction"},
+        "cypher": "MATCH (n:PERSON) WHERE n.domain IN $domains RETURN count(n) AS total",
+        "parameters": {"domains": ["fiction"]},
     })
 
     monkeypatch.setattr(text2cypher, "graph_metadata", lambda domain: FAKE_METADATA)
@@ -112,7 +112,32 @@ def test_generate_cypher_returns_cypher_and_params(monkeypatch):
     result = text2cypher.generate_cypher("How many persons?", "fiction", model="test-model")
 
     assert "MATCH" in result["cypher"]
-    assert result["parameters"]["domain"] == "fiction"
+    assert result["parameters"]["domains"] == ["fiction"]
+
+
+def test_generate_cypher_rejects_cypher_missing_domains_reference(monkeypatch):
+    llm_response = json.dumps({
+        "cypher": "MATCH (n:PERSON) RETURN count(n) AS total",
+        "parameters": {},
+    })
+
+    monkeypatch.setattr(text2cypher, "graph_metadata", lambda domain: FAKE_METADATA)
+    monkeypatch.setattr(text2cypher, "entity_listing", lambda domain: FAKE_LISTING)
+    monkeypatch.setattr(text2cypher, "call_llm", lambda model, prompt: llm_response)
+
+    with pytest.raises(ValueError, match=r"\$domains"):
+        text2cypher.generate_cypher("How many persons?", "fiction", model="test-model")
+
+
+def test_validate_domain_scoped_accepts_domains_reference():
+    text2cypher.validate_domain_scoped(
+        "MATCH (n) WHERE n.domain IN $domains RETURN n"
+    )
+
+
+def test_validate_domain_scoped_rejects_missing_reference():
+    with pytest.raises(ValueError, match=r"\$domains"):
+        text2cypher.validate_domain_scoped("MATCH (n) RETURN n")
 
 
 def test_generate_cypher_rejects_write_cypher(monkeypatch):
@@ -142,8 +167,8 @@ def test_generate_cypher_raises_on_empty_cypher(monkeypatch):
 
 def test_execute_text2cypher_dry_run_skips_execution(monkeypatch):
     llm_response = json.dumps({
-        "cypher": "MATCH (n:PERSON) WHERE n.domain = $domain RETURN count(n) AS total",
-        "parameters": {"domain": "fiction"},
+        "cypher": "MATCH (n:PERSON) WHERE n.domain IN $domains RETURN count(n) AS total",
+        "parameters": {"domains": ["fiction"]},
     })
 
     monkeypatch.setattr(text2cypher, "graph_metadata", lambda domain: FAKE_METADATA)
@@ -168,8 +193,8 @@ def test_execute_text2cypher_dry_run_skips_execution(monkeypatch):
 
 def test_execute_text2cypher_runs_query(monkeypatch):
     llm_response = json.dumps({
-        "cypher": "MATCH (n:PERSON) WHERE n.domain = $domain RETURN count(n) AS total",
-        "parameters": {"domain": "fiction"},
+        "cypher": "MATCH (n:PERSON) WHERE n.domain IN $domains RETURN count(n) AS total",
+        "parameters": {"domains": ["fiction"]},
     })
 
     monkeypatch.setattr(text2cypher, "graph_metadata", lambda domain: FAKE_METADATA)

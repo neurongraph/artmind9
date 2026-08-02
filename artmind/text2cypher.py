@@ -34,6 +34,25 @@ def validate_read_only(cypher: str) -> None:
         )
 
 
+def validate_domain_scoped(cypher: str) -> None:
+    """Raise ValueError if the Cypher never references $domains.
+
+    The prompt instructs the model to scope every unbound node with a WHERE
+    clause built on $domains, but nothing forces it to comply — unlike the
+    templated patterns and vector search, which inject domain_predicate()
+    into the query themselves. This is a heuristic backstop against the LLM
+    dropping the scoping clause entirely, not a proof the predicate covers
+    every matched variable: a query that merely mentions $domains without
+    applying it to every node still passes this check.
+    """
+    if "$domains" not in cypher:
+        raise ValueError(
+            "Generated Cypher does not reference $domains and cannot be "
+            "verified as scoped to the requested domain(s). Refusing to "
+            "execute — this would otherwise read across every domain."
+        )
+
+
 def _schema_summary(metadata: dict) -> str:
     """Format graph_metadata() output into a compact text block for the prompt."""
     lines: list[str] = []
@@ -193,6 +212,7 @@ def generate_cypher(
     parameters.setdefault("domains", domains)
 
     validate_read_only(cypher)
+    validate_domain_scoped(cypher)
 
     logger.info("text2cypher generated: {}", cypher)
     return {"cypher": cypher, "parameters": parameters}

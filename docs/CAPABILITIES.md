@@ -887,80 +887,290 @@ Answering questions over the accumulated knowledge — the consuming face of the
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.1.1 |  | Schema metadata | The graph describes its own labels, properties, and relationship types. | `artmind query graph metadata` |
-| 6.1.2 |  | Structural census | Focused counts and relationships for the core node types. | `artmind query graph structural-metadata` |
-| 6.1.3 |  | Entity inventory | Entity names grouped by label/class. | `artmind query graph entity-listing` |
-| 6.1.4 |  | Domain overview | Per-domain routing summary: document names/counts, entity counts, top classes. | `artmind query domains-overview` |
+| 6.1.1 | ✓ | Schema metadata | The graph describes its own labels, properties, and relationship types. | `artmind query graph metadata` |
+| 6.1.2 | ✓ | Structural census | Focused counts and relationships for the core node types. | `artmind query graph structural-metadata` |
+| 6.1.3 | ✓ | Entity inventory | Entity names grouped by label/class. | `artmind query graph entity-listing` |
+| 6.1.4 | ✓ | Domain overview | Per-domain routing summary: document names/counts, entity counts, top classes. | `artmind query domains-overview` |
 
 ### 6.2 Templated graph retrieval (deterministic, no LLM)
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.2.1 |  | Class listing | List entities of a class. | `pattern1` |
-| 6.2.2 |  | Entity detail | Info on one or more named entities. | `pattern2` |
-| 6.2.3 |  | Relationship summary | Entity plus a lightweight relationship summary. | `pattern3` |
-| 6.2.4 |  | Neighborhood expansion | Entity plus its full neighborhood. | `pattern4` |
-| 6.2.5 |  | Pathfinding | Paths between two entities — shortest, or all within bounded depth. | `pattern5` |
-| 6.2.6 |  | Direct relationships | Direct relationships between two named entities. | `pattern6` |
-| 6.2.7 |  | Fragment search | Search entities by name or description fragment. | `pattern7` |
-| 6.2.8 |  | Anchored class filter | Entities of class X connected to entity Y. | `pattern8` |
-| 6.2.9 |  | Centrality ranking | Top-N entities of a class by connection count. | `pattern9` |
-| 6.2.10 |  | Document chunks | All text chunks of a named document. | `pattern10` |
+| 6.2.1 | ✓ | Class listing | List entities of a class. | `pattern1` |
+| 6.2.2 | ✓ | Entity detail | Info on one or more named entities. | `pattern2` |
+| 6.2.3 | ✓ | Relationship summary | Entity plus a lightweight relationship summary. | `pattern3` |
+| 6.2.4 | ✓ | Neighborhood expansion | Entity plus its full neighborhood. | `pattern4` |
+| 6.2.5 | ✓ | Pathfinding | Paths between two entities — shortest, or all within bounded depth. | `pattern5` |
+| 6.2.6 | ✓ | Direct relationships | Direct relationships between two named entities. | `pattern6` |
+| 6.2.7 | ✓ | Fragment search | Search entities by name or description fragment. | `pattern7` |
+| 6.2.8 | ✓ | Anchored class filter | Entities of class X connected to entity Y. | `pattern8` |
+| 6.2.9 | ✓ | Centrality ranking | Top-N entities of a class by connection count. | `pattern9` |
+| 6.2.10 | ✓ | Document chunks | All text chunks of a named document. | `pattern10` |
 
 ### 6.3 Hybrid semantic search
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.3.1 |  | Fused text search | Source text searched by vector embeddings and keyword match, fused via Reciprocal Rank Fusion. | `artmind query vector-text` |
-| 6.3.2 |  | Entity resolution | A name fragment or description resolves to canonical graph entities (fulltext + vector, RRF). | `artmind query entity-resolve` |
+| 6.3.1 | ✓ | Fused text search | Source text searched by vector embeddings and keyword match, fused via Reciprocal Rank Fusion. | `artmind query vector-text` |
+| 6.3.2 | ✓ | Entity resolution | A name fragment or description resolves to canonical graph entities (fulltext + vector, RRF). | `artmind query entity-resolve` |
 
 ### 6.4 Natural-language query generation
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.4.1 |  | NL → graph query | A natural-language question is compiled to a graph query (Cypher), executed, and results returned. | `artmind query graph text2cypher` |
-| 6.4.2 |  | NL → SQL | A natural-language question is compiled to read-only SQL against the structured store and executed. | `artmind query text2sql` |
+| 6.4.1 | ✓ | NL → graph query | A natural-language question is compiled to a graph query (Cypher), executed, and results returned. | `artmind query graph text2cypher` |
+| 6.4.2 | ✓ | NL → SQL | A natural-language question is compiled to read-only SQL against the structured store and executed. | `artmind query text2sql` |
 
 ### 6.5 Evidence & provenance retrieval
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.5.1 |  | Evidence fetch | Chunk text is retrievable by the exact evidence ids other queries return. | `artmind query chunks` |
-| 6.5.2 |  | Entity dossier | One call returns an entity's properties, one-hop relationships, and source chunk text. | `artmind query entity-context` |
+| 6.5.1 | ✓ | Evidence fetch | Chunk text is retrievable by the exact evidence ids other queries return. | `artmind query chunks` |
+| 6.5.2 | ✓ | Entity dossier | One call returns an entity's properties, one-hop relationships, and source chunk text. | `artmind query entity-context` |
 
 ### 6.6 Temporal & conflict views
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.6.1 |  | Entity timeline | Events, state changes, and supersessions for an entity, in time order. | `artmind query graph timeline` |
-| 6.6.2 |  | Conflict listing | Materialized conflicts, scoped to given domains. | `artmind query graph conflicts` |
+| 6.6.1 | ✓ | Entity timeline | Events, state changes, and supersessions for an entity, in time order. | `artmind query graph timeline` |
+| 6.6.2 | ✓ | Conflict listing | Materialized conflicts, scoped to given domains. | `artmind query graph conflicts` |
+| 6.6.3 | ✓ | Entity version retrieval | Prior states of an entity are retrievable as an explicit chain of superseded property snapshots, oldest-first, or as the single state in force as of a given date. | `artmind query graph entity-versions` |
 
 ### 6.7 Cross-store resolution
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.7.1 |  | Key resolution | A free-text value resolves to a canonical column value and/or a graph entity — the join point between stores. | `artmind query resolve-key` |
+| 6.7.1 | ✓ | Key resolution | A free-text value resolves to a canonical column value and/or a graph entity — the join point between stores. | `artmind query resolve-key` |
 
 ### 6.8 Cross-cutting retrieval behaviours
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 6.8.1 |  | Domain scoping | Every query accepts repeatable, comma-splittable domain filters. | `--domain` on all query commands |
-| 6.8.2 |  | Machine-readable output | Every query emits JSON, with a compact mode. | `--compact` |
-| 6.8.3 |  | Warm serving | Queries are served by a long-lived daemon; the CLI transparently proxies to it for low latency. | `artmind serve`, `_entry.py` |
-| 6.8.4 | ✓ | Hierarchical domain rollup | A parent-domain filter transparently includes every descendant domain at any depth, enforced uniformly across templated graph queries, hybrid search, LLM-generated queries, and the structured catalogue — the LLM cannot generate a query that escapes the requested scope. | `domain_predicate` (`graph_query.py`), `text2cypher.py`, `structured/catalogue.py` |
+| 6.8.1 | ✓ | Domain scoping | Every query accepts repeatable, comma-splittable domain filters. | `--domain` on all query commands |
+| 6.8.2 | ✓ | Machine-readable output | Every query emits JSON, with a compact mode. | `--compact` |
+| 6.8.3 | ✓ | Warm serving | Queries are served by a long-lived daemon; the CLI transparently proxies to it for low latency. | `artmind serve`, `_entry.py` |
+| 6.8.4 | ✓ | Hierarchical domain rollup | A parent-domain filter transparently includes every descendant domain at any depth. Templated graph queries, hybrid search, and the structured store enforce this server-side — the caller cannot influence the predicate or the set of tables/views exposed. LLM-generated Cypher is instead guarded at generation time: a query that never references the domain parameter is rejected before execution, though nothing verifies the predicate was actually applied to every matched node. | `domain_predicate` (`graph_query.py`), `structured/registry.py::list_tables`, `text2sql.py::execute_text2sql`, `text2cypher.py::validate_domain_scoped` |
+
+> **Scoring note:** `domains-overview` (6.1.4) is the one query command with no `--domain`
+> option at all — it is the cross-domain discovery entry point that domain filtering would
+> be circular for (it exists precisely so a caller can learn what domains are available
+> before scoping to one). 6.8.1's "every query accepts a domain filter" should be read with
+> that one documented exception, the same way section 5 exempts `db sql`. Not part of the
+> baseline statement, but worth checking whether another implementation's routing-discovery
+> entry point has the same, necessary exception.
+
+> **Scoring note:** the reference implementation's two NL-to-query paths (6.4.1/6.4.2)
+> enforce domain scope by different means and to different strength, and the gap was real
+> until this pass: `text2sql` builds its execution connection from only the tables
+> `structured_registry.list_tables(domains)` returns, so an out-of-scope table cannot be
+> queried regardless of what SQL the LLM writes — a structural guarantee independent of the
+> LLM's compliance. `text2cypher` has no equivalent structural guarantee available (there is
+> one shared graph, not one connection per domain); it now relies on a generation-time check
+> (`validate_domain_scoped`) that the returned Cypher references the domain parameter at
+> all, added specifically because the prior implementation had no check whatsoever — a
+> generated query that omitted domain scoping entirely executed unscoped against the full
+> graph. Even with the check, a query that mentions `$domains` without applying it to every
+> matched node still passes; only the "forgot scoping entirely" failure mode is closed. Worth
+> checking whether another implementation's NL-to-graph-query path has an equivalent guard,
+> and whether it is structural (like the SQL path) or a heuristic backstop (like this one).
 
 ### Grounding notes
 
+**6.1.1 Schema metadata**
+*Why it matters* — `graph_metadata` is not a fixed schema description read from a config
+file; it introspects live labels, relationship types, and property keys from whatever is
+actually in the graph, domain-scoped like every other retrieval path. This is also the raw
+input `text2cypher` compresses into its prompt's schema section (6.4.1) — the two share one
+source of truth for "what does this domain's graph look like."
+*Test hint* — ingest a document that introduces a new entity class or relationship type,
+call `metadata` immediately after, and confirm the new label/type appears with no schema
+re-registration step.
+
+**6.1.2 Structural census**
+*Why it matters* — this exists as a cheaper, fixed-shape sibling to 6.1.1: rather than the
+full label/property enumeration, it returns counts and named lists for exactly the four
+structural node types (Document, DocChunk, UserChat, Entity) plus their fixed relationships
+— compact enough for an agent or `text2cypher` to sanity-check corpus size without parsing
+the larger metadata payload.
+*Test hint* — confirm the returned `Document` row's `names` list matches what `pattern10`/
+`domains-overview` independently report for the same domain.
+
+**6.1.3 Entity inventory**
+*Why it matters* — grouping is by label (the entity class), not by domain, and every group
+carries the raw name list an LLM can pattern-match against — this is the exact payload
+`text2cypher` compresses into its prompt's entity-listing section, so the two must stay
+literally the same function call, not two independent implementations that could drift.
+*Test hint* — confirm `entity-listing --nameFilter <fragment>` and `text2cypher`'s prompt
+(via `--dry-run`) agree on which entities exist for a fragment that matches only one class.
+
+**6.1.4 Domain overview**
+*Why it matters* — this is the one query command with no `--domain` filter (see the scoring
+note above) precisely because it *is* the domain discovery step every other command's
+`--domain` depends on. It aggregates Document/Entity counts from the graph and unions in
+structured-store domains from the registry in a separate, independently-failing step —
+wrapped in a bare `except`, so a query-only host with no registry DB still gets the graph
+half of the overview rather than erroring the whole call.
+*Test hint* — on a corpus where tables are registered at a coarser domain root than
+documents (e.g. documents at `banking.cases`/`banking.policy`, tables at bare `banking`),
+confirm `domains-overview` surfaces all three domains, not just the two holding documents.
+
+**6.2.1–6.2.10 Templated patterns**
+*Why it matters* — every pattern shares the same entity-selection convention: an exact
+`--entityId`/`--entityIdList` always wins over fuzzy `--entityName`/`--entityNameList`
+CONTAINS matching when both are given, which is what makes the documented Resolve-then-
+Retrieve workflow (resolve a name once, reuse the id everywhere) actually safe from
+name-collision fan-out. Two patterns are deliberate, documented exceptions to the `--asOf`
+convention every other pattern follows: pattern5 (paths traverse unbound intermediate
+entities with no single filterable variable) and pattern10 (chunk-level currency isn't
+modeled) both accept `--asOf` but ignore it, surfacing `asOf_ignored: true` rather than
+silently pretending to filter. pattern9's "connection count" is actually three selectable
+degree modes (`relations`, `mentions`, `all`), and pattern7's fragment search runs against
+an index built over both entity name *and* description, matching the stated "name or
+description fragment."
+*Test hint* — call any pattern with both a name and an id for the same option and confirm
+the id wins; call pattern5 or pattern10 with `--asOf` set and confirm the response carries
+`asOf_ignored: true` rather than a silently-filtered result.
+
+**6.3.1 Fused text search / 6.3.2 Entity resolution**
+*Why it matters* — both commands run two independently-ranked queries (Lucene fulltext and
+cosine-similarity vector search) and combine them with the same `_rrf_combine` function
+(`score = Σ 1/(k+rank)` per ranking list, `k=60`), so the fusion math can't drift between
+the two call sites. `vector-text` additionally searches `UserChat` nodes alongside
+`DocChunk` text (broader than "source text" alone suggests), and both commands degrade
+gracefully — a missing vector index (e.g. an ungrounded pre-embedding corpus) is caught and
+treated as an empty vector leg rather than failing the whole call.
+*Test hint* — for a question whose answer is a name fragment (fulltext wins) and one that's
+purely descriptive with no shared words (vector wins), confirm both surface the right
+result through the same command; separately, null out the vector index and confirm the
+command still returns fulltext-only results rather than erroring.
+
+**6.4.1 NL → graph query**
+*Why it matters* — domain enforcement here is **not** structural the way the templated
+patterns are (see the scoring note above): the prompt instructs the LLM to add a
+`$domains`-based `WHERE` clause to every unbound node, but prior to this pass nothing
+checked that it actually did. `validate_domain_scoped` now rejects any generated Cypher
+that never references `$domains` at all, alongside the pre-existing `validate_read_only`
+write-keyword blocklist — both are regex/substring heuristics in the same style, not a
+Cypher parser, so a query that references `$domains` without applying it to every matched
+node still passes.
+*Test hint* — force the LLM mock to return a query with no domain reference and confirm
+`generate_cypher` raises before `_run_read_query` is ever called; separately, confirm a
+normal domain-scoped query still executes and returns rows.
+
+**6.4.2 NL → SQL**
+*Why it matters* — unlike 6.4.1, this path's domain scope is enforced by construction, not
+convention: `execute_text2sql` builds a fresh in-memory DuckDB connection and registers
+views only for `structured_registry.list_tables(domains)` — not the shared persistent
+catalog, which carries a permanent view for every table ever ingested across every domain.
+An out-of-scope table is not merely filtered out of the prompt; it does not exist as a
+queryable object in that connection, so no SQL the LLM could write can reach it.
+*Test hint* — register tables in two different domains, generate SQL scoped to one, and
+confirm a query that names the other domain's table by name fails with an unknown-table
+error rather than returning data — the LLM cannot get around the view boundary by knowing
+the table name.
+
+**6.5.1 Evidence fetch**
+*Why it matters* — this is the deterministic grounding step every chunk-id-returning
+surface converges on (patterns 2/3/4's `doc_sources`, conflicts' `evidence`) — callers
+never re-search for text they already have an id for. `--expand N` computes a same-document
+neighbor window from the zero-padded `{doc_id}_{seq:03d}` chunk-id encoding, not from a
+chunk's `name` field (which reads like "Chunk 16/38" and does not sort correctly).
+*Test hint* — fetch a chunk with `--expand 1` and confirm the returned neighbors are the
+lexically-adjacent chunk ids of the same document, not adjacent by `name` string.
+
+**6.5.2 Entity dossier**
+*Why it matters* — this collapses the pattern4-plus-chunk-fetch sequence into one call, and
+orders returned chunks current-first (`valid_to IS NULL DESC`) before truncating to
+`--includeChunks` — so the chunks with full text are preferentially the ones still valid,
+and the overflow `more_chunks` (ids only) is exactly what `query chunks` expects next.
+`--asOf` applies to the entity and its source chunks; the one-hop neighbor entities follow
+pattern4's semantics and are not currency-filtered.
+*Test hint* — set `--includeChunks 1` on an entity with more than one source chunk and
+confirm the first is full text while the rest appear only in `more_chunks` as fetchable ids.
+
+**6.6.1 Entity timeline**
+*Why it matters* — `timeline` only ever reconstructs *relationship* changes for one entity
+(dated edges to other `Entity` nodes, sorted by `event_at`/`valid_from`); it is not a
+property-value history. The "supersessions" the statement mentions surface only indirectly,
+as the entity's own `valid_from`/`valid_to` fields (the retirement effect from 4.8) — the
+full chain of prior property values is a different, complementary command (6.6.3).
+*Test hint* — supersede a document that retires an entity, call `timeline` on it, and
+confirm the entity's own `valid_to` reflects the retirement — then confirm no per-property
+"old value" ever appears in the `timeline` array itself (that's what 6.6.3 is for).
+
+**6.6.2 Conflict listing**
+*Why it matters* — this matches the `CONFLICTS_WITH` edge directly rather than requiring
+the `Conflict` node to still exist, and joins the `Conflict` node in only as optional
+enrichment (`materialized: bool` per row) — a deliberate resilience choice, since an edge
+can outlive the node it was minted with. `status='all'` is required to see resolved/
+dismissed conflicts (4.10); the default only returns `open`.
+*Test hint* — resolve a conflict (4.10), confirm the default `--status open` call no longer
+returns it, and `--status all` does, carrying its resolution reason.
+
+**6.6.3 Entity version retrieval**
+*Why it matters* — this is the command 6.6.1's grounding note points to: where `timeline`
+shows an entity's *relationship* history, `entity-versions` shows its *property* history —
+the superseded snapshots 4.9 writes to the history zone. Without `--asOf` it returns the
+full chain oldest-first; with `--asOf` it returns the single snapshot whose validity window
+covers that date, using a deliberately non-NULL-safe comparison (unlike `asof_predicate`
+elsewhere) because an open-ended `valid_to` here means "closed, date unknown," not "still
+open." An empty result with `--asOf` set means no snapshot covers the date — the live entity
+was already current then, and callers are expected to fall back to it.
+*Test hint* — supersede a document that overwrites a property on a re-asserted entity,
+then call `entity-versions --asOf` a date before the supersession and confirm the old value
+returns; call it with no `--asOf` and confirm the full chain is returned oldest-first.
+
+**6.7.1 Key resolution**
+*Why it matters* — this is deterministic string matching (exact case-fold, then `difflib`
+fuzzy), not an LLM or embedding call — a deliberate choice: resolving a phrase the caller
+actually typed against values that actually exist is a lexical question, unlike mapping
+proposal (5.4) which is semantic. It always checks the graph (`entity_listing`); the column
+leg only runs when `--column` is given, since without a target column there is nothing on
+the structured side to match against.
+*Test hint* — resolve a phrase that matches both a graph entity name and a column's
+profiled value under the same string and confirm `source: "both"` with the higher of the
+two scores; resolve one with no `--column` and confirm only the graph side was consulted.
+
+**6.8.1 Domain scoping**
+*Why it matters* — every `query`/`query graph` command declares `--domain` as
+`required=True, multiple=True`, so scoping isn't opt-in — a caller cannot forget it, only
+choose which domains. `domains-overview` (6.1.4) is the sole, necessary exception; see the
+scoring note above.
+*Test hint* — confirm every command in `just dev-cli-help`'s `query`/`query graph` subtree
+has a `--domain` option except `domains-overview`.
+
+**6.8.2 Machine-readable output**
+*Why it matters* — one shared `_echo_json` helper backs every query command's output, with
+`default=str` so non-JSON-native values (DuckDB `DATE`/`DECIMAL` from `text2sql`) render
+instead of crashing the CLI's only output path. `--compact` only changes separators/
+indentation, never the payload shape, so scripts can switch modes without a schema change.
+*Test hint* — run the same query with and without `--compact` and confirm the parsed JSON
+is identical, differing only in whitespace.
+
+**6.8.3 Warm serving**
+*Why it matters* — the daemon executes the real Click commands in-process via `CliRunner`
+(byte-identical output to a direct CLI run — a transport layer, not a reimplementation),
+and only proxies `query ...` calls; every other command falls through to a full process.
+Requests are serialized behind one lock (`CliRunner` redirects process-wide stdout), so the
+latency win is avoiding ~2s of import overhead per call, not request concurrency.
+*Test hint* — compare `artmind query --help` against `ARTMIND_NO_PROXY=1 artmind query
+--help` after a code change while the daemon is still running from before the change — a
+mismatch confirms the daemon is serving stale code (see CLAUDE.md's testing traps).
+
 **6.8.4 Hierarchical domain rollup**
-*Why it matters* — scope is enforced in one shared predicate that every retrieval path
-composes into its query, rather than re-implemented per path. That single point of
-enforcement is what lets the system expose an LLM-generated-query capability (6.4.1)
-without also exposing a way to read outside the caller's requested domains — the
-generated Cypher inherits the predicate it cannot see or remove.
-*Test hint* — for each retrieval path in turn, request a parent scope and assert
-descendant content returns; then, on the NL-generated path specifically, attempt a
-question phrased to pull in an out-of-scope domain and assert it returns nothing.
+*Why it matters* — the templated/hybrid/structured paths share one enforcement point each
+(`domain_predicate` server-side for the graph, `list_tables`-scoped views for SQL) that the
+caller cannot see or influence, which is what makes those three paths' rollup a genuine
+guarantee. The LLM-to-Cypher path is qualitatively different: there is one shared graph, not
+one connection per domain, so there's no equivalent structural boundary available — the
+generation-time `validate_domain_scoped` guard closes the "forgot scoping entirely" failure
+mode but is not the same class of guarantee, and the scoring note above spells out exactly
+where it stops short.
+*Test hint* — for the templated/hybrid/SQL paths, request a parent scope and confirm
+descendant content returns with no way to widen it further; for text2cypher specifically,
+confirm a generated query with no `$domains` reference is rejected before execution, and
+separately confirm (this is the gap) that a query which references `$domains` in a
+non-restrictive way (e.g. in an unrelated `RETURN` expression) is *not* caught.
 
 ## 7. Document & Corpus Management
 
