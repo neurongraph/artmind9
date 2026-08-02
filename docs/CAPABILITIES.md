@@ -46,6 +46,7 @@ mindmap
       LLM extraction
       Decoupled graph write
       External KG import
+      Portable bundle exchange
       Entity embeddings
       Relationship-type integrity
       Accretive merge
@@ -373,6 +374,7 @@ Turning ingested documents into a graph of entities, properties, and relationshi
 | 3.5 | ✓ | Provenance links | Every extracted entity stays linked to the source chunks it came from via a provenance edge (evidence ids); relationships do not carry their own source-chunk link — only the entities they connect do. | `EXTRACTED_FROM` relationship (`ingest.py:_write_to_neo4j`), `chunks_by_id` (`graph_query.py`) |
 | 3.6 | ✓ | Reserved relationship-type enforcement | System-managed relationship types (supersession, extraction-provenance edges) cannot be created by LLM-driven extraction — an extracted relationship that would collide with a reserved type is rejected at write time, not merely by prompt convention. | `RESERVED_REL_TYPES` (`ingest.py`) |
 | 3.7 | ✓ | Accretive entity-property merge | Repeated extraction of the same entity (matched by name, class, and domain) merges incoming properties into existing ones — type-aware per field (lists union, strings concatenate, scalars keep the established value) — rather than overwriting, so multiple documents contributing to one entity accumulate rather than clobber. | `_upsert_entity` (`ingest.py`) |
+| 3.8 | ✓ | Portable bundle exchange | A staged extraction artifact for one document can be exported as a single portable file and re-imported elsewhere, entering the graph through the same commit path as any other staged extraction — a third route to that convergence point alongside direct extraction (3.2) and external repository pull (3.3), needing no git/ssh transport at all. | admin console `/api/artifacts/{domain}/{doc}/bundle`, `/api/artifacts/import` |
 
 > **Scoring note:** the reference implementation does not link a relationship edge back to
 > the chunk(s) it was extracted from — only the entities on either end of a relationship
@@ -493,6 +495,21 @@ the same name and class but different descriptive text for one property, write b
 graph, and confirm the entity's property value reflects both contributions (concatenated
 or unioned) rather than the second write clobbering the first — then repeat with one
 document marked as superseding the other and confirm that case instead overwrites cleanly.
+
+**3.8 Portable bundle exchange**
+*Why it matters* — this complements 3.2/3.3 with a transport that needs nothing beyond a
+file: no git remote, no `https`/`ssh`/`git` restriction to enforce, just a zip. It still
+converges on the exact same `commit_to_graph()` call as every other ingestion source, so
+temporal normalization and supersession detection run identically regardless of how the
+document got staged. Import validates every zip member resolves to a path under the
+destination directory before extracting anything — a zip-slip guard, the same family of
+containment check as 3.3's transport restriction and 7.2's `_delete_path` parent check —
+so this is the third place in the codebase independently defending against a path escaping
+its intended directory.
+*Test hint* — export a staged document's bundle, import it into a different domain/doc
+slot, and confirm it stages then commits identically to a CLI `write-to-graph` call;
+separately, craft a zip containing a `../`-traversal entry and confirm import rejects it
+with no file written, rather than extracting outside the destination directory.
 
 ## 4. Graph Refinement & Curation
 
@@ -1176,8 +1193,53 @@ non-restrictive way (e.g. in an unrelated `RETURN` expression) is *not* caught.
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 7.1 |  | Document registry | Ingested documents are registered with originals and converted markdown preserved in a data directory. | registry DB, `$ARTMIND_DATA_DIR` |
-| 7.2 |  | Clean deletion | A document can be removed everywhere at once: local storage, registry, and graph. | `artmind docs clean` |
+| 7.1 | ✓ | Document registry | Ingested documents are registered — content-addressed and filename-unique across the whole system, not scoped per domain — with originals and converted markdown preserved in a data directory. | registry DB (`documents` table), `$ARTMIND_DATA_DIR` |
+| 7.2 | ✓ | Clean deletion | A document's local artifacts, registry row, and graph nodes (document, chunks, and any entity left without a remaining source chunk) are removed in one call; graph objects that reference a removed entity only by relationship — an open conflict, a superseded-value history snapshot — are not swept, and can be left dangling. | `artmind docs clean` |
+| 7.3 | ✓ | Structured table deletion | A registered structured table (and its underlying data) can be permanently removed on its own, independent of a full store wipe. | `artmind/structured/registry.py:delete_table` (defined, unreferenced — no CLI or API surface calls it) |
+
+### Grounding notes
+
+**7.1 Document registry**
+*Why it matters* — uniqueness is enforced at the SQL layer by both `sha256` and `filename`,
+globally rather than per domain — the same asymmetry 2.4 documents from the ingestion side
+(a KG document's identity is flat and domain-agnostic, while a structured table's identity
+is domain-scoped). The registry is write/delete-only from the CLI's own perspective:
+nothing lists it directly. The closest thing to a browse surface is the admin console's
+KG-artifact browser (3.8's neighboring `/api/artifacts` endpoint), which reads the KG
+staging directory — a different source of truth from the registry table, not a view onto it.
+*Test hint* — register the same filename twice under different domains and confirm the
+second is rejected outright (a global name collision, not two independent rows); confirm
+no command dumps the `documents` table directly — only indirect discovery exists, via the
+KG-artifact browser or the graph's own `Document` nodes.
+
+**7.2 Clean deletion**
+*Why it matters* — the local half of the sweep (originals, markdown, markdown-artifacts,
+KG staging dir) all clears through the same path-containment guard (`_delete_path`, which
+resolves the path and checks it's under the expected parent before removing anything) — a
+directory-traversal backstop, not just a convenience helper. The Neo4j half's orphan sweep
+is domain-wide, not scoped to the document being cleaned: it detach-deletes any `Entity` in
+that domain missing an `EXTRACTED_FROM` edge, which is what makes 3.5's provenance edge
+load-bearing for deletion, not just retrieval. But `DETACH DELETE` only drops
+relationships, not the nodes on the other end of them — a `Conflict` node (4.5) stays
+behind with one or both `CONFLICT_OF` endpoints gone, and an `EntityVersion` history
+snapshot (4.9) loses its only inbound `PRIOR_STATE` edge and becomes an unreachable orphan
+itself, since neither node type is swept by this cleanup.
+*Test hint* — clean a document whose sole entity carries an open conflict or a history
+snapshot, then confirm the entity is gone but the `Conflict`/`EntityVersion` node is still
+present in the graph, now referencing (or reachable from) nothing — the gap should be
+reproducible, not incidental.
+
+**7.3 Structured table deletion**
+*Why it matters* — the deletion primitive already exists at the storage layer but nothing
+above it — no `db` subcommand, no admin-console route — ever calls it, so a registered
+structured table can currently only go away via a full structured-store wipe (`db
+restore` from an earlier backup) or a full domain teardown, never on its own. This is the
+one place in the system where no operator-facing path exists at all for an operation KG
+documents already have (7.2); the propose→confirm lifecycle in section 5 covers
+*classification* of a table, never its existence.
+*Test hint* — attempt to remove a single registered table without touching any other table
+in the same domain; confirm no CLI command or API route accomplishes it, and that
+`registry.delete_table` has no caller anywhere in the codebase.
 
 ## 8. Knowledge Updates
 
