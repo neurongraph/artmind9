@@ -611,7 +611,7 @@ async function refreshStructuredTables() {
   if (!tables.length) {
     const tr = document.createElement("tr");
     const td = el("td", "dash-empty", "No structured tables registered yet.");
-    td.colSpan = 6;
+    td.colSpan = 7;
     tr.appendChild(td);
     tbody.appendChild(tr);
     return;
@@ -626,15 +626,23 @@ async function refreshStructuredTables() {
     tr.appendChild(el("td", null, String(t.version)));
     tr.appendChild(el("td", null, fmtTime(t.ingestedAt)));
 
+    // Grain is a whole-table judgment, so it belongs in the table row; bridge
+    // and mapping are per-column and live in the expanded column list below.
+    const grainTd = el("td", null, t.grain || "—");
+    if (t.grain && !t.grainConfirmed) grainTd.appendChild(el("span", "dash-note", " proposed"));
+    grainTd.title = t.grainConfirmed ? "confirmed by an operator" : "LLM proposal, not yet confirmed";
+    tr.appendChild(grainTd);
+
     const classifyTd = el("td", "classify-cell");
     classifyTd.appendChild(pip(t.grainStatus));
     classifyTd.appendChild(pip(t.bridgeStatus));
     classifyTd.appendChild(pip(t.mappingStatus));
+    classifyTd.title = `grain ${t.grainStatus} · bridge ${t.bridgeStatus} · mapping ${t.mappingStatus}`;
     tr.appendChild(classifyTd);
 
     const detailTr = document.createElement("tr");
     const detailTd = el("td");
-    detailTd.colSpan = 6;
+    detailTd.colSpan = 7;
     detailTd.style.display = "none";
     detailTr.appendChild(detailTd);
 
@@ -655,10 +663,10 @@ async function refreshStructuredTables() {
         const classifyBlock = el("div", "tool-card");
         classifyBlock.appendChild(el("div", "tool-head",
           `Grain: ${schema.grain} (${schema.grainConfirmed ? "confirmed" : "proposed"})`));
-        const bridgeNote = (schema.bridgeColumns || []).length
-          ? `Bridge columns: ${schema.bridgeColumns.map((b) => `${b.column} (${b.confirmed ? "confirmed" : "proposed"})`).join(", ")}`
-          : "Bridge columns: none";
-        classifyBlock.appendChild(el("div", "dash-note", bridgeNote));
+        // Bridge/mapping are per column and shown in the table below; what the
+        // pips can't say in words is which step last succeeded or failed.
+        classifyBlock.appendChild(el("div", "dash-note",
+          `Steps — grain: ${schema.grainStatus} · bridge: ${schema.bridgeStatus} · mapping: ${schema.mappingStatus}`));
 
         const stepChecks = el("div", "dash-form");
         const stepBoxes = {};
@@ -705,18 +713,29 @@ async function refreshStructuredTables() {
 
         const colTable = el("table", "dash-table");
         const thead = document.createElement("thead");
-        thead.innerHTML = "<tr><th>Column</th><th>Type</th><th>Mapping</th></tr>";
+        thead.innerHTML = "<tr><th>Column</th><th>Type</th><th>Bridge</th><th>Mapping</th></tr>";
         colTable.appendChild(thead);
         const colBody = document.createElement("tbody");
+
+        // A column may legitimately map to several entity classes, so collect
+        // them per columnrather than assigning — assigning kept only the last.
         const mappingByColumn = {};
         for (const m of schema.mappings || []) {
-          mappingByColumn[m.column] = `${m.entityClass} (${m.confirmed ? "confirmed" : "proposed"})`;
+          (mappingByColumn[m.column] ||= []).push(
+            `${m.entityClass} (${m.confirmed ? "confirmed" : "proposed"})`
+          );
         }
+        const bridgeByColumn = {};
+        for (const b of schema.bridgeColumns || []) {
+          bridgeByColumn[b.column] = `${b.bridgeRole} (${b.confirmed ? "confirmed" : "proposed"})`;
+        }
+
         for (const c of schema.columns || []) {
           const ctr = document.createElement("tr");
           ctr.appendChild(el("td", null, c.name));
           ctr.appendChild(el("td", null, c.dtype));
-          ctr.appendChild(el("td", "dash-note", mappingByColumn[c.name] || "—"));
+          ctr.appendChild(el("td", "dash-note", bridgeByColumn[c.name] || "—"));
+          ctr.appendChild(el("td", "dash-note", (mappingByColumn[c.name] || []).join(", ") || "—"));
           colBody.appendChild(ctr);
         }
         colTable.appendChild(colBody);
