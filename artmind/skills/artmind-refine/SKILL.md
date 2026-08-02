@@ -231,12 +231,23 @@ everything the gates below need, without walking tables one at a time. Use
 ### 2. Judge — what to look for
 
 **Judge sampled values against the class description, never the column
-name.** The proposer reads the domain schema's class descriptions plus each
-column's `distinct_sample`, so that is the evidence to re-examine:
+name.** The proposer weighed exactly two things — the column's sampled values
+and the schema's class descriptions — so re-examine both, and read both
+through the CLI rather than hunting for files on disk:
 
 ```bash
-artmind db schema <table> --domain <d> --compact   # includes each column's profile/sample
+artmind db schema <table> --domain <d> --compact   # each column's profile + distinct_sample
+artmind domains entities-prompt <d>                # the class descriptions the proposer read
 ```
+
+`domains entities-prompt` prints the same `ENTITY TYPES YOU MUST EXTRACT`
+block that `propose_mapping` parses, so what you read is literally what the
+model was given. Do **not** go looking for `domains/schemas/*.yaml` — the
+schema lives in the run folder, not the working directory, and the CLI is the
+supported way to read it. The same rule holds throughout this skill: reach for
+an `artmind` command before the filesystem. The only files worth opening
+directly are the pipeline's own proposal artifacts (`merges_<d>.json`,
+`conflicts_*.json`), because editing them *is* the review mechanism.
 
 - **High confidence is not correctness.** A confident proposal can be
   confidently wrong — an `agents.name` column scoring 0.9 for `CUSTOMER` when
