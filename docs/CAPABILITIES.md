@@ -663,6 +663,37 @@ and confirm the adjudicator's `superseded` verdict produces a `SUPERSEDES` edge 
 
 A parallel SQL store for tabular data, joined to the graph rather than flattened into it.
 
+### The three table classifications
+
+Every registered table carries three independent semantic judgments (5.4/5.5/5.6), each
+proposed then confirmed on its own. Two of them describe *columns* and are easily
+conflated, so the distinction is worth stating plainly: **`bridge` asks whether a document
+would discuss a column's values; `mapping` asks what class those values are instances of.**
+Those are orthogonal questions — a column can be either, both, or neither.
+
+| | `grain` | `bridge` column | column `mapping` |
+|---|---|---|---|
+| **Unit** | the whole table | one column | one (column, entity_class) pair |
+| **Cardinality** | exactly one per table | at most one role per column | many per column — a column may denote several classes |
+| **Question** | what do these rows denote? | would a document discuss these values? | what class are these values instances of? |
+| **Answer** | `instance` / `lookup` / `normative` | yes (`term`) | `CUSTOMER`, `PRODUCT`, … — drawn from the domain schema |
+| **Evidence used** | table metadata + column profiles | the column's sampled values | sampled values + the schema's class descriptions |
+| **What consumes it** | answer synthesis: only `normative` changes behaviour, quarantining the table against the documents that also assert its content | fusion: feed the cell's value to `query vector-text` / `entity-resolve` to pull related graph content | routing: "which tables are about `CUSTOMER`?" (`db bridge --entityClass`) |
+| **Confirm with** | `db grain --set` | `db bridge confirm` | `db mappings … confirm` |
+
+Worked example — four columns of one `complaints` table, showing all four combinations:
+
+| column | sampled values | bridge | mapping | why |
+|---|---|---|---|---|
+| `customer_id` | `CUST-0003`, `CUST-0016` | — | `CUSTOMER` | opaque keys mean nothing to a document, yet they plainly denote customers |
+| `status` | `Resolved`, `Upheld` | ✓ | — | complaint-handling vocabulary a policy discusses, but not a thing the graph models as an entity |
+| `category` | `Fee Dispute`, `Fraud/Unauthorized Transaction` | ✓ | `PROCESS_STEP` | both: a searchable term *and* a typed thing |
+| `compensation_gbp` | (numeric) | — | — | a measure: neither searchable vocabulary nor an entity |
+
+`customer_id` is the case that most clearly separates the two: no string search of the
+documents will ever surface `CUST-0003`, so it is useless as a bridge, while it is exactly
+the column that tells the router this table is about `CUSTOMER`.
+
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
 | 5.1 | ✓ | Table registry | Ingested tables are registered and listable, domain-scoped — resolution is symmetric across the domain hierarchy: a query at a child domain also reaches tables registered at an ancestor, and a query at a parent reaches every descendant's tables. | `artmind db list` |
