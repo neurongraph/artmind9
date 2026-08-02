@@ -668,7 +668,7 @@ A parallel SQL store for tabular data, joined to the graph rather than flattened
 | 5.1 | ✓ | Table registry | Ingested tables are registered and listable, domain-scoped — resolution is symmetric across the domain hierarchy: a query at a child domain also reaches tables registered at an ancestor, and a query at a parent reaches every descendant's tables. | `artmind db list` |
 | 5.2 | ✓ | LLM-ready schema | Table schemas (columns, types, value profiles, mappings) are exposed in the form an LLM needs to write SQL. | `artmind db schema`, `text2sql.py` (`_schema_summary_sql`) |
 | 5.3 | ✓ | Independent-query guarantee | Raw read-only SQL runs against the store with no LLM in the loop. | `artmind db sql`, `text2sql.validate_read_only_sql` |
-| 5.4 |  | Semantic mappings | Columns are mapped to graph entity classes via a propose → confirm lifecycle (set / confirm / clear), with LLM-proposed candidates. | `artmind db mappings`, `db propose` |
+| 5.4 | ✓ | Semantic mappings | Columns are mapped to graph entity classes via a propose → confirm lifecycle (set / confirm / clear). Candidates are LLM-proposed against the domain **schema's** class descriptions, so a table is classifiable the moment it lands — with no dependency on the domain having any ingested documents or extracted entities. | `artmind db mappings`, `db propose` (`semantics.py:propose_mapping`) |
 | 5.5 | ✓ | Table grain semantics | What a table's rows denote — instance, lookup, or normative — is proposed and confirmable. | `artmind db grain`, `db propose` (`semantics.py:propose_semantics`) |
 | 5.6 | ✓ | Structured↔graph bridge | The join model between store and graph (class scope, bridge columns, grain) is explicit and inspectable. | `artmind db bridge` |
 | 5.7 | ✓ | Graph catalogue | The store's structure is mirrored as a catalogue subgraph (Table / TableColumn / EntityClass) inside the graph itself. | `artmind db catalogue` |
@@ -727,16 +727,49 @@ above).
 still rejected; separately, ingest tables under two different domains and confirm a single
 `db sql` call can query both in one statement (no scoping error).
 
+**5.4 Semantic mappings**
+*Why it matters* — the question "does this column denote instances of this class" is
+semantic, not lexical, and the distinction is load-bearing. An earlier implementation matched
+sampled column values against the domain's *already-extracted* graph entity names (exact,
+then `difflib` fuzzy). That can only ever recognise a class whose members have already been
+written to the graph verbatim, which produced two failures worth naming: a `customer_id`
+column full of opaque keys like `CUST-0019` matches no entity name and stayed unmapped even
+though it plainly denotes `CUSTOMER`; and a domain with tables but no ingested documents got
+zero proposals forever, since there were no names to match against — a chicken-and-egg
+dependency that grain and bridge (which read only the table) never had. Reading the domain
+schema's class descriptions instead (`schema_reference.parse_entities`, the same parser the
+admin-ui's Schemas tab uses) removes the graph from the loop entirely. Note the cost: the
+schema is now load-bearing for mapping, so a domain whose schema is missing or unharmonized
+fails this step with a clear error rather than silently proposing nothing — deliberately
+distinguished in code from "schema exists but declares no classes", which is a legitimate
+empty result.
+*Test hint* — the decisive check is a domain that has a schema and tables but **zero**
+extracted entities (`query graph entity-listing --domain <d>` returns nothing): `db propose
+<table> --domain <d>` must still persist mappings. The retired matcher short-circuited to
+`[]` in exactly that case, so a non-empty result cannot be produced by string matching.
+Separately, confirm a proposal for an opaque-identifier column whose values appear nowhere in
+the graph, and confirm a `(column, entity_class)` pair already marked `confirmed` survives
+`db propose <table> --step mapping --redo` untouched.
+
 **5.5 Table grain semantics**
-*Why it matters* — grain and bridge-column proposal are a single LLM call
-(`semantics.propose_semantics`) run only at first registration, never per refresh, because
-grain is a judgment about what a table *means* rather than something that changes as rows
-arrive. Confirming `normative` requires `refresh_mode=temporal` — enforced in
-`registry.set_grain` itself, not just the CLI — because a fact that gets superseded needs
-history to stay reconstructable via `--asOf`.
+*Why it matters* — grain and bridge-column proposal share a single LLM call
+(`semantics.propose_semantics`), because there is no way to ask the model just one of the two
+questions; the orchestrator therefore gates whether grain is *persisted* on whether that step
+was actually requested. Grain is proposed at first registration and never re-proposed by a
+refresh, because what a table means does not change when rows arrive. Confirming `normative`
+requires `refresh_mode=temporal` — enforced in `registry.set_grain` itself, not just the CLI —
+because a fact that gets superseded needs history to stay reconstructable via `--asOf`.
+All three steps (grain, bridge, mapping) carry their own run status on the table row
+(`grain_status`/`bridge_status`/`mapping_status`, each `pending|ok|failed`), mirroring
+`kg_chunk_status`'s per-chunk entities/properties/relationships model: a step that fails is
+recorded and logged rather than raised, so `db propose` resumes exactly what is broken and
+leaves succeeded steps alone. Failures store no error text, matching the codebase's
+best-effort-hook convention — diagnosis is via the ingestion log.
 *Test hint* — confirm a fresh table's grain is proposed automatically on first ingest with
 no separate command; then attempt `db grain <table> --set normative` on a `replace`-mode
-table and confirm it's rejected before any write.
+table and confirm it's rejected before any write. For the step model: set one step to
+`failed`, run `db propose <table>` with no flags, and confirm only that step re-runs (an
+already-`ok` step must cost no LLM call) — and that `--redo` is the only way to re-run one.
 
 **5.6 Structured↔graph bridge**
 *Why it matters* — `entity_class`, not `domain`, is the actual routing key: it's
@@ -902,7 +935,8 @@ Direct, conversational writes to the graph — knowledge that arrives as stateme
 | 10.2 |  | Idempotent store setup | Database tables, constraints, and indexes are created idempotently. | `artmind setup` |
 | 10.3 |  | Warm query daemon | A long-lived server keeps the query layer hot; CLI calls proxy to it transparently, with an explicit escape hatch. | `artmind serve`, `ARTMIND_NO_PROXY` |
 | 10.4 |  | Chat UI | An end-user conversational web UI over the knowledge system. | `artmind chat-ui` |
-| 10.5 |  | Admin console | An operator web UI: agent console, ingest dashboard, CLI guide, and live schema reference. | `artmind admin-ui` |
+| 10.5 |  | Admin console | An operator web UI: agent console, ingest dashboard, structured-data tab, CLI guide, and live schema reference. | `artmind admin-ui` |
+| 10.6 |  | Structured classification UI | The structured-data tab surfaces per-table classification state (grain / bridge / mapping run status) and drives it: a per-table classify action with per-step and redo control, plus a bulk "classify every unclassified table in this domain" run with a live progress readout. Calls the same function the CLI does — a caller, not a reimplementation. | `admin-ui` Structured data tab, `POST /api/structured/tables/{t}/propose`, `POST /api/structured/propose-all` |
 
 ## 11. Agent Integration
 
