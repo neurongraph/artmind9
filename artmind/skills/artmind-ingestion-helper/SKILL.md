@@ -299,6 +299,11 @@ Common causes:
 "Classify all unclassified" button (`artmind admin-ui`, then open `/dashboard`), which runs the
 same code this command does. The three dots per table row are grain/bridge/mapping status.
 
+**Once the steps report `ok`, the proposals still need a human.** Everything lands
+*unconfirmed*. Judging whether a proposed grain or `column → entity_class` mapping is actually
+*right* — and confirming or rejecting it — is `/artmind-refine`'s Workflow E, not this skill.
+This skill gets a stuck step running again; that one adjudicates what it produced.
+
 ---
 
 ## Full Pipeline Reference (happy path)
