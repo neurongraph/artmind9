@@ -670,7 +670,7 @@ A parallel SQL store for tabular data, joined to the graph rather than flattened
 | 5.3 | ✓ | Independent-query guarantee | Raw read-only SQL runs against the store with no LLM in the loop. | `artmind db sql`, `text2sql.validate_read_only_sql` |
 | 5.4 | ✓ | Semantic mappings | Columns are mapped to graph entity classes via a propose → confirm lifecycle (set / confirm / clear). Candidates are LLM-proposed against the domain **schema's** class descriptions, so a table is classifiable the moment it lands — with no dependency on the domain having any ingested documents or extracted entities. | `artmind db mappings`, `db propose` (`semantics.py:propose_mapping`) |
 | 5.5 | ✓ | Table grain semantics | What a table's rows denote — instance, lookup, or normative — is proposed and confirmable. | `artmind db grain`, `db propose` (`semantics.py:propose_semantics`) |
-| 5.6 | ✓ | Structured↔graph bridge | The join model between store and graph (class scope, bridge columns, grain) is explicit and inspectable. | `artmind db bridge` |
+| 5.6 | ✓ | Structured↔graph bridge | The join model between store and graph (class scope, bridge columns, grain) is explicit, inspectable, and reviewable: every proposed part of it carries a confirm → reject lifecycle, and one command lists whatever is still unadjudicated. | `artmind db bridge` (+ `bridge confirm`/`clear`), `artmind db review` |
 | 5.7 | ✓ | Graph catalogue | The store's structure is mirrored as a catalogue subgraph (Table / TableColumn / EntityClass) inside the graph itself. | `artmind db catalogue` |
 | 5.8 | ✓ | Source refresh | A table can be re-ingested from its recorded source file. | `artmind db refresh` |
 | 5.9 | ✓ | External adapters | A surface is reserved for connecting external SQL engines beyond the embedded one. | `artmind db connect` (stub, DuckDB-only v1) |
@@ -777,9 +777,21 @@ many-to-many with tables in a way a single dotted domain string never could be (
 `complaints` table can map to `CUSTOMER`, `EMPLOYEE`, and `PRODUCT` at once). `db bridge`'s
 output composes the same `list_tables` domain resolution as 5.1, so it inherits the same
 ancestor/descendant symmetry.
+The review loop closes over all three parts of the join model, not just mappings: grain
+(`db grain --set`), mappings (`db mappings ... confirm`) and bridge columns (`db bridge
+confirm`) are each confirmable, and `db review` is the cross-table inbox — it lists only
+tables with something still unconfirmed, so a table disappears from it once fully
+adjudicated and an empty result means the domain is done. Note what confirming does and
+does not do: unconfirmed proposals already route (they reach the catalogue carrying
+`confirmed: false`, deliberately, so a fresh table isn't invisible until reviewed), and
+nothing reads `column_roles.confirmed` at all today — confirming raises trust and stops a
+column being re-litigated, rather than switching anything on.
 *Test hint* — confirm `db bridge --entityClass CUSTOMER` returns only tables whose
 confirmed-or-proposed mappings include that class, from across every table regardless of
-which domain in the hierarchy it's registered at.
+which domain in the hierarchy it's registered at. For the review loop: take a table with
+one unconfirmed bridge column and an unconfirmed grain, confirm both, and assert it drops
+out of `db review` (`pending_count` decrements) — then assert `db bridge confirm` on a
+column with no bridge role fails loudly rather than silently no-opping.
 
 **5.7 Graph catalogue**
 *Why it matters* — this subgraph is the *only* routing surface on a query-only host (no

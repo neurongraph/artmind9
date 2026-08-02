@@ -234,6 +234,18 @@ ingest-detect-supersession domain dry_run="":
 db-bridge domain="" entity_class="":
     uv run artmind db bridge {{ if domain != "" { "--domain " + domain } else { "" } }} {{ if entity_class != "" { "--entityClass " + entity_class } else { "" } }}
 
+# confirm a proposed bridge column  (usage: just db-bridge-confirm <table> <column> [domain])
+db-bridge-confirm table column domain="":
+    uv run artmind db bridge confirm --table {{ table }} --column {{ column }} {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# remove a bridge column's role  (usage: just db-bridge-clear <table> <column> [domain])
+db-bridge-clear table column domain="":
+    uv run artmind db bridge clear --table {{ table }} --column {{ column }} {{ if domain != "" { "--domain " + domain } else { "" } }}
+
+# list table classifications still awaiting confirm/reject  (usage: just db-review [domain])
+db-review domain="":
+    uv run artmind db review {{ if domain != "" { "--domain " + domain } else { "" } }}
+
 # list registered structured tables  (usage: just db-list [domain])
 db-list domain="":
     uv run artmind db list {{ if domain != "" { "--domain " + domain } else { "" } }}

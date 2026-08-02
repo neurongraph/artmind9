@@ -215,18 +215,18 @@ artmind db mappings <table> --domain <d> --compact   # column → entity_class, 
 artmind db grain <table> --domain <d> --compact      # grain + bridge columns
 ```
 
-For a whole domain at once, query the registry directly — there is no
-bulk-review command:
+**Start here for a whole domain** — one call lists every table with anything
+still unadjudicated, and a fully-reviewed table drops out entirely, so an
+empty `tables` means the domain is done:
 
 ```bash
-sqlite3 "$ARTMIND_DATA_DIR/document_registry.db" \
-  "SELECT t.table_name, m.\"column\", m.entity_class, m.confidence
-     FROM column_mappings m JOIN \"tables\" t ON t.id = m.table_id
-    WHERE m.confirmed = 0 AND t.domain = '<d>'
-    ORDER BY t.table_name, m.\"column\";"
+artmind db review --domain <d> --compact
 ```
 
-(`$ARTMIND_DATA_DIR` defaults to `~/artmind_data`.)
+Per table it returns the unconfirmed `mappings`, the unconfirmed
+`bridge_columns`, `grain`/`grain_confirmed`, and the three step statuses —
+everything the gates below need, without walking tables one at a time. Use
+`pending_count` to tell the user the size of the job before starting.
 
 ### 2. Judge — what to look for
 
@@ -271,6 +271,9 @@ artmind db mappings <table> --domain <d> clear --column <c>
 artmind db mappings <table> --domain <d> set --column <c> --entityClass <CLASS>
 # confirm grain
 artmind db grain <table> --domain <d> --set instance|lookup|normative
+# bridge columns (see them with `db grain <table>`, which lists them)
+artmind db bridge confirm --table <table> --domain <d> --column <c>
+artmind db bridge clear   --table <table> --domain <d> --column <c>
 ```
 
 Three traps worth stating to the user before they act:
@@ -297,14 +300,17 @@ artmind db catalogue --domain <d>          # push confirmations into Neo4j (no r
 graph's catalogue subgraph is refreshed by ingest hooks, so a later
 confirmation needs this explicit re-projection to reach Neo4j.
 
-### Known gap
+### What confirming a bridge column currently buys
 
-There is **no CLI to confirm a bridge column** — `db bridge` is read-only and
-`registry.set_column_role_confirmed()` is exposed nowhere. Nothing reads
-`column_roles.confirmed` today (no caller passes `confirmed_only=True`), so
-the flag is currently metadata and the gap costs nothing functionally. Say so
-plainly rather than inventing a command; if a user needs it set, that is a
-direct SQL write or a feature request.
+Nothing reads `column_roles.confirmed` yet — no caller passes
+`confirmed_only=True`, and the fusion path uses every bridge column
+regardless. So confirming one records a human judgment for the next reviewer
+rather than changing retrieval. Worth saying plainly if a user asks why it
+made no difference; it is not a reason to skip the review, since the flag is
+what stops the same column being re-litigated on every pass.
+
+Track it down to zero: re-run `db review --domain <d>` after applying, and
+stop when `pending_count` reaches 0.
 
 ## Fallbacks
 
