@@ -626,7 +626,7 @@ async function refreshStructuredTables() {
     tr.appendChild(el("td", null, String(t.version)));
     tr.appendChild(el("td", null, fmtTime(t.ingestedAt)));
 
-    const classifyTd = el("td");
+    const classifyTd = el("td", "classify-cell");
     classifyTd.appendChild(pip(t.grainStatus));
     classifyTd.appendChild(pip(t.bridgeStatus));
     classifyTd.appendChild(pip(t.mappingStatus));

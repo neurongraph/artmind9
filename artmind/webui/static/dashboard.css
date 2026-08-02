@@ -127,6 +127,15 @@
 .chunk-row .dot { animation: none; }
 .chunk-row .dot:not(.done):not(.error) { background: var(--border); }
 
+/* Classification pips in the Structured tab's table. `.dot` sets width/height
+   but no `display`, so it only renders where it is a flex item (as in
+   .chunk-row above) -- inside a plain table cell it would stay display:inline
+   and collapse to nothing. Same reason the pending colour is set here: the
+   base .dot carries no background, only .done/.error do. */
+.classify-cell { display: flex; align-items: center; gap: 5px; }
+.classify-cell .dot { animation: none; }
+.classify-cell .dot:not(.done):not(.error) { background: var(--border); }
+
 /* ── spacing: .dash is no longer a flex container with gap, so the stat
       strip needs its own bottom margin (overrides the earlier .stat-row) ── */
 .stat-row { margin-bottom: 20px; }
