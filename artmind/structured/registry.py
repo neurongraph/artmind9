@@ -23,6 +23,12 @@ from artmind.db import _get_db
 #:                states or could state. Home: graph; quarantined if loaded here.
 GRAINS = ("instance", "lookup", "normative")
 
+#: The three independently-resumable classification steps (see the design
+#: doc's §2/§4 kg_chunk_status parallel) and the run-status vocabulary each
+#: tracks on its own {step}_status column.
+SEMANTIC_STEPS = ("grain", "bridge", "mapping")
+STEP_STATUSES = ("pending", "ok", "failed")
+
 
 def _connect() -> sqlite3.Connection:
     conn = _get_db()
@@ -246,6 +252,9 @@ def routing_surface(
             "domain": table["domain"],
             "grain": table.get("grain") or "instance",
             "grain_confirmed": bool(table.get("grain_confirmed")),
+            "grain_status": table.get("grain_status", "pending"),
+            "bridge_status": table.get("bridge_status", "pending"),
+            "mapping_status": table.get("mapping_status", "pending"),
             "refresh_mode": table.get("refresh_mode"),
             "row_count": table.get("row_count"),
             "entity_classes": [
@@ -287,7 +296,7 @@ def set_grain(table_id: int, grain: str, confirmed: bool = True) -> int:
     ``confirmed`` defaults to True because the usual caller is an operator
     making a deliberate declaration. Automated proposers pass False, and must
     themselves refuse to overwrite a row whose ``grain_confirmed`` is already
-    set — the same guarantee ``propose_mappings`` gives confirmed mappings.
+    set — the same guarantee the mapping step gives confirmed mappings.
     """
     if grain not in GRAINS:
         raise ValueError(f"grain must be one of {GRAINS}, got {grain!r}")
@@ -313,6 +322,28 @@ def set_grain(table_id: int, grain: str, confirmed: bool = True) -> int:
             'UPDATE "tables" SET grain = ?, grain_confirmed = ? WHERE id = ?',
             (grain, int(confirmed), table_id),
         )
+        conn.commit()
+        return cursor.rowcount
+    finally:
+        conn.close()
+
+
+def set_step_status(table_id: int, step: str, status: str) -> int:
+    """Record whether ``step``'s LLM call was attempted and succeeded since the
+    table's last profile change. Returns rows affected (0 = unknown table_id).
+
+    No persisted error text, by design -- a step's failure is only ever
+    visible via loguru, mirroring every other best-effort hook in this
+    codebase (see ``registry.py``'s module docstring convention).
+    """
+    if step not in SEMANTIC_STEPS:
+        raise ValueError(f"step must be one of {SEMANTIC_STEPS}, got {step!r}")
+    if status not in STEP_STATUSES:
+        raise ValueError(f"status must be one of {STEP_STATUSES}, got {status!r}")
+    conn = _get_db()
+    cursor = conn.cursor()
+    try:
+        cursor.execute(f'UPDATE "tables" SET {step}_status = ? WHERE id = ?', (status, table_id))
         conn.commit()
         return cursor.rowcount
     finally:

@@ -88,20 +88,24 @@ def test_ingest_structured_file_messy_header_errors(tmp_path, monkeypatch):
         ingest_structured_file(csv_path, "banking")
 
 
-def test_ingest_structured_file_attempts_mapping_proposal(tmp_path, monkeypatch):
+def test_ingest_structured_file_attempts_classification_on_first_registration(tmp_path, monkeypatch):
+    """Superseded by propose_table_semantics wiring: first registration drives
+    classification through propose_table_semantics (grain+bridge+mapping),
+    not a direct propose_mappings call."""
     _patch_stores(tmp_path, monkeypatch)
     from artmind.structured.pipeline import ingest_structured_file
-    import artmind.structured.mappings as mappings
+    import artmind.structured.semantics as semantics
 
     spy = {"called": False}
 
-    def fake_propose_mappings(table_id, domains, **kwargs):
+    def fake_propose_table_semantics(table_id, domain, **kwargs):
         spy["called"] = True
         spy["table_id"] = table_id
-        spy["domains"] = domains
-        return []
+        spy["domain"] = domain
+        spy["steps"] = kwargs.get("steps")
+        return {"table": "products", "domain": domain}
 
-    monkeypatch.setattr(mappings, "propose_mappings", fake_propose_mappings)
+    monkeypatch.setattr(semantics, "propose_table_semantics", fake_propose_table_semantics)
 
     csv_path = tmp_path / "products.csv"
     _write_csv(csv_path, [["id", "name"], [1, "Widget"], [2, "Gadget"]])
@@ -114,19 +118,20 @@ def test_ingest_structured_file_attempts_mapping_proposal(tmp_path, monkeypatch)
 
     assert result["status"] == "ok"
     assert spy["called"]
-    assert spy["domains"] == ["banking"]
+    assert spy["domain"] == "banking"
     assert spy["table_id"] == expected_table_id
+    assert set(spy["steps"]) == {"grain", "bridge", "mapping"}
 
 
-def test_ingest_structured_file_mapping_proposal_failure_is_non_fatal(tmp_path, monkeypatch):
+def test_ingest_structured_file_classification_failure_is_non_fatal(tmp_path, monkeypatch):
     _patch_stores(tmp_path, monkeypatch)
     from artmind.structured.pipeline import ingest_structured_file
-    import artmind.structured.mappings as mappings
+    import artmind.structured.semantics as semantics
 
-    def failing_propose_mappings(table_id, domains, **kwargs):
+    def failing_propose_table_semantics(table_id, domain, **kwargs):
         raise RuntimeError("graph is down")
 
-    monkeypatch.setattr(mappings, "propose_mappings", failing_propose_mappings)
+    monkeypatch.setattr(semantics, "propose_table_semantics", failing_propose_table_semantics)
 
     csv_path = tmp_path / "products.csv"
     _write_csv(csv_path, [["id", "name"], [1, "Widget"]])

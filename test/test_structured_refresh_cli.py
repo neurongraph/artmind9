@@ -193,10 +193,12 @@ def test_db_refresh_temporal_accumulates_history(tmp_path, monkeypatch):
 
 
 def test_db_refresh_temporal_confirmed_mapping_carries_forward(tmp_path, monkeypatch):
-    """Step 1's 'confirmed mappings carry forward' -- propose_mappings never
-    overwrites a confirmed mapping, and both temporal seed and temporal
-    refresh re-call it, so a manually-confirmed mapping must survive a
-    temporal `db refresh`."""
+    """A manually-confirmed mapping must survive a temporal `db refresh`.
+
+    Now guarded twice over: classification no longer re-runs at all on a
+    temporal refresh (only first registration, or a replace-mode column-set
+    change, trigger it), and even when the mapping step does run it refuses to
+    overwrite a confirmed `(column, entity_class)` pair."""
     _patch_stores(tmp_path, monkeypatch)
     import artmind.cli as cli
     from artmind.structured import registry

@@ -169,10 +169,23 @@ def _register_columns_and_mappings(
     ds: DuckDBDatasource, table_id: int, table_name: str, domain: str, *, exclude_system_cols: bool
 ) -> None:
     """Introspect + profile ``table_name``'s current schema, persist it to the
-    registry's ``columns`` table, and best-effort propose column-to-entity-
-    class mappings. Shared by the initial-ingest (``_write_table``) and
+    registry's ``columns`` table, and drive classification through
+    ``propose_table_semantics`` (the same function ``db propose`` and the
+    admin-ui call). Shared by the initial-ingest (``_write_table``) and
     temporal-refresh (``_refresh_temporal_table``) paths so this bookkeeping
     can't drift between them.
+
+    Classification cadence:
+    - First registration (``version == 1``): all three steps run once.
+    - A ``replace``-mode refresh whose column set grew: bridge + mapping run
+      again, but scoped to the *new* columns only (``only_columns``) and
+      forced past their already-'ok' status (``redo=True``) — an existing
+      column's classification state is untouched. Grain stays untouched too:
+      what a table means doesn't change because a column arrived.
+    - Anything else (same-column refresh, or a temporal-mode batch — which
+      never reaches this branch with a changed column set at all, since
+      ``_validate_temporal_incoming_columns`` hard-errors on drift before this
+      function runs): no classification call at all.
 
     ``exclude_system_cols`` must be true whenever ``table_name`` carries the
     SCD-2 system columns (``_valid_from``/``_valid_to``/``_is_current``) --
@@ -180,6 +193,8 @@ def _register_columns_and_mappings(
     profiled at all. Any *real* data column can still have a DATE/DECIMAL/etc
     ``distinct_sample`` -- ``default=str`` below handles those.
     """
+    old_columns = {c["name"] for c in registry.get_columns(table_id)}
+
     profiles = ds.profile_columns(table_name)
     columns = [
         {
@@ -194,31 +209,37 @@ def _register_columns_and_mappings(
     ]
     registry.replace_columns(table_id, columns)
 
-    # Best-effort: propose column-to-entity-class mappings from the domain KG.
-    # A down/unreachable graph must not fail the load (mirrors commit_to_graph's
-    # hook guarding in artmind/ingest.py).
-    try:
-        from artmind.structured.mappings import propose_mappings
-
-        propose_mappings(table_id, [domain])
-    except Exception as e:
-        logger.warning("structured pipeline: mapping proposal failed for {}: {}", table_name, e)
-
-    # Grain and bridge_role describe what the table *means*, which doesn't change
-    # when rows arrive -- so unlike the mapping proposal above, this runs only on
-    # first registration, never on a replace refresh and never per SCD-2 batch.
-    # `artmind db propose` re-runs it on demand. Also best-effort: this one costs
-    # an LLM call, and an unreachable model must not fail the load.
     table = registry.get_table_by_id(table_id)
-    if table is not None and table.get("version") == 1:
-        try:
-            from artmind.structured.semantics import propose_semantics
+    if table is None:
+        return
 
-            propose_semantics(table_id)
+    from artmind.structured.semantics import propose_table_semantics
+
+    if table.get("version") == 1:
+        try:
+            propose_table_semantics(table_id, domain, steps=["grain", "bridge", "mapping"])
         except Exception as e:
+            # propose_table_semantics already catches+logs per-step; this is a
+            # defensive backstop, mirroring commit_to_graph's hook guarding in
+            # artmind/ingest.py -- an unreachable model must not fail the load.
             logger.warning(
-                "structured pipeline: semantics proposal failed for {}: {}", table_name, e
+                "structured pipeline: first-registration classification failed for {}: {}",
+                table_name, e,
             )
+    elif table.get("refresh_mode") == "replace":
+        new_columns = {c["name"] for c in columns}
+        added_columns = new_columns - old_columns
+        if added_columns:
+            try:
+                propose_table_semantics(
+                    table_id, domain, steps=["bridge", "mapping"],
+                    only_columns=added_columns, redo=True,
+                )
+            except Exception as e:
+                logger.warning(
+                    "structured pipeline: new-column classification failed for {}: {}",
+                    table_name, e,
+                )
 
 
 def _validate_temporal_incoming_columns(

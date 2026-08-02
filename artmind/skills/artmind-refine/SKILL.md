@@ -1,14 +1,23 @@
 ---
 name: artmind-refine
-description: All graph maintenance for artmind domains — the full refinement pipeline (temporal normalization, supersession, similar-entity merging, conflict detection including cross-domain, description consolidation), plus targeted workflows and forensics. Use for "refine domain X", "clean up duplicates", "find conflicts between domain A and B", "why did these get merged", or "is this a real disagreement or just an older document".
+description: Maintenance and curation for artmind domains across both stores — the graph refinement pipeline (temporal normalization, supersession, similar-entity merging, conflict detection including cross-domain, description consolidation) and review of the structured store's machine-proposed table classifications (grain, bridge columns, column→entity_class mappings), plus targeted workflows and forensics. Use for "refine domain X", "clean up duplicates", "find conflicts between domain A and B", "why did these get merged", "is this a real disagreement or just an older document", "review/confirm the proposed mappings", or "are these table classifications right".
 ---
 
 # artmind Refine
 
-Use this skill for everything that maintains a knowledge graph after
-ingestion. The CLI pipeline guarantees step *order*; this skill supplies the
-*judgment* at the review gates and the forensic workflows around them.
+Use this skill for everything that maintains artmind's knowledge after
+ingestion — the graph (Workflows A–D) and the structured store's table
+classifications (Workflow E). The CLI guarantees step *order* and does the
+proposing; this skill supplies the *judgment* at the review gates and the
+forensic workflows around them.
 Background: `docs/refine-merge-conflict-supersede-guide.md`.
+
+Both stores share one shape — a machine proposes, a human adjudicates, then
+it's applied — but they differ in reversibility, and that governs how hard to
+push back before approving. A graph merge deletes alias nodes with no
+un-merge (Workflow A, Gate 1). A structured classification is only ever a
+registry row: wrong ones are cleared or overwritten, and nothing is
+destroyed. So review mappings briskly; review merges slowly.
 
 ## Why order matters (encoded in the CLI — do not run steps manually out of order)
 
@@ -187,6 +196,122 @@ detection, not by manual edit.
 4. Genuinely different authorities describing the same thing differently →
    live conflict: run Workflow A's conflicts step across those domains.
 
+## Workflow E — Review structured-table classifications (grain / bridge / mappings)
+
+The structured store's counterpart to Workflow A. Ingest classifies each
+registered table in three steps — `grain` (do these rows record facts or
+assert rules), `bridge` (whose *values* are worth searching the graph for),
+and `mapping` (which columns denote instances of which `entity_class`) — and
+every result lands **unconfirmed**, awaiting exactly this review.
+
+Use `artmind-ingestion-helper` instead when a step's *status* is `failed` or
+`pending` (that's a re-run problem: `db propose`). Come here when the steps
+ran fine and the question is whether the answers are *right*.
+
+### 1. Read the proposals
+
+```bash
+artmind db mappings <table> --domain <d> --compact   # column → entity_class, confirmed flag
+artmind db grain <table> --domain <d> --compact      # grain + bridge columns
+```
+
+**Start here for a whole domain** — one call lists every table with anything
+still unadjudicated, and a fully-reviewed table drops out entirely, so an
+empty `tables` means the domain is done:
+
+```bash
+artmind db review --domain <d> --compact
+```
+
+Per table it returns the unconfirmed `mappings`, the unconfirmed
+`bridge_columns`, `grain`/`grain_confirmed`, and the three step statuses —
+everything the gates below need, without walking tables one at a time. Use
+`pending_count` to tell the user the size of the job before starting.
+
+### 2. Judge — what to look for
+
+**Judge sampled values against the class description, never the column
+name.** The proposer reads the domain schema's class descriptions plus each
+column's `distinct_sample`, so that is the evidence to re-examine:
+
+```bash
+artmind db schema <table> --domain <d> --compact   # includes each column's profile/sample
+```
+
+- **High confidence is not correctness.** A confident proposal can be
+  confidently wrong — an `agents.name` column scoring 0.9 for `CUSTOMER` when
+  agents are staff, alongside `department → ORGANIZATIONAL_UNIT` at 1.0 which
+  is right. Read every proposal above the floor; do not skim by score.
+- **Identifier columns are the ones worth keeping.** `customer_id →
+  CUSTOMER` on opaque keys (`CUST-0019`) is the mechanism working as intended:
+  it is a judgment about what the column *denotes*, which no string match
+  could reach. Don't reject it for "the values don't look like customers".
+- **Multiple classes per column are legitimate**, not a bug to resolve — a
+  `category` column can denote both a `PRODUCT` and an `ISSUE_TYPE`. Only
+  reject the ones that are actually wrong.
+- **Booleans, dates, and measures should map to nothing.** A proposal on
+  `resolved_first_contact` or a `*_gbp` amount is noise; clear it.
+- **Grain**: only `normative` changes behaviour (it quarantines the table from
+  answer synthesis, because a document also asserts that content). If torn
+  between `instance` and `normative`, the proposer is instructed to choose
+  `normative` to force this review — so a surprising `normative` is the
+  system working, not a mistake. Confirming it requires
+  `refresh_mode=temporal`, enforced in the registry, not just the CLI.
+
+### 3. Apply the decisions
+
+```bash
+# accept one pair
+artmind db mappings <table> --domain <d> confirm --column <c> --entityClass <CLASS>
+# accept every proposal on the table (only when you have read them all)
+artmind db mappings <table> --domain <d> --acceptProposed
+# reject
+artmind db mappings <table> --domain <d> clear --column <c>
+# add one the model missed
+artmind db mappings <table> --domain <d> set --column <c> --entityClass <CLASS>
+# confirm grain
+artmind db grain <table> --domain <d> --set instance|lookup|normative
+# bridge columns (see them with `db grain <table>`, which lists them)
+artmind db bridge confirm --table <table> --domain <d> --column <c>
+artmind db bridge clear   --table <table> --domain <d> --column <c>
+```
+
+Three traps worth stating to the user before they act:
+
+- **`clear --column c` drops every class for that column**, not just the bad
+  one. Where a column has two proposals and one is right, `confirm` the good
+  one first — a re-propose can never overwrite a confirmed pair.
+- **`clear` is not a durable rejection.** The next `db propose ... --redo` may
+  propose it again. Confirming the *correct* mapping is what makes a decision
+  stick; clearing alone only defers it.
+- **Confirming is a trust signal, not a switch.** Unconfirmed mappings are
+  already projected into the catalogue carrying `confirmed: false` and are
+  already usable for routing — deliberately, so a fresh table isn't invisible
+  until reviewed. Confirming does not "turn a mapping on".
+
+### 4. Verify
+
+```bash
+artmind db bridge --domain <d> --compact   # the routing surface the query side actually reads
+artmind db catalogue --domain <d>          # push confirmations into Neo4j (no re-ingest)
+```
+
+`db catalogue` matters: confirming a mapping updates the registry only. The
+graph's catalogue subgraph is refreshed by ingest hooks, so a later
+confirmation needs this explicit re-projection to reach Neo4j.
+
+### What confirming a bridge column currently buys
+
+Nothing reads `column_roles.confirmed` yet — no caller passes
+`confirmed_only=True`, and the fusion path uses every bridge column
+regardless. So confirming one records a human judgment for the next reviewer
+rather than changing retrieval. Worth saying plainly if a user asks why it
+made no difference; it is not a reason to skip the review, since the flag is
+what stops the same column being re-litigated on every pass.
+
+Track it down to zero: re-run `db review --domain <d>` after applying, and
+stop when `pending_count` reaches 0.
+
 ## Fallbacks
 
 - Merge proposals empty but duplicates visibly exist → lower
@@ -248,6 +373,16 @@ supersession re-scan. New supersessions get both.
 
 ## When NOT to run
 
+Graph pipeline (Workflows A–D):
+
 - Mid-ingestion (worker jobs still processing the domain) — refine afterwards.
 - On a domain about to be re-ingested from scratch.
 - Never one-shot `--apply` on a domain with unreviewed merge proposals.
+
+Structured classification review (Workflow E):
+
+- When any of `grain_status`/`bridge_status`/`mapping_status` is `pending` or
+  `failed` — there is nothing to adjudicate yet. Send the user to
+  `artmind-ingestion-helper` to get the step running, then review.
+- A re-ingest is *not* a reason to defer: `register_table` leaves confirmed
+  grain and mappings alone on update, so review work survives a refresh.

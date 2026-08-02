@@ -611,7 +611,7 @@ async function refreshStructuredTables() {
   if (!tables.length) {
     const tr = document.createElement("tr");
     const td = el("td", "dash-empty", "No structured tables registered yet.");
-    td.colSpan = 5;
+    td.colSpan = 7;
     tr.appendChild(td);
     tbody.appendChild(tr);
     return;
@@ -626,9 +626,23 @@ async function refreshStructuredTables() {
     tr.appendChild(el("td", null, String(t.version)));
     tr.appendChild(el("td", null, fmtTime(t.ingestedAt)));
 
+    // Grain is a whole-table judgment, so it belongs in the table row; bridge
+    // and mapping are per-column and live in the expanded column list below.
+    const grainTd = el("td", null, t.grain || "—");
+    if (t.grain && !t.grainConfirmed) grainTd.appendChild(el("span", "dash-note", " proposed"));
+    grainTd.title = t.grainConfirmed ? "confirmed by an operator" : "LLM proposal, not yet confirmed";
+    tr.appendChild(grainTd);
+
+    const classifyTd = el("td", "classify-cell");
+    classifyTd.appendChild(pip(t.grainStatus));
+    classifyTd.appendChild(pip(t.bridgeStatus));
+    classifyTd.appendChild(pip(t.mappingStatus));
+    classifyTd.title = `grain ${t.grainStatus} · bridge ${t.bridgeStatus} · mapping ${t.mappingStatus}`;
+    tr.appendChild(classifyTd);
+
     const detailTr = document.createElement("tr");
     const detailTd = el("td");
-    detailTd.colSpan = 5;
+    detailTd.colSpan = 7;
     detailTd.style.display = "none";
     detailTr.appendChild(detailTd);
 
@@ -645,20 +659,83 @@ async function refreshStructuredTables() {
           `/api/structured/tables/${encodeURIComponent(t.tableName)}/schema?domain=${encodeURIComponent(t.domain)}`
         );
         detailTd.innerHTML = "";
+
+        const classifyBlock = el("div", "tool-card");
+        classifyBlock.appendChild(el("div", "tool-head",
+          `Grain: ${schema.grain} (${schema.grainConfirmed ? "confirmed" : "proposed"})`));
+        // Bridge/mapping are per column and shown in the table below; what the
+        // pips can't say in words is which step last succeeded or failed.
+        classifyBlock.appendChild(el("div", "dash-note",
+          `Steps — grain: ${schema.grainStatus} · bridge: ${schema.bridgeStatus} · mapping: ${schema.mappingStatus}`));
+
+        const stepChecks = el("div", "dash-form");
+        const stepBoxes = {};
+        for (const step of ["grain", "bridge", "mapping"]) {
+          const label = el("label", "checkbox");
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.checked = true;
+          stepBoxes[step] = cb;
+          label.appendChild(cb);
+          label.appendChild(document.createTextNode(` ${step}`));
+          stepChecks.appendChild(label);
+        }
+        const redoLabel = el("label", "checkbox");
+        const redoCb = document.createElement("input");
+        redoCb.type = "checkbox";
+        redoLabel.appendChild(redoCb);
+        redoLabel.appendChild(document.createTextNode(" redo"));
+        stepChecks.appendChild(redoLabel);
+        classifyBlock.appendChild(stepChecks);
+
+        const classifyBtn = el("button", "btn-link", "Classify");
+        classifyBtn.addEventListener("click", async (event) => {
+          event.stopPropagation();
+          const steps = Object.entries(stepBoxes).filter(([, cb]) => cb.checked).map(([s]) => s);
+          classifyBtn.disabled = true;
+          classifyBtn.textContent = "Classifying…";
+          try {
+            await api(`/api/structured/tables/${encodeURIComponent(t.tableName)}/propose`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ domain: t.domain, steps, redo: redoCb.checked }),
+            });
+            detailTd.style.display = "none";
+            await refreshStructuredTables();
+          } catch (err) {
+            alert(`Classify failed: ${err.message}`);
+            classifyBtn.disabled = false;
+            classifyBtn.textContent = "Classify";
+          }
+        });
+        classifyBlock.appendChild(classifyBtn);
+        detailTd.appendChild(classifyBlock);
+
         const colTable = el("table", "dash-table");
         const thead = document.createElement("thead");
-        thead.innerHTML = "<tr><th>Column</th><th>Type</th><th>Mapping</th></tr>";
+        thead.innerHTML = "<tr><th>Column</th><th>Type</th><th>Bridge</th><th>Mapping</th></tr>";
         colTable.appendChild(thead);
         const colBody = document.createElement("tbody");
+
+        // A column may legitimately map to several entity classes, so collect
+        // them per columnrather than assigning — assigning kept only the last.
         const mappingByColumn = {};
         for (const m of schema.mappings || []) {
-          mappingByColumn[m.column] = `${m.entityClass} (${m.confirmed ? "confirmed" : "proposed"})`;
+          (mappingByColumn[m.column] ||= []).push(
+            `${m.entityClass} (${m.confirmed ? "confirmed" : "proposed"})`
+          );
         }
+        const bridgeByColumn = {};
+        for (const b of schema.bridgeColumns || []) {
+          bridgeByColumn[b.column] = `${b.bridgeRole} (${b.confirmed ? "confirmed" : "proposed"})`;
+        }
+
         for (const c of schema.columns || []) {
           const ctr = document.createElement("tr");
           ctr.appendChild(el("td", null, c.name));
           ctr.appendChild(el("td", null, c.dtype));
-          ctr.appendChild(el("td", "dash-note", mappingByColumn[c.name] || "—"));
+          ctr.appendChild(el("td", "dash-note", bridgeByColumn[c.name] || "—"));
+          ctr.appendChild(el("td", "dash-note", (mappingByColumn[c.name] || []).join(", ") || "—"));
           colBody.appendChild(ctr);
         }
         colTable.appendChild(colBody);
@@ -673,6 +750,46 @@ async function refreshStructuredTables() {
     tbody.appendChild(detailTr);
   }
 }
+
+document.getElementById("structured-classify-all-btn").addEventListener("click", async () => {
+  const domain = structuredTablesDomainEl.value;
+  if (!domain) {
+    alert("Select a domain first.");
+    return;
+  }
+  const redo = document.getElementById("structured-classify-all-redo").checked;
+  const btn = document.getElementById("structured-classify-all-btn");
+  const progressEl = document.getElementById("structured-classify-all-progress");
+  btn.disabled = true;
+  let polling = true;
+  const poll = async () => {
+    while (polling) {
+      try {
+        const p = await api(`/api/structured/propose-all/progress?domain=${encodeURIComponent(domain)}`);
+        if (p.total) progressEl.textContent = `Classifying ${p.done}/${p.total}…`;
+      } catch (err) {
+        // best-effort readout only; the POST below is the source of truth
+      }
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+  };
+  poll();
+  try {
+    await api("/api/structured/propose-all", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ domain, redo }),
+    });
+    progressEl.textContent = "Done.";
+  } catch (err) {
+    progressEl.textContent = "";
+    alert(`Classify all failed: ${err.message}`);
+  } finally {
+    polling = false;
+    btn.disabled = false;
+    await refreshStructuredTables();
+  }
+});
 
 document.getElementById("structured-ingest-form").addEventListener("submit", async (event) => {
   event.preventDefault();

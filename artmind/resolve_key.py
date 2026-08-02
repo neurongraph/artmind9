@@ -3,10 +3,15 @@
 Matches ``phrase`` against a structured-store column's profiled distinct
 values (registry ``profile_json``, Task 2.1) and/or knowledge-graph entity
 names (``graph_query.entity_listing``), scoped to the same domain(s). Order
-per candidate: exact (case-folded) -> fuzzy (``difflib``, mirroring
-``artmind/structured/mappings.py``'s style) -> embedding (a documented later
-upgrade, not v1 — it would need live Neo4j vector search and break hermetic
-testing).
+per candidate: exact (case-folded) -> fuzzy (``difflib``) -> embedding (a
+documented later upgrade, not v1 — it would need live Neo4j vector search and
+break hermetic testing).
+
+Deterministic string matching is the right tool *here*, unlike in mapping
+proposal (``structured/semantics.py``), which retired its difflib matcher for
+an LLM call: this resolves a phrase the user actually typed against values that
+actually exist, which is a lexical question. Judging whether a column *denotes*
+a schema class is a semantic one.
 
 Query-time only: no anchor nodes are persisted (spec §3 Level-2) — this
 mirrors ``text2sql``'s "no writes" posture.
@@ -19,10 +24,10 @@ from artmind.graph_query import entity_listing, normalize_domains
 from artmind.structured import registry
 
 # Below this SequenceMatcher ratio a fuzzy match is not surfaced at all, even
-# as a low-confidence candidate. Looser than mappings.py's bulk-sample 0.82
-# threshold because a single phrase-vs-name comparison has no "fraction of
-# samples matched" signal to firm up the confidence the way a column's whole
-# distinct_sample does.
+# as a low-confidence candidate. Deliberately looser than a bulk-sample
+# threshold would be: a single phrase-vs-name comparison has no "fraction of
+# samples matched" signal to firm up the confidence the way scoring a column's
+# whole distinct_sample does.
 MATCH_THRESHOLD = 0.6
 
 
@@ -34,7 +39,7 @@ def _score(phrase_lower: str, value) -> float:
 
 
 def _entity_names_by_class(domains: list[str]) -> dict[str, set[str]]:
-    """Mirrors ``artmind/structured/mappings.py``'s helper of the same name."""
+    """Flatten ``entity_listing``'s rows into ``{entity_class: {names}}``."""
     listing = entity_listing(domains)
     names_by_class: dict[str, set[str]] = {}
     for row in listing.get("rows", []):

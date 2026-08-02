@@ -826,6 +826,107 @@ def test_structured_table_schema_404(monkeypatch):
     assert response.status_code == 404
 
 
+def test_structured_schema_endpoint_includes_bridge_columns(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "get_table",
+        lambda table, domain=None: {"id": 1, "table_name": "products", "domain": "banking"},
+    )
+    monkeypatch.setattr(dashboard_routes.structured_registry, "get_columns", lambda table_id: [])
+    monkeypatch.setattr(dashboard_routes.structured_registry, "list_mappings", lambda table_id: [])
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "list_column_roles",
+        lambda table_id: [{"column": "vulnerability_driver", "bridge_role": "term", "confirmed": 0, "confidence": 0.9}],
+    )
+    response = _client().get("/api/structured/tables/products/schema?domain=banking")
+    assert response.status_code == 200
+    body = response.json()
+    assert "bridgeColumns" in body
+    assert body["bridgeColumns"][0]["column"] == "vulnerability_driver"
+
+
+def test_structured_propose_endpoint_calls_shared_function(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "get_table",
+        lambda table, domain=None: {"id": 1, "table_name": "products", "domain": "banking"},
+    )
+    calls = []
+    monkeypatch.setattr(
+        dashboard_routes, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append((table_id, domain, kw)) or {
+            "table": "products", "domain": domain,
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        },
+    )
+
+    response = _client().post(
+        "/api/structured/tables/products/propose",
+        json={"domain": "banking", "steps": ["mapping"], "redo": True},
+    )
+    assert response.status_code == 200, response.text
+    assert calls == [(1, "banking", {"steps": ["mapping"], "redo": True, "model": None})]
+    assert response.json()["mappingStatus"] == "ok"
+
+
+def test_structured_propose_endpoint_404s_unknown_table(monkeypatch):
+    monkeypatch.setattr(dashboard_routes.structured_registry, "get_table", lambda table, domain=None: None)
+    response = _client().post(
+        "/api/structured/tables/nope/propose", json={"domain": "banking"}
+    )
+    assert response.status_code == 404
+
+
+def test_structured_propose_all_endpoint_runs_unclassified_tables(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "list_tables",
+        lambda domains: [{
+            "id": 1, "table_name": "products", "domain": "banking",
+            "grain_status": "pending", "bridge_status": "pending", "mapping_status": "pending",
+        }],
+    )
+    calls = []
+    monkeypatch.setattr(
+        dashboard_routes, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append(table_id) or {
+            "table": "products", "domain": domain,
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        },
+    )
+
+    response = _client().post("/api/structured/propose-all", json={"domain": "banking"})
+    assert response.status_code == 200, response.text
+    assert calls == [1]
+    assert response.json()["results"][0]["table"] == "products"
+
+
+def test_structured_propose_all_skips_already_ok_tables_unless_redo(monkeypatch):
+    monkeypatch.setattr(
+        dashboard_routes.structured_registry, "list_tables",
+        lambda domains: [{
+            "id": 1, "table_name": "fully_classified", "domain": "banking",
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        }],
+    )
+    calls = []
+    monkeypatch.setattr(
+        dashboard_routes, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append(table_id) or {
+            "table": "fully_classified", "domain": domain,
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        },
+    )
+
+    response = _client().post("/api/structured/propose-all", json={"domain": "banking"})
+    assert response.status_code == 200, response.text
+    assert calls == []
+    assert response.json()["results"] == []
+
+
+def test_structured_propose_all_progress_endpoint_defaults_to_zero():
+    response = _client().get("/api/structured/propose-all/progress?domain=banking")
+    assert response.status_code == 200
+    assert response.json() == {"done": 0, "total": 0}
+
+
 def test_structured_ingest_writes_table(monkeypatch, tmp_path):
     seen = {}
 

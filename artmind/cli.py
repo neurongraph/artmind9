@@ -197,7 +197,7 @@ click.rich_click.COMMAND_GROUPS = {
     ],
     "artmind db": [
         {"name": "Explore", "commands": ["bridge", "list", "schema", "catalogue"]},
-        {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain"]},
+        {"name": "Mappings & tuning", "commands": ["mappings", "propose", "grain", "review"]},
         {"name": "Query", "commands": ["sql", "timeline"]},
         {"name": "Maintenance", "commands": ["refresh", "connect", "backup", "restore"]},
     ],
@@ -1163,11 +1163,16 @@ def ingest_detect_supersession(domain: str, dry_run: bool, compact: bool) -> Non
 
 @cli.group()
 def db():
-    """Manage and read the structured (SQL) store: bridge/list/schema/sql/grain/propose/mappings/catalogue/refresh/connect/backup/restore.
+    """Manage and read the structured (SQL) store: bridge/list/schema/sql/timeline/grain/propose/mappings/review/catalogue/refresh/connect/backup/restore.
 
     `db bridge` is the routing entry point — it answers whether a structured
     store exists for a domain, which tables are about which entity classes, and
     which columns' values are worth searching the graph for.
+
+    Classification is propose → review → confirm: `db propose` (re-)runs the
+    grain/bridge/mapping steps, `db review` lists whatever they proposed that
+    a human hasn't ruled on yet, and `db grain --set` / `db mappings ...
+    confirm` / `db bridge confirm` record those rulings.
     """
     pass
 
@@ -1432,11 +1437,12 @@ def db_mappings_clear(ctx, column, compact):
     )
 
 
-@db.command("bridge")
+@db.group("bridge", invoke_without_command=True)
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
 @click.option("--entityClass", "entity_class", default=None, help="Only tables whose class scope contains this class.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def db_bridge(domain, entity_class, compact):
+@click.pass_context
+def db_bridge(ctx, domain, entity_class, compact):
     """Read the structured↔graph bridge: class scope, bridge columns, grain.
 
     One call answers the three routing questions: does a structured store exist
@@ -1446,7 +1452,12 @@ def db_bridge(domain, entity_class, compact):
     `entity_class` is the routing key — it is many-to-many with tables, which a
     single dotted `--domain` never could be. `bridge_columns` are the fusion
     step: feed those cell values to `query vector-text`/`entity-resolve`.
+
+    Reading is domain-scoped (this default action); confirming is per column, so
+    the `confirm`/`clear` subcommands take an explicit --table.
     """
+    if ctx.invoked_subcommand is not None:
+        return
     domains = _parse_domains(domain) if domain else None
     _echo_json(
         {
@@ -1458,39 +1469,136 @@ def db_bridge(domain, entity_class, compact):
     )
 
 
+@db_bridge.command("confirm")
+@click.option("--table", "table", required=True, help="Table the column belongs to.")
+@click.option("--column", required=True, help="Column whose bridge role is being confirmed.")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_bridge_confirm(table, column, domain, compact):
+    """Mark a proposed bridge column as operator-confirmed.
+
+    The counterpart to `db mappings ... confirm`. Like it, a no-match is an
+    error rather than a silent no-op: this asserts a transition on a row the
+    caller believes exists, so a typo should fail loudly.
+    """
+    row = _resolve_table_row(table, domain)
+    rowcount = structured_registry.set_column_role_confirmed(row["id"], column, True)
+    if rowcount == 0:
+        raise click.ClickException(
+            f"no bridge column '{column}' on table '{table}' — run 'db grain {table}'"
+            " to see which columns have a bridge role proposed"
+        )
+    _echo_json(
+        {
+            "table": row["table_name"],
+            "domain": row["domain"],
+            "bridgeColumns": structured_registry.list_column_roles(row["id"]),
+        },
+        compact,
+    )
+
+
+@db_bridge.command("clear")
+@click.option("--table", "table", required=True, help="Table the column belongs to.")
+@click.option("--column", default=None, help="Clear only this column's bridge role (omit to clear all of the table's).")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_bridge_clear(table, column, domain, compact):
+    """Remove bridge role(s) — one column, or all of TABLE's if --column omitted.
+
+    Idempotent by design, matching `db mappings clear`: "make sure this column
+    has no bridge role" is not an assertion that one exists, so a no-op is the
+    correct result rather than an error.
+    """
+    row = _resolve_table_row(table, domain)
+    structured_registry.clear_column_roles(row["id"], column)
+    _echo_json(
+        {
+            "table": row["table_name"],
+            "domain": row["domain"],
+            "bridgeColumns": structured_registry.list_column_roles(row["id"]),
+        },
+        compact,
+    )
+
+
+@db.command("review")
+@click.option("--domain", "domain", multiple=True, help="Domain(s) to scope (repeatable; comma-splittable). Omit for all.")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def db_review(domain, compact):
+    """List every table classification still awaiting human adjudication.
+
+    The cross-table companion to `db mappings <table>`: proposals land
+    unconfirmed from ingest or `db propose`, and this is how an operator finds
+    what is outstanding without walking tables one at a time. A table with
+    nothing left to review drops out of the list entirely, so an empty
+    `tables` means the domain is fully adjudicated.
+
+    Confirm what it surfaces with `db mappings ... confirm`, `db bridge
+    confirm`, and `db grain --set`.
+    """
+    domains = _parse_domains(domain) if domain else None
+    pending = []
+    for table in structured_registry.list_tables(domains):
+        mappings = [
+            {"column": m["column"], "entity_class": m["entity_class"], "confidence": m["confidence"]}
+            for m in structured_registry.list_mappings(table["id"])
+            if not m["confirmed"]
+        ]
+        roles = [
+            {"column": r["column"], "confidence": r["confidence"]}
+            for r in structured_registry.list_column_roles(table["id"])
+            if not r["confirmed"]
+        ]
+        grain_confirmed = bool(table.get("grain_confirmed"))
+        if not mappings and not roles and grain_confirmed:
+            continue
+        pending.append({
+            "table": table["table_name"],
+            "domain": table["domain"],
+            "grain": table.get("grain"),
+            "grain_confirmed": grain_confirmed,
+            "grain_status": table.get("grain_status"),
+            "bridge_status": table.get("bridge_status"),
+            "mapping_status": table.get("mapping_status"),
+            "mappings": mappings,
+            "bridge_columns": roles,
+        })
+    _echo_json(
+        {
+            "query_type": "structured",
+            "command": "db review",
+            "pending_count": len(pending),
+            "tables": pending,
+        },
+        compact,
+    )
+
+
 @db.command("propose")
 @click.argument("table")
 @click.option("--domain", "domain", multiple=True, help="Domain(s) to scope table resolution (repeatable; comma-splittable).")
-@click.option("--model", default=None, help="Override the LLM model used for the grain/bridge proposal.")
-@click.option("--skipSemantics", "skip_semantics", is_flag=True, help="Re-propose mappings only — no LLM call.")
+@click.option("--step", "steps", multiple=True, type=click.Choice(["grain", "bridge", "mapping"]), help="Restrict to specific step(s) (repeatable). Default: all three, each skipped if already 'ok' unless --redo.")
+@click.option("--redo", is_flag=True, help="Re-run a step even though its status is already 'ok'.")
+@click.option("--model", default=None, help="Override the LLM model used for grain/bridge/mapping proposal.")
 @click.option("--compact", is_flag=True, help="Emit compact JSON")
-def db_propose(table, domain, model, skip_semantics, compact):
-    """Re-run semantic proposals for TABLE: mappings, grain, and bridge columns.
+def db_propose(table, domain, steps, redo, model, compact):
+    """Re-run classification for TABLE: grain, bridge columns, and column-to-entityClass mappings.
 
-    The ingest pipeline proposes mappings on every write and grain/bridge_role
-    only on first registration, so this is how a table gets re-examined without
-    re-ingesting the source file — the same role ``db catalogue`` plays for the
-    Neo4j projection. Confirmed values are never overwritten by a re-proposal.
+    Each step tracks its own run status (grain_status/bridge_status/mapping_status)
+    on the table row. By default only steps not already 'ok' are attempted, so a
+    partial failure at ingest time resumes here automatically — the same role
+    `extract-kg` plays for a partially-failed document. `--redo` forces a step to
+    run again even though it already succeeded (e.g. after editing the domain
+    schema). Confirmed values (grain_confirmed, column_roles/column_mappings
+    .confirmed) are never overwritten by a re-proposal.
     """
-    from artmind.structured.mappings import propose_mappings
+    from artmind.structured.semantics import propose_table_semantics
 
     row = _resolve_table_row(table, domain)
-    table_id = row["id"]
-    result = {"table": table, "domain": row["domain"]}
-
-    try:
-        result["mappings"] = propose_mappings(table_id, [row["domain"]])
-    except Exception as exc:
-        raise click.ClickException(f"mapping proposal failed: {exc}") from exc
-
-    if not skip_semantics:
-        from artmind.structured.semantics import propose_semantics
-
-        try:
-            result["semantics"] = propose_semantics(table_id, model=model)
-        except Exception as exc:
-            raise click.ClickException(f"semantics proposal failed: {exc}") from exc
-
+    result = propose_table_semantics(
+        row["id"], row["domain"], steps=list(steps) or None, redo=redo, model=model
+    )
     _echo_json(result, compact)
 
 

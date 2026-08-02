@@ -117,6 +117,73 @@ def test_db_grain_shows_and_confirms(ingested):
     assert "temporal" in bad.output
 
 
+def test_db_propose_runs_all_steps_by_default(ingested, monkeypatch):
+    import json
+
+    import artmind.cli as cli
+    import artmind.structured.semantics as semantics
+
+    calls = []
+    monkeypatch.setattr(
+        semantics, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append((table_id, domain, kw)) or {
+            "table": "products", "domain": domain,
+            "grain_status": "ok", "bridge_status": "ok", "mapping_status": "ok",
+        },
+    )
+
+    result = CliRunner().invoke(cli.cli, ["db", "propose", "products", "--domain", "banking"])
+    assert result.exit_code == 0, result.output
+    assert len(calls) == 1
+    _, domain, kwargs = calls[0]
+    assert domain == "banking"
+    assert kwargs["steps"] is None
+    assert kwargs["redo"] is False
+    payload = json.loads(result.output)
+    assert payload["mapping_status"] == "ok"
+
+
+def test_db_propose_step_flag_repeatable(ingested, monkeypatch):
+    import artmind.cli as cli
+    import artmind.structured.semantics as semantics
+
+    calls = []
+    monkeypatch.setattr(
+        semantics, "propose_table_semantics",
+        lambda table_id, domain, **kw: calls.append(kw) or {
+            "table": "products", "domain": domain,
+            "grain_status": "pending", "bridge_status": "pending", "mapping_status": "ok",
+        },
+    )
+
+    result = CliRunner().invoke(
+        cli.cli,
+        ["db", "propose", "products", "--domain", "banking", "--step", "mapping", "--redo"],
+    )
+    assert result.exit_code == 0, result.output
+    assert calls[0]["steps"] == ["mapping"]
+    assert calls[0]["redo"] is True
+
+
+def test_db_propose_skip_semantics_flag_removed(ingested):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(
+        cli.cli, ["db", "propose", "products", "--domain", "banking", "--skipSemantics"]
+    )
+    assert result.exit_code != 0
+    assert "no such option" in result.output.lower()
+
+
+def test_db_propose_rejects_unknown_step(ingested):
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(
+        cli.cli, ["db", "propose", "products", "--domain", "banking", "--step", "nonsense"]
+    )
+    assert result.exit_code != 0
+
+
 def test_db_schema_shows_columns(ingested):
     import artmind.cli as cli
 
@@ -287,3 +354,115 @@ def test_db_restore_round_trips_data(ingested):
         cli.cli, ["db", "sql", "SELECT count(*) AS n FROM products"]
     )
     assert '"n": 2' in sql_result.output
+
+
+# ── db bridge: confirm / clear a bridge column ───────────────────────────────
+
+
+def _seed_roles_and_mappings(table="products", domain="banking"):
+    """Give the fixture table one proposed bridge role and one proposed mapping."""
+    from artmind.structured import registry
+
+    row = registry.get_table(table, domain=domain)
+    registry.upsert_column_role(row["id"], "name", "term", 0.9, confirmed=False)
+    registry.upsert_mapping(row["id"], "name", "PRODUCT", 0.9, confirmed=False)
+    return row["id"]
+
+
+def test_db_bridge_without_subcommand_still_returns_routing_surface(ingested):
+    """Regression: turning `db bridge` into a group must not change its default."""
+    import json
+
+    import artmind.cli as cli
+
+    result = CliRunner().invoke(cli.cli, ["db", "bridge", "--domain", "banking"])
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.output)
+    assert payload["command"] == "db bridge"
+    assert any(t["table"] == "products" for t in payload["tables"])
+
+
+def test_db_bridge_confirm_flips_the_role(ingested):
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    table_id = _seed_roles_and_mappings()
+    result = CliRunner().invoke(cli.cli, [
+        "db", "bridge", "confirm", "--table", "products", "--domain", "banking", "--column", "name",
+    ])
+    assert result.exit_code == 0, result.output
+    role = registry.list_column_roles(table_id)[0]
+    assert role["column"] == "name"
+    assert role["confirmed"] == 1
+
+
+def test_db_bridge_confirm_unknown_column_errors(ingested):
+    """Mirrors `db mappings confirm`: asserting a transition on a row that isn't
+    there must fail loudly, not silently no-op."""
+    import artmind.cli as cli
+
+    _seed_roles_and_mappings()
+    result = CliRunner().invoke(cli.cli, [
+        "db", "bridge", "confirm", "--table", "products", "--domain", "banking", "--column", "nope",
+    ])
+    assert result.exit_code != 0
+    assert "no bridge column" in result.output.lower()
+
+
+def test_db_bridge_clear_removes_the_role(ingested):
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    table_id = _seed_roles_and_mappings()
+    result = CliRunner().invoke(cli.cli, [
+        "db", "bridge", "clear", "--table", "products", "--domain", "banking", "--column", "name",
+    ])
+    assert result.exit_code == 0, result.output
+    assert registry.list_column_roles(table_id) == []
+
+
+# ── db review: what is awaiting human adjudication ───────────────────────────
+
+
+def test_db_review_lists_unconfirmed_items(ingested):
+    import json
+
+    import artmind.cli as cli
+
+    _seed_roles_and_mappings()
+    result = CliRunner().invoke(cli.cli, ["db", "review", "--domain", "banking"])
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.output)
+    entry = next(t for t in payload["tables"] if t["table"] == "products")
+    assert entry["mappings"] == [
+        {"column": "name", "entity_class": "PRODUCT", "confidence": 0.9}
+    ]
+    assert entry["bridge_columns"] == [{"column": "name", "confidence": 0.9}]
+    assert entry["grain_confirmed"] is False
+    # 'failed', not 'pending': the fixture's ingest triggers first-registration
+    # classification, whose LLM call conftest blocks to keep the suite hermetic.
+    # The step records the failure and the load still succeeds — which is the
+    # best-effort ingest hook behaving correctly, and is exactly the state
+    # `db review` has to stay readable in.
+    assert entry["grain_status"] == "failed"
+    assert payload["pending_count"] == 1
+
+
+def test_db_review_omits_fully_confirmed_tables(ingested):
+    """A table with nothing left to adjudicate must drop out of the list —
+    that is the whole point of the command."""
+    import json
+
+    import artmind.cli as cli
+    from artmind.structured import registry
+
+    table_id = _seed_roles_and_mappings()
+    registry.set_mapping_confirmed(table_id, "name", "PRODUCT", True)
+    registry.set_column_role_confirmed(table_id, "name", True)
+    registry.set_grain(table_id, "instance", confirmed=True)
+
+    result = CliRunner().invoke(cli.cli, ["db", "review", "--domain", "banking"])
+    assert result.exit_code == 0, result.output
+    payload = json.loads(result.output)
+    assert payload["tables"] == []
+    assert payload["pending_count"] == 0

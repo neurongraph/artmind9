@@ -1,31 +1,49 @@
-"""Propose a table's ``grain`` and its bridge columns with a single LLM call.
+"""Propose a structured table's semantics: ``grain``, bridge columns, and
+``column -> entity_class`` mappings.
 
-Distinct from ``mappings.py``, which is deliberately deterministic (exact +
-difflib matching against KG entity names) because it answers a question the data
-can answer: *do this column's values look like these entities?* Grain cannot be
-settled that way. Whether rows assert rules or merely record facts is a semantic
-judgement about meaning, and no shape heuristic separates a fee schedule from a
-complaints log reliably. Guessing it wrong in the permissive direction is the
-costly one: a `normative` table mistaken for `instance` silently skips the
-quarantine rule.
+Three independently-resumable steps, each with its own run status on the
+table's registry row (``grain_status``/``bridge_status``/``mapping_status``),
+so a partial failure resumes at exactly the step that failed instead of
+re-running the ones that already succeeded. This mirrors ``kg_chunk_status``'s
+per-chunk entities/properties/relationships model rather than treating
+"classify this table" as one atomic operation. ``propose_table_semantics`` is
+the orchestrator every caller goes through -- CLI, ingest pipeline, admin-ui --
+the same role ``extract_kg`` plays for a document's chunks. Grain and bridge
+share a single LLM call (there is no way to ask the model just one of the two);
+mapping is its own call.
 
-Cadence differs from mappings for the same reason. ``propose_mappings`` re-runs
-on every write because its answer genuinely tracks the data. Grain and
-bridge_role describe what the table *means*, which does not change when rows
-arrive, so ``pipeline.py`` calls this only on first registration -- never on a
-replace refresh and never per SCD-2 batch. ``artmind db propose`` re-runs it on
-demand, mirroring how ``db catalogue`` complements the automatic projection.
+Why these are LLM judgements rather than shape heuristics: whether rows assert
+rules or merely record facts is a question about meaning, and nothing about a
+table's shape separates a fee schedule from a complaints log reliably. Guessing
+wrong in the permissive direction is the costly one -- a `normative` table
+mistaken for `instance` silently skips the quarantine rule. Mapping is the same
+kind of question one level down: whether a column's sampled values *denote*
+instances of a schema class. It reads the domain schema's class descriptions
+(``schema_reference.parse_entities``) rather than string-matching against
+whichever entities happen to have been extracted already, so a table is
+classifiable the moment it lands -- even in a domain with no ingested documents
+at all.
 
-Confirmed values are never overwritten, matching ``propose_mappings``'s
-guarantee: refreshing a table must not silently un-confirm an operator's review.
+Cadence (see ``pipeline.py``): all three steps run once at first registration.
+A ``replace``-mode refresh whose column set grew re-runs bridge and mapping for
+the *new columns only*; grain is never re-proposed on refresh, because what a
+table means does not change when rows arrive. ``artmind db propose`` is the
+standalone re-entry point for everything else, retrying any step not already
+``ok``, or forcing one with ``--redo``.
+
+Confirmed values are never overwritten by a re-proposal, for any of the three
+steps: refreshing or re-proposing a table must not silently un-confirm an
+operator's review.
 """
 
 import json
 
 from artmind.structured import registry
 
-#: Below this, a bridge-column proposal is not persisted. Matches
-#: ``mappings.CONFIDENCE_FLOOR``'s role, and the same value for consistency.
+#: Below this, a bridge-column or mapping proposal is not persisted. Shared by
+#: both steps deliberately: they answer the same shape of question (does this
+#: column's sampled content mean something to the graph?) and there is no
+#: evidence either deserves a different bar.
 CONFIDENCE_FLOOR = 0.4
 
 #: Values a column's cells can play in fusion. Open vocabulary in the schema;
@@ -142,12 +160,27 @@ def build_prompt(table: dict, table_id: int) -> str:
     )
 
 
-def propose_semantics(table_id: int, model: str | None = None) -> dict:
-    """Propose ``grain`` and bridge columns for ``table_id``. Persists both.
+def propose_semantics(
+    table_id: int,
+    model: str | None = None,
+    *,
+    write_grain: bool = True,
+    only_columns: set[str] | None = None,
+) -> dict:
+    """Propose ``grain`` and bridge columns for ``table_id``. Persists both,
+    subject to ``write_grain``/``only_columns`` below.
 
     Returns ``{"grain", "grain_reason", "grain_written", "bridge_columns"}``.
     ``grain_written`` is False when an operator has already confirmed a grain,
     in which case the proposal is reported but not applied.
+
+    ``write_grain=False`` computes but never persists grain -- used by
+    ``propose_table_semantics`` when only the bridge step was requested: grain
+    and bridge share one LLM call (there's no way to ask the model just one of
+    the two questions), but the caller can still refuse to act on the grain
+    half of the answer. ``only_columns``, when given, restricts bridge-column
+    *persistence* to that column-name set (used by a replace-mode-refresh
+    new-column-only trigger elsewhere in the pipeline).
     """
     from artmind.extraction import call_llm, parse_json_response
     from utils.functions import load_env, resolve_llm_model
@@ -163,14 +196,19 @@ def propose_semantics(table_id: int, model: str | None = None) -> dict:
     grain = parsed.get("grain")
     grain_reason = parsed.get("grain_reason") or ""
     grain_written = False
-    if grain in registry.GRAINS:
-        if table.get("grain_confirmed"):
-            # An operator already ruled on this; report but do not overwrite.
-            grain = table["grain"]
+    if write_grain:
+        if grain in registry.GRAINS:
+            if table.get("grain_confirmed"):
+                # An operator already ruled on this; report but do not overwrite.
+                grain = table["grain"]
+            else:
+                registry.set_grain(table_id, grain, confirmed=False)
+                grain_written = True
         else:
-            registry.set_grain(table_id, grain, confirmed=False)
-            grain_written = True
+            grain = table["grain"]
     else:
+        # Not asked to act on grain this run -- report the existing value,
+        # same shape as the already-confirmed branch above.
         grain = table["grain"]
 
     known_columns = {c["name"] for c in registry.get_columns(table_id)}
@@ -190,6 +228,8 @@ def propose_semantics(table_id: int, model: str | None = None) -> dict:
         # Guard against a hallucinated column name reaching the registry.
         if column not in known_columns:
             continue
+        if only_columns is not None and column not in only_columns:
+            continue
         if confidence < CONFIDENCE_FLOOR:
             continue
         if column in already_confirmed:
@@ -203,3 +243,232 @@ def propose_semantics(table_id: int, model: str | None = None) -> dict:
         "grain_written": grain_written,
         "bridge_columns": persisted,
     }
+
+
+_MAPPING_PROMPT = """You are matching a structured table's columns to entity classes from a knowledge-graph domain schema.
+
+For each column, judge whether its SAMPLED VALUES look like instances of one of the listed
+entity classes below — based on the class's description, not by matching column/class names
+literally. Judge the values the same way you would for bridge columns: a column full of a
+bank's marketing names denotes the PRODUCT class if its values read like product names, even
+if none of them has been seen in any ingested document yet.
+
+A column can legitimately map to more than one class (e.g. a `category` column on a complaints
+table might describe both a PRODUCT and an ISSUE_TYPE). It is fine — and expected — for a
+column with no plausible class (an id, a date, a raw numeric measure) to be omitted entirely.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TABLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+name: {table_name}
+domain: {domain}
+row_count: {row_count}
+refresh_mode: {refresh_mode}
+
+columns:
+{columns}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CANDIDATE ENTITY CLASSES (from the domain schema)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+{classes}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+OUTPUT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Return only this JSON object. No preamble, no explanation, no markdown fences.
+
+{{
+  "mappings": [
+    {{"column": string, "entity_class": string, "confidence": number between 0 and 1}}
+  ]
+}}
+"""
+
+
+def _class_lines(classes: list[dict]) -> str:
+    lines = []
+    for c in classes:
+        types = ", ".join(c.get("types") or [])
+        suffix = f" (e.g. {types})" if types else ""
+        lines.append(f"  - {c['class']}: {c['description']}{suffix}")
+    return "\n".join(lines) if lines else "  (no entity classes found in schema)"
+
+
+def build_mapping_prompt(table: dict, table_id: int, classes: list[dict]) -> str:
+    return _MAPPING_PROMPT.format(
+        table_name=table["table_name"],
+        domain=table["domain"],
+        row_count=table.get("row_count"),
+        refresh_mode=table.get("refresh_mode"),
+        columns=_column_lines(table_id),
+        classes=_class_lines(classes),
+    )
+
+
+def propose_mapping(
+    table_id: int, domain: str, model: str | None = None, *, only_columns: set[str] | None = None
+) -> list[dict]:
+    """Propose ``column -> entity_class`` mappings for ``table_id`` from
+    ``domain``'s schema (no live-KG dependency). Persists via the same
+    confidence floor and never-overwrite-confirmed guarantee ``propose_semantics``
+    gives bridge columns.
+
+    Raises ``ValueError`` if ``domain`` has no schema file (or no
+    ``entities_prompt``) — a distinct, clearly-reported failure from "schema
+    exists but has zero parseable classes," which returns ``[]`` instead.
+
+    ``only_columns``, when given, additionally restricts *persistence* to that
+    column-name set — used by a later replace-mode-refresh new-column trigger
+    so an existing, unrelated column's mapping state is never touched just
+    because the whole table was re-profiled.
+    """
+    from artmind.extraction import call_llm, parse_json_response
+    from artmind.schema_reference import parse_entities
+    from artmind.temporal import load_schema
+    from utils.functions import load_env, resolve_llm_model
+
+    table = registry.get_table_by_id(table_id)
+    if table is None:
+        raise ValueError(f"no registered table with id {table_id}")
+
+    schema = load_schema(domain)
+    entities_prompt = schema.get("entities_prompt")
+    if not entities_prompt:
+        raise ValueError(
+            f"domain '{domain}' has no schema file (or no entities_prompt) — the mapping"
+            " step needs the domain's entity schema to judge column classes against. Check"
+            " domains/schemas/, or run 'artmind domains harmonize' if this is a dotted"
+            " sub-domain."
+        )
+    classes = parse_entities(entities_prompt)
+    if not classes:
+        return []
+
+    resolved_model = resolve_llm_model(load_env(), model)
+    raw = call_llm(resolved_model, build_mapping_prompt(table, table_id, classes))
+    parsed = parse_json_response(raw) or {}
+
+    known_columns = {c["name"] for c in registry.get_columns(table_id)}
+    known_classes = {c["class"] for c in classes}
+    already_confirmed = {
+        (m["column"], m["entity_class"])
+        for m in registry.list_mappings(table_id)
+        if m.get("confirmed")
+    }
+
+    persisted = []
+    for entry in parsed.get("mappings") or []:
+        if not isinstance(entry, dict):
+            continue
+        column = entry.get("column")
+        entity_class = entry.get("entity_class")
+        try:
+            confidence = float(entry.get("confidence", 0.0))
+        except (TypeError, ValueError):
+            continue
+        # Hallucination guard, mirrors propose_semantics's bridge_columns check.
+        if column not in known_columns or entity_class not in known_classes:
+            continue
+        if only_columns is not None and column not in only_columns:
+            continue
+        if confidence < CONFIDENCE_FLOOR:
+            continue
+        if (column, entity_class) in already_confirmed:
+            continue
+        registry.upsert_mapping(table_id, column, entity_class, confidence, confirmed=False)
+        persisted.append({"column": column, "entity_class": entity_class, "confidence": confidence})
+
+    return persisted
+
+
+def propose_table_semantics(
+    table_id: int,
+    domain: str,
+    *,
+    steps: list[str] | None = None,
+    redo: bool = False,
+    model: str | None = None,
+    only_columns: set[str] | None = None,
+) -> dict:
+    """Run whichever of {grain, bridge, mapping} ``steps`` need attention for
+    ``table_id``, recording per-step run status, and return a combined result.
+
+    This is the one function every caller -- ``db propose``, the ingest
+    pipeline's first-registration/new-column auto-run, the admin-ui's
+    propose/propose-all routes -- goes through, mirroring ``extract_kg``'s role
+    as the single re-entry point ``ingest sync`` also calls inline.
+
+    ``steps`` defaults to all three. A step already ``'ok'`` is skipped unless
+    ``redo``. Grain and bridge share one LLM call (``propose_semantics``);
+    requesting only one of the two still makes that call, but grain is only
+    *persisted* when ``"grain"`` is actually in the step set this run needs.
+
+    Failures are caught per step, logged via loguru, and recorded as
+    ``'failed'`` -- never raised -- mirroring ``kg_chunk_status``'s best-effort
+    convention: the whole point of tracking run status is so a partial
+    failure resumes on the next call rather than crashing the caller.
+
+    ``only_columns``, forwarded to both underlying steps, restricts
+    *persistence* to that column-name set -- it does not affect which steps
+    are considered.
+    """
+    from loguru import logger
+
+    table = registry.get_table_by_id(table_id)
+    if table is None:
+        raise ValueError(f"no registered table with id {table_id}")
+
+    requested = set(steps) if steps else set(registry.SEMANTIC_STEPS)
+    to_run = {
+        step for step in requested
+        if redo or table.get(f"{step}_status", "pending") != "ok"
+    }
+
+    result = {"table": table["table_name"], "domain": domain}
+
+    if to_run & {"grain", "bridge"}:
+        run_grain = "grain" in to_run
+        run_bridge = "bridge" in to_run
+        try:
+            semantics_result = propose_semantics(
+                table_id, model=model, write_grain=run_grain, only_columns=only_columns
+            )
+            result["semantics"] = semantics_result
+            if run_grain:
+                registry.set_step_status(table_id, "grain", "ok")
+            if run_bridge:
+                registry.set_step_status(table_id, "bridge", "ok")
+        except Exception as exc:
+            logger.warning(
+                "propose_table_semantics: grain/bridge step failed for {}: {}",
+                table["table_name"], exc,
+            )
+            result["semantics_error"] = str(exc)
+            if run_grain:
+                registry.set_step_status(table_id, "grain", "failed")
+            if run_bridge:
+                registry.set_step_status(table_id, "bridge", "failed")
+
+    if "mapping" in to_run:
+        try:
+            result["mappings"] = propose_mapping(
+                table_id, domain, model=model, only_columns=only_columns
+            )
+            registry.set_step_status(table_id, "mapping", "ok")
+        except Exception as exc:
+            logger.warning(
+                "propose_table_semantics: mapping step failed for {}: {}",
+                table["table_name"], exc,
+            )
+            result["mapping_error"] = str(exc)
+            registry.set_step_status(table_id, "mapping", "failed")
+
+    fresh = registry.get_table_by_id(table_id)
+    result["grain_status"] = fresh["grain_status"]
+    result["bridge_status"] = fresh["bridge_status"]
+    result["mapping_status"] = fresh["mapping_status"]
+    return result

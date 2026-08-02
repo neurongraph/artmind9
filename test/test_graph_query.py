@@ -203,9 +203,12 @@ def test_entity_listing_excludes_the_generic_entity_label(monkeypatch):
     """Every node carries two labels — :Entity plus its class — so a plain
     `UNWIND labels(n)` emitted an extra 'Entity' row holding the whole domain
     (5,400 of 5,426 names on the banking corpus). That catch-all then beat every
-    real class in propose_mappings: 8 of 11 persisted mappings pointed at the
-    non-existent class 'Entity', mostly at confidence 1.0. No node carries only
-    :Entity, so filtering it out loses nothing."""
+    real class in the since-retired deterministic mapping matcher: 8 of 11
+    persisted mappings pointed at the non-existent class 'Entity', mostly at
+    confidence 1.0. Mapping proposal no longer reads entity_listing at all, but
+    the filter still matters for every other consumer (resolve-key, the
+    entity-listing query itself). No node carries only :Entity, so filtering it
+    out loses nothing."""
     captured = {}
 
     def fake_run(cypher, params):

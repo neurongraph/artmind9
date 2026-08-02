@@ -619,3 +619,99 @@ def test_restore_all_tolerates_pre_grain_dump(tmp_path, monkeypatch):
     })
 
     assert registry.get_table("products", domain="banking")["grain"] == "instance"
+
+
+def test_init_db_adds_step_status_columns_to_pre_existing_schema(tmp_path, monkeypatch):
+    """A registry seeded before this design shipped must gain the three status
+    columns, defaulted to 'pending', without disturbing existing rows."""
+    import sqlite3
+
+    import artmind.db as db
+
+    db_path = tmp_path / "reg.db"
+    monkeypatch.setattr(db, "DB_PATH", db_path)
+
+    # Simulate a pre-existing DB that already has grain/grain_confirmed but not
+    # the new status columns, by creating the schema then dropping them.
+    db._init_db()
+    conn = sqlite3.connect(db_path)
+    conn.execute(
+        "INSERT INTO datasources (name, type, path_or_dsn, created_at)"
+        " VALUES ('default', 'duckdb', '/tmp/x', 'now')"
+    )
+    conn.execute(
+        'INSERT INTO "tables" (datasource, table_name, domain, parquet_path,'
+        " version, refresh_mode, grain, ingested_at)"
+        " VALUES ('default', 'legacy_table', 'banking', '/tmp/l.parquet', 1,"
+        " 'replace', 'instance', 'now')"
+    )
+    conn.commit()
+    conn.close()
+
+    # Re-run _init_db (idempotent) -- this is the real-world path: an existing
+    # DB file, code upgraded, next command run re-triggers _init_db via _get_db.
+    db._init_db()
+
+    conn = sqlite3.connect(db_path)
+    cols = {row[1] for row in conn.execute('PRAGMA table_info("tables")')}
+    assert {"grain_status", "bridge_status", "mapping_status"} <= cols
+    row = conn.execute(
+        'SELECT grain_status, bridge_status, mapping_status, table_name'
+        ' FROM "tables" WHERE table_name = ?', ("legacy_table",)
+    ).fetchone()
+    conn.close()
+    assert row == ("pending", "pending", "pending", "legacy_table")
+
+
+def test_register_table_defaults_step_statuses_to_pending(tmp_path, monkeypatch):
+    import artmind.db as db
+    from artmind.structured import registry
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    db._init_db()
+
+    registry.register_table(
+        "default", "customers", "banking", parquet_path="/tmp/c.parquet"
+    )
+    row = registry.get_table("customers", domain="banking")
+    assert row["grain_status"] == "pending"
+    assert row["bridge_status"] == "pending"
+    assert row["mapping_status"] == "pending"
+
+
+def test_set_step_status_validates_and_persists(tmp_path, monkeypatch):
+    import pytest
+
+    import artmind.db as db
+    from artmind.structured import registry
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    db._init_db()
+    table_id = registry.register_table(
+        "default", "customers", "banking", parquet_path="/tmp/c.parquet"
+    )
+
+    registry.set_step_status(table_id, "mapping", "ok")
+    assert registry.get_table_by_id(table_id)["mapping_status"] == "ok"
+
+    with pytest.raises(ValueError, match="step must be one of"):
+        registry.set_step_status(table_id, "not_a_step", "ok")
+    with pytest.raises(ValueError, match="status must be one of"):
+        registry.set_step_status(table_id, "grain", "not_a_status")
+
+
+def test_routing_surface_includes_step_statuses(tmp_path, monkeypatch):
+    import artmind.db as db
+    from artmind.structured import registry
+
+    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
+    db._init_db()
+    table_id = registry.register_table(
+        "default", "customers", "banking", parquet_path="/tmp/c.parquet"
+    )
+    registry.set_step_status(table_id, "grain", "ok")
+
+    surface = registry.routing_surface(["banking"])
+    assert surface[0]["grain_status"] == "ok"
+    assert surface[0]["bridge_status"] == "pending"
+    assert surface[0]["mapping_status"] == "pending"

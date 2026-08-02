@@ -147,6 +147,9 @@ def _init_db() -> None:
             effective_date_column  TEXT,
             grain                  TEXT NOT NULL DEFAULT 'instance',  -- 'instance' | 'lookup' | 'normative'
             grain_confirmed        INTEGER NOT NULL DEFAULT 0,        -- 0 = proposed/default, 1 = operator-confirmed
+            grain_status           TEXT NOT NULL DEFAULT 'pending',   -- 'pending' | 'ok' | 'failed' -- did the LLM attempt+succeed since the last profile change
+            bridge_status          TEXT NOT NULL DEFAULT 'pending',
+            mapping_status         TEXT NOT NULL DEFAULT 'pending',
             ingested_at            TEXT NOT NULL,
             sha256                 TEXT,
             UNIQUE(datasource, domain, table_name)
@@ -288,6 +291,17 @@ def _init_db() -> None:
         cursor.execute(
             'ALTER TABLE "tables" ADD COLUMN grain_confirmed INTEGER NOT NULL DEFAULT 0'
         )
+    # Same additive-with-default shape as grain/grain_confirmed above --
+    # per-step run status (docs/superpowers/specs/2026-07-31-structured-
+    # semantic-classification-pipeline-design.md §4), not a persisted error
+    # message: a step's failure is only ever visible via loguru, matching the
+    # rest of the codebase's best-effort hooks.
+    for step in ("grain", "bridge", "mapping"):
+        col = f"{step}_status"
+        if col not in existing:
+            cursor.execute(
+                f'ALTER TABLE "tables" ADD COLUMN {col} TEXT NOT NULL DEFAULT \'pending\''
+            )
 
     conn.commit()
     conn.close()
