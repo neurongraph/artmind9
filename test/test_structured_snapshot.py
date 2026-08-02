@@ -56,6 +56,52 @@ def test_export_then_import_round_trips_parquet_and_registry(tmp_path, monkeypat
     assert rows == [{"n": 2}]
 
 
+def test_import_restores_step_status_and_bridge_columns(tmp_path, monkeypatch):
+    _patch_stores(tmp_path, monkeypatch)
+    import shutil
+
+    import paths
+    from artmind.structured import registry
+    from artmind.structured.pipeline import ingest_structured_file
+    from artmind.structured_snapshot import export_structured, import_structured
+
+    csv_path = tmp_path / "complaints.csv"
+    _write_csv(csv_path, [["id", "category"], [1, "Fee Dispute"], [2, "Fraud"]])
+    ingest_structured_file(csv_path, "banking")
+
+    table = registry.get_table("complaints", domain="banking")
+    registry.set_step_status(table["id"], "grain", "ok")
+    registry.set_step_status(table["id"], "bridge", "ok")
+    registry.set_step_status(table["id"], "mapping", "failed")
+    registry.upsert_column_role(table["id"], "category", "term", 0.9, confirmed=True)
+
+    snapshot_path = export_structured()
+
+    shutil.rmtree(paths.STRUCTURED_DIR)
+    registry.delete_table(table["id"])
+    assert registry.get_table("complaints", domain="banking") is None
+
+    import_structured(snapshot_path)
+
+    restored = registry.get_table("complaints", domain="banking")
+    assert restored is not None
+    assert restored["grain_status"] == "ok"
+    assert restored["bridge_status"] == "ok"
+    assert restored["mapping_status"] == "failed"
+
+    roles = registry.list_column_roles(restored["id"])
+    assert roles == [
+        {
+            "table_id": restored["id"],
+            "column": "category",
+            "bridge_role": "term",
+            "confirmed": 1,
+            "confidence": 0.9,
+            "updated_at": roles[0]["updated_at"],
+        }
+    ]
+
+
 def test_import_uses_latest_when_path_omitted(tmp_path, monkeypatch):
     _patch_stores(tmp_path, monkeypatch)
     from artmind.structured.pipeline import ingest_structured_file

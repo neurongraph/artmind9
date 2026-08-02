@@ -536,8 +536,10 @@ def restore_all(dump: dict) -> None:
     preserving primary keys so columns/column_mappings/column_roles foreign keys
     stay valid.
 
-    Tolerates dumps taken before ``grain``/``column_roles`` existed: a missing
-    grain falls back to the 'instance' default rather than failing the restore.
+    Tolerates dumps taken before ``grain``/``column_roles``/``{step}_status``
+    existed: a missing grain falls back to the 'instance' default, and a missing
+    step status falls back to 'pending' (the schema default), rather than
+    failing the restore.
     """
     conn = _get_db()
     cursor = conn.cursor()
@@ -557,14 +559,18 @@ def restore_all(dump: dict) -> None:
             cursor.execute(
                 'INSERT INTO "tables" (id, datasource, table_name, domain, source_file, sheet,'
                 " parquet_path, version, row_count, refresh_mode, business_key,"
-                " effective_date_column, grain, grain_confirmed, ingested_at, sha256)"
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                " effective_date_column, grain, grain_confirmed, grain_status,"
+                " bridge_status, mapping_status, ingested_at, sha256)"
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     row["id"], row["datasource"], row["table_name"], row["domain"],
                     row["source_file"], row["sheet"], row["parquet_path"], row["version"],
                     row["row_count"], row["refresh_mode"], row["business_key"],
                     row["effective_date_column"], row.get("grain") or "instance",
                     int(row.get("grain_confirmed") or 0),
+                    row.get("grain_status") or "pending",
+                    row.get("bridge_status") or "pending",
+                    row.get("mapping_status") or "pending",
                     row["ingested_at"], row["sha256"],
                 ),
             )

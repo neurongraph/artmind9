@@ -1,5 +1,5 @@
-"""Snapshot/restore for the structured store: parquet files + the four
-SQLite registry tables (datasources/tables/columns/column_mappings).
+"""Snapshot/restore for the structured store: parquet files + the five
+SQLite registry tables (datasources/tables/columns/column_mappings/column_roles).
 
 Mirrors artmind/graph_snapshot.py's export/import shape, but the payload is
 registry rows + parquet bytes rather than Neo4j nodes/relationships, and
