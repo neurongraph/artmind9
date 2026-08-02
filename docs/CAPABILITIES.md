@@ -706,6 +706,7 @@ the column that tells the router this table is about `CUSTOMER`.
 | 5.8 | ✓ | Source refresh | A table can be re-ingested from its recorded source file. | `artmind db refresh` |
 | 5.9 | ✓ | External adapters | A surface is reserved for connecting external SQL engines beyond the embedded one. | `artmind db connect` (stub, DuckDB-only v1) |
 | 5.10 | ✓ | Store backup/restore | The structured store snapshots to a single archive and restores from it (wipe + restore). | `artmind db backup` / `restore` |
+| 5.11 | ✓ | Bulk classification | Every table in a domain can be (re-)classified in one call, skipping tables whose classification already succeeded unless a full redo is requested, with progress reported as the run proceeds. | admin console structured tab (`POST /api/structured/propose-all`) |
 
 > **Scoring note:** the reference implementation's cross-store fusion runs on raw value
 > strings only — there is no persisted `RESOLVES_AGAINST` anchor linking a table's rows to
@@ -848,7 +849,11 @@ count without a separate `db catalogue` call.
 **5.9 External adapters**
 *Why it matters* — this is a reserved surface, not a partial implementation: `db connect`
 raises unconditionally regardless of the DSN given, so there's no half-working adapter path
-to accidentally rely on.
+to accidentally rely on. The surface already has a shape, though: `connector.py`'s
+`Datasource` Protocol (`introspect_schema`/`profile_columns`/`run_sql`/`load_table`) is what
+`DuckDBDatasource` structurally satisfies today, and what a future non-DuckDB adapter would
+need to implement — nothing enforces it via `isinstance` or a declared base class yet, it's a
+documented contract, not wiring.
 *Test hint* — confirm `db connect` fails identically for both a plausible and an obviously
 malformed DSN — the rejection is unconditional, not DSN-shape validation.
 
@@ -860,6 +865,19 @@ silently orphan every dependent row.
 *Test hint* — back up, mutate a table's mappings, restore, and confirm the mappings are back
 to the backed-up state with the same `table_id` linkage (not just the same data floating
 with new ids).
+
+**5.11 Bulk classification**
+*Why it matters* — the admin console's "classify all" action is not a separate
+implementation: it iterates a domain's tables through the exact same
+`propose_table_semantics` orchestrator `db propose` calls per-table (5.4/5.5/5.6), so a
+bulk run inherits the same skip-if-`ok`, `--redo`, and never-overwrite-confirmed guarantees
+without re-implementing them. Progress is deliberately non-persisted — an in-memory counter
+keyed by domain — because a restart mid-run loses only the counter; each table's actual
+classification state is already durable in the registry the moment its own call finishes.
+*Test hint* — start a bulk run on a domain where some tables already have `grain_status` /
+`bridge_status` / `mapping_status` all `ok`, and confirm those tables are skipped (no LLM
+call) unless the run is started with redo; separately, poll the progress endpoint mid-run
+and confirm `done`/`total` advance and the entry disappears once the run finishes.
 
 ## 6. Knowledge Retrieval
 
