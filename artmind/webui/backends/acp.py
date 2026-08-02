@@ -164,7 +164,8 @@ class ACPBackend:
                 await proc.wait()
 
     def _subprocess_env(self) -> dict[str, str] | None:
-        """Inject ``self._model`` for opencode via ``OPENCODE_CONFIG_CONTENT``.
+        """Inject ``self._model`` for opencode via ``OPENCODE_CONFIG_CONTENT``,
+        and forward artmind's OpenRouter key under the name opencode expects.
 
         opencode has no ``--model`` flag on its ``acp`` subcommand and ACP has
         no standard model-selection method, so the only way to steer the
@@ -172,14 +173,25 @@ class ACPBackend:
         var (raw JSON, merged over its on-disk config). Other ACP agents just
         won't recognize the var. Merges onto any config JSON already present
         in the inherited environment rather than clobbering it.
+
+        opencode's openrouter provider looks up credentials via the
+        ``OPENROUTER_API_KEY`` env var (per its models.dev registry entry),
+        not artmind's ``ARTMIND_OPENROUTER_API_KEY`` — forwarding it here lets
+        one key in ``.env`` cover both the KG pipeline and the ACP agent
+        without a separate ``opencode auth login``. Only set if not already
+        present, so an operator's own ``OPENROUTER_API_KEY`` still wins.
         """
-        if not self._model:
-            return None
         env = dict(os.environ)
-        config = json.loads(env["OPENCODE_CONFIG_CONTENT"]) if env.get("OPENCODE_CONFIG_CONTENT") else {}
-        config["model"] = self._model
-        env["OPENCODE_CONFIG_CONTENT"] = json.dumps(config)
-        return env
+        changed = False
+        if not env.get("OPENROUTER_API_KEY") and env.get("ARTMIND_OPENROUTER_API_KEY"):
+            env["OPENROUTER_API_KEY"] = env["ARTMIND_OPENROUTER_API_KEY"]
+            changed = True
+        if self._model:
+            config = json.loads(env["OPENCODE_CONFIG_CONTENT"]) if env.get("OPENCODE_CONFIG_CONTENT") else {}
+            config["model"] = self._model
+            env["OPENCODE_CONFIG_CONTENT"] = json.dumps(config)
+            changed = True
+        return env if changed else None
 
     # ---- JSON-RPC plumbing ------------------------------------------------
 
