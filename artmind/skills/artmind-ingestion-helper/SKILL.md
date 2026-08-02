@@ -157,10 +157,13 @@ Large documents (hundreds of chunks) can hit transient LLM-provider connection e
 
 6. **To verify it's truly resuming (not redoing) rather than trusting the log alone:**
    ```bash
-   sqlite3 data/document_registry.db \
-     "SELECT chunk_seq, entities_status FROM kg_chunk_status WHERE doc_sha256='SHA256' ORDER BY chunk_seq LIMIT 60;"
+   artmind ingest job-chunks JOB_ID "DOCUMENT_NAME" --compact
    ```
-   Get `SHA256` via `SELECT sha256 FROM documents WHERE filename = 'DOCUMENT_NAME';` in the same DB. Chunks already `ok` should stay `ok`; only chunks previously `failed`/unattempted should change. In the log itself, a genuine skip shows only the `Chunk N/743 (...)` header line with no `entities`/`properties`/`relationships` sub-lines — real work shows all three (or a silent `skipped` if the chunk legitimately had zero entities).
+   Returns one row per chunk — `{"seq": 1, "e": "ok", "p": "ok", "r": "ok"}` — where `e`/`p`/`r` are the entities/properties/relationships steps. Chunks already `ok` should stay `ok`; only chunks previously `failed` or unattempted should change.
+
+   **Don't query the registry DB directly for this.** The live registry lives under `$ARTMIND_DATA_DIR` (default `~/artmind_data`), not in the working directory — and a stale `data/document_registry.db` may well exist in a source checkout, so a relative path can read the wrong database and return confidently wrong answers at exactly the moment you are checking whether work is being redone.
+
+   In the log itself, a genuine skip shows only the `Chunk N/743 (...)` header line with no `entities`/`properties`/`relationships` sub-lines — real work shows all three (or a silent `skipped` if the chunk legitimately had zero entities).
 
 Once extraction finishes, write it to Neo4j as usual (Situation C).
 
