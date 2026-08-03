@@ -186,6 +186,7 @@ def test_write_user_chat_creates_node_and_returns_summary():
     extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}]
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx:
         mock_session = mock_ctx.return_value.__enter__.return_value
         mock_session.run.return_value = MagicMock()
@@ -291,6 +292,7 @@ def test_write_user_chat_processes_supersedes_for_created_entity():
     ]
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
          patch("artmind.update.apply_node_supersession") as mock_supersede:
         mock_session = mock_ctx.return_value.__enter__.return_value
@@ -327,6 +329,7 @@ def test_write_user_chat_supersedes_defaults_effective_to_today():
     ]
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
          patch("artmind.update.apply_node_supersession") as mock_supersede, \
          patch("artmind.update.date") as mock_date:
@@ -361,6 +364,7 @@ def test_write_user_chat_skips_reserved_rel_type_and_writes_normal_one():
     ]
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
          patch("artmind.update.logger") as mock_logger:
         mock_session = mock_ctx.return_value.__enter__.return_value
@@ -400,6 +404,7 @@ def test_write_user_chat_no_supersedes_leaves_count_zero():
     extracted_entities = [{"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}]
 
     with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
          patch("artmind.update.neo4j_session") as mock_ctx, \
          patch("artmind.update.apply_node_supersession") as mock_supersede:
         mock_session = mock_ctx.return_value.__enter__.return_value
@@ -483,6 +488,328 @@ def test_detect_supersession_candidates_skips_fuzzy_source_match():
 
     assert result == []
     mock_find.assert_not_called()
+
+
+from artmind.update import _link_entity_in_session
+
+
+def _recording_session(run_side_effect):
+    session = MagicMock()
+    session.run.side_effect = run_side_effect
+    return session
+
+
+def test_link_entity_in_session_matches_by_element_id_or_app_id():
+    """`node_id` is whichever handle the caller had — find_candidates returns an
+    elementId, entity-context/pattern2 return the app-managed `id`. Same
+    dual-format contract apply_node_supersession accepts."""
+    captured = {}
+
+    def run_side_effect(cypher, **kwargs):
+        captured["cypher"] = cypher
+        captured["kwargs"] = kwargs
+        result = MagicMock()
+        result.single.return_value = {"id": "alice-uuid", "name": "Alice Smith"}
+        return result
+
+    node = _link_entity_in_session(
+        _recording_session(run_side_effect), "4:abc:alice",
+        "Alice", "PERSON", "general", {"role": "CEO"}, "u@example.com", "2026-08-02T00:00:00",
+    )
+
+    assert node == {"id": "alice-uuid", "name": "Alice Smith"}
+    assert "elementId(e) = $ref OR e.id = $ref" in captured["cypher"]
+    assert captured["kwargs"]["ref"] == "4:abc:alice"
+    assert captured["kwargs"]["props"]["role"] == "CEO"
+    # a node written before Entity.id existed still gets a usable handle back
+    assert "coalesce(e.id" in captured["cypher"]
+
+
+def test_link_entity_in_session_falls_back_to_triple_without_node_ref():
+    captured = {}
+
+    def run_side_effect(cypher, **kwargs):
+        captured["cypher"] = cypher
+        captured["kwargs"] = kwargs
+        result = MagicMock()
+        result.single.return_value = {"id": "alice-uuid", "name": "Alice"}
+        return result
+
+    _link_entity_in_session(
+        _recording_session(run_side_effect), None,
+        "Alice", "PERSON", "general", {}, "u@example.com", "2026-08-02T00:00:00",
+    )
+
+    assert "{name: $name, entity_class: $ec, domain: $domain}" in captured["cypher"]
+    assert "elementId" not in captured["cypher"]
+
+
+def test_link_entity_in_session_returns_none_when_nothing_matches():
+    def run_side_effect(cypher, **kwargs):
+        result = MagicMock()
+        result.single.return_value = None
+        return result
+
+    node = _link_entity_in_session(
+        _recording_session(run_side_effect), "4:abc:gone",
+        "Alice", "PERSON", "general", {}, "u@example.com", "2026-08-02T00:00:00",
+    )
+    assert node is None
+
+
+def test_write_user_chat_link_resolves_to_chosen_node_not_extracted_name():
+    """The case the candidate step exists for: the user picks "Alice Smith" for
+    an extracted "Alice". Matching on the extracted (name, entity_class, domain)
+    finds nothing, so the whole resolution — node update, MENTIONS edge,
+    relationship — silently no-ops while still reporting success."""
+    resolutions = [
+        {"entity_temp_id": "e0", "action": "link", "node_id": "4:abc:alice"},
+        {"entity_temp_id": "e1", "action": "create", "node_id": None},
+    ]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {"role": "CEO"}},
+        {"temp_id": "e1", "name": "Acme", "entity_class": "ORG", "properties": {}},
+    ]
+    extracted_relationships = [
+        {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "works_at"}
+    ]
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        if "elementId(e) = $ref" in cypher:
+            result.single.return_value = {"id": "alice-uuid", "name": "Alice Smith"}
+        return result
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
+         patch("artmind.update.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+
+        result = write_user_chat(
+            session_id="sess1", raw_text="Alice is CEO of Acme.", domain="general",
+            user_id="alice@example.com", resolutions=resolutions,
+            extracted_entities=extracted_entities,
+            extracted_relationships=extracted_relationships,
+        )
+
+    assert result["nodes_updated"] == 1
+    assert result["nodes_created"] == 1
+
+    link_calls = [kw for c, kw in calls if "elementId(e) = $ref" in c]
+    assert len(link_calls) == 1
+    assert link_calls[0]["ref"] == "4:abc:alice"
+
+    # MENTIONS and the relationship key off the canonical node, not "Alice"
+    mention_ids = {kw["entityId"] for c, kw in calls if "MERGE (c)-[:MENTIONS]->(e)" in c}
+    assert "alice-uuid" in mention_ids
+    rel_calls = [kw for c, kw in calls if "apoc.merge.relationship" in c]
+    assert len(rel_calls) == 1
+    assert rel_calls[0]["srcId"] == "alice-uuid"
+    assert result["relationships_written"] == 1
+
+
+def test_write_user_chat_unresolved_link_is_not_counted():
+    """A node_id pointing at a deleted node must not be reported as an update —
+    skip it, warn, and let the rest of the confirm land."""
+    resolutions = [{"entity_temp_id": "e0", "action": "link", "node_id": "4:abc:gone"}]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}
+    ]
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        if "elementId(e) = $ref" in cypher:
+            result.single.return_value = None
+        return result
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update.logger") as mock_logger:
+        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+
+        result = write_user_chat(
+            session_id="sess1", raw_text="Alice is CEO.", domain="general",
+            user_id="alice@example.com", resolutions=resolutions,
+            extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    assert result["nodes_updated"] == 0
+    assert result["nodes_created"] == 0
+    assert not [c for c, _ in calls if "MENTIONS" in c]
+    assert any("link resolution" in str(c.args) for c in mock_logger.warning.call_args_list)
+
+
+def test_write_user_chat_link_supersession_uses_linked_node_id():
+    """Supersession keyed off the linked node's id. It resolved to None before,
+    so `supersedes` on a link action was dropped without a trace."""
+    resolutions = [
+        {"entity_temp_id": "e0", "action": "link", "node_id": "4:abc:alice",
+         "supersedes": [{"node_id": "4:abc:older"}]}
+    ]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}
+    ]
+
+    def run_side_effect(cypher, **kwargs):
+        result = MagicMock()
+        if "elementId(e) = $ref" in cypher:
+            result.single.return_value = {"id": "alice-uuid", "name": "Alice Smith"}
+        return result
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update.apply_node_supersession") as mock_supersede:
+        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+
+        result = write_user_chat(
+            session_id="sess1", raw_text="text", domain="general",
+            user_id="alice@example.com", resolutions=resolutions,
+            extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    assert result["nodes_superseded"] == 1
+    _, kwargs = mock_supersede.call_args
+    assert kwargs["newer_id"] == "alice-uuid"
+
+
+def test_write_user_chat_create_on_existing_triple_updates_instead_of_duplicating():
+    """(name, entity_class, domain) is the identity every other write path
+    matches on, but only Entity.id is constrained in Neo4j — a bare CREATE would
+    leave those matches choosing arbitrarily between two nodes."""
+    resolutions = [{"entity_temp_id": "e0", "action": "create", "node_id": None}]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}}
+    ]
+    calls = []
+
+    def run_side_effect(cypher, **kwargs):
+        calls.append((cypher, kwargs))
+        result = MagicMock()
+        if "elementId(e) = $ref" in cypher:
+            result.single.return_value = {"id": "alice-uuid", "name": "Alice"}
+        return result
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity",
+               return_value={"id": "alice-uuid", "name": "Alice"}), \
+         patch("artmind.update.neo4j_session") as mock_ctx, \
+         patch("artmind.update.logger") as mock_logger:
+        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+
+        result = write_user_chat(
+            session_id="sess1", raw_text="Alice is CEO.", domain="general",
+            user_id="alice@example.com", resolutions=resolutions,
+            extracted_entities=extracted_entities, extracted_relationships=[],
+        )
+
+    assert result["nodes_created"] == 0
+    assert result["nodes_updated"] == 1
+    assert not [c for c, _ in calls if "CREATE (e:" in c]
+    assert any("create resolution" in str(c.args) for c in mock_logger.warning.call_args_list)
+
+
+def test_write_user_chat_relationship_not_counted_when_endpoints_dont_match():
+    """An empty MATCH raises nothing, so counting the call rather than the
+    returned row over-reported relationships_written."""
+    resolutions = [
+        {"entity_temp_id": "e0", "action": "create", "node_id": None},
+        {"entity_temp_id": "e1", "action": "create", "node_id": None},
+    ]
+    extracted_entities = [
+        {"temp_id": "e0", "name": "Alice", "entity_class": "PERSON", "properties": {}},
+        {"temp_id": "e1", "name": "Acme", "entity_class": "ORG", "properties": {}},
+    ]
+    extracted_relationships = [
+        {"source_temp_id": "e0", "target_temp_id": "e1", "rel_type": "works_at"}
+    ]
+
+    def run_side_effect(cypher, **kwargs):
+        result = MagicMock()
+        if "apoc.merge.relationship" in cypher:
+            result.single.return_value = None
+        return result
+
+    with patch("artmind.update.embed_text", return_value=[0.1] * 768), \
+         patch("artmind.update._find_existing_entity", return_value=None), \
+         patch("artmind.update.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+
+        result = write_user_chat(
+            session_id="sess1", raw_text="text", domain="general",
+            user_id="alice@example.com", resolutions=resolutions,
+            extracted_entities=extracted_entities,
+            extracted_relationships=extracted_relationships,
+        )
+
+    assert result["relationships_written"] == 0
+
+
+def test_draft_update_rejects_unknown_session():
+    with patch("artmind.update._get_update_session", return_value=None):
+        with pytest.raises(ValueError, match="No such update session"):
+            draft_update(
+                domain="general", text="Alice is CEO.",
+                session_id="nope", user_id="alice@example.com",
+            )
+
+
+def test_draft_update_rejects_domain_mismatch_on_resume():
+    """confirm writes with the session's domain, so a resumed turn given a
+    different --domain would extract from one domain and write to another."""
+    with patch(
+        "artmind.update._get_update_session",
+        return_value={"session_id": "s1", "domain": "banking", "status": "draft"},
+    ):
+        with pytest.raises(ValueError, match="belongs to domain 'banking'"):
+            draft_update(
+                domain="general", text="Alice is CEO.",
+                session_id="s1", user_id="alice@example.com",
+            )
+
+
+def test_draft_update_resumes_session_with_matching_domain():
+    schema = {
+        "entities_prompt": "Extract: {text}",
+        "properties_prompt": "Props {entities_list} {text}",
+        "relationships_prompt": "Rels {entities_list} {text}",
+    }
+    with patch("artmind.update.extract_facts", return_value={"entities": [], "relationships": []}), \
+         patch("artmind.update._load_schema", return_value=schema), \
+         patch("artmind.update._get_update_session",
+               return_value={"session_id": "s1", "domain": "general", "status": "draft"}), \
+         patch("artmind.update._create_update_session") as mock_create, \
+         patch("artmind.update._create_update_draft", return_value=1):
+
+        result = draft_update(
+            domain="general", text="Alice is CEO.",
+            session_id="s1", user_id="alice@example.com",
+        )
+
+    assert result["session_id"] == "s1"
+    mock_create.assert_not_called()
+
+
+@pytest.mark.parametrize("fmt", ["sequential", "by-entity"])
+def test_export_chats_domain_filter_rolls_up_descendants(tmp_path, fmt):
+    """A parent-domain filter includes descendants, the convention every other
+    domain-scoped path follows (graph_query.domain_predicate)."""
+    captured = {}
+
+    def run_side_effect(cypher, **kwargs):
+        captured["cypher"] = cypher
+        result = MagicMock()
+        result.data.return_value = []
+        return result
+
+    with patch("artmind.update.neo4j_session") as mock_ctx:
+        mock_ctx.return_value.__enter__.return_value.run.side_effect = run_side_effect
+        export_chats(domain="banking", format=fmt, output_dir=tmp_path)
+
+    assert "c.domain STARTS WITH ($domain + '.')" in captured["cypher"]
 
 
 def test_export_chats_by_entity_writes_one_file_per_entity(tmp_path):

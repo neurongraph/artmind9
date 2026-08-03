@@ -78,7 +78,10 @@ mindmap
       Registry & lifecycle
     8 Knowledge Updates
       Draft / confirm writes
+      Ambiguity resolution
       Node supersession
+      Conversational provenance
+      Identity convergence
       Audit & export
     9 Sessions & State
       Graph snapshots
@@ -1247,11 +1250,108 @@ Direct, conversational writes to the graph — knowledge that arrives as stateme
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 8.1 |  | Two-phase NL writes | Facts stated in natural language are drafted (extracted + matched against graph candidates) and only written on explicit confirm. | `artmind update draft` / `confirm` |
-| 8.2 |  | Ambiguity resolution | The draft phase surfaces candidate entities so ambiguous references are resolved before anything is written. | `update draft` output |
-| 8.3 |  | Node supersession | One entity node can be marked as superseding another (node-level, distinct from document-level). | `artmind update supersede` |
-| 8.4 |  | Update audit | Recent update sessions are listable — writes are traceable. | `artmind update history` |
-| 8.5 |  | Knowledge export | User-contributed knowledge is exportable to plain files. | `artmind update export` |
+| 8.1 | ✓ | Two-phase NL writes | Facts stated in natural language are extracted and matched against existing graph candidates in a draft phase that writes nothing and is persisted for a later explicit confirm; the confirm applies the caller's per-entity resolution (create / link to a chosen existing node / skip) and reports only what actually landed. | `artmind update draft` / `confirm`, `write_user_chat` (`update.py`) |
+| 8.2 | ✓ | Ambiguity resolution | The draft phase surfaces ranked candidate entities per extracted reference, exact matches first, so ambiguous references are resolved before anything is written; a resolution names the specific node chosen and the write lands on **that** node, not on the surface form the extractor produced. | `find_candidates`, `_link_entity_in_session` (`update.py`) |
+| 8.3 | ✓ | Node supersession | One entity node can be marked as superseding another — node-level, distinct from document-level supersession — retiring the older node's currency without deleting it. Reachable both as a standalone correction and inline within a confirmed natural-language update, with the draft phase proactively detecting the likely cases. | `artmind update supersede`, `resolutions[].supersedes`, `_detect_supersession_candidates`; all via `apply_node_supersession` (`temporal.py`) |
+| 8.4 | ✓ | Update audit | Recent update sessions are listable and filterable by author or by domain (rolling up descendants): who wrote, when, in which domain, and the input text — session metadata rather than a structured record of the resulting graph writes. | `artmind update history`, `_list_update_sessions` (`db.py`) |
+| 8.5 | ✓ | Knowledge export | User-contributed knowledge is exportable to plain files as the original natural-language inputs plus the entities each one touched, ordered by session or regrouped by entity. | `artmind update export`, `export_chats` (`update.py`) |
+| 8.6 | ✓ | Conversational provenance | Every confirmed natural-language write is itself persisted as a first-class node, embedded and linked to each entity it touched, so a fact's conversational origin stays recoverable — and is reachable by the same semantic search that serves document text. | `UserChat` node + `MENTIONS` edges (`write_user_chat`), searched by `artmind query vector-text` |
+| 8.7 | ✓ | Write-path identity convergence | A conversational write resolves onto the same entity identity that document extraction uses, so a fact contributed by conversation and a fact extracted from a document accumulate on one node instead of silently forking into parallel ones. | `_find_existing_entity` (`update.py`), `_upsert_entity` (`ingest.py`) — both keyed on name + class + domain |
+
+> **Scoring note:** conversational writes apply property values by overwrite, not by
+> the accretive type-aware merge document ingestion uses (3.7). This is deliberate and
+> is the one place the two write paths diverge on purpose: a user saying "no, it's X"
+> is an authority statement, not another chunk's contribution, so concatenating the old
+> and new values would be the wrong outcome. Worth checking which semantics another
+> implementation picks for the conversational path, and whether it picked deliberately.
+
+> **Scoring note:** node-level supersession (8.3) retires a node's currency but captures
+> no superseded-value history snapshot, unlike document-level supersession (4.9) — the
+> history zone is written only from the document-commit path. The retired node keeps its
+> own last values and stays reachable without an `--asOf` filter, so nothing is lost;
+> there is simply no prior-value chain to walk for a node retired this way.
+
+> **Scoring note:** the counts a confirm returns (nodes created/updated/superseded,
+> relationships written) go to the caller and are never persisted, so 8.4's audit trail
+> cannot be asked what a past session actually changed — only what was said and by whom.
+> Reconstructing the effect means reading the entities' own `updated_at`/`updated_by`
+> stamps. Not part of the baseline statement, but a real depth difference to probe in
+> another implementation's "writes are traceable" claim.
+
+### Grounding notes
+
+**8.1 Two-phase NL writes**
+*Why it matters* — the draft phase is genuinely inert: extraction and candidate search
+persist to a relational session/draft pair, and nothing touches the graph until confirm,
+so an abandoned conversation leaves the graph untouched by construction rather than by
+cleanup. Extraction reuses the *same* three schema-driven prompt builders document
+ingestion uses, so a fact stated in chat is read through exactly the domain ontology that
+governs documents — not a second, looser path. The write is equally bound by the system's
+invariants: reserved relationship types (3.6) are rejected here too, so a conversational
+turn cannot mint an unaudited supersession or provenance edge.
+*Test hint* — draft a fact and confirm the graph is unchanged, then confirm the session
+and check the same fact lands. Separately, the reporting is what makes this trustworthy:
+force a resolution that cannot land (a `link` naming a deleted node) and confirm the
+returned counts *exclude* it rather than reporting a write that never happened — an empty
+graph match raises nothing, so a naive implementation over-reports here.
+
+**8.2 Ambiguity resolution**
+*Why it matters* — candidate ranking puts exact name matches first via an explicit flag
+rather than a remapped score, because the underlying fulltext scores are unbounded and a
+fuzzy hit would otherwise outrank an exact one. The decisive property is what the write
+then does with the caller's choice: it resolves the chosen node by identifier — accepting
+either the internal node id or the app-managed one, the same dual-format contract
+supersession accepts — so the canonical node is updated even when its name differs from
+the extracted surface form. Matching on the extracted name instead makes the entire
+disambiguation step decorative, and fails silently in exactly the case it exists for.
+*Test hint* — the decisive check is a resolution whose chosen candidate is named
+*differently* from the extracted mention (extracted "Alice", candidate "Alice Smith").
+Confirm the update, the provenance edge, and any relationship all land on the candidate
+node, and that the counts reflect it — a name-keyed implementation no-ops here while
+still reporting success. Then confirm a candidate from outside the queried domain can
+still be linked, since candidate search falls back to a global scope.
+
+**8.3 Node supersession**
+*Why it matters* — three routes (standalone correction, inline within a confirmed update,
+and the draft phase's proactive detection) all converge on the same helper that
+document-level supersession uses, so provenance stamping and retirement semantics are
+written once. Detection is a suggestion, never automatic: it fires only when the extracted
+fact's source resolves to an *exact* existing node that already has a same-typed edge to a
+different target — a fuzzy match means there is no established prior fact to replace, so
+proposing one would be a guess. The retired node is never deleted; it gains an end date and
+a superseded-by pointer, dropping out of point-in-time queries while staying fully readable.
+*Test hint* — state a fact that replaces an existing relationship target (a role holder
+changing) and confirm the draft *offers* the supersession rather than applying it; confirm
+it, then query the retired node with and without a point-in-time filter and confirm it is
+absent from the former and present in the latter carrying its end date.
+
+**8.6 Conversational provenance**
+*Why it matters* — the conversation node is not a log line, it is graph-resident and
+embedded, which is what lets semantic search return a user-contributed fact alongside
+document-sourced text for the same question instead of treating conversational knowledge
+as a second-class store. Its edges to the entities it touched are what make the by-entity
+export meaningful, and they are keyed on the resolved node — so a conversation about
+"Alice" that resolved to "Alice Smith" is retrievable from that entity, which is the whole
+point of storing the link rather than the raw string.
+*Test hint* — contribute a fact conversationally, then ask a semantic text search a
+question whose answer appears only in that contribution and confirm the conversation node
+comes back. Separately, confirm the entity the resolution actually landed on carries the
+provenance edge — not an entity merely named after the extracted surface form.
+
+**8.7 Write-path identity convergence**
+*Why it matters* — that identity triple is what every write and cleanup path in the system
+matches on, yet nothing in the graph schema constrains it (only the surrogate id is
+unique), so uniqueness is an invariant the write paths have to *maintain*, not one the
+store enforces. If a conversational create ever mints a second node for a triple that
+already exists, it does not merely duplicate: it leaves ingestion's merge, later
+resolutions, and orphan cleanup all choosing arbitrarily between two nodes, with no error
+anywhere. Guarding at write time is what keeps conversational and document knowledge
+accumulating on one node.
+*Test hint* — ingest a document mentioning an entity, then conversationally contribute a
+fact about the same entity choosing "create" rather than linking, and confirm one node
+results rather than two. Then check the general case: query the graph for duplicate
+(name, class, domain) triples and confirm none exist — and check whether the store
+constrains that itself or, as here, relies on every write path being careful.
 
 ## 9. Sessions & State
 

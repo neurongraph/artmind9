@@ -103,3 +103,29 @@ def test_list_update_sessions_returns_sessions():
     sessions = _list_update_sessions(domain=None, user=None, limit=20)
     ids = [s["session_id"] for s in sessions]
     assert "sess5" in ids
+
+
+def test_list_update_sessions_domain_filter_rolls_up_descendants():
+    """A parent-domain filter includes descendants, matching the hierarchical
+    rollup every domain-scoped query path applies."""
+    _create_update_session("parent", "banking", "alice@example.com")
+    _create_update_session("child", "banking.policy", "alice@example.com")
+    _create_update_session("other", "fiction", "alice@example.com")
+
+    ids = {s["session_id"] for s in _list_update_sessions(
+        domain="banking", user=None, limit=20
+    )}
+    assert ids == {"parent", "child"}
+
+
+def test_list_update_sessions_domain_filter_treats_underscore_literally():
+    """Prefix-matched via substr, not LIKE: '_' is a LIKE wildcard and real
+    domain names contain underscores, so 'banking_uk.%' would otherwise also
+    match 'bankingXuk.child'."""
+    _create_update_session("real", "banking_uk.policy", "alice@example.com")
+    _create_update_session("decoy", "bankingXuk.policy", "alice@example.com")
+
+    ids = {s["session_id"] for s in _list_update_sessions(
+        domain="banking_uk", user=None, limit=20
+    )}
+    assert ids == {"real"}
