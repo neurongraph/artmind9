@@ -1357,19 +1357,107 @@ constrains that itself or, as here, relies on every write path being careful.
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 9.1 |  | Graph snapshots | The full graph exports to a compressed snapshot and restores from one (wipe + restore) — session close/initiate semantics. | `artmind session close` / `initiate` |
-| 9.2 |  | Unified snapshots | All system state — graph, registry, structured store, KG artifacts — snapshots and restores as one unit. | `artmind snapshot create` / `restore` |
+| 9.1 | ✓ | Graph snapshots | The full graph exports to a compressed snapshot and restores from one (wipe + restore) — session close/initiate semantics. | `artmind session close` / `initiate` |
+| 9.2 | ✓ | Unified snapshots | All system state — graph, registry, structured store, KG artifacts — snapshots and restores together by default, or as an explicit subset with a divergence warning when a partial restore could leave components out of sync. | `artmind snapshot create` / `restore` |
+
+### Grounding notes
+
+**9.1 Graph snapshots**
+*Why it matters* — relationships are re-matched on business keys (name/class/domain for
+entities, `id` for everything else) rather than Neo4j's internal node ids, so a snapshot
+is portable to a different database instance, not just a restore point for the same one.
+Missing-label nodes are reconstructed from `entity_class` rather than dropped to a bare
+`:Entity`, so a hand-edited or foreign snapshot doesn't silently produce nodes no query
+can find again.
+*Test hint* — export, wipe, restore into a *different* empty database and confirm
+relationships reattach correctly; then hand-edit a snapshot to strip one entity node's
+`labels` field and confirm it still restores under the correct class label instead of
+becoming untyped.
+
+**9.2 Unified snapshots**
+*Why it matters* — each component is exported/restored through the exact same function
+its own single-purpose command uses (`graph_snapshot`, `structured_snapshot`) rather than
+a parallel implementation, so the unified path can't drift from the component-level one.
+Selective restore exists because components can legitimately be restored independently
+(e.g. rolling back structured data without touching the graph), but that flexibility is
+exactly what can desynchronize them — hence the staleness warning rather than a silent
+partial restore.
+*Test hint* — restore only `structured` from a snapshot where graph/registry/structured
+were all captured together, confirm the staleness warning fires, and confirm the Neo4j
+structured-catalogue subgraph is rebuilt afterward even though the graph snapshot itself
+never carried it.
 
 ## 10. Platform & Surfaces
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 10.1 |  | Run-folder scaffolding | One command scaffolds the runtime home (config, skills, schemas, logs), overwriting package assets while preserving user data; runtime home and data dir are relocatable via env. | `artmind init`, `paths.py` |
-| 10.2 |  | Idempotent store setup | Database tables, constraints, and indexes are created idempotently. | `artmind setup` |
-| 10.3 |  | Warm query daemon | A long-lived server keeps the query layer hot; CLI calls proxy to it transparently, with an explicit escape hatch. | `artmind serve`, `ARTMIND_NO_PROXY` |
-| 10.4 |  | Chat UI | An end-user conversational web UI over the knowledge system. | `artmind chat-ui` |
-| 10.5 |  | Admin console | An operator web UI: agent console, ingest dashboard, structured-data tab, CLI guide, and live schema reference. | `artmind admin-ui` |
-| 10.6 |  | Structured classification UI | The structured-data tab surfaces per-table classification state (grain / bridge / mapping run status) and drives it: a per-table classify action with per-step and redo control, plus a bulk "classify every unclassified table in this domain" run with a live progress readout. Calls the same function the CLI does — a caller, not a reimplementation. | `admin-ui` Structured data tab, `POST /api/structured/tables/{t}/propose`, `POST /api/structured/propose-all` |
+| 10.1 | ✓ | Run-folder scaffolding | One command scaffolds the runtime home (config, skills, schemas, logs), overwriting package assets while preserving user data; runtime home and data dir are relocatable via env. | `artmind init`, `paths.py` |
+| 10.2 | ✓ | Idempotent store setup | Database tables, constraints, and indexes are created idempotently. | `artmind setup` |
+| 10.3 | ✓ | Warm query daemon | A long-lived server keeps the query layer hot; CLI calls proxy to it transparently, with an explicit escape hatch. | `artmind serve`, `ARTMIND_NO_PROXY` |
+| 10.4 | ✓ | Chat UI | An end-user conversational web UI over the knowledge system. | `artmind chat-ui` |
+| 10.5 | ✓ | Admin console | An operator web UI: agent console, ingest dashboard, structured-data tab, CLI guide, and live schema reference. | `artmind admin-ui` |
+| 10.6 | ✓ | Structured classification UI | The structured-data tab surfaces per-table classification state (grain / bridge / mapping run status) and drives it: a per-table classify action with per-step and redo control, plus a bulk "classify every unclassified table in this domain" run with a live progress readout. Calls the same function the CLI does — a caller, not a reimplementation. | `admin-ui` Structured data tab, `POST /api/structured/tables/{t}/propose`, `POST /api/structured/propose-all` |
+
+### Grounding notes
+
+**10.1 Run-folder scaffolding**
+*Why it matters* — package assets (skills, opencode persona, schemas) are overwritten
+wholesale on every run because the package is their source of truth; user data (`.env`)
+is seeded once and never touched again. That split is what makes editing
+`artmind/skills/` reach the chat UI reliably (`just dev-refresh-skills`/`init`) without
+ever clobbering a hand-edited `.env` or a user-added domain schema, which the package
+doesn't ship and `_seed_tree` therefore never prunes.
+*Test hint* — edit a package skill, run `init`, confirm the run-folder copy changes;
+separately, hand-edit the run-folder `.env` and re-run `init`, confirm it's untouched; add
+a domain schema directly to the run folder and re-run `init`, confirm it survives even
+though the package never shipped it.
+
+**10.2 Idempotent store setup**
+*Why it matters* — `setup` re-runs the same scaffold step `init` does (so it's safe to run
+standalone on a fresh checkout), and every Neo4j statement is `IF NOT EXISTS` or wrapped
+to degrade gracefully — e.g. the `Entity.id` uniqueness constraint falls back to a plain
+index if duplicate ids already exist, rather than failing setup outright.
+*Test hint* — run `setup` twice in a row and confirm identical output/no errors; then seed
+a graph with duplicate `Entity.id` values before running `setup` and confirm it reports
+the fallback-index path instead of crashing.
+
+**10.3 Warm query daemon**
+*Why it matters* — the daemon executes the real Click command in-process via `CliRunner`
+rather than reimplementing query logic over HTTP, so a proxied response is byte-identical
+to a direct CLI run; and the proxy gate is scoped to `query` calls specifically (non-query
+commands and `ARTMIND_NO_PROXY=1` always run in-process), which is what makes the daemon a
+pure performance optimization rather than a second code path to keep in sync.
+*Test hint* — compare `artmind query --help` against `ARTMIND_NO_PROXY=1 artmind query
+--help` with a stale daemon running after a code change — they should disagree, proving
+the daemon path is real and separately cached from disk.
+
+**10.4 Chat UI**
+*Why it matters* — the end-user surface isn't sandboxed by prose alone: it runs under
+`QA_PROFILE`, which hard-scopes the agent to the `artmind-query`/`artmind-update` skills
+only, so it cannot reach schema-authoring or ingestion tooling even if asked to.
+*Test hint* — from the chat UI, ask the agent to create a new domain schema or trigger
+ingestion and confirm it has no skill available to do so, versus the same request
+succeeding from the admin console.
+
+**10.5 Admin console**
+*Why it matters* — "admin console" is one `admin-ui` process serving two lanes off the
+same app factory: the agent chat (running under `ADMIN_PROFILE`'s wider skill set) and a
+separate dashboard surface whose CLI guide and schema reference are generated live from
+the running process's own imports/disk state on every request — never a checked-in copy
+that can drift.
+*Test hint* — edit a domain schema on disk and reload the Schemas tab without restarting
+admin-ui; confirm it reflects the change immediately (no restart, no cache).
+
+**10.6 Structured classification UI**
+*Why it matters* — `propose_table_semantics` is the single re-entry point for
+classification everywhere it can happen (CLI, ingest's auto-run on first
+registration/new columns, and both admin-ui routes), so the UI is provably a caller and
+not a parallel implementation that could drift from CLI behavior. The bulk-progress
+counter is deliberately in-memory and non-persisted — a mid-run restart loses only the
+live readout, never the actual per-table status already durable in the registry.
+*Test hint* — trigger a bulk classify run, restart admin-ui mid-run, and confirm the
+progress readout resets to zero/unknown while the tables that did finish still carry
+their correct status rather than reverting.
 
 ## 11. Agent Integration
 
@@ -1377,10 +1465,61 @@ How AI agents consume the system — the NL interface contract.
 
 | # | ✓ | Feature | Statement | Reference anchor |
 |---|---|---|---|---|
-| 11.1 |  | Skills contract | Packaged agent skills define the NL workflows (query, ingest guidance, refinement, updates, schema authoring) and ship with the system as the source of truth. | `artmind/skills/` |
-| 11.2 |  | Dual agent backends | The web UIs run on either a first-party agent SDK or any ACP-speaking agent, selectable at runtime. | `webui/agent.py`, `--acp-cmd` |
-| 11.3 |  | Skill seeding | Skills are seeded into the runtime home so the agent's working directory always has the current contract. | `artmind init` (`_seed_tree()`) |
-| 11.4 |  | Agent persona packaging | A ready-made persona/config for an external agent runtime ships with the system. | `artmind/opencode/` |
+| 11.1 | ✓ | Skills contract | Packaged agent skills define the NL workflows (query, ingest guidance, refinement, updates, schema authoring) and ship with the system as the source of truth. | `artmind/skills/` |
+| 11.2 | ✓ | Dual agent backends | The web UIs run on either a first-party agent SDK or any ACP-speaking agent, selectable at runtime. | `webui/agent.py`, `--acp-cmd` |
+| 11.3 | ✓ | Skill seeding | Skills are seeded into the runtime home so the agent's working directory always has the current contract. | `artmind init` (`_seed_tree()`) |
+| 11.4 | ✓ | Agent persona packaging | A ready-made persona/config for an external agent runtime ships with the system. | `artmind/opencode/` |
+
+> **Scoring note:** the reference implementation maintains two independent persona texts
+> for the same two personas — inline prose in `profiles.py` for the SDK backend, and
+> separate markdown files in `artmind/opencode/agent/` for the ACP backend — kept in sync
+> by hand rather than generated from one source. Not part of the baseline statement, but
+> worth checking whether another implementation's dual-backend persona texts can drift
+> from each other silently.
+
+### Grounding notes
+
+**11.1 Skills contract**
+*Why it matters* — each skill is a self-contained `SKILL.md` (with supporting
+scripts/assets where needed) rather than logic embedded in agent prompts or app code, so
+the NL workflow contract is inspectable, versionable, and — per 11.3 — reaches every
+consuming surface (chat UI, admin UI, both agent backends) through one seeding path
+rather than being duplicated per surface.
+*Test hint* — confirm every NL workflow an agent surface offers (query, update, refine,
+ingest guidance, schema authoring) traces back to one of these five directories rather
+than to inline prompt logic elsewhere.
+
+**11.2 Dual agent backends**
+*Why it matters* — both backends are "profile-agnostic transport": the persona and skill
+scoping live in the agent profile, not in the backend implementation, so adding a third
+backend would not require re-deriving which skills or persona it gets. The ACP path's
+prompt-preamble fallback reuses the SDK profile's own persona text when the spawned agent
+has no native system-prompt channel, so the two "independent" backends still share
+configuration data at that seam.
+*Test hint* — switch backends mid-conversation via the UI radio picker and confirm a new
+session starts (old context is not carried over) rather than assuming a seamless handoff;
+separately, run the ACP backend against an agent with the prompt-preamble fallback enabled
+and confirm the persona text still reaches it despite no native system-prompt support.
+
+**11.3 Skill seeding**
+*Why it matters* — the agent's working directory is deliberately the run folder, never the
+source checkout, so the seeded skills copy is the *only* thing the agent can see — this is
+what keeps the corpus and repo internals out of an end-user or operator conversation. Both
+backends resolve skills through this same seeded directory, just via different mechanisms
+(the SDK's native skill-selection option vs. an ACP persona's prose instruction to use them
+by name).
+*Test hint* — edit a skill in the package, run `init`, and confirm a *running* chat/admin
+UI's next new session picks up the change without restarting the web server (skills are
+read from disk per-session, not cached at process start).
+
+**11.4 Agent persona packaging**
+*Why it matters* — the two shipped personas mirror the two web-UI profiles exactly
+(end-user vs. operator, same skill lists, matching ACP mode names), so an ACP agent gets
+equivalent scoping to the SDK-backed surfaces even though it's driven by prose instruction
+rather than the SDK's own skill-selection parameter.
+*Test hint* — run the admin console over the ACP backend and confirm the agent both
+introduces itself as the admin assistant and has (per its instructions) the wider skill
+set — including schema authoring — that the end-user persona's instructions never mention.
 
 ---
 
