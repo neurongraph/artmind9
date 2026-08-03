@@ -153,6 +153,11 @@ Ask: "Anything else to add to this session?"
 ## Multi-turn Notes
 
 - All turns in one skill invocation share the same `session_id`. Pass it in every `draft` call after the first.
+- A session is pinned to the domain it was created with — `confirm` writes with
+  that domain, not the one passed to a later `draft`. Pass the same `--domain`
+  on every resumed turn; if the user switches domain mid-conversation, start a
+  new session (drop `--session`) rather than reusing this one. Resuming with a
+  different `--domain` is rejected.
 - If the user's input has no extractable entities, report this clearly and ask if they want to rephrase.
 - If extraction returns many entities, present all candidate batches in a single message grouped by entity.
 

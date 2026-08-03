@@ -122,7 +122,7 @@ runs. If they disagree, the run folder wasn't re-seeded. Do not edit
 just dev-test        # uv run --group dev pytest test/ -v
 ```
 
-421 tests run in ~9s with **no Neo4j and no network** — they import modules directly
+923 tests run in ~9s with **no Neo4j and no network** — they import modules directly
 (`from artmind.cli import cli`) and drive Click via `CliRunner`, with external services
 mocked. That makes them fast and hermetic, but it means they:
 
@@ -131,6 +131,17 @@ mocked. That makes them fast and hermetic, but it means they:
 
 Unit tests are the right first check, but end-to-end behaviour needs a real invocation
 against a live Neo4j with `ARTMIND_NO_PROXY=1` (or a freshly restarted daemon).
+
+**A mocked graph session answers every query successfully.** A bare `MagicMock()` session
+returns a truthy result for *any* Cypher, so a test passes identically whether the query
+matched the right node, the wrong node, or nothing at all — and an empty Neo4j `MATCH`
+raises nothing, it just does no work. That combination hid a real defect in
+`update confirm`: it matched entities by the LLM's extracted name instead of the node id
+the user picked, so every write silently no-opped while the returned counts still reported
+success (no test exercised the `link` path at all). When testing a graph write, assert on
+the **parameters actually sent** and on which query ran — `test/test_update.py`'s
+`run_side_effect` recorders are the pattern — never on summary counts alone, and never
+trust a count the code increments outside the branch that did the work.
 
 ### 4. Docs and code drift in both directions
 

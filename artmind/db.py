@@ -428,8 +428,14 @@ def _list_update_sessions(
         conditions = []
         params: list = []
         if domain:
-            conditions.append("s.domain = ?")
-            params.append(domain)
+            # Hierarchical rollup (a parent filter includes descendants), the
+            # convention every domain-scoped query path follows. Prefix-compared
+            # via substr rather than LIKE because '_' is a LIKE wildcard and
+            # real domain names contain underscores (banking_organization.*),
+            # which would let 'a_b.%' match 'axb.child'.
+            prefix = domain + "."
+            conditions.append("(s.domain = ? OR substr(s.domain, 1, ?) = ?)")
+            params.extend([domain, len(prefix), prefix])
         if user:
             conditions.append("s.created_by = ?")
             params.append(user)
