@@ -29,8 +29,10 @@ data/kg/project_governance
 data/kg/contracts
 graphify-out/
 logs/
-package.json
-package-lock.json
-opencode.json
+# Root-only Node/opencode config (leading slash: do NOT match nested manifests
+# like artmind_canvas/frontend/package.json, which must be committed).
+/package.json
+/package-lock.json
+/opencode.json
 .agents/skills/
 .pytest_cache/

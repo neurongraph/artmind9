@@ -1,0 +1,26 @@
+# artmind_canvas backend — its OWN project, a pure client of artmind (ADR 0003).
+# It depends on the artmind9 package and imports its dependency-free reuse seams
+# (artmind.webui.backends.*, artmind.graph_query, artmind.ingest) as a library.
+# It is deliberately NOT added to artmind9's own `packages=[...]`.
+[project]
+name = "artmind-canvas-backend"
+version = "0.0.1"
+description = "Dedicated backend for artmind_canvas — a pure client of artmind."
+requires-python = ">=3.14.4"
+dependencies = [
+    "artmind9",
+    "fastapi",
+    "uvicorn",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+packages = ["artmind_canvas_backend", "artmind_canvas_backend.routes"]
+
+# artmind9 is not published; resolve it from the repo root as an editable path.
+[tool.uv.sources]
+artmind9 = { path = "../..", editable = true }

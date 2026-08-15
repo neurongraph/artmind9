@@ -1,0 +1,15 @@
+# Frontend (Node/Vite)
+node_modules/
+dist/
+*.local
+.vite/
+
+# Backend (Python/uv)
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Editor / OS
+.DS_Store
