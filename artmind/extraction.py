@@ -28,6 +28,23 @@ def call_llm(model: str, prompt: str) -> str:
     provider = env.get("ARTMIND_KG_LLM_PROVIDER", "ollama")
     if provider == "openrouter":
         result = call_llm_openrouter(model, prompt, timeout, env)
+    elif provider == "ibm_ica":
+        # Enterprise Anthropic-compatible inference endpoint is provided via
+        # ANTHROPIC_BASE_URL and ANTHROPIC_AUTH_TOKEN. Reuse the OpenRouter
+        # client path by mapping those values to the OpenRouter client env
+        # variables the existing helper expects.
+        token = env.get("ANTHROPIC_AUTH_TOKEN")
+        if not token:
+            raise RuntimeError(
+                "ARTMIND_KG_LLM_PROVIDER=ibm_ica requires ANTHROPIC_AUTH_TOKEN to be set"
+            )
+        env2 = dict(env)
+        # OpenRouter client expects ARTMIND_OPENROUTER_API_KEY and ARTMIND_KG_LLM_URL
+        env2["ARTMIND_OPENROUTER_API_KEY"] = token
+        base = env.get("ANTHROPIC_BASE_URL")
+        if base:
+            env2["ARTMIND_KG_LLM_URL"] = base
+        result = call_llm_openrouter(model, prompt, timeout, env2)
     else:
         result = call_llm_ollama(model, prompt, timeout)
     log_llm_call("chat", model, prompt, result)
