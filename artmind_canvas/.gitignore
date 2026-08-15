@@ -1,0 +1,25 @@
+# artmind_canvas build artifacts and toolchain caches.
+# The repo root .gitignore already covers __pycache__/, *.egg-info, and .venv
+# globally; this file keeps the canvas subtree self-describing and robust even
+# if it is copied out of the repo. The frontend keeps its own .gitignore for
+# node_modules/ and dist/.
+
+# Python (backend — a separate uv project)
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node / Vite (frontend)
+node_modules/
+dist/
+*.local
+
+# Local scratch vault used only for dev runs
+backend/dev_vault/*
+!backend/dev_vault/README.md
+
+# OS cruft
+.DS_Store
