@@ -3,6 +3,7 @@ from neo4j.exceptions import ClientError
 
 from artmind.extraction import embed_text as _embed_text
 from artmind.graph_query import (
+    not_deleted_chunk,
     read_session,
     resolve_as_of,
     sanitize_lucene_query,
@@ -106,6 +107,7 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
         LIMIT $candidateK
       )
     WHERE {domain_predicate("node")}{asof_chunk}
+      AND {not_deleted_chunk("node")}
     WITH node, vector.similarity.cosine(node.embedding, $embedding) AS score
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
@@ -200,6 +202,7 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
     CALL db.index.fulltext.queryNodes('chunk_text_ft', $ft_query)
     YIELD node, score
     WHERE {domain_predicate("node")}{asof_chunk}
+      AND {not_deleted_chunk("node")}
     OPTIONAL MATCH (node)-[:PART_OF]->(document:Document)
     RETURN score,
            node {{ .id, .name, .doc_id, .text }} AS chunk,

@@ -105,6 +105,24 @@ def asof_predicate(var: str, param: str = "asOf") -> str:
     )
 
 
+def not_deleted_chunk(var: str) -> str:
+    """Cypher WHERE fragment excluding tombstoned DocChunks (A1d).
+
+    `docs clean` sets ``deleted=true`` on a document's chunks; retrieval must
+    skip them. NULL-safe (``coalesce``) so the overwhelming majority of chunks —
+    which carry no ``deleted`` property at all — stay visible."""
+    return f"coalesce({var}.deleted, false) = false"
+
+
+def not_deleted_doc(var: str) -> str:
+    """Cypher WHERE fragment excluding tombstoned Documents (A1d).
+
+    `docs clean` sets ``status='deleted'`` on the Document node; listings and
+    document-scoped retrieval must skip it. NULL-safe: a document with no
+    ``status`` is treated as active."""
+    return f"coalesce({var}.status, 'active') <> 'deleted'"
+
+
 # ISO date at year, month, or day precision (optionally with a time suffix).
 # valid_from/valid_to are ISO strings compared lexically, so prefixes work.
 _ASOF_RE = re.compile(r"^\d{4}(-\d{2}){0,2}(T[0-9:.+-]+)?$")
@@ -328,12 +346,12 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
     cypher = f"""
     CALL () {{
       MATCH (d:Document)
-      WHERE {domain_predicate("d")}
+      WHERE {domain_predicate("d")} AND {not_deleted_doc("d")}
       WITH count(d) AS cnt, collect(DISTINCT d.name) AS names
       RETURN 'Document' AS label, cnt AS count, names AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
       MATCH (c:DocChunk)
-      WHERE {domain_predicate("c")}
+      WHERE {domain_predicate("c")} AND {not_deleted_chunk("c")}
       WITH count(c) AS cnt
       RETURN 'DocChunk' AS label, cnt AS count, null AS names, null AS relationship, null AS from_label, null AS to_label
     UNION
@@ -805,22 +823,24 @@ def _chunks_query(expand: int, as_of: str | None) -> str:
         # so lexical order == reading order; names like "Chunk 16/38" do NOT
         # sort correctly). The ±N window is computed over the document's
         # chunks sorted by id.
-        neighbor_call = """
-    CALL (c) {
-      MATCH (s:DocChunk {doc_id: c.doc_id})
+        neighbor_call = f"""
+    CALL (c) {{
+      MATCH (s:DocChunk {{doc_id: c.doc_id}})
+      WHERE {not_deleted_chunk("s")}
       WITH c, s
       ORDER BY s.id
       WITH c, collect(s) AS sibs
       WITH sibs, coalesce([i IN range(0, size(sibs)-1) WHERE sibs[i].id = c.id][0], -1) AS idx
       RETURN [j IN range(idx - $expand, idx + $expand)
               WHERE idx >= 0 AND j >= 0 AND j < size(sibs) AND j <> idx
-              | {id: sibs[j].id, name: sibs[j].name, valid_to: sibs[j].valid_to, text: sibs[j].text}] AS neighbors
-    }"""
+              | {{id: sibs[j].id, name: sibs[j].name, valid_to: sibs[j].valid_to, text: sibs[j].text}}] AS neighbors
+    }}"""
         neighbor_return = ",\n           neighbors"
     return f"""
     MATCH (c:DocChunk)
     WHERE c.id IN $chunkIds
       AND {domain_predicate("c")}{asof_c}
+      AND {not_deleted_chunk("c")}
     OPTIONAL MATCH (c)-[:PART_OF]->(d:Document){neighbor_call}
     RETURN c {{ .id, .name, .doc_id, .domain, .valid_from, .valid_to, .text }} AS chunk,
            d {{ .id, .name, .path, .domain, .valid_from, .valid_to, .superseded_by }} AS document{neighbor_return}

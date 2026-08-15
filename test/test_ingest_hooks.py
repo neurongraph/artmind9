@@ -46,7 +46,7 @@ def test_ingest_to_kg_commits_when_not_stage_only(monkeypatch, tmp_path):
     calls = []
     file_result = {"chunks_dir": str(tmp_path), "chunk_count": 1}
     monkeypatch.setattr(ing, "extract_kg", lambda fr, d, tm, em: tmp_path)
-    monkeypatch.setattr(ing, "commit_to_graph", lambda p, d: calls.append((p, d)) or "sentinel")
+    monkeypatch.setattr(ing, "commit_to_graph", lambda p, d, replace=False: calls.append((p, d)) or "sentinel")
 
     ok = ing.ingest_to_kg(file_result, "mydomain", stage_only=False)
 

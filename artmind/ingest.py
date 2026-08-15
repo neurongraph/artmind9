@@ -374,14 +374,38 @@ def _resolve_doc_identity(
     return (resumed_doc_id or uuid.uuid4().hex), 1
 
 
-def _register_document(domain: str, file_path: Path, logical_id: str) -> str:
-    """Insert document into registry; return resolved path. Raises ValueError on duplicate."""
+def _register_document(
+    domain: str, file_path: Path, logical_id: str, replace: bool = False
+) -> str:
+    """Insert document into registry; return resolved path. Raises ValueError on duplicate.
+
+    When ``replace`` is set (idempotent re-ingest, A1d) and a row already exists
+    for this ``(domain, logical_id)``, the existing row is UPDATEd in place
+    (new sha256/filename/path/timestamp) rather than a second row inserted — the
+    registry mirrors the graph's single-document-per-logical-id identity. A
+    replace with no prior row falls through to a normal insert (fresh document).
+    """
     filename = file_path.name
     file_sha256 = _compute_sha256(file_path)
     resolved_path = str(file_path.resolve())
     conn = _get_db()
     cursor = conn.cursor()
     try:
+        if replace:
+            cursor.execute(
+                "SELECT id FROM documents WHERE domain = ? AND logical_id = ?",
+                (domain, logical_id),
+            )
+            existing = cursor.fetchone()
+            if existing:
+                cursor.execute(
+                    "UPDATE documents SET filename = ?, sha256 = ?, original_path = ?,"
+                    " added_at = ? WHERE domain = ? AND logical_id = ?",
+                    (filename, file_sha256, resolved_path,
+                     datetime.now().isoformat(), domain, logical_id),
+                )
+                conn.commit()
+                return resolved_path
         cursor.execute(
             "INSERT INTO documents (domain, filename, sha256, original_path, added_at, logical_id)"
             " VALUES (?, ?, ?, ?, ?, ?)",
@@ -487,6 +511,7 @@ def ingest_file(
     job_id: str | None = None,
     chunk_size: int = 6000,
     force: bool = False,
+    replace: bool = False,
 ):
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -498,7 +523,9 @@ def ingest_file(
     file_sha256 = _compute_sha256(source)
     logger.debug("SHA256: {}", file_sha256)
     is_duplicate = _sha256_in_registry(file_sha256)
-    if is_duplicate and not force:
+    # --replace re-ingests over the same logical document, so a byte-identical
+    # re-run is a no-op replace rather than a skip; let it proceed.
+    if is_duplicate and not force and not replace:
         logger.warning(
             "Skipping duplicate — SHA256 already registered: {}", source.name
         )
@@ -515,8 +542,11 @@ def ingest_file(
     # A forced duplicate gets its own extraction identity (chunk cache, doc_id,
     # Neo4j document node) so it doesn't collide/merge with the original document
     # that shares this content hash. The registry still records the real sha256.
+    #
+    # Skipped under --replace: replace intends to reuse the prior identity, not
+    # fork a new one, so it keeps the shared extraction key and logical id.
     extraction_sha256 = file_sha256
-    if is_duplicate and force:
+    if is_duplicate and force and not replace:
         extraction_sha256 = f"{file_sha256}-{uuid.uuid4().hex[:8]}"
         logger.info(
             "Forcing duplicate ingestion of {} — using independent extraction key",
@@ -529,11 +559,14 @@ def ingest_file(
     # logical id too, mirroring the independent extraction key above, so it never
     # collides with / bumps the version of the original document.
     logical_id = _logical_id(domain, _canonical_key(source, domain))
-    if is_duplicate and force:
+    if is_duplicate and force and not replace:
         logical_id = f"{logical_id}-{uuid.uuid4().hex[:8]}"
 
+    # Under --replace the on-disk copies overwrite in place and the registry row
+    # is UPDATEd, so keep the original filename; the collision-rename would
+    # otherwise mint a distinct filename (and a distinct document).
     dest_filename = source.name
-    if _filename_in_registry(dest_filename):
+    if _filename_in_registry(dest_filename) and not replace:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         dest_filename = f"{source.stem}_{timestamp}{source.suffix}"
         logger.info("Name collision — renamed to: {}", dest_filename)
@@ -629,7 +662,7 @@ def ingest_file(
             logger.debug("No artifacts directory for {}", dest_filename)
 
     try:
-        registered_path = _register_document(domain, dest_path, logical_id)
+        registered_path = _register_document(domain, dest_path, logical_id, replace=replace)
         elapsed_total = time.monotonic() - t_file_start
         logger.info(
             "── Ingest done in {:.1f}s: {} registered in domain '{}'",
@@ -1361,58 +1394,250 @@ def _write_to_neo4j(doc_kg_dir: Path) -> bool:
         driver.close()
 
 
-def _delete_from_neo4j(domain: str, document_name: str) -> dict:
-    """Delete matching Documents, their chunks, and orphan Entity nodes."""
-    env = load_env()
-    uri = env.get("ARTMIND_KG_NEO4J_URI", "neo4j://127.0.0.1:7687")
-    user = env.get("ARTMIND_KG_NEO4J_USERNAME", "neo4j")
-    password = env.get("ARTMIND_KG_NEO4J_PASSWORD", "")
-    database = env.get("ARTMIND_KG_NEO4J_DATABASE", "neo4j")
+def _rollback_property_ledger(session, doc_id: str, entity_ids: list) -> int:
+    """Drop ``doc_id``'s contributions from each entity's ``_prop_sources`` ledger
+    and recompute the clean materialized value (A1d, the un-merge A1e enables).
 
-    driver = GraphDatabase.driver(uri, auth=(user, password))
+    For every touched entity, remove the retracted document's entries per
+    property and re-fold the survivors through ``_fold_ledger`` — reproducing
+    exactly the accretive value the remaining sources would have produced. A
+    property whose ledger empties is removed from the node; a ``__legacy__``
+    (un-attributable pre-ledger) contribution is never dropped, so pre-existing
+    data survives. The embedding and every property this document never touched
+    are left untouched. Returns the number of entities updated.
+
+    ``SET e += $props`` with a ``null`` map value removes that property — the
+    mechanism used to drop an emptied property while preserving the node."""
+    if not entity_ids:
+        return 0
+    rows = session.run(
+        "MATCH (e:Entity) WHERE e.id IN $ids RETURN e.id AS id, e._prop_sources AS ps",
+        ids=entity_ids,
+    ).data()
+    updated = 0
+    for row in rows:
+        ledger = _parse_prop_sources(row["ps"])
+        if not ledger:
+            continue
+        prop_updates: dict = {}
+        for key in list(ledger.keys()):
+            kept = [c for c in ledger[key] if c[0] != doc_id]
+            if len(kept) == len(ledger[key]):
+                continue  # this document never contributed to this property
+            if kept:
+                ledger[key] = kept
+                folded = _fold_ledger(kept)
+                prop_updates[key] = folded if folded not in (None, "", []) else None
+            else:
+                del ledger[key]
+                prop_updates[key] = None  # emptied → remove the property
+        if not prop_updates:
+            continue
+        prop_updates["_prop_sources"] = (
+            json.dumps(ledger, ensure_ascii=False) if ledger else None
+        )
+        session.run(
+            "MATCH (e:Entity {id: $id}) SET e += $props",
+            id=row["id"],
+            props=prop_updates,
+        )
+        updated += 1
+    return updated
+
+
+def _retract_document_from_neo4j(domain: str, doc_id: str) -> dict:
+    """Hard-retract exactly one document's contributions from the graph (A1d).
+
+    Scoped and shared-entity-safe — unlike the domain-wide orphan sweep it
+    replaces, this touches only what ``doc_id`` put there:
+
+    1. Edge provenance (A1b): drop ``doc_id`` from every edge's ``doc_ids`` and
+       its chunks from ``chunk_ids``; delete only edges the retraction leaves
+       with no contributing document (a shared edge another doc still backs
+       survives).
+    2. Property ledger (A1e): for each entity this document's chunks fed, drop
+       the document's ledger contributions and recompute the clean value — the
+       actual removal of stale property text (see ``_rollback_property_ledger``).
+    3. Delete this document's DocChunks.
+    4. Scoped entity GC: delete only the touched entities now lacking any
+       EXTRACTED_FROM — a shared entity another document still cites survives.
+
+    Deliberately does NOT delete the Document node: idempotent re-ingest reuses
+    it (``version+1``), and purge deletes it separately after retracting."""
+    from artmind.graph_query import neo4j_session
+
+    result = {
+        "edges_retracted": 0,
+        "edges_deleted": 0,
+        "entities_ledger_rolled_back": 0,
+        "chunks": 0,
+        "gc_entities": 0,
+    }
+    with neo4j_session() as session:
+        # 1a. Remove this document from each edge's accretive provenance.
+        rec = session.run(
+            """
+            MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
+            WHERE $doc_id IN coalesce(r.doc_ids, [])
+            SET r.doc_ids   = [x IN r.doc_ids WHERE x <> $doc_id],
+                r.chunk_ids = [x IN coalesce(r.chunk_ids, [])
+                               WHERE NOT x STARTS WITH ($doc_id + '_')]
+            RETURN count(r) AS n
+            """,
+            domain=domain,
+            doc_id=doc_id,
+        ).single()
+        result["edges_retracted"] = int(rec["n"]) if rec else 0
+        # 1b. Delete edges the retraction left with no contributing document.
+        #     Only retraction ever empties doc_ids (fresh A1b edges carry >=1;
+        #     pre-A1b edges have doc_ids null, excluded here), so this is a safe,
+        #     idempotent cleanup of exactly what 1a emptied.
+        rec = session.run(
+            """
+            MATCH (:Entity {domain: $domain})-[r]->(:Entity {domain: $domain})
+            WHERE r.doc_ids IS NOT NULL AND size(r.doc_ids) = 0
+            DELETE r
+            RETURN count(r) AS n
+            """,
+            domain=domain,
+        ).single()
+        result["edges_deleted"] = int(rec["n"]) if rec else 0
+
+        # 2. Collect the entities this document's chunks fed BEFORE deleting the
+        #    chunks (the EXTRACTED_FROM edges vanish with them), then roll back
+        #    their property ledgers.
+        rec = session.run(
+            """
+            MATCH (e:Entity)-[:EXTRACTED_FROM]->(:DocChunk {doc_id: $doc_id})
+            RETURN collect(DISTINCT e.id) AS ids
+            """,
+            doc_id=doc_id,
+        ).single()
+        touched_ids = list(rec["ids"]) if rec and rec["ids"] else []
+        result["entities_ledger_rolled_back"] = _rollback_property_ledger(
+            session, doc_id, touched_ids
+        )
+
+        # 3. Delete this document's chunks.
+        rec = session.run(
+            "MATCH (c:DocChunk {doc_id: $doc_id}) DETACH DELETE c RETURN count(c) AS n",
+            doc_id=doc_id,
+        ).single()
+        result["chunks"] = int(rec["n"]) if rec else 0
+
+        # 4. Scoped GC: only the touched entities that lost their last source.
+        if touched_ids:
+            rec = session.run(
+                """
+                MATCH (e:Entity)
+                WHERE e.id IN $ids AND NOT (e)-[:EXTRACTED_FROM]->(:DocChunk)
+                DETACH DELETE e
+                RETURN count(e) AS n
+                """,
+                ids=touched_ids,
+            ).single()
+            result["gc_entities"] = int(rec["n"]) if rec else 0
+    return result
+
+
+def _purge_from_neo4j(domain: str, document_name: str) -> dict:
+    """Hard-purge every Document version matching ``document_name`` in ``domain``:
+    scoped-retract each version's contributions, then delete the Document node.
+
+    Replaces the domain-wide orphan sweep (``_delete_from_neo4j``) with
+    per-document retraction, so a shared entity/edge cited by another document
+    is never collateral. Result keys mirror the old return shape
+    (``documents``/``chunks``/``orphan_entities``) so ``clean_document`` and its
+    CLI output are unchanged; ``orphan_entities`` now counts the scoped GC."""
+    from artmind.graph_query import neo4j_session
+
+    with neo4j_session() as session:
+        rec = session.run(
+            """
+            MATCH (d:Document {domain: $domain})
+            WHERE toUpper(d.name) = toUpper($name)
+               OR toUpper(last(split(d.path, '/'))) = toUpper($name)
+            RETURN collect(DISTINCT d.id) AS ids
+            """,
+            domain=domain,
+            name=document_name,
+        ).single()
+    doc_ids = list(rec["ids"]) if rec and rec["ids"] else []
+
+    totals = {"documents": 0, "chunks": 0, "orphan_entities": 0, "edges_deleted": 0}
+    for doc_id in doc_ids:
+        r = _retract_document_from_neo4j(domain, doc_id)
+        totals["chunks"] += r["chunks"]
+        totals["orphan_entities"] += r["gc_entities"]
+        totals["edges_deleted"] += r["edges_deleted"]
+
+    if doc_ids:
+        with neo4j_session() as session:
+            rec = session.run(
+                "MATCH (d:Document) WHERE d.id IN $ids DETACH DELETE d RETURN count(d) AS n",
+                ids=doc_ids,
+            ).single()
+            totals["documents"] = int(rec["n"]) if rec else 0
+    return totals
+
+
+def tombstone_document(domain: str, document_name: str) -> dict:
+    """Soft-delete a document (A1d, decisions 4-5): flag its Document
+    (``status='deleted'``, ``deleted_at``) and its DocChunks (``deleted=true``)
+    so chunk/vector/fulltext retrieval and doc listings exclude them, while
+    leaving all knowledge — and its property contributions — in the graph until
+    a separate hard ``purge``. Reversible, and local storage / the registry are
+    untouched: a tombstone is a graph-level flag, not a removal.
+
+    Matches the Document the same way the hard path does (name or path basename)."""
+    from artmind.graph_query import neo4j_session
+
+    document_name = Path(document_name).name
+    now = _datetime.datetime.now(_datetime.timezone.utc).isoformat()
+    result = {
+        "domain": domain,
+        "document_name": document_name,
+        "neo4j_documents": 0,
+        "neo4j_chunks": 0,
+        "neo4j_error": None,
+    }
     try:
-        with driver.session(database=database) as session:
-            doc_result = session.run(
+        with neo4j_session() as session:
+            rec = session.run(
                 """
                 MATCH (d:Document {domain: $domain})
                 WHERE toUpper(d.name) = toUpper($name)
                    OR toUpper(last(split(d.path, '/'))) = toUpper($name)
-                WITH collect(d) AS docs
-                UNWIND docs AS d
-                OPTIONAL MATCH (c:DocChunk {doc_id: d.id})
-                WITH collect(DISTINCT d) AS docs, collect(DISTINCT c) AS chunks
-                FOREACH (c IN chunks | DETACH DELETE c)
-                FOREACH (d IN docs | DETACH DELETE d)
-                RETURN size(docs) AS deleted_documents, size(chunks) AS deleted_chunks
+                SET d.status = 'deleted', d.deleted_at = $ts
+                WITH collect(d.id) AS ids
+                CALL (ids) {
+                  UNWIND ids AS did
+                  MATCH (c:DocChunk {doc_id: did})
+                  SET c.deleted = true
+                  RETURN count(c) AS chunks
+                }
+                RETURN size(ids) AS documents, chunks AS chunks
                 """,
                 domain=domain,
                 name=document_name,
+                ts=now,
             ).single()
-            orphan_result = session.run(
-                """
-                MATCH (e:Entity {domain: $domain})
-                WHERE NOT (e)-[:EXTRACTED_FROM]->(:DocChunk)
-                WITH collect(e) AS entities
-                FOREACH (e IN entities | DETACH DELETE e)
-                RETURN size(entities) AS deleted_orphan_entities
-                """,
-                domain=domain,
-            ).single()
-            return {
-                "documents": int(doc_result["deleted_documents"]) if doc_result else 0,
-                "chunks": int(doc_result["deleted_chunks"]) if doc_result else 0,
-                "orphan_entities": (
-                    int(orphan_result["deleted_orphan_entities"])
-                    if orphan_result
-                    else 0
-                ),
-            }
-    finally:
-        driver.close()
+            if rec:
+                result["neo4j_documents"] = int(rec["documents"])
+                result["neo4j_chunks"] = int(rec["chunks"])
+    except Exception as e:
+        result["neo4j_error"] = str(e)
+    return result
 
 
-def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -> dict:
-    """Remove an ingested document from local storage, registry, and Neo4j."""
+def purge_document(domain: str, document_name: str, delete_neo4j: bool = True) -> dict:
+    """Hard-remove an ingested document from local storage, registry, and Neo4j.
+
+    The Neo4j step is now a scoped, shared-entity-safe per-document retraction
+    (``_purge_from_neo4j``) rather than the old domain-wide orphan sweep. Local
+    cleanup (originals/markdowns/kg dir/chunk-status/registry rows) is unchanged.
+    This is what ``docs purge`` runs; ``docs clean`` now soft-tombstones instead
+    (see ``tombstone_document``)."""
     document_name = Path(document_name).name
     rows = _find_registered_documents(domain, document_name)
     if not rows:
@@ -1471,7 +1696,7 @@ def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -
 
     if delete_neo4j:
         try:
-            graph_result = _delete_from_neo4j(domain, document_name)
+            graph_result = _purge_from_neo4j(domain, document_name)
             result["neo4j_documents"] = graph_result["documents"]
             result["neo4j_chunks"] = graph_result["chunks"]
             result["neo4j_orphan_entities"] = graph_result["orphan_entities"]
@@ -1481,6 +1706,11 @@ def clean_document(domain: str, document_name: str, delete_neo4j: bool = True) -
     return result
 
 
+# Back-compat alias: the hard-removal helper was named ``clean_document`` before
+# A1d split soft-tombstone (``docs clean``) from hard-purge (``docs purge``).
+clean_document = purge_document
+
+
 def ingest_to_kg(
     file_result: dict,
     domain: str,
@@ -1488,8 +1718,16 @@ def ingest_to_kg(
     embed_model: str = "nomic-embed-text:latest",
     chunk_size: int = 6000,
     stage_only: bool = False,
+    replace: bool = False,
 ) -> bool:
-    """Orchestrate KG extraction and (unless stage_only) commit for one document."""
+    """Orchestrate KG extraction and (unless stage_only) commit for one document.
+
+    When ``replace`` is set, the commit first hard-retracts the prior version's
+    graph contributions (idempotent re-ingest, A1d): identity resolution reuses
+    the physical ``doc_id`` at ``version+1``, so retracting that ``doc_id`` and
+    re-committing under it replaces the document's edges, chunks, and property
+    contributions in place while shared entities/edges backed by other documents
+    survive."""
     # Back-compat: if ingest_file didn't split chunks yet, do it now.
     if "chunks_dir" not in file_result:
         registered_path = Path(file_result["registered_path"])
@@ -1511,7 +1749,7 @@ def ingest_to_kg(
     if stage_only:
         logger.info("Staged (not committed): {}", doc_kg_dir)
         return True
-    return commit_to_graph(doc_kg_dir, domain)
+    return commit_to_graph(doc_kg_dir, domain, replace=replace)
 
 
 def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:
@@ -1956,7 +2194,7 @@ def _incoming_property_values(doc_kg_dir: Path, domain: str) -> dict:
     return out
 
 
-def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
+def commit_to_graph(doc_kg_dir: Path, domain: str, replace: bool = False) -> bool:
     """Complete commit of staged KG JSON to Neo4j: capture prior values, write,
     then the per-document self-asserted-truth hooks (temporal normalization,
     then supersession).
@@ -1966,8 +2204,34 @@ def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
     (merge/conflicts/consolidate) are deliberately NOT run here — see
     artmind.refine_pipeline. Hooks are best-effort: a down hook logs a warning
     but does not fail the commit, since the graph write already succeeded.
+
+    When ``replace`` is set (idempotent re-ingest, A1d), the prior version's
+    contributions under this reused ``doc_id`` are hard-retracted *before* the
+    write, so the re-commit replaces them in place rather than accreting onto
+    them (a second "desc | desc" append). Retraction runs before prior-value
+    capture so history reflects the rewritten, not doubled, state.
     """
     from artmind import entity_history
+
+    # 0a. Idempotent-replace retraction. Reingest reuses the physical doc_id at
+    #     version+1; retract that doc_id's old edges/chunks/property-ledger
+    #     entries first, then the write below re-adds this version's under the
+    #     same id. Shared entities/edges another document still backs survive.
+    if replace:
+        try:
+            doc_id = json.loads(
+                (doc_kg_dir / "document.json").read_text(encoding="utf-8")
+            ).get("id")
+            if doc_id:
+                retracted = _retract_document_from_neo4j(domain, doc_id)
+                logger.info(
+                    "commit_to_graph: replace retracted prior version of {} — {}",
+                    doc_id, retracted,
+                )
+        except Exception as e:
+            logger.warning(
+                "commit_to_graph: replace retraction failed for {}: {}", doc_kg_dir, e
+            )
 
     # 0. Prior-value capture, for the entity history zone. Must precede the
     #    write: _upsert_entity's merge is accretive, so afterwards the live

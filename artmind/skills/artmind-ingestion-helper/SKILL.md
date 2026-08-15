@@ -238,8 +238,27 @@ artmind ingest embed-entities --domain YOUR_DOMAIN
 
 ### H. Remove a document from the graph
 
+Two levels, depending on whether you want it back:
+
+**Soft delete (tombstone)** — hides the document from retrieval (vector/full-text search,
+`chunks`, doc listings) but preserves its knowledge and its contributions to shared entities.
+Reversible; the default:
 ```bash
 artmind docs clean --domain YOUR_DOMAIN DOCUMENT_NAME
+```
+
+**Hard delete (purge)** — permanently removes the document's local files, registry row, and its
+Neo4j contributions: its share of each edge's provenance, its property-ledger entries, its
+chunks, and any entity that loses its last source. Shared entities/edges still cited by other
+documents survive.
+```bash
+artmind docs purge --domain YOUR_DOMAIN DOCUMENT_NAME
+```
+
+**Re-ingest in place** — replace a document with an edited version idempotently (retracts the
+prior version, then re-commits under the same identity):
+```bash
+artmind ingest sync EDITED_FILE --domain YOUR_DOMAIN --replace
 ```
 
 ---
