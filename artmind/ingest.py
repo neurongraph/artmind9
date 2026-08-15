@@ -7,7 +7,7 @@ import uuid
 import datetime as _datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
-from hashlib import sha256
+from hashlib import sha1, sha256
 from pathlib import Path
 
 import yaml
@@ -559,11 +559,7 @@ def ingest_file(
         _, body = _parse_md_frontmatter(raw_text)
         chunks = _split_markdown(body, chunk_size)
         chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
-        chunks_dir.mkdir(parents=True, exist_ok=True)
-        for stale in chunks_dir.glob("chunk_*.md"):
-            stale.unlink()
-        for i, chunk_text in enumerate(chunks, start=1):
-            (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk_text, encoding="utf-8")
+        _persist_chunks(chunks, chunks_dir)
         logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
 
         file_result["status"] = "ok"
@@ -627,7 +623,48 @@ def _reattach_table_headers(sub_chunks: list[str]) -> list[str]:
     return result
 
 
-def _split_markdown(text: str, chunk_size: int) -> list[str]:
+def _header_path(metadata: dict) -> str:
+    """Breadcrumb of the h1–h4 headers the splitter attached to a chunk, e.g.
+    'Overview > Fees > Monthly'. Empty when the chunk sits under no heading."""
+    parts = [metadata[k] for k in ("h1", "h2", "h3", "h4") if metadata.get(k)]
+    return " > ".join(parts)
+
+
+def _locate_chunk(text: str, piece: str, cursor: int) -> tuple[int, int, int]:
+    """Locate a chunk's source span in `text`, at or after `cursor`.
+
+    The markdown header splitter reformats whitespace (it appends trailing
+    spaces to headings and collapses blank lines), so a chunk is *not* a verbatim
+    substring of the source. We anchor instead on the chunk's first and last
+    non-blank lines — which survive that reformatting — and return the span
+    running from the first line's start to the last line's end. Returns
+    (char_start, char_end, next_cursor); (-1, -1, cursor) when the anchor can't
+    be found (e.g. a reattached table header)."""
+    lines = [ln.strip() for ln in piece.split("\n") if ln.strip()]
+    if not lines:
+        return -1, -1, cursor
+    first, last = lines[0], lines[-1]
+    start = text.find(first, cursor)
+    if start == -1:
+        start = text.find(first)
+    if start == -1:
+        return -1, -1, cursor
+    end_anchor = text.find(last, start)
+    end = end_anchor + len(last) if end_anchor != -1 else start + len(first)
+    return start, end, end
+
+
+def _split_markdown(text: str, chunk_size: int) -> list[dict]:
+    """Split markdown into chunks carrying block-level provenance.
+
+    Returns dicts ``{text, char_start, char_end, header_path, block_hash}``.
+    ``char_start``/``char_end`` mark the chunk's span in the source body,
+    anchored on its first and last non-blank lines (the header splitter reformats
+    whitespace, so the slice is line-accurate rather than byte-identical to
+    ``text``; see ``_locate_chunk``). ``block_hash`` is a content hash over the
+    final chunk text, stable across re-ingest — the key A4's delta classifier
+    keys on.
+    """
     header_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=[
             ("#", "h1"),
@@ -642,21 +679,64 @@ def _split_markdown(text: str, chunk_size: int) -> list[str]:
         chunk_overlap=0,
         separators=["\n\n", "\n", " "],
     )
+    chunks: list[dict] = []
+
+    def _emit(pieces: list[str], header_path: str, cursor: int) -> int:
+        # Offsets are located against the pre-reattachment pieces (each a
+        # verbatim substring of `text`); reattachment only prepends to `text`.
+        located = [(0, 0)] * len(pieces)
+        for i, piece in enumerate(pieces):
+            start, end, cursor = _locate_chunk(text, piece, cursor)
+            located[i] = (start, end)
+        for (start, end), final_text in zip(located, _reattach_table_headers(pieces)):
+            chunks.append(
+                {
+                    "text": final_text,
+                    "char_start": start,
+                    "char_end": end,
+                    "header_path": header_path,
+                    "block_hash": sha1(final_text.encode("utf-8")).hexdigest(),
+                }
+            )
+        return cursor
+
     header_docs = header_splitter.split_text(text)
-    chunks: list[str] = []
+    cursor = 0
     for doc in header_docs:
         content = doc.page_content.strip()
         if not content:
             continue
+        header_path = _header_path(doc.metadata)
         if len(content) <= chunk_size:
-            chunks.append(content)
+            pieces = [content]
         else:
-            sub_chunks = [c.strip() for c in char_splitter.split_text(content) if c.strip()]
-            chunks.extend(_reattach_table_headers(sub_chunks))
+            pieces = [c.strip() for c in char_splitter.split_text(content) if c.strip()]
+        cursor = _emit(pieces, header_path, cursor)
     if not chunks:
-        sub_chunks = [c.strip() for c in char_splitter.split_text(text) if c.strip()]
-        chunks = _reattach_table_headers(sub_chunks)
+        pieces = [c.strip() for c in char_splitter.split_text(text) if c.strip()]
+        _emit(pieces, "", 0)
     return chunks
+
+
+def _persist_chunks(chunks: list[dict], chunks_dir: Path) -> None:
+    """Write each chunk's text to ``chunk_NNN.md`` and a parallel
+    ``chunks_meta.json`` sidecar holding block-level provenance (source offsets,
+    header breadcrumb, content hash) keyed by zero-padded sequence."""
+    chunks_dir.mkdir(parents=True, exist_ok=True)
+    for stale in chunks_dir.glob("chunk_*.md"):
+        stale.unlink()
+    meta: dict[str, dict] = {}
+    for i, chunk in enumerate(chunks, start=1):
+        (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk["text"], encoding="utf-8")
+        meta[f"{i:03d}"] = {
+            "char_start": chunk["char_start"],
+            "char_end": chunk["char_end"],
+            "header_path": chunk["header_path"],
+            "block_hash": chunk["block_hash"],
+        }
+    (chunks_dir / "chunks_meta.json").write_text(
+        json.dumps(meta, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
 
 
 def _llm_extract(step_name: str, model: str, prompt: str, debug_dir: Path) -> tuple[list, bool]:
@@ -1222,11 +1302,7 @@ def ingest_to_kg(
         _, body = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
         chunks = _split_markdown(body, chunk_size)
         chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
-        chunks_dir.mkdir(parents=True, exist_ok=True)
-        for stale in chunks_dir.glob("chunk_*.md"):
-            stale.unlink()
-        for i, chunk_text in enumerate(chunks, start=1):
-            (chunks_dir / f"chunk_{i:03d}.md").write_text(chunk_text, encoding="utf-8")
+        _persist_chunks(chunks, chunks_dir)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
         file_result.setdefault("sha256", _compute_sha256(registered_path))
@@ -1498,6 +1574,16 @@ def extract_kg(
     all_properties: list[dict] = []
     all_relationships: list[dict] = []
 
+    # Block-level provenance sidecar (A1a). Absent for pre-A1a ingests, in which
+    # case chunks simply carry no offset/header/hash — downstream tolerates that.
+    chunks_meta: dict = {}
+    meta_path = chunks_dir / "chunks_meta.json"
+    if meta_path.exists():
+        try:
+            chunks_meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except Exception:
+            chunks_meta = {}
+
     for seq in range(1, chunk_count + 1):
         chunk_json = chunk_data_dir / f"chunk_{seq:03d}.json"
         if not chunk_json.exists():
@@ -1509,6 +1595,11 @@ def extract_kg(
         for link in ("prev_chunk_id", "next_chunk_id"):
             if link in data:
                 chunk_node[link] = data[link]
+        cmeta = chunks_meta.get(f"{seq:03d}")
+        if cmeta:
+            for key in ("char_start", "char_end", "header_path", "block_hash"):
+                if cmeta.get(key) is not None:
+                    chunk_node[key] = cmeta[key]
         all_chunks.append(chunk_node)
         all_entities.extend(data.get("entities", []))
         all_properties.extend(data.get("properties", []))
