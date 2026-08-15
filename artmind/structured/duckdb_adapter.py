@@ -13,7 +13,6 @@ import tempfile
 from pathlib import Path
 
 import duckdb
-from openpyxl import load_workbook
 
 import paths
 from artmind.structured import view_name
@@ -145,6 +144,17 @@ class DuckDBDatasource:
         return table_name
 
     def _excel_sheet_to_csv(self, source: Path, *, sheet: str | None) -> Path:
+        # Imported lazily: openpyxl ships only in the optional `[ingest]` extra.
+        # This path is reached outside Click (e.g. dashboard_routes.py), so it
+        # raises RuntimeError rather than a click.ClickException.
+        try:
+            from openpyxl import load_workbook
+        except ImportError as exc:
+            raise RuntimeError(
+                "Reading xlsx/xlsm needs the optional 'ingest' extra. "
+                "Install it with: uv tool install 'artmind9[ingest]'"
+            ) from exc
+
         wb = load_workbook(source, read_only=True, data_only=True)
         try:
             ws = wb[sheet] if sheet else wb.active

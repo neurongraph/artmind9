@@ -51,6 +51,24 @@ Entries are replaced wholesale, so a file dropped from a skill also disappears
 from the run folder. Names the package doesn't ship are never pruned, so a
 hand-written skill or domain in the run folder is left alone.
 
+### Core vs the `[ingest]` extra
+
+Document ingestion (`artmind ingest sync`/`async`/`extract-kg`) pulls a heavy ML
+stack — `docling` alone brings torch + CUDA + transformers (well over a GB).
+That stack lives behind an **optional extra** so hosts that only query, serve, or
+run the chat/admin UIs stay lean:
+
+| Install | Command | Gets you |
+|---|---|---|
+| **Core** | `uv tool install artmind9` | query, `serve`, `chat-ui`, `admin-ui`, SQL querying (`db *`, `query text2sql`). |
+| **Full** | `uv tool install 'artmind9[ingest]'` | core **plus** document ingestion (docling conversion, chunking, xlsx). |
+
+`just dev-install` installs the full variant — a dev machine is full-featured. A
+core-only install still lists the ingest commands in `--help`, but invoking one
+prints a hint to add the extra rather than a cryptic import error. `docling` must
+also be on `PATH` for non-markdown conversion. Query-only and pure-client hosts
+(e.g. the canvas backend) want core; the machine that ingests wants the extra.
+
 Then:
 
 ```bash

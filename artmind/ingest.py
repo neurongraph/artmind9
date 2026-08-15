@@ -11,10 +11,6 @@ from hashlib import sha256
 from pathlib import Path
 
 import yaml
-from langchain_text_splitters import (
-    MarkdownHeaderTextSplitter,
-    RecursiveCharacterTextSplitter,
-)
 from loguru import logger
 from neo4j import GraphDatabase
 
@@ -628,6 +624,13 @@ def _reattach_table_headers(sub_chunks: list[str]) -> list[str]:
 
 
 def _split_markdown(text: str, chunk_size: int) -> list[str]:
+    # Imported lazily: langchain-text-splitters ships only in the optional
+    # `[ingest]` extra, so a core-only install can still import artmind.ingest.
+    from langchain_text_splitters import (
+        MarkdownHeaderTextSplitter,
+        RecursiveCharacterTextSplitter,
+    )
+
     header_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=[
             ("#", "h1"),

@@ -39,7 +39,7 @@ cli-setup:
 # `artmind` runs from anywhere. Then edit ~/.artmind/.env and run `artmind setup`.
 # See docs/INSTALL.md. (For a checkout-independent deploy, drop `--editable`.)
 dev-install: dev-stop-daemons
-    uv tool install --force --editable .
+    uv tool install --force --editable '.[ingest]'
     artmind init
 
 # uninstall the global artmind command (leaves ~/.artmind and data intact)
