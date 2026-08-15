@@ -62,6 +62,18 @@ The install is **editable**, so Python code edits are live everywhere immediatel
 The mental model that matters: *editable covers the code, but not the two caches
 in front of it* — long-running daemons, and run-folder copies.
 
+**Core vs `[ingest]` extra.** The heavy ingestion ML stack (`docling` →
+torch/CUDA/transformers, plus `langchain-text-splitters` and `openpyxl`) lives
+behind an optional extra so query-only/pure-client consumers (the canvas backend)
+stay lean. `just dev-install` installs `.[ingest]` — the dev box is full-featured.
+A core-only install (`uv tool install artmind9`) omits document ingestion:
+`import artmind.cli` still loads (the three libs are imported lazily — langchain
+inside `ingest._split_markdown`, openpyxl inside `duckdb_adapter._excel_sheet_to_csv`),
+and the chunking commands (`ingest sync`/`async`/`extract-kg`) raise a friendly
+`click.ClickException` via `_require_ingest_extra()` naming the fix. The dev
+dependency-group mirrors the extra so the hermetic suite still exercises the
+chunking/xlsx paths. See `docs/INSTALL.md`.
+
 ## Testing implications
 
 Read this before concluding a change works.

@@ -238,6 +238,24 @@ def _echo_json(payload: dict, compact: bool = False) -> None:
     click.echo(json.dumps(payload, **kwargs))
 
 
+def _require_ingest_extra() -> None:
+    """Fail with a friendly hint if the optional `[ingest]` extra is missing.
+
+    Document ingestion needs langchain-text-splitters (chunking) and, for
+    non-markdown sources, the docling binary — all shipped only in the
+    `artmind9[ingest]` extra. A core-only install still lists these commands in
+    `--help`, so guard the callbacks that actually chunk rather than leaking a
+    bare ModuleNotFoundError.
+    """
+    import importlib.util
+
+    if importlib.util.find_spec("langchain_text_splitters") is None:
+        raise click.ClickException(
+            "This command needs the optional 'ingest' extra. Install it with: "
+            "uv tool install 'artmind9[ingest]'"
+        )
+
+
 @cli.command()
 @click.option("--host", default="127.0.0.1", show_default=True, help="Interface to bind.")
 @click.option(
@@ -448,6 +466,7 @@ def ingest_sync(
     effective_date_column: str | None,
 ):
     """Ingest a file or directory synchronously (blocking)."""
+    _require_ingest_extra()
     _setup_logger()
     env = load_env()
     image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
@@ -520,6 +539,7 @@ def ingest_sync(
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 def ingest_async(file_path: str, domain: str | None, force: bool, stage_only: bool):
     """Submit a file or directory for background ingestion; returns job_id immediately."""
+    _require_ingest_extra()
     _setup_logger()
     if domain is None:
         domain = _prompt_for_domain()
@@ -651,6 +671,7 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
     DOCUMENT_NAME is the registered filename (e.g. myfile.pdf).
     Extraction results are merged into doc-level JSON files ready for write_to_graph.
     """
+    _require_ingest_extra()
     _setup_logger()
     env = load_env()
     text_model = resolve_llm_model(env)
