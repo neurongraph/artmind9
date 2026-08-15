@@ -7,7 +7,7 @@ from artmind.graph_query import (
     resolve_as_of,
     sanitize_lucene_query,
     serialize_record,
-    strip_embeddings,
+    strip_internal_props,
 )
 from utils.functions import load_env
 
@@ -143,12 +143,12 @@ def vector_search(domains, question: str, topK: int = 5, as_of: str | None = Non
 
     with read_session() as session:
         chunk_rows = [
-            strip_embeddings(serialize_record(record))
+            strip_internal_props(serialize_record(record))
             for record in session.run(cypher_chunks, **params)
         ]
         try:
             chat_rows = [
-                strip_embeddings(serialize_record(record))
+                strip_internal_props(serialize_record(record))
                 for record in session.run(cypher_chats, **params)
             ]
         except ClientError as e:
@@ -229,12 +229,12 @@ def full_text_search(domains, question: str, topK: int = 5, as_of: str | None = 
 
     with read_session() as session:
         chunk_rows = [
-            strip_embeddings(serialize_record(record))
+            strip_internal_props(serialize_record(record))
             for record in session.run(cypher_chunks, **params)
         ]
         try:
             chat_rows = [
-                strip_embeddings(serialize_record(record))
+                strip_internal_props(serialize_record(record))
                 for record in session.run(cypher_chats, **params)
             ]
         except ClientError as e:
@@ -298,7 +298,7 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
         ft_rows: list = []
         if ft_query:
             ft_rows = [
-                strip_embeddings(serialize_record(record))
+                strip_internal_props(serialize_record(record))
                 for record in session.run(
                     cypher_ft, domains=domains, ft_query=ft_query, topK=int(topK), **asof_param
                 )
@@ -308,7 +308,7 @@ def entity_resolve(domains, reference: str, topK: int = 5, as_of: str | None = N
         try:
             embedding = embed_question(reference)
             vec_rows = [
-                strip_embeddings(serialize_record(record))
+                strip_internal_props(serialize_record(record))
                 for record in session.run(
                     cypher_vec,
                     domains=domains,

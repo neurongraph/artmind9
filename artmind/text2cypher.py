@@ -9,7 +9,7 @@ from artmind.graph_query import (
     _run_read_query,
     entity_listing,
     graph_metadata,
-    strip_embeddings,
+    strip_internal_props,
 )
 from utils.functions import load_env, resolve_llm_model
 
@@ -250,7 +250,7 @@ def execute_text2cypher(
         return output
 
     try:
-        output["rows"] = strip_embeddings(_run_read_query(cypher, parameters))
+        output["rows"] = strip_internal_props(_run_read_query(cypher, parameters))
     except Neo4jError as exc:
         # neo4j exception classes often carry an empty str()/repr() (message lives on
         # .message/.code instead), so a bare `raise` or `str(exc)` surfaces nothing

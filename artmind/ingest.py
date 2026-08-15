@@ -963,14 +963,84 @@ def _merge_props_dicts(existing: dict, incoming: dict) -> dict:
     return result
 
 
+# Properties never tracked in the per-document provenance ledger (A1e): fixed
+# identity keys and internal machinery. Everything else an ingest asserts
+# (description, type, aliases, context, and domain properties) is accretive and
+# therefore attributable to the document(s) that contributed it.
+_UNTRACKED_PROP_KEYS = frozenset(
+    {"name", "entity_class", "domain", "id", "embedding", "_prop_sources"}
+)
+# Ledger key for a value that predates the ledger (or has no known source): its
+# contribution can never be attributed to a document, so purge must never drop
+# it. Seeded once, on the first ledgered touch of a pre-A1e entity.
+_LEGACY_SOURCE = "__legacy__"
+
+
+def _parse_prop_sources(raw) -> dict:
+    """Decode a node's ``_prop_sources`` JSON string into a ledger dict.
+
+    Tolerates the property being absent (pre-A1e node) or malformed — either
+    yields an empty ledger, so the entity is simply re-seeded from its current
+    clean values on the next touch rather than erroring the whole write."""
+    if not raw:
+        return {}
+    try:
+        parsed = json.loads(raw)
+        return parsed if isinstance(parsed, dict) else {}
+    except (ValueError, TypeError):
+        return {}
+
+
+def _ledger_upsert(ledger: dict, key: str, doc_id: str, value) -> None:
+    """Record ``doc_id``'s contribution of ``value`` to property ``key``.
+
+    Idempotent per document: re-ingesting the same doc replaces its prior
+    contribution in place (so a re-feed does not double-append), otherwise the
+    contribution is appended — preserving first-seen document order, which is
+    the order ``_fold_ledger`` merges in."""
+    contributions = ledger.setdefault(key, [])
+    for entry in contributions:
+        if entry[0] == doc_id:
+            entry[1] = value
+            return
+    contributions.append([doc_id, value])
+
+
+def _fold_ledger(contributions: list) -> object:
+    """Recompute a property's clean materialized value from its ledger.
+
+    Folds each document's contribution through ``_merge_prop_value`` in
+    first-seen order — reproducing exactly the accretive result a plain ingest
+    would have produced, so the stored clean value is unchanged on fresh ingest
+    yet becomes an un-mergeable-by-hand quantity that purge can rebuild after
+    dropping a source. Returns ``None`` for an empty ledger (property removed)."""
+    result = None
+    for _doc_id, value in contributions:
+        result = _merge_prop_value(result, value)
+    return result
+
+
 def _ensure_neo4j_schema(session, embedding_dim: int = 768) -> None:
     _setup_neo4j(session, embedding_dim)
 
 
-def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
-    """Merge Entity node by (entity_class, name), intelligently merging all properties."""
+def _upsert_entity(
+    session, entity: dict, extra_props: dict | None, doc_id: str | None = None
+) -> None:
+    """Merge Entity node by (entity_class, name, domain), maintaining a per-document
+    property-provenance ledger (A1e).
+
+    The clean merged value of each accretive property stays materialized on the
+    node exactly as a plain ingest would leave it (``"A | B"``), so every value-
+    parsing consumer — consolidate, entity_history, temporal, snapshots — keeps
+    working. Alongside it, ``_prop_sources`` records which document contributed
+    which raw value, so a later purge can drop one document's share and recompute
+    the clean value (see ``_fold_ledger``). ``doc_id`` is the contributing
+    document's physical id, threaded from ``_write_to_neo4j``; a falsy value maps
+    to a distinct ``__unknown__`` source rather than the never-purged legacy one."""
     entity_class = entity["entity_class"]
     name = entity["name"]
+    source = doc_id or "__unknown__"
 
     incoming = _flatten_props(
         {
@@ -987,6 +1057,7 @@ def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
         incoming.update(_flatten_props(extra_props))
 
     domain = incoming.get("domain", "")
+    tracked = {k: v for k, v in incoming.items() if k not in _UNTRACKED_PROP_KEYS}
 
     rec = session.run(
         "MATCH (n:Entity {name: $name, entity_class: $ec, domain: $domain}) RETURN properties(n) AS p",
@@ -996,7 +1067,23 @@ def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
     ).single()
 
     if rec:
-        merged = _merge_props_dicts(dict(rec["p"]), incoming)
+        existing = dict(rec["p"])
+        ledger = _parse_prop_sources(existing.get("_prop_sources"))
+        for key, value in tracked.items():
+            # Migrate a pre-ledger clean value as an un-attributable legacy base
+            # the first time this property is ledgered, so today's accretive
+            # result is preserved rather than silently replaced.
+            if key not in ledger and existing.get(key) is not None:
+                ledger[key] = [[_LEGACY_SOURCE, existing[key]]]
+            _ledger_upsert(ledger, key, source, value)
+        merged = existing
+        for key, contributions in ledger.items():
+            folded = _fold_ledger(contributions)
+            if folded in (None, "", []):
+                merged.pop(key, None)
+            else:
+                merged[key] = folded
+        merged["_prop_sources"] = json.dumps(ledger, ensure_ascii=False)
         if "id" not in merged:
             merged["id"] = uuid.uuid4().hex
         session.run(
@@ -1007,6 +1094,10 @@ def _upsert_entity(session, entity: dict, extra_props: dict | None) -> None:
             props=merged,
         )
     else:
+        ledger: dict = {}
+        for key, value in tracked.items():
+            _ledger_upsert(ledger, key, source, value)
+        incoming["_prop_sources"] = json.dumps(ledger, ensure_ascii=False)
         incoming["id"] = uuid.uuid4().hex
         label_str = f"{_sanitize_label(entity_class)}:Entity"
         session.run(
@@ -1127,7 +1218,12 @@ def _write_to_neo4j(doc_kg_dir: Path) -> bool:
 
             # ── Entity nodes ──────────────────────────────────────────
             for entity in entities:
-                _upsert_entity(session, entity, props_by_id.get(entity["id"]))
+                _upsert_entity(
+                    session,
+                    entity,
+                    props_by_id.get(entity["id"]),
+                    doc_id=document["id"],
+                )
             logger.debug("Neo4j: upserted {} entity node(s)", len(entities))
 
             # ── Relationships ─────────────────────────────────────────

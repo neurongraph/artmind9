@@ -85,7 +85,15 @@ def _staged_assertions(doc_kg_dir: Path, domain: str) -> list[dict]:
     props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
     keys_by_identity: dict[tuple, set] = {}
     for e in entities:
-        keys = {k for k, v in props_by_id.get(e["id"], {}).items() if v not in (None, "", [])}
+        # `_prop_sources` (A1e ledger) is Neo4j-only internal machinery — it is
+        # never in properties.json, so this exclusion is defensive belt-and-braces
+        # against a future path routing it here: it must never be snapshotted as
+        # a "prior value" or compared for change.
+        keys = {
+            k
+            for k, v in props_by_id.get(e["id"], {}).items()
+            if v not in (None, "", []) and k != "_prop_sources"
+        }
         if not keys:
             continue
         identity = (e["name"], e["entity_class"], e.get("domain") or domain)

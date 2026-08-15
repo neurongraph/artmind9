@@ -205,21 +205,28 @@ def read_session():
     return neo4j_session(access_mode=READ_ACCESS)
 
 
-def strip_embeddings(value: Any) -> Any:
+# Node/relationship properties that are internal machinery, never surfaced to a
+# query result: the embedding vector and the A1e property-provenance ledger
+# (``_prop_sources``). All read paths funnel through strip_internal_props, so
+# stripping here means no per-query projection ever leaks them.
+_INTERNAL_PROP_KEYS = frozenset({"embedding", "_prop_sources"})
+
+
+def strip_internal_props(value: Any) -> Any:
     if isinstance(value, dict):
         return {
-            key: strip_embeddings(val)
+            key: strip_internal_props(val)
             for key, val in value.items()
-            if key.lower() != "embedding"
+            if key.lower() not in _INTERNAL_PROP_KEYS
         }
     if isinstance(value, list):
-        return [strip_embeddings(item) for item in value]
+        return [strip_internal_props(item) for item in value]
     return value
 
 
 def serialize_value(value: Any) -> Any:
     if isinstance(value, Node):
-        return strip_embeddings(
+        return strip_internal_props(
             {
                 "id": value.element_id,
                 "labels": list(value.labels),
@@ -227,7 +234,7 @@ def serialize_value(value: Any) -> Any:
             }
         )
     if isinstance(value, Relationship):
-        return strip_embeddings(
+        return strip_internal_props(
             {
                 "id": value.element_id,
                 "type": value.type,
@@ -242,7 +249,7 @@ def serialize_value(value: Any) -> Any:
             "relationships": [serialize_value(rel) for rel in value.relationships],
         }
     if isinstance(value, dict):
-        return strip_embeddings({str(k): serialize_value(v) for k, v in value.items()})
+        return strip_internal_props({str(k): serialize_value(v) for k, v in value.items()})
     if isinstance(value, (list, tuple)):
         return [serialize_value(item) for item in value]
     if value is None or isinstance(value, (str, int, float, bool)):
@@ -252,10 +259,10 @@ def serialize_value(value: Any) -> Any:
 
 def serialize_record(record: Any) -> dict:
     if hasattr(record, "data"):
-        return strip_embeddings(serialize_value(record.data()))
+        return strip_internal_props(serialize_value(record.data()))
     if isinstance(record, dict):
-        return strip_embeddings(serialize_value(record))
-    return strip_embeddings(serialize_value(dict(record)))
+        return strip_internal_props(serialize_value(record))
+    return strip_internal_props(serialize_value(dict(record)))
 
 
 def _run_read_query(cypher: str, parameters: dict) -> list[dict]:
@@ -281,7 +288,7 @@ def graph_metadata(domains: "str | Sequence[str]", as_of: str | None = None) -> 
       WHERE {domain_predicate("n")}{asof_node}
       UNWIND labels(n) AS label
       WITH label, keys(n) AS nodeKeys, n.type AS typeVal
-      UNWIND nodeKeys AS propName
+      UNWIND [k IN nodeKeys WHERE k <> '_prop_sources'] AS propName
       RETURN "nodes" AS category,
              label AS name,
              collect(DISTINCT propName) AS propertyNames,
@@ -779,7 +786,7 @@ def execute_pattern(
         "pattern": pattern,
         "question": question,
         "parameters": output_parameters,
-        "rows": strip_embeddings(_run_read_query(cypher, cypher_params)),
+        "rows": strip_internal_props(_run_read_query(cypher, cypher_params)),
     }
     # pattern5/pattern10 deliberately skip valid-time filtering (see the
     # comments in _pattern_query) — say so instead of silently accepting it.
@@ -926,7 +933,7 @@ def entity_context(
             "includeChunks": include_chunks,
             **({"asOf": as_of} if as_of else {}),
         },
-        "rows": strip_embeddings(_run_read_query(cypher, params)),
+        "rows": strip_internal_props(_run_read_query(cypher, params)),
     }
 
 
@@ -1132,5 +1139,5 @@ def entity_versions(
         "command": "entity_versions",
         "entity_id": entity_id,
         **({"asOf": as_of} if as_of else {}),
-        "rows": strip_embeddings(_run_read_query(cypher, params)),
+        "rows": strip_internal_props(_run_read_query(cypher, params)),
     }
