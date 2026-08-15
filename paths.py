@@ -41,6 +41,15 @@ ARTMIND_DATA_DIR = Path(
     os.environ.get("ARTMIND_DATA_DIR") or (Path.home() / "artmind_data")
 ).expanduser().resolve()
 
+# ── vault root (authoritative markdown; source of stable document identity) ─────
+# The externally-editable markdown tree the canvas UX watches. Optional: when set,
+# a document's identity (``logical_id``) keys off its path *relative to this root*
+# so an edited/re-ingested file is recognised as the same document. When unset,
+# identity falls back to the casefolded basename. Never itself lives in ``.env``
+# only — a real env var wins, matching ARTMIND_HOME/ARTMIND_DATA_DIR.
+_vault = os.environ.get("ARTMIND_VAULT_DIR")
+ARTMIND_VAULT_DIR = Path(_vault).expanduser().resolve() if _vault else None
+
 # ── package-shipped seed defaults (read-only; copied into the run folder) ──────
 PACKAGE_SKILLS_DIR = _SELF_DIR / "artmind" / "skills"
 PACKAGE_SCHEMAS_DIR = _SELF_DIR / "artmind" / "domains" / "schemas"

@@ -131,7 +131,15 @@ async def test_connect_with_mode_selects_it_and_still_works(tmp_path):
     assert events[-1]["type"] == "turn_done"
 
 
-def test_subprocess_env_without_model_is_unset(tmp_path):
+def test_subprocess_env_without_model_is_unset(tmp_path, monkeypatch):
+    # Hermeticity: _subprocess_env() returns None only when it has nothing to
+    # inject — no model AND no OpenRouter key to forward. A real .env loaded by
+    # paths (either ~/.artmind/.env or the repo's) may set
+    # ARTMIND_OPENROUTER_API_KEY, which would flip the forwarding branch and
+    # make this env-dependent. Clear both axes so the assertion is deterministic.
+    monkeypatch.delenv("OPENROUTER_API_KEY", raising=False)
+    monkeypatch.delenv("ARTMIND_OPENROUTER_API_KEY", raising=False)
+    monkeypatch.delenv("OPENCODE_CONFIG_CONTENT", raising=False)
     backend = ACPBackend(agent_cmd=["opencode", "acp"], cwd=str(tmp_path))
     assert backend._subprocess_env() is None
 

@@ -162,8 +162,18 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
     session.run(
         "CREATE INDEX document_domain IF NOT EXISTS FOR (n:Document) ON (n.domain)"
     )
+    # Path-based logical identity (A1c): the lookup re-ingest uses to reuse a
+    # document's physical id and bump its version instead of minting a duplicate.
+    session.run(
+        "CREATE INDEX document_logical_id IF NOT EXISTS FOR (n:Document) ON (n.logical_id)"
+    )
     session.run(
         "CREATE INDEX chunk_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.domain)"
+    )
+    # Content-addressed block hash (A1a); the signal a later delta classifier (A4)
+    # keys on to tell changed blocks from unchanged ones across re-ingest.
+    session.run(
+        "CREATE INDEX chunk_block_hash IF NOT EXISTS FOR (n:DocChunk) ON (n.block_hash)"
     )
     session.run(
         "CREATE INDEX user_chat_domain IF NOT EXISTS FOR (n:UserChat) ON (n.domain)"
@@ -296,7 +306,9 @@ def setup_all() -> dict:
             "entity_domain",
             "entity_name_domain",
             "document_domain",
+            "document_logical_id",
             "chunk_domain",
+            "chunk_block_hash",
             "chunk_doc_id",
             "user_chat_domain",
             "entity_valid_from",

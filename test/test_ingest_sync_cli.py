@@ -105,7 +105,7 @@ def test_ingest_sync_stage_only_passes_flag(monkeypatch, tmp_path):
     seen = {}
     monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: {"status": "ok"})
 
-    def fake_kg(result, domain, tm, em, cs, stage_only=False):
+    def fake_kg(result, domain, tm, em, cs, stage_only=False, replace=False):
         seen["stage_only"] = stage_only
         return True
 
@@ -127,7 +127,7 @@ def test_ingest_sync_default_stage_only_false(monkeypatch, tmp_path):
     seen = {}
     monkeypatch.setattr(cli, "ingest_file", lambda *a, **k: {"status": "ok"})
 
-    def fake_kg(result, domain, tm, em, cs, stage_only=False):
+    def fake_kg(result, domain, tm, em, cs, stage_only=False, replace=False):
         seen["stage_only"] = stage_only
         return True
 

@@ -20,13 +20,14 @@ from artmind.harmonizer import harmonize_all, harmonize_schema
 from artmind.setup import scaffold_run_folder, setup_all
 from artmind.ingest import (
     _build_file_result_from_db,
-    clean_document,
     collect_ingest_files,
     commit_to_graph,
     embed_entities_backfill,
     extract_kg,
     ingest_file,
     ingest_to_kg,
+    purge_document,
+    tombstone_document,
 )
 from artmind.kg_pull import pull_kg as pull_kg_fn
 from artmind.structured import is_structured_source, view_name
@@ -439,6 +440,7 @@ def ingest():
 @click.argument("file_path", type=click.Path(exists=True))
 @click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
 @click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
+@click.option("--replace", is_flag=True, help="Idempotent re-ingest of an edited document: reuse its identity (version+1) and hard-retract the prior version's graph contributions before rewriting, so shared entities/edges other documents back are preserved. KG documents only.")
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--refreshMode", "refresh_mode",
@@ -460,6 +462,7 @@ def ingest_sync(
     file_path: str,
     domain: str | None,
     force: bool,
+    replace: bool,
     stage_only: bool,
     refresh_mode: str,
     business_key: str | None,
@@ -510,9 +513,9 @@ def ingest_sync(
                 )
                 ok_count += 1 if res.get("status") == "ok" else 0
                 continue
-            result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force)
+            result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force, replace=replace)
             if result.get("status") == "ok":
-                kg_ok = ingest_to_kg(result, domain, text_model, embed_model, chunk_size, stage_only=stage_only)
+                kg_ok = ingest_to_kg(result, domain, text_model, embed_model, chunk_size, stage_only=stage_only, replace=replace)
                 if kg_ok:
                     ok_count += 1
                 else:
@@ -2192,10 +2195,40 @@ def docs():
 @click.option("--domain", required=True, help="Domain containing the document")
 @click.argument("document_name")
 def docs_clean(domain: str, document_name: str):
-    """Delete a document from local storage, registry, and Neo4j."""
+    """Soft-delete (tombstone) a document — reversible, knowledge preserved.
+
+    Flags the document's Document node (status='deleted') and its DocChunks so
+    they drop out of chunk/vector/full-text retrieval and document listings,
+    while leaving all extracted knowledge — and its property contributions —
+    intact in the graph. Local originals and the registry are untouched. Use
+    `docs purge` to hard-remove a document's contributions entirely.
+    """
     _setup_logger()
-    result = clean_document(domain, document_name)
-    click.echo(f"Cleaned '{result['document_name']}' in domain '{result['domain']}'")
+    result = tombstone_document(domain, document_name)
+    click.echo(f"Tombstoned '{result['document_name']}' in domain '{result['domain']}'")
+    click.echo(f"  neo4j documents: {result['neo4j_documents']}")
+    click.echo(f"  neo4j chunks: {result['neo4j_chunks']}")
+    if result["neo4j_error"]:
+        raise click.ClickException(f"Neo4j tombstone failed: {result['neo4j_error']}")
+
+
+@docs.command("purge")
+@click.option("--domain", required=True, help="Domain containing the document")
+@click.argument("document_name")
+def docs_purge(domain: str, document_name: str):
+    """Hard-remove a document from local storage, registry, and Neo4j.
+
+    Scoped and shared-entity-safe: retracts only this document's contributions —
+    its chunks, its share of each edge's provenance (deleting an edge only when
+    no other document still backs it), and its entries in each entity's property
+    ledger (recomputing the clean value) — then deletes the Document node and its
+    local originals/markdowns/KG staging/registry rows. Entities and edges other
+    documents still cite survive. Irreversible; use `docs clean` for a reversible
+    tombstone.
+    """
+    _setup_logger()
+    result = purge_document(domain, document_name)
+    click.echo(f"Purged '{result['document_name']}' in domain '{result['domain']}'")
     click.echo(f"  registry rows: {result['registry_rows']}")
     click.echo(f"  originals: {result['originals']}")
     click.echo(f"  markdowns: {result['markdowns']}")
@@ -2206,7 +2239,7 @@ def docs_clean(domain: str, document_name: str):
     click.echo(f"  neo4j chunks: {result['neo4j_chunks']}")
     click.echo(f"  neo4j orphan entities: {result['neo4j_orphan_entities']}")
     if result["neo4j_error"]:
-        raise click.ClickException(f"Neo4j cleanup failed: {result['neo4j_error']}")
+        raise click.ClickException(f"Neo4j purge failed: {result['neo4j_error']}")
 
 
 # ── artmind update ─────────────────────────────────────────────────────────────

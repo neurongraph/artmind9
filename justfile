@@ -17,6 +17,10 @@
 SERVE_PORT := env_var_or_default('ARTMIND_SERVE_PORT', '8377')
 CHAT_UI_PORT := '8378'
 ADMIN_UI_PORT := '8379'
+# artmind_canvas backend (a separate uv project under artmind_canvas/backend).
+# Outside the daemon triad; its process command line contains "artmind_canvas_backend"
+# so `_free-port`'s *artmind* match still recognises and stops it.
+CANVAS_PORT := '8380'
 
 # list available recipes
 default:
@@ -49,7 +53,7 @@ dev-uninstall:
 # stop running artmind daemons (`serve`, `chat-ui`, `admin-ui`, ingestion worker).
 # They load code at start, so one left running keeps serving the OLD build after
 # a reinstall — and each holding its port makes the next `artmind <cmd>` fail to bind.
-dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_UI_PORT "artmind chat-ui" "0") (_free-port ADMIN_UI_PORT "artmind admin-ui" "0")
+dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_UI_PORT "artmind chat-ui" "0") (_free-port ADMIN_UI_PORT "artmind admin-ui" "0") (_free-port CANVAS_PORT "artmind canvas" "0")
     #!/usr/bin/env bash
     set -uo pipefail
     # The three listeners are handled by _free-port above. The ingestion worker
@@ -116,9 +120,13 @@ dev-refresh-skills:
 
 # ── artmind docs ─────────────────────────────────────────────────────────────
 
-# clean a document from storage, registry, and Neo4j  (usage: just docs-clean <domain> <document>)
+# tombstone a document (soft delete: hidden from retrieval, knowledge preserved)  (usage: just docs-clean <domain> <document>)
 docs-clean domain document:
     uv run artmind docs clean --domain {{ domain }} {{ document }}
+
+# purge a document (hard delete: removes storage, registry, and its Neo4j contributions)  (usage: just docs-purge <domain> <document>)
+docs-purge domain document:
+    uv run artmind docs purge --domain {{ domain }} {{ document }}
 
 # ── artmind domains ──────────────────────────────────────────────────────────
 
@@ -422,6 +430,30 @@ serve-ui: serve-restart (_free-port CHAT_UI_PORT "artmind chat-ui")
 # start the query daemon plus the admin web UI (foreground; Ctrl-C stops the UI only)
 serve-admin-ui: serve-restart (_free-port ADMIN_UI_PORT "artmind admin-ui")
     uv run artmind admin-ui
+
+# ── canvas (artmind_canvas client — a pure client of artmind, ADR 0003) ──────
+#
+# The canvas is two processes with their own toolchains, deliberately decoupled
+# from artmind's daemons: a FastAPI backend (own uv project, port 8380) and a
+# Vite React frontend (npm, port 5173 in dev, proxying /api/* to 8380). These
+# recipes cd into artmind_canvas/ subtrees; the frontend needs a npm registry,
+# so `npm install`/`build` cannot run in a network-restricted sandbox.
+
+# install frontend deps (backend deps are synced lazily on first `uv run`)
+canvas-install:
+    cd artmind_canvas/frontend && npm install
+
+# run the canvas backend (FastAPI + SSE, port 8380; foreground)
+canvas-backend: (_free-port CANVAS_PORT "artmind canvas")
+    cd artmind_canvas/backend && uv run python -m artmind_canvas_backend.app
+
+# run the Vite dev server (port 5173, proxies /api/* to the backend; foreground)
+canvas-frontend:
+    cd artmind_canvas/frontend && npm run dev
+
+# build the frontend to dist/ (the backend mounts it via StaticFiles in prod)
+canvas-build:
+    cd artmind_canvas/frontend && npm run build
 
 # ── shared primitive ─────────────────────────────────────────────────────────
 
