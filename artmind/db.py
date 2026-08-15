@@ -21,7 +21,9 @@ def _init_db() -> None:
             sha256       TEXT NOT NULL,
             original_path TEXT NOT NULL,
             added_at     TEXT NOT NULL,
-            UNIQUE(filename)
+            logical_id   TEXT,
+            UNIQUE(filename),
+            UNIQUE(domain, logical_id)
         )
     """)
     cursor.execute("""
@@ -229,6 +231,54 @@ def _init_db() -> None:
             " FROM documents_pre_force_migration"
         )
         cursor.execute("DROP TABLE documents_pre_force_migration")
+
+    # Add the path-based logical_id + UNIQUE(domain, logical_id) (A1c). This is
+    # the stable identity that lets re-ingest recognise an edited file as the
+    # same document. SQLite can neither ADD a UNIQUE constraint nor ADD a column
+    # with one, so when logical_id is absent we do the rename→recreate→copy→drop
+    # dance, then backfill each row from (domain, filename) using the exact hash
+    # the pipeline computes. Re-read the schema first: the sha256 migration above
+    # may have just recreated `documents` without logical_id.
+    documents_sql = cursor.execute(
+        "SELECT sql FROM sqlite_master WHERE type='table' AND name='documents'"
+    ).fetchone()
+    if documents_sql and "logical_id" not in documents_sql[0]:
+        cursor.execute("ALTER TABLE documents RENAME TO documents_pre_logical_id")
+        cursor.execute("""
+            CREATE TABLE documents (
+                id           INTEGER PRIMARY KEY,
+                domain       TEXT NOT NULL,
+                filename     TEXT NOT NULL,
+                sha256       TEXT NOT NULL,
+                original_path TEXT NOT NULL,
+                added_at     TEXT NOT NULL,
+                logical_id   TEXT,
+                UNIQUE(filename),
+                UNIQUE(domain, logical_id)
+            )
+        """)
+        cursor.execute(
+            "INSERT INTO documents (id, domain, filename, sha256, original_path, added_at)"
+            " SELECT id, domain, filename, sha256, original_path, added_at"
+            " FROM documents_pre_logical_id"
+        )
+        cursor.execute("DROP TABLE documents_pre_logical_id")
+        # Backfill logical_id for pre-A1c rows. Best-effort: keyed on the
+        # casefolded basename (the vault-relative path isn't recoverable here),
+        # matching _canonical_key's no-vault fallback. A later --replace re-ingest
+        # from a real Vault path will supersede it. Import locally to avoid a
+        # db↔ingest import cycle; tolerate failure rather than brick _init_db.
+        try:
+            from artmind.ingest import _logical_id
+
+            rows = cursor.execute("SELECT id, domain, filename FROM documents").fetchall()
+            for row_id, domain, filename in rows:
+                cursor.execute(
+                    "UPDATE documents SET logical_id = ? WHERE id = ?",
+                    (_logical_id(domain, filename.casefold()), row_id),
+                )
+        except Exception:
+            pass
 
     # Migrate the `tables` registry's UNIQUE constraint from
     # (datasource, table_name) to (datasource, domain, table_name) so two

@@ -33,6 +33,7 @@ from artmind.extraction import (
 from artmind.llm_providers import describe_image_ollama, describe_image_openrouter
 from artmind.jobs import _update_job_file_status, _update_job_status
 from paths import (
+    ARTMIND_VAULT_DIR,
     DB_PATH,
     DOMAIN_SCHEMAS_DIR,
     KG_DIR,
@@ -272,24 +273,24 @@ def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
     conn = _get_db()
     try:
         row = conn.execute(
-            "SELECT filename, sha256, original_path FROM documents"
+            "SELECT filename, sha256, original_path, logical_id FROM documents"
             " WHERE UPPER(filename) = ? AND domain = ?",
             (document_name.upper(), domain),
         ).fetchone()
         if not row:
             # Try prefix match (user may omit extension)
             row = conn.execute(
-                "SELECT filename, sha256, original_path FROM documents"
+                "SELECT filename, sha256, original_path, logical_id FROM documents"
                 " WHERE UPPER(filename) LIKE ? AND domain = ? LIMIT 1",
                 (document_name.upper() + "%", domain),
             ).fetchone()
         if not row:
             return None
-        filename, doc_sha256, original_path = row
+        filename, doc_sha256, original_path, logical_id = row
         registered_path = Path(original_path)
         chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
         chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
-        return {
+        result = {
             "status": "ok",
             "filename": filename,
             "sha256": doc_sha256,
@@ -298,11 +299,82 @@ def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
             "chunks_dir": str(chunks_dir),
             "chunk_count": chunk_count,
         }
+        if logical_id:
+            result["logical_id"] = logical_id
+        return result
     finally:
         conn.close()
 
 
-def _register_document(domain: str, file_path: Path) -> str:
+def _canonical_key(source: Path, domain: str) -> str:
+    """The stable identity key for a document, feeding ``_logical_id``.
+
+    Prefer the source path *relative to the configured Vault root*
+    (``ARTMIND_VAULT_DIR``) so a file keeps one identity across edits and
+    re-ingest regardless of where a working copy sits. Fall back to the
+    casefolded basename when no vault is configured or the file lives outside
+    it — stable enough for ad-hoc single-file ingests. Case-folded so a rename
+    that only changes case is still the same document on case-insensitive
+    filesystems.
+    """
+    try:
+        resolved = source.resolve()
+    except Exception:
+        resolved = source
+    if ARTMIND_VAULT_DIR is not None:
+        try:
+            return resolved.relative_to(ARTMIND_VAULT_DIR).as_posix().casefold()
+        except ValueError:
+            pass
+    return resolved.name.casefold()
+
+
+def _logical_id(domain: str, canonical_key: str) -> str:
+    """Deterministic, path-based document identity.
+
+    ``sha1(domain \\x00 canonical_key)``. Unlike the physical ``Document.id``
+    (a random uuid reused across versions), this is reproducible from the file's
+    location, so re-ingesting an edited file resolves to the *same* document
+    instead of minting a duplicate. Pure — same inputs always yield the same id.
+    """
+    return sha1(f"{domain}\x00{canonical_key}".encode("utf-8")).hexdigest()
+
+
+def _resolve_doc_identity(
+    domain: str, logical_id: str, resumed_doc_id: str | None = None
+) -> tuple[str, int]:
+    """Resolve the physical ``doc_id`` + ``version`` for a logical document.
+
+    A document already in the graph (matched by ``logical_id`` + ``domain``)
+    keeps its physical id and bumps ``version`` — this is how idempotent
+    re-ingest (A1d) recognises an edited file as the same node. Otherwise mint a
+    fresh identity at version 1, preferring a ``resumed_doc_id`` handed in from a
+    prior partial extraction (chunk-status rows) so a resumed run keeps its id.
+    A lookup failure (Neo4j unreachable) degrades to a fresh identity rather than
+    aborting the extraction.
+    """
+    from artmind.graph_query import neo4j_session
+
+    rec = None
+    try:
+        with neo4j_session() as session:
+            rec = session.run(
+                "MATCH (d:Document {logical_id: $lid, domain: $domain}) "
+                "RETURN d.id AS id, d.version AS version "
+                "ORDER BY coalesce(d.version, 1) DESC LIMIT 1",
+                lid=logical_id,
+                domain=domain,
+            ).single()
+    except Exception as e:
+        logger.warning("logical_id lookup failed ({}); minting fresh identity", e)
+        rec = None
+
+    if rec and rec.get("id"):
+        return rec["id"], int(rec.get("version") or 1) + 1
+    return (resumed_doc_id or uuid.uuid4().hex), 1
+
+
+def _register_document(domain: str, file_path: Path, logical_id: str) -> str:
     """Insert document into registry; return resolved path. Raises ValueError on duplicate."""
     filename = file_path.name
     file_sha256 = _compute_sha256(file_path)
@@ -311,9 +383,9 @@ def _register_document(domain: str, file_path: Path) -> str:
     cursor = conn.cursor()
     try:
         cursor.execute(
-            "INSERT INTO documents (domain, filename, sha256, original_path, added_at)"
-            " VALUES (?, ?, ?, ?, ?)",
-            (domain, filename, file_sha256, resolved_path, datetime.now().isoformat()),
+            "INSERT INTO documents (domain, filename, sha256, original_path, added_at, logical_id)"
+            " VALUES (?, ?, ?, ?, ?, ?)",
+            (domain, filename, file_sha256, resolved_path, datetime.now().isoformat(), logical_id),
         )
         conn.commit()
         return resolved_path
@@ -322,7 +394,10 @@ def _register_document(domain: str, file_path: Path) -> str:
             cursor.execute("SELECT 1 FROM documents WHERE sha256 = ?", (file_sha256,))
             if cursor.fetchone():
                 raise ValueError(f"Duplicate: SHA256 {file_sha256} already registered")
-            raise ValueError(f"Duplicate: filename '{filename}' already registered")
+            cursor.execute("SELECT 1 FROM documents WHERE filename = ?", (filename,))
+            if cursor.fetchone():
+                raise ValueError(f"Duplicate: filename '{filename}' already registered")
+            raise ValueError(f"Duplicate: logical id '{logical_id}' already registered")
         raise
     finally:
         conn.close()
@@ -448,6 +523,15 @@ def ingest_file(
             source.name,
         )
 
+    # Stable path-based logical identity (A1c). Computed from the *source* path
+    # (not the data-dir copy) so re-ingesting an edited file at the same Vault
+    # path resolves to the same document. A forced duplicate gets an independent
+    # logical id too, mirroring the independent extraction key above, so it never
+    # collides with / bumps the version of the original document.
+    logical_id = _logical_id(domain, _canonical_key(source, domain))
+    if is_duplicate and force:
+        logical_id = f"{logical_id}-{uuid.uuid4().hex[:8]}"
+
     dest_filename = source.name
     if _filename_in_registry(dest_filename):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -545,7 +629,7 @@ def ingest_file(
             logger.debug("No artifacts directory for {}", dest_filename)
 
     try:
-        registered_path = _register_document(domain, dest_path)
+        registered_path = _register_document(domain, dest_path, logical_id)
         elapsed_total = time.monotonic() - t_file_start
         logger.info(
             "── Ingest done in {:.1f}s: {} registered in domain '{}'",
@@ -565,6 +649,7 @@ def ingest_file(
         file_result["status"] = "ok"
         file_result["domain"] = domain
         file_result["sha256"] = extraction_sha256
+        file_result["logical_id"] = logical_id
         file_result["registered_path"] = str(registered_path)
         file_result["chunks_dir"] = str(chunks_dir)
         file_result["chunk_count"] = len(chunks)
@@ -1394,9 +1479,19 @@ def extract_kg(
     chunk_data_dir = doc_kg_dir / "chunks"
     chunk_data_dir.mkdir(parents=True, exist_ok=True)
 
-    # Stable doc_id: reuse from DB if this document was partially extracted before.
+    # Stable identity (A1c): resolve the physical doc_id + version by logical id.
+    # A document already in the graph keeps its id and bumps version (idempotent
+    # re-ingest); otherwise a fresh id at version 1. A resumed partial extraction
+    # (chunk-status rows keyed by the extraction sha256) supplies its already-
+    # minted doc_id as the fresh-mint fallback so a resume keeps its id. The
+    # logical_id normally arrives via file_result; recompute from the basename as
+    # a back-compat fallback for pre-A1c callers.
+    logical_id = file_result.get("logical_id") or _logical_id(
+        domain, _canonical_key(registered_path, domain)
+    )
     existing = _get_chunk_statuses(doc_sha256)
-    doc_id = next(iter(existing.values()))["doc_id"] if existing else uuid.uuid4().hex
+    resumed_doc_id = next(iter(existing.values()))["doc_id"] if existing else None
+    doc_id, version = _resolve_doc_identity(domain, logical_id, resumed_doc_id)
 
     chunk_files = sorted(chunks_dir.glob("chunk_*.md"))
     chunk_count = len(chunk_files)
@@ -1629,6 +1724,8 @@ def extract_kg(
         meta, _ = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
     document: dict = {
         "id": doc_id,
+        "logical_id": logical_id,
+        "version": version,
         "name": registered_path.name,
         "path": str(registered_path),
         "domain": domain,
