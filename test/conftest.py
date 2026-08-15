@@ -17,6 +17,22 @@ impossible by default: it intercepts the connection primitive itself before
 any test body runs, for every test, regardless of whether that test's author
 knew a Neo4j-touching call was reachable.
 
+The same "make the hazard structurally impossible" stance covers the *run
+folder* (``ARTMIND_HOME``). Several code paths write into it eagerly and by
+side effect — ``log_llm_call`` opens ``LLM_CALLS_LOG_FILE`` directly and the
+CLI's ``_setup_logger`` adds a loguru sink at ``INGEST_LOG_FILE`` — so any test
+that reaches extraction or invokes a CLI command appends to the developer's
+real ``~/.artmind/logs/*.log``. That both pollutes the real run folder and, in
+a sandbox that denies writes outside a tmp root, fails outright with
+``PermissionError``. These paths are resolved *by value* at import (and one is
+a frozen default argument), so monkeypatching module globals after the fact
+can't reach them. The only robust interception point is the environment
+variable the paths are computed from: we repoint ``ARTMIND_HOME`` (and
+``ARTMIND_DATA_DIR``) at a throwaway temp dir *before any artmind/paths import*,
+so every derived log/data path lands under it. pytest imports this conftest
+before any test module, and nothing here imports artmind at module scope, so
+this assignment always wins the race.
+
 Two separate patch targets are required, not one, because ``neo4j_session``
 is captured by ``from artmind.graph_query import neo4j_session`` in multiple
 modules — each such import binds its own local name in that module's
@@ -37,6 +53,32 @@ themselves within the test body — that's fine and takes precedence, since it
 runs after (and un-does, for that one test, via the same function-scoped
 ``monkeypatch`` fixture) this fixture's default stub.
 """
+
+import atexit
+import os
+import shutil
+import tempfile
+from pathlib import Path
+
+# ── redirect the run folder before anything imports paths ────────────────────
+# Must run at conftest import (module scope), before the deferred artmind
+# imports inside the fixtures below — see the module docstring. Force-override
+# any real ARTMIND_HOME the developer has exported: tests must never touch it.
+_TEST_RUN_ROOT = tempfile.mkdtemp(prefix="artmind-test-home-")
+os.environ["ARTMIND_HOME"] = _TEST_RUN_ROOT
+os.environ["ARTMIND_DATA_DIR"] = os.path.join(_TEST_RUN_ROOT, "data")
+atexit.register(shutil.rmtree, _TEST_RUN_ROOT, ignore_errors=True)
+
+# Seed the package's default domain schemas into the temp run folder so it
+# behaves like a freshly ``init``'d one. Without this, DOMAIN_SCHEMAS_DIR is
+# empty and any command that validates ``--domain`` against the available set
+# (e.g. ``ingest sync --domain banking``) fails with "Unknown domain" — a
+# failure that would not occur on a real seeded ~/.artmind. Plain filesystem
+# copy from the checkout (repo/artmind/domains/schemas), no artmind import, so
+# conftest import stays cheap and side-effect-light.
+_PKG_SCHEMAS = Path(__file__).resolve().parent.parent / "artmind" / "domains" / "schemas"
+if _PKG_SCHEMAS.is_dir():
+    shutil.copytree(_PKG_SCHEMAS, Path(_TEST_RUN_ROOT) / "domains" / "schemas")
 
 import pytest
 
