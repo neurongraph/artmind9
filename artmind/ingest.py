@@ -1072,6 +1072,13 @@ def _write_to_neo4j(doc_kg_dir: Path) -> bool:
                 )
 
                 domain = rel.get("domain") or document.get("domain", "")
+                # Provenance (A1b): accumulate which doc/chunk contributed this
+                # edge. Passed as (possibly empty) lists so the Cypher union never
+                # inserts a blank entry. chunk_id is "{doc_id}_{seq:03d}", the
+                # prefix A1d's retraction filters on.
+                rel_doc_id = rel.get("doc_id") or document.get("id", "")
+                rel_doc_ids = [rel_doc_id] if rel_doc_id else []
+                rel_chunk_ids = [rel["chunk_id"]] if rel.get("chunk_id") else []
                 try:
                     if rel_type == "EXTRACTED_FROM":
                         # Entity → DocChunk (matched by chunk id + domain)
@@ -1108,13 +1115,18 @@ def _write_to_neo4j(doc_kg_dir: Path) -> bool:
                                 """
                                 MATCH (src:Entity {name: $src, domain: $domain})
                                 MATCH (tgt:Entity {name: $tgt, domain: $domain})
-                                CALL apoc.merge.relationship(src, $type, {}, $props, tgt, {}) YIELD rel
+                                CALL apoc.merge.relationship(src, $type, {}, {}, tgt, {}) YIELD rel
+                                SET rel += $props
+                                SET rel.doc_ids   = apoc.coll.toSet(coalesce(rel.doc_ids, [])   + $doc_ids)
+                                SET rel.chunk_ids = apoc.coll.toSet(coalesce(rel.chunk_ids, []) + $chunk_ids)
                                 RETURN rel
                                 """,
                                 src=source_name,
                                 tgt=target_name,
                                 type=rel_type,
                                 props=rel_props,
+                                doc_ids=rel_doc_ids,
+                                chunk_ids=rel_chunk_ids,
                                 domain=domain,
                             )
                             rel_count += 1
@@ -1123,13 +1135,18 @@ def _write_to_neo4j(doc_kg_dir: Path) -> bool:
                                     """
                                     MATCH (src:Entity {name: $src, domain: $domain})
                                     MATCH (tgt:Entity {name: $tgt, domain: $domain})
-                                    CALL apoc.merge.relationship(tgt, $type, {}, $props, src, {}) YIELD rel
+                                    CALL apoc.merge.relationship(tgt, $type, {}, {}, src, {}) YIELD rel
+                                    SET rel += $props
+                                    SET rel.doc_ids   = apoc.coll.toSet(coalesce(rel.doc_ids, [])   + $doc_ids)
+                                    SET rel.chunk_ids = apoc.coll.toSet(coalesce(rel.chunk_ids, []) + $chunk_ids)
                                     RETURN rel
                                     """,
                                     src=source_name,
                                     tgt=target_name,
                                     type=rel_type,
                                     props=rel_props,
+                                    doc_ids=rel_doc_ids,
+                                    chunk_ids=rel_chunk_ids,
                                     domain=domain,
                                 )
                                 rel_count += 1
