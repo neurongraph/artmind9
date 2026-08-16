@@ -3,11 +3,13 @@
 # Naming convention: recipes are prefixed by group so `just --list`'s
 # alphabetical sort clusters them. Prefixes mirror `artmind`'s own CLI
 # groups (domains, ingest, docs, query[-graph], update, session, serve),
-# plus two repo-only groups that don't wrap a CLI subcommand group:
-#   cli-  — top-level `artmind` lifecycle commands (init, setup)
-#   dev-  — checkout/tooling operations, not `artmind` subcommands at all
-#           (install, uninstall, daemon management, tests, skill sync,
-#           docs generation scripts)
+# plus three repo-only groups that don't wrap a CLI subcommand group:
+#   cli-    — top-level `artmind` lifecycle commands (init, setup)
+#   dev-    — checkout/tooling operations, not `artmind` subcommands at all
+#             (install, uninstall, daemon management, tests, skill sync,
+#             docs generation scripts)
+#   canvas- — the artmind_canvas client (a separate FastAPI backend + Vite
+#             frontend under artmind_canvas/, not an `artmind` subcommand)
 
 # The three ports artmind daemons bind. Single source of truth: `_free-port`
 # uses them to stop a daemon, the serve-* recipes to (re)start one. Only
@@ -53,7 +55,7 @@ dev-uninstall:
 # stop running artmind daemons (`serve`, `chat-ui`, `admin-ui`, ingestion worker).
 # They load code at start, so one left running keeps serving the OLD build after
 # a reinstall — and each holding its port makes the next `artmind <cmd>` fail to bind.
-dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_UI_PORT "artmind chat-ui" "0") (_free-port ADMIN_UI_PORT "artmind admin-ui" "0") (_free-port CANVAS_PORT "artmind canvas" "0")
+dev-stop-daemons: (_free-port SERVE_PORT "artmind serve" "0") (_free-port CHAT_UI_PORT "artmind chat-ui" "0") (_free-port ADMIN_UI_PORT "artmind admin-ui" "0") (_free-port CANVAS_PORT "canvas backend" "0")
     #!/usr/bin/env bash
     set -uo pipefail
     # The three listeners are handled by _free-port above. The ingestion worker
@@ -444,7 +446,7 @@ canvas-install:
     cd artmind_canvas/frontend && npm install
 
 # run the canvas backend (FastAPI + SSE, port 8380; foreground)
-canvas-backend: (_free-port CANVAS_PORT "artmind canvas")
+canvas-backend: (_free-port CANVAS_PORT "canvas backend")
     cd artmind_canvas/backend && uv run python -m artmind_canvas_backend.app
 
 # run the Vite dev server (port 5173, proxies /api/* to the backend; foreground)
