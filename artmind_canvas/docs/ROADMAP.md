@@ -63,10 +63,13 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
     spec. Stored in a canvas-owned state dir (`ARTMIND_CANVAS_STATE_DIR`, default
     `~/.artmind_canvas/`), never in the Vault or graph. CRUD endpoints; board
     load/save/switch in the UI.
-- **1b — Graph reactivity**. ADR 0008. SSE change-event broadcast + per-Card scoped
-  re-query. Builds on 1a's board/card-instance model. (0009's store and 0008's
-  re-query are coupled — 1b lands on top of 1a.)
-- **1c — Markdown editor pane & three-pane workspace**. ADR 0015 (supersedes 0005,
+- **1b — Graph reactivity** ✅ done (live-verified in-browser 2026-08-16). ADR 0008.
+  SSE change-event broadcast (`GET /api/events`) + per-Card scoped re-query. Vault writes
+  publish a `{type:change,resource:document,path}` event; the read-only `document` Card
+  subscribes and auto-refetches when its path changes. Builds on 1a's board/card-instance
+  model. (0009's store and 0008's re-query are coupled — 1b lands on top of 1a.)
+- **1c — Markdown editor pane & three-pane workspace** ✅ done (committed `6e182e3`,
+  live-verified in-browser 2026-08-16). ADR 0015 (supersedes 0005,
   extends 0009). Read-only Cards + a **CodeMirror 6 source editor** bound to a Vault file
   path; collapsible Chat │ Canvas │ Editor push/squeeze layout; explicit save → 0011
   watcher re-ingest (editor never re-ingests directly); conditional-write clobber guard +
@@ -95,7 +98,7 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 | Card | Client work | Track-A / other gate | Earliest phase |
 |------|-------------|----------------------|----------------|
 | `document` (read-only) | done | — | 0 ✅ |
-| `document` (editable) | Editor pane (ADR 0015) | A1 ✅ (A4 only optimizes re-ingest) | **1c** |
+| `document` (editable) | Editor pane (ADR 0015) ✅ | A1 ✅ (A4 only optimizes re-ingest) | 1c ✅ |
 | `provenance` | card + backend read endpoint | A1 ✅ | 2 |
 | `micro-UI` | sandboxed iframe | — | 2 |
 | `graph-view` | card + graph lib + node-link endpoint | **A2, A3** (+ new npm dep) | 3 |
@@ -105,6 +108,8 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 ## Current position
 
 Phase 0 complete and committed (`08f0834`). **Phase 1a complete and committed (`092cef6`,
-branch `canvas-phase1`), live-verified in-browser 2026-08-16.** Next: **Phase 1b** (graph
-reactivity) and/or **Phase 1c** (editor pane, ADR 0015) — the two are decoupled and can
-land in either order. Track A: A0, A1 done.
+branch `canvas-phase1`), live-verified in-browser 2026-08-16.** **Phase 1c complete and
+committed (`6e182e3`, same branch), live-verified in-browser 2026-08-16** — editor pane,
+conditional-write clobber guard, three-pane workspace. **Phase 1b complete (graph
+reactivity, ADR 0008), live-verified in-browser 2026-08-16** — SSE change stream +
+Card auto-refresh on Vault write. **Phase 1 is done.** Track A: A0, A1 done.

@@ -4,6 +4,7 @@ import { marked } from "marked";
 import DOMPurify from "dompurify";
 import type { DocumentCardProps } from "../render/types";
 import { useWorkspace } from "../editor/workspace";
+import { useChangeStream } from "../events/changeStream";
 
 type State =
   | { status: "loading" }
@@ -16,7 +17,21 @@ type State =
 export default function DocumentCard({ data }: NodeProps) {
   const props = data as unknown as DocumentCardProps;
   const [state, setState] = useState<State>({ status: "loading" });
+  const [reloadNonce, setReloadNonce] = useState(0);
   const { openDocument } = useWorkspace();
+  const subscribe = useChangeStream();
+
+  // Graph reactivity (ADR 0008): when this document is written (e.g. saved in the
+  // editor pane), the backend broadcasts a change; re-query to reflect it.
+  useEffect(
+    () =>
+      subscribe((e) => {
+        if (e.type === "change" && e.resource === "document" && e.path === props.vaultPath) {
+          setReloadNonce((n) => n + 1);
+        }
+      }),
+    [subscribe, props.vaultPath],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -40,7 +55,7 @@ export default function DocumentCard({ data }: NodeProps) {
     return () => {
       cancelled = true;
     };
-  }, [props.vaultPath]);
+  }, [props.vaultPath, reloadNonce]);
 
   return (
     <div className="doc-card">

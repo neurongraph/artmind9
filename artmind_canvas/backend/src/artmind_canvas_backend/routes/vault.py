@@ -8,6 +8,7 @@ Writing is markdown-only (ADR 0005) and traversal-guarded (see ``vault``).
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
+from artmind_canvas_backend.events import publish_change
 from artmind_canvas_backend.vault import (
     VaultConflict,
     list_vault_dir,
@@ -47,6 +48,8 @@ async def put_vault_file(payload: WriteRequest):
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
+    # Broadcast so any read-only document Card showing this path re-queries (ADR 0008).
+    publish_change("document", path=payload.path)
     return {"path": payload.path, "version": version}
 
 

@@ -11,6 +11,7 @@ import ChatDock from "./chat/ChatDock";
 import BoardBar from "./boards/BoardBar";
 import EditorPane from "./editor/EditorPane";
 import { WorkspaceContext, basename, type DocTab } from "./editor/workspace";
+import { ChangeStreamProvider } from "./events/changeStream";
 import { isKnownCardType } from "./cards/registry";
 import { cardToNode, nodeToCard } from "./boards/mapping";
 import { createBoard, getBoard, listBoards, saveBoard } from "./boards/api";
@@ -378,8 +379,10 @@ function AppInner() {
 
 export default function App() {
   return (
-    <ReactFlowProvider>
-      <AppInner />
-    </ReactFlowProvider>
+    <ChangeStreamProvider>
+      <ReactFlowProvider>
+        <AppInner />
+      </ReactFlowProvider>
+    </ChangeStreamProvider>
   );
 }
