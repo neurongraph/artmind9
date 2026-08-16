@@ -4,29 +4,37 @@ import {
   ReactFlow,
   type Node,
   type NodeChange,
-  type NodeTypes,
+  type Viewport,
 } from "@xyflow/react";
-import DocumentCard from "../cards/DocumentCard";
-
-// Registered once at module scope — React Flow warns (and re-mounts nodes)
-// if nodeTypes is a fresh object each render.
-const nodeTypes: NodeTypes = { document: DocumentCard };
+import { nodeTypes } from "../cards/registry";
 
 type Props = {
   nodes: Node[];
   onNodesChange: (changes: NodeChange[]) => void;
+  defaultViewport?: Viewport;
+  onMoveEnd?: (viewport: Viewport) => void;
 };
 
-// The spatial substrate: a pan/zoom canvas hosting custom-node Cards. App
-// owns node state so the Chat dock can spawn Cards; Canvas just renders.
-export default function Canvas({ nodes, onNodesChange }: Props) {
+// The spatial substrate: a pan/zoom canvas hosting custom-node Cards, one per
+// registered cardType (see cards/registry). App owns node state (so the Chat
+// dock can spawn Cards and boards can hydrate/persist them); Canvas just
+// renders. When a board carries a saved viewport we restore it and skip
+// fitView; otherwise we frame the hydrated cards.
+export default function Canvas({
+  nodes,
+  onNodesChange,
+  defaultViewport,
+  onMoveEnd,
+}: Props) {
   return (
     <div className="canvas">
       <ReactFlow
         nodes={nodes}
         onNodesChange={onNodesChange}
         nodeTypes={nodeTypes}
-        fitView
+        defaultViewport={defaultViewport}
+        fitView={!defaultViewport}
+        onMoveEnd={(_, viewport) => onMoveEnd?.(viewport)}
         proOptions={{ hideAttribution: true }}
       >
         <Background />

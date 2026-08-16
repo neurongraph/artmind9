@@ -1,1 +1,1 @@
-"""Canvas backend HTTP routes. Phase 0: vault (read-only). Later: graph, boards, skills."""
+"""Canvas backend HTTP routes. Vault (read-only) + boards (canvas state). Later: graph, skills."""
