@@ -27,7 +27,8 @@ can spawn Cards. There is a small fixed set of first-class types plus one open e
 hatch:
 - `graph-view` — a *filtered* visual node/edge subview of the graph (scoped by
   query/domain/entity — never the whole graph at once)
-- `document` — a markdown viewer/editor over a Vault file or block
+- `document` — a **read-only** markdown viewer over a Vault file or block (editing
+  happens in the Editor pane, ADR 0015)
 - `provenance` — the source blocks/chunks a piece of knowledge was retrieved from
 - `skill` — authoring and running a skill
 - `micro-UI` — an open escape hatch the agent fills with arbitrary rendered content
@@ -35,8 +36,18 @@ _Avoid_: widget, panel, window, tile.
 
 **Chat dock**:
 The persistent conversational region (not a Card) that anchors artmind_canvas. Talking
-to the agent here is what causes Cards to be spawned onto the Canvas.
+to the agent here is what causes Cards to be spawned onto the Canvas. Collapsible and
+width-adjustable (ADR 0015), but still the dock — not a generic sidebar.
 _Avoid_: sidebar, chat panel.
+
+**Editor pane**:
+The persistent right-hand region (not a Card) holding a **source-markdown editor** over a
+Vault file — the single editing surface (ADR 0015). Cards are read-only; opening one for
+edit, or promoting agent output, opens the file here. Tabbed (several open docs, one
+active), collapsible/width-adjustable; open docs persist per-board, panel geometry is
+global. Together with the Chat dock (left) and Canvas (center) it forms the three-pane
+workspace.
+_Avoid_: IDE, code editor, document Card (it is neither a Card nor an IDE).
 
 **Board**:
 A named, saved arrangement of Cards on the Canvas — layout, which Cards are open, and

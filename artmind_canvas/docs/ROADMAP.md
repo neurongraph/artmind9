@@ -51,7 +51,7 @@ unclipped `render` event (ADR 0014), the path-guarded Vault read endpoint, and a
 Flow canvas hosting a custom `document` node. No persistence, one card type.
 
 ### Phase 1 — application backbone & reactivity (pure-client; no Track-A gate)
-- **1a — App-state backbone** *(current)*. ADRs 0004 / 0014 / 0009 / 0003.
+- **1a — App-state backbone** ✅ done (live-verified in-browser 2026-08-16). ADRs 0004 / 0014 / 0009 / 0003.
   - Generalize the canvas substrate from one hard-coded card type to a **card
     registry** (cardType → component); generalize `handleRender` to spawn any
     registered type.
@@ -66,6 +66,15 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 - **1b — Graph reactivity**. ADR 0008. SSE change-event broadcast + per-Card scoped
   re-query. Builds on 1a's board/card-instance model. (0009's store and 0008's
   re-query are coupled — 1b lands on top of 1a.)
+- **1c — Markdown editor pane & three-pane workspace**. ADR 0015 (supersedes 0005,
+  extends 0009). Read-only Cards + a **CodeMirror 6 source editor** bound to a Vault file
+  path; collapsible Chat │ Canvas │ Editor push/squeeze layout; explicit save → 0011
+  watcher re-ingest (editor never re-ingests directly); conditional-write clobber guard +
+  re-read on focus; manual **"save to…"** placement (A5/A6 upgrade it to *suggested* later);
+  tabbed open docs persisted **per-board** (`openDocuments[]`/`activeDocument`), panel
+  geometry **global** (`settings.json`). Net-new: a path-guarded Vault **write** endpoint +
+  app-settings store (backend), CodeMirror + panes (frontend). **Decoupled from 1b** — ships
+  in either order; 1b only adds the Card-auto-refresh-after-save nicety.
 
 ### Phase 2 — Card types unblocked now (no Track-A gate)
 - **`provenance` Card** — A1 shipped; needs a backend provenance-read endpoint. ADRs 0007/0014.
@@ -74,7 +83,10 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 ### Phase 3+ — Track-A-gated Cards (order follows Track A delivery)
 - **`graph-view` Card** — needs a graph node-link endpoint (0003) + a new frontend graph
   lib (Cytoscape/sigma, ADR 0004) + A3 indices (perf) + A2 (filing filters).
-- **Editable `document` + re-ingest** — needs A1 (✅) + A4 delta classifier.
+- **Editable `document`** — the editor itself ships in **Phase 1c** (ADR 0015),
+  **decoupled from A4**. A4 (delta classifier) is an *optimization* — it makes re-ingest
+  re-extract only changed blocks instead of a full idempotent replace — not a gate for
+  editing.
 - **`skill` Card** — needs A7 SDK resume. ADRs 0007/0013.
 - **Placement Card** — propose→review→confirm; needs A5 vocabulary + A6 classifier + A3. ADR 0012.
 
@@ -83,7 +95,7 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 | Card | Client work | Track-A / other gate | Earliest phase |
 |------|-------------|----------------------|----------------|
 | `document` (read-only) | done | — | 0 ✅ |
-| `document` (editable) | editor + re-ingest trigger | A1 ✅ + **A4** | 3 |
+| `document` (editable) | Editor pane (ADR 0015) | A1 ✅ (A4 only optimizes re-ingest) | **1c** |
 | `provenance` | card + backend read endpoint | A1 ✅ | 2 |
 | `micro-UI` | sandboxed iframe | — | 2 |
 | `graph-view` | card + graph lib + node-link endpoint | **A2, A3** (+ new npm dep) | 3 |
@@ -92,4 +104,7 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 
 ## Current position
 
-Phase 0 complete and committed (`08f0834`). **Phase 1a in progress.** Track A: A0, A1 done.
+Phase 0 complete and committed (`08f0834`). **Phase 1a complete and committed (`092cef6`,
+branch `canvas-phase1`), live-verified in-browser 2026-08-16.** Next: **Phase 1b** (graph
+reactivity) and/or **Phase 1c** (editor pane, ADR 0015) — the two are decoupled and can
+land in either order. Track A: A0, A1 done.
