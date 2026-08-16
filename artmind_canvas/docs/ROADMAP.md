@@ -80,7 +80,12 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
   in either order; 1b only adds the Card-auto-refresh-after-save nicety.
 
 ### Phase 2 — Card types unblocked now (no Track-A gate)
-- **`provenance` Card** — A1 shipped; needs a backend provenance-read endpoint. ADRs 0007/0014.
+- **`provenance` Card** ✅ done (live-verified in-browser 2026-08-16, branch `canvas-phase1`).
+  ADRs 0007/0014. Read-only "where did this come from?" Card. Backend `GET /api/provenance`
+  routes through the `artmind serve` daemon (`artmind_query.py` seam, stdlib HTTP) → `artmind
+  query entity-context`/`entity-resolve` — **the canvas never opens its own Neo4j driver**.
+  Given an `entityId` (or a free-text `reference` the backend resolves first), it lists the
+  source documents/chunks the fact was extracted from (`EXTRACTED_FROM` provenance, A1).
 - **`micro-UI` Card** — sandboxed `srcdoc`+`sandbox` iframe; schema-free, no deps. ADR 0014.
 
 ### Phase 3+ — Track-A-gated Cards (order follows Track A delivery)
@@ -99,7 +104,7 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 |------|-------------|----------------------|----------------|
 | `document` (read-only) | done | — | 0 ✅ |
 | `document` (editable) | Editor pane (ADR 0015) ✅ | A1 ✅ (A4 only optimizes re-ingest) | 1c ✅ |
-| `provenance` | card + backend read endpoint | A1 ✅ | 2 |
+| `provenance` | card + backend read endpoint ✅ | A1 ✅ | 2 ✅ |
 | `micro-UI` | sandboxed iframe | — | 2 |
 | `graph-view` | card + graph lib + node-link endpoint | **A2, A3** (+ new npm dep) | 3 |
 | `skill` | authoring UI + run | **A7** | 3 |
@@ -112,4 +117,7 @@ branch `canvas-phase1`), live-verified in-browser 2026-08-16.** **Phase 1c compl
 committed (`6e182e3`, same branch), live-verified in-browser 2026-08-16** — editor pane,
 conditional-write clobber guard, three-pane workspace. **Phase 1b complete (graph
 reactivity, ADR 0008), live-verified in-browser 2026-08-16** — SSE change stream +
-Card auto-refresh on Vault write. **Phase 1 is done.** Track A: A0, A1 done.
+Card auto-refresh on Vault write. **Phase 1 is done.** **Phase 2 in progress: `provenance`
+Card done (live-verified in-browser 2026-08-16, branch `canvas-phase1`)** — reads via the
+`artmind serve` → CLI front door, never Neo4j directly; `micro-UI` Card next. Track A: A0,
+A1 done.

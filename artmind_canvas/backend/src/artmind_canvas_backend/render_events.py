@@ -29,3 +29,25 @@ def document_card(vault_path: str, block_id: str | None = None) -> dict[str, Any
     if block_id is not None:
         props["blockId"] = block_id
     return {"cardType": "document", "props": props}
+
+
+def provenance_card(
+    domains: list[str],
+    *,
+    entity_id: str | None = None,
+    reference: str | None = None,
+    title: str | None = None,
+) -> dict[str, Any]:
+    """A ``provenance`` Card spec — contract: ``{domains, entityId?, reference?, title?}``.
+
+    Shows where a fact came from (source docs/chunks). Supply ``entity_id`` when
+    known (skips resolve) or a free-text ``reference`` to resolve first (ADR 0014).
+    """
+    props: dict[str, Any] = {"domains": domains}
+    if entity_id is not None:
+        props["entityId"] = entity_id
+    if reference is not None:
+        props["reference"] = reference
+    if title is not None:
+        props["title"] = title
+    return {"cardType": "provenance", "props": props}

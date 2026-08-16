@@ -26,6 +26,48 @@ export type DocumentCardProps = {
   blockId?: string | null;
 };
 
+// `provenance` Card — shows where a graph fact came from. Supply `entityId`
+// when known, else a free-text `reference` the backend resolves first. `domains`
+// scopes the read (artmind requires at least one). ADR 0014.
+export type ProvenanceCardProps = {
+  domains: string[];
+  entityId?: string | null;
+  reference?: string | null;
+  includeChunks?: number | null;
+  title?: string | null;
+};
+
+// The backend's normalized provenance payload (routes/provenance.py `_shape`).
+export type ProvenanceSource = {
+  chunkId: string | null;
+  chunkName: string | null;
+  docId: string | null;
+  domain: string | null;
+  validTo: string | null;
+  snippet: string | null;
+  document: {
+    id: string | null;
+    name: string | null;
+    domain: string | null;
+    supersededBy: string | null;
+  };
+};
+
+export type ProvenanceResult = {
+  entity: {
+    id: string | null;
+    name: string | null;
+    entityClass: string | null;
+    type: string | null;
+    description: string | null;
+    domain: string | null;
+  };
+  sources: ProvenanceSource[];
+  moreCount: number;
+  chatSources: { id: string | null; snippet: string | null; createdAt: string | null }[];
+  resolvedFrom: string | null;
+};
+
 export function isRenderEvent(
   event: UIEvent,
 ): event is UIEvent & { card: CardSpec } {

@@ -18,11 +18,12 @@ from typing import AsyncIterator, Callable
 from artmind.webui.backends import AgentBackend, UIEvent, create_backend
 
 from artmind_canvas_backend.profiles import CANVAS_PROFILE
-from artmind_canvas_backend.render_events import document_card, render_event
+from artmind_canvas_backend.render_events import document_card, provenance_card, render_event
 
 logger = logging.getLogger(__name__)
 
 _RENDER_TEST = "/render-test"
+_PROV_TEST = "/prov-test"
 
 
 class CanvasBackend:
@@ -31,7 +32,7 @@ class CanvasBackend:
     def __init__(self, inner_factory: Callable[[], AgentBackend]) -> None:
         self._inner_factory = inner_factory
         self._inner: AgentBackend | None = None
-        self._test_arg: str | None = None
+        self._canned: list[UIEvent] | None = None
 
     async def connect(self) -> None:
         # Lazy: defer the inner backend's connect (which spawns the agent
@@ -53,17 +54,20 @@ class CanvasBackend:
     async def query(self, prompt: str) -> None:
         stripped = prompt.strip()
         if stripped.startswith(_RENDER_TEST):
-            self._test_arg = stripped[len(_RENDER_TEST):].strip()
+            self._canned = self._render_test_sequence(stripped[len(_RENDER_TEST):].strip())
             return
-        self._test_arg = None
+        if stripped.startswith(_PROV_TEST):
+            self._canned = self._prov_test_sequence(stripped[len(_PROV_TEST):].strip())
+            return
+        self._canned = None
         inner = await self._ensure_inner()
         await inner.query(prompt)
 
     async def receive_events(self) -> AsyncIterator[UIEvent]:
-        if self._test_arg is not None:
-            for event in self._render_test_sequence(self._test_arg):
+        if self._canned is not None:
+            for event in self._canned:
                 yield event
-            self._test_arg = None
+            self._canned = None
             return
         assert self._inner is not None  # query() connected it
         async for event in self._inner.receive_events():
@@ -81,6 +85,19 @@ class CanvasBackend:
             {"type": "text_delta", "text": f"Opening `{vault_path}` on the canvas…"},
             {"type": "block_done", "block": "text"},
             render_event(document_card(vault_path)),
+            {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
+        ]
+
+    @staticmethod
+    def _prov_test_sequence(arg: str) -> list[UIEvent]:
+        """Canned turn spawning a ``provenance`` Card: ``/prov-test <domain> <reference>``."""
+        domain, _, reference = arg.partition(" ")
+        domain = domain or "default"
+        reference = reference.strip() or "artmind"
+        return [
+            {"type": "text_delta", "text": f"Tracing provenance for `{reference}` in `{domain}`…"},
+            {"type": "block_done", "block": "text"},
+            render_event(provenance_card([domain], reference=reference)),
             {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
         ]
 

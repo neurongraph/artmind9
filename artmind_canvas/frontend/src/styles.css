@@ -376,6 +376,111 @@ body.resizing {
   color: #f0837a;
 }
 
+/* Provenance Card (ADR 0014) -------------------------------------------- */
+.prov-card {
+  width: 360px;
+}
+
+.prov-badge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.prov-desc {
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.prov-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.prov-chip {
+  font-size: 11px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.prov-section-head {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: 10px 0 6px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+
+.prov-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prov-source {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 7px 9px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.prov-source-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.prov-doc {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.prov-chunk {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.prov-super {
+  font-size: 10px;
+  color: #e0a34a;
+  border: 1px solid #e0a34a55;
+  border-radius: 4px;
+  padding: 0 5px;
+}
+
+.prov-snippet {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.prov-more {
+  margin-top: 8px;
+  font-size: 11px;
+}
+
 /* Editor pane (ADR 0015) ------------------------------------------------ */
 .editor-pane {
   flex: 1;
