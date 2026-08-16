@@ -51,3 +51,19 @@ def provenance_card(
     if title is not None:
         props["title"] = title
     return {"cardType": "provenance", "props": props}
+
+
+def micro_ui_card(html: str, *, title: str | None = None) -> dict[str, Any]:
+    """A ``micro-ui`` Card spec — tier (c), arbitrary agent-authored HTML/JS.
+
+    The ``html`` is dropped into a **sandboxed iframe** (``srcdoc`` + strict
+    ``sandbox``) on the client, isolated from the app DOM and data (ADR 0014).
+    Its only contract is "sandboxed HTML" — deliberately schema-free. We carry
+    the markup on ``props.html`` (not a top-level ``card.html``) so it rides the
+    same declarative props path as every other Card and round-trips through board
+    persistence unchanged.
+    """
+    props: dict[str, Any] = {"html": html}
+    if title is not None:
+        props["title"] = title
+    return {"cardType": "micro-ui", "props": props}

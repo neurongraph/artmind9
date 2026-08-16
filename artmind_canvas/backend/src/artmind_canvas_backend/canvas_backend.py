@@ -18,12 +18,18 @@ from typing import AsyncIterator, Callable
 from artmind.webui.backends import AgentBackend, UIEvent, create_backend
 
 from artmind_canvas_backend.profiles import CANVAS_PROFILE
-from artmind_canvas_backend.render_events import document_card, provenance_card, render_event
+from artmind_canvas_backend.render_events import (
+    document_card,
+    micro_ui_card,
+    provenance_card,
+    render_event,
+)
 
 logger = logging.getLogger(__name__)
 
 _RENDER_TEST = "/render-test"
 _PROV_TEST = "/prov-test"
+_MICROUI_TEST = "/microui-test"
 
 
 class CanvasBackend:
@@ -58,6 +64,9 @@ class CanvasBackend:
             return
         if stripped.startswith(_PROV_TEST):
             self._canned = self._prov_test_sequence(stripped[len(_PROV_TEST):].strip())
+            return
+        if stripped.startswith(_MICROUI_TEST):
+            self._canned = self._microui_test_sequence(stripped[len(_MICROUI_TEST):].strip())
             return
         self._canned = None
         inner = await self._ensure_inner()
@@ -98,6 +107,32 @@ class CanvasBackend:
             {"type": "text_delta", "text": f"Tracing provenance for `{reference}` in `{domain}`…"},
             {"type": "block_done", "block": "text"},
             render_event(provenance_card([domain], reference=reference)),
+            {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
+        ]
+
+    @staticmethod
+    def _microui_test_sequence(arg: str) -> list[UIEvent]:
+        """Canned turn spawning a ``micro-ui`` Card: sandboxed agent-authored HTML.
+
+        ``arg`` is an optional title; the demo widget is a self-contained counter
+        proving scripts run inside the sandbox with no app access.
+        """
+        title = arg.strip() or "demo widget"
+        html = (
+            "<!doctype html><meta charset=utf-8>"
+            "<style>body{font:14px -apple-system,sans-serif;color:#e6e8ec;margin:0;"
+            "padding:14px;background:#0b0d11}button{font:inherit;color:#fff;"
+            "background:#5b8def;border:0;border-radius:6px;padding:6px 12px;"
+            "cursor:pointer}b{font-size:22px}</style>"
+            "<p>Sandboxed micro-UI. Count: <b id=n>0</b></p>"
+            "<button id=b>+1</button>"
+            "<script>let n=0,el=document.getElementById('n');"
+            "document.getElementById('b').onclick=()=>{el.textContent=++n};</script>"
+        )
+        return [
+            {"type": "text_delta", "text": f"Rendering a sandboxed micro-UI (`{title}`)…"},
+            {"type": "block_done", "block": "text"},
+            render_event(micro_ui_card(html, title=title)),
             {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
         ]
 

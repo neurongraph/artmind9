@@ -37,6 +37,14 @@ export type ProvenanceCardProps = {
   title?: string | null;
 };
 
+// `micro-ui` Card — tier (c), arbitrary agent-authored HTML/JS rendered in a
+// strictly sandboxed iframe (srcdoc + sandbox, no app access). Schema-free by
+// design; the only field is the markup. ADR 0014.
+export type MicroUICardProps = {
+  html: string;
+  title?: string | null;
+};
+
 // The backend's normalized provenance payload (routes/provenance.py `_shape`).
 export type ProvenanceSource = {
   chunkId: string | null;
