@@ -70,6 +70,11 @@ class Board(BaseModel):
     name: str
     cards: list[CardInstance] = Field(default_factory=list)
     viewport: Viewport | None = None
+    # Editor pane state (ADR 0015): which Vault docs are open on this board, and
+    # which tab is active. Per-board (part of the working arrangement) — unlike
+    # panel geometry, which is global (see settings_store).
+    openDocuments: list[str] = Field(default_factory=list)
+    activeDocument: str | None = None
     createdAt: str
     updatedAt: str
 
@@ -86,6 +91,8 @@ class BoardPatch(BaseModel):
     name: str | None = None
     cards: list[CardInstance] | None = None
     viewport: Viewport | None = None
+    openDocuments: list[str] | None = None
+    activeDocument: str | None = None
 
 
 def _now() -> str:
@@ -145,6 +152,14 @@ def save_board(board_id: str, patch: BoardPatch) -> Board:
         board.cards = patch.cards
     if patch.viewport is not None:
         board.viewport = patch.viewport
+    if patch.openDocuments is not None:
+        board.openDocuments = patch.openDocuments
+    if patch.activeDocument is not None:
+        board.activeDocument = patch.activeDocument
+    # Self-heal: the active tab must be one of the open docs. Closing the last tab
+    # (openDocuments=[]) clears activeDocument even though a null patch can't set it.
+    if board.activeDocument not in board.openDocuments:
+        board.activeDocument = board.openDocuments[-1] if board.openDocuments else None
     board.updatedAt = _now()
     _write(board)
     return board

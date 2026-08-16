@@ -24,25 +24,112 @@ body {
   color: var(--text);
 }
 
+/* Three-pane workspace: Chat | Canvas | Editor (ADR 0015). Column widths are
+   driven by inline grid-template-columns from App (settings-backed geometry). */
 .app {
-  display: flex;
+  display: grid;
   height: 100vh;
+  overflow: hidden;
+}
+
+body.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
+/* A side panel occupies its grid column and hosts a resize handle on its
+   inner border. position:relative anchors the absolutely-placed handle. */
+.panel-col {
+  position: relative;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  overflow: hidden;
+}
+
+.chat-col {
+  border-right: 1px solid var(--border);
+}
+
+.editor-col {
+  border-left: 1px solid var(--border);
+}
+
+.resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 5;
+}
+
+.resizer-right {
+  right: -4px;
+}
+
+.resizer-left {
+  left: -4px;
+}
+
+.resizer:hover {
+  background: var(--accent);
+  opacity: 0.4;
+}
+
+/* Collapsed panels shrink to a thin rail with an expand button. */
+.rail {
+  background: var(--panel);
+  color: var(--muted);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0;
+}
+
+.rail-left {
+  border-right: 1px solid var(--border);
+}
+
+.rail-right {
+  border-left: 1px solid var(--border);
+}
+
+.rail:hover {
+  color: var(--text);
 }
 
 /* Chat dock ------------------------------------------------------------- */
 .chat-dock {
-  width: 380px;
-  min-width: 300px;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--border);
-  background: var(--panel);
 }
 
 .chat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 12px 16px;
   font-weight: 600;
   border-bottom: 1px solid var(--border);
+}
+
+.chat-collapse,
+.editor-collapse {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 4px;
+}
+
+.chat-collapse:hover,
+.editor-collapse:hover {
+  color: var(--text);
 }
 
 .chat-log {
@@ -120,6 +207,46 @@ body {
   cursor: default;
 }
 
+.chat-input-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chat-to-editor {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.chat-to-editor:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+/* Promote-to-editor affordance under a substantial assistant reply. */
+.chat-promote {
+  display: block;
+  margin-top: 6px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.chat-promote:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
 /* Canvas column + board bar --------------------------------------------- */
 .canvas-col {
   flex: 1;
@@ -188,12 +315,37 @@ body {
 }
 
 .doc-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 600;
   color: var(--muted);
   border-bottom: 1px solid var(--border);
   cursor: grab;
+}
+
+.doc-card-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.doc-card-edit {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 1px 7px;
+}
+
+.doc-card-edit:hover {
+  color: var(--text);
+  border-color: var(--accent);
 }
 
 .doc-card-body {
@@ -222,4 +374,242 @@ body {
 
 .doc-card-error {
   color: #f0837a;
+}
+
+/* Editor pane (ADR 0015) ------------------------------------------------ */
+.editor-pane {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.editor-head {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-tabs {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  min-width: 0;
+}
+
+.editor-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.editor-tab.active {
+  color: var(--text);
+  background: var(--bg);
+}
+
+.editor-tab-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editor-tab-close {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0 2px;
+  border-radius: 4px;
+}
+
+.editor-tab-close:hover {
+  color: var(--text);
+  background: var(--border);
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-save {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.editor-save:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.editor-status {
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor-conflict {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #ffcf9e;
+  background: rgba(240, 131, 122, 0.12);
+  border-bottom: 1px solid var(--border);
+}
+
+.editor-conflict button {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.editor-conflict button:hover {
+  border-color: var(--accent);
+}
+
+.cm-host {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cm-host .cm-editor {
+  height: 100%;
+}
+
+.editor-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.editor-empty.editor-err {
+  color: #f0837a;
+}
+
+/* Save-to picker (new-draft placement) --------------------------------- */
+.picker-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.picker {
+  width: 420px;
+  max-width: 90vw;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+.picker-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.picker-input {
+  width: 100%;
+  background: #0b0d11;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.picker-dirs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.picker-dir {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.picker-dir:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.picker-error {
+  color: #f0837a;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.picker-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.picker-cancel {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 14px;
+  cursor: pointer;
+}
+
+.picker-save {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 16px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.picker-save:disabled {
+  opacity: 0.5;
+  cursor: default;
 }

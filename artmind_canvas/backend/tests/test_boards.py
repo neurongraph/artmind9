@@ -104,6 +104,28 @@ class BoardApiTest(unittest.TestCase):
         self.assertEqual(len(renamed["cards"]), 1)
         self.assertEqual(renamed["cards"][0]["id"], "c1")
 
+    def test_open_documents_round_trip(self) -> None:
+        bid = self.client.post("/api/boards", json={"name": "B"}).json()["id"]
+        patch = {"openDocuments": ["a.md", "b.md"], "activeDocument": "b.md"}
+        board = self.client.put(f"/api/boards/{bid}", json=patch).json()
+        self.assertEqual(board["openDocuments"], ["a.md", "b.md"])
+        self.assertEqual(board["activeDocument"], "b.md")
+        reloaded = self.client.get(f"/api/boards/{bid}").json()
+        self.assertEqual(reloaded["activeDocument"], "b.md")
+
+    def test_active_document_self_heals_on_close(self) -> None:
+        bid = self.client.post("/api/boards", json={"name": "B"}).json()["id"]
+        self.client.put(
+            f"/api/boards/{bid}",
+            json={"openDocuments": ["a.md", "b.md"], "activeDocument": "b.md"},
+        )
+        # close the active tab: openDocuments shrinks; active must fall back into range
+        healed = self.client.put(f"/api/boards/{bid}", json={"openDocuments": ["a.md"]}).json()
+        self.assertEqual(healed["activeDocument"], "a.md")
+        # close the last tab → active clears
+        empty = self.client.put(f"/api/boards/{bid}", json={"openDocuments": []}).json()
+        self.assertIsNone(empty["activeDocument"])
+
     def test_save_bumps_updated_at(self) -> None:
         board = self.client.post("/api/boards", json={"name": "B"}).json()
         bid, created = board["id"], board["updatedAt"]

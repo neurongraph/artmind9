@@ -21,6 +21,7 @@ from artmind.webui.sessions import SessionRegistry
 
 from artmind_canvas_backend.canvas_backend import canvas_backend_factory
 from artmind_canvas_backend.routes.boards import router as boards_router
+from artmind_canvas_backend.routes.settings import router as settings_router
 from artmind_canvas_backend.routes.vault import router as vault_router
 
 logger = logging.getLogger(__name__)
@@ -63,6 +64,7 @@ def create_app(registry: SessionRegistry | None = None) -> FastAPI:
     app = FastAPI(title="artmind_canvas", lifespan=lifespan)
     app.include_router(vault_router)
     app.include_router(boards_router)
+    app.include_router(settings_router)
 
     @app.get("/health")
     async def health():

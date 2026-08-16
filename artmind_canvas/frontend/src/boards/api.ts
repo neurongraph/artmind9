@@ -24,7 +24,13 @@ export async function getBoard(id: string): Promise<Board> {
   return asJson<Board>(await fetch(`/api/boards/${encodeURIComponent(id)}`));
 }
 
-type BoardPatch = { name?: string; cards?: CardInstance[]; viewport?: Viewport };
+type BoardPatch = {
+  name?: string;
+  cards?: CardInstance[];
+  viewport?: Viewport;
+  openDocuments?: string[];
+  activeDocument?: string | null;
+};
 
 export async function saveBoard(id: string, patch: BoardPatch): Promise<Board> {
   return asJson<Board>(

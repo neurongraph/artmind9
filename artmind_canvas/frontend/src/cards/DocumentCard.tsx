@@ -3,6 +3,7 @@ import { Handle, Position, type NodeProps } from "@xyflow/react";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import type { DocumentCardProps } from "../render/types";
+import { useWorkspace } from "../editor/workspace";
 
 type State =
   | { status: "loading" }
@@ -15,6 +16,7 @@ type State =
 export default function DocumentCard({ data }: NodeProps) {
   const props = data as unknown as DocumentCardProps;
   const [state, setState] = useState<State>({ status: "loading" });
+  const { openDocument } = useWorkspace();
 
   useEffect(() => {
     let cancelled = false;
@@ -43,7 +45,17 @@ export default function DocumentCard({ data }: NodeProps) {
   return (
     <div className="doc-card">
       <Handle type="target" position={Position.Left} />
-      <div className="doc-card-title">📄 {props.vaultPath}</div>
+      <div className="doc-card-title">
+        <span className="doc-card-name">📄 {props.vaultPath}</span>
+        <button
+          className="doc-card-edit nodrag"
+          onClick={() => openDocument(props.vaultPath)}
+          title="Edit in the editor pane"
+          aria-label="Edit document"
+        >
+          ✎
+        </button>
+      </div>
       <div className="doc-card-body nodrag nowheel">
         {state.status === "loading" && <div className="doc-card-muted">loading…</div>}
         {state.status === "error" && (

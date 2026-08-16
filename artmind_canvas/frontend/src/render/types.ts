@@ -65,6 +65,9 @@ export type Board = {
   name: string;
   cards: CardInstance[];
   viewport?: Viewport | null;
+  // Editor pane state (ADR 0015): Vault docs open on this board + active tab.
+  openDocuments: string[];
+  activeDocument: string | null;
   createdAt: string;
   updatedAt: string;
 };
