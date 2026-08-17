@@ -172,3 +172,63 @@ def test_setup_all_summary_includes_entity_version_schema():
     src = inspect.getsource(setup_all)
     for name in ("entity_version_id", "entity_version_entity", "entity_version_valid_to", "entity_version_domain"):
         assert name in src
+
+
+# ── A3: graph indices for scoped graph-view re-queries ───────────────────────
+
+
+def test_setup_neo4j_declares_filing_metadata_indexes():
+    """A2/A3: project + area indexes on Document and DocChunk keep filing
+    filters index-backed instead of falling to full scans."""
+    src = inspect.getsource(_setup_neo4j)
+    for cypher in (
+        "CREATE INDEX document_project IF NOT EXISTS FOR (n:Document) ON (n.project)",
+        "CREATE INDEX document_area IF NOT EXISTS FOR (n:Document) ON (n.area)",
+        "CREATE INDEX chunk_project IF NOT EXISTS FOR (n:DocChunk) ON (n.project)",
+        "CREATE INDEX chunk_area IF NOT EXISTS FOR (n:DocChunk) ON (n.area)",
+    ):
+        assert cypher in src
+
+
+def test_setup_neo4j_declares_a3_composite_indexes():
+    """A3: composite (filter, domain) indexes let the planner start on the
+    selective filter and stay index-scan for the domain narrow."""
+    src = inspect.getsource(_setup_neo4j)
+    for cypher in (
+        "CREATE INDEX entity_class IF NOT EXISTS FOR (n:Entity) ON (n.entity_class)",
+        "CREATE INDEX entity_class_domain IF NOT EXISTS FOR (n:Entity) ON (n.entity_class, n.domain)",
+        "CREATE INDEX document_project_domain IF NOT EXISTS FOR (n:Document) ON (n.project, n.domain)",
+        "CREATE INDEX document_area_domain IF NOT EXISTS FOR (n:Document) ON (n.area, n.domain)",
+        "CREATE INDEX chunk_project_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.project, n.domain)",
+        "CREATE INDEX chunk_area_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.area, n.domain)",
+        "CREATE INDEX chunk_doc_id_id IF NOT EXISTS FOR (n:DocChunk) ON (n.doc_id, n.id)",
+        "CREATE INDEX document_name IF NOT EXISTS FOR (n:Document) ON (n.name)",
+    ):
+        assert cypher in src
+
+
+def test_setup_neo4j_declares_document_name_fulltext():
+    """A3: pattern10's CONTAINS query on d.name benefits from a fulltext index."""
+    src = inspect.getsource(_setup_neo4j)
+    assert (
+        "CREATE FULLTEXT INDEX document_name_ft IF NOT EXISTS FOR (d:Document) ON EACH [d.name, d.title]"
+        in src
+    )
+
+
+def test_setup_all_summary_includes_a3_indexes():
+    """setup_all's summary must list every index _setup_neo4j creates so
+    `artmind setup` prints an accurate summary."""
+    src = inspect.getsource(setup_all)
+    for name in (
+        "entity_class",
+        "entity_class_domain",
+        "document_project_domain",
+        "document_area_domain",
+        "chunk_project_domain",
+        "chunk_area_domain",
+        "chunk_doc_id_id",
+        "document_name",
+        "document_name_ft",
+    ):
+        assert name in src, f"setup_all summary missing {name}"

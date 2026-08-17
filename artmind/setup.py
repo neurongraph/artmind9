@@ -217,6 +217,68 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE INDEX chunk_doc_id IF NOT EXISTS FOR (n:DocChunk) ON (n.doc_id)"
     )
 
+    # ── Filing taxonomy (ADR 0010): project, area filtering on Document and DocChunk ─
+    session.run(
+        "CREATE INDEX document_project IF NOT EXISTS FOR (n:Document) ON (n.project)"
+    )
+    session.run(
+        "CREATE INDEX document_area IF NOT EXISTS FOR (n:Document) ON (n.area)"
+    )
+    session.run(
+        "CREATE INDEX chunk_project IF NOT EXISTS FOR (n:DocChunk) ON (n.project)"
+    )
+    session.run(
+        "CREATE INDEX chunk_area IF NOT EXISTS FOR (n:DocChunk) ON (n.area)"
+    )
+
+    # ── A3: Graph indices for scoped graph-view re-queries (ADRs 0004/0008) ──
+    # graph-view Cards are always filtered subviews. The Card's re-query after
+    # a change event repeats the same filter, so composite indexes on the
+    # most-frequent (label, filter-property) combos keep re-queries fast at scale.
+
+    # Entity: (entity_class, domain) — pattern1/4/8/9 filter by class + domain;
+    # entity_class alone shows up in entity_context / refine passes. The existing
+    # entity_lookup composite is (name, entity_class, domain) which can't be
+    # used when name is unknown, so this leading-column composite fills the gap.
+    session.run(
+        "CREATE INDEX entity_class_domain IF NOT EXISTS FOR (n:Entity) ON (n.entity_class, n.domain)"
+    )
+    session.run(
+        "CREATE INDEX entity_class IF NOT EXISTS FOR (n:Entity) ON (n.entity_class)"
+    )
+
+    # Document: (project, domain) composite — filing_listing scoped by both;
+    # (area, domain) likewise. Also plain area for area-only filters.
+    session.run(
+        "CREATE INDEX document_project_domain IF NOT EXISTS FOR (n:Document) ON (n.project, n.domain)"
+    )
+    session.run(
+        "CREATE INDEX document_area_domain IF NOT EXISTS FOR (n:Document) ON (n.area, n.domain)"
+    )
+
+    # DocChunk: (project, domain) composite — vector-text / chunk queries scoped
+    # to a project stay index-backed instead of falling to a domain scan + filter.
+    session.run(
+        "CREATE INDEX chunk_project_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.project, n.domain)"
+    )
+    session.run(
+        "CREATE INDEX chunk_area_domain IF NOT EXISTS FOR (n:DocChunk) ON (n.area, n.domain)"
+    )
+
+    # DocChunk: (doc_id, id) composite — chunks_by_id's ±N neighbor window
+    # fetches all siblings of doc_id then ORDER BY id. The composite lets the
+    # planner index-scan in reading order without a separate sort.
+    session.run(
+        "CREATE INDEX chunk_doc_id_id IF NOT EXISTS FOR (n:DocChunk) ON (n.doc_id, n.id)"
+    )
+
+    # Document: plain name index — pattern10 does CONTAINS on name, which the
+    # name fulltext (document_name_ft below) is better for; a plain name index
+    # is cheap and helps exact-name lookups elsewhere (docs commands, provenance).
+    session.run(
+        "CREATE INDEX document_name IF NOT EXISTS FOR (n:Document) ON (n.name)"
+    )
+
     # ── Vector indexes ────────────────────────────────────────────────────────
     session.run(
         f"CREATE VECTOR INDEX chunk_embedding IF NOT EXISTS "
@@ -247,6 +309,12 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         )
         session.run(
             "CREATE FULLTEXT INDEX entity_name_ft IF NOT EXISTS FOR (e:Entity) ON EACH [e.name, e.description]"
+        )
+        # A3: Document.name + .title fulltext — pattern10's CONTAINS query and any
+        # canvas graph-view / provenance Card that resolves a document by name benefit
+        # from a fulltext index over a filter scan on a growing document set.
+        session.run(
+            "CREATE FULLTEXT INDEX document_name_ft IF NOT EXISTS FOR (d:Document) ON EACH [d.name, d.title]"
         )
     except Exception:
         pass
@@ -305,11 +373,23 @@ def setup_all() -> dict:
             "entity_lookup",
             "entity_domain",
             "entity_name_domain",
+            "entity_class",
+            "entity_class_domain",
             "document_domain",
             "document_logical_id",
+            "document_project",
+            "document_area",
+            "document_project_domain",
+            "document_area_domain",
+            "document_name",
             "chunk_domain",
             "chunk_block_hash",
             "chunk_doc_id",
+            "chunk_doc_id_id",
+            "chunk_project",
+            "chunk_area",
+            "chunk_project_domain",
+            "chunk_area_domain",
             "user_chat_domain",
             "entity_valid_from",
             "entity_valid_to",
@@ -329,5 +409,5 @@ def setup_all() -> dict:
             f"user_chat_embedding (dim={embedding_dim})",
             f"entity_embedding (dim={embedding_dim})",
         ],
-        "neo4j_fulltext_indexes": ["chunk_text_ft", "user_chat_text_ft", "entity_name_ft"],
+        "neo4j_fulltext_indexes": ["chunk_text_ft", "user_chat_text_ft", "entity_name_ft", "document_name_ft"],
     }

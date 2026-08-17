@@ -180,7 +180,7 @@ click.rich_click.COMMAND_GROUPS = {
         },
         {
             "name": "Graph building",
-            "commands": ["extract-kg", "write-to-graph", "pull-kg", "embed-entities"],
+            "commands": ["extract-kg", "classify-reingest", "write-to-graph", "pull-kg", "embed-entities"],
         },
         {
             "name": "Refinement",
@@ -214,6 +214,7 @@ click.rich_click.COMMAND_GROUPS = {
                 "entity-context",
                 "text2sql",
                 "resolve-key",
+                "propose-placement",
             ],
         },
     ],
@@ -695,6 +696,47 @@ def ingest_extract_kg(document_name: str, domain: str, max_workers: int | None) 
         logger.info("extract_kg complete — merged JSON in {}", doc_kg_dir)
     else:
         raise click.ClickException("extract_kg failed — check logs for details")
+
+
+@ingest.command("classify-reingest")
+@click.argument("markdown_path", type=click.Path(exists=True))
+@click.option("--domain", required=True, help="Target domain for this re-ingest")
+@click.option("--logicalId", "logical_id", required=True, help="Logical id of the prior document (from `docs list`)")
+@click.option("--priorDomain", "prior_domain", default=None, help="Prior domain if different from --domain (forces 'domain' tier)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def ingest_classify_reingest(
+    markdown_path: str,
+    domain: str,
+    logical_id: str,
+    prior_domain: str | None,
+    compact: bool,
+) -> None:
+    """Classify a hypothetical re-ingest without touching the graph (A4, ADR 0006 (f)).
+
+    Reports one of four tiers:
+    - metadata_only: body is byte-identical to the prior version; a re-ingest
+      would take the fast path (Cypher SET, no LLM extraction, no supersede).
+    - content: body differs; a re-ingest would run the full pipeline (A1d).
+    - domain: --priorDomain differs from --domain; forces re-extraction.
+    - initial: no prior document with this logical id.
+    """
+    from artmind.delta import classify_reingest
+    result = classify_reingest(
+        Path(markdown_path),
+        domain=domain,
+        logical_id=logical_id,
+        prior_domain=prior_domain,
+    )
+    _echo_json(
+        {
+            "tier": result.tier,
+            "doc_id": result.doc_id,
+            "version": result.version,
+            "reason": result.reason,
+            "metadata": result.metadata,
+        },
+        compact,
+    )
 
 
 @ingest.command("write-to-graph")
@@ -1745,7 +1787,7 @@ def query():
 
 @query.group()
 def graph():
-    """Execute graph queries (metadata, entity listing, pattern1–pattern10, timeline, conflicts, text2cypher)."""
+    """Execute graph queries (metadata, entity listing, filing listing, vocabulary, pattern1–pattern10, timeline, conflicts, text2cypher)."""
     pass
 
 
@@ -1795,6 +1837,47 @@ def graph_entity_listing_cmd(domain: tuple, name_filter: str | None, count_all: 
     domains = _parse_domains(domain)
     try:
         result = graph_query.entity_listing(domains, name_filter=name_filter, count_all=count_all, as_of=as_of)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@graph.command("filing-listing")
+@click.option("--domain", "domain", multiple=True, help="Domain to query (repeatable; comma-splittable). Optional.")
+@click.option("--project", "project", default=None, help="Filter by project (ADR 0010 filing metadata)")
+@click.option("--area", "area", default=None, help="Filter by area (ADR 0010 filing metadata)")
+@click.option("--tag", "tag", multiple=True, help="Filter by tag (repeatable; matches ANY listed tag)")
+@click.option("--asOf", "as_of", default=None, help="Valid-time filter: ISO date or 'today'; docs without valid-time always shown")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_filing_listing_cmd(domain: tuple, project: str | None, area: str | None, tag: tuple, as_of: str | None, compact: bool) -> None:
+    """List Documents filtered by filing taxonomy (project, area, tags, domain)."""
+    domains = _parse_domains(domain) if domain else None
+    tags = list(tag) if tag else None
+    try:
+        result = graph_query.filing_listing(
+            domains=domains,
+            project=project,
+            area=area,
+            tags=tags,
+            as_of=as_of,
+        )
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@graph.command("vocabulary")
+@click.option("--domain", "domain", multiple=True, help="Domain to scope vocabulary to (repeatable; comma-splittable). Optional.")
+@click.option("--minCount", "min_count", type=int, default=1, show_default=True, help="Drop labels with fewer than N documents backing them")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def graph_vocabulary_cmd(domain: tuple, min_count: int, compact: bool) -> None:
+    """Return the controlled filing vocabulary (project/area/tags/domain, with counts).
+
+    Grounds A6 placement classifier proposals in labels already in use (ADR 0012).
+    """
+    domains = _parse_domains(domain) if domain else None
+    try:
+        result = graph_query.filing_vocabulary(domains=domains, min_count=min_count)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)
@@ -2177,6 +2260,39 @@ def query_resolve_key(domain: tuple, column: str | None, table: str | None, top_
     domains = _parse_domains(domain)
     try:
         result = resolve_key.resolve_key(phrase, domains, column=column, table=table, top_k=top_k)
+    except ValueError as exc:
+        raise click.ClickException(str(exc)) from exc
+    _echo_json(result, compact)
+
+
+@query.command("propose-placement")
+@click.option("--text", "text", default=None, help="Text to classify (omit to read from stdin)")
+@click.option("--context", "context", default=None, help="Optional additional context for the classifier")
+@click.option("--domain", "domain", multiple=True, help="Constrain proposals to these domain(s) (repeatable; optional)")
+@click.option("--model", default=None, help="LLM model override (default: ARTMIND_KG_LLM_MODEL / ministral-3:14b)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def query_propose_placement(
+    text: str | None,
+    context: str | None,
+    domain: tuple,
+    model: str | None,
+    compact: bool,
+) -> None:
+    """Propose placement (domain/area/project/tags) for a block of text (A6, ADR 0012).
+
+    Suggester only — never writes. The canvas placement Card renders the proposal
+    for user review; the doc-first path writes frontmatter and re-ingests only
+    after confirmation.
+    """
+    from artmind.placement import propose_placement
+    if text is None:
+        import sys
+        text = sys.stdin.read()
+    if not text or not text.strip():
+        raise click.ClickException("--text or stdin content is required")
+    domains = list(domain) if domain else None
+    try:
+        result = propose_placement(text=text, context=context, domains=domains, model=model)
     except ValueError as exc:
         raise click.ClickException(str(exc)) from exc
     _echo_json(result, compact)

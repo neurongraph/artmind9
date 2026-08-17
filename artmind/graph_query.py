@@ -390,6 +390,153 @@ def structural_metadata(domains: "str | Sequence[str]") -> dict:
     }
 
 
+def filing_vocabulary(
+    domains: "str | Sequence[str]" = None,
+    min_count: int = 1,
+) -> dict:
+    """Return the controlled filing vocabulary in the graph (ADR 0012 A5).
+
+    Reads Documents (authoritative for filing metadata per ADR 0010) and returns
+    the distinct `project`, `area`, and `tags` values along with their document
+    counts. Also returns the distinct `domain` values for completeness. Used by
+    the placement classifier (A6) to ground proposals in labels already in use,
+    so a suggestion for a new document lands on `Alpha` rather than a fresh
+    `proj-alpha` when the vocabulary already carries `Alpha`.
+
+    - ``domains`` optionally scopes vocabulary to specific domain(s).
+    - ``min_count`` filters out rare labels (default 1 keeps everything).
+    """
+    filters = []
+    params: dict = {"min_count": max(1, int(min_count))}
+
+    if domains:
+        params["domains"] = normalize_domains(domains)
+        filters.append(domain_predicate("d"))
+
+    filters.append(not_deleted_doc("d"))
+    where_clause = " AND ".join(filters) if filters else "true"
+
+    cypher = f"""
+    CALL () {{
+      MATCH (d:Document)
+      WHERE {where_clause} AND d.project IS NOT NULL
+      WITH d.project AS value, count(d) AS cnt
+      WHERE cnt >= $min_count
+      RETURN 'project' AS facet, value, cnt
+    UNION
+      MATCH (d:Document)
+      WHERE {where_clause} AND d.area IS NOT NULL
+      WITH d.area AS value, count(d) AS cnt
+      WHERE cnt >= $min_count
+      RETURN 'area' AS facet, value, cnt
+    UNION
+      MATCH (d:Document)
+      WHERE {where_clause} AND d.tags IS NOT NULL
+      UNWIND d.tags AS tag
+      WITH tag AS value, count(d) AS cnt
+      WHERE cnt >= $min_count
+      RETURN 'tags' AS facet, value, cnt
+    UNION
+      MATCH (d:Document)
+      WHERE {where_clause} AND d.domain IS NOT NULL
+      WITH d.domain AS value, count(d) AS cnt
+      WHERE cnt >= $min_count
+      RETURN 'domain' AS facet, value, cnt
+    }}
+    RETURN facet, value, cnt
+    ORDER BY facet, cnt DESC, value
+    """
+    rows = _run_read_query(cypher, params)
+
+    # Reshape rows into the {project: [...], area: [...], tags: [...], domain: [...]}
+    # form the placement classifier and canvas consume — flat rows are noisy for a UI.
+    vocab: dict[str, list[dict]] = {"project": [], "area": [], "tags": [], "domain": []}
+    for row in rows:
+        facet = row.get("facet")
+        if facet in vocab:
+            vocab[facet].append({"value": row["value"], "count": row["cnt"]})
+
+    return {
+        "query_type": "graph",
+        "command": "filing_vocabulary",
+        "scope": {
+            "domains": params.get("domains"),
+            "min_count": params["min_count"],
+        },
+        "vocabulary": vocab,
+    }
+
+
+def filing_listing(
+    domains: "str | Sequence[str]" = None,
+    project: str | None = None,
+    area: str | None = None,
+    tags: "str | Sequence[str] | None" = None,
+    as_of: str | None = None,
+) -> dict:
+    """List Documents filtered by filing taxonomy (ADR 0010).
+
+    Any of `domains`, `project`, `area`, `tags` may be omitted; provided filters
+    are AND-ed together. `tags` matches if any listed tag is present on the doc.
+    Returns rows with document id, name, title, project, area, tags, domain, and
+    version — enough for the canvas graph-view Card to render a filtered listing.
+    """
+    filters = []
+    params: dict = {}
+
+    if domains:
+        params["domains"] = normalize_domains(domains)
+        filters.append(domain_predicate("d"))
+
+    if project:
+        params["project"] = project
+        filters.append("d.project = $project")
+
+    if area:
+        params["area"] = area
+        filters.append("d.area = $area")
+
+    if tags:
+        tag_list = [tags] if isinstance(tags, str) else list(tags)
+        params["tags"] = tag_list
+        filters.append("any(t IN $tags WHERE t IN coalesce(d.tags, []))")
+
+    as_of_resolved = resolve_as_of(as_of)
+    if as_of_resolved:
+        params["asOf"] = as_of_resolved
+        filters.append(asof_predicate("d"))
+
+    filters.append(not_deleted_doc("d"))
+    where_clause = " AND ".join(filters) if filters else "true"
+
+    cypher = f"""
+    MATCH (d:Document)
+    WHERE {where_clause}
+    RETURN d.id AS id,
+           d.name AS name,
+           d.title AS title,
+           d.project AS project,
+           d.area AS area,
+           d.tags AS tags,
+           d.domain AS domain,
+           d.version AS version,
+           d.created_on AS created_on,
+           d.modified_on AS modified_on
+    ORDER BY coalesce(d.modified_on, d.created_on, d.name) DESC
+    """
+    return {
+        "query_type": "graph",
+        "command": "filing_listing",
+        "filters": {
+            "domains": params.get("domains"),
+            "project": project,
+            "area": area,
+            "tags": tag_list if tags else None,
+        },
+        "rows": _run_read_query(cypher, params),
+    }
+
+
 def entity_listing(
     domains: "str | Sequence[str]",
     name_filter: str | None = None,

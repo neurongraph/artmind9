@@ -779,6 +779,13 @@ def _split_markdown(text: str, chunk_size: int) -> list[dict]:
     final chunk text, stable across re-ingest — the key A4's delta classifier
     keys on.
     """
+    # Imported lazily: langchain-text-splitters ships only in the optional
+    # `[ingest]` extra, so a core-only install can still import artmind.ingest.
+    from langchain_text_splitters import (
+        MarkdownHeaderTextSplitter,
+        RecursiveCharacterTextSplitter,
+    )
+
     header_splitter = MarkdownHeaderTextSplitter(
         headers_to_split_on=[
             ("#", "h1"),
@@ -1723,7 +1730,54 @@ def ingest_to_kg(
     the physical ``doc_id`` at ``version+1``, so retracting that ``doc_id`` and
     re-committing under it replaces the document's edges, chunks, and property
     contributions in place while shared entities/edges backed by other documents
-    survive."""
+    survive.
+
+    Under ``replace``, the three-tier delta classifier (A4, ADR 0006 (f)) runs
+    first: if the body is byte-identical to the prior version's blocks the
+    document takes the metadata-only fast path (bare SET on Document + DocChunk
+    filing props, no chunking, no LLM extraction, no supersede). Content /
+    domain / initial classifications fall through to the full pipeline below.
+    """
+    # A4: metadata-only fast path — only meaningful for a re-ingest (replace=True)
+    # against an existing logical document. Never for stage_only (that path is a
+    # staging test that must produce doc_kg_dir).
+    if replace and not stage_only and "logical_id" in file_result:
+        try:
+            from artmind.delta import classify_reingest, apply_metadata_only
+
+            registered_path = Path(file_result["registered_path"])
+            md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+            if md_file.exists():
+                classification = classify_reingest(
+                    md_file,
+                    domain=domain,
+                    logical_id=file_result["logical_id"],
+                    chunk_size=chunk_size,
+                )
+                if classification.tier == "metadata_only" and classification.doc_id:
+                    logger.info(
+                        "A4 delta: {} — {} (fast path)",
+                        classification.tier,
+                        classification.reason,
+                    )
+                    summary = apply_metadata_only(
+                        doc_id=classification.doc_id,
+                        domain=domain,
+                        metadata=classification.metadata,
+                    )
+                    logger.info(
+                        "A4 metadata-only apply: doc_id={} applied={} removed={}",
+                        summary["doc_id"], list(summary["applied"].keys()), summary["removed"],
+                    )
+                    return True
+                logger.info(
+                    "A4 delta: {} — {} (full pipeline)",
+                    classification.tier,
+                    classification.reason,
+                )
+        except Exception as e:
+            logger.warning("A4 delta classifier skipped ({}); running full pipeline", e)
+
     # Back-compat: if ingest_file didn't split chunks yet, do it now.
     if "chunks_dir" not in file_result:
         registered_path = Path(file_result["registered_path"])
@@ -1793,6 +1847,26 @@ def extract_kg(
     doc_sha256 = file_result.get("sha256", "")
     chunks_dir = Path(file_result["chunks_dir"])
     registered_path = Path(file_result["registered_path"])
+
+    # Read filing metadata from markdown frontmatter (ADR 0010)
+    # Chunks get a denormalized copy so they can be filtered by filing taxonomy
+    filing_metadata: dict = {}
+    md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
+    if md_file.exists():
+        try:
+            meta, _ = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
+            if meta.get("project"):
+                filing_metadata["project"] = str(meta["project"])
+            if meta.get("area"):
+                filing_metadata["area"] = str(meta["area"])
+            if meta.get("tags"):
+                tags = meta["tags"]
+                if isinstance(tags, str):
+                    filing_metadata["tags"] = [t.strip() for t in tags.split(",")]
+                elif isinstance(tags, list):
+                    filing_metadata["tags"] = [str(t) for t in tags]
+        except Exception as e:
+            logger.warning("Failed to read filing metadata from {}: {}", md_file, e)
 
     if not chunks_dir.exists():
         logger.error("Chunks directory not found: {}", chunks_dir)
@@ -1864,6 +1938,9 @@ def extract_kg(
         data.setdefault("text", chunk_text)
         data.setdefault("name", f"Chunk {seq}/{chunk_count}")
         data.setdefault("domain", domain)
+        # Denormalized filing metadata (ADR 0010) for fast filtering
+        for key, value in filing_metadata.items():
+            data.setdefault(key, value)
         if seq > 1:
             data.setdefault("prev_chunk_id", f"{doc_id}_{seq - 1:03d}")
         if seq < chunk_count:
@@ -2034,6 +2111,10 @@ def extract_kg(
         data = json.loads(chunk_json.read_text(encoding="utf-8"))
         chunk_node = {k: data[k] for k in ("name", "doc_id", "text", "embedding", "domain") if k in data}
         chunk_node["id"] = data["chunk_id"]
+        # Include denormalized filing metadata (ADR 0010)
+        for key in ("project", "area", "tags"):
+            if key in data:
+                chunk_node[key] = data[key]
         for link in ("prev_chunk_id", "next_chunk_id"):
             if link in data:
                 chunk_node[link] = data[link]
@@ -2060,9 +2141,42 @@ def extract_kg(
         "path": str(registered_path),
         "domain": domain,
     }
-    if registered_path.exists():
+
+    # Filing metadata (ADR 0010): project, area, tags, title, created_on, modified_on
+    # All optional; sourced from YAML frontmatter, with sensible defaults for temporal fields.
+    if meta.get("title"):
+        document["title"] = str(meta["title"])
+    if meta.get("project"):
+        document["project"] = str(meta["project"])
+    if meta.get("area"):
+        document["area"] = str(meta["area"])
+    if meta.get("tags"):
+        tags = meta["tags"]
+        if isinstance(tags, str):
+            document["tags"] = [t.strip() for t in tags.split(",")]
+        elif isinstance(tags, list):
+            document["tags"] = [str(t) for t in tags]
+
+    # Temporal metadata: prefer frontmatter, fall back to filesystem
+    if meta.get("created_on"):
+        document["created_on"] = str(meta["created_on"])
+    elif registered_path.exists():
+        ctime = registered_path.stat().st_birthtime if hasattr(registered_path.stat(), "st_birthtime") else registered_path.stat().st_ctime
+        document["created_on"] = _datetime.datetime.fromtimestamp(ctime, tz=_datetime.timezone.utc).isoformat()
+
+    if meta.get("modified_on"):
+        document["modified_on"] = str(meta["modified_on"])
+    elif registered_path.exists():
+        mtime = registered_path.stat().st_mtime
+        document["modified_on"] = _datetime.datetime.fromtimestamp(mtime, tz=_datetime.timezone.utc).isoformat()
+
+    # Legacy support: last_modified is now modified_on
+    if "modified_on" in document and "last_modified" not in document:
+        document["last_modified"] = document["modified_on"]
+    elif registered_path.exists() and "last_modified" not in document:
         mtime = registered_path.stat().st_mtime
         document["last_modified"] = _datetime.datetime.fromtimestamp(mtime, tz=_datetime.timezone.utc).isoformat()
+
     if meta.get("author"):
         document["author"] = str(meta["author"])
     if meta.get("date"):

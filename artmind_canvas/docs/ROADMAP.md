@@ -31,11 +31,11 @@ modules; it must not embed ingestion/extraction/placement logic.
 |----|-----------|-----|--------|------------------------|
 | A0 | Packaging split: lean core + optional `[ingest]` extra | — | ✅ done | Lean canvas-backend venv (no torch/docling) |
 | A1 | Block-level provenance + idempotent re-ingest | 0006 | ✅ done | `provenance` Card; document edit→re-ingest round-trip (partial); watched-vault sync (0011) |
-| A2 | Filing taxonomy as ingested metadata | 0010 | ⬜ pending | `graph-view` filtered by filing metadata; placement |
-| A3 | Graph indices | 0004/0008 | ⬜ pending | Performant scoped `graph-view` re-query at scale |
-| A4 | Delta classifier (re-extract only changed blocks) | 0006 | ⬜ pending | Full editable-`document` → re-ingest loop |
-| A5 | Vocabulary command (controlled filing vocabulary) | 0012 | ⬜ pending | Placement Card (needs the vocabulary to suggest against) |
-| A6 | Placement classifier | 0012 | ⬜ pending | Placement Card |
+| A2 | Filing taxonomy as ingested metadata | 0010 | ✅ done | `graph-view` filtered by filing metadata; placement |
+| A3 | Graph indices | 0004/0008 | ✅ done | Performant scoped `graph-view` re-query at scale |
+| A4 | Delta classifier (re-extract only changed blocks) | 0006 | ✅ done (metadata-only tier; block-level reuse deferred) | Full editable-`document` → re-ingest loop |
+| A5 | Vocabulary command (controlled filing vocabulary) | 0012 | ✅ done | Placement Card (needs the vocabulary to suggest against) |
+| A6 | Placement classifier | 0012 | ✅ done | Placement Card |
 | A7 | Agent SDK resume (durable session lifecycle) | 0007/0013 | ⬜ pending | `skill` Card: author + run skills, resume across turns |
 
 A1 sub-parts (all done): A1a block/offset ids on chunks · A1b edge provenance
@@ -125,4 +125,29 @@ reactivity, ADR 0008), live-verified in-browser 2026-08-16** — SSE change stre
 Card auto-refresh on Vault write. **Phase 1 is done.** **Phase 2 is done (branch
 `canvas-phase1`, live-verified in-browser 2026-08-16):** `provenance` Card (reads via the
 `artmind serve` → CLI front door, never Neo4j directly) and `micro-UI` Card (strictly
-sandboxed iframe). Next up is Phase 3 (Track-A-gated Cards). Track A: A0, A1 done.
+sandboxed iframe). **Track A: A0, A1, A2, A3, A4, A5 done** — A2 delivered filing taxonomy
+(project/area/tags/title/created_on/modified_on) as first-class Document + DocChunk
+properties, with `artmind query graph filing-listing` CLI + Neo4j indexes on filing fields.
+A3 added composite/fulltext indexes for scoped graph-view re-queries
+(entity_class, entity_class+domain, project+domain, area+domain on Document & DocChunk;
+chunk (doc_id, id); document_name; document_name+title fulltext).
+A4 landed the three-tier delta classifier (ADR 0006 (f)) with the metadata-only fast
+path fully wired into `ingest_to_kg`: a re-ingest whose body block-hashes match the
+prior version's takes a bare Cypher SET on Document + DocChunk filing props, skipping
+chunking, LLM extraction, and supersede entirely. `artmind ingest classify-reingest`
+inspects the tier without touching the graph. Block-level reuse (dedup entity extraction
+across unchanged chunks on content changes) is deferred — content-tier reingests still
+go through the A1d idempotent-replace pipeline.
+A5 shipped the controlled filing vocabulary command: `artmind query graph vocabulary`
+returns distinct project/area/tags/domain values with document counts, scoped optionally
+by --domain and gated by --minCount. Grounds the A6 placement classifier in labels
+already in use so proposals stay consistent (`Alpha`, not a fresh `proj-alpha`).
+A6 shipped the placement classifier: `artmind query propose-placement` reads text from
+--text/stdin, pulls the A5 vocabulary, prompts the LLM with the existing labels + counts,
+and returns a normalized proposal `{domain, area, project, tags, target_file_hint}` with
+per-facet confidence and a `known` flag per label (existing vs invented). Never writes —
+the canvas placement Card renders the proposal for user review, and only then does the
+doc-first path (ADR 0002) write frontmatter and trigger re-ingest. Domain is treated as
+always-confirmed since a domain change forces re-extraction (ADR 0006 (f)). Together with
+A2/A5, the propose→review→confirm flow (ADR 0012) is now end-to-end in artmind.
+Next up is Phase 3 (Track-A-gated Cards) — remaining Track-A item: A7 SDK resume.
