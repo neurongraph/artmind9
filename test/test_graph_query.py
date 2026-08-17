@@ -177,6 +177,43 @@ def test_domains_overview_unions_structured_only_domains(monkeypatch):
     assert by_domain["banking.policy"]["stores"] == ["graph"]
 
 
+def test_domains_overview_expands_list_valued_domain(monkeypatch):
+    """`domain` is written as a scalar string, but a node carrying a list-valued
+    domain must not crash the aggregation on an unhashable dict key. Such a row
+    is attributed to each concrete domain, accumulating/unioning with any scalar
+    row for the same domain."""
+    monkeypatch.setattr(
+        graph_query, "_run_read_query",
+        lambda cypher, params: [
+            # a well-formed scalar row for banking.policy
+            {"domain": "banking.policy",
+             "parts": [{"k": "documents", "c": 3, "names": ["p.md"]},
+                       {"k": "entities", "c": 40, "names": None}]},
+            # a bad row whose domain is a list spanning two domains
+            {"domain": ["banking.policy", "banking.cases"],
+             "parts": [{"k": "documents", "c": 2, "names": ["q.md"]},
+                       {"k": "top_classes", "c": 0, "names": ["Policy"]}]},
+        ],
+    )
+
+    import artmind.structured.registry as registry
+
+    monkeypatch.setattr(registry, "list_tables", lambda *a, **kw: [])
+
+    out = graph_query.domains_overview()
+    by_domain = {r["domain"]: r for r in out["rows"]}
+
+    # both domains surfaced, none is an unhashable key
+    assert out["domains"] == ["banking.cases", "banking.policy"]
+    # the list row's docs merged into the scalar policy row (counts accumulate,
+    # names union) and also seeded the cases row on its own
+    assert by_domain["banking.policy"]["document_count"] == 5
+    assert set(by_domain["banking.policy"]["documents"]) == {"p.md", "q.md"}
+    assert by_domain["banking.policy"]["entity_count"] == 40
+    assert by_domain["banking.cases"]["document_count"] == 2
+    assert by_domain["banking.cases"]["top_classes"] == ["Policy"]
+
+
 def test_domains_overview_survives_missing_registry(monkeypatch):
     """A query-only host has no $ARTMIND_DATA_DIR and therefore no registry DB.
     The graph half of the overview must still work there."""

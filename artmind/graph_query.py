@@ -1131,16 +1131,30 @@ def domains_overview() -> dict:
     rows = _run_read_query(cypher, {})
     overview: dict = {}
     for row in rows:
-        d = row["domain"]
-        entry = overview.setdefault(d, {"domain": d})
-        for p in row["parts"]:
-            if p["k"] == "documents":
-                entry["document_count"] = p["c"]
-                entry["documents"] = p["names"]
-            elif p["k"] == "entities":
-                entry["entity_count"] = p["c"]
-            elif p["k"] == "top_classes":
-                entry["top_classes"] = p["names"]
+        raw = row["domain"]
+        # `domain` is written as a scalar string, but a node carrying a
+        # list-valued domain (multi-domain / bad data) must not crash the
+        # aggregation on an unhashable dict key. Attribute such a row to each
+        # concrete domain instead, and accumulate/union so an expanded element
+        # merges cleanly with any scalar row for the same domain. For the normal
+        # one-row-per-scalar-domain case this is behaviour-identical.
+        keys = (
+            [d for d in dict.fromkeys(raw) if d is not None]
+            if isinstance(raw, list)
+            else [raw]
+        )
+        for d in keys:
+            entry = overview.setdefault(d, {"domain": d})
+            for p in row["parts"]:
+                if p["k"] == "documents":
+                    entry["document_count"] = entry.get("document_count", 0) + p["c"]
+                    merged = list(dict.fromkeys((entry.get("documents") or []) + (p["names"] or [])))
+                    entry["documents"] = merged[:25]
+                elif p["k"] == "entities":
+                    entry["entity_count"] = entry.get("entity_count", 0) + p["c"]
+                elif p["k"] == "top_classes":
+                    merged = list(dict.fromkeys((entry.get("top_classes") or []) + (p["names"] or [])))
+                    entry["top_classes"] = merged[:8]
 
     # Union in domains that hold structured tables. Without this the aggregation
     # above only ever reports domains with Document/Entity nodes, so a corpus
