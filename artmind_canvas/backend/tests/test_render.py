@@ -10,6 +10,7 @@ import unittest
 from artmind_canvas_backend.canvas_backend import CanvasBackend
 from artmind_canvas_backend.render_events import (
     document_card,
+    graph_view_card,
     micro_ui_card,
     placement_card,
     provenance_card,
@@ -55,6 +56,18 @@ class CardFactoryTest(unittest.TestCase):
     def test_placement_card_omits_absent_domains_and_title(self) -> None:
         props = placement_card("inbox/draft.md")["props"]
         self.assertEqual(props, {"vaultPath": "inbox/draft.md"})
+
+    def test_graph_view_card_carries_selectors(self) -> None:
+        card = graph_view_card(["banking"], reference="Acme Corp", title="neighbourhood")
+        self.assertEqual(card["cardType"], "graph-view")
+        self.assertEqual(card["props"]["domains"], ["banking"])
+        self.assertEqual(card["props"]["reference"], "Acme Corp")
+        self.assertEqual(card["props"]["title"], "neighbourhood")
+        self.assertNotIn("entityId", card["props"])
+
+    def test_graph_view_card_omits_absent_optionals(self) -> None:
+        props = graph_view_card(["banking"], entity_id="e1")["props"]
+        self.assertEqual(props, {"domains": ["banking"], "entityId": "e1"})
 
 
 class CannedSequenceTest(unittest.TestCase):

@@ -94,8 +94,11 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
   round-trips through board persistence). Canned `/microui-test` hook for offline verification.
 
 ### Phase 3+ — Track-A-gated Cards (order follows Track A delivery)
-- **`graph-view` Card** — needs a graph node-link endpoint (0003) + a new frontend graph
-  lib (Cytoscape/sigma, ADR 0004) + A3 indices (perf) + A2 (filing filters).
+- **`graph-view` Card** ✅ — filtered one-hop neighbourhood as an interactive node-link
+  diagram. Node-link JSON assembled in the backend from `query entity-context` (through the
+  `artmind serve` seam — no Neo4j); rendered with **Cytoscape.js** (ADR 0004; the one
+  approved new npm dep). v1 filters by **relationship type** client-side; node-tap expands a
+  neighbour (another serve read). Multi-hop and `path`/`conflicts` view modes deferred.
 - **Editable `document`** — the editor itself ships in **Phase 1c** (ADR 0015),
   **decoupled from A4**. A4 (delta classifier) is an *optimization* — it makes re-ingest
   re-extract only changed blocks instead of a full idempotent replace — not a gate for
@@ -113,7 +116,7 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 | `document` (editable) | Editor pane (ADR 0015) ✅ | A1 ✅ (A4 only optimizes re-ingest) | 1c ✅ |
 | `provenance` | card + backend read endpoint ✅ | A1 ✅ | 2 ✅ |
 | `micro-UI` | sandboxed iframe ✅ | — | 2 ✅ |
-| `graph-view` | card + graph lib + node-link endpoint | **A2, A3** (+ new npm dep) | 3 |
+| `graph-view` | card + graph lib + node-link endpoint ✅ | **A2, A3 ✅** (+ Cytoscape npm dep) | 3 ✅ |
 | `skill` | authoring UI + run | **A7 ✅** | 3 |
 | Placement Card | propose/review/confirm UI ✅ | **A5, A6, A3 ✅** (re-ingest → ADR 0011 watcher) | 3 ✅ |
 
@@ -179,6 +182,20 @@ preserving existing keys + body) and publishes a `document` change so open Cards
 re-read (ADR 0008). **Re-ingest is deferred to the ADR 0011 watched-Vault watcher**
 (not yet built): confirm reports `reingest.triggered = false` — the async worker can't
 `replace=True` and `sync --replace` needs the `[ingest]` extra the lean canvas lacks,
-so the filesystem watcher is the right long-term owner. Still ahead in Phase 3:
-`graph-view` (A2/A3 + a node-link endpoint + graph lib) and the `skill` Card (A7
-authoring + run + refresh).
+so the filesystem watcher is the right long-term owner.
+
+**The `graph-view` Card is done** — the second Track-A-gated Card, again a pure client.
+`GET /api/graph` reshapes `query entity-context` (via the `entity_context`/`entity_resolve`
+seam helpers over `artmind serve` — no Neo4j driver in the canvas) into node-link JSON:
+an anchor entity + its one-hop neighbours, edges keyed on relationship type, deduped by id,
+capped by `maxNeighbors` (default 60). `GraphViewCard.tsx` renders it with **Cytoscape.js**
+(the one approved deviation from "no new npm dep"; ADR 0004 — driven directly via a
+container ref in a `useEffect`, no React wrapper). v1 filtering is by **relationship type**:
+a legend of toggle chips hides/shows edges (and any orphaned neighbour) client-side with no
+extra query — entities are bare `:Entity` nodes so `entity_class` isn't projected for
+neighbours, making relationship type the natural one-hop filter axis (neighbour-class
+colouring is a documented Track-A follow-on). Tapping a neighbour expands its own
+neighbourhood (another `/api/graph` read, merged into the live instance). Future `path`
+(`graph pattern5`) and `conflicts` view modes slot in behind the carried `mode` param
+without a contract change. Still ahead in Phase 3: the `skill` Card (A7 authoring + run +
+refresh).

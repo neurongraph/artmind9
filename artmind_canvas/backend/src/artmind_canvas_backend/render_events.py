@@ -75,6 +75,31 @@ def placement_card(
     return {"cardType": "placement", "props": props}
 
 
+def graph_view_card(
+    domains: list[str],
+    *,
+    entity_id: str | None = None,
+    reference: str | None = None,
+    title: str | None = None,
+) -> dict[str, Any]:
+    """A ``graph-view`` Card spec — contract: ``{domains, entityId?, reference?, title?}``.
+
+    Renders a filtered one-hop neighbourhood around an anchor entity as an
+    interactive node-link diagram (ADRs 0004/0008). The Card fetches the subgraph
+    from ``/api/graph`` (which reshapes ``entity-context`` through the serve
+    daemon). Supply ``entity_id`` when known (skips resolve) or a free-text
+    ``reference`` to resolve first — same keying as the ``provenance`` Card.
+    """
+    props: dict[str, Any] = {"domains": domains}
+    if entity_id is not None:
+        props["entityId"] = entity_id
+    if reference is not None:
+        props["reference"] = reference
+    if title is not None:
+        props["title"] = title
+    return {"cardType": "graph-view", "props": props}
+
+
 def micro_ui_card(html: str, *, title: str | None = None) -> dict[str, Any]:
     """A ``micro-ui`` Card spec — tier (c), arbitrary agent-authored HTML/JS.
 

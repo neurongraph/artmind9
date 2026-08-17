@@ -13,3 +13,14 @@ so graph rendering inside a Card uses Cytoscape/sigma instead — and `graph-vie
 are always a **filtered** subview (scoped by query/domain/entity), never the whole
 graph, which bounds the rendering load. Rejected: tldraw (whiteboard-centric, heavier
 than needed) and a hand-rolled pan/zoom canvas (rebuilds selection/layout/persistence).
+
+## Addendum (2026-08-17): graph lib resolved to Cytoscape.js
+
+The `graph-view` Card is built, resolving the "Cytoscape.js or sigma.js" choice to
+**Cytoscape.js** (`cytoscape` ^3.34.1 + `@types/cytoscape`), driven directly via a
+container ref in a `useEffect` — no React wrapper, one runtime dependency. It wins for
+built-in force-directed layout (`cose`) plus interactive exploration on the **bounded,
+filtered** subviews we render; sigma's WebGL strength is for graphs far larger than a
+one-hop neighbourhood, so it is rejected for this cut. The instance is destroyed on
+cleanup/before rebuild; relationship-type filtering and node-tap expansion are done on the
+live instance without re-mounting.

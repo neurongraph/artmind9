@@ -55,6 +55,43 @@ export type PlacementCardProps = {
   title?: string | null;
 };
 
+// `graph-view` Card — a filtered one-hop neighbourhood of the knowledge graph,
+// drawn as an interactive node-link diagram (ADRs 0004/0008). Supply `entityId`
+// when known, else a free-text `reference` the backend resolves first. `domains`
+// scopes the read. The Card fetches the subgraph from /api/graph.
+export type GraphViewCardProps = {
+  domains: string[];
+  entityId?: string | null;
+  reference?: string | null;
+  title?: string | null;
+};
+
+// The backend's node-link payload (routes/graph.py `_shape_graph`). Edges are
+// undirected; `type` is the relationship type (the v1 filter axis).
+export type GraphNode = {
+  id: string;
+  name: string | null;
+  entityClass?: string | null;
+  anchor?: boolean;
+};
+
+export type GraphEdge = {
+  id: string;
+  source: string;
+  target: string;
+  type: string;
+};
+
+export type GraphViewResult = {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+  anchor: GraphNode;
+  resolvedFrom: string | null;
+  domains: string[];
+  truncated?: boolean;
+  mode?: string; // "neighborhood" in this cut; path/conflicts modes are future
+};
+
 // The A6 classifier's normalized proposal (artmind.placement._normalize_proposal),
 // as returned under `proposals` by `query propose-placement --compact`.
 export type PlacementFacet = {

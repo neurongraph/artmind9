@@ -20,6 +20,7 @@ from artmind.webui.backends import AgentBackend, UIEvent, create_backend
 from artmind_canvas_backend.profiles import CANVAS_PROFILE
 from artmind_canvas_backend.render_events import (
     document_card,
+    graph_view_card,
     micro_ui_card,
     placement_card,
     provenance_card,
@@ -32,6 +33,7 @@ _RENDER_TEST = "/render-test"
 _PROV_TEST = "/prov-test"
 _MICROUI_TEST = "/microui-test"
 _PLACEMENT_TEST = "/placement-test"
+_GRAPH_TEST = "/graph-test"
 
 
 class CanvasBackend:
@@ -72,6 +74,9 @@ class CanvasBackend:
             return
         if stripped.startswith(_PLACEMENT_TEST):
             self._canned = self._placement_test_sequence(stripped[len(_PLACEMENT_TEST):].strip())
+            return
+        if stripped.startswith(_GRAPH_TEST):
+            self._canned = self._graph_test_sequence(stripped[len(_GRAPH_TEST):].strip())
             return
         self._canned = None
         inner = await self._ensure_inner()
@@ -129,6 +134,23 @@ class CanvasBackend:
             {"type": "text_delta", "text": f"Proposing placement for `{vault_path}`…"},
             {"type": "block_done", "block": "text"},
             render_event(placement_card(vault_path, domains=domains or None)),
+            {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
+        ]
+
+    @staticmethod
+    def _graph_test_sequence(arg: str) -> list[UIEvent]:
+        """Canned turn spawning a ``graph-view`` Card: ``/graph-test <domain> <reference>``.
+
+        The Card fetches the live subgraph from ``/api/graph``; this hook only
+        proves the render wire spawns the Card offline (no serve/Neo4j needed).
+        """
+        domain, _, reference = arg.partition(" ")
+        domain = domain or "default"
+        reference = reference.strip() or "artmind"
+        return [
+            {"type": "text_delta", "text": f"Mapping the neighbourhood of `{reference}` in `{domain}`…"},
+            {"type": "block_done", "block": "text"},
+            render_event(graph_view_card([domain], reference=reference)),
             {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
         ]
 
