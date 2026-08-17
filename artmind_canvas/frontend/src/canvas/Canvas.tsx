@@ -35,6 +35,7 @@ export default function Canvas({
         defaultViewport={defaultViewport}
         fitView={!defaultViewport}
         onMoveEnd={(_, viewport) => onMoveEnd?.(viewport)}
+        deleteKeyCode={["Backspace", "Delete"]}
         proOptions={{ hideAttribution: true }}
       >
         <Background />

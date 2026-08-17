@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { type NodeProps } from "@xyflow/react";
 import cytoscape, { type Core, type ElementDefinition } from "cytoscape";
 import type { GraphViewCardProps, GraphViewResult, GraphNode, GraphEdge } from "../render/types";
+import CardShell from "./CardShell";
+import CardError from "./CardError";
 
 type State =
   | { status: "loading" }
@@ -99,7 +101,7 @@ function applyFilter(cy: Core, hidden: Set<string>): void {
 // backend's /api/graph from artmind's `query entity-context` (through the serve
 // daemon) — the canvas never touches Neo4j. Relationship-type chips filter the
 // view client-side; tapping a node expands its neighbourhood (another serve read).
-export default function GraphViewCard({ data }: NodeProps) {
+export default function GraphViewCard({ id, data }: NodeProps) {
   const props = data as unknown as GraphViewCardProps;
   const [state, setState] = useState<State>({ status: "loading" });
   const [relTypes, setRelTypes] = useState<string[]>([]);
@@ -187,7 +189,23 @@ export default function GraphViewCard({ data }: NodeProps) {
     setRelTypes(distinctTypes(ready.edges));
     setHidden(new Set());
     setStats({ nodes: cy.nodes().length, edges: cy.edges().length });
+
+    // The frame is user-resizable (Phase B, NodeResizer). Cytoscape sizes itself
+    // to the container once and won't notice the box changing, so re-fit on any
+    // container resize. rAF-debounced to coalesce the resize-drag storm.
+    const container = containerRef.current;
+    let raf = 0;
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        cy.resize();
+        cy.fit(undefined, 24);
+      });
+    });
+    ro.observe(container);
     return () => {
+      ro.disconnect();
+      cancelAnimationFrame(raf);
       cy.destroy();
       cyRef.current = null;
     };
@@ -215,44 +233,41 @@ export default function GraphViewCard({ data }: NodeProps) {
     props.title ?? ready?.anchor?.name ?? props.reference ?? props.entityId ?? "graph";
 
   return (
-    <div className="doc-card graph-view-card">
-      <Handle type="target" position={Position.Left} />
-      <div className="doc-card-title">
-        <span className="doc-card-name">🕸 {heading}</span>
-        {anchorClass && <span className="prov-badge">{anchorClass}</span>}
-      </div>
-
-      {state.status === "ready" && (
-        <div className="gv-strip nodrag">
-          <span className="gv-counts">
-            {stats.nodes} nodes · {stats.edges} edges
-            {state.data.truncated ? " · truncated" : ""}
-          </span>
-          {relTypes.length > 0 && (
-            <div className="gv-legend">
-              {relTypes.map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  className={`gv-chip${hidden.has(t) ? " gv-chip-off" : ""}`}
-                  onClick={() => toggleType(t)}
-                  title={hidden.has(t) ? `show ${t}` : `hide ${t}`}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-      <div className="doc-card-body nodrag nowheel">
-        {state.status === "loading" && <div className="doc-card-muted">loading graph…</div>}
-        {state.status === "error" && <div className="doc-card-error">{state.message}</div>}
-        {state.status === "ready" && <div ref={containerRef} className="gv-canvas" />}
-      </div>
-
-      <Handle type="source" position={Position.Right} />
-    </div>
+    <CardShell
+      id={id}
+      cardType="graph-view"
+      icon="🕸"
+      title={heading}
+      badge={anchorClass ? <span className="prov-badge">{anchorClass}</span> : undefined}
+      subheader={
+        state.status === "ready" ? (
+          <div className="gv-strip nodrag">
+            <span className="gv-counts">
+              {stats.nodes} nodes · {stats.edges} edges
+              {state.data.truncated ? " · truncated" : ""}
+            </span>
+            {relTypes.length > 0 && (
+              <div className="gv-legend">
+                {relTypes.map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    className={`gv-chip${hidden.has(t) ? " gv-chip-off" : ""}`}
+                    onClick={() => toggleType(t)}
+                    title={hidden.has(t) ? `show ${t}` : `hide ${t}`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : undefined
+      }
+    >
+      {state.status === "loading" && <div className="doc-card-muted">loading graph…</div>}
+      {state.status === "error" && <CardError id={id} message={state.message} />}
+      {state.status === "ready" && <div ref={containerRef} className="gv-canvas" />}
+    </CardShell>
   );
 }

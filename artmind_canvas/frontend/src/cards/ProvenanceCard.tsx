@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { type NodeProps } from "@xyflow/react";
 import type { ProvenanceCardProps, ProvenanceResult } from "../render/types";
+import CardShell from "./CardShell";
+import CardError from "./CardError";
 
 type State =
   | { status: "loading" }
@@ -12,7 +14,7 @@ type State =
 // serve daemon — the canvas never touches Neo4j. Given an entityId (or a
 // free-text reference the backend resolves), it lists the source documents and
 // chunks the fact was extracted from.
-export default function ProvenanceCard({ data }: NodeProps) {
+export default function ProvenanceCard({ id, data }: NodeProps) {
   const props = data as unknown as ProvenanceCardProps;
   const [state, setState] = useState<State>({ status: "loading" });
 
@@ -53,21 +55,21 @@ export default function ProvenanceCard({ data }: NodeProps) {
     "provenance";
 
   return (
-    <div className="doc-card prov-card">
-      <Handle type="target" position={Position.Left} />
-      <div className="doc-card-title">
-        <span className="doc-card-name">🔎 {heading}</span>
-        {state.status === "ready" && state.data.entity.entityClass && (
+    <CardShell
+      id={id}
+      cardType="provenance"
+      icon="🔎"
+      title={heading}
+      badge={
+        state.status === "ready" && state.data.entity.entityClass ? (
           <span className="prov-badge">{state.data.entity.entityClass}</span>
-        )}
-      </div>
-      <div className="doc-card-body nodrag nowheel">
-        {state.status === "loading" && <div className="doc-card-muted">loading provenance…</div>}
-        {state.status === "error" && <div className="doc-card-error">{state.message}</div>}
-        {state.status === "ready" && <ProvenanceBody data={state.data} />}
-      </div>
-      <Handle type="source" position={Position.Right} />
-    </div>
+        ) : undefined
+      }
+    >
+      {state.status === "loading" && <div className="doc-card-muted">loading provenance…</div>}
+      {state.status === "error" && <CardError id={id} message={state.message} />}
+      {state.status === "ready" && <ProvenanceBody data={state.data} />}
+    </CardShell>
   );
 }
 

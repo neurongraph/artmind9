@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { type NodeProps } from "@xyflow/react";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import type { DocumentCardProps } from "../render/types";
 import { useWorkspace } from "../editor/workspace";
 import { useChangeStream } from "../events/changeStream";
+import CardShell from "./CardShell";
+import CardError from "./CardError";
 
 type State =
   | { status: "loading" }
@@ -14,7 +16,7 @@ type State =
 // A read-only markdown Card. Fetches a Vault file through the backend's
 // path-guarded /api/vault/file and renders it (marked → DOMPurify). This is
 // the one Card type Phase 0 spawns from a `render` event.
-export default function DocumentCard({ data }: NodeProps) {
+export default function DocumentCard({ id, data }: NodeProps) {
   const props = data as unknown as DocumentCardProps;
   const [state, setState] = useState<State>({ status: "loading" });
   const [reloadNonce, setReloadNonce] = useState(0);
@@ -58,10 +60,12 @@ export default function DocumentCard({ data }: NodeProps) {
   }, [props.vaultPath, reloadNonce]);
 
   return (
-    <div className="doc-card">
-      <Handle type="target" position={Position.Left} />
-      <div className="doc-card-title">
-        <span className="doc-card-name">📄 {props.vaultPath}</span>
+    <CardShell
+      id={id}
+      cardType="document"
+      icon="📄"
+      title={props.vaultPath}
+      actions={
         <button
           className="doc-card-edit nodrag"
           onClick={() => openDocument(props.vaultPath)}
@@ -70,17 +74,11 @@ export default function DocumentCard({ data }: NodeProps) {
         >
           ✎
         </button>
-      </div>
-      <div className="doc-card-body nodrag nowheel">
-        {state.status === "loading" && <div className="doc-card-muted">loading…</div>}
-        {state.status === "error" && (
-          <div className="doc-card-error">{state.message}</div>
-        )}
-        {state.status === "ready" && (
-          <div dangerouslySetInnerHTML={{ __html: state.html }} />
-        )}
-      </div>
-      <Handle type="source" position={Position.Right} />
-    </div>
+      }
+    >
+      {state.status === "loading" && <div className="doc-card-muted">loading…</div>}
+      {state.status === "error" && <CardError id={id} message={state.message} />}
+      {state.status === "ready" && <div dangerouslySetInnerHTML={{ __html: state.html }} />}
+    </CardShell>
   );
 }

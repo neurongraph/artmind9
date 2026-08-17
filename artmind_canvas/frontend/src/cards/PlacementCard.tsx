@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { type NodeProps } from "@xyflow/react";
 import type {
   PlacementCardProps,
   PlacementProposal,
   ProposeResult,
 } from "../render/types";
+import CardShell from "./CardShell";
+import CardError from "./CardError";
 
 // The propose→review→confirm filing surface (ADR 0012, A5/A6). On mount it asks
 // the backend to propose a placement for the document at `vaultPath` (which runs
@@ -24,7 +26,7 @@ type Filed =
   | { phase: "done" }
   | { phase: "error"; message: string };
 
-export default function PlacementCard({ data }: NodeProps) {
+export default function PlacementCard({ id, data }: NodeProps) {
   const props = data as unknown as PlacementCardProps;
   const [state, setState] = useState<State>({ status: "loading" });
 
@@ -113,33 +115,26 @@ export default function PlacementCard({ data }: NodeProps) {
   const heading = props.title ?? props.vaultPath ?? "placement";
 
   return (
-    <div className="doc-card placement-card">
-      <Handle type="target" position={Position.Left} />
-      <div className="doc-card-title">
-        <span className="doc-card-name">🗂️ {heading}</span>
-      </div>
-      <div className="doc-card-body nodrag nowheel">
-        {state.status === "loading" && <div className="doc-card-muted">proposing placement…</div>}
-        {state.status === "error" && <div className="doc-card-error">{state.message}</div>}
-        {state.status === "ready" && (
-          <ReviewForm
-            proposal={state.result.proposal}
-            area={area}
-            project={project}
-            tags={tags}
-            tagDraft={tagDraft}
-            filed={filed}
-            onArea={setArea}
-            onProject={setProject}
-            onTagDraft={setTagDraft}
-            onAddTag={addTag}
-            onRemoveTag={(t) => setTags(tags.filter((x) => x !== t))}
-            onConfirm={confirm}
-          />
-        )}
-      </div>
-      <Handle type="source" position={Position.Right} />
-    </div>
+    <CardShell id={id} cardType="placement" icon="🗂️" title={heading}>
+      {state.status === "loading" && <div className="doc-card-muted">proposing placement…</div>}
+      {state.status === "error" && <CardError id={id} message={state.message} />}
+      {state.status === "ready" && (
+        <ReviewForm
+          proposal={state.result.proposal}
+          area={area}
+          project={project}
+          tags={tags}
+          tagDraft={tagDraft}
+          filed={filed}
+          onArea={setArea}
+          onProject={setProject}
+          onTagDraft={setTagDraft}
+          onAddTag={addTag}
+          onRemoveTag={(t) => setTags(tags.filter((x) => x !== t))}
+          onConfirm={confirm}
+        />
+      )}
+    </CardShell>
   );
 }
 

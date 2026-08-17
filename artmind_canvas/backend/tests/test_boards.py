@@ -91,6 +91,34 @@ class BoardApiTest(unittest.TestCase):
         self.assertEqual(reloaded["cards"][0]["props"], {"vaultPath": "README.md"})
         self.assertEqual(reloaded["cards"][0]["size"], {"width": 400, "height": 300})
 
+    def test_card_size_defaults_null_and_survives_repatch(self) -> None:
+        # A card saved without a size persists size=null (the frontend then
+        # falls back to the per-type default in cardToNode). A later patch that
+        # carries a resized size must overwrite it and round-trip exactly.
+        bid = self.client.post("/api/boards", json={"name": "B"}).json()["id"]
+        first = self.client.put(
+            f"/api/boards/{bid}",
+            json={"cards": [{"id": "c1", "cardType": "graph-view", "position": {"x": 0, "y": 0}}]},
+        ).json()
+        self.assertIsNone(first["cards"][0]["size"])
+
+        resized = self.client.put(
+            f"/api/boards/{bid}",
+            json={
+                "cards": [
+                    {
+                        "id": "c1",
+                        "cardType": "graph-view",
+                        "position": {"x": 0, "y": 0},
+                        "size": {"width": 640, "height": 500},
+                    }
+                ]
+            },
+        ).json()
+        self.assertEqual(resized["cards"][0]["size"], {"width": 640, "height": 500})
+        reloaded = self.client.get(f"/api/boards/{bid}").json()
+        self.assertEqual(reloaded["cards"][0]["size"], {"width": 640, "height": 500})
+
     def test_partial_patch_leaves_other_fields(self) -> None:
         bid = self.client.post("/api/boards", json={"name": "B"}).json()["id"]
         # set cards

@@ -13,6 +13,8 @@ import EditorPane from "./editor/EditorPane";
 import { WorkspaceContext, basename, type DocTab } from "./editor/workspace";
 import { ChangeStreamProvider } from "./events/changeStream";
 import { isKnownCardType } from "./cards/registry";
+import { defaultSize } from "./cards/sizes";
+import { CardActionsProvider } from "./cards/cardActions";
 import { cardToNode, nodeToCard } from "./boards/mapping";
 import { createBoard, getBoard, listBoards, saveBoard } from "./boards/api";
 import { getSettings, saveSettings, type PanelState } from "./settings/api";
@@ -176,13 +178,31 @@ function AppInner() {
     (card: CardSpec) => {
       if (!isKnownCardType(card.cardType)) return;
       const n = spawnCount.current++;
+      // Seed the per-type frame size onto node.width/height so the card opens at
+      // a sensible size and NodeResizer/persistence share one source of truth
+      // (Phase B). Render events never carry a size; restored cards get theirs in
+      // cardToNode.
+      const size = defaultSize(card.cardType);
       const node: Node = {
         id: crypto.randomUUID(),
         type: card.cardType,
         position: { x: 80 + (n % 6) * 44, y: 80 + (n % 6) * 44 },
+        width: size.width,
+        height: size.height,
         data: { ...(card.props ?? {}) },
       };
       setNodes((prev) => [...prev, node]);
+      scheduleSave();
+    },
+    [setNodes, scheduleSave],
+  );
+
+  // Close a Card: drop it from the board and persist. Injected into every card's
+  // shell via CardActionsProvider (not node.data, so nodeToCard never serializes
+  // a function). Deleting via the keyboard flows through onNodesChange instead.
+  const handleClose = useCallback(
+    (cardId: string) => {
+      setNodes((prev) => prev.filter((nd) => nd.id !== cardId));
       scheduleSave();
     },
     [setNodes, scheduleSave],
@@ -342,13 +362,15 @@ function AppInner() {
             onCreate={handleCreateBoard}
             onRename={handleRename}
           />
-          <Canvas
-            key={boardId ?? "none"}
-            nodes={nodes}
-            onNodesChange={handleNodesChange}
-            defaultViewport={viewport}
-            onMoveEnd={handleMoveEnd}
-          />
+          <CardActionsProvider value={{ onClose: handleClose }}>
+            <Canvas
+              key={boardId ?? "none"}
+              nodes={nodes}
+              onNodesChange={handleNodesChange}
+              defaultViewport={viewport}
+              onMoveEnd={handleMoveEnd}
+            />
+          </CardActionsProvider>
         </div>
 
         {editorCollapsed ? (
