@@ -35,3 +35,34 @@ class AgentBackend(Protocol):
         ...
 
     async def interrupt(self) -> None: ...
+
+    # ---- durable session lifecycle (ADR 0007 / A7) -----------------------
+
+    @property
+    def session_id(self) -> str | None:
+        """The provider's session id for this conversation, or ``None`` until
+        one has been observed. On the Claude SDK path this is what
+        ``restart(preserve_context=True)`` resumes; on the ACP path it is
+        informational only (ACP resume is unverified — see ``supports_resume``).
+        """
+        ...
+
+    @property
+    def supports_resume(self) -> bool:
+        """Whether ``restart(preserve_context=True)`` actually preserves the
+        conversation. True for the Claude SDK backend (SDK ``resume``); False
+        for ACP, where a refresh is a clean restart that drops the thread
+        (ADR 0007 explicitly okays losing context there)."""
+        ...
+
+    async def restart(self, *, preserve_context: bool = True) -> None:
+        """Tear down and rebuild the underlying agent connection.
+
+        The reason this exists: skills are read only at agent-session start
+        (no hot-reload), so authoring a ``SKILL.md`` mid-conversation and using
+        it immediately requires refreshing the session. When
+        ``preserve_context`` is set and the backend ``supports_resume``, the
+        rebuilt session resumes the prior conversation so the thread survives
+        the refresh; otherwise it starts fresh.
+        """
+        ...

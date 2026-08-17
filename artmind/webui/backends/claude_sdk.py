@@ -1,6 +1,6 @@
 """Claude Agent SDK backend: composes the SDK client with the event mapper."""
 
-from typing import AsyncIterator
+from typing import Any, AsyncIterator
 
 from claude_agent_sdk import ClaudeSDKClient
 
@@ -9,9 +9,31 @@ from artmind.webui.backends.base import UIEvent
 from artmind.webui.profiles import AgentProfile, QA_PROFILE
 
 
+def _message_session_id(message: Any) -> str | None:
+    """Pull the SDK session id off a streamed message, if it carries one.
+
+    Most message types (``ResultMessage``, ``SessionMessage``, ``UserMessage``)
+    expose ``session_id`` directly; the ``SystemMessage`` init frame carries it
+    under ``data['session_id']`` instead. We read both so the id is captured as
+    early as the first turn.
+    """
+    sid = getattr(message, "session_id", None)
+    if sid:
+        return sid
+    data = getattr(message, "data", None)
+    if isinstance(data, dict):
+        return data.get("session_id")
+    return None
+
+
 class ClaudeSDKBackend:
-    def __init__(self, profile: AgentProfile = QA_PROFILE) -> None:
-        self._client = ClaudeSDKClient(agent_options(profile))
+    def __init__(self, profile: AgentProfile = QA_PROFILE, resume: str | None = None) -> None:
+        # Remember the profile + current resume target so ``restart`` can
+        # rebuild an equivalent client (optionally resuming the same session).
+        self._profile = profile
+        self._resume = resume
+        self._session_id: str | None = resume
+        self._client = ClaudeSDKClient(agent_options(profile, resume=resume))
 
     async def connect(self) -> None:
         await self._client.connect()
@@ -25,8 +47,36 @@ class ClaudeSDKBackend:
     async def receive_events(self) -> AsyncIterator[UIEvent]:
         mapper = EventMapper()
         async for message in self._client.receive_response():
+            # Capture the session id as it flows past so a later refresh can
+            # resume this exact conversation (A7 / ADR 0007).
+            sid = _message_session_id(message)
+            if sid:
+                self._session_id = sid
             for event in mapper.map(message):
                 yield event
 
     async def interrupt(self) -> None:
         await self._client.interrupt()
+
+    # ---- durable session lifecycle (ADR 0007 / A7) -----------------------
+
+    @property
+    def session_id(self) -> str | None:
+        return self._session_id
+
+    @property
+    def supports_resume(self) -> bool:
+        return True
+
+    async def restart(self, *, preserve_context: bool = True) -> None:
+        """Rebuild the SDK client so a newly-authored skill is discovered.
+
+        When ``preserve_context`` is set and a session id has been observed,
+        the new client resumes it (``ClaudeAgentOptions.resume``) so the
+        conversation continues seamlessly; otherwise it starts a clean session.
+        """
+        resume = self._session_id if (preserve_context and self._session_id) else None
+        await self._client.disconnect()
+        self._resume = resume
+        self._client = ClaudeSDKClient(agent_options(self._profile, resume=resume))
+        await self._client.connect()

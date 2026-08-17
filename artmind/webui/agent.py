@@ -30,7 +30,18 @@ RUN_FOLDER = ARTMIND_HOME
 __all__ = ["RUN_FOLDER", "TRACE_CLIP", "clip", "agent_options", "EventMapper"]
 
 
-def agent_options(profile: AgentProfile = QA_PROFILE) -> ClaudeAgentOptions:
+def agent_options(
+    profile: AgentProfile = QA_PROFILE, resume: str | None = None
+) -> ClaudeAgentOptions:
+    """Build the SDK options for a chat session.
+
+    ``resume`` (A7 / ADR 0007): when set, the SDK resumes that prior session id
+    so the conversation context survives a session refresh — the mechanism that
+    lets a freshly-authored skill be picked up (skills are read only at
+    session start) without losing the thread. ``fork_session`` is left at its
+    default (False) so the resumed turn continues the same session id in place
+    rather than branching a new one.
+    """
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),
         skills=list(profile.skills),
@@ -42,6 +53,7 @@ def agent_options(profile: AgentProfile = QA_PROFILE) -> ClaudeAgentOptions:
         permission_mode="bypassPermissions",
         thinking={"type": "enabled", "budget_tokens": 8000, "display": "summarized"},
         include_partial_messages=True,
+        resume=resume,
     )
 
 

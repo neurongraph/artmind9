@@ -89,6 +89,22 @@ def create_app(
             await client.interrupt()
         return {"ok": True}
 
+    @app.post("/api/session/{session_id}/refresh")
+    async def refresh_session(session_id: str):
+        """Rebuild a live session's agent so a just-authored skill is picked up
+        (skills load only at session start — ADR 0007 / A7). On the Claude SDK
+        backend the conversation context is resumed; on ACP it restarts clean.
+        Reports whether context was preserved so the UI can tell the user."""
+        client = await registry.refresh(session_id)
+        if client is None:
+            return {"ok": False, "refreshed": False, "reason": "no live session"}
+        return {
+            "ok": True,
+            "refreshed": True,
+            "context_preserved": bool(getattr(client, "supports_resume", False)),
+            "session_id": getattr(client, "session_id", None),
+        }
+
     @app.delete("/api/session/{session_id}")
     async def close_session(session_id: str):
         await registry.drop(session_id)

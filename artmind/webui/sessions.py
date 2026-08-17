@@ -61,6 +61,29 @@ class SessionRegistry:
         entry = self._sessions.get(session_id)
         return entry[0] if entry else None
 
+    async def refresh(self, session_id: str, *, preserve_context: bool = True) -> Any | None:
+        """Refresh a live session's agent connection in place (A7 / ADR 0007).
+
+        Drives ``backend.restart`` under the same lock as ``get``/``drop`` so a
+        refresh can't interleave with a connect/evict for the same id. The
+        client object is kept — it rebuilds its own inner connection — so the
+        registry entry and its idle timer simply carry on. Used after a skill
+        is authored mid-session: the rebuilt session discovers the new
+        ``SKILL.md`` (skills are read only at session start), and on a
+        resume-capable backend the conversation context survives.
+
+        Returns the (same) client, or ``None`` if the session is not live —
+        there is nothing to refresh for a session that was never started.
+        """
+        async with self._lock:
+            entry = self._sessions.get(session_id)
+            if entry is None:
+                return None
+            client, backend, _ = entry
+            await client.restart(preserve_context=preserve_context)
+            self._sessions[session_id] = (client, backend, time.monotonic())
+            return client
+
     async def drop(self, session_id: str) -> None:
         async with self._lock:
             entry = self._sessions.pop(session_id, None)

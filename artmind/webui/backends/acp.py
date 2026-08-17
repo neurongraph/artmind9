@@ -143,6 +143,34 @@ class ACPBackend:
         if self._session_id is not None:
             await self._notify("session/cancel", {"sessionId": self._session_id})
 
+    # ---- durable session lifecycle (ADR 0007 / A7) -----------------------
+
+    @property
+    def session_id(self) -> str | None:
+        return self._session_id
+
+    @property
+    def supports_resume(self) -> bool:
+        # ACP resume is unverified (ADR 0007); a refresh is a clean restart.
+        return False
+
+    async def restart(self, *, preserve_context: bool = True) -> None:
+        """Restart the ACP subprocess to pick up a newly-authored skill.
+
+        ACP session resume is unverified, so this always starts a fresh
+        session and the conversation thread is lost — ADR 0007 explicitly
+        accepts that on this path. ``preserve_context`` is honoured only as a
+        signal to log; behaviour is identical either way.
+        """
+        if preserve_context:
+            logger.info("ACP: restart cannot preserve context; starting a fresh session")
+        await self.disconnect()
+        self._session_id = None
+        self._mapper = None
+        self._first_prompt_sent = False
+        self._next_id = 0
+        await self.connect()
+
     async def disconnect(self) -> None:
         proc, self._proc = self._proc, None
         for task in (self._read_task, self._stderr_task, self._turn_task):

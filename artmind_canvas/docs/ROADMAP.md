@@ -36,7 +36,7 @@ modules; it must not embed ingestion/extraction/placement logic.
 | A4 | Delta classifier (re-extract only changed blocks) | 0006 | ✅ done (metadata-only tier; block-level reuse deferred) | Full editable-`document` → re-ingest loop |
 | A5 | Vocabulary command (controlled filing vocabulary) | 0012 | ✅ done | Placement Card (needs the vocabulary to suggest against) |
 | A6 | Placement classifier | 0012 | ✅ done | Placement Card |
-| A7 | Agent SDK resume (durable session lifecycle) | 0007/0013 | ⬜ pending | `skill` Card: author + run skills, resume across turns |
+| A7 | Agent SDK resume (durable session lifecycle) | 0007/0013 | ✅ done | `skill` Card: author + run skills, resume across turns |
 
 A1 sub-parts (all done): A1a block/offset ids on chunks · A1b edge provenance
 (doc_ids/chunk_ids) · A1c stable path-based logical identity · A1d idempotent replace /
@@ -112,7 +112,7 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 | `provenance` | card + backend read endpoint ✅ | A1 ✅ | 2 ✅ |
 | `micro-UI` | sandboxed iframe ✅ | — | 2 ✅ |
 | `graph-view` | card + graph lib + node-link endpoint | **A2, A3** (+ new npm dep) | 3 |
-| `skill` | authoring UI + run | **A7** | 3 |
+| `skill` | authoring UI + run | **A7 ✅** | 3 |
 | Placement Card | propose/review/confirm UI | **A5, A6, A3** | 3 |
 
 ## Current position
@@ -150,4 +150,20 @@ the canvas placement Card renders the proposal for user review, and only then do
 doc-first path (ADR 0002) write frontmatter and trigger re-ingest. Domain is treated as
 always-confirmed since a domain change forces re-extraction (ADR 0006 (f)). Together with
 A2/A5, the propose→review→confirm flow (ADR 0012) is now end-to-end in artmind.
-Next up is Phase 3 (Track-A-gated Cards) — remaining Track-A item: A7 SDK resume.
+A7 shipped the durable session lifecycle (ADR 0007/0013): the Claude SDK chat
+backend now captures the SDK `session_id` off the streamed messages and gained
+`restart(preserve_context=True)`, which tears down and rebuilds its client with
+`ClaudeAgentOptions(resume=<id>)` so the conversation survives a refresh —
+the mechanism that lets a freshly-authored `SKILL.md` be discovered (skills are
+read only at session start, no hot-reload). `SessionRegistry.refresh()` drives it
+under the registry lock, and `POST /api/session/{id}/refresh` exposes it, reporting
+whether context was preserved. The ACP backend restarts clean (context lost) and
+reports `supports_resume=False`, which ADR 0007 explicitly accepts. The *when/where*
+(write `SKILL.md`, into which canvas-owned skills dir) stays client-side per ADR
+0007's boundary — the canvas calls `refresh` after authoring.
+
+**Track A is complete (A0–A7).** Every artmind-package capability the Phase 3 Cards
+need is delivered. Next is Phase 3 itself — the Track-A-gated Cards, built in
+`artmind_canvas/` as a pure client: `graph-view` (A2/A3 + a node-link endpoint +
+graph lib), the Placement Card (A5/A6 propose→review→confirm UI), and the `skill`
+Card (A7 authoring + run + refresh).
