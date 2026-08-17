@@ -11,6 +11,7 @@ from artmind_canvas_backend.canvas_backend import CanvasBackend
 from artmind_canvas_backend.render_events import (
     document_card,
     micro_ui_card,
+    placement_card,
     provenance_card,
     render_event,
 )
@@ -43,6 +44,17 @@ class CardFactoryTest(unittest.TestCase):
 
     def test_micro_ui_card_omits_absent_title(self) -> None:
         self.assertNotIn("title", micro_ui_card("<p>hi</p>")["props"])
+
+    def test_placement_card_carries_vault_path_and_optional_domains(self) -> None:
+        card = placement_card("inbox/draft.md", domains=["banking"], title="file this")
+        self.assertEqual(card["cardType"], "placement")
+        self.assertEqual(card["props"]["vaultPath"], "inbox/draft.md")
+        self.assertEqual(card["props"]["domains"], ["banking"])
+        self.assertEqual(card["props"]["title"], "file this")
+
+    def test_placement_card_omits_absent_domains_and_title(self) -> None:
+        props = placement_card("inbox/draft.md")["props"]
+        self.assertEqual(props, {"vaultPath": "inbox/draft.md"})
 
 
 class CannedSequenceTest(unittest.TestCase):

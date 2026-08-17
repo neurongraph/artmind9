@@ -45,6 +45,45 @@ export type MicroUICardProps = {
   title?: string | null;
 };
 
+// `placement` Card — propose→review→confirm filing surface (ADR 0012, A5/A6).
+// Supply the `vaultPath` whose body should be classified; `domains` optionally
+// scopes the proposal. The Card fetches the proposal itself from
+// /api/placement/propose, then writes the accepted facets on confirm.
+export type PlacementCardProps = {
+  vaultPath: string;
+  domains?: string[];
+  title?: string | null;
+};
+
+// The A6 classifier's normalized proposal (artmind.placement._normalize_proposal),
+// as returned under `proposals` by `query propose-placement --compact`.
+export type PlacementFacet = {
+  value: string | null;
+  confidence: number;
+  known: boolean; // true = drawn from the existing controlled vocabulary (A5)
+};
+
+export type PlacementProposal = {
+  text_length: number;
+  proposals: {
+    domain: PlacementFacet;
+    area: PlacementFacet;
+    project: PlacementFacet;
+    tags: { value: string[]; confidence: number; known: boolean[] };
+    target_file_hint: string | null;
+    reason: string;
+  };
+  model?: string;
+};
+
+// Response of POST /api/placement/propose (routes/placement.py). `version` is the
+// on-disk version echoed back on confirm to keep the write conditional.
+export type ProposeResult = {
+  proposal: PlacementProposal;
+  vaultPath: string | null;
+  version: string | null;
+};
+
 // The backend's normalized provenance payload (routes/provenance.py `_shape`).
 export type ProvenanceSource = {
   chunkId: string | null;

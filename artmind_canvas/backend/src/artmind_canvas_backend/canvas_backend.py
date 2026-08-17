@@ -21,6 +21,7 @@ from artmind_canvas_backend.profiles import CANVAS_PROFILE
 from artmind_canvas_backend.render_events import (
     document_card,
     micro_ui_card,
+    placement_card,
     provenance_card,
     render_event,
 )
@@ -30,6 +31,7 @@ logger = logging.getLogger(__name__)
 _RENDER_TEST = "/render-test"
 _PROV_TEST = "/prov-test"
 _MICROUI_TEST = "/microui-test"
+_PLACEMENT_TEST = "/placement-test"
 
 
 class CanvasBackend:
@@ -67,6 +69,9 @@ class CanvasBackend:
             return
         if stripped.startswith(_MICROUI_TEST):
             self._canned = self._microui_test_sequence(stripped[len(_MICROUI_TEST):].strip())
+            return
+        if stripped.startswith(_PLACEMENT_TEST):
+            self._canned = self._placement_test_sequence(stripped[len(_PLACEMENT_TEST):].strip())
             return
         self._canned = None
         inner = await self._ensure_inner()
@@ -107,6 +112,23 @@ class CanvasBackend:
             {"type": "text_delta", "text": f"Tracing provenance for `{reference}` in `{domain}`…"},
             {"type": "block_done", "block": "text"},
             render_event(provenance_card([domain], reference=reference)),
+            {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
+        ]
+
+    @staticmethod
+    def _placement_test_sequence(arg: str) -> list[UIEvent]:
+        """Canned turn spawning a ``placement`` Card: ``/placement-test <vaultPath> [domain...]``.
+
+        The Card itself fetches the live proposal from ``/api/placement/propose``;
+        this hook only proves the render wire spawns the Card offline.
+        """
+        parts = arg.split()
+        vault_path = parts[0] if parts else "README.md"
+        domains = parts[1:]
+        return [
+            {"type": "text_delta", "text": f"Proposing placement for `{vault_path}`…"},
+            {"type": "block_done", "block": "text"},
+            render_event(placement_card(vault_path, domains=domains or None)),
             {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None},
         ]
 

@@ -53,6 +53,28 @@ def provenance_card(
     return {"cardType": "provenance", "props": props}
 
 
+def placement_card(
+    vault_path: str,
+    *,
+    domains: list[str] | None = None,
+    title: str | None = None,
+) -> dict[str, Any]:
+    """A ``placement`` Card spec — contract: ``{vaultPath, domains?, title?}``.
+
+    The propose→review→confirm surface (ADR 0012): the Card fetches an A6
+    placement proposal for the document at ``vaultPath``, renders it for the user
+    to accept/adjust, and on confirm writes the accepted filing facets into the
+    doc's frontmatter (doc-first, ADR 0002). ``domains`` optionally scopes the
+    proposal. Never a silent auto-file.
+    """
+    props: dict[str, Any] = {"vaultPath": vault_path}
+    if domains:
+        props["domains"] = domains
+    if title is not None:
+        props["title"] = title
+    return {"cardType": "placement", "props": props}
+
+
 def micro_ui_card(html: str, *, title: str | None = None) -> dict[str, Any]:
     """A ``micro-ui`` Card spec — tier (c), arbitrary agent-authored HTML/JS.
 

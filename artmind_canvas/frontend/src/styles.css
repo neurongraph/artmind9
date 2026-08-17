@@ -499,6 +499,177 @@ body.resizing {
   background: #0b0d11;
 }
 
+/* Placement Card (ADR 0012, A5/A6) -------------------------------------- */
+.placement-card {
+  width: 360px;
+}
+
+.pl-reason {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.pl-facet {
+  margin-bottom: 12px;
+}
+
+.pl-facet-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.pl-facet-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.pl-badge {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  padding: 0 5px;
+}
+
+.pl-badge-known {
+  color: #5bce8a;
+  border: 1px solid #5bce8a55;
+}
+
+.pl-badge-new {
+  color: #e0a34a;
+  border: 1px solid #e0a34a55;
+}
+
+.pl-confidence {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.pl-confidence-bar {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+}
+
+.pl-domain {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.pl-note {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.pl-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #0b0d11;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  padding: 5px 8px;
+}
+
+.pl-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.pl-input:disabled {
+  opacity: 0.5;
+}
+
+.pl-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.pl-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.pl-tag-known {
+  color: var(--text);
+  border: 1px solid #5bce8a55;
+}
+
+.pl-tag-new {
+  color: var(--text);
+  border: 1px solid #e0a34a55;
+}
+
+.pl-tag-x {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  padding: 0;
+}
+
+.pl-tag-x:hover {
+  color: #f0837a;
+}
+
+.pl-hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.pl-actions {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+.pl-confirm {
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+}
+
+.pl-confirm:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.pl-done {
+  font-size: 13px;
+  font-weight: 600;
+  color: #5bce8a;
+}
+
 /* Editor pane (ADR 0015) ------------------------------------------------ */
 .editor-pane {
   flex: 1;

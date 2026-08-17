@@ -101,7 +101,9 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
   re-extract only changed blocks instead of a full idempotent replace — not a gate for
   editing.
 - **`skill` Card** — needs A7 SDK resume. ADRs 0007/0013.
-- **Placement Card** — propose→review→confirm; needs A5 vocabulary + A6 classifier + A3. ADR 0012.
+- **Placement Card** ✅ — propose→review→confirm; needs A5 vocabulary + A6 classifier + A3. ADR 0012.
+  Re-ingest is **deferred to the ADR 0011 watched-Vault watcher** (not yet built): confirm
+  writes frontmatter + publishes the `change` SSE but does not trigger ingestion.
 
 ## Card-type → dependency matrix
 
@@ -113,7 +115,7 @@ Flow canvas hosting a custom `document` node. No persistence, one card type.
 | `micro-UI` | sandboxed iframe ✅ | — | 2 ✅ |
 | `graph-view` | card + graph lib + node-link endpoint | **A2, A3** (+ new npm dep) | 3 |
 | `skill` | authoring UI + run | **A7 ✅** | 3 |
-| Placement Card | propose/review/confirm UI | **A5, A6, A3** | 3 |
+| Placement Card | propose/review/confirm UI ✅ | **A5, A6, A3 ✅** (re-ingest → ADR 0011 watcher) | 3 ✅ |
 
 ## Current position
 
@@ -163,7 +165,20 @@ reports `supports_resume=False`, which ADR 0007 explicitly accepts. The *when/wh
 0007's boundary — the canvas calls `refresh` after authoring.
 
 **Track A is complete (A0–A7).** Every artmind-package capability the Phase 3 Cards
-need is delivered. Next is Phase 3 itself — the Track-A-gated Cards, built in
-`artmind_canvas/` as a pure client: `graph-view` (A2/A3 + a node-link endpoint +
-graph lib), the Placement Card (A5/A6 propose→review→confirm UI), and the `skill`
-Card (A7 authoring + run + refresh).
+need is delivered. **Phase 3 has started: the Placement Card is done** — the first
+Track-A-gated Card, built in `artmind_canvas/` as a pure client. `POST
+/api/placement/propose` routes the A6 classifier through the `run_query` seam (the
+`propose-placement` query subcommand via `artmind serve` — no Neo4j, no LLM in the
+canvas process), classifying the document *body* (frontmatter stripped so existing
+filing keys don't bias the proposal). `PlacementCard.tsx` renders the proposal for
+review — per-facet confidence + known/new badges, editable area/project/tags; domain
+is shown as context only (ingestion sources it from `--domain`, never frontmatter).
+`POST /api/placement/confirm` folds the accepted facets into the doc's frontmatter via
+the ordinary conditional Vault write (client-owned `frontmatter.merge_frontmatter`,
+preserving existing keys + body) and publishes a `document` change so open Cards
+re-read (ADR 0008). **Re-ingest is deferred to the ADR 0011 watched-Vault watcher**
+(not yet built): confirm reports `reingest.triggered = false` — the async worker can't
+`replace=True` and `sync --replace` needs the `[ingest]` extra the lean canvas lacks,
+so the filesystem watcher is the right long-term owner. Still ahead in Phase 3:
+`graph-view` (A2/A3 + a node-link endpoint + graph lib) and the `skill` Card (A7
+authoring + run + refresh).
