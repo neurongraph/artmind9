@@ -27,13 +27,32 @@ def _message_session_id(message: Any) -> str | None:
 
 
 class ClaudeSDKBackend:
-    def __init__(self, profile: AgentProfile = QA_PROFILE, resume: str | None = None) -> None:
+    def __init__(
+        self,
+        profile: AgentProfile = QA_PROFILE,
+        resume: str | None = None,
+        *,
+        mcp_servers: dict[str, Any] | None = None,
+        allowed_tools: list[str] | None = None,
+    ) -> None:
         # Remember the profile + current resume target so ``restart`` can
         # rebuild an equivalent client (optionally resuming the same session).
+        # ``mcp_servers``/``allowed_tools`` (both optional, default no-op) let a
+        # front-end register in-process SDK tools; they're preserved across
+        # ``restart`` so a resumed session keeps the same tool surface.
         self._profile = profile
         self._resume = resume
+        self._mcp_servers = mcp_servers
+        self._allowed_tools = allowed_tools
         self._session_id: str | None = resume
-        self._client = ClaudeSDKClient(agent_options(profile, resume=resume))
+        self._client = ClaudeSDKClient(
+            agent_options(
+                profile,
+                resume=resume,
+                mcp_servers=mcp_servers,
+                allowed_tools=allowed_tools,
+            )
+        )
 
     async def connect(self) -> None:
         await self._client.connect()
@@ -78,5 +97,12 @@ class ClaudeSDKBackend:
         resume = self._session_id if (preserve_context and self._session_id) else None
         await self._client.disconnect()
         self._resume = resume
-        self._client = ClaudeSDKClient(agent_options(self._profile, resume=resume))
+        self._client = ClaudeSDKClient(
+            agent_options(
+                self._profile,
+                resume=resume,
+                mcp_servers=self._mcp_servers,
+                allowed_tools=self._allowed_tools,
+            )
+        )
         await self._client.connect()

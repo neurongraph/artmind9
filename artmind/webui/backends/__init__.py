@@ -42,17 +42,31 @@ def set_acp_agent_cmd(cmd: str | None) -> None:
     _acp_cmd_override = shlex.split(cmd) if cmd else None
 
 
-def create_backend(name: str, profile: AgentProfile = QA_PROFILE) -> AgentBackend:
+def create_backend(
+    name: str,
+    profile: AgentProfile = QA_PROFILE,
+    *,
+    mcp_servers: dict | None = None,
+    allowed_tools: list[str] | None = None,
+) -> AgentBackend:
     """Build a backend for ``name`` wearing ``profile``'s persona + skills.
 
     Both backends are profile-agnostic transport; the profile supplies the
     skill scoping and system prompt (claude-sdk) or the ACP mode + preamble
     (acp). ``ARTMIND_ACP_MODE`` still overrides the profile's mode when set.
+
+    ``mcp_servers`` / ``allowed_tools`` (both optional, default no-op) let a
+    front-end register in-process SDK tools. Only the ``claude-sdk`` backend
+    supports them — ACP has no in-process tool mechanism (it passes an empty
+    ``mcpServers`` at ``session/new`` and supports only external MCP servers),
+    so the params are ignored there. See the canvas ``show_card`` tool.
     """
     if name == "claude-sdk":
         from artmind.webui.backends.claude_sdk import ClaudeSDKBackend
 
-        return ClaudeSDKBackend(profile)
+        return ClaudeSDKBackend(
+            profile, mcp_servers=mcp_servers, allowed_tools=allowed_tools
+        )
     if name == "acp":
         from artmind.webui.backends.acp import ACPBackend
         from paths import ARTMIND_HOME

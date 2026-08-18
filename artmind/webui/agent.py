@@ -31,7 +31,11 @@ __all__ = ["RUN_FOLDER", "TRACE_CLIP", "clip", "agent_options", "EventMapper"]
 
 
 def agent_options(
-    profile: AgentProfile = QA_PROFILE, resume: str | None = None
+    profile: AgentProfile = QA_PROFILE,
+    resume: str | None = None,
+    *,
+    mcp_servers: dict[str, Any] | None = None,
+    allowed_tools: list[str] | None = None,
 ) -> ClaudeAgentOptions:
     """Build the SDK options for a chat session.
 
@@ -41,6 +45,13 @@ def agent_options(
     session start) without losing the thread. ``fork_session`` is left at its
     default (False) so the resumed turn continues the same session id in place
     rather than branching a new one.
+
+    ``mcp_servers`` / ``allowed_tools`` (generic in-process-tool passthrough):
+    a front-end app (e.g. the canvas) may register an in-process SDK MCP server
+    so the agent can call app-specific tools. Both default to ``None`` — a
+    plain chat session adds nothing. ``allowed_tools`` is additive: under
+    ``bypassPermissions`` every tool is already permitted, so naming the MCP
+    tool here auto-approves it without narrowing the skill toolset.
     """
     return ClaudeAgentOptions(
         cwd=str(RUN_FOLDER),
@@ -54,6 +65,8 @@ def agent_options(
         thinking={"type": "enabled", "budget_tokens": 8000, "display": "summarized"},
         include_partial_messages=True,
         resume=resume,
+        mcp_servers=mcp_servers or {},
+        allowed_tools=allowed_tools or [],
     )
 
 

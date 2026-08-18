@@ -199,3 +199,30 @@ neighbourhood (another `/api/graph` read, merged into the live instance). Future
 (`graph pattern5`) and `conflicts` view modes slot in behind the carried `mode` param
 without a contract change. Still ahead in Phase 3: the `skill` Card (A7 authoring + run +
 refresh).
+
+**UX overhaul (three phases, all done, live-verified 2026-08-17/18).** Phase A brought the
+chat dock to parity with the reference chat UI (`artmind/webui/static/app.js`) over the
+identical SSE wire: a block-structured transcript handling all 7 neutral events + the canvas
+`render` superset — streaming text/thinking, collapsible thinking, a tool-trace drawer,
+safe markdown (marked → DOMPurify) with code-copy, autoscroll that pauses on scroll-up,
+Stop (abort + `POST /api/session/{id}/interrupt`), and an autogrowing textarea. Phase B added
+a shared `CardShell` (title bar + close + `NodeResizer` + `Handle`s on the frame, never the
+body) adopted by all 5 cards: resize round-trips through board persistence (the
+`cardToNode` size-drop bug fixed) and close removes+saves; plus a stale-card `CardError`
+("this reference no longer resolves" → Dismiss). **Phase C wired chat→card two ways.**
+(1) A `show_card` **agent tool** (Claude-SDK-only): an in-process SDK MCP server
+(`show_card_tool.py`) whose handler validates args and reuses the *same* `render_events`
+builders the canned hooks use, enqueuing a `render` onto a queue that `CanvasBackend.receive_events`
+drains into the neutral stream — so the card surfaces mid-answer around the tool trace, and
+the harness `EventMapper`/7-event contract stay untouched. (2) Real **slash-commands**
+(`/graph`, `/provenance`, `/document`, `/placement`) that short-circuit in `CanvasBackend.query()`
+before any inner backend, so they work on **both** SDK and ACP (the `-test` aliases are kept —
+they back `test_render.py` and need no serve/auth). **Phase-C shared-package seam:** the one
+edit outside `artmind_canvas/` is generic transport plumbing in the **artmind** package —
+optional `mcp_servers`/`allowed_tools` threaded through `agent_options` →
+`ClaudeSDKBackend.__init__`/`restart` → `create_backend`, all defaulting no-op (existing
+harness tests unchanged). This is where package-level capability (any surface may register
+in-process tools) belongs, not graph logic in the client. **ACP tool gap (known,
+accepted):** ACP has no in-process tool mechanism, so `show_card` is SDK-only; ACP gets the
+backend-agnostic slash-commands. Consistent with ADR 0007's acceptance of `supports_resume=False`
+for ACP, and costless today since the frontend hardcodes `backend: "claude-sdk"`.

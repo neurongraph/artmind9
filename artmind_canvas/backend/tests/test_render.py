@@ -95,11 +95,75 @@ class CannedSequenceTest(unittest.TestCase):
 
     def test_canned_hook_never_builds_inner_backend(self) -> None:
         # The lazy inner factory must not fire for a canned hook.
-        def boom() -> None:
+        def boom(**kwargs) -> None:
             raise AssertionError("inner backend should not be built for canned hooks")
 
         backend = CanvasBackend(boom)
         self._drain(backend, "/microui-test")  # would raise if the factory ran
+
+    # ---- real user slash-commands (Phase C): same builders as the -test aliases
+
+    def _no_inner(self) -> CanvasBackend:
+        return CanvasBackend(
+            lambda **kwargs: (_ for _ in ()).throw(AssertionError("no inner"))
+        )
+
+    def test_graph_command_spawns_graph_view_card(self) -> None:
+        events = self._drain(self._no_inner(), "/graph banking Acme Corp")
+        self.assertEqual(
+            [e["type"] for e in events],
+            ["text_delta", "block_done", "render", "turn_done"],
+        )
+        card = events[2]["card"]
+        self.assertEqual(card["cardType"], "graph-view")
+        self.assertEqual(card["props"]["domains"], ["banking"])
+        self.assertEqual(card["props"]["reference"], "Acme Corp")
+
+    def test_provenance_command_spawns_provenance_card(self) -> None:
+        events = self._drain(self._no_inner(), "/provenance banking incident timeline")
+        card = events[2]["card"]
+        self.assertEqual(card["cardType"], "provenance")
+        self.assertEqual(card["props"]["domains"], ["banking"])
+        self.assertEqual(card["props"]["reference"], "incident timeline")
+
+    def test_document_command_spawns_document_card(self) -> None:
+        events = self._drain(self._no_inner(), "/document notes/plan.md")
+        card = events[2]["card"]
+        self.assertEqual(card["cardType"], "document")
+        self.assertEqual(card["props"]["vaultPath"], "notes/plan.md")
+
+    def test_placement_command_spawns_placement_card(self) -> None:
+        events = self._drain(self._no_inner(), "/placement inbox/draft.md banking ops")
+        card = events[2]["card"]
+        self.assertEqual(card["cardType"], "placement")
+        self.assertEqual(card["props"]["vaultPath"], "inbox/draft.md")
+        self.assertEqual(card["props"]["domains"], ["banking", "ops"])
+
+    def test_graph_command_does_not_shadow_graph_test(self) -> None:
+        # First-token match: '/graph-test' must not be swallowed by '/graph'.
+        events = self._drain(self._no_inner(), "/graph-test banking Acme")
+        self.assertEqual(events[2]["card"]["cardType"], "graph-view")
+        self.assertEqual(events[2]["card"]["props"]["reference"], "Acme")
+
+    def test_non_command_falls_through_to_inner(self) -> None:
+        # A real question must NOT be treated as a slash-command.
+        built: list[bool] = []
+
+        class _Inner:
+            async def connect(self_) -> None:
+                built.append(True)
+
+            async def query(self_, prompt: str) -> None:
+                return None
+
+            async def receive_events(self_):
+                yield {"type": "text_delta", "text": "hi"}
+                yield {"type": "turn_done", "turns": 1, "duration_s": 0.0, "cost": None}
+
+        backend = CanvasBackend(lambda **kwargs: _Inner())
+        events = self._drain(backend, "what is the graph about?")
+        self.assertTrue(built)
+        self.assertEqual([e["type"] for e in events], ["text_delta", "turn_done"])
 
 
 if __name__ == "__main__":

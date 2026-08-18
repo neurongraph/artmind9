@@ -274,11 +274,12 @@ export default function ChatDock({ sessionId, onRender, onPromote, onCollapse }:
       <div className="chat-log" ref={logRef} onScroll={onScroll}>
         {turns.length === 0 && (
           <div className="chat-hint">
-            Ask a question, or spawn a Card directly:
+            Ask a question — I'll open Cards as they help. Or spawn one directly:
             <ul className="chat-cmd-list">
               <li><code>/graph &lt;domain&gt; &lt;reference&gt;</code> — neighbourhood graph</li>
               <li><code>/provenance &lt;domain&gt; &lt;reference&gt;</code> — where a fact came from</li>
-              <li><code>/render-test README.md</code> — a document Card</li>
+              <li><code>/document &lt;vaultPath&gt;</code> — open a Vault file</li>
+              <li><code>/placement &lt;vaultPath&gt; [domain…]</code> — file a document</li>
             </ul>
           </div>
         )}

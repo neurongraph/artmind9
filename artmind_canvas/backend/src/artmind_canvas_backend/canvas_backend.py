@@ -12,8 +12,11 @@ exercises the render path with no agent process and no auth — the render wire
 stays verifiable offline.
 """
 
+import asyncio
 import logging
-from typing import AsyncIterator, Callable
+from typing import Any, AsyncIterator, Callable
+
+from claude_agent_sdk import create_sdk_mcp_server
 
 from artmind.webui.backends import AgentBackend, UIEvent, create_backend
 
@@ -26,23 +29,46 @@ from artmind_canvas_backend.render_events import (
     provenance_card,
     render_event,
 )
+from artmind_canvas_backend.show_card_tool import (
+    QUALIFIED_TOOL_NAME,
+    make_show_card_tool,
+)
 
 logger = logging.getLogger(__name__)
 
+# Canned test hooks (offline, no serve/auth) and their real user-facing aliases.
+# Both resolve live data — the card spec carries real selectors; only the
+# surrounding narration is canned. The test hooks back ``test_render.py``; the
+# real commands (Phase C) are what users type. A first-token match dispatches
+# both, so ``/graph`` never shadows ``/graph-test``.
 _RENDER_TEST = "/render-test"
 _PROV_TEST = "/prov-test"
 _MICROUI_TEST = "/microui-test"
 _PLACEMENT_TEST = "/placement-test"
 _GRAPH_TEST = "/graph-test"
+_DOCUMENT = "/document"
+_PROVENANCE = "/provenance"
+_PLACEMENT = "/placement"
+_GRAPH = "/graph"
 
 
 class CanvasBackend:
     """Neutral-contract backend that additionally emits ``render`` events."""
 
-    def __init__(self, inner_factory: Callable[[], AgentBackend]) -> None:
+    def __init__(self, inner_factory: Callable[..., AgentBackend]) -> None:
+        # ``inner_factory`` is called with ``mcp_servers`` / ``allowed_tools``
+        # kwargs when the inner backend is finally built (first real prompt), so
+        # the ``show_card`` tool is wired into the SDK session. It is never
+        # called for canned/slash hooks, which short-circuit below.
         self._inner_factory = inner_factory
         self._inner: AgentBackend | None = None
         self._canned: list[UIEvent] | None = None
+        # Render side-channel: the ``show_card`` tool enqueues ``render`` events
+        # here (its return value goes to the model, not the SSE stream), and
+        # ``receive_events`` drains them into the neutral stream. Created once so
+        # the tool closure and the drain share one queue across turns; each turn
+        # fully drains it (end-of-loop drain), so it is empty between turns.
+        self._render_queue: asyncio.Queue[dict[str, Any]] = asyncio.Queue()
 
     async def connect(self) -> None:
         # Lazy: defer the inner backend's connect (which spawns the agent
@@ -56,31 +82,48 @@ class CanvasBackend:
 
     async def _ensure_inner(self) -> AgentBackend:
         if self._inner is None:
-            inner = self._inner_factory()
+            server = create_sdk_mcp_server(
+                "canvas", tools=[make_show_card_tool(self._render_queue)]
+            )
+            inner = self._inner_factory(
+                mcp_servers={"canvas": server},
+                allowed_tools=[QUALIFIED_TOOL_NAME],
+            )
             await inner.connect()
             self._inner = inner
         return self._inner
 
     async def query(self, prompt: str) -> None:
         stripped = prompt.strip()
-        if stripped.startswith(_RENDER_TEST):
-            self._canned = self._render_test_sequence(stripped[len(_RENDER_TEST):].strip())
-            return
-        if stripped.startswith(_PROV_TEST):
-            self._canned = self._prov_test_sequence(stripped[len(_PROV_TEST):].strip())
-            return
-        if stripped.startswith(_MICROUI_TEST):
-            self._canned = self._microui_test_sequence(stripped[len(_MICROUI_TEST):].strip())
-            return
-        if stripped.startswith(_PLACEMENT_TEST):
-            self._canned = self._placement_test_sequence(stripped[len(_PLACEMENT_TEST):].strip())
-            return
-        if stripped.startswith(_GRAPH_TEST):
-            self._canned = self._graph_test_sequence(stripped[len(_GRAPH_TEST):].strip())
+        cmd, _, rest = stripped.partition(" ")
+        canned = self._canned_sequence(cmd.lower(), rest.strip())
+        if canned is not None:
+            self._canned = canned
             return
         self._canned = None
         inner = await self._ensure_inner()
         await inner.query(prompt)
+
+    @classmethod
+    def _canned_sequence(cls, cmd: str, arg: str) -> list[UIEvent] | None:
+        """Map a leading slash-command token to a canned render sequence.
+
+        Real user commands and their ``-test`` aliases share a builder — the
+        card spec is identical; only the test hooks exist to be driven offline.
+        Returns ``None`` for anything that is not a canvas slash-command, so the
+        prompt falls through to the inner agent.
+        """
+        if cmd in (_RENDER_TEST, _DOCUMENT):
+            return cls._render_test_sequence(arg)
+        if cmd in (_PROV_TEST, _PROVENANCE):
+            return cls._prov_test_sequence(arg)
+        if cmd in (_PLACEMENT_TEST, _PLACEMENT):
+            return cls._placement_test_sequence(arg)
+        if cmd in (_GRAPH_TEST, _GRAPH):
+            return cls._graph_test_sequence(arg)
+        if cmd == _MICROUI_TEST:
+            return cls._microui_test_sequence(arg)
+        return None
 
     async def receive_events(self) -> AsyncIterator[UIEvent]:
         if self._canned is not None:
@@ -91,6 +134,21 @@ class CanvasBackend:
         assert self._inner is not None  # query() connected it
         async for event in self._inner.receive_events():
             yield event
+            # Surface any render events the ``show_card`` tool enqueued while the
+            # SDK processed this event — the Card lands mid-answer, around the
+            # tool_call/tool_result trace.
+            for render in self._drain_render_queue():
+                yield render
+        # End-of-loop drain: guarantees a late tool execution's Card lands even
+        # if the SDK deferred it past the final message (before turn_done here).
+        for render in self._drain_render_queue():
+            yield render
+
+    def _drain_render_queue(self) -> list[UIEvent]:
+        drained: list[UIEvent] = []
+        while not self._render_queue.empty():
+            drained.append(self._render_queue.get_nowait())
+        return drained
 
     async def interrupt(self) -> None:
         if self._inner is not None:
@@ -182,5 +240,13 @@ class CanvasBackend:
 
 
 def canvas_backend_factory(name: str) -> AgentBackend:
-    """``SessionRegistry`` client_factory: a CanvasBackend over artmind's backend."""
-    return CanvasBackend(lambda: create_backend(name, CANVAS_PROFILE))
+    """``SessionRegistry`` client_factory: a CanvasBackend over artmind's backend.
+
+    The inner factory forwards the canvas ``show_card`` MCP server (built per
+    backend in ``_ensure_inner``) to ``create_backend`` — the ``claude-sdk``
+    branch wires it into the SDK session; ``acp`` ignores it (Phase C: ACP has
+    no in-process tool mechanism and gets the slash-commands instead).
+    """
+    return CanvasBackend(
+        lambda **kwargs: create_backend(name, CANVAS_PROFILE, **kwargs)
+    )
