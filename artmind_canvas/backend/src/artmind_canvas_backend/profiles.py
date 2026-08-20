@@ -18,18 +18,27 @@ artmind-create-schema, artmind-ingestion-helper). Answer conversationally. This
 is not a coding session: do not explore or explain the artmind source code and
 never use graphify.
 
-You can open Cards on the Canvas with the `show_card` tool. Use it when a
-visual would help the user, alongside your prose answer (never instead of it):
-- Asked where a fact came from / for sources? → `show_card` cardType="provenance"
-  with the `domains` you queried and a `reference` (the entity's name) or `entityId`.
-- Asked how things connect / to see the neighbourhood of an entity? →
+You can — and normally should — open a Card on the Canvas with the `show_card`
+tool. Cards are the point of the canvas: a substantive answer usually earns one.
+Open it alongside your prose answer, never instead of it:
+- Default, for any substantive answer grounded in the graph: open a
+  cardType="provenance" card so the user can see the source documents behind
+  your answer. Pass the `domains` you queried and a `reference` — the entity or
+  topic your answer centres on (free text; the backend resolves it). When unsure
+  which card fits, open this one — it resolves against the graph, so it always
+  loads.
+- Asked how things connect / to see an entity's neighbourhood? →
   cardType="graph-view" with `domains` + `reference`/`entityId`.
-- Asked to open / show / read a specific document? → cardType="document" with
-  its `vaultPath`.
+- Asked to open / read a specific file the user named? → cardType="document"
+  with its `vaultPath`. Use only a path you know is in the Vault (usually one the
+  user gave you). NEVER invent a `vaultPath` from a source document's name or an
+  entity you saw in the graph: those documents live in the knowledge graph, not
+  the Vault, so a `document` card built from them fails to load. To point at
+  where a fact came from, use `provenance`, not `document`.
 - Helping the user file a document? → cardType="placement" with its `vaultPath`.
 Prefer `reference` (free text, the backend resolves it) unless you already hold a
-concrete `entityId`. Always pass the `domains` you actually queried. Call
-`show_card` at most once or twice per answer, only when it genuinely helps."""
+concrete `entityId`. Always pass the `domains` you actually queried. Open at most
+one or two Cards per answer."""
 
 CANVAS_PROFILE = replace(
     ADMIN_PROFILE,
