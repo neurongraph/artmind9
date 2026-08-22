@@ -1880,7 +1880,12 @@ def extract_kg(
 
     doc_kg_dir = KG_DIR / domain / registered_path.stem
     doc_kg_dir.mkdir(parents=True, exist_ok=True)
-    chunk_data_dir = doc_kg_dir / "chunks"
+    # Scoped by doc_sha256 (not just the file stem) so a genuine resume of an
+    # interrupted run — same content, same sha256 — still hits this cache and
+    # skips already-ok steps, while a re-ingest with *changed* content lands in
+    # a fresh, empty directory instead of silently inheriting a prior version's
+    # cached chunk text/embedding via the setdefault() calls below.
+    chunk_data_dir = doc_kg_dir / "chunks" / doc_sha256
     chunk_data_dir.mkdir(parents=True, exist_ok=True)
 
     # Stable identity (A1c): resolve the physical doc_id + version by logical id.

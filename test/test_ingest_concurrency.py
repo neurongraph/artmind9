@@ -111,7 +111,8 @@ def test_extract_kg_concurrent_processes_every_chunk(monkeypatch, tmp_path):
     assert doc_kg_dir is not None
 
     # Every chunk produced its own JSON and contributed exactly one entity.
-    chunk_jsons = sorted((doc_kg_dir / "chunks").glob("chunk_*.json"))
+    # (chunk cache is nested one level deeper, under doc_sha256 — see extract_kg.)
+    chunk_jsons = sorted((doc_kg_dir / "chunks").glob("**/chunk_*.json"))
     assert len(chunk_jsons) == n
     entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
     assert len(entities) == n
@@ -136,6 +137,38 @@ def test_extract_kg_concurrent_matches_sequential(monkeypatch, tmp_path):
     # chunk_ids are doc_id-prefixed (doc_id is random per run), so compare counts
     # and per-chunk structure rather than the literal ids.
     assert len(_merged_entity_chunk_ids(seq_dir)) == len(_merged_entity_chunk_ids(conc_dir)) == 5
+
+
+# ── re-ingest with changed content: no stale chunk cache leakage ────────────
+
+def test_extract_kg_reingest_refreshes_stale_chunk_text(monkeypatch, tmp_path):
+    """A content edit must not leak the prior version's chunk text through the
+    on-disk resume cache.
+
+    Regression for a bug where the per-chunk cache directory was keyed only by
+    the file's stem, not by doc_sha256: re-ingesting an edited file reused the
+    previous run's chunk_NNN.json, and data.setdefault("text", chunk_text)
+    then refused to overwrite the stale cached text — so DocChunk.text stayed
+    on the old content even though entities were correctly re-extracted from
+    the new content (which reads the chunk file directly, bypassing the cache).
+    """
+    file_result = _setup_extract_env(monkeypatch, tmp_path, n_chunks=1)
+    chunks_dir = Path(file_result["chunks_dir"])
+
+    doc_kg_dir = ing.extract_kg(file_result, "testdom", max_workers=1)
+    chunks = json.loads((doc_kg_dir / "chunks.json").read_text(encoding="utf-8"))
+    assert chunks[0]["text"] == "chunk body 1"
+
+    # Edit the source chunk in place — same stem/doc_kg_dir, different content
+    # and sha256, exactly what re-ingesting an edited file produces.
+    (chunks_dir / "chunk_001.md").write_text("REVISED chunk body 1", encoding="utf-8")
+    file_result["sha256"] = "sha-revised"
+
+    doc_kg_dir2 = ing.extract_kg(file_result, "testdom", max_workers=1)
+    assert doc_kg_dir2 == doc_kg_dir  # same logical document, same on-disk dir
+
+    chunks2 = json.loads((doc_kg_dir2 / "chunks.json").read_text(encoding="utf-8"))
+    assert chunks2[0]["text"] == "REVISED chunk body 1"
 
 
 def test_extract_kg_worker_exception_surfaces(monkeypatch, tmp_path):
