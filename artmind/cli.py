@@ -376,25 +376,58 @@ def delete_domain(domain_name: str):
 @domains.command("entities-prompt")
 @click.argument("domain_name")
 def get_entities(domain_name: str):
-    """The prompt used to extract entities from a document chunk"""
+    """The prompt used to extract entities from a document chunk (assembled at runtime)"""
+    from artmind.prompt_builder import assemble_entities_prompt
+
     data = _load_domain_schema(domain_name)
-    click.echo(data.get("entities_prompt", []))
+    click.echo(assemble_entities_prompt(data))
 
 
 @domains.command("properties-prompt")
 @click.argument("domain_name")
 def get_properties(domain_name: str):
-    """The prompt used to extract properties for the set of entities from a document chunk"""
+    """The prompt used to extract properties for the set of entities from a document chunk (assembled at runtime)"""
+    from artmind.prompt_builder import assemble_properties_prompt
+
     data = _load_domain_schema(domain_name)
-    click.echo(data.get("properties_prompt", []))
+    click.echo(assemble_properties_prompt(data))
 
 
 @domains.command("relationships-prompt")
 @click.argument("domain_name")
 def get_relationships(domain_name: str):
-    """The prompt used to extract relationships from a document chunk"""
+    """The prompt used to extract relationships from a document chunk (assembled at runtime)"""
+    from artmind.prompt_builder import assemble_relationships_prompt
+
     data = _load_domain_schema(domain_name)
-    click.echo(data.get("relationships_prompt", []))
+    click.echo(assemble_relationships_prompt(data))
+
+
+@domains.command("validate")
+@click.option("--domain", default=None, help="Validate one schema by name. Default: all schemas.")
+def domains_validate(domain: str | None):
+    """Check schemas against the meta-schema contract in domains/meta.yaml.
+
+    Fails loudly: a class missing `kind`, an entity_types list (pre-redesign
+    format), or a reserved `_`-prefixed name are all reported here rather than
+    surfacing later as a confusing extraction failure.
+    """
+    from artmind.schema_validate import load_meta, validate_all, validate_schema
+
+    if domain:
+        data = _load_domain_schema(domain)
+        errors = validate_schema(data, load_meta(), schema_name=domain)
+        violations = {domain: errors} if errors else {}
+    else:
+        violations = validate_all()
+
+    if not violations:
+        click.echo("All schemas valid.")
+        return
+    for name, errors in violations.items():
+        for e in errors:
+            click.echo(f"ERROR  {e}")
+    raise click.ClickException(f"{len(violations)} schema(s) failed validation")
 
 
 @domains.command("harmonize")
@@ -2710,6 +2743,7 @@ def init():
         click.echo(f"Skills:      {result['skills_refreshed']} refreshed from package")
         click.echo(f"opencode:    {result['opencode_refreshed']} refreshed from package")
         click.echo(f"Schemas:     {result['schemas_copied']} refreshed from package")
+        click.echo(f"Meta-schema: {result['meta_refreshed']} refreshed from package")
         click.echo("\nNext: edit " + result["run_folder"] + "/.env, then run `artmind setup`.")
     except Exception as e:
         raise click.ClickException(str(e))

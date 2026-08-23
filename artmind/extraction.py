@@ -97,22 +97,28 @@ def entities_list_text(entities: list[dict]) -> str:
 
 
 def build_entities_prompt(text: str, schema: dict) -> str:
-    return schema.get("entities_prompt", "").replace("{text}", text)
+    from artmind.prompt_builder import assemble_entities_prompt
+
+    return assemble_entities_prompt(schema).replace("{text}", text)
 
 
 def build_properties_prompt(text: str, entities: list[dict], schema: dict) -> str:
+    from artmind.prompt_builder import assemble_properties_prompt
+
     ent_list = entities_list_text(entities)
     return (
-        schema.get("properties_prompt", "")
+        assemble_properties_prompt(schema)
         .replace("{entities_list}", ent_list)
         .replace("{text}", text)
     )
 
 
 def build_relationships_prompt(text: str, entities: list[dict], schema: dict) -> str:
+    from artmind.prompt_builder import assemble_relationships_prompt
+
     ent_list = entities_list_text(entities)
     return (
-        schema.get("relationships_prompt", "")
+        assemble_relationships_prompt(schema)
         .replace("{entities_list}", ent_list)
         .replace("{text}", text)
     )

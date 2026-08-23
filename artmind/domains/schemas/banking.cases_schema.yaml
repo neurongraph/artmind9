@@ -1,26 +1,7 @@
 name: banking.cases
-description: Banking incident and customer case records, including investigations, complaints, retention decisions, impact assessments, and remediation.
-
-entity_types:
-  - ACCOUNT
-  - ACCOUNT_HOLDER
-  - AML_SCREENING
-  - CARD
-  - CASE
-  - CUSTOMER
-  - CUSTOMER_COMPLAINT
-  - DIRECT_DEBIT
-  - FRAUD_ALERT
-  - IMPACT_ASSESSMENT
-  - INCIDENT_EVENT
-  - JOINT_ACCOUNT
-  - KYC_VERIFICATION
-  - REMEDIATION_ACTION
-  - RETENTION_DECISION
-  - SAR
-  - STANDING_ORDER
-  - TRANSACTION
-
+description: Banking incident and customer case records, including investigations, complaints, retention
+  decisions, impact assessments, and remediation.
+subject: FirstUK Bank case, incident, and complaint records
 temporal:
   document:
     valid_from:
@@ -31,19 +12,6 @@ temporal:
     - Effective Date
     version:
     - Version
-  entities:
-    CASE:
-      valid_from: opened
-    INCIDENT_EVENT:
-      event_at: date_or_time
-    CUSTOMER_COMPLAINT:
-      event_at: received_date
-    RETENTION_DECISION:
-      event_at: decision_date
-    IMPACT_ASSESSMENT:
-      event_at: assessment_date
-    REMEDIATION_ACTION:
-      event_at: due_date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -51,560 +19,538 @@ temporal:
     superseded_by: null
     time_source: default_ingestion
     valid_from_inferred: true
-
-entities_prompt: |
-  You are a Knowledge Graph extraction engine specialised in FirstUK Bank case, incident, and complaint records.
-  Your job is to read a passage from a FirstUK Bank case document — an incident overview, timeline, complaint record, or retention decision — and identify all significant entities.
-  Extract CASE, INCIDENT_EVENT, CUSTOMER_COMPLAINT, RETENTION_DECISION, IMPACT_ASSESSMENT, and REMEDIATION_ACTION entities. Preserve attributed conflicting counts and their source; never infer a final count when reconciliation is pending.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ENTITY TYPES YOU MUST EXTRACT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
-
-  CASE
-    A formally opened, named incident, complaint, or investigation record — identified by a case ID (e.g., CASE-2026-041) — that ties together the incident timeline, customer complaint, impact assessment, remediation, and retention decision under one owner and status. Extract the case itself as a top-level entity, distinct from any single event, complaint, or decision within it.
-    example type values: data_exposure_case | security_incident_case | fraud_case | customer_complaint_case | regulatory_investigation_case
-
-  INCIDENT_EVENT
-    A discrete, timestamped step in an incident's timeline — a detection, severity classification, containment action, forensic referral, reconciliation finding, or escalation — as recorded in an incident timeline or log. Extract each timeline row or log entry as its own entity, preserving its date/time.
-    example type values: detection | severity_classification | containment_action | forensic_referral | reconciliation_finding | escalation
-
-  CUSTOMER_COMPLAINT
-    A customer's expression of dissatisfaction or a formal request — for an impact explanation, compensation, subject access, or erasure — raised in connection with a case. Extract as an entity distinct from the case itself, capturing what the customer is asking for and how it is being handled.
-    example type values: data_breach_complaint | service_complaint | compensation_request | subject_access_request | erasure_request
-
-  IMPACT_ASSESSMENT
-    A stated finding of how many customers, accounts, or records were affected by an incident, attributed to the team that produced it (e.g., Security's initial count vs. Operations' reconciled count). Extract each distinct assessment as its own entity rather than collapsing conflicting counts into one final number — the conflict and its pending reconciliation are themselves facts to preserve.
-    example type values: initial_assessment | reconciled_assessment | conflicting_count_assessment | scope_assessment | financial_impact_estimate
-
-  REMEDIATION_ACTION
-    A specific corrective or preventive action required before a case can close — a technical fix, a process control, a monitoring period, or a root-cause ownership assignment — distinct from the incident events that preceded it. Extract each named action separately, even when several are listed together in one remediation statement.
-    example type values: technical_fix | process_control | monitoring_period | ownership_assignment | closure_gate
-
-  RETENTION_DECISION
-    A data protection officer's or compliance owner's ruling on whether specific data linked to a case may be suppressed, restricted, retained, or erased — including any active legal or regulatory hold and its scheduled review date. Extract the decision as one entity; the individual data categories it rules on belong in its properties, not as separate entities.
-    example type values: legal_hold | regulatory_hold | erasure_denial | partial_erasure | suppression_decision | hold_review
-
-
-  ACCOUNT
-    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
-    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
-
-  ACCOUNT_HOLDER
-    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
-    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
-
-  AML_SCREENING
-    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
-    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
-
-  CARD
-    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
-    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
-
-  CUSTOMER
-    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
-    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
-
-  DIRECT_DEBIT
-    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
-    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
-
-  FRAUD_ALERT
-    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
-    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
-
-  JOINT_ACCOUNT
-    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
-    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
-
-  KYC_VERIFICATION
-    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
-    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
-
-  SAR
-    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
-    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
-
-  STANDING_ORDER
-    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
-    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
-
-  TRANSACTION
-    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
-    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  1. COMPLETENESS OVER PRECISION
-     When in doubt whether something qualifies, include it.
-     It is easier to remove an entity in validation than to recover a missed one.
-
-  2. CANONICAL NAMES
-     Use the most complete, formal name as the entity name.
-     For CASE: use the case ID as given (e.g. "CASE-2026-041") plus a short descriptive title.
-     RIGHT:   { "name": "CASE-2026-041 — Customer Data Exposure" }
-     For INCIDENT_EVENT: name it by what happened, not by its timestamp alone.
-     RIGHT:   { "name": "Service Disabled and Logs Preserved" }
-     WRONG:   { "name": "Event at 10:42" }
-     For IMPACT_ASSESSMENT: include the attributing team in the name.
-     RIGHT:   { "name": "Security Initial Assessment — 120 Potentially Affected Customers" }
-
-  3. DESCRIPTION QUALITY
-     Write descriptions specific to what THIS document says about the case, event, complaint, assessment, action, or decision — not a generic definition.
-
-  4. CONTEXT SNIPPETS
-     Extract 2–4 verbatim quotes from the text that best characterise this entity.
-     Preserve exact wording — these are used for RAG enrichment.
-
-  5. DO NOT HALLUCINATE
-     Only extract what is in the text. Never invent counts, dates, owners, or outcomes not stated in the passage.
-
-  6. PRESERVE CONFLICTING FIGURES, DO NOT RECONCILE
-     When a document attributes different counts or conclusions to different teams (e.g., Security vs. Operations), extract each as its own IMPACT_ASSESSMENT with its source team and figure intact. Never average, pick one, or silently treat one as final while reconciliation is stated as pending.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT FORMAT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of entity objects:
-
-  {
-    "id":                string,   // generate as {type_abbr}_{sequence}
-                                   // e.g., "case_001", "evt_002", "cmp_003", "imp_004", "rem_005", "ret_006"
-    "name":              string,   // canonical name — descriptive and informative
-    "aliases":           array,    // case IDs, document IDs, short labels
-    "entity_class":      string,   // CASE | INCIDENT_EVENT | CUSTOMER_COMPLAINT | IMPACT_ASSESSMENT | REMEDIATION_ACTION | RETENTION_DECISION
-    "type":              string,   // the subtype from lists above
-    "description":       string,   // 2–4 sentence summary specific to this document
-    "context":           array,    // verbatim text snippets where entity appears
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ The case itself captured as a CASE, separate from its component events, complaint, and decisions?
-    □ Every timeline row or log entry captured as its own INCIDENT_EVENT with its date/time?
-    □ Both Security's and Operations' counts captured as separate IMPACT_ASSESSMENT entities, neither dropped nor merged?
-    □ Every distinct customer request (impact explanation, compensation, subject access, erasure) reflected in the CUSTOMER_COMPLAINT?
-    □ Each remediation step (patch, peer review, monitoring, ownership) captured as its own REMEDIATION_ACTION?
-    □ RETENTION_DECISION captures the hold status and review date, not just the outcome?
-    □ Context snippets are verbatim from text?
-
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __text__
-
-  {text}
-properties_prompt: |
-  You are a Knowledge Graph extraction engine specialised in FirstUK Bank case, incident, and complaint records.
-  Your job is to read a FirstUK Bank case document passage and enrich the provided entities with detailed properties based on the text.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  PROPERTIES MAP GUIDANCE:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  There is NO fixed schema for properties. You decide what matters based on
-  the entity's role in the document.
-
-  Ask yourself: "If an incident commander, complaints handler, or DPO needed to
-  act on this entity, what structured facts from this document would help them?"
-
-  For CASE, consider:
-    - case_id (e.g., CASE-2026-041)
-    - status (open | under_investigation | active_hold | closed)
-    - opened_date
-    - owner (the role accountable for the case, e.g., Incident Commander)
-    - workstream_owners (list of teams/roles and what each owns, e.g., "CTO: containment", "DPO: privacy and holds")
-    - related_documents (linked overview, timeline, complaint, or retention documents)
-    - status_note (any caveat on the status, e.g., "forensic reconciliation pending")
-
-  For INCIDENT_EVENT, consider:
-    - date_or_time (as stated, preserve precision e.g. "2026-07-02 09:18 UTC")
-    - event_type (detection | severity_classification | containment_action | forensic_referral | reconciliation_finding | escalation)
-    - actor_or_team (who performed or observed it)
-    - outcome (what resulted from this step)
-
-  For CUSTOMER_COMPLAINT, consider:
-    - received_date
-    - owner (e.g., Complaints Manager)
-    - status (under_investigation | resolved | escalated)
-    - customer_requests (list, e.g., "impact explanation", "compensation for distress", "subject access", "erasure")
-    - required_actions (list of steps staff must take, e.g., "verify identity", "investigate individual exposure")
-    - review_required_by (roles who must review the response before it is sent)
-    - impact_figure_cited (which count is referenced and its attributed source, if any)
-
-  For IMPACT_ASSESSMENT, consider:
-    - assessment_date
-    - source_team (the team that produced this figure, e.g., Security | Operations)
-    - count (the stated figure)
-    - basis (what the count measures, e.g., "potentially affected" vs. "confirmed affected")
-    - reconciliation_status (pending | reconciled)
-    - excluded_or_adjusted (anything removed or adjusted from a prior count, and why)
-
-  For REMEDIATION_ACTION, consider:
-    - action_description (what must be done)
-    - due_date (if stated)
-    - status (pending | in_progress | complete)
-    - owner_or_team
-    - gate_for_closure (true/false — is the case blocked on this action)
-
-  For RETENTION_DECISION, consider:
-    - decision_date
-    - decision_owner (e.g., Data Protection Officer)
-    - hold_status (active_legal_hold | active_regulatory_hold | no_hold)
-    - data_category_actions (map of data category to action, e.g., "marketing preferences: suppress immediately", "AML/KYC evidence: retain under regulatory obligation")
-    - review_date
-    - erasure_outcome (not_approved_while_hold_active | partially_approved | approved) — never record as a permanent denial unless the document says so
-
-
-  For ACCOUNT, consider:
-    - account_type (savings | current | joint)
-    - account_state (new | active | dormant | frozen | closed)
-    - balance_rules (minimum/maximum balance, dormancy threshold)
-    - closure_or_freeze_conditions
-
-  For ACCOUNT_HOLDER, consider:
-    - holder_type (primary | joint | secondary)
-    - liability_scope
-    - withdrawal_or_signing_authority
-    - due_diligence_requirement
-
-  For AML_SCREENING, consider:
-    - mandatory (yes/no)
-    - screening_lists_or_scope
-    - hit_or_match_response
-    - regulatory_basis
-
-  For CARD, consider:
-    - card_type (debit | credit | prepaid)
-    - card_state (issuance | active | blocked | replacement)
-    - block_or_replacement_conditions
-    - daily_or_contactless_limit
-
-  For CUSTOMER, consider:
-    - customer_type (individual | joint_applicant | existing | new | high_risk | pep)
-    - risk_classification (standard | high_risk | pep | sanctioned)
-    - eligibility_or_verification_status (as stated in this document)
-    - context_role (how this customer appears in this document)
-
-  For DIRECT_DEBIT, consider:
-    - mandate_process
-    - dd_guarantee_coverage
-    - cancellation_or_dispute_process
-
-  For FRAUD_ALERT, consider:
-    - generation_trigger
-    - investigation_or_escalation_path
-    - customer_notification
-    - reimbursement_obligation
-
-  For JOINT_ACCOUNT, consider:
-    - liability_type (joint_and_several | tenants_in_common)
-    - consent_requirements
-    - dual_kyc_or_aml_requirement
-    - closure_consent
-
-  For KYC_VERIFICATION, consider:
-    - mandatory (yes/no)
-    - timing_or_refresh_frequency
-    - verification_method
-    - consequence_of_failure
-
-  For SAR, consider:
-    - filing_obligation
-    - filing_deadline
-    - confidentiality_rule
-    - consequence_of_non_filing
-
-  For STANDING_ORDER, consider:
-    - setup_or_amendment_process
-    - beneficiary_validation
-    - cancellation_process
-    - failure_handling
-
-  For TRANSACTION, consider:
-    - transaction_type (deposit | withdrawal | transfer | fee_charge | suspicious | disputed)
-    - monitoring_or_reporting_obligation
-    - thresholds (monetary value that triggers a rule)
-    - dispute_or_reversal_rules
-
-
-  KEY RULES FOR PROPERTIES:
-    1. Use clear, readable key names (e.g., "due_date" not "date2")
-    2. Use arrays for multiple values
-    3. Use nested objects only when genuinely needed
-    4. Omit a property entirely rather than writing null or "unknown"
-    5. Values should be specific to THIS document, not generic definitions
-    6. Keep individual values concise
-    7. If a property feels forced or uncertain, leave it out
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of objects:
-  {
-    "id":            string,   // entity id from input
-    "name":          string,   // entity name from input
-    "properties":    object,   // enriched properties map
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Example of extracted "properties":
-  "properties": {
-    "assessment_date": "2026-07-02",
-    "source_team": "Security",
-    "count": 120,
-    "basis": "potentially affected customers",
-    "reconciliation_status": "pending",
-    "excluded_or_adjusted": "Operations later removed two failed-download events, yielding 118 confirmed"
-  }
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ No hallucinated properties?
-    □ IMPACT_ASSESSMENT entities include source_team, count, and reconciliation_status?
-    □ CASE entities include status and workstream_owners where stated?
-    □ RETENTION_DECISION entities include hold_status and review_date?
-    □ Properties genuinely useful — not just restating the entity name?
-
-  Extract properties for the following __list_of_entities__ from the __text__ below.
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
-relationships_prompt: |
-  You are a Knowledge Graph extraction engine specialised in FirstUK Bank case, incident, and complaint records.
-  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank case document.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  RELATIONSHIP STRUCTURE:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  All relationships must follow this pattern:
-  (EntityA)-[RELATES_TO {
-    rel_type:      string  (semantic classifier, e.g., "has_event", "produces", "conflicts_with")
-    description:   string  (human-readable summary of this specific relationship)
-    properties:    object  (flexible, rel_type-specific details)
-  }]->(EntityB)
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  COMMON rel_type VALUES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  CASE ↔ INCIDENT_EVENT:
-    has_event, timeline_includes
-
-  CASE ↔ CUSTOMER_COMPLAINT:
-    has_complaint, generates
-
-  CASE ↔ IMPACT_ASSESSMENT:
-    has_assessment, scoped_by
-
-  CASE ↔ REMEDIATION_ACTION:
-    requires, gated_by
-
-  CASE ↔ RETENTION_DECISION:
-    subject_to, has_hold_under
-
-  CASE ↔ CUSTOMER:
-    affects, concerns
-
-  CASE ↔ ACCOUNT:
-    concerns, scopes
-
-  CASE ↔ FRAUD_ALERT:
-    relates_to, escalated_from
-
-  INCIDENT_EVENT ↔ INCIDENT_EVENT:
-    followed_by, precedes, escalates_to
-
-  INCIDENT_EVENT ↔ IMPACT_ASSESSMENT:
-    produces, informs
-
-  INCIDENT_EVENT ↔ REMEDIATION_ACTION:
-    leads_to, precedes
-
-  CUSTOMER_COMPLAINT ↔ CUSTOMER:
-    raised_by, concerns
-
-  CUSTOMER_COMPLAINT ↔ IMPACT_ASSESSMENT:
-    references, cites
-
-  CUSTOMER_COMPLAINT ↔ RETENTION_DECISION:
-    informs, triggers
-
-  IMPACT_ASSESSMENT ↔ IMPACT_ASSESSMENT:
-    conflicts_with, pending_reconciliation_with, reconciled_against
-
-  IMPACT_ASSESSMENT ↔ CUSTOMER:
-    quantifies_impact_on
-
-  IMPACT_ASSESSMENT ↔ ACCOUNT:
-    quantifies_impact_on
-
-  REMEDIATION_ACTION ↔ REMEDIATION_ACTION:
-    precedes, gates
-
-  RETENTION_DECISION ↔ CUSTOMER:
-    rules_on_request_of, concerns
-
-  RETENTION_DECISION ↔ AML_SCREENING:
-    retains_evidence_for
-
-  RETENTION_DECISION ↔ SAR:
-    retains_evidence_for
-
-  RETENTION_DECISION ↔ TRANSACTION:
-    retains_evidence_of
-
-
-  CUSTOMER ↔ ACCOUNT:
-    holds, opens, closes, liable_for
-
-  CUSTOMER ↔ ACCOUNT_HOLDER:
-    designated_as, has_role_as
-
-  CUSTOMER ↔ KYC_VERIFICATION:
-    required_to_complete, verified_by, subject_to
-
-  CUSTOMER ↔ AML_SCREENING:
-    screened_by, applied_to, required_for
-
-  CUSTOMER ↔ SAR:
-    filed_about, concerns
-
-  CUSTOMER ↔ JOINT_ACCOUNT:
-    held_jointly_by, requires_consent_of_both
-
-  CUSTOMER ↔ STANDING_ORDER:
-    initiated_by, belongs_to
-
-  CUSTOMER ↔ DIRECT_DEBIT:
-    authorised_by, belongs_to
-
-  ACCOUNT ↔ ACCOUNT_HOLDER:
-    has_holder, held_by
-
-  ACCOUNT ↔ CARD:
-    linked_to, issues
-
-  ACCOUNT ↔ JOINT_ACCOUNT:
-    classified_as, structured_as
-
-  ACCOUNT ↔ TRANSACTION:
-    records, generates, has_associated
-
-  ACCOUNT ↔ KYC_VERIFICATION:
-    gate_for_opening, required_before_activating
-
-  ACCOUNT ↔ AML_SCREENING:
-    required_before_opening, ongoing_monitoring_of
-
-  ACCOUNT ↔ FRAUD_ALERT:
-    raised_on, results_in_freeze_of
-
-  ACCOUNT ↔ STANDING_ORDER:
-    set_up_on, deducts_from
-
-  ACCOUNT ↔ DIRECT_DEBIT:
-    set_up_on, deducts_from
-
-  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
-    party_to, has_rights_in, liable_under
-
-  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
-    required_for_both_holders_of, applied_to
-
-  AML_SCREENING ↔ TRANSACTION:
-    monitors, screens_for_patterns_in
-
-  AML_SCREENING ↔ SAR:
-    triggers, leads_to_filing_of
-
-  SAR ↔ TRANSACTION:
-    triggered_by, based_on_evidence_from
-
-  FRAUD_ALERT ↔ TRANSACTION:
-    triggered_by, raised_on
-
-  FRAUD_ALERT ↔ CARD:
-    raised_for, protects
-
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  1. EXPLICIT AND IMPLICIT
-     Extract both directly stated relationships ("Operations finds 118 confirmed affected customers")
-     and those clearly implied ("Retain and restrict" incident records → CASE requires RETENTION_DECISION).
-
-  2. CONFLICTING ASSESSMENTS ARE AN EDGE, NOT A MERGE
-     When two IMPACT_ASSESSMENT entities give different counts for the same case, link them with
-     conflicts_with or pending_reconciliation_with rather than discarding one. This is the single
-     most important relationship in an incident case — it preserves the fact that reconciliation
-     is unresolved.
-
-  3. MULTIPLE EDGES ALLOWED
-     Create a separate edge for each distinct relationship between two entities — a case can have
-     many events, several remediation actions, and more than one impact assessment.
-
-  4. PROPERTIES MAP
-     The properties object is flexible and rel_type-specific. Examples:
-
-     For "conflicts_with": { count_a: integer, count_b: integer, reconciliation_status: string }
-     For "gated_by": { blocking: boolean, reason: string }
-     For "has_hold_under": { hold_status: string, review_date: string }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of relationship objects:
-
-  {
-    "source_id":     string,  // id of EntityA
-    "source_name":   string,  // name of EntityA
-    "target_id":     string,  // id of EntityB
-    "target_name":   string,  // name of EntityB
-    "rel_type":      string,  // semantic classifier
-    "description":   string,  // human-readable summary
-    "properties":    object,  // rel_type-specific properties
-    "context":       string,  // verbatim text context from which relationship is derived
-    "bidirectional": boolean  // is this relationship two-way?
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ Does each entity have AT LEAST one relationship?
-    □ All CASE → INCIDENT_EVENT, CASE → CUSTOMER_COMPLAINT, CASE → IMPACT_ASSESSMENT, CASE → REMEDIATION_ACTION, and CASE → RETENTION_DECISION links captured?
-    □ Every pair of conflicting IMPACT_ASSESSMENT entities linked by conflicts_with or pending_reconciliation_with?
-    □ INCIDENT_EVENT sequence captured with followed_by/precedes where the timeline shows order?
-    □ RETENTION_DECISION linked to the evidence classes it retains (AML_SCREENING, SAR, TRANSACTION) when named?
-    □ rel_type values are consistent across document?
-    □ Descriptions are specific to this relationship instance?
-    □ Direction is correct?
-    □ Bidirectional flag is correct?
-
-  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
+entity_types:
+  CASE:
+    kind: recurrent
+    description: A formally opened, named incident, complaint, or investigation record — identified by
+      a case ID (e.g., CASE-2026-041) — that ties together the incident timeline, customer complaint,
+      impact assessment, remediation, and retention decision under one owner and status. Extract the case
+      itself as a top-level entity, distinct from any single event, complaint, or decision within it.
+    type_examples:
+    - data_exposure_case
+    - security_incident_case
+    - fraud_case
+    - customer_complaint_case
+    - regulatory_investigation_case
+    properties:
+      case_id:
+        hint: e.g., CASE-2026-041
+      status:
+        hint: open | under_investigation | active_hold | closed
+      opened_date: {}
+      owner:
+        hint: the role accountable for the case, e.g., Incident Commander
+      workstream_owners:
+        hint: 'list of teams/roles and what each owns, e.g., "CTO: containment", "DPO: privacy and holds"'
+      related_documents:
+        hint: linked overview, timeline, complaint, or retention documents
+      status_note:
+        hint: any caveat on the status, e.g., "forensic reconciliation pending"
+      opened:
+        temporal: valid_from
+    relates_to:
+      INCIDENT_EVENT:
+      - has_event
+      - timeline_includes
+      CUSTOMER_COMPLAINT:
+      - has_complaint
+      - generates
+      IMPACT_ASSESSMENT:
+      - has_assessment
+      - scoped_by
+      REMEDIATION_ACTION:
+      - requires
+      - gated_by
+      RETENTION_DECISION:
+      - subject_to
+      - has_hold_under
+      CUSTOMER:
+      - affects
+      - concerns
+      ACCOUNT:
+      - concerns
+      - scopes
+      FRAUD_ALERT:
+      - relates_to
+      - escalated_from
+    guidance: |-
+      The case itself captured as a CASE, separate from its component events, complaint, and decisions.
+      CASE entities include status and workstream_owners where stated.
+      Naming: use the case ID as given (e.g. "CASE-2026-041") plus a short descriptive title. RIGHT:   { "name": "CASE-2026-041 — Customer Data Exposure" }
+  INCIDENT_EVENT:
+    kind: occurrent
+    description: A discrete, timestamped step in an incident's timeline — a detection, severity classification,
+      containment action, forensic referral, reconciliation finding, or escalation — as recorded in an
+      incident timeline or log. Extract each timeline row or log entry as its own entity, preserving its
+      date/time.
+    type_examples:
+    - detection
+    - severity_classification
+    - containment_action
+    - forensic_referral
+    - reconciliation_finding
+    - escalation
+    properties:
+      date_or_time:
+        hint: as stated, preserve precision e.g. "2026-07-02 09:18 UTC"
+        temporal: event_at
+      event_type:
+        hint: detection | severity_classification | containment_action | forensic_referral | reconciliation_finding
+          | escalation
+      actor_or_team:
+        hint: who performed or observed it
+      outcome:
+        hint: what resulted from this step
+    relates_to:
+      INCIDENT_EVENT:
+      - followed_by
+      - precedes
+      - escalates_to
+      IMPACT_ASSESSMENT:
+      - produces
+      - informs
+      REMEDIATION_ACTION:
+      - leads_to
+      - precedes
+    guidance: |-
+      Every timeline row or log entry captured as its own INCIDENT_EVENT with its date/time.
+      INCIDENT_EVENT sequence captured with followed_by/precedes where the timeline shows order.
+      Naming: name it by what happened, not by its timestamp alone. RIGHT:   { "name": "Service Disabled and Logs Preserved" } WRONG:   { "name": "Event at 10:42" }
+  CUSTOMER_COMPLAINT:
+    kind: recurrent
+    description: A customer's expression of dissatisfaction or a formal request — for an impact explanation,
+      compensation, subject access, or erasure — raised in connection with a case. Extract as an entity
+      distinct from the case itself, capturing what the customer is asking for and how it is being handled.
+    type_examples:
+    - data_breach_complaint
+    - service_complaint
+    - compensation_request
+    - subject_access_request
+    - erasure_request
+    properties:
+      received_date:
+        temporal: event_at
+      owner:
+        hint: e.g., Complaints Manager
+      status:
+        hint: under_investigation | resolved | escalated
+      customer_requests:
+        hint: list, e.g., "impact explanation", "compensation for distress", "subject access", "erasure"
+      required_actions:
+        hint: list of steps staff must take, e.g., "verify identity", "investigate individual exposure"
+      review_required_by:
+        hint: roles who must review the response before it is sent
+      impact_figure_cited:
+        hint: which count is referenced and its attributed source, if any
+    relates_to:
+      CUSTOMER:
+      - raised_by
+      - concerns
+      IMPACT_ASSESSMENT:
+      - references
+      - cites
+      RETENTION_DECISION:
+      - informs
+      - triggers
+    guidance: Every distinct customer request (impact explanation, compensation, subject access, erasure)
+      reflected in the CUSTOMER_COMPLAINT.
+  IMPACT_ASSESSMENT:
+    kind: occurrent
+    description: A stated finding of how many customers, accounts, or records were affected by an incident,
+      attributed to the team that produced it (e.g., Security's initial count vs. Operations' reconciled
+      count). Extract each distinct assessment as its own entity rather than collapsing conflicting counts
+      into one final number — the conflict and its pending reconciliation are themselves facts to preserve.
+    type_examples:
+    - initial_assessment
+    - reconciled_assessment
+    - conflicting_count_assessment
+    - scope_assessment
+    - financial_impact_estimate
+    properties:
+      assessment_date:
+        temporal: event_at
+      source_team:
+        hint: the team that produced this figure, e.g., Security | Operations
+      count:
+        hint: the stated figure
+      basis:
+        hint: what the count measures, e.g., "potentially affected" vs. "confirmed affected"
+      reconciliation_status:
+        hint: pending | reconciled
+      excluded_or_adjusted:
+        hint: anything removed or adjusted from a prior count, and why
+    relates_to:
+      IMPACT_ASSESSMENT:
+      - conflicts_with
+      - pending_reconciliation_with
+      - reconciled_against
+      CUSTOMER:
+      - quantifies_impact_on
+      ACCOUNT:
+      - quantifies_impact_on
+    guidance: |-
+      Both Security's and Operations' counts captured as separate IMPACT_ASSESSMENT entities, neither dropped nor merged.
+      IMPACT_ASSESSMENT entities include source_team, count, and reconciliation_status.
+      Every pair of conflicting IMPACT_ASSESSMENT entities linked by conflicts_with or pending_reconciliation_with.
+      Naming: include the attributing team in the name. RIGHT:   { "name": "Security Initial Assessment — 120 Potentially Affected Customers" }
+  REMEDIATION_ACTION:
+    kind: recurrent
+    description: A specific corrective or preventive action required before a case can close — a technical
+      fix, a process control, a monitoring period, or a root-cause ownership assignment — distinct from
+      the incident events that preceded it. Extract each named action separately, even when several are
+      listed together in one remediation statement.
+    type_examples:
+    - technical_fix
+    - process_control
+    - monitoring_period
+    - ownership_assignment
+    - closure_gate
+    properties:
+      action_description:
+        hint: what must be done
+      due_date:
+        hint: if stated
+        temporal: event_at
+      status:
+        hint: pending | in_progress | complete
+      owner_or_team: {}
+      gate_for_closure:
+        hint: true/false — is the case blocked on this action
+    relates_to:
+      REMEDIATION_ACTION:
+      - precedes
+      - gates
+    guidance: Each remediation step (patch, peer review, monitoring, ownership) captured as its own REMEDIATION_ACTION.
+  RETENTION_DECISION:
+    kind: occurrent
+    description: A data protection officer's or compliance owner's ruling on whether specific data linked
+      to a case may be suppressed, restricted, retained, or erased — including any active legal or regulatory
+      hold and its scheduled review date. Extract the decision as one entity; the individual data categories
+      it rules on belong in its properties, not as separate entities.
+    type_examples:
+    - legal_hold
+    - regulatory_hold
+    - erasure_denial
+    - partial_erasure
+    - suppression_decision
+    - hold_review
+    properties:
+      decision_date:
+        temporal: event_at
+      decision_owner:
+        hint: e.g., Data Protection Officer
+      hold_status:
+        hint: active_legal_hold | active_regulatory_hold | no_hold
+      data_category_actions:
+        hint: 'map of data category to action, e.g., "marketing preferences: suppress immediately", "AML/KYC
+          evidence: retain under regulatory obligation"'
+      review_date: {}
+      erasure_outcome:
+        hint: not_approved_while_hold_active | partially_approved | approved — never record as a permanent
+          denial unless the document says so
+    relates_to:
+      CUSTOMER:
+      - rules_on_request_of
+      - concerns
+      AML_SCREENING:
+      - retains_evidence_for
+      SAR:
+      - retains_evidence_for
+      TRANSACTION:
+      - retains_evidence_of
+    guidance: |-
+      RETENTION_DECISION captures the hold status and review date, not just the outcome.
+      RETENTION_DECISION entities include hold_status and review_date.
+  ACCOUNT:
+    kind: recurrent
+    description: A customer account opened, held, modified, or closed under a banking product — savings,
+      current, or joint. Extract when the document defines rules, state, or events that apply to the account
+      itself.
+    type_examples:
+    - savings_account
+    - current_account
+    - joint_account
+    - new_account
+    - dormant_account
+    - frozen_account
+    - closed_account
+    properties:
+      account_type:
+        hint: savings | current | joint
+      account_state:
+        hint: new | active | dormant | frozen | closed
+      balance_rules:
+        hint: minimum/maximum balance, dormancy threshold
+      closure_or_freeze_conditions: {}
+    relates_to:
+      ACCOUNT_HOLDER:
+      - has_holder
+      - held_by
+      CARD:
+      - linked_to
+      - issues
+      JOINT_ACCOUNT:
+      - classified_as
+      - structured_as
+      TRANSACTION:
+      - records
+      - generates
+      - has_associated
+      KYC_VERIFICATION:
+      - gate_for_opening
+      - required_before_activating
+      AML_SCREENING:
+      - required_before_opening
+      - ongoing_monitoring_of
+      FRAUD_ALERT:
+      - raised_on
+      - results_in_freeze_of
+      STANDING_ORDER:
+      - set_up_on
+      - deducts_from
+      DIRECT_DEBIT:
+      - set_up_on
+      - deducts_from
+  ACCOUNT_HOLDER:
+    kind: recurrent
+    description: A person with legal rights and obligations over an account — primary, joint, or secondary
+      holder — including their liability, authority, and due-diligence obligations.
+    type_examples:
+    - primary_holder
+    - joint_holder
+    - secondary_holder
+    - beneficial_owner
+    - signatory
+    properties:
+      holder_type:
+        hint: primary | joint | secondary
+      liability_scope: {}
+      withdrawal_or_signing_authority: {}
+      due_diligence_requirement: {}
+    relates_to:
+      JOINT_ACCOUNT:
+      - party_to
+      - has_rights_in
+      - liable_under
+  AML_SCREENING:
+    kind: recurrent
+    description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
+      or ongoing screening — as mandated, executed, or reviewed by the document.
+    type_examples:
+    - sanctions_screening
+    - pep_screening
+    - transaction_monitoring
+    - ongoing_monitoring
+    - adverse_media_check
+    properties:
+      mandatory:
+        hint: yes/no
+      screening_lists_or_scope: {}
+      hit_or_match_response: {}
+      regulatory_basis: {}
+    relates_to:
+      TRANSACTION:
+      - monitors
+      - screens_for_patterns_in
+      SAR:
+      - triggers
+      - leads_to_filing_of
+  CARD:
+    kind: recurrent
+    description: A payment card issued to, or referenced in connection with, a customer account — its
+      issuance, use, blocking, or replacement.
+    type_examples:
+    - debit_card
+    - credit_card
+    - prepaid
+    - contactless
+    - replacement_card
+    - card_fraud_scenario
+    properties:
+      card_type:
+        hint: debit | credit | prepaid
+      card_state:
+        hint: issuance | active | blocked | replacement
+      block_or_replacement_conditions: {}
+      daily_or_contactless_limit: {}
+  CUSTOMER:
+    kind: recurrent
+    description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
+      — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
+      the customer is a defined party in the document, not merely mentioned in passing.
+    type_examples:
+    - individual_customer
+    - joint_account_holder
+    - new_customer
+    - existing_customer
+    - high_risk_customer
+    - pep_customer
+    - applicant
+    - prospective_customer
+    properties:
+      customer_type:
+        hint: individual | joint_applicant | existing | new | high_risk | pep
+      risk_classification:
+        hint: standard | high_risk | pep | sanctioned
+      eligibility_or_verification_status:
+        hint: as stated in this document
+      context_role:
+        hint: how this customer appears in this document
+    relates_to:
+      ACCOUNT:
+      - holds
+      - opens
+      - closes
+      - liable_for
+      ACCOUNT_HOLDER:
+      - designated_as
+      - has_role_as
+      KYC_VERIFICATION:
+      - required_to_complete
+      - verified_by
+      - subject_to
+      AML_SCREENING:
+      - screened_by
+      - applied_to
+      - required_for
+      SAR:
+      - filed_about
+      - concerns
+      JOINT_ACCOUNT:
+      - held_jointly_by
+      - requires_consent_of_both
+      STANDING_ORDER:
+      - initiated_by
+      - belongs_to
+      DIRECT_DEBIT:
+      - authorised_by
+      - belongs_to
+  DIRECT_DEBIT:
+    kind: recurrent
+    description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
+      amendment, cancellation, or dispute.
+    type_examples:
+    - dd_mandate_setup
+    - dd_guarantee
+    - dd_cancellation
+    - dd_dispute
+    - indemnity_claim
+    properties:
+      mandate_process: {}
+      dd_guarantee_coverage: {}
+      cancellation_or_dispute_process: {}
+  FRAUD_ALERT:
+    kind: recurrent
+    description: A fraud detection alert or fraud response — its generation, investigation, escalation,
+      or the customer-facing action it triggers.
+    type_examples:
+    - fraud_detection_obligation
+    - card_fraud_event
+    - account_takeover
+    - fraud_investigation
+    - customer_reimbursement
+    properties:
+      generation_trigger: {}
+      investigation_or_escalation_path: {}
+      customer_notification: {}
+      reimbursement_obligation: {}
+    relates_to:
+      TRANSACTION:
+      - triggered_by
+      - raised_on
+      CARD:
+      - raised_for
+      - protects
+  JOINT_ACCOUNT:
+    kind: recurrent
+    description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
+      and consent requirements.
+    type_examples:
+    - joint_and_several
+    - tenants_in_common
+    - joint_account_arrangement
+    properties:
+      liability_type:
+        hint: joint_and_several | tenants_in_common
+      consent_requirements: {}
+      dual_kyc_or_aml_requirement: {}
+      closure_consent: {}
+  KYC_VERIFICATION:
+    kind: recurrent
+    description: The Know Your Customer identity/address verification process — as a compliance obligation,
+      an operational procedure, or an audited control. Extract when the document defines, executes, or
+      evaluates KYC requirements.
+    type_examples:
+    - identity_verification
+    - address_verification
+    - enhanced_due_diligence
+    - periodic_refresh
+    - document_collection
+    properties:
+      mandatory:
+        hint: yes/no
+      timing_or_refresh_frequency: {}
+      verification_method: {}
+      consequence_of_failure: {}
+    relates_to:
+      JOINT_ACCOUNT:
+      - required_for_both_holders_of
+      - applied_to
+  SAR:
+    kind: occurrent
+    description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
+      SAR to the relevant authority (e.g. the NCA).
+    type_examples:
+    - sar_obligation
+    - sar_filing_deadline
+    - internal_sar
+    - external_sar
+    - sar_confidentiality
+    properties:
+      filing_obligation: {}
+      filing_deadline: {}
+      confidentiality_rule: {}
+      consequence_of_non_filing: {}
+    relates_to:
+      TRANSACTION:
+      - triggered_by
+      - based_on_evidence_from
+  STANDING_ORDER:
+    kind: recurrent
+    description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
+      or failure handling.
+    type_examples:
+    - standing_order_setup
+    - standing_order_amendment
+    - standing_order_cancellation
+    - payment_failure_handling
+    properties:
+      setup_or_amendment_process: {}
+      beneficiary_validation: {}
+      cancellation_process: {}
+      failure_handling: {}
+  TRANSACTION:
+    kind: occurrent
+    description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
+      fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
+      document.
+    type_examples:
+    - deposit
+    - withdrawal
+    - transfer
+    - fee_charge
+    - suspicious_transaction
+    - high_value_transaction
+    - disputed_transaction
+    - monitored_transaction
+    properties:
+      transaction_type:
+        hint: deposit | withdrawal | transfer | fee_charge | suspicious | disputed
+      monitoring_or_reporting_obligation: {}
+      thresholds:
+        hint: monetary value that triggers a rule
+      dispute_or_reversal_rules: {}
+guidance:
+  relationships: |-
+    All CASE → INCIDENT_EVENT, CASE → CUSTOMER_COMPLAINT, CASE → IMPACT_ASSESSMENT, CASE → REMEDIATION_ACTION, and CASE → RETENTION_DECISION links captured.
+    RETENTION_DECISION linked to the evidence classes it retains (AML_SCREENING, SAR, TRANSACTION) when named.

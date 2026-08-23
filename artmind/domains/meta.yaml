@@ -1,0 +1,235 @@
+# The meta-schema: the contract every domains/schemas/*_schema.yaml must
+# satisfy, and the boilerplate every extraction prompt is assembled from at
+# runtime (see artmind/prompt_builder.py). Lives one level ABOVE
+# domains/schemas/ so it is never itself enumerated as a domain -- every glob
+# that lists schemas matches `*_schema.yaml` inside domains/schemas/ only.
+#
+# A domain schema declares WHAT (entity classes, their properties, their
+# relations) as structured data. This file declares the CONTRACT that data
+# must meet, plus the HOW -- the prose shell every prompt shares -- so a
+# schema author writes only the domain-specific content once, in one place,
+# in one shape.
+#
+# Placeholders below are `{{DOUBLE_BRACE}}` tokens, filled in by
+# prompt_builder.py via plain string replacement -- deliberately not
+# str.format(), since the OUTPUT FORMAT section below contains literal JSON
+# `{` `}` that must survive untouched. `{text}` and `{entities_list}` (single
+# brace, lowercase) are a separate, older substitution layer: prompt_builder
+# leaves them in place and extraction.py's build_*_prompt() fills them per
+# chunk, exactly as it does today.
+
+reserved_prefix: "_"
+
+kinds:
+  recurrent: >
+    Persists and can change over time -- a rate, a policy, a role. Two
+    observations disagreeing may be temporal variation, not conflict. Naming
+    rule: a recurrent class's name must never embed a measurement or a date --
+    that is what makes it possible to recognise the same thing again later.
+  occurrent: >
+    A point event, complete once it has happened -- an incident, an audit
+    finding, a filed report. Two observations disagreeing is always a
+    conflict; a completed event's attributes do not drift.
+
+# Every entity carries these regardless of domain -- the properties an
+# extraction prompt's OUTPUT FORMAT section always emits, on top of whatever
+# a class declares under its own `properties:`.
+entity_common_properties: [name, aliases, entity_class, type, description, context]
+
+default_persona: "a subject-matter analyst"
+
+prompt_templates:
+
+  entities: |
+    You are a Knowledge Graph extraction engine specialised in {{SUBJECT}}.
+    Your job is to read a passage from a document and identify all significant entities.
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    ENTITY TYPES YOU MUST EXTRACT:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
+
+    {{CLASS_BLOCKS}}
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    EXTRACTION RULES:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    1. COMPLETENESS OVER PRECISION
+       When in doubt whether something qualifies, include it.
+       It is easier to remove an entity in validation than to recover a missed one.
+
+    2. CANONICAL NAMES
+       Use the most complete, formal name as the entity name.
+       Store short forms, codes, and alternate references in aliases.
+       RIGHT:   { "name": "Northwind Regional Office", "aliases": ["NW-Office", "Northwind"] }
+       WRONG:   { "name": "NW-Office" }
+
+    3. DESCRIPTION QUALITY
+       Write descriptions as {{PERSONA}} would -- specific to this document's content, never a generic textbook definition.
+
+    4. CONTEXT SNIPPETS
+       Extract 2-4 verbatim quotes from the text that best characterise this entity.
+       Preserve exact wording. These are used for RAG enrichment.
+
+    5. DO NOT HALLUCINATE
+       Only extract what is in the text. If a property is unknown, omit it.
+       Never invent details, dates, or figures not present in the passage.
+    {{GUIDANCE}}
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    OUTPUT FORMAT:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Return a JSON array of entity objects:
+
+    {
+      "id":                string,   // generate as {class_abbr}_{sequence} -- a short lowercase abbreviation of the entity_class, e.g. "prd_001"
+      "name":              string,   // canonical name
+      "aliases":           array,    // short forms, codes, alternate labels
+      "entity_class":      string,   // {{CLASS_ENUM}}
+      "type":              string,   // the subtype from the list above
+      "description":       string,   // 2-4 sentence summary specific to this document
+      "context":           array,    // verbatim text snippets where entity appears
+    }
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    QUALITY CHECKLIST:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Before responding, verify:
+      □ Every entity class with a presence in this passage captured?
+      □ Canonical names used consistently, with short forms in aliases?
+      □ Context snippets are verbatim from text?
+      □ Every entity genuinely significant (no noise)?
+
+    Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+    __text__
+
+    {text}
+
+  properties: |
+    You are a Knowledge Graph extraction engine specialised in {{SUBJECT}}.
+    Your job is to read a document passage and enrich the provided entities with detailed properties based on the text.
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    PROPERTIES MAP GUIDANCE:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    There is NO fixed schema for properties beyond what is listed below. You
+    decide what matters based on the entity's role in the document.
+
+    {{PROPERTY_BLOCKS}}
+    {{GUIDANCE}}
+    KEY RULES FOR PROPERTIES:
+      1. Use clear, readable key names (e.g., "fee_amount" not "amt")
+      2. Use arrays for multiple values
+      3. Use nested objects only when genuinely needed
+      4. Omit a property entirely rather than writing null or "unknown"
+      5. Values should be specific to THIS document, not generic definitions
+      6. Keep individual values concise
+      7. If a property feels forced or uncertain, leave it out
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    OUTPUT:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Return a JSON array of objects:
+    {
+      "id":            string,   // entity id from input
+      "name":          string,   // entity name from input
+      "properties":    object,   // enriched properties map
+    }
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    QUALITY CHECKLIST:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Before responding, verify:
+      □ No hallucinated properties?
+      □ Properties genuinely useful -- not just restating the entity name?
+
+    Extract properties for the following __list_of_entities__ from the __text__ below.
+    Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+    __list_of_entities__
+    {entities_list}
+
+    __text__
+    {text}
+
+  relationships: |
+    You are a Knowledge Graph extraction engine specialised in {{SUBJECT}}.
+    Your job is to identify and extract all meaningful relationships between entities in a document.
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    RELATIONSHIP STRUCTURE:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    All relationships must follow this pattern:
+    (EntityA)-[RELATES_TO {
+      rel_type:      string  (semantic classifier -- ONE of the values listed for this pair below; NEVER an entity class name)
+      description:   string  (human-readable summary of this specific relationship)
+      properties:    object  (flexible, rel_type-specific details)
+    }]->(EntityB)
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    COMMON rel_type VALUES, BY ENTITY PAIR:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    Each line below is ONE pair. rel_type must be one of the values named on
+    that line -- never the class name on either side of the arrow, and never a
+    line from this list copied verbatim.
+
+    {{RELATIONSHIP_BLOCKS}}
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    EXTRACTION RULES:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    1. EXPLICIT AND IMPLICIT
+       Extract both directly stated relationships and those clearly implied by context.
+
+    2. MULTIPLE EDGES ALLOWED
+       If two entities have multiple distinct relationships, create multiple edges.
+
+    3. DIRECTION MATTERS
+       Pay close attention to direction -- "A leads B" is different from "B leads A".
+
+    4. PROPERTIES MAP
+       The properties object is flexible and rel_type-specific -- capture whatever
+       detail the text gives for that specific relationship instance.
+    {{GUIDANCE}}
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    OUTPUT:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Return a JSON array of relationship objects:
+
+    {
+      "source_id":     string,  // id of EntityA
+      "source_name":   string,  // name of EntityA
+      "target_id":     string,  // id of EntityB
+      "target_name":   string,  // name of EntityB
+      "rel_type":      string,  // semantic classifier -- from the list above, never a class name
+      "description":   string,  // human-readable summary
+      "properties":    object,  // rel_type-specific properties
+      "context":       string,  // verbatim text context from which relationship is derived
+      "bidirectional": boolean  // is this relationship two-way?
+    }
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    QUALITY CHECKLIST:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Before responding, verify:
+      □ Does each entity have AT LEAST one relationship?
+      □ rel_type values are consistent across the document, and none of them is an entity class name?
+      □ Descriptions are specific to this relationship instance?
+      □ Direction of relationships is correct?
+      □ Bidirectional flag is correct?
+
+    Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
+    Return only the JSON array. No preamble. No explanation. No markdown code fences.
+
+    __list_of_entities__
+    {entities_list}
+
+    __text__
+    {text}

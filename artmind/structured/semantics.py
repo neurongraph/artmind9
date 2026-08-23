@@ -19,7 +19,7 @@ wrong in the permissive direction is the costly one -- a `normative` table
 mistaken for `instance` silently skips the quarantine rule. Mapping is the same
 kind of question one level down: whether a column's sampled values *denote*
 instances of a schema class. It reads the domain schema's class descriptions
-(``schema_reference.parse_entities``) rather than string-matching against
+(the structured ``entity_types`` map) rather than string-matching against
 whichever entities happen to have been extracted already, so a table is
 classifiable the moment it lands -- even in a domain with no ingested documents
 at all.
@@ -318,7 +318,7 @@ def propose_mapping(
     gives bridge columns.
 
     Raises ``ValueError`` if ``domain`` has no schema file (or no
-    ``entities_prompt``) — a distinct, clearly-reported failure from "schema
+    ``entity_types``) — a distinct, clearly-reported failure from "schema
     exists but has zero parseable classes," which returns ``[]`` instead.
 
     ``only_columns``, when given, additionally restricts *persistence* to that
@@ -327,7 +327,6 @@ def propose_mapping(
     because the whole table was re-profiled.
     """
     from artmind.extraction import call_llm, parse_json_response
-    from artmind.schema_reference import parse_entities
     from artmind.temporal import load_schema
     from utils.functions import load_env, resolve_llm_model
 
@@ -336,15 +335,18 @@ def propose_mapping(
         raise ValueError(f"no registered table with id {table_id}")
 
     schema = load_schema(domain)
-    entities_prompt = schema.get("entities_prompt")
-    if not entities_prompt:
+    if "entity_types" not in schema:
         raise ValueError(
-            f"domain '{domain}' has no schema file (or no entities_prompt) — the mapping"
+            f"domain '{domain}' has no schema file (or no entity_types) — the mapping"
             " step needs the domain's entity schema to judge column classes against. Check"
             " domains/schemas/, or run 'artmind domains harmonize' if this is a dotted"
             " sub-domain."
         )
-    classes = parse_entities(entities_prompt)
+    entity_types = schema.get("entity_types") or {}
+    classes = [
+        {"class": cls, "description": decl.get("description", ""), "types": decl.get("type_examples", [])}
+        for cls, decl in entity_types.items()
+    ]
     if not classes:
         return []
 

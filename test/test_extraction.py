@@ -10,25 +10,51 @@ from artmind.extraction import (
 )
 
 
+# Post-redesign (Phase 1), prompts are assembled at runtime from meta.yaml +
+# a schema's structured entity_types map -- there is no more literal
+# `entities_prompt` string field to pass through. This fixture exercises the
+# assembly + the final per-chunk {text}/{entities_list} substitution together.
+SCHEMA = {
+    "name": "fixture",
+    "description": "a fixture domain",
+    "entity_types": {
+        "PERSON": {
+            "kind": "recurrent",
+            "description": "A named individual.",
+            "type_examples": ["author", "subject"],
+            "properties": {"role": {"hint": "their role in the document"}},
+            "relates_to": {"LOCATION": ["visited", "lives_in"]},
+        },
+        "LOCATION": {
+            "kind": "recurrent",
+            "description": "A place.",
+            "type_examples": ["country", "city"],
+        },
+    },
+}
+
+
 def test_build_entities_prompt_substitutes_text():
-    schema = {"entities_prompt": "Extract from: {text}"}
-    assert build_entities_prompt("my text", schema) == "Extract from: my text"
+    result = build_entities_prompt("my text", SCHEMA)
+    assert result.rstrip().endswith("my text")
+    assert "PERSON" in result
+    assert "LOCATION" in result
 
 
 def test_build_properties_prompt_substitutes_entities_and_text():
-    schema = {"properties_prompt": "Entities: {entities_list}\nText: {text}"}
     entities = [{"id": "e0", "entity_class": "PERSON", "name": "Alice"}]
-    result = build_properties_prompt("my text", entities, schema)
+    result = build_properties_prompt("my text", entities, SCHEMA)
     assert "e0 (PERSON): Alice" in result
     assert "my text" in result
+    assert "role" in result
 
 
 def test_build_relationships_prompt_substitutes_entities_and_text():
-    schema = {"relationships_prompt": "Rels: {entities_list}\nText: {text}"}
     entities = [{"id": "e0", "entity_class": "PERSON", "name": "Alice"}]
-    result = build_relationships_prompt("my text", entities, schema)
+    result = build_relationships_prompt("my text", entities, SCHEMA)
     assert "e0 (PERSON): Alice" in result
     assert "my text" in result
+    assert "visited" in result
 
 
 def test_entities_list_text_formats_correctly():

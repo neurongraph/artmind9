@@ -80,6 +80,13 @@ _PKG_SCHEMAS = Path(__file__).resolve().parent.parent / "artmind" / "domains" / 
 if _PKG_SCHEMAS.is_dir():
     shutil.copytree(_PKG_SCHEMAS, Path(_TEST_RUN_ROOT) / "domains" / "schemas")
 
+# Same reasoning for the meta-schema contract (domains/meta.yaml, one level
+# above schemas/) -- artmind.prompt_builder/schema_validate read it via
+# paths.DOMAIN_META_PATH, which resolves under this same temp ARTMIND_HOME.
+_PKG_META = Path(__file__).resolve().parent.parent / "artmind" / "domains" / "meta.yaml"
+if _PKG_META.is_file():
+    shutil.copy2(_PKG_META, Path(_TEST_RUN_ROOT) / "domains" / "meta.yaml")
+
 import pytest
 
 

@@ -53,6 +53,11 @@ ARTMIND_VAULT_DIR = Path(_vault).expanduser().resolve() if _vault else None
 # ── package-shipped seed defaults (read-only; copied into the run folder) ──────
 PACKAGE_SKILLS_DIR = _SELF_DIR / "artmind" / "skills"
 PACKAGE_SCHEMAS_DIR = _SELF_DIR / "artmind" / "domains" / "schemas"
+# One level ABOVE domains/schemas/ -- deliberately outside every `*_schema.yaml`
+# glob (cli.py's `_get_available_domains`, harmonizer.py's `harmonize_all`,
+# schema_reference.py's `list_schema_families`/`find_family_schemas`), so it is
+# never enumerated as if it were a domain named "_meta".
+PACKAGE_META_YAML = _SELF_DIR / "artmind" / "domains" / "meta.yaml"
 PACKAGE_ENV_EXAMPLE = _SELF_DIR / "artmind" / "env.example"
 # opencode/ACP persona; opencode reads .opencode/agent/ (and .claude/skills/)
 # relative to its cwd, which is the run folder.
@@ -63,6 +68,7 @@ PROJECT_ROOT = _SELF_DIR
 
 # ── config / query side (under ARTMIND_HOME) ───────────────────────────────────
 DOMAIN_SCHEMAS_DIR = ARTMIND_HOME / "domains" / "schemas"
+DOMAIN_META_PATH = ARTMIND_HOME / "domains" / "meta.yaml"
 LOGS_DIR = ARTMIND_HOME / "logs"
 INGEST_LOG_FILE = LOGS_DIR / "artmind_ingestion.log"
 QUERY_LOG_FILE = LOGS_DIR / "artmind_query.log"

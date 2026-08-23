@@ -1,27 +1,9 @@
 name: banking.products
-description: Product terms & conditions, pricing guides, and customer FAQs for FirstUK Bank retail banking products — covering savings accounts, current accounts, mortgages, and debit cards with their interest rates, fees, eligibility rules, and contractual provisions.
-
-entity_types:
-  - ACCOUNT
-  - ACCOUNT_HOLDER
-  - AML_SCREENING
-  - CARD
-  - CUSTOMER
-  - DIRECT_DEBIT
-  - ELIGIBILITY_RULE
-  - FAQ_ITEM
-  - FEE
-  - FRAUD_ALERT
-  - INTEREST_RATE_TIER
-  - JOINT_ACCOUNT
-  - KYC_VERIFICATION
-  - PRODUCT
-  - PRODUCT_FEATURE
-  - SAR
-  - STANDING_ORDER
-  - TERMS_CLAUSE
-  - TRANSACTION
-
+description: Product terms & conditions, pricing guides, and customer FAQs for FirstUK Bank retail banking
+  products — covering savings accounts, current accounts, mortgages, and debit cards with their interest
+  rates, fees, eligibility rules, and contractual provisions.
+subject: banking product documentation analysis
+persona: a banking product analyst
 temporal:
   document:
     valid_from:
@@ -30,11 +12,6 @@ temporal:
     - Last Updated
     version:
     - Version
-  entities:
-    PRODUCT:
-      valid_from: effective_date
-    INTEREST_RATE_TIER:
-      valid_from: effective_date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -42,627 +19,647 @@ temporal:
     superseded_by: null
     time_source: default_ingestion
     valid_from_inferred: true
-
-entities_prompt: |
-  You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
-  Your job is to read a passage from a FirstUK Bank product document and identify all significant entities.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ENTITY TYPES YOU MUST EXTRACT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
-
-  PRODUCT
-    A distinct banking product or sub-product offered by FirstUK Bank to customers. Each named product variant (SmartSaver Account, SmartSaver Plus, Current Account, Mortgage) is a separate entity. Include both the product name and its product_id code when stated. Note: payment cards are extracted as CARD entities, not PRODUCT. Joint account arrangements are extracted as JOINT_ACCOUNT entities, not PRODUCT.
-    example type values: savings_account | premium_savings | current_account | mortgage | isa | business_account
-
-  PRODUCT_FEATURE
-    A specific capability, service, or entitlement included in a product — something that describes what the customer can do with or through the product. Capture features that differentiate products or are customer-facing benefits, not internal mechanics.
-    example type values: access_feature | payment_feature | channel_feature | service_feature | security_feature | premium_service | protection_scheme
-
-  INTEREST_RATE_TIER
-    A specific interest rate applied to a defined balance range or product variant. Capture both the rate value and the balance threshold together as a single entity. Include both AER and gross rates when both are stated.
-    example type values: savings_rate | tiered_rate | fixed_mortgage_rate | variable_mortgage_rate | overdraft_rate | penalty_rate
-
-  FEE
-    A specific charge levied on the customer for a transaction type, service, or event. Capture the fee name, amount, and the triggering condition as a single entity. Include £0 fees only when they are explicitly called out as a feature (e.g., "no monthly fee").
-    example type values: transaction_fee | card_fee | service_fee | penalty_fee | overdraft_fee | maintenance_fee | closure_fee
-
-  ELIGIBILITY_RULE
-    A condition that a customer must satisfy to open, hold, or access a product. Include identity, residency, age, and balance requirements. These define who the product is for.
-    example type values: age_requirement | residency_requirement | identity_requirement | balance_requirement | credit_requirement | account_type_requirement
-
-  TERMS_CLAUSE
-    A specific contractual provision that governs the rights, obligations, or procedures between the customer and the bank under the product. This includes liability rules, dispute resolution, fraud protections, dormancy policies, data rights, and change-of-terms provisions. Each distinct clause is a separate entity.
-    example type values: liability_clause | fraud_protection | closure_rule | joint_account_provision | data_protection_right | dormancy_policy | change_of_terms | interest_calculation_rule | direct_debit_guarantee | regulatory_protection
-
-  FAQ_ITEM
-    A customer question and its official answer as a paired unit. Capture the question topic and key answer points together. Extract FAQ items that convey policy decisions, product rules, or useful customer guidance not otherwise captured in the above classes.
-    example type values: account_basics | interest_query | fees_query | access_query | security_query | process_query | eligibility_query | dispute_query
-
-
-  ACCOUNT
-    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
-    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
-
-  ACCOUNT_HOLDER
-    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
-    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
-
-  AML_SCREENING
-    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
-    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
-
-  CARD
-    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
-    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
-
-  CUSTOMER
-    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
-    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
-
-  DIRECT_DEBIT
-    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
-    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
-
-  FRAUD_ALERT
-    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
-    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
-
-  JOINT_ACCOUNT
-    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
-    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
-
-  KYC_VERIFICATION
-    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
-    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
-
-  SAR
-    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
-    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
-
-  STANDING_ORDER
-    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
-    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
-
-  TRANSACTION
-    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
-    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction
-
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  1. COMPLETENESS OVER PRECISION
-     When in doubt whether something qualifies, include it.
-     It is easier to remove an entity in validation than to recover a missed one.
-
-  2. CANONICAL NAMES
-     Use the most complete, formal name as the entity name.
-     Store short forms and abbreviations in aliases.
-     RIGHT:   { "name": "SmartSaver Account", "aliases": ["SAV-001", "SmartSaver"] }
-     WRONG:   { "name": "SAV-001" }
-     For INTEREST_RATE_TIER: include the rate and tier range in the name.
-     RIGHT:   { "name": "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)" }
-
-  3. DESCRIPTION QUALITY
-     Write descriptions as a banking product analyst would — specific to this document's content.
-     Include key numbers (rates, fees, limits) in descriptions when stated.
-
-  4. CONTEXT SNIPPETS
-     Extract 2–4 verbatim quotes from the text that best characterise this entity.
-     Preserve exact wording. These are used for RAG enrichment.
-
-  5. DO NOT HALLUCINATE
-     Only extract what is in the text. If a rate, fee, or rule is not in the passage, omit it.
-     Never invent product features, rates, or eligibility criteria.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT FORMAT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of entity objects:
-
-  {
-    "id":                string,   // generate as {type_abbr}_{sequence}
-                                   // e.g., "prd_001", "ftr_002", "rat_003", "fee_004", "elig_005", "cls_006", "faq_007"
-    "name":              string,   // canonical name (include rate/amount in name for INTEREST_RATE_TIER and FEE)
-    "aliases":           array,    // product codes, short names, alternate labels
-    "entity_class":      string,   // PRODUCT | PRODUCT_FEATURE | INTEREST_RATE_TIER | FEE | ELIGIBILITY_RULE | TERMS_CLAUSE | FAQ_ITEM
-    "type":              string,   // the subtype from lists above
-    "description":       string,   // 2–4 sentence summary specific to this document
-    "context":           array,    // verbatim text snippets where entity appears
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ All named products and product variants captured?
-    □ All interest rate tiers captured with rate value AND balance range in the name?
-    □ All fees captured, including explicitly free services (£0 fee)?
-    □ All customer eligibility requirements captured?
-    □ Key contractual provisions (liability, fraud protection, closure, data rights) captured?
-    □ Significant FAQ items captured as paired question-answer entities?
-    □ Canonical names include key figures (rate %, fee amount)?
-    □ Context snippets are verbatim from text?
-    □ Every entity genuinely significant (no noise)?
-
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __text__
-
-  {text}
-properties_prompt: |
-  You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
-  Your job is to read a FirstUK Bank product document passage and enrich the provided entities with detailed properties based on the text.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  PROPERTIES MAP GUIDANCE:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  There is NO fixed schema for properties. You decide what matters based on
-  the entity's role in the document.
-
-  Ask yourself: "If a customer or product manager asked a question about this
-  entity, what structured facts from this document would help answer it?"
-
-  For PRODUCT, consider:
-    - product_id (e.g., SAV-001)
-    - product_type (savings | current | mortgage | card)
-    - target_customer (who it is designed for)
-    - minimum_opening_balance (£ amount)
-    - maximum_balance (£ amount or "unlimited")
-    - overdraft_available (yes/no and terms)
-    - monthly_fee (£ amount)
-    - interest_rate_type (fixed | variable | tiered_variable)
-    - interest_payment_frequency (monthly | annual)
-    - available_channels (branch | online | mobile | postal)
-    - regulatory_protections (e.g., FSCS up to £85,000)
-    - competitive_positioning (how it compares to market)
-    - effective_date (when current terms became effective)
-
-  For PRODUCT_FEATURE, consider:
-    - feature_description (what the customer can do)
-    - available_in_products (which products include this)
-    - conditions (any conditions on using the feature)
-    - channel (online | branch | ATM | app)
-    - limits (e.g., ATM daily limit £500)
-    - cost (free or fees apply)
-
-  For INTEREST_RATE_TIER, consider:
-    - rate_value (percentage, e.g., 4.50)
-    - rate_format (AER | Gross | APR)
-    - balance_min (lower bound of balance range, £)
-    - balance_max (upper bound of balance range, £ or "unlimited")
-    - rate_type (fixed | variable | tiered_variable)
-    - rate_basis (e.g., "BoE Base Rate + 2.5% margin")
-    - review_frequency (how often rate is reviewed)
-    - effective_date (when this rate took effect)
-    - example_calculation (example as shown in document)
-    - product_id (which product this rate applies to)
-
-  For FEE, consider:
-    - fee_amount (£ value or "free")
-    - trigger_event (what causes this fee)
-    - frequency (one-time | per_transaction | monthly | annual)
-    - applies_to_products (list)
-    - conditions (any conditions that apply or waive the fee)
-    - comparison_note (if document compares to competitors)
-
-  For ELIGIBILITY_RULE, consider:
-    - rule_description (the requirement in plain language)
-    - rule_type (mandatory | conditional)
-    - applies_to_products (list)
-    - verification_method (how the bank checks this)
-    - exception (any stated exceptions)
-    - consequence_of_failure (what happens if not met)
-
-  For TERMS_CLAUSE, consider:
-    - clause_summary (the provision in plain language)
-    - customer_rights (what the customer is entitled to)
-    - bank_obligations (what the bank must do)
-    - customer_obligations (what the customer must do)
-    - time_limits (any deadlines stated, e.g., "within 10 business days")
-    - applies_to_products (list)
-    - regulatory_basis (which regulation drives this, if stated)
-    - exception_or_caveat (any stated exceptions)
-
-  For FAQ_ITEM, consider:
-    - question (the customer question as asked)
-    - answer_summary (key points of the official answer)
-    - products_covered (which products the Q&A applies to)
-    - related_policy (if the answer references a specific rule or policy)
-    - customer_action (what the customer should do based on the answer)
-    - urgency (routine | important | time_sensitive)
-
-
-  For ACCOUNT, consider:
-    - account_type (savings | current | joint)
-    - account_state (new | active | dormant | frozen | closed)
-    - balance_rules (minimum/maximum balance, dormancy threshold)
-    - closure_or_freeze_conditions
-
-  For ACCOUNT_HOLDER, consider:
-    - holder_type (primary | joint | secondary)
-    - liability_scope
-    - withdrawal_or_signing_authority
-    - due_diligence_requirement
-
-  For AML_SCREENING, consider:
-    - mandatory (yes/no)
-    - screening_lists_or_scope
-    - hit_or_match_response
-    - regulatory_basis
-
-  For CARD, consider:
-    - card_type (debit | credit | prepaid)
-    - card_state (issuance | active | blocked | replacement)
-    - block_or_replacement_conditions
-    - daily_or_contactless_limit
-
-  For CUSTOMER, consider:
-    - customer_type (individual | joint_applicant | existing | new | high_risk | pep)
-    - risk_classification (standard | high_risk | pep | sanctioned)
-    - eligibility_or_verification_status (as stated in this document)
-    - context_role (how this customer appears in this document)
-
-  For DIRECT_DEBIT, consider:
-    - mandate_process
-    - dd_guarantee_coverage
-    - cancellation_or_dispute_process
-
-  For FRAUD_ALERT, consider:
-    - generation_trigger
-    - investigation_or_escalation_path
-    - customer_notification
-    - reimbursement_obligation
-
-  For JOINT_ACCOUNT, consider:
-    - liability_type (joint_and_several | tenants_in_common)
-    - consent_requirements
-    - dual_kyc_or_aml_requirement
-    - closure_consent
-
-  For KYC_VERIFICATION, consider:
-    - mandatory (yes/no)
-    - timing_or_refresh_frequency
-    - verification_method
-    - consequence_of_failure
-
-  For SAR, consider:
-    - filing_obligation
-    - filing_deadline
-    - confidentiality_rule
-    - consequence_of_non_filing
-
-  For STANDING_ORDER, consider:
-    - setup_or_amendment_process
-    - beneficiary_validation
-    - cancellation_process
-    - failure_handling
-
-  For TRANSACTION, consider:
-    - transaction_type (deposit | withdrawal | transfer | fee_charge | suspicious | disputed)
-    - monitoring_or_reporting_obligation
-    - thresholds (monetary value that triggers a rule)
-    - dispute_or_reversal_rules
-
-
-  KEY RULES FOR PROPERTIES:
-    1. Use clear, readable key names (e.g., "fee_amount" not "amt")
-    2. Use arrays for multiple values
-    3. Use nested objects only when genuinely needed
-    4. Omit a property entirely rather than writing null or "unknown"
-    5. Values should be specific to THIS document, not generic definitions
-    6. Keep individual values concise
-    7. If a property feels forced or uncertain, leave it out
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of objects:
-  {
-    "id":            string,   // entity id from input
-    "name":          string,   // entity name from input
-    "properties":    object,   // enriched properties map
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Example of extracted "properties":
-  "properties": {
-    "product_id": "SAV-001",
-    "product_type": "savings_account",
-    "minimum_opening_balance": "£1.00",
-    "maximum_balance": "unlimited",
-    "monthly_fee": "£0.00",
-    "interest_rate_type": "tiered_variable",
-    "interest_payment_frequency": "monthly",
-    "regulatory_protections": ["FSCS up to £85,000", "Direct Debit Guarantee"],
-    "available_channels": ["online", "branch", "postal"],
-    "effective_date": "2026-01-15"
-  }
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ No hallucinated properties?
-    □ INTEREST_RATE_TIER entities include rate_value, balance_min, balance_max, rate_basis?
-    □ FEE entities include fee_amount and trigger_event?
-    □ TERMS_CLAUSE entities include time_limits when stated?
-    □ Properties genuinely useful — not just restating the entity name?
-
-  Extract properties for the following __list_of_entities__ from the __text__ below.
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
-relationships_prompt: |
-  You are a Knowledge Graph extraction engine specialised in banking product documentation analysis.
-  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank product document.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  RELATIONSHIP STRUCTURE:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  All relationships must follow this pattern:
-  (EntityA)-[RELATES_TO {
-    rel_type:      string  (semantic classifier, e.g., "has_rate_tier", "charges_fee", "requires")
-    description:   string  (human-readable summary of this specific relationship)
-    properties:    object  (flexible, rel_type-specific details)
-  }]->(EntityB)
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  COMMON rel_type VALUES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  PRODUCT ↔ PRODUCT:
-    upgrades_to, includes_as_variant, competes_with, shares_pricing_with, converts_to
-
-  PRODUCT ↔ PRODUCT_FEATURE:
-    has_feature, excludes_feature, offers_as_premium, bundles
-
-  PRODUCT ↔ INTEREST_RATE_TIER:
-    has_rate_tier, earns_at_rate, charges_rate (for overdraft/mortgage)
-
-  PRODUCT ↔ FEE:
-    charges_fee, waives_fee, applies_fee_for
-
-  PRODUCT ↔ ELIGIBILITY_RULE:
-    requires, governs_via, restricts_to
-
-  PRODUCT ↔ TERMS_CLAUSE:
-    governed_by, includes_term, subject_to
-
-  PRODUCT ↔ FAQ_ITEM:
-    addressed_by, explained_in
-
-  INTEREST_RATE_TIER ↔ INTEREST_RATE_TIER:
-    higher_balance_than, adjacent_tier_to
-
-  INTEREST_RATE_TIER ↔ TERMS_CLAUSE:
-    governed_by (rate change mechanism), calculated_per (interest calculation rule)
-
-  FEE ↔ PRODUCT_FEATURE:
-    charged_for, waived_for, enables
-
-  ELIGIBILITY_RULE ↔ PRODUCT_FEATURE:
-    gates_access_to, verified_via
-
-  ELIGIBILITY_RULE ↔ TERMS_CLAUSE:
-    enforced_by, referenced_in
-
-  TERMS_CLAUSE ↔ TERMS_CLAUSE:
-    supersedes, relates_to, modifies, exception_to
-
-  FAQ_ITEM ↔ INTEREST_RATE_TIER:
-    explains, references, clarifies
-
-  FAQ_ITEM ↔ FEE:
-    explains, references
-
-  FAQ_ITEM ↔ TERMS_CLAUSE:
-    clarifies, summarises
-
-  FAQ_ITEM ↔ ELIGIBILITY_RULE:
-    explains, clarifies
-
-  FAQ_ITEM ↔ PRODUCT_FEATURE:
-    explains, references
-
-  CUSTOMER ↔ PRODUCT:
-    applies_for, holds, eligible_for, excluded_from
-
-  CUSTOMER ↔ ELIGIBILITY_RULE:
-    subject_to, must_satisfy, governs_access_for
-
-  ACCOUNT ↔ PRODUCT:
-    opened_under, governed_by, linked_to
-
-  ACCOUNT ↔ TERMS_CLAUSE:
-    subject_to, governed_by
-
-  ACCOUNT ↔ INTEREST_RATE_TIER:
-    earns_at, subject_to
-
-  TRANSACTION ↔ FEE:
-    triggers, incurs, subject_to
-
-  TRANSACTION ↔ TERMS_CLAUSE:
-    governed_by, subject_to
-
-  CARD ↔ PRODUCT:
-    issued_with, linked_to
-
-  CARD ↔ FEE:
-    incurs_fee_for (replacement, foreign transaction)
-
-  CARD ↔ TERMS_CLAUSE:
-    governed_by
-
-  KYC_VERIFICATION ↔ ELIGIBILITY_RULE:
-    implements, required_by, satisfies
-
-  KYC_VERIFICATION ↔ PRODUCT:
-    required_for, gates_access_to
-
-  ACCOUNT_HOLDER ↔ TERMS_CLAUSE:
-    governed_by, subject_to
-
-  JOINT_ACCOUNT ↔ TERMS_CLAUSE:
-    governed_by, subject_to
-
-  JOINT_ACCOUNT ↔ ELIGIBILITY_RULE:
-    subject_to, both_holders_must_satisfy
-
-
-  CUSTOMER ↔ ACCOUNT:
-    holds, opens, closes, liable_for
-
-  ACCOUNT ↔ ACCOUNT_HOLDER:
-    has_holder, held_by
-
-  ACCOUNT ↔ CARD:
-    linked_to, issues
-
-  ACCOUNT ↔ JOINT_ACCOUNT:
-    classified_as, structured_as
-
-  ACCOUNT ↔ TRANSACTION:
-    records, generates, has_associated
-
-  ACCOUNT ↔ KYC_VERIFICATION:
-    gate_for_opening, required_before_activating
-
-  ACCOUNT ↔ AML_SCREENING:
-    required_before_opening, ongoing_monitoring_of
-
-  ACCOUNT ↔ FRAUD_ALERT:
-    raised_on, results_in_freeze_of
-
-  ACCOUNT ↔ STANDING_ORDER:
-    set_up_on, deducts_from
-
-  ACCOUNT ↔ DIRECT_DEBIT:
-    set_up_on, deducts_from
-
-  CUSTOMER ↔ ACCOUNT_HOLDER:
-    designated_as, has_role_as
-
-  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
-    party_to, has_rights_in, liable_under
-
-  CUSTOMER ↔ AML_SCREENING:
-    screened_by, applied_to, required_for
-
-  AML_SCREENING ↔ TRANSACTION:
-    monitors, screens_for_patterns_in
-
-  AML_SCREENING ↔ SAR:
-    triggers, leads_to_filing_of
-
-  FRAUD_ALERT ↔ CARD:
-    raised_for, protects
-
-  CUSTOMER ↔ KYC_VERIFICATION:
-    required_to_complete, verified_by, subject_to
-
-  CUSTOMER ↔ SAR:
-    filed_about, concerns
-
-  CUSTOMER ↔ JOINT_ACCOUNT:
-    held_jointly_by, requires_consent_of_both
-
-  CUSTOMER ↔ STANDING_ORDER:
-    initiated_by, belongs_to
-
-  CUSTOMER ↔ DIRECT_DEBIT:
-    authorised_by, belongs_to
-
-  FRAUD_ALERT ↔ TRANSACTION:
-    triggered_by, raised_on
-
-  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
-    required_for_both_holders_of, applied_to
-
-  SAR ↔ TRANSACTION:
-    triggered_by, based_on_evidence_from
-
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  1. EXPLICIT AND IMPLICIT
-     Extract both directly stated relationships ("SmartSaver charges no monthly fee")
-     and those clearly implied ("Tier 2 applies to balances above £10,000" → adjacent_tier_to Tier 1).
-
-  2. PRODUCT → RATE TIER IS CORE
-     For pricing documents, the most important structure is:
-     PRODUCT has_rate_tier INTEREST_RATE_TIER, PRODUCT charges_fee FEE.
-     Always capture the full set of tier and fee relationships for each product.
-
-  3. MULTIPLE EDGES ALLOWED
-     If two entities have multiple distinct relationships, create multiple edges.
-     E.g., SmartSaver both has_rate_tier Tier1 and has_rate_tier Tier2 — two separate edges.
-
-  4. DIRECTION MATTERS
-     PRODUCT has_feature FEATURE (not the reverse).
-     PRODUCT charges_fee FEE (not fee charges product).
-
-  5. PROPERTIES MAP
-     The properties object is flexible and rel_type-specific. Examples:
-
-     For "has_rate_tier": { effective_date: string, rate_basis: string }
-     For "charges_fee": { trigger: string, amount: string, waiver_condition: string }
-     For "has_feature": { channel: string, limits: string, cost: string }
-     For "requires": { verification_method: string, consequence_of_failure: string }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of relationship objects:
-
-  {
-    "source_id":     string,  // id of EntityA
-    "source_name":   string,  // name of EntityA
-    "target_id":     string,  // id of EntityB
-    "target_name":   string,  // name of EntityB
-    "rel_type":      string,  // semantic classifier
-    "description":   string,  // human-readable summary
-    "properties":    object,  // rel_type-specific properties
-    "context":       string,  // verbatim text context from which relationship is derived
-    "bidirectional": boolean  // is this relationship two-way?
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ Does each entity have AT LEAST one relationship?
-    □ All PRODUCT → INTEREST_RATE_TIER rate tier relationships captured (one per tier)?
-    □ All PRODUCT → FEE relationships captured?
-    □ All PRODUCT → ELIGIBILITY_RULE requirements captured?
-    □ All PRODUCT → TERMS_CLAUSE governing provisions captured?
-    □ FAQ_ITEM → INTEREST_RATE_TIER or FEE explanation links captured?
-    □ rel_type values are consistent across document?
-    □ Descriptions are specific to this relationship instance?
-    □ Direction of relationships is correct?
-    □ Bidirectional flag is correct?
-
-  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
+guidance:
+  relationships: |-
+    PRODUCT → RATE TIER IS CORE: for pricing documents, the most important structure is PRODUCT has_rate_tier INTEREST_RATE_TIER, PRODUCT charges_fee FEE. Always capture the full set of tier and fee relationships for each product.
+    All PRODUCT → INTEREST_RATE_TIER rate tier relationships captured (one per tier).
+    All PRODUCT → FEE relationships captured.
+    All PRODUCT → ELIGIBILITY_RULE requirements captured.
+    All PRODUCT → TERMS_CLAUSE governing provisions captured.
+    FAQ_ITEM → INTEREST_RATE_TIER or FEE explanation links captured.
+entity_types:
+  PRODUCT:
+    kind: recurrent
+    description: 'A distinct banking product or sub-product offered by FirstUK Bank to customers. Each
+      named product variant (SmartSaver Account, SmartSaver Plus, Current Account, Mortgage) is a separate
+      entity. Include both the product name and its product_id code when stated. Note: payment cards are
+      extracted as CARD entities, not PRODUCT. Joint account arrangements are extracted as JOINT_ACCOUNT
+      entities, not PRODUCT.'
+    type_examples:
+    - savings_account
+    - premium_savings
+    - current_account
+    - mortgage
+    - isa
+    - business_account
+    properties:
+      product_id:
+        hint: e.g., SAV-001
+      product_type:
+        hint: savings | current | mortgage | card
+      target_customer:
+        hint: who it is designed for
+      minimum_opening_balance:
+        hint: £ amount
+      maximum_balance:
+        hint: £ amount or "unlimited"
+      overdraft_available:
+        hint: yes/no and terms
+      monthly_fee:
+        hint: £ amount
+      interest_rate_type:
+        hint: fixed | variable | tiered_variable
+      interest_payment_frequency:
+        hint: monthly | annual
+      available_channels:
+        hint: branch | online | mobile | postal
+      regulatory_protections:
+        hint: e.g., FSCS up to £85,000
+      competitive_positioning:
+        hint: how it compares to market
+      effective_date:
+        hint: when current terms became effective
+        temporal: valid_from
+    relates_to:
+      PRODUCT:
+      - upgrades_to
+      - includes_as_variant
+      - competes_with
+      - shares_pricing_with
+      - converts_to
+      PRODUCT_FEATURE:
+      - has_feature
+      - excludes_feature
+      - offers_as_premium
+      - bundles
+      INTEREST_RATE_TIER:
+      - has_rate_tier
+      - earns_at_rate
+      - charges_rate (for overdraft/mortgage)
+      FEE:
+      - charges_fee
+      - waives_fee
+      - applies_fee_for
+      ELIGIBILITY_RULE:
+      - requires
+      - governs_via
+      - restricts_to
+      TERMS_CLAUSE:
+      - governed_by
+      - includes_term
+      - subject_to
+      FAQ_ITEM:
+      - addressed_by
+      - explained_in
+  PRODUCT_FEATURE:
+    kind: recurrent
+    description: A specific capability, service, or entitlement included in a product — something that
+      describes what the customer can do with or through the product. Capture features that differentiate
+      products or are customer-facing benefits, not internal mechanics.
+    type_examples:
+    - access_feature
+    - payment_feature
+    - channel_feature
+    - service_feature
+    - security_feature
+    - premium_service
+    - protection_scheme
+    properties:
+      feature_description:
+        hint: what the customer can do
+      available_in_products:
+        hint: which products include this
+      conditions:
+        hint: any conditions on using the feature
+      channel:
+        hint: online | branch | ATM | app
+      limits:
+        hint: e.g., ATM daily limit £500
+      cost:
+        hint: free or fees apply
+  INTEREST_RATE_TIER:
+    kind: recurrent
+    description: A specific interest rate applied to a defined balance range or product variant. Capture
+      both the rate value and the balance threshold together as a single entity. Include both AER and
+      gross rates when both are stated.
+    type_examples:
+    - savings_rate
+    - tiered_rate
+    - fixed_mortgage_rate
+    - variable_mortgage_rate
+    - overdraft_rate
+    - penalty_rate
+    properties:
+      rate_value:
+        hint: percentage, e.g., 4.50
+      rate_format:
+        hint: AER | Gross | APR
+      balance_min:
+        hint: lower bound of balance range, £
+      balance_max:
+        hint: upper bound of balance range, £ or "unlimited"
+      rate_type:
+        hint: fixed | variable | tiered_variable
+      rate_basis:
+        hint: e.g., "BoE Base Rate + 2.5% margin"
+      review_frequency:
+        hint: how often rate is reviewed
+      effective_date:
+        hint: when this rate took effect
+        temporal: valid_from
+      example_calculation:
+        hint: example as shown in document
+      product_id:
+        hint: which product this rate applies to
+    relates_to:
+      INTEREST_RATE_TIER:
+      - higher_balance_than
+      - adjacent_tier_to
+      TERMS_CLAUSE:
+      - governed_by (rate change mechanism)
+      - calculated_per (interest calculation rule)
+    guidance: |-
+      INTEREST_RATE_TIER entities include rate_value, balance_min, balance_max, rate_basis.
+      Each tier is its own entity -- include the rate value AND the balance range in the name (e.g. "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)"), never a single entity per product covering all tiers.
+      Naming: include the rate and tier range in the name. RIGHT:   { "name": "SmartSaver Tier 1 Rate — 4.50% AER (£0–£10,000)" }
+  FEE:
+    kind: recurrent
+    description: A specific charge levied on the customer for a transaction type, service, or event. Capture
+      the fee name, amount, and the triggering condition as a single entity. Include £0 fees only when
+      they are explicitly called out as a feature (e.g., "no monthly fee").
+    type_examples:
+    - transaction_fee
+    - card_fee
+    - service_fee
+    - penalty_fee
+    - overdraft_fee
+    - maintenance_fee
+    - closure_fee
+    properties:
+      fee_amount:
+        hint: £ value or "free"
+      trigger_event:
+        hint: what causes this fee
+      frequency:
+        hint: one-time | per_transaction | monthly | annual
+      applies_to_products:
+        hint: list
+      conditions:
+        hint: any conditions that apply or waive the fee
+      comparison_note:
+        hint: if document compares to competitors
+    relates_to:
+      PRODUCT_FEATURE:
+      - charged_for
+      - waived_for
+      - enables
+    guidance: |-
+      FEE entities include fee_amount and trigger_event.
+      Capture £0 fees too when explicitly called out as a feature (e.g. "no monthly fee").
+  ELIGIBILITY_RULE:
+    kind: recurrent
+    description: A condition that a customer must satisfy to open, hold, or access a product. Include
+      identity, residency, age, and balance requirements. These define who the product is for.
+    type_examples:
+    - age_requirement
+    - residency_requirement
+    - identity_requirement
+    - balance_requirement
+    - credit_requirement
+    - account_type_requirement
+    properties:
+      rule_description:
+        hint: the requirement in plain language
+      rule_type:
+        hint: mandatory | conditional
+      applies_to_products:
+        hint: list
+      verification_method:
+        hint: how the bank checks this
+      exception:
+        hint: any stated exceptions
+      consequence_of_failure:
+        hint: what happens if not met
+    relates_to:
+      PRODUCT_FEATURE:
+      - gates_access_to
+      - verified_via
+      TERMS_CLAUSE:
+      - enforced_by
+      - referenced_in
+  TERMS_CLAUSE:
+    kind: recurrent
+    description: A specific contractual provision that governs the rights, obligations, or procedures
+      between the customer and the bank under the product. This includes liability rules, dispute resolution,
+      fraud protections, dormancy policies, data rights, and change-of-terms provisions. Each distinct
+      clause is a separate entity.
+    type_examples:
+    - liability_clause
+    - fraud_protection
+    - closure_rule
+    - joint_account_provision
+    - data_protection_right
+    - dormancy_policy
+    - change_of_terms
+    - interest_calculation_rule
+    - direct_debit_guarantee
+    - regulatory_protection
+    properties:
+      clause_summary:
+        hint: the provision in plain language
+      customer_rights:
+        hint: what the customer is entitled to
+      bank_obligations:
+        hint: what the bank must do
+      customer_obligations:
+        hint: what the customer must do
+      time_limits:
+        hint: any deadlines stated, e.g., "within 10 business days"
+      applies_to_products:
+        hint: list
+      regulatory_basis:
+        hint: which regulation drives this, if stated
+      exception_or_caveat:
+        hint: any stated exceptions
+    relates_to:
+      TERMS_CLAUSE:
+      - supersedes
+      - relates_to
+      - modifies
+      - exception_to
+    guidance: TERMS_CLAUSE entities include time_limits when stated.
+  FAQ_ITEM:
+    kind: recurrent
+    description: A customer question and its official answer as a paired unit. Capture the question topic
+      and key answer points together. Extract FAQ items that convey policy decisions, product rules, or
+      useful customer guidance not otherwise captured in the above classes.
+    type_examples:
+    - account_basics
+    - interest_query
+    - fees_query
+    - access_query
+    - security_query
+    - process_query
+    - eligibility_query
+    - dispute_query
+    properties:
+      question:
+        hint: the customer question as asked
+      answer_summary:
+        hint: key points of the official answer
+      products_covered:
+        hint: which products the Q&A applies to
+      related_policy:
+        hint: if the answer references a specific rule or policy
+      customer_action:
+        hint: what the customer should do based on the answer
+      urgency:
+        hint: routine | important | time_sensitive
+    relates_to:
+      INTEREST_RATE_TIER:
+      - explains
+      - references
+      - clarifies
+      FEE:
+      - explains
+      - references
+      TERMS_CLAUSE:
+      - clarifies
+      - summarises
+      ELIGIBILITY_RULE:
+      - explains
+      - clarifies
+      PRODUCT_FEATURE:
+      - explains
+      - references
+  ACCOUNT:
+    kind: recurrent
+    description: A customer account opened, held, modified, or closed under a banking product — savings,
+      current, or joint. Extract when the document defines rules, state, or events that apply to the account
+      itself.
+    type_examples:
+    - savings_account
+    - current_account
+    - joint_account
+    - new_account
+    - dormant_account
+    - frozen_account
+    - closed_account
+    properties:
+      account_type:
+        hint: savings | current | joint
+      account_state:
+        hint: new | active | dormant | frozen | closed
+      balance_rules:
+        hint: minimum/maximum balance, dormancy threshold
+      closure_or_freeze_conditions: {}
+    relates_to:
+      PRODUCT:
+      - opened_under
+      - governed_by
+      - linked_to
+      TERMS_CLAUSE:
+      - subject_to
+      - governed_by
+      INTEREST_RATE_TIER:
+      - earns_at
+      - subject_to
+      ACCOUNT_HOLDER:
+      - has_holder
+      - held_by
+      CARD:
+      - linked_to
+      - issues
+      JOINT_ACCOUNT:
+      - classified_as
+      - structured_as
+      TRANSACTION:
+      - records
+      - generates
+      - has_associated
+      KYC_VERIFICATION:
+      - gate_for_opening
+      - required_before_activating
+      AML_SCREENING:
+      - required_before_opening
+      - ongoing_monitoring_of
+      FRAUD_ALERT:
+      - raised_on
+      - results_in_freeze_of
+      STANDING_ORDER:
+      - set_up_on
+      - deducts_from
+      DIRECT_DEBIT:
+      - set_up_on
+      - deducts_from
+  ACCOUNT_HOLDER:
+    kind: recurrent
+    description: A person with legal rights and obligations over an account — primary, joint, or secondary
+      holder — including their liability, authority, and due-diligence obligations.
+    type_examples:
+    - primary_holder
+    - joint_holder
+    - secondary_holder
+    - beneficial_owner
+    - signatory
+    properties:
+      holder_type:
+        hint: primary | joint | secondary
+      liability_scope: {}
+      withdrawal_or_signing_authority: {}
+      due_diligence_requirement: {}
+    relates_to:
+      TERMS_CLAUSE:
+      - governed_by
+      - subject_to
+      JOINT_ACCOUNT:
+      - party_to
+      - has_rights_in
+      - liable_under
+  AML_SCREENING:
+    kind: recurrent
+    description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
+      or ongoing screening — as mandated, executed, or reviewed by the document.
+    type_examples:
+    - sanctions_screening
+    - pep_screening
+    - transaction_monitoring
+    - ongoing_monitoring
+    - adverse_media_check
+    properties:
+      mandatory:
+        hint: yes/no
+      screening_lists_or_scope: {}
+      hit_or_match_response: {}
+      regulatory_basis: {}
+    relates_to:
+      TRANSACTION:
+      - monitors
+      - screens_for_patterns_in
+      SAR:
+      - triggers
+      - leads_to_filing_of
+  CARD:
+    kind: recurrent
+    description: A payment card issued to, or referenced in connection with, a customer account — its
+      issuance, use, blocking, or replacement.
+    type_examples:
+    - debit_card
+    - credit_card
+    - prepaid
+    - contactless
+    - replacement_card
+    - card_fraud_scenario
+    properties:
+      card_type:
+        hint: debit | credit | prepaid
+      card_state:
+        hint: issuance | active | blocked | replacement
+      block_or_replacement_conditions: {}
+      daily_or_contactless_limit: {}
+    relates_to:
+      PRODUCT:
+      - issued_with
+      - linked_to
+      FEE:
+      - incurs_fee_for (replacement, foreign transaction)
+      TERMS_CLAUSE:
+      - governed_by
+  CUSTOMER:
+    kind: recurrent
+    description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
+      — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
+      the customer is a defined party in the document, not merely mentioned in passing.
+    type_examples:
+    - individual_customer
+    - joint_account_holder
+    - new_customer
+    - existing_customer
+    - high_risk_customer
+    - pep_customer
+    - applicant
+    - prospective_customer
+    properties:
+      customer_type:
+        hint: individual | joint_applicant | existing | new | high_risk | pep
+      risk_classification:
+        hint: standard | high_risk | pep | sanctioned
+      eligibility_or_verification_status:
+        hint: as stated in this document
+      context_role:
+        hint: how this customer appears in this document
+    relates_to:
+      PRODUCT:
+      - applies_for
+      - holds
+      - eligible_for
+      - excluded_from
+      ELIGIBILITY_RULE:
+      - subject_to
+      - must_satisfy
+      - governs_access_for
+      ACCOUNT:
+      - holds
+      - opens
+      - closes
+      - liable_for
+      ACCOUNT_HOLDER:
+      - designated_as
+      - has_role_as
+      AML_SCREENING:
+      - screened_by
+      - applied_to
+      - required_for
+      KYC_VERIFICATION:
+      - required_to_complete
+      - verified_by
+      - subject_to
+      SAR:
+      - filed_about
+      - concerns
+      JOINT_ACCOUNT:
+      - held_jointly_by
+      - requires_consent_of_both
+      STANDING_ORDER:
+      - initiated_by
+      - belongs_to
+      DIRECT_DEBIT:
+      - authorised_by
+      - belongs_to
+  DIRECT_DEBIT:
+    kind: recurrent
+    description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
+      amendment, cancellation, or dispute.
+    type_examples:
+    - dd_mandate_setup
+    - dd_guarantee
+    - dd_cancellation
+    - dd_dispute
+    - indemnity_claim
+    properties:
+      mandate_process: {}
+      dd_guarantee_coverage: {}
+      cancellation_or_dispute_process: {}
+  FRAUD_ALERT:
+    kind: recurrent
+    description: A fraud detection alert or fraud response — its generation, investigation, escalation,
+      or the customer-facing action it triggers.
+    type_examples:
+    - fraud_detection_obligation
+    - card_fraud_event
+    - account_takeover
+    - fraud_investigation
+    - customer_reimbursement
+    properties:
+      generation_trigger: {}
+      investigation_or_escalation_path: {}
+      customer_notification: {}
+      reimbursement_obligation: {}
+    relates_to:
+      CARD:
+      - raised_for
+      - protects
+      TRANSACTION:
+      - triggered_by
+      - raised_on
+  JOINT_ACCOUNT:
+    kind: recurrent
+    description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
+      and consent requirements.
+    type_examples:
+    - joint_and_several
+    - tenants_in_common
+    - joint_account_arrangement
+    properties:
+      liability_type:
+        hint: joint_and_several | tenants_in_common
+      consent_requirements: {}
+      dual_kyc_or_aml_requirement: {}
+      closure_consent: {}
+    relates_to:
+      TERMS_CLAUSE:
+      - governed_by
+      - subject_to
+      ELIGIBILITY_RULE:
+      - subject_to
+      - both_holders_must_satisfy
+  KYC_VERIFICATION:
+    kind: recurrent
+    description: The Know Your Customer identity/address verification process — as a compliance obligation,
+      an operational procedure, or an audited control. Extract when the document defines, executes, or
+      evaluates KYC requirements.
+    type_examples:
+    - identity_verification
+    - address_verification
+    - enhanced_due_diligence
+    - periodic_refresh
+    - document_collection
+    properties:
+      mandatory:
+        hint: yes/no
+      timing_or_refresh_frequency: {}
+      verification_method: {}
+      consequence_of_failure: {}
+    relates_to:
+      ELIGIBILITY_RULE:
+      - implements
+      - required_by
+      - satisfies
+      PRODUCT:
+      - required_for
+      - gates_access_to
+      JOINT_ACCOUNT:
+      - required_for_both_holders_of
+      - applied_to
+  SAR:
+    kind: occurrent
+    description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
+      SAR to the relevant authority (e.g. the NCA).
+    type_examples:
+    - sar_obligation
+    - sar_filing_deadline
+    - internal_sar
+    - external_sar
+    - sar_confidentiality
+    properties:
+      filing_obligation: {}
+      filing_deadline: {}
+      confidentiality_rule: {}
+      consequence_of_non_filing: {}
+    relates_to:
+      TRANSACTION:
+      - triggered_by
+      - based_on_evidence_from
+  STANDING_ORDER:
+    kind: recurrent
+    description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
+      or failure handling.
+    type_examples:
+    - standing_order_setup
+    - standing_order_amendment
+    - standing_order_cancellation
+    - payment_failure_handling
+    properties:
+      setup_or_amendment_process: {}
+      beneficiary_validation: {}
+      cancellation_process: {}
+      failure_handling: {}
+  TRANSACTION:
+    kind: occurrent
+    description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
+      fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
+      document.
+    type_examples:
+    - deposit
+    - withdrawal
+    - transfer
+    - fee_charge
+    - suspicious_transaction
+    - high_value_transaction
+    - disputed_transaction
+    - monitored_transaction
+    properties:
+      transaction_type:
+        hint: deposit | withdrawal | transfer | fee_charge | suspicious | disputed
+      monitoring_or_reporting_obligation: {}
+      thresholds:
+        hint: monetary value that triggers a rule
+      dispute_or_reversal_rules: {}
+    relates_to:
+      FEE:
+      - triggers
+      - incurs
+      - subject_to
+      TERMS_CLAUSE:
+      - governed_by
+      - subject_to

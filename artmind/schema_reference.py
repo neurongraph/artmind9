@@ -1,11 +1,17 @@
-"""Parse `domains/schemas/*_schema.yaml` extraction prompts into structured data
-and render them as an HTML fragment for the admin-ui's "Schemas" tab.
+"""Read `domains/schemas/*_schema.yaml`'s structured `entity_types` map and
+render it as an HTML fragment for the admin-ui's "Schemas" tab.
 
 Used by `GET /api/schema-reference` (see `webui/dashboard_routes.py`) to turn a
 domain family's schema files (e.g. all `banking_*_schema.yaml`) into one
-browsable view — entity classes, property guidance, and the relationship
-model — without having to read the raw LLM prompt text. Regenerated from the
+browsable view -- entity classes, property guidance, and the relationship
+model -- without having to read the raw LLM prompt text. Regenerated from the
 run folder's live schemas on every request; there is no checked-in copy.
+
+Pre-redesign this regex-parsed the hand-written prose prompts back apart.
+Now `entity_types` already IS that structured data, so there is nothing left
+to parse -- this module just reshapes it for rendering, and additionally
+renders the actual ASSEMBLED prompt (via `artmind.prompt_builder`) so an
+operator can see exactly what the LLM receives.
 """
 
 from __future__ import annotations
@@ -17,118 +23,55 @@ from typing import Any
 
 import yaml
 
-# ── prompt parsing ───────────────────────────────────────────────────────────
-#
-# Every schema's entities_prompt / properties_prompt / relationships_prompt
-# follows the same hand-written structure (see any domains/schemas/*.yaml):
-# a banner-delimited section listing "CLASS_NAME\n  description\n  example
-# type values: a | b | c", a "For CLASS_NAME, consider:\n  - prop (hint)"
-# properties section, and a "A ↔ B:\n  type1, type2" relationships section.
-
-
-def parse_entities(entities_prompt: str) -> list[dict[str, Any]]:
-    """Extract entity_class / description / example type values."""
-    m = re.search(
-        r"ENTITY TYPES YOU MUST EXTRACT:\s*\n━+\s*\n(.*?)\n━+\s*\nEXTRACTION RULES:",
-        entities_prompt,
-        re.S,
-    )
-    if not m:
-        return []
-    body = re.sub(r"^Use ONLY these entity_classes.*?\n\n", "", m.group(1), flags=re.S)
-
-    entities = []
-    for block in re.split(r"\n\n+", body.strip()):
-        lines = block.strip("\n").split("\n")
-        cls = lines[0].strip()
-        if not re.match(r"^[A-Z][A-Z0-9_]*$", cls):
-            continue
-        desc_lines, types_line = [], ""
-        for line in lines[1:]:
-            line = line.strip()
-            if line.startswith("example type values:"):
-                types_line = line[len("example type values:") :].strip()
-            else:
-                desc_lines.append(line)
-        entities.append(
-            {
-                "class": cls,
-                "description": " ".join(desc_lines).strip(),
-                "types": [t.strip() for t in types_line.split("|") if t.strip()],
-            }
-        )
-    return entities
-
-
-def parse_properties(properties_prompt: str) -> dict[str, list[dict[str, str]]]:
-    """Extract, per entity class, the `- name (hint)` property bullets."""
-    props: dict[str, list[dict[str, str]]] = {}
-    pattern = re.compile(
-        r"For ([A-Z][A-Z0-9_]*), consider:\n(.*?)"
-        r"(?=\n\nFor [A-Z][A-Z0-9_]*, consider:|\n\n━+|\Z)",
-        re.S,
-    )
-    for m in pattern.finditer(properties_prompt):
-        cls, body = m.group(1), m.group(2)
-        items = []
-        for line in body.split("\n"):
-            line = line.strip()
-            if not line.startswith("- "):
-                continue
-            line = line[2:]
-            pm = re.match(r"^([a-zA-Z0-9_]+)\s*(?:\((.*)\))?$", line)
-            if pm:
-                items.append({"name": pm.group(1), "hint": pm.group(2) or ""})
-            else:
-                items.append({"name": line, "hint": ""})
-        if items:
-            props[cls] = items
-    return props
-
-
-def parse_relationships(relationships_prompt: str) -> list[dict[str, Any]]:
-    """Extract the `A ↔ B: type1, type2, ...` relationship-model pairs."""
-    m = re.search(
-        r"COMMON rel_type VALUES:\s*\n━+\s*\n(.*?)\n━+\s*\nEXTRACTION RULES:",
-        relationships_prompt,
-        re.S,
-    )
-    if not m:
-        return []
-
-    rels = []
-    for block in re.split(r"\n\n+", m.group(1).strip()):
-        lines = [l for l in block.strip("\n").split("\n") if l.strip()]
-        if not lines:
-            continue
-        header = re.match(r"^(.+?)\s*↔\s*(.+?):$", lines[0].strip())
-        if not header:
-            continue
-        rest = " ".join(l.strip() for l in lines[1:])
-        rels.append(
-            {
-                "a": header.group(1).strip(),
-                "b": header.group(2).strip(),
-                "types": [t.strip() for t in rest.split(",") if t.strip()],
-            }
-        )
-    return rels
+from artmind.prompt_builder import (
+    assemble_entities_prompt,
+    assemble_properties_prompt,
+    assemble_relationships_prompt,
+    relationship_pairs,
+)
 
 
 def build_schema_dict(schema_path: Path) -> dict[str, Any]:
     """Load one `*_schema.yaml` and return its parsed, render-ready form."""
-    data = yaml.safe_load(schema_path.read_text())
-    entities = parse_entities(data.get("entities_prompt", ""))
-    props_by_class = parse_properties(data.get("properties_prompt", ""))
-    for e in entities:
-        e["properties"] = props_by_class.get(e["class"], [])
+    data = yaml.safe_load(schema_path.read_text()) or {}
+    entity_types = data.get("entity_types") or {}
+
+    entities = []
+    for cls, decl in entity_types.items():
+        properties = [
+            {"name": name, "hint": (prop_decl or {}).get("hint", "") if isinstance(prop_decl, dict) else ""}
+            for name, prop_decl in (decl.get("properties") or {}).items()
+        ]
+        entities.append(
+            {
+                "class": cls,
+                "kind": decl.get("kind", ""),
+                "description": decl.get("description", ""),
+                "types": decl.get("type_examples", []),
+                "properties": properties,
+            }
+        )
+
+    relationships = [
+        {"a": a, "b": b, "types": types} for a, b, types in relationship_pairs(entity_types)
+    ]
+
+    assembled_prompts = {}
+    if entity_types:
+        assembled_prompts = {
+            "entities": assemble_entities_prompt(data),
+            "properties": assemble_properties_prompt(data),
+            "relationships": assemble_relationships_prompt(data),
+        }
+
     return {
         "file": schema_path.name,
         "name": data.get("name", schema_path.stem),
         "description": data.get("description", ""),
         "temporal": data.get("temporal"),
         "entities": entities,
-        "relationships": parse_relationships(data.get("relationships_prompt", "")),
+        "relationships": relationships,
+        "assembled_prompts": assembled_prompts,
     }
 
 
@@ -187,9 +130,10 @@ def _short_title(name: str, prefix: str) -> str:
 def _render_entity_card(schema_id: str, e: dict[str, Any]) -> str:
     class_slug = _slugify(e["class"])
     search_text = " ".join(
-        [e["class"], e["description"], " ".join(e["types"])]
+        [e["class"], e["description"], e.get("kind", ""), " ".join(e["types"])]
         + [p["name"] for p in e["properties"]]
     ).lower()
+    kind_chip = _chip(e["kind"], f'sr-chip sr-chip-kind sr-chip-kind-{e["kind"]}') if e.get("kind") else ""
     types_html = "".join(_chip(t) for t in e["types"])
     props_html = "".join(
         f'<li><code>{_esc(p["name"])}</code>'
@@ -205,7 +149,7 @@ def _render_entity_card(schema_id: str, e: dict[str, Any]) -> str:
         )
     return (
         f'<article class="sr-card" id="{schema_id}-{class_slug}" data-search="{_esc(search_text)}">'
-        f'<header><h4>{_esc(e["class"])}</h4></header>'
+        f'<header><h4>{_esc(e["class"])}</h4>{kind_chip}</header>'
         f'<p class="sr-desc">{_esc(e["description"])}</p>'
         f'<div class="sr-types">{types_html}</div>'
         f"{props_block}"
@@ -237,16 +181,20 @@ def _render_temporal(t: dict[str, Any] | None) -> str:
             vv = v if isinstance(v, str) else ", ".join(v)
             fields.append(f"<code>{_esc(k)}</code>: {_esc(vv)}")
         parts.append(f'<div><strong>Document:</strong> {" &middot; ".join(fields)}</div>')
-    ent = t.get("entities") or {}
-    if ent:
-        rows = []
-        for k, v in ent.items():
-            vv = ", ".join(f"{kk}={vvv}" for kk, vvv in v.items())
-            rows.append(f"<code>{_esc(k)}</code> ({_esc(vv)})")
-        parts.append(f'<div><strong>Temporal entities:</strong> {" &middot; ".join(rows)}</div>')
     if t.get("relative_anchor"):
         parts.append(f'<div><strong>Relative anchor:</strong> <code>{_esc(t["relative_anchor"])}</code></div>')
     return f'<div class="sr-temporal">{"".join(parts)}</div>' if parts else ""
+
+
+def _render_assembled_prompts(assembled: dict[str, str]) -> str:
+    if not assembled:
+        return ""
+    sections = "".join(
+        f"<details class='sr-raw-prompt'><summary>{_esc(kind.title())} prompt</summary>"
+        f"<pre>{_esc(text)}</pre></details>"
+        for kind, text in assembled.items()
+    )
+    return f'<div class="sr-raw-prompts"><div class="sr-subhead">Assembled prompts (as sent to the LLM)</div>{sections}</div>'
 
 
 def render_fragment(schemas: list[dict[str, Any]], prefix: str = "") -> str:
@@ -292,6 +240,7 @@ def render_fragment(schemas: list[dict[str, Any]], prefix: str = "") -> str:
             </tbody>
           </table>
         </div>
+        {_render_assembled_prompts(s.get("assembled_prompts") or {})}
       </div>
     </section>
     """)

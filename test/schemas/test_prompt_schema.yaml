@@ -1,67 +1,23 @@
 name: test_prompt
-description: Minimal fixture exercising the entities/properties/relationships prompt format used by artmind.schema_reference.
+description: Minimal fixture exercising the structured entity_types format used by artmind.schema_reference.
+subject: fixture domain analysis
 
-entities_prompt: |
-  You are a Knowledge Graph extraction engine.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ENTITY TYPES YOU MUST EXTRACT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
-
-  WIDGET
-    A named widget produced by the fixture domain.
-    example type values: small_widget | large_widget
-
-  GADGET
-    A gadget that a widget can be attached to.
-    example type values: basic_gadget | advanced_gadget
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1. Do not hallucinate.
-
-  __text__
-
-  {text}
-
-properties_prompt: |
-  Enrich the provided entities with properties.
-
-  For WIDGET, consider:
-    - widget_id (e.g., W-001)
-    - color
-
-  For GADGET, consider:
-    - gadget_id
-    - capacity (max widgets it can hold)
-
-  Extract properties for the following __list_of_entities__ from the __text__ below.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
-
-relationships_prompt: |
-  Identify relationships between entities.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  COMMON rel_type VALUES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  WIDGET ↔ GADGET:
-    attached_to, compatible_with
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  1. Do not hallucinate.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
+entity_types:
+  WIDGET:
+    kind: recurrent
+    description: A named widget produced by the fixture domain.
+    type_examples: [small_widget, large_widget]
+    properties:
+      widget_id:
+        hint: "e.g., W-001"
+      color: {}
+    relates_to:
+      GADGET: [attached_to, compatible_with]
+  GADGET:
+    kind: recurrent
+    description: A gadget that a widget can be attached to.
+    type_examples: [basic_gadget, advanced_gadget]
+    properties:
+      gadget_id: {}
+      capacity:
+        hint: "max widgets it can hold"

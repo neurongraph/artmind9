@@ -2,9 +2,11 @@ import shutil
 
 from artmind.db import _init_db
 from artmind.graph_query import neo4j_session
+from artmind.schema_validate import validate_all_or_raise
 from paths import (
     ARTMIND_DATA_DIR,
     ARTMIND_HOME,
+    DOMAIN_META_PATH,
     DOMAIN_SCHEMAS_DIR,
     GRAPH_SNAPSHOT_DIR,
     JOBS_DIR,
@@ -13,6 +15,7 @@ from paths import (
     MARKDOWNS_DIR,
     ORIGINALS_DIR,
     PACKAGE_ENV_EXAMPLE,
+    PACKAGE_META_YAML,
     PACKAGE_OPENCODE_DIR,
     PACKAGE_SCHEMAS_DIR,
     PACKAGE_SKILLS_DIR,
@@ -110,6 +113,18 @@ def scaffold_run_folder() -> dict:
     opencode_refreshed = _seed_tree(PACKAGE_OPENCODE_DIR, opencode_dest, overwrite=True)
     schemas_copied = _seed_tree(PACKAGE_SCHEMAS_DIR, DOMAIN_SCHEMAS_DIR, overwrite=True)
 
+    # meta.yaml is a single file, not a tree -- seed it the same "package asset,
+    # always refreshed" way as skills/opencode/schemas above.
+    meta_refreshed = 0
+    if PACKAGE_META_YAML.is_file():
+        shutil.copy2(PACKAGE_META_YAML, DOMAIN_META_PATH)
+        meta_refreshed = 1
+
+    # Fail loudly (Phase 1): a schema missing a mandatory `kind`, or still on
+    # the pre-redesign entity_types list, must stop `init` here rather than
+    # surface later as a confusing extraction failure.
+    validate_all_or_raise()
+
     return {
         "run_folder": str(ARTMIND_HOME),
         "data_dir": str(ARTMIND_DATA_DIR),
@@ -117,6 +132,7 @@ def scaffold_run_folder() -> dict:
         "skills_refreshed": skills_refreshed,
         "schemas_copied": schemas_copied,
         "opencode_refreshed": opencode_refreshed,
+        "meta_refreshed": meta_refreshed,
     }
 
 

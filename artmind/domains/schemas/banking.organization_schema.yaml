@@ -1,26 +1,9 @@
 name: banking.organization
-description: Organizational structure, business ontology, technology systems, and governance model documents for FirstUK Bank — covering departments, executive roles, core banking applications, ontology entity definitions, and operational metrics.
-
-entity_types:
-  - ACCOUNT
-  - ACCOUNT_HOLDER
-  - AML_SCREENING
-  - BANKING_CONCEPT
-  - BUSINESS_RULE
-  - CARD
-  - CUSTOMER
-  - DIRECT_DEBIT
-  - FRAUD_ALERT
-  - JOINT_ACCOUNT
-  - KYC_VERIFICATION
-  - METRIC_TARGET
-  - ORGANIZATIONAL_UNIT
-  - ROLE_PERSON
-  - SAR
-  - STANDING_ORDER
-  - SYSTEM_APPLICATION
-  - TRANSACTION
-
+description: Organizational structure, business ontology, technology systems, and governance model documents
+  for FirstUK Bank — covering departments, executive roles, core banking applications, ontology entity
+  definitions, and operational metrics.
+subject: banking organisation analysis
+persona: a knowledgeable banking architect
 temporal:
   document:
     valid_from:
@@ -30,9 +13,6 @@ temporal:
     - Last Updated
     version:
     - Version
-  entities:
-    SYSTEM:
-      valid_from: effective_date
   relative_anchor: document.valid_from
   defaults:
     valid_from: ingestion_date
@@ -40,570 +20,636 @@ temporal:
     superseded_by: null
     time_source: default_ingestion
     valid_from_inferred: true
-
-entities_prompt: |
-  You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
-  Your job is to read a passage from a FirstUK Bank internal document and identify all significant entities.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ENTITY TYPES YOU MUST EXTRACT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
-
-  ORGANIZATIONAL_UNIT
-    Any department, business unit, committee, board, or governance body — internal or external — that plays a structural role. Include cross-functional committees, regulatory authorities, and external agencies as well as internal departments.
-    example type values: department | business_unit | committee | board | regulatory_body | external_agency | team | office
-
-  ROLE_PERSON
-    Named leadership roles (C-suite, directors, department heads, managers) and any individual employees specifically named. Focus on roles that carry defined accountability, authority, or reporting relationships. Include both the role title and the person when both are stated.
-    example type values: c_suite | director | department_head | manager | specialist | board_member | regulator_liaison | auditor
-
-  SYSTEM_APPLICATION
-    Any technology system, platform, or digital application operated by or integrated with FirstUK Bank. Include core banking systems, customer-facing channels, supporting tools, and external infrastructure systems. Capture the system's purpose and technical identity.
-    example type values: core_banking | payment_processor | fraud_detection | internet_banking | mobile_banking | analytics | crm | document_management | regulatory_reporting | api_gateway | message_queue | database | caching_layer
-
-  BANKING_CONCEPT
-    A core domain entity type as defined in the FirstUK Bank business ontology — conceptual building blocks such as Customer, Account, Transaction, Product, KYC Verification, AML Screening, SAR, Fraud Alert. Extract these when the text defines, describes, or specifies rules about the concept itself, not just mentions it in passing.
-    example type values: party | customer | account | product | transaction | card | standing_order | direct_debit | kyc_verification | aml_screening | sar | fraud_alert | address | identification_document | interest_rate | feature | account_holder | employee | department
-
-  METRIC_TARGET
-    A quantitative performance target, SLA, risk threshold, budget figure, headcount, or operational KPI. Extract the figure and what it measures together. Include both targets and actuals when stated.
-    example type values: sla | kpi | risk_threshold | budget | headcount | capacity | availability_target | response_time | processing_rate | ratio
-
-  BUSINESS_RULE
-    A constraint, decision authority, operational rule, regulatory obligation, or approval threshold that governs how the bank or its systems must behave. Include both hard constraints (cannot be violated) and governance rules (who must approve what).
-    example type values: constraint | decision_authority | regulatory_obligation | approval_threshold | compliance_requirement | control | data_rule | operational_limit
-
-
-  ACCOUNT
-    A customer account opened, held, modified, or closed under a banking product — savings, current, or joint. Extract when the document defines rules, state, or events that apply to the account itself.
-    example type values: savings_account | current_account | joint_account | new_account | dormant_account | frozen_account | closed_account
-
-  ACCOUNT_HOLDER
-    A person with legal rights and obligations over an account — primary, joint, or secondary holder — including their liability, authority, and due-diligence obligations.
-    example type values: primary_holder | joint_holder | secondary_holder | beneficial_owner | signatory
-
-  AML_SCREENING
-    Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring, or ongoing screening — as mandated, executed, or reviewed by the document.
-    example type values: sanctions_screening | pep_screening | transaction_monitoring | ongoing_monitoring | adverse_media_check
-
-  CARD
-    A payment card issued to, or referenced in connection with, a customer account — its issuance, use, blocking, or replacement.
-    example type values: debit_card | credit_card | prepaid | contactless | replacement_card | card_fraud_scenario
-
-  CUSTOMER
-    A natural person who holds, applies for, or is otherwise the subject of a banking relationship — an account, product, transaction, or compliance process. Extract as a first-class entity whenever the customer is a defined party in the document, not merely mentioned in passing.
-    example type values: individual_customer | joint_account_holder | new_customer | existing_customer | high_risk_customer | pep_customer | applicant | prospective_customer
-
-  DIRECT_DEBIT
-    A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee, amendment, cancellation, or dispute.
-    example type values: dd_mandate_setup | dd_guarantee | dd_cancellation | dd_dispute | indemnity_claim
-
-  FRAUD_ALERT
-    A fraud detection alert or fraud response — its generation, investigation, escalation, or the customer-facing action it triggers.
-    example type values: fraud_detection_obligation | card_fraud_event | account_takeover | fraud_investigation | customer_reimbursement
-
-  JOINT_ACCOUNT
-    An account arrangement held jointly by two or more customers with shared rights, liabilities, and consent requirements.
-    example type values: joint_and_several | tenants_in_common | joint_account_arrangement
-
-  KYC_VERIFICATION
-    The Know Your Customer identity/address verification process — as a compliance obligation, an operational procedure, or an audited control. Extract when the document defines, executes, or evaluates KYC requirements.
-    example type values: identity_verification | address_verification | enhanced_due_diligence | periodic_refresh | document_collection
-
-  SAR
-    A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a SAR to the relevant authority (e.g. the NCA).
-    example type values: sar_obligation | sar_filing_deadline | internal_sar | external_sar | sar_confidentiality
-
-  STANDING_ORDER
-    A standing order payment instruction on a customer account — its setup, amendment, cancellation, or failure handling.
-    example type values: standing_order_setup | standing_order_amendment | standing_order_cancellation | payment_failure_handling
-
-  TRANSACTION
-    A financial event on a customer account — a deposit, withdrawal, transfer, payment, or fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the document.
-    example type values: deposit | withdrawal | transfer | fee_charge | suspicious_transaction | high_value_transaction | disputed_transaction | monitored_transaction
-
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  1. COMPLETENESS OVER PRECISION
-     When in doubt whether something qualifies, include it.
-     It is easier to remove an entity in validation than to recover a missed one.
-
-  2. CANONICAL NAMES
-     Use the most complete, formal name as the entity name.
-     Store abbreviations and informal names in aliases.
-     RIGHT:   { "name": "Account Management System", "aliases": ["AMS", "AMS-001"] }
-     WRONG:   { "name": "AMS" }
-
-  3. DESCRIPTION QUALITY
-     Write descriptions as a knowledgeable banking architect would.
-     Be specific to THIS document's content — state the entity's role, function, or definition as the document presents it. Do not write generic definitions.
-
-  4. CONTEXT SNIPPETS
-     Extract 2–4 verbatim quotes from the text that best characterise this entity.
-     Preserve exact wording. These are used for RAG enrichment.
-
-  5. DO NOT HALLUCINATE
-     Only extract what is in the text. If a property is unknown, omit it.
-     Never invent attributes, SLAs, or relationships not stated in the passage.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT FORMAT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of entity objects:
-
-  {
-    "id":                string,   // generate as {type_abbr}_{sequence}
-                                   // e.g., "org_001", "rol_002", "sys_003", "bnk_004", "met_005", "rul_006"
-    "name":              string,   // canonical name
-    "aliases":           array,    // abbreviations and alternate names
-    "entity_class":      string,   // ORGANIZATIONAL_UNIT | ROLE_PERSON | SYSTEM_APPLICATION | BANKING_CONCEPT | METRIC_TARGET | BUSINESS_RULE
-    "type":              string,   // the subtype from lists above
-    "description":       string,   // 2–4 sentence summary specific to this document
-    "context":           array,    // verbatim text snippets where entity appears
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ All named departments, committees, and regulatory bodies captured?
-    □ All named systems and platforms captured with their system IDs?
-    □ All ontology entity type definitions captured as BANKING_CONCEPT?
-    □ All quantitative SLAs, KPIs, and budget figures captured as METRIC_TARGET?
-    □ Key constraints and decision authorities captured as BUSINESS_RULE?
-    □ Canonical names used consistently (not abbreviations)?
-    □ Context snippets are verbatim from text?
-    □ Every entity genuinely significant (no noise)?
-
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __text__
-
-  {text}
-properties_prompt: |
-  You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
-  Your job is to read a FirstUK Bank document passage and enrich the provided entities with detailed properties based on the text.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  PROPERTIES MAP GUIDANCE:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  There is NO fixed schema for properties. You decide what matters based on
-  the entity's role in the document.
-
-  Ask yourself: "If a banking architect or staff member asked a question about this
-  entity, what structured facts from this document would help answer it?"
-
-  For ORGANIZATIONAL_UNIT, consider:
-    - mission (stated purpose or mission)
-    - headcount (number of staff)
-    - location (office or branch location)
-    - reporting_to (immediate parent unit)
-    - key_functions (list of primary activities)
-    - meeting_frequency (for committees)
-    - chair_or_head (role leading the unit)
-    - members (for committees — list of roles)
-    - regulatory_responsibilities (compliance obligations if stated)
-    - cross_functional_interfaces (other units it regularly works with)
-
-  For ROLE_PERSON, consider:
-    - reports_to (direct reporting line)
-    - key_responsibilities (list)
-    - department_or_unit (where they sit)
-    - accountable_for (what outcomes they own)
-    - decision_authority (what they can approve)
-    - appointment_type (executive | manager | director | board)
-
-  For SYSTEM_APPLICATION, consider:
-    - system_id (e.g., AMS-001)
-    - purpose (what the system does)
-    - technology_stack (languages, databases, frameworks)
-    - deployment (cloud | on-premises | hybrid)
-    - availability_sla (uptime target)
-    - key_features (list of major capabilities)
-    - apis_exposed (list of API endpoint paths if stated)
-    - integrations (systems it connects to)
-    - data_stored (key data entities it holds)
-    - performance (latency, throughput, response time targets)
-    - security_controls (authentication, encryption methods)
-
-  For BANKING_CONCEPT, consider:
-    - definition (how the ontology defines it)
-    - key_attributes (list of important fields/attributes)
-    - subtypes (variants of this concept)
-    - business_rules (constraints that apply)
-    - relationships_to (other banking concepts it links to)
-    - regulatory_significance (why it matters for compliance)
-    - example (a concrete example instance if given)
-    - ontology_domain (which of the 6 ontology domains it belongs to)
-
-  For METRIC_TARGET, consider:
-    - value (the number or target)
-    - unit (percentage | hours | days | GBP | count | ratio)
-    - what_it_measures (plain-language description)
-    - owner (who is accountable for this metric)
-    - frequency (how often measured or reported)
-    - actual_value (current actual if stated alongside target)
-    - context (why this metric matters)
-
-  For BUSINESS_RULE, consider:
-    - rule_statement (the rule in plain language)
-    - rule_type (constraint | authority | obligation | threshold)
-    - applies_to (which entities or processes it governs)
-    - enforcement (who enforces it)
-    - regulatory_source (if derived from FCA, PRA, GDPR, etc.)
-    - consequence (what happens if violated)
-    - exception_process (how exceptions are handled if stated)
-
-
-  For ACCOUNT, consider:
-    - account_type (savings | current | joint)
-    - account_state (new | active | dormant | frozen | closed)
-    - balance_rules (minimum/maximum balance, dormancy threshold)
-    - closure_or_freeze_conditions
-
-  For ACCOUNT_HOLDER, consider:
-    - holder_type (primary | joint | secondary)
-    - liability_scope
-    - withdrawal_or_signing_authority
-    - due_diligence_requirement
-
-  For AML_SCREENING, consider:
-    - mandatory (yes/no)
-    - screening_lists_or_scope
-    - hit_or_match_response
-    - regulatory_basis
-
-  For CARD, consider:
-    - card_type (debit | credit | prepaid)
-    - card_state (issuance | active | blocked | replacement)
-    - block_or_replacement_conditions
-    - daily_or_contactless_limit
-
-  For CUSTOMER, consider:
-    - customer_type (individual | joint_applicant | existing | new | high_risk | pep)
-    - risk_classification (standard | high_risk | pep | sanctioned)
-    - eligibility_or_verification_status (as stated in this document)
-    - context_role (how this customer appears in this document)
-
-  For DIRECT_DEBIT, consider:
-    - mandate_process
-    - dd_guarantee_coverage
-    - cancellation_or_dispute_process
-
-  For FRAUD_ALERT, consider:
-    - generation_trigger
-    - investigation_or_escalation_path
-    - customer_notification
-    - reimbursement_obligation
-
-  For JOINT_ACCOUNT, consider:
-    - liability_type (joint_and_several | tenants_in_common)
-    - consent_requirements
-    - dual_kyc_or_aml_requirement
-    - closure_consent
-
-  For KYC_VERIFICATION, consider:
-    - mandatory (yes/no)
-    - timing_or_refresh_frequency
-    - verification_method
-    - consequence_of_failure
-
-  For SAR, consider:
-    - filing_obligation
-    - filing_deadline
-    - confidentiality_rule
-    - consequence_of_non_filing
-
-  For STANDING_ORDER, consider:
-    - setup_or_amendment_process
-    - beneficiary_validation
-    - cancellation_process
-    - failure_handling
-
-  For TRANSACTION, consider:
-    - transaction_type (deposit | withdrawal | transfer | fee_charge | suspicious | disputed)
-    - monitoring_or_reporting_obligation
-    - thresholds (monetary value that triggers a rule)
-    - dispute_or_reversal_rules
-
-
-  KEY RULES FOR PROPERTIES:
-    1. Use clear, readable key names (e.g., "key_functions" not "kf")
-    2. Use arrays for multiple values
-    3. Use nested objects only when genuinely needed
-    4. Omit a property entirely rather than writing null or "unknown"
-    5. Values should be specific to THIS document, not generic definitions
-    6. Keep individual values concise
-    7. If a property feels forced or uncertain, leave it out
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of objects:
-  {
-    "id":            string,   // entity id from input
-    "name":          string,   // entity name from input
-    "properties":    object,   // enriched properties map
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Example of extracted "properties":
-  "properties": {
-    "system_id": "FDE-001",
-    "purpose": "Real-time detection and prevention of fraudulent transactions",
-    "technology_stack": ["Python", "Apache Kafka", "TensorFlow"],
-    "deployment": "Cloud (AWS) + on-premises (for sensitive rules)",
-    "availability_sla": "99.9%",
-    "key_features": ["transaction risk scoring", "ML anomaly detection", "card fraud prevention"],
-    "integrations": ["Account Management System", "Internet Banking Platform", "Payment Processing System"],
-    "performance": { "latency": "<100ms per transaction", "detection_rate": "97%+" }
-  }
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ No hallucinated properties?
-    □ Properties genuinely useful — not just restating the entity name?
-    □ SYSTEM_APPLICATION entities include system_id, technology_stack, integrations?
-    □ BANKING_CONCEPT entities include definition, key_attributes, business_rules?
-    □ METRIC_TARGET entities include value, unit, what_it_measures?
-
-  Extract properties for the following __list_of_entities__ from the __text__ below.
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
-relationships_prompt: |
-  You are a Knowledge Graph extraction engine specialised in banking organisation analysis.
-  Your job is to identify and extract all meaningful relationships between entities in a FirstUK Bank document.
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  RELATIONSHIP STRUCTURE:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  All relationships must follow this pattern:
-  (EntityA)-[RELATES_TO {
-    rel_type:      string  (semantic classifier, e.g., "reports_to", "integrates_with", "governs")
-    description:   string  (human-readable summary of this specific relationship)
-    properties:    object  (flexible, rel_type-specific details)
-  }]->(EntityB)
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  COMMON rel_type VALUES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  ORGANIZATIONAL_UNIT ↔ ORGANIZATIONAL_UNIT:
-    contains, reports_to, oversees, collaborates_with, governed_by, part_of,
-    chaired_by, provides_oversight_to, escalates_to, interfaces_with
-
-  ORGANIZATIONAL_UNIT ↔ ROLE_PERSON:
-    headed_by, employs, chaired_by, has_member, overseen_by, managed_by
-
-  ORGANIZATIONAL_UNIT ↔ SYSTEM_APPLICATION:
-    owns, operates, depends_on, provides_to, uses, responsible_for_availability
-
-  ORGANIZATIONAL_UNIT ↔ BANKING_CONCEPT:
-    responsible_for, manages, governs, performs, monitors, reviews, approves
-
-  ORGANIZATIONAL_UNIT ↔ METRIC_TARGET:
-    measured_by, accountable_for, tracks, owns_sla
-
-  ORGANIZATIONAL_UNIT ↔ BUSINESS_RULE:
-    enforces, governed_by, owns_policy, subject_to
-
-  ROLE_PERSON ↔ ROLE_PERSON:
-    reports_to, manages, works_with, chairs, advises
-
-  ROLE_PERSON ↔ ORGANIZATIONAL_UNIT:
-    leads, sits_on, chairs, member_of, reports_into
-
-  ROLE_PERSON ↔ SYSTEM_APPLICATION:
-    owns, administers, accountable_for
-
-  ROLE_PERSON ↔ BANKING_CONCEPT:
-    approves, reviews, performs, oversees, accountable_for
-
-  ROLE_PERSON ↔ METRIC_TARGET:
-    accountable_for, reports_on, owns
-
-  SYSTEM_APPLICATION ↔ SYSTEM_APPLICATION:
-    integrates_with, calls_api, subscribes_to, publishes_to, depends_on,
-    feeds_data_to, validates_via, triggers, replaces
-
-  SYSTEM_APPLICATION ↔ BANKING_CONCEPT:
-    stores, processes, validates, records, manages, exposes_api_for, tracks
-
-  SYSTEM_APPLICATION ↔ BUSINESS_RULE:
-    enforces, implements, subject_to
-
-  BANKING_CONCEPT ↔ BANKING_CONCEPT:
-    extends, has_subtype, linked_to, triggers, governs, has_relationship_to,
-    required_before, part_of, instantiates
-
-  BANKING_CONCEPT ↔ BUSINESS_RULE:
-    governed_by, constrains, defines, enforces, derives_from
-
-  BANKING_CONCEPT ↔ METRIC_TARGET:
-    measured_by, quantified_by
-
-  BUSINESS_RULE ↔ ORGANIZATIONAL_UNIT:
-    applies_to, enforced_by, approved_by
-
-  METRIC_TARGET ↔ ORGANIZATIONAL_UNIT:
-    owned_by, reported_to
-
-
-  CUSTOMER ↔ ACCOUNT:
-    holds, opens, closes, liable_for
-
-  ACCOUNT ↔ ACCOUNT_HOLDER:
-    has_holder, held_by
-
-  ACCOUNT ↔ CARD:
-    linked_to, issues
-
-  ACCOUNT ↔ JOINT_ACCOUNT:
-    classified_as, structured_as
-
-  ACCOUNT ↔ TRANSACTION:
-    records, generates, has_associated
-
-  ACCOUNT ↔ KYC_VERIFICATION:
-    gate_for_opening, required_before_activating
-
-  ACCOUNT ↔ AML_SCREENING:
-    required_before_opening, ongoing_monitoring_of
-
-  ACCOUNT ↔ FRAUD_ALERT:
-    raised_on, results_in_freeze_of
-
-  ACCOUNT ↔ STANDING_ORDER:
-    set_up_on, deducts_from
-
-  ACCOUNT ↔ DIRECT_DEBIT:
-    set_up_on, deducts_from
-
-  CUSTOMER ↔ ACCOUNT_HOLDER:
-    designated_as, has_role_as
-
-  ACCOUNT_HOLDER ↔ JOINT_ACCOUNT:
-    party_to, has_rights_in, liable_under
-
-  CUSTOMER ↔ AML_SCREENING:
-    screened_by, applied_to, required_for
-
-  AML_SCREENING ↔ TRANSACTION:
-    monitors, screens_for_patterns_in
-
-  AML_SCREENING ↔ SAR:
-    triggers, leads_to_filing_of
-
-  FRAUD_ALERT ↔ CARD:
-    raised_for, protects
-
-  CUSTOMER ↔ KYC_VERIFICATION:
-    required_to_complete, verified_by, subject_to
-
-  CUSTOMER ↔ SAR:
-    filed_about, concerns
-
-  CUSTOMER ↔ JOINT_ACCOUNT:
-    held_jointly_by, requires_consent_of_both
-
-  CUSTOMER ↔ STANDING_ORDER:
-    initiated_by, belongs_to
-
-  CUSTOMER ↔ DIRECT_DEBIT:
-    authorised_by, belongs_to
-
-  FRAUD_ALERT ↔ TRANSACTION:
-    triggered_by, raised_on
-
-  KYC_VERIFICATION ↔ JOINT_ACCOUNT:
-    required_for_both_holders_of, applied_to
-
-  SAR ↔ TRANSACTION:
-    triggered_by, based_on_evidence_from
-
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  EXTRACTION RULES:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  1. EXPLICIT AND IMPLICIT
-     Extract both directly stated relationships ("Technology department owns AMS")
-     and those clearly implied by context ("FDE feeds data to DW" from integration diagrams).
-
-  2. MULTIPLE EDGES ALLOWED
-     If two entities have multiple distinct relationships, create multiple edges.
-     E.g., Risk department both OVERSEES FraudAlert (concept) and MANAGES FDE (system).
-
-  3. SYSTEM INTEGRATION IS CORE
-     For SYSTEM_APPLICATION documents, the most important graph structure is:
-     SYSTEM integrates_with SYSTEM, SYSTEM stores BANKING_CONCEPT, SYSTEM enforces BUSINESS_RULE.
-     Always look for these chains.
-
-  4. REPORTING LINES
-     For org documents, capture every ROLE_PERSON ↔ ROLE_PERSON reports_to relationship stated.
-     These are primary navigation paths for org queries.
-
-  5. PROPERTIES MAP
-     The properties object is flexible and rel_type-specific. Examples:
-
-     For "integrates_with": { integration_type: "async_event | sync_api | batch", protocol: string, event_topic: string }
-     For "reports_to": { reporting_type: "direct | dotted_line | functional", frequency: string }
-     For "governed_by": { regulation: string, obligation_type: string }
-     For "measured_by": { target_value: string, actual_value: string, frequency: string }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  OUTPUT:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Return a JSON array of relationship objects:
-
-  {
-    "source_id":     string,  // id of EntityA
-    "source_name":   string,  // name of EntityA
-    "target_id":     string,  // id of EntityB
-    "target_name":   string,  // name of EntityB
-    "rel_type":      string,  // semantic classifier
-    "description":   string,  // human-readable summary
-    "properties":    object,  // rel_type-specific properties
-    "context":       string,  // verbatim text context from which relationship is derived
-    "bidirectional": boolean  // is this relationship two-way?
-  }
-
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  QUALITY CHECKLIST:
-  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Before responding, verify:
-    □ Does each entity have AT LEAST one relationship?
-    □ All system integration paths captured (SYSTEM ↔ SYSTEM)?
-    □ All reporting lines captured (ROLE_PERSON reports_to ROLE_PERSON)?
-    □ All BANKING_CONCEPT → BUSINESS_RULE governance links captured?
-    □ ORGANIZATIONAL_UNIT → SYSTEM_APPLICATION ownership captured?
-    □ rel_type values are consistent across document?
-    □ Descriptions are specific to this relationship instance?
-    □ Direction of relationships is correct (reporter → reportee, not reverse)?
-    □ Bidirectional flag is correct?
-
-  Extract all meaningful relationships between the __list_of_entities__ from the __text__ below.
-  Return only the JSON array. No preamble. No explanation. No markdown code fences.
-
-  __list_of_entities__
-  {entities_list}
-
-  __text__
-  {text}
+entity_types:
+  ORGANIZATIONAL_UNIT:
+    kind: recurrent
+    description: Any department, business unit, committee, board, or governance body — internal or external
+      — that plays a structural role. Include cross-functional committees, regulatory authorities, and
+      external agencies as well as internal departments.
+    type_examples:
+    - department
+    - business_unit
+    - committee
+    - board
+    - regulatory_body
+    - external_agency
+    - team
+    - office
+    properties:
+      mission:
+        hint: stated purpose or mission
+      headcount:
+        hint: number of staff
+      location:
+        hint: office or branch location
+      reporting_to:
+        hint: immediate parent unit
+      key_functions:
+        hint: list of primary activities
+      meeting_frequency:
+        hint: for committees
+      chair_or_head:
+        hint: role leading the unit
+      members:
+        hint: for committees — list of roles
+      regulatory_responsibilities:
+        hint: compliance obligations if stated
+      cross_functional_interfaces:
+        hint: other units it regularly works with
+    relates_to:
+      ORGANIZATIONAL_UNIT:
+      - contains
+      - reports_to
+      - oversees
+      - collaborates_with
+      - governed_by
+      - part_of
+      - chaired_by
+      - provides_oversight_to
+      - escalates_to
+      - interfaces_with
+      ROLE_PERSON:
+      - headed_by
+      - employs
+      - chaired_by
+      - has_member
+      - overseen_by
+      - managed_by
+      SYSTEM_APPLICATION:
+      - owns
+      - operates
+      - depends_on
+      - provides_to
+      - uses
+      - responsible_for_availability
+      BANKING_CONCEPT:
+      - responsible_for
+      - manages
+      - governs
+      - performs
+      - monitors
+      - reviews
+      - approves
+      METRIC_TARGET:
+      - measured_by
+      - accountable_for
+      - tracks
+      - owns_sla
+      BUSINESS_RULE:
+      - enforces
+      - governed_by
+      - owns_policy
+      - subject_to
+  ROLE_PERSON:
+    kind: recurrent
+    description: Named leadership roles (C-suite, directors, department heads, managers) and any individual
+      employees specifically named. Focus on roles that carry defined accountability, authority, or reporting
+      relationships. Include both the role title and the person when both are stated.
+    type_examples:
+    - c_suite
+    - director
+    - department_head
+    - manager
+    - specialist
+    - board_member
+    - regulator_liaison
+    - auditor
+    properties:
+      reports_to:
+        hint: direct reporting line
+      key_responsibilities:
+        hint: list
+      department_or_unit:
+        hint: where they sit
+      accountable_for:
+        hint: what outcomes they own
+      decision_authority:
+        hint: what they can approve
+      appointment_type:
+        hint: executive | manager | director | board
+    relates_to:
+      ROLE_PERSON:
+      - reports_to
+      - manages
+      - works_with
+      - chairs
+      - advises
+      ORGANIZATIONAL_UNIT:
+      - leads
+      - sits_on
+      - chairs
+      - member_of
+      - reports_into
+      SYSTEM_APPLICATION:
+      - owns
+      - administers
+      - accountable_for
+      BANKING_CONCEPT:
+      - approves
+      - reviews
+      - performs
+      - oversees
+      - accountable_for
+      METRIC_TARGET:
+      - accountable_for
+      - reports_on
+      - owns
+    guidance: All reporting lines captured (ROLE_PERSON reports_to ROLE_PERSON).
+  SYSTEM_APPLICATION:
+    kind: recurrent
+    description: Any technology system, platform, or digital application operated by or integrated with
+      FirstUK Bank. Include core banking systems, customer-facing channels, supporting tools, and external
+      infrastructure systems. Capture the system's purpose and technical identity.
+    type_examples:
+    - core_banking
+    - payment_processor
+    - fraud_detection
+    - internet_banking
+    - mobile_banking
+    - analytics
+    - crm
+    - document_management
+    - regulatory_reporting
+    - api_gateway
+    - message_queue
+    - database
+    - caching_layer
+    properties:
+      system_id:
+        hint: e.g., AMS-001
+      purpose:
+        hint: what the system does
+      technology_stack:
+        hint: languages, databases, frameworks
+      deployment:
+        hint: cloud | on-premises | hybrid
+      availability_sla:
+        hint: uptime target
+      key_features:
+        hint: list of major capabilities
+      apis_exposed:
+        hint: list of API endpoint paths if stated
+      integrations:
+        hint: systems it connects to
+      data_stored:
+        hint: key data entities it holds
+      performance:
+        hint: latency, throughput, response time targets
+      security_controls:
+        hint: authentication, encryption methods
+    relates_to:
+      SYSTEM_APPLICATION:
+      - integrates_with
+      - calls_api
+      - subscribes_to
+      - publishes_to
+      - depends_on
+      - feeds_data_to
+      - validates_via
+      - triggers
+      - replaces
+      BANKING_CONCEPT:
+      - stores
+      - processes
+      - validates
+      - records
+      - manages
+      - exposes_api_for
+      - tracks
+      BUSINESS_RULE:
+      - enforces
+      - implements
+      - subject_to
+    guidance: SYSTEM_APPLICATION entities include system_id, technology_stack, integrations.
+  BANKING_CONCEPT:
+    kind: recurrent
+    description: A core domain entity type as defined in the FirstUK Bank business ontology — conceptual
+      building blocks such as Customer, Account, Transaction, Product, KYC Verification, AML Screening,
+      SAR, Fraud Alert. Extract these when the text defines, describes, or specifies rules about the concept
+      itself, not just mentions it in passing.
+    type_examples:
+    - party
+    - customer
+    - account
+    - product
+    - transaction
+    - card
+    - standing_order
+    - direct_debit
+    - kyc_verification
+    - aml_screening
+    - sar
+    - fraud_alert
+    - address
+    - identification_document
+    - interest_rate
+    - feature
+    - account_holder
+    - employee
+    - department
+    properties:
+      definition:
+        hint: how the ontology defines it
+      key_attributes:
+        hint: list of important fields/attributes
+      subtypes:
+        hint: variants of this concept
+      business_rules:
+        hint: constraints that apply
+      relationships_to:
+        hint: other banking concepts it links to
+      regulatory_significance:
+        hint: why it matters for compliance
+      example:
+        hint: a concrete example instance if given
+      ontology_domain:
+        hint: which of the 6 ontology domains it belongs to
+    relates_to:
+      BANKING_CONCEPT:
+      - extends
+      - has_subtype
+      - linked_to
+      - triggers
+      - governs
+      - has_relationship_to
+      - required_before
+      - part_of
+      - instantiates
+      BUSINESS_RULE:
+      - governed_by
+      - constrains
+      - defines
+      - enforces
+      - derives_from
+      METRIC_TARGET:
+      - measured_by
+      - quantified_by
+    guidance: |-
+      All ontology entity type definitions captured as BANKING_CONCEPT.
+      BANKING_CONCEPT entities include definition, key_attributes, business_rules.
+  METRIC_TARGET:
+    kind: recurrent
+    description: A quantitative performance target, SLA, risk threshold, budget figure, headcount, or
+      operational KPI. Extract the figure and what it measures together. Include both targets and actuals
+      when stated.
+    type_examples:
+    - sla
+    - kpi
+    - risk_threshold
+    - budget
+    - headcount
+    - capacity
+    - availability_target
+    - response_time
+    - processing_rate
+    - ratio
+    properties:
+      value:
+        hint: the number or target
+      unit:
+        hint: percentage | hours | days | GBP | count | ratio
+      what_it_measures:
+        hint: plain-language description
+      owner:
+        hint: who is accountable for this metric
+      frequency:
+        hint: how often measured or reported
+      actual_value:
+        hint: current actual if stated alongside target
+      context:
+        hint: why this metric matters
+    relates_to:
+      ORGANIZATIONAL_UNIT:
+      - owned_by
+      - reported_to
+    guidance: |-
+      All quantitative SLAs, KPIs, and budget figures captured as METRIC_TARGET.
+      METRIC_TARGET entities include value, unit, what_it_measures.
+  BUSINESS_RULE:
+    kind: recurrent
+    description: A constraint, decision authority, operational rule, regulatory obligation, or approval
+      threshold that governs how the bank or its systems must behave. Include both hard constraints (cannot
+      be violated) and governance rules (who must approve what).
+    type_examples:
+    - constraint
+    - decision_authority
+    - regulatory_obligation
+    - approval_threshold
+    - compliance_requirement
+    - control
+    - data_rule
+    - operational_limit
+    properties:
+      rule_statement:
+        hint: the rule in plain language
+      rule_type:
+        hint: constraint | authority | obligation | threshold
+      applies_to:
+        hint: which entities or processes it governs
+      enforcement:
+        hint: who enforces it
+      regulatory_source:
+        hint: if derived from FCA, PRA, GDPR, etc.
+      consequence:
+        hint: what happens if violated
+      exception_process:
+        hint: how exceptions are handled if stated
+    relates_to:
+      ORGANIZATIONAL_UNIT:
+      - applies_to
+      - enforced_by
+      - approved_by
+    guidance: Key constraints and decision authorities captured as BUSINESS_RULE.
+  ACCOUNT:
+    kind: recurrent
+    description: A customer account opened, held, modified, or closed under a banking product — savings,
+      current, or joint. Extract when the document defines rules, state, or events that apply to the account
+      itself.
+    type_examples:
+    - savings_account
+    - current_account
+    - joint_account
+    - new_account
+    - dormant_account
+    - frozen_account
+    - closed_account
+    properties:
+      account_type:
+        hint: savings | current | joint
+      account_state:
+        hint: new | active | dormant | frozen | closed
+      balance_rules:
+        hint: minimum/maximum balance, dormancy threshold
+      closure_or_freeze_conditions: {}
+    relates_to:
+      ACCOUNT_HOLDER:
+      - has_holder
+      - held_by
+      CARD:
+      - linked_to
+      - issues
+      JOINT_ACCOUNT:
+      - classified_as
+      - structured_as
+      TRANSACTION:
+      - records
+      - generates
+      - has_associated
+      KYC_VERIFICATION:
+      - gate_for_opening
+      - required_before_activating
+      AML_SCREENING:
+      - required_before_opening
+      - ongoing_monitoring_of
+      FRAUD_ALERT:
+      - raised_on
+      - results_in_freeze_of
+      STANDING_ORDER:
+      - set_up_on
+      - deducts_from
+      DIRECT_DEBIT:
+      - set_up_on
+      - deducts_from
+  ACCOUNT_HOLDER:
+    kind: recurrent
+    description: A person with legal rights and obligations over an account — primary, joint, or secondary
+      holder — including their liability, authority, and due-diligence obligations.
+    type_examples:
+    - primary_holder
+    - joint_holder
+    - secondary_holder
+    - beneficial_owner
+    - signatory
+    properties:
+      holder_type:
+        hint: primary | joint | secondary
+      liability_scope: {}
+      withdrawal_or_signing_authority: {}
+      due_diligence_requirement: {}
+    relates_to:
+      JOINT_ACCOUNT:
+      - party_to
+      - has_rights_in
+      - liable_under
+  AML_SCREENING:
+    kind: recurrent
+    description: Anti-Money Laundering screening — sanctions/PEP list checks, transaction monitoring,
+      or ongoing screening — as mandated, executed, or reviewed by the document.
+    type_examples:
+    - sanctions_screening
+    - pep_screening
+    - transaction_monitoring
+    - ongoing_monitoring
+    - adverse_media_check
+    properties:
+      mandatory:
+        hint: yes/no
+      screening_lists_or_scope: {}
+      hit_or_match_response: {}
+      regulatory_basis: {}
+    relates_to:
+      TRANSACTION:
+      - monitors
+      - screens_for_patterns_in
+      SAR:
+      - triggers
+      - leads_to_filing_of
+  CARD:
+    kind: recurrent
+    description: A payment card issued to, or referenced in connection with, a customer account — its
+      issuance, use, blocking, or replacement.
+    type_examples:
+    - debit_card
+    - credit_card
+    - prepaid
+    - contactless
+    - replacement_card
+    - card_fraud_scenario
+    properties:
+      card_type:
+        hint: debit | credit | prepaid
+      card_state:
+        hint: issuance | active | blocked | replacement
+      block_or_replacement_conditions: {}
+      daily_or_contactless_limit: {}
+  CUSTOMER:
+    kind: recurrent
+    description: A natural person who holds, applies for, or is otherwise the subject of a banking relationship
+      — an account, product, transaction, or compliance process. Extract as a first-class entity whenever
+      the customer is a defined party in the document, not merely mentioned in passing.
+    type_examples:
+    - individual_customer
+    - joint_account_holder
+    - new_customer
+    - existing_customer
+    - high_risk_customer
+    - pep_customer
+    - applicant
+    - prospective_customer
+    properties:
+      customer_type:
+        hint: individual | joint_applicant | existing | new | high_risk | pep
+      risk_classification:
+        hint: standard | high_risk | pep | sanctioned
+      eligibility_or_verification_status:
+        hint: as stated in this document
+      context_role:
+        hint: how this customer appears in this document
+    relates_to:
+      ACCOUNT:
+      - holds
+      - opens
+      - closes
+      - liable_for
+      ACCOUNT_HOLDER:
+      - designated_as
+      - has_role_as
+      AML_SCREENING:
+      - screened_by
+      - applied_to
+      - required_for
+      KYC_VERIFICATION:
+      - required_to_complete
+      - verified_by
+      - subject_to
+      SAR:
+      - filed_about
+      - concerns
+      JOINT_ACCOUNT:
+      - held_jointly_by
+      - requires_consent_of_both
+      STANDING_ORDER:
+      - initiated_by
+      - belongs_to
+      DIRECT_DEBIT:
+      - authorised_by
+      - belongs_to
+  DIRECT_DEBIT:
+    kind: recurrent
+    description: A direct debit mandate on a customer account — its setup, the Direct Debit Guarantee,
+      amendment, cancellation, or dispute.
+    type_examples:
+    - dd_mandate_setup
+    - dd_guarantee
+    - dd_cancellation
+    - dd_dispute
+    - indemnity_claim
+    properties:
+      mandate_process: {}
+      dd_guarantee_coverage: {}
+      cancellation_or_dispute_process: {}
+  FRAUD_ALERT:
+    kind: recurrent
+    description: A fraud detection alert or fraud response — its generation, investigation, escalation,
+      or the customer-facing action it triggers.
+    type_examples:
+    - fraud_detection_obligation
+    - card_fraud_event
+    - account_takeover
+    - fraud_investigation
+    - customer_reimbursement
+    properties:
+      generation_trigger: {}
+      investigation_or_escalation_path: {}
+      customer_notification: {}
+      reimbursement_obligation: {}
+    relates_to:
+      CARD:
+      - raised_for
+      - protects
+      TRANSACTION:
+      - triggered_by
+      - raised_on
+  JOINT_ACCOUNT:
+    kind: recurrent
+    description: An account arrangement held jointly by two or more customers with shared rights, liabilities,
+      and consent requirements.
+    type_examples:
+    - joint_and_several
+    - tenants_in_common
+    - joint_account_arrangement
+    properties:
+      liability_type:
+        hint: joint_and_several | tenants_in_common
+      consent_requirements: {}
+      dual_kyc_or_aml_requirement: {}
+      closure_consent: {}
+  KYC_VERIFICATION:
+    kind: recurrent
+    description: The Know Your Customer identity/address verification process — as a compliance obligation,
+      an operational procedure, or an audited control. Extract when the document defines, executes, or
+      evaluates KYC requirements.
+    type_examples:
+    - identity_verification
+    - address_verification
+    - enhanced_due_diligence
+    - periodic_refresh
+    - document_collection
+    properties:
+      mandatory:
+        hint: yes/no
+      timing_or_refresh_frequency: {}
+      verification_method: {}
+      consequence_of_failure: {}
+    relates_to:
+      JOINT_ACCOUNT:
+      - required_for_both_holders_of
+      - applied_to
+  SAR:
+    kind: occurrent
+    description: A Suspicious Activity Report — the obligation, preparation, filing, or tracking of a
+      SAR to the relevant authority (e.g. the NCA).
+    type_examples:
+    - sar_obligation
+    - sar_filing_deadline
+    - internal_sar
+    - external_sar
+    - sar_confidentiality
+    properties:
+      filing_obligation: {}
+      filing_deadline: {}
+      confidentiality_rule: {}
+      consequence_of_non_filing: {}
+    relates_to:
+      TRANSACTION:
+      - triggered_by
+      - based_on_evidence_from
+  STANDING_ORDER:
+    kind: recurrent
+    description: A standing order payment instruction on a customer account — its setup, amendment, cancellation,
+      or failure handling.
+    type_examples:
+    - standing_order_setup
+    - standing_order_amendment
+    - standing_order_cancellation
+    - payment_failure_handling
+    properties:
+      setup_or_amendment_process: {}
+      beneficiary_validation: {}
+      cancellation_process: {}
+      failure_handling: {}
+  TRANSACTION:
+    kind: occurrent
+    description: A financial event on a customer account — a deposit, withdrawal, transfer, payment, or
+      fee charge — referenced because it is monitored, disputed, reported, or otherwise governed by the
+      document.
+    type_examples:
+    - deposit
+    - withdrawal
+    - transfer
+    - fee_charge
+    - suspicious_transaction
+    - high_value_transaction
+    - disputed_transaction
+    - monitored_transaction
+    properties:
+      transaction_type:
+        hint: deposit | withdrawal | transfer | fee_charge | suspicious | disputed
+      monitoring_or_reporting_obligation: {}
+      thresholds:
+        hint: monetary value that triggers a rule
+      dispute_or_reversal_rules: {}
+guidance:
+  relationships: |-
+    All BANKING_CONCEPT → BUSINESS_RULE governance links captured.
+    ORGANIZATIONAL_UNIT → SYSTEM_APPLICATION ownership captured.

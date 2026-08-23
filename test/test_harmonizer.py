@@ -1,133 +1,140 @@
-"""Tests for artmind.harmonizer block extraction and patching logic."""
-from artmind.harmonizer import (
-    _split_entity_blocks,
-    _split_property_blocks,
-    _split_relationship_blocks,
-    _inject_entity_blocks,
-    _inject_property_blocks,
-    _inject_relationship_blocks,
-)
+"""Tests for artmind.harmonizer's dict-merge sync (Phase 1: entity_types is a map)."""
 
-# Header lines are unindented (column 0) and body lines indented 2 spaces —
-# this matches the actual layout of every real `*_schema.yaml` once YAML
-# dedents the block scalar (see harmonizer._split_entity_blocks docstring),
-# not the deeper indentation these fixtures used before that mismatch was found.
-ENTITIES_PROMPT = """\
-You are an extractor.
+import pytest
+import yaml
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-ENTITY TYPES YOU MUST EXTRACT:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Use ONLY these entity_classes.
-
-PERSON
-  A named individual.
-  example type values: author | subject
-
-LOCATION
-  A place.
-  example type values: country | city
-
-EXTRACTION RULES:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Be complete.
-"""
-
-PROPERTIES_PROMPT = """\
-You are an extractor.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PROPERTIES MAP GUIDANCE:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-For PERSON, consider:
-  - role
-  - affiliation
-
-For LOCATION, consider:
-  - country
-  - city
-
-KEY RULES FOR PROPERTIES:
-  1. Be clear.
-"""
-
-RELATIONSHIPS_PROMPT = """\
-You are an extractor.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-COMMON rel_type VALUES:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-PERSON ↔ LOCATION:
-  visited, lives_in, works_at
-
-PERSON ↔ PERSON:
-  knows, works_with
-
-EXTRACTION RULES:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Be explicit.
-"""
+from artmind.harmonizer import harmonize_schema
 
 
-def test_split_entity_blocks_finds_person():
-    blocks = _split_entity_blocks(ENTITIES_PROMPT)
-    assert 'PERSON' in blocks
-    assert 'A named individual.' in blocks['PERSON']
+def _write(path, data):
+    path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
 
 
-def test_split_entity_blocks_finds_location():
-    blocks = _split_entity_blocks(ENTITIES_PROMPT)
-    assert 'LOCATION' in blocks
-    assert 'A place.' in blocks['LOCATION']
+@pytest.fixture()
+def schemas_dir(tmp_path, monkeypatch):
+    import artmind.harmonizer as harmonizer_module
+
+    monkeypatch.setattr(harmonizer_module, "DOMAIN_SCHEMAS_DIR", tmp_path)
+    return tmp_path
 
 
-def test_split_entity_blocks_does_not_find_missing_type():
-    blocks = _split_entity_blocks(ENTITIES_PROMPT)
-    assert 'EVENT' not in blocks
+PERSON = {
+    "kind": "recurrent",
+    "description": "A named individual.",
+    "type_examples": ["author", "subject"],
+    "properties": {"role": {"hint": "their role"}},
+    "relates_to": {"LOCATION": ["visited", "lives_in"]},
+}
+LOCATION = {
+    "kind": "recurrent",
+    "description": "A place.",
+    "type_examples": ["country", "city"],
+}
+EVENT = {
+    "kind": "occurrent",
+    "description": "A named happening.",
+    "type_examples": ["meeting"],
+}
 
 
-def test_split_property_blocks_finds_person():
-    blocks = _split_property_blocks(PROPERTIES_PROMPT)
-    assert 'PERSON' in blocks
-    assert '- role' in blocks['PERSON']
+def test_harmonize_copies_missing_class_whole(schemas_dir):
+    _write(schemas_dir / "fixture_schema.yaml", {
+        "name": "fixture",
+        "entity_types": {"PERSON": PERSON, "LOCATION": LOCATION},
+    })
+    _write(schemas_dir / "fixture.child_schema.yaml", {
+        "name": "fixture.child",
+        "entity_types": {"PERSON": PERSON},
+    })
+
+    result = harmonize_schema("fixture.child")
+
+    assert result.status == "updated"
+    assert result.added == ["LOCATION"]
+    child = yaml.safe_load((schemas_dir / "fixture.child_schema.yaml").read_text())
+    assert child["entity_types"]["LOCATION"] == LOCATION
+    # untouched
+    assert child["entity_types"]["PERSON"] == PERSON
 
 
-def test_split_property_blocks_finds_location():
-    blocks = _split_property_blocks(PROPERTIES_PROMPT)
-    assert 'LOCATION' in blocks
-    assert '- country' in blocks['LOCATION']
+def test_harmonize_in_sync_when_nothing_missing(schemas_dir):
+    _write(schemas_dir / "fixture_schema.yaml", {
+        "name": "fixture", "entity_types": {"PERSON": PERSON},
+    })
+    _write(schemas_dir / "fixture.child_schema.yaml", {
+        "name": "fixture.child", "entity_types": {"PERSON": PERSON},
+    })
+
+    result = harmonize_schema("fixture.child")
+    assert result.status == "in_sync"
 
 
-def test_split_relationship_blocks_person_appears_in_both_blocks():
-    blocks = _split_relationship_blocks(RELATIONSHIPS_PROMPT)
-    assert 'PERSON' in blocks
-    assert len(blocks['PERSON']) == 2  # PERSON ↔ LOCATION and PERSON ↔ PERSON
+def test_harmonize_never_removes_child_specific_extras(schemas_dir):
+    _write(schemas_dir / "fixture_schema.yaml", {
+        "name": "fixture", "entity_types": {"PERSON": PERSON},
+    })
+    _write(schemas_dir / "fixture.child_schema.yaml", {
+        "name": "fixture.child", "entity_types": {"PERSON": PERSON, "EVENT": EVENT},
+    })
+
+    result = harmonize_schema("fixture.child")
+    assert result.status == "in_sync"
+    child = yaml.safe_load((schemas_dir / "fixture.child_schema.yaml").read_text())
+    assert "EVENT" in child["entity_types"]
 
 
-def test_split_relationship_blocks_location_one_block():
-    blocks = _split_relationship_blocks(RELATIONSHIPS_PROMPT)
-    assert 'LOCATION' in blocks
-    assert len(blocks['LOCATION']) == 1  # Only PERSON ↔ LOCATION
+def test_harmonize_dry_run_does_not_write(schemas_dir):
+    _write(schemas_dir / "fixture_schema.yaml", {
+        "name": "fixture", "entity_types": {"PERSON": PERSON, "LOCATION": LOCATION},
+    })
+    _write(schemas_dir / "fixture.child_schema.yaml", {
+        "name": "fixture.child", "entity_types": {"PERSON": PERSON},
+    })
+
+    before = (schemas_dir / "fixture.child_schema.yaml").read_text()
+    result = harmonize_schema("fixture.child", dry_run=True)
+
+    assert result.status == "dry_run"
+    assert result.added == ["LOCATION"]
+    assert (schemas_dir / "fixture.child_schema.yaml").read_text() == before
 
 
-def test_inject_entity_blocks_appears_before_extraction_rules():
-    new_block = "EVENT\n  A happening.\n  example type values: meeting"
-    result = _inject_entity_blocks(ENTITIES_PROMPT, [new_block])
-    assert 'EVENT' in result
-    assert result.index('EVENT') < result.index('EXTRACTION RULES')
+def test_harmonize_errors_on_missing_child(schemas_dir):
+    _write(schemas_dir / "fixture_schema.yaml", {"name": "fixture", "entity_types": {}})
+    result = harmonize_schema("fixture.child")
+    assert result.status == "error"
+    assert "not found" in result.error
 
 
-def test_inject_property_blocks_appears_before_key_rules():
-    new_block = "For EVENT, consider:\n  - date\n  - participants"
-    result = _inject_property_blocks(PROPERTIES_PROMPT, [new_block])
-    assert 'For EVENT' in result
-    assert result.index('For EVENT') < result.index('KEY RULES FOR PROPERTIES')
+def test_harmonize_errors_on_missing_parent(schemas_dir):
+    _write(schemas_dir / "fixture.child_schema.yaml", {"name": "fixture.child", "entity_types": {}})
+    result = harmonize_schema("fixture.child")
+    assert result.status == "error"
+    assert "not found" in result.error
 
 
-def test_inject_relationship_blocks_appears_before_extraction_rules():
-    new_block = "EVENT ↔ PERSON:\n  involves, triggers"
-    result = _inject_relationship_blocks(RELATIONSHIPS_PROMPT, [new_block])
-    assert 'EVENT ↔ PERSON' in result
-    assert result.index('EVENT ↔ PERSON') < result.index('EXTRACTION RULES')
+def test_harmonize_rejects_pre_redesign_list_format(schemas_dir):
+    _write(schemas_dir / "fixture_schema.yaml", {"name": "fixture", "entity_types": ["PERSON"]})
+    _write(schemas_dir / "fixture.child_schema.yaml", {"name": "fixture.child", "entity_types": ["PERSON"]})
+
+    result = harmonize_schema("fixture.child")
+    assert result.status == "error"
+    assert "map" in result.error
+
+
+def test_harmonize_reports_validation_error_and_does_not_write(schemas_dir):
+    """A parent class missing `kind` must fail loudly rather than propagate silently."""
+    broken_person = {k: v for k, v in PERSON.items() if k != "kind"}
+    _write(schemas_dir / "fixture_schema.yaml", {
+        "name": "fixture", "entity_types": {"PERSON": broken_person, "LOCATION": LOCATION},
+    })
+    _write(schemas_dir / "fixture.child_schema.yaml", {
+        "name": "fixture.child", "entity_types": {"PERSON": broken_person},
+    })
+
+    before = (schemas_dir / "fixture.child_schema.yaml").read_text()
+    result = harmonize_schema("fixture.child")
+
+    assert result.status == "error"
+    assert "kind" in result.error
+    assert (schemas_dir / "fixture.child_schema.yaml").read_text() == before

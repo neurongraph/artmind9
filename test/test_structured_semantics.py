@@ -55,31 +55,28 @@ def _stub_llm(monkeypatch, payload):
     return seen
 
 
-_MAPPING_SCHEMA_ENTITIES_PROMPT = """Some preamble text a real schema file would have here.
-
-ENTITY TYPES YOU MUST EXTRACT:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PRODUCT
-  A banking product a customer holds, such as a savings account or credit card.
-  example type values: savings_account | credit_card
-
-BRANCH
-  A physical bank branch location.
-  example type values: branch
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-EXTRACTION RULES:
-Some trailing rules text a real schema file would have here.
-"""
+_MAPPING_SCHEMA_ENTITY_TYPES = {
+    "PRODUCT": {
+        "kind": "recurrent",
+        "description": "A banking product a customer holds, such as a savings account or credit card.",
+        "type_examples": ["savings_account", "credit_card"],
+    },
+    "BRANCH": {
+        "kind": "recurrent",
+        "description": "A physical bank branch location.",
+        "type_examples": ["branch"],
+    },
+}
 
 
-def _stub_schema(monkeypatch, entities_prompt=_MAPPING_SCHEMA_ENTITIES_PROMPT):
+def _stub_schema(monkeypatch, entity_types=_MAPPING_SCHEMA_ENTITY_TYPES):
     """Stub the schema lookup at the point semantics.py imports it -- same
     lazy-import-patching approach as _stub_llm."""
     import artmind.temporal as temporal
 
     monkeypatch.setattr(
         temporal, "load_schema",
-        lambda domain: {"entity_types": ["PRODUCT", "BRANCH"], "entities_prompt": entities_prompt},
+        lambda domain: {"entity_types": entity_types},
     )
 
 
@@ -222,8 +219,8 @@ def test_mapping_fails_clearly_when_domain_has_no_schema(tmp_path, monkeypatch):
 
 
 def test_mapping_no_entity_classes_in_schema_returns_empty_not_error(tmp_path, monkeypatch):
-    """A schema file that exists but whose entities_prompt has no parseable
-    classes is a valid (if unusual) state -- distinct from no schema at all."""
+    """A schema file that exists but whose entity_types map is empty is a
+    valid (if unusual) state -- distinct from no schema at all."""
     from artmind.structured import registry, semantics
 
     _patch_db(tmp_path, monkeypatch)
@@ -232,7 +229,7 @@ def test_mapping_no_entity_classes_in_schema_returns_empty_not_error(tmp_path, m
 
     monkeypatch.setattr(
         temporal, "load_schema",
-        lambda domain: {"entity_types": [], "entities_prompt": "no banner here at all"},
+        lambda domain: {"entity_types": {}},
     )
 
     assert semantics.propose_mapping(table_id, "banking") == []

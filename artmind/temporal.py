@@ -122,8 +122,12 @@ def _deep_merge_temporal(parent: dict, child: dict) -> dict:
       - defaults: parent as base, child overrides individual keys.
       - relative_anchor: child scalar wins if present, else parent's.
       - document: per-canonical-key union of label lists, parent-first, deduped.
-      - entities: dict union keyed by entity class; a class present in the
-        child replaces the parent's mapping for that class.
+
+    `entities` is deliberately absent here (Phase 1): per-class temporal mapping
+    now lives on each class's own `properties` declarations (a property tagged
+    `temporal: valid_from`), inherited the same way the rest of `entity_types`
+    is -- via `domains harmonize`'s dict merge, not this runtime merge. See
+    `_entity_temporal_mapping`.
     """
     merged: dict = {}
 
@@ -150,10 +154,6 @@ def _deep_merge_temporal(parent: dict, child: dict) -> dict:
         document[key] = seen
     if document:
         merged["document"] = document
-
-    entities = {**(parent.get("entities") or {}), **(child.get("entities") or {})}
-    if entities:
-        merged["entities"] = entities
 
     return merged
 
@@ -213,10 +213,31 @@ def canonical_entity_dates(entity: dict, schema_entities: dict, anchor: str | No
     return out
 
 
+def _entity_temporal_mapping(schema: dict) -> dict:
+    """Build {ENTITY_CLASS: {canonical_key: domain_property_name}} from each
+    class's `properties` declarations.
+
+    Post-redesign home for what used to live at `temporal.entities` (folded
+    into the property declarations per Phase 1 -- e.g. `effective_date:
+    {temporal: valid_from}` on PRODUCT). Same output shape as before, so
+    `canonical_entity_dates` (the consumer) is unchanged.
+    """
+    mapping: dict = {}
+    for cls, decl in (schema.get("entity_types") or {}).items():
+        class_map = {}
+        for prop, prop_decl in (decl.get("properties") or {}).items():
+            canon = prop_decl.get("temporal") if isinstance(prop_decl, dict) else None
+            if canon:
+                class_map[canon] = prop
+        if class_map:
+            mapping[cls] = class_map
+    return mapping
+
+
 def _temporal_mapping(schema: dict) -> tuple[dict, dict, str | None]:
     """Return (document_mapping, entities_mapping, relative_anchor) from a schema."""
     t = schema.get("temporal") or {}
-    return t.get("document", {}), t.get("entities", {}), t.get("relative_anchor")
+    return t.get("document", {}), _entity_temporal_mapping(schema), t.get("relative_anchor")
 
 
 def _normalize_time_one_domain(domain: str, dry_run: bool = False) -> dict:

@@ -183,7 +183,11 @@ def test_normalize_ingested_document_merges_properties_json(tmp_path, monkeypatc
 
     monkeypatch.setattr(
         temporal, "load_schema",
-        lambda domain: {"temporal": {"entities": {"POLICY": {"valid_from": "effective_date"}}}},
+        lambda domain: {
+            "entity_types": {
+                "POLICY": {"properties": {"effective_date": {"temporal": "valid_from"}}}
+            }
+        },
     )
 
     entity_runs = []
@@ -247,7 +251,11 @@ def test_normalize_ingested_document_counts_only_matched_entities(tmp_path, monk
 
     monkeypatch.setattr(
         temporal, "load_schema",
-        lambda domain: {"temporal": {"entities": {"POLICY": {"valid_from": "effective_date"}}}},
+        lambda domain: {
+            "entity_types": {
+                "POLICY": {"properties": {"effective_date": {"temporal": "valid_from"}}}
+            }
+        },
     )
 
     class FakeResult:
