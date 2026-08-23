@@ -2,12 +2,11 @@
 
 ## Contexts
 
+- [artmind](./CONTEXT.md) — the knowledge-graph system itself: what it ingests, what
+  it asserts, and how it models time, status, and identity.
 - [artmind_canvas](./artmind_canvas/CONTEXT.md) — a new standalone desktop UX (spatial
   Canvas + Chat dock) for reading, understanding, editing, and acting on artmind's
   knowledge. A client of the existing artmind system.
-
-> The core `artmind` knowledge-graph system does not yet have its own `CONTEXT.md`;
-> add one here if/when we model its vocabulary explicitly.
 
 ## Relationships
 
