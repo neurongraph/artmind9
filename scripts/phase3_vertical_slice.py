@@ -32,9 +32,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import shutil
 import sys
 from pathlib import Path
+
+# The driver warns about labels/relationship types that do not exist yet — on a
+# fresh graph that is every query the gate makes, and it buries the results.
+logging.getLogger("neo4j.notifications").setLevel(logging.ERROR)
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -69,8 +74,43 @@ class Gate:
         return 0
 
 
+def _preflight(session) -> dict:
+    """Report what a run would touch, BEFORE touching it.
+
+    Worth reading on a machine that still holds the Phase 0 baseline: this
+    graph is pre-cutover, so it contains entities written by the old accretive
+    upsert. Those carry no `key` property, and `_clean` leaves them alone —
+    but the three rate-schedule Documents themselves will be replaced.
+    """
+    counts = session.run(
+        """
+        CALL () { MATCH (d:Document) WHERE d.name STARTS WITH 'interest_rate_schedule'
+                  RETURN count(d) AS documents }
+        CALL () { MATCH (e:Entity {domain: $d}) WHERE e.entity_class = $c AND e.key IS NOT NULL
+                  RETURN count(e) AS phase3_entities }
+        CALL () { MATCH (e:Entity {domain: $d}) WHERE e.entity_class = $c AND e.key IS NULL
+                  RETURN count(e) AS legacy_entities }
+        CALL () { MATCH (o:Observation {domain: $d}) RETURN count(o) AS observations }
+        RETURN documents, phase3_entities, legacy_entities, observations
+        """,
+        d=DOMAIN, c=CLASS,
+    ).single()
+    return dict(counts)
+
+
 def _clean(session) -> None:
-    """Remove anything a prior slice run left behind for these three docs."""
+    """Remove what a PRIOR RUN OF THIS SCRIPT left behind — and nothing else.
+
+    Entity deletion is scoped to `e.key IS NOT NULL`, i.e. entities the Phase 3
+    projection produced. A pre-cutover graph's entities were written by the old
+    accretive upsert and carry no `key`, so they survive untouched: this script
+    must not quietly destroy the Phase 0 baseline the scorecard measures
+    against.
+
+    The three rate-schedule Documents (and their chunks and observations) ARE
+    replaced — that is the point of the run — so take a snapshot first if their
+    current state matters to you.
+    """
     doc_ids = [r["id"] for r in session.run(
         "MATCH (d:Document) WHERE d.name STARTS WITH 'interest_rate_schedule' RETURN d.id AS id"
     ).data()]
@@ -79,12 +119,11 @@ def _clean(session) -> None:
         session.run("MATCH (c:DocChunk {doc_id: $id}) DETACH DELETE c", id=doc_id).consume()
         session.run("MATCH (d:Document {id: $id}) DETACH DELETE d", id=doc_id).consume()
     session.run(
-        "MATCH (e:Entity {domain: $d}) WHERE e.entity_class = $c DETACH DELETE e",
+        "MATCH (e:Entity {domain: $d}) WHERE e.entity_class = $c AND e.key IS NOT NULL "
+        "DETACH DELETE e",
         d=DOMAIN, c=CLASS,
     ).consume()
-    session.run(
-        "MATCH (c:Conflict {_source: 'projection'}) DETACH DELETE c"
-    ).consume()
+    session.run("MATCH (c:Conflict {_source: 'projection'}) DETACH DELETE c").consume()
 
 
 def run_fixtures(gate: Gate) -> None:
@@ -195,39 +234,82 @@ def run_fixtures(gate: Gate) -> None:
 
 
 def run_full(gate: Gate, vault: Path) -> None:
-    """The real thing, LLM and all."""
-    from artmind.ingest import ingest_file, ingest_to_kg, rebuild_projection
+    """The real thing: chunk extraction, the name vocabulary's ANN, the
+    per-document canonicalization pass, and the post-commit embed sweep all
+    hit live services."""
+    import os
+
     from artmind.graph_query import neo4j_session
+    from artmind.ingest import ingest_file, ingest_to_kg, rebuild_projection
     from artmind.setup import _setup_neo4j
+    from artmind.temporal import load_schema
     from utils.functions import load_env
 
     env = load_env()
     text_model = env.get("ARTMIND_KG_LLM_MODEL", "ministral-3:14b")
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
+    image_model = env.get("ARTMIND_IMAGE_MODEL", "gemma4:e4b")
+
+    # The vault-native path (Phase 2) is only taken for a .md file INSIDE
+    # ARTMIND_VAULT_DIR. Outside it, ingest silently falls back to the
+    # pre-Phase-2 path-keyed flow — which still works, but is not what this
+    # gate is meant to exercise, and the difference is invisible in the output.
+    vault_dir = env.get("ARTMIND_VAULT_DIR") or os.environ.get("ARTMIND_VAULT_DIR")
+    if not vault_dir:
+        raise SystemExit(
+            "ARTMIND_VAULT_DIR is not set. Set it in ~/.artmind/.env (Phase 0 step) "
+            "so the vault-native ingest path is taken."
+        )
+    vault_root = Path(vault_dir).expanduser().resolve()
+    vault = vault.expanduser().resolve()
+    if vault_root not in (vault, *vault.parents):
+        raise SystemExit(
+            f"--vault {vault} is not inside ARTMIND_VAULT_DIR ({vault_root}).\n"
+            "Ingest would take the binary/ad-hoc path instead of the vault-native one."
+        )
+
+    schema = load_schema(DOMAIN)
+    if not (schema.get("temporal") or {}).get("document"):
+        raise SystemExit(
+            f"No temporal mapping for {DOMAIN} — run `artmind init` to seed the run folder."
+        )
 
     with neo4j_session() as session:
-        _setup_neo4j(session, 768)
+        _setup_neo4j(session, int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768")))
+        before = _preflight(session)
+        print(f"\nPreflight: {before}")
+        print("  (entities with no `key` are pre-cutover and are NOT deleted)\n")
         _clean(session)
 
-    sources = sorted(CORPUS.glob("interest_rate_schedule_*.md")) + [CORPUS / "interest_rate_schedule_2026.md"]
-    sources = sorted({p for p in sources if p.exists()})
-    print(f"\nIngesting {len(sources)} document(s) with model={text_model}\n")
+    sources = sorted({p for p in CORPUS.glob("interest_rate_schedule_*.md") if p.exists()})
+    if len(sources) != 3:
+        raise SystemExit(f"Expected 3 rate schedules in {CORPUS}, found {len(sources)}")
+
+    print(f"Ingesting {len(sources)} document(s) | text={text_model} embed={embed_model}\n")
+    vault.mkdir(parents=True, exist_ok=True)
 
     for source in sources:
         target = vault / source.name
         if not target.exists():
-            target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
-        result = ingest_file(target, "gemma4:e4b", DOMAIN, chunk_size=6000)
-        gate.check(f"ingest {source.name}", result.get("status") == "ok", result.get("error", ""))
-        if result.get("status") == "ok":
-            ok = ingest_to_kg(
-                result, DOMAIN, text_model, embed_model, 6000, defer_rebuild=True
-            )
-            gate.check(f"extract+commit {source.name}", ok)
+        result = ingest_file(target, image_model, DOMAIN, chunk_size=6000)
+        ok = result.get("status") == "ok"
+        gate.check(f"ingest {source.name}", ok, result.get("error", ""))
+        if not ok:
+            continue
+        # Deferred, exactly like a directory ingest: one full rebuild at the end.
+        gate.check(
+            f"extract+commit {source.name}",
+            ingest_to_kg(result, DOMAIN, text_model, embed_model, 6000, defer_rebuild=True),
+        )
 
     summary = rebuild_projection(DOMAIN)
-    print(f"\nDeferred full rebuild: {summary}\n")
+    print(f"\nDeferred full rebuild + embed sweep: {summary}\n")
+    gate.check(
+        "the embed sweep embedded at least one entity",
+        summary.get("embedded", 0) > 0,
+        f"embedded={summary.get('embedded')}",
+    )
 
 
 def assert_gate(gate: Gate) -> None:
