@@ -17,6 +17,15 @@ Execution order for the observation/projection redesign. Model in
 just dev-stop-daemons && just dev-install
 ```
 
+**Carry-forward convention.** Each phase runs in its own session, and sessions share
+nothing but this repo. So every phase ends by writing
+`docs/redesign-phaseN-implementation-notes.md` recording what actually landed, what
+was deferred and to which phase, and any bug the exit gate caught. Every phase
+**begins** by reading the notes from all prior phases. A decision that lives only in
+a session transcript is a decision that will be silently re-invented.
+
+Notes so far: [Phase 2](./redesign-phase2-implementation-notes.md).
+
 ---
 
 ## Phase 0 — Baseline ✅ complete
@@ -120,6 +129,18 @@ unproven projection.
 - `curation` snapshot component (`same_as.yaml` + schemas, **never `.env`**);
   `originals` component; `registry` component dropped; `docs reindex` on import
 - Registry shrunk to a path↔id cache
+
+**Inherited from Phase 2** — see
+[its notes](./redesign-phase2-implementation-notes.md), "Deferred, on purpose":
+
+- **Derived-markdown promotion** (`_derived_sha256`) and extending `_artmind_id` to
+  binary sources. Phase 2 deliberately left binaries on the old
+  `_logical_id`/`_resolve_doc_identity` path — this is where they're upgraded, and
+  it's a prerequisite for the two items below.
+- **`docs reindex`** — has nothing to rebuild *from* until promotion lands.
+- **`ingest async` flags** — `worker.py` commits once per file rather than once per
+  job; `ingest sync`'s directory batching got the bulk-commit treatment, async did
+  not. A fast-follow, not a correctness gap.
 
 ## Phase 6 — Curation
 
