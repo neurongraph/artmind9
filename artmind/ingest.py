@@ -15,7 +15,16 @@ from loguru import logger
 from neo4j import GraphDatabase
 
 from artmind.db import _get_db
+from artmind.document_identity import (
+    build_frontmatter,
+    canonical_path,
+    decide_version,
+    markdown_path_for,
+    resolve_identity,
+    write_document,
+)
 from artmind.setup import _setup_neo4j
+from artmind.vault_git import current_commit as _vault_current_commit
 from artmind.extraction import (
     build_entities_prompt,
     build_properties_prompt,
@@ -110,7 +119,7 @@ def _find_registered_documents(domain: str, document_name: str) -> list[dict]:
     try:
         cursor.execute(
             """
-            SELECT id, domain, filename, sha256, original_path, added_at
+            SELECT id, domain, filename, sha256, path, added_at
             FROM documents
             WHERE domain = ? AND UPPER(filename) = ?
             """,
@@ -269,34 +278,34 @@ def _build_file_result_from_db(document_name: str, domain: str) -> dict | None:
     conn = _get_db()
     try:
         row = conn.execute(
-            "SELECT filename, sha256, original_path, logical_id FROM documents"
+            "SELECT filename, sha256, path, artmind_id FROM documents"
             " WHERE UPPER(filename) = ? AND domain = ?",
             (document_name.upper(), domain),
         ).fetchone()
         if not row:
             # Try prefix match (user may omit extension)
             row = conn.execute(
-                "SELECT filename, sha256, original_path, logical_id FROM documents"
+                "SELECT filename, sha256, path, artmind_id FROM documents"
                 " WHERE UPPER(filename) LIKE ? AND domain = ? LIMIT 1",
                 (document_name.upper() + "%", domain),
             ).fetchone()
         if not row:
             return None
-        filename, doc_sha256, original_path, logical_id = row
-        registered_path = Path(original_path)
+        filename, doc_sha256, registered_path_str, artmind_id = row
+        registered_path = Path(registered_path_str)
         chunks_dir = MARKDOWNS_DIR / f"{registered_path.stem}_chunks"
         chunk_count = len(sorted(chunks_dir.glob("chunk_*.md"))) if chunks_dir.exists() else 0
         result = {
             "status": "ok",
             "filename": filename,
             "sha256": doc_sha256,
-            "registered_path": original_path,
+            "registered_path": registered_path_str,
             "domain": domain,
             "chunks_dir": str(chunks_dir),
             "chunk_count": chunk_count,
         }
-        if logical_id:
-            result["logical_id"] = logical_id
+        if artmind_id:
+            result["artmind_id"] = artmind_id
         return result
     finally:
         conn.close()
@@ -370,55 +379,54 @@ def _resolve_doc_identity(
     return (resumed_doc_id or uuid.uuid4().hex), 1
 
 
-def _register_document(
-    domain: str, file_path: Path, logical_id: str, replace: bool = False
-) -> str:
-    """Insert document into registry; return resolved path. Raises ValueError on duplicate.
+def _register_document(domain: str, file_path: Path, artmind_id: str | None = None) -> str:
+    """Record a document in the path <-> id cache; return the resolved path.
 
-    When ``replace`` is set (idempotent re-ingest, A1d) and a row already exists
-    for this ``(domain, logical_id)``, the existing row is UPDATEd in place
-    (new sha256/filename/path/timestamp) rather than a second row inserted — the
-    registry mirrors the graph's single-document-per-logical-id identity. A
-    replace with no prior row falls through to a normal insert (fresh document).
+    Phase 2 (docs/document-identity.md): the registry is bookkeeping, not
+    identity. For a binary/tabular source (``artmind_id=None``) real identity
+    continuity still runs entirely through Neo4j's `logical_id` lookup
+    (`_resolve_doc_identity`) — this row exists only so `_find_registered_
+    documents`/`docs purge`/`retry-job` have something to look up by
+    filename. For a vault-native source, ``artmind_id`` is the real identity
+    and this row *is* the path <-> id cache the resolution table reads.
+
+    No duplicate guard: re-ingesting a known identity is always a replace
+    now (`--replace`/`--force` are gone), and a copied template with an
+    unedited body is a legitimate new document, not an error.
     """
     filename = file_path.name
     file_sha256 = _compute_sha256(file_path)
-    resolved_path = str(file_path.resolve())
+    # `canonical_path`, not a raw `.resolve()` -- this MUST match exactly what
+    # `resolve_identity`'s registry lookups key on (vault-relative when the
+    # file is vault-native), or a `move`/`refuse` decision compares apples to
+    # oranges (an absolute path stored here against a vault-relative path
+    # looked up there) and every re-ingest of a known identity misreads as a
+    # brand-new file at a colliding id.
+    resolved_path = canonical_path(file_path)
     conn = _get_db()
-    cursor = conn.cursor()
     try:
-        if replace:
-            cursor.execute(
-                "SELECT id FROM documents WHERE domain = ? AND logical_id = ?",
-                (domain, logical_id),
+        if artmind_id is not None:
+            conn.execute(
+                """
+                INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(artmind_id) DO UPDATE SET
+                    domain = excluded.domain,
+                    filename = excluded.filename,
+                    path = excluded.path,
+                    sha256 = excluded.sha256,
+                    added_at = excluded.added_at
+                """,
+                (artmind_id, domain, filename, resolved_path, file_sha256, datetime.now().isoformat()),
             )
-            existing = cursor.fetchone()
-            if existing:
-                cursor.execute(
-                    "UPDATE documents SET filename = ?, sha256 = ?, original_path = ?,"
-                    " added_at = ? WHERE domain = ? AND logical_id = ?",
-                    (filename, file_sha256, resolved_path,
-                     datetime.now().isoformat(), domain, logical_id),
-                )
-                conn.commit()
-                return resolved_path
-        cursor.execute(
-            "INSERT INTO documents (domain, filename, sha256, original_path, added_at, logical_id)"
-            " VALUES (?, ?, ?, ?, ?, ?)",
-            (domain, filename, file_sha256, resolved_path, datetime.now().isoformat(), logical_id),
-        )
+        else:
+            conn.execute(
+                "INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)"
+                " VALUES (NULL, ?, ?, ?, ?, ?)",
+                (domain, filename, resolved_path, file_sha256, datetime.now().isoformat()),
+            )
         conn.commit()
         return resolved_path
-    except sqlite3.IntegrityError as e:
-        if "UNIQUE constraint failed" in str(e):
-            cursor.execute("SELECT 1 FROM documents WHERE sha256 = ?", (file_sha256,))
-            if cursor.fetchone():
-                raise ValueError(f"Duplicate: SHA256 {file_sha256} already registered")
-            cursor.execute("SELECT 1 FROM documents WHERE filename = ?", (filename,))
-            if cursor.fetchone():
-                raise ValueError(f"Duplicate: filename '{filename}' already registered")
-            raise ValueError(f"Duplicate: logical id '{logical_id}' already registered")
-        raise
     finally:
         conn.close()
 
@@ -500,14 +508,165 @@ def _replace_image_ref(md_content: str, image_name: str, description: str) -> st
     return pattern.sub(lambda _: description, md_content)
 
 
+def _is_vault_native_markdown(source: Path) -> bool:
+    """A vault-native markdown source: authored in the vault, identified by
+    frontmatter, never copied (Q96 — docs/stores-and-repos.md)."""
+    if source.suffix.lower() != ".md" or ARTMIND_VAULT_DIR is None:
+        return False
+    try:
+        source.resolve().relative_to(ARTMIND_VAULT_DIR)
+        return True
+    except ValueError:
+        return False
+
+
 def ingest_file(
     source: Path,
     image_model: str,
-    domain: str = "general",
+    domain: str | None = "general",
     job_id: str | None = None,
     chunk_size: int = 6000,
-    force: bool = False,
-    replace: bool = False,
+    *,
+    set_domain: str | None = None,
+    fork: bool = False,
+    adopt: bool = False,
+):
+    """Ingest one file. Dispatches on source type (docs/document-identity.md):
+
+    - vault-native markdown: identity is `_artmind_id`, resolved via the
+      six-row resolution table; no copy into originals/markdowns.
+    - everything else (binary, or an ad-hoc .md outside the vault): the
+      pre-Phase-2 path-keyed flow, unchanged except `--force`/`--replace`
+      are gone — re-ingesting a known identity is now always a replace, and
+      a copied template with an unedited body is a legitimate new document
+      rather than something to guard against.
+    """
+    if _is_vault_native_markdown(source):
+        return _ingest_vault_native(
+            source, domain=domain, job_id=job_id, chunk_size=chunk_size,
+            set_domain=set_domain, fork=fork, adopt=adopt,
+        )
+    return _ingest_binary_or_adhoc(source, image_model, domain or "general", job_id, chunk_size)
+
+
+def _ingest_vault_native(
+    source: Path,
+    *,
+    domain: str | None,
+    job_id: str | None,
+    chunk_size: int,
+    set_domain: str | None,
+    fork: bool,
+    adopt: bool,
+) -> dict:
+    file_result = {"filename": source.name, "status": "failed"}
+    t_file_start = time.monotonic()
+
+    raw_text = source.read_text(encoding="utf-8")
+    existing_meta, body = _parse_md_frontmatter(raw_text)
+
+    prior_domain = existing_meta.get("_domain")
+    effective_domain = set_domain or prior_domain or domain
+    if not effective_domain:
+        file_result["error"] = (
+            f"{source}: no '_domain' in frontmatter and no --domain given"
+        )
+        logger.error(file_result["error"])
+        return file_result
+    domain_changed = prior_domain is not None and prior_domain != effective_domain
+
+    try:
+        resolution = resolve_identity(source, existing_meta.get("_artmind_id"), fork=fork, adopt=adopt)
+    except Exception as e:  # IdentityConflict, most likely
+        file_result["error"] = str(e)
+        logger.error("Identity resolution failed for {}: {}", source, e)
+        return file_result
+    logger.info("Identity resolution for {}: {}", source.name, resolution.verdict)
+
+    if resolution.verdict == "heal":
+        # Frontmatter lost its id; the registry supplies it back — not a
+        # content change, so it does not by itself affect versioning below.
+        existing_meta = {**existing_meta, "_artmind_id": resolution.artmind_id}
+
+    version_decision = decide_version(body, existing_meta)
+    tier = "content" if domain_changed else version_decision.tier
+
+    ingested_at = datetime.now(_datetime.timezone.utc).isoformat()
+    new_meta = build_frontmatter(
+        existing_meta,
+        artmind_id=resolution.artmind_id,
+        version=version_decision.version,
+        content_sha256=version_decision.content_sha256,
+        domain=effective_domain,
+        source_commit=_vault_current_commit(),
+        source_path=canonical_path(source),
+        source_type="md",
+        ingested_at=ingested_at,
+        body=body,
+    )
+    write_document(source, new_meta, body)
+    _register_document(effective_domain, source, resolution.artmind_id)
+
+    if job_id:
+        _update_job_file_status(
+            job_id, str(source.resolve()), status="processing",
+            current_step="ingest_file", started_at=ingested_at,
+        )
+
+    file_result.update({
+        "status": "ok",
+        "domain": effective_domain,
+        "sha256": _compute_sha256(source),
+        "artmind_id": resolution.artmind_id,
+        "version": version_decision.version,
+        "content_sha256": version_decision.content_sha256,
+        "registered_path": str(source.resolve()),
+        "resolution_verdict": resolution.verdict,
+        "tier": tier,
+        "touched_path": source,
+    })
+
+    if tier == "metadata_only":
+        try:
+            from artmind.delta import apply_metadata_only
+
+            apply_metadata_only(
+                doc_id=resolution.artmind_id,
+                domain=effective_domain,
+                metadata={
+                    k: new_meta.get(k)
+                    for k in ("title", "project", "area", "tags", "created_on", "modified_on")
+                    if new_meta.get(k)
+                },
+            )
+        except Exception as e:
+            logger.warning("metadata-only graph update skipped for {}: {}", source.name, e)
+        file_result["chunk_count"] = 0
+        logger.info(
+            "── Ingest done in {:.1f}s: {} (metadata_only, v{})",
+            time.monotonic() - t_file_start, source.name, version_decision.version,
+        )
+        return file_result
+
+    chunks = _split_markdown(body, chunk_size)
+    chunks_dir = MARKDOWNS_DIR / f"{source.stem}_chunks"
+    _persist_chunks(chunks, chunks_dir)
+    file_result["chunks_dir"] = str(chunks_dir)
+    file_result["chunk_count"] = len(chunks)
+
+    logger.info(
+        "── Ingest done in {:.1f}s: {} ({}, v{}) — {} chunk(s)",
+        time.monotonic() - t_file_start, source.name, tier, version_decision.version, len(chunks),
+    )
+    return file_result
+
+
+def _ingest_binary_or_adhoc(
+    source: Path,
+    image_model: str,
+    domain: str,
+    job_id: str | None,
+    chunk_size: int,
 ):
     file_size_kb = source.stat().st_size / 1024
     logger.info(
@@ -516,56 +675,18 @@ def ingest_file(
     file_result = {"filename": source.name, "status": "failed"}
     t_file_start = time.monotonic()
 
-    file_sha256 = _compute_sha256(source)
-    logger.debug("SHA256: {}", file_sha256)
-    is_duplicate = _sha256_in_registry(file_sha256)
-    # --replace re-ingests over the same logical document, so a byte-identical
-    # re-run is a no-op replace rather than a skip; let it proceed.
-    if is_duplicate and not force and not replace:
-        logger.warning(
-            "Skipping duplicate — SHA256 already registered: {}", source.name
-        )
-        file_result["error"] = "Duplicate SHA256 already registered"
-        if job_id:
-            _update_job_file_status(
-                job_id,
-                str(source.resolve()),
-                status="skipped",
-                error_message="Duplicate SHA256 already registered",
-            )
-        return file_result
-
-    # A forced duplicate gets its own extraction identity (chunk cache, doc_id,
-    # Neo4j document node) so it doesn't collide/merge with the original document
-    # that shares this content hash. The registry still records the real sha256.
-    #
-    # Skipped under --replace: replace intends to reuse the prior identity, not
-    # fork a new one, so it keeps the shared extraction key and logical id.
-    extraction_sha256 = file_sha256
-    if is_duplicate and force and not replace:
-        extraction_sha256 = f"{file_sha256}-{uuid.uuid4().hex[:8]}"
-        logger.info(
-            "Forcing duplicate ingestion of {} — using independent extraction key",
-            source.name,
-        )
+    logger.debug("SHA256: {}", _compute_sha256(source))
 
     # Stable path-based logical identity (A1c). Computed from the *source* path
     # (not the data-dir copy) so re-ingesting an edited file at the same Vault
-    # path resolves to the same document. A forced duplicate gets an independent
-    # logical id too, mirroring the independent extraction key above, so it never
-    # collides with / bumps the version of the original document.
+    # path resolves to the same document. This is unaffected by Phase 2 —
+    # binaries can't carry frontmatter, so they stay path-keyed
+    # (docs/document-identity.md, "sources that cannot carry frontmatter").
+    # Real identity continuity for this path runs through Neo4j's `logical_id`
+    # lookup (`_resolve_doc_identity`); the SQLite row _register_document
+    # writes below is bookkeeping, not identity.
     logical_id = _logical_id(domain, _canonical_key(source, domain))
-    if is_duplicate and force and not replace:
-        logical_id = f"{logical_id}-{uuid.uuid4().hex[:8]}"
-
-    # Under --replace the on-disk copies overwrite in place and the registry row
-    # is UPDATEd, so keep the original filename; the collision-rename would
-    # otherwise mint a distinct filename (and a distinct document).
     dest_filename = source.name
-    if _filename_in_registry(dest_filename) and not replace:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        dest_filename = f"{source.stem}_{timestamp}{source.suffix}"
-        logger.info("Name collision — renamed to: {}", dest_filename)
 
     ORIGINALS_DIR.mkdir(parents=True, exist_ok=True)
     dest_path = ORIGINALS_DIR / dest_filename
@@ -657,36 +778,31 @@ def ingest_file(
         else:
             logger.debug("No artifacts directory for {}", dest_filename)
 
-    try:
-        registered_path = _register_document(domain, dest_path, logical_id, replace=replace)
-        elapsed_total = time.monotonic() - t_file_start
-        logger.info(
-            "── Ingest done in {:.1f}s: {} registered in domain '{}'",
-            elapsed_total,
-            dest_filename,
-            domain,
-        )
+    registered_path = _register_document(domain, dest_path)
+    elapsed_total = time.monotonic() - t_file_start
+    logger.info(
+        "── Ingest done in {:.1f}s: {} registered in domain '{}'",
+        elapsed_total,
+        dest_filename,
+        domain,
+    )
 
-        # Split markdown into chunks and persist each chunk to disk
-        raw_text = md_file.read_text(encoding="utf-8")
-        _, body = _parse_md_frontmatter(raw_text)
-        chunks = _split_markdown(body, chunk_size)
-        chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
-        _persist_chunks(chunks, chunks_dir)
-        logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
+    # Split markdown into chunks and persist each chunk to disk
+    raw_text = md_file.read_text(encoding="utf-8")
+    _, body = _parse_md_frontmatter(raw_text)
+    chunks = _split_markdown(body, chunk_size)
+    chunks_dir = MARKDOWNS_DIR / f"{dest_path.stem}_chunks"
+    _persist_chunks(chunks, chunks_dir)
+    logger.info("Saved {} chunk(s) to {}_chunks/", len(chunks), dest_path.stem)
 
-        file_result["status"] = "ok"
-        file_result["domain"] = domain
-        file_result["sha256"] = extraction_sha256
-        file_result["logical_id"] = logical_id
-        file_result["registered_path"] = str(registered_path)
-        file_result["chunks_dir"] = str(chunks_dir)
-        file_result["chunk_count"] = len(chunks)
-        return file_result
-    except ValueError as e:
-        logger.error("Registration failed for {}: {}", dest_filename, e)
-        file_result["error"] = str(e)
-        return file_result
+    file_result["status"] = "ok"
+    file_result["domain"] = domain
+    file_result["sha256"] = _compute_sha256(dest_path)
+    file_result["logical_id"] = logical_id
+    file_result["registered_path"] = str(registered_path)
+    file_result["chunks_dir"] = str(chunks_dir)
+    file_result["chunk_count"] = len(chunks)
+    return file_result
 
 
 # ── knowledge graph helpers ────────────────────────────────────────────────────
@@ -1721,27 +1837,23 @@ def ingest_to_kg(
     embed_model: str = "nomic-embed-text:latest",
     chunk_size: int = 6000,
     stage_only: bool = False,
-    replace: bool = False,
 ) -> bool:
     """Orchestrate KG extraction and (unless stage_only) commit for one document.
 
-    When ``replace`` is set, the commit first hard-retracts the prior version's
-    graph contributions (idempotent re-ingest, A1d): identity resolution reuses
-    the physical ``doc_id`` at ``version+1``, so retracting that ``doc_id`` and
-    re-committing under it replaces the document's edges, chunks, and property
-    contributions in place while shared entities/edges backed by other documents
-    survive.
+    Re-ingesting a known identity is always a replace now (`--replace` is
+    gone) — the commit always hard-retracts whatever the reused ``doc_id``'s
+    prior graph contributions were before re-committing, which is a safe
+    no-op for a document that's genuinely new (nothing to retract).
 
-    Under ``replace``, the three-tier delta classifier (A4, ADR 0006 (f)) runs
-    first: if the body is byte-identical to the prior version's blocks the
-    document takes the metadata-only fast path (bare SET on Document + DocChunk
-    filing props, no chunking, no LLM extraction, no supersede). Content /
-    domain / initial classifications fall through to the full pipeline below.
+    This path only ever runs the three-tier delta classifier (A4, ADR 0006 (f))
+    for a *binary-source* re-ingest — a vault-native document's metadata-only
+    fast path is decided earlier, in `_ingest_vault_native`, and never reaches
+    here at all (`"logical_id" in file_result` is precisely binary-only:
+    vault-native carries `artmind_id`, never `logical_id`).
     """
-    # A4: metadata-only fast path — only meaningful for a re-ingest (replace=True)
-    # against an existing logical document. Never for stage_only (that path is a
+    # A4: metadata-only fast path. Never for stage_only (that path is a
     # staging test that must produce doc_kg_dir).
-    if replace and not stage_only and "logical_id" in file_result:
+    if not stage_only and "logical_id" in file_result:
         try:
             from artmind.delta import classify_reingest, apply_metadata_only
 
@@ -1799,7 +1911,7 @@ def ingest_to_kg(
     if stage_only:
         logger.info("Staged (not committed): {}", doc_kg_dir)
         return True
-    return commit_to_graph(doc_kg_dir, domain, replace=replace)
+    return commit_to_graph(doc_kg_dir, domain)
 
 
 def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:
@@ -1847,11 +1959,12 @@ def extract_kg(
     doc_sha256 = file_result.get("sha256", "")
     chunks_dir = Path(file_result["chunks_dir"])
     registered_path = Path(file_result["registered_path"])
+    source_type = file_result.get("source_type", "md" if "artmind_id" in file_result else "other")
+    md_file = markdown_path_for(source_type, vault_path=registered_path, stem=registered_path.stem)
 
     # Read filing metadata from markdown frontmatter (ADR 0010)
     # Chunks get a denormalized copy so they can be filtered by filing taxonomy
     filing_metadata: dict = {}
-    md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
     if md_file.exists():
         try:
             meta, _ = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
@@ -1888,19 +2001,27 @@ def extract_kg(
     chunk_data_dir = doc_kg_dir / "chunks" / doc_sha256
     chunk_data_dir.mkdir(parents=True, exist_ok=True)
 
-    # Stable identity (A1c): resolve the physical doc_id + version by logical id.
-    # A document already in the graph keeps its id and bumps version (idempotent
-    # re-ingest); otherwise a fresh id at version 1. A resumed partial extraction
-    # (chunk-status rows keyed by the extraction sha256) supplies its already-
-    # minted doc_id as the fresh-mint fallback so a resume keeps its id. The
-    # logical_id normally arrives via file_result; recompute from the basename as
-    # a back-compat fallback for pre-A1c callers.
-    logical_id = file_result.get("logical_id") or _logical_id(
-        domain, _canonical_key(registered_path, domain)
-    )
-    existing = _get_chunk_statuses(doc_sha256)
-    resumed_doc_id = next(iter(existing.values()))["doc_id"] if existing else None
-    doc_id, version = _resolve_doc_identity(domain, logical_id, resumed_doc_id)
+    # Identity: a vault-native document's `_ingest_vault_native` already
+    # resolved identity+version (docs/document-identity.md) and handed it
+    # through `file_result["artmind_id"]`/`["version"]` — `doc_id` IS the
+    # `_artmind_id`, one identity, not two parallel ones. A binary source has
+    # no frontmatter to carry an id, so it keeps the pre-Phase-2 path: resolve
+    # the physical doc_id + version by `logical_id` against the graph (a
+    # document already there keeps its id and bumps version; otherwise a
+    # fresh id at version 1). A resumed partial extraction (chunk-status rows
+    # keyed by the extraction sha256) supplies its already-minted doc_id as
+    # the fresh-mint fallback so a resume keeps its id.
+    logical_id = None
+    if "artmind_id" in file_result:
+        doc_id = file_result["artmind_id"]
+        version = file_result["version"]
+    else:
+        logical_id = file_result.get("logical_id") or _logical_id(
+            domain, _canonical_key(registered_path, domain)
+        )
+        existing = _get_chunk_statuses(doc_sha256)
+        resumed_doc_id = next(iter(existing.values()))["doc_id"] if existing else None
+        doc_id, version = _resolve_doc_identity(domain, logical_id, resumed_doc_id)
 
     chunk_files = sorted(chunks_dir.glob("chunk_*.md"))
     chunk_count = len(chunk_files)
@@ -2134,18 +2255,20 @@ def extract_kg(
         all_relationships.extend(data.get("relationships", []))
 
     # Build document node from markdown frontmatter
-    md_file = MARKDOWNS_DIR / f"{registered_path.stem}.md"
     meta = {}
     if md_file.exists():
         meta, _ = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
     document: dict = {
         "id": doc_id,
-        "logical_id": logical_id,
         "version": version,
         "name": registered_path.name,
         "path": str(registered_path),
         "domain": domain,
     }
+    if logical_id is not None:
+        document["logical_id"] = logical_id
+    else:
+        document["artmind_id"] = doc_id
 
     # Filing metadata (ADR 0010): project, area, tags, title, created_on, modified_on
     # All optional; sourced from YAML frontmatter, with sensible defaults for temporal fields.
@@ -2309,7 +2432,7 @@ def _incoming_property_values(doc_kg_dir: Path, domain: str) -> dict:
     return out
 
 
-def commit_to_graph(doc_kg_dir: Path, domain: str, replace: bool = False) -> bool:
+def commit_to_graph(doc_kg_dir: Path, domain: str) -> bool:
     """Complete commit of staged KG JSON to Neo4j: capture prior values, write,
     then the per-document self-asserted-truth hooks (temporal normalization,
     then supersession).
@@ -2320,33 +2443,33 @@ def commit_to_graph(doc_kg_dir: Path, domain: str, replace: bool = False) -> boo
     artmind.refine_pipeline. Hooks are best-effort: a down hook logs a warning
     but does not fail the commit, since the graph write already succeeded.
 
-    When ``replace`` is set (idempotent re-ingest, A1d), the prior version's
-    contributions under this reused ``doc_id`` are hard-retracted *before* the
-    write, so the re-commit replaces them in place rather than accreting onto
-    them (a second "desc | desc" append). Retraction runs before prior-value
-    capture so history reflects the rewritten, not doubled, state.
+    Re-ingesting a known identity is always a replace now (`--replace` is
+    gone): the reused ``doc_id``'s prior contributions are hard-retracted
+    *before* the write, so the re-commit replaces them in place rather than
+    accreting onto them (a second "desc | desc" append). For a document
+    that's genuinely new, every retraction MATCH finds nothing — a safe
+    no-op. Retraction runs before prior-value capture so history reflects
+    the rewritten, not doubled, state.
     """
     from artmind import entity_history
 
-    # 0a. Idempotent-replace retraction. Reingest reuses the physical doc_id at
-    #     version+1; retract that doc_id's old edges/chunks/property-ledger
-    #     entries first, then the write below re-adds this version's under the
-    #     same id. Shared entities/edges another document still backs survive.
-    if replace:
-        try:
-            doc_id = json.loads(
-                (doc_kg_dir / "document.json").read_text(encoding="utf-8")
-            ).get("id")
-            if doc_id:
-                retracted = _retract_document_from_neo4j(domain, doc_id)
-                logger.info(
-                    "commit_to_graph: replace retracted prior version of {} — {}",
-                    doc_id, retracted,
-                )
-        except Exception as e:
-            logger.warning(
-                "commit_to_graph: replace retraction failed for {}: {}", doc_kg_dir, e
+    # 0a. Retract this doc_id's old edges/chunks/property-ledger entries
+    #     first, then the write below re-adds this version's under the same
+    #     id. Shared entities/edges another document still backs survive.
+    try:
+        doc_id = json.loads(
+            (doc_kg_dir / "document.json").read_text(encoding="utf-8")
+        ).get("id")
+        if doc_id:
+            retracted = _retract_document_from_neo4j(domain, doc_id)
+            logger.info(
+                "commit_to_graph: retracted prior version of {} — {}",
+                doc_id, retracted,
             )
+    except Exception as e:
+        logger.warning(
+            "commit_to_graph: retraction failed for {}: {}", doc_kg_dir, e
+        )
 
     # 0. Prior-value capture, for the entity history zone. Must precede the
     #    write: _upsert_entity's merge is accretive, so afterwards the live

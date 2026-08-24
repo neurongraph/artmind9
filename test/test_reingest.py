@@ -238,50 +238,13 @@ def _patch_db(tmp_path, monkeypatch):
     return db
 
 
-def test_register_replace_updates_row_in_place(tmp_path, monkeypatch):
-    db = _patch_db(tmp_path, monkeypatch)
-    db._init_db()
-
-    f = tmp_path / "a.md"
-    f.write_text("alpha", encoding="utf-8")
-    ing._register_document("banking", f, "lid-1")
-
-    # Re-ingest edited content at the same path/logical id under --replace.
-    f.write_text("alpha-edited", encoding="utf-8")
-    ing._register_document("banking", f, "lid-1", replace=True)
-
-    conn = sqlite3.connect(db.DB_PATH)
-    try:
-        rows = conn.execute(
-            "SELECT sha256 FROM documents WHERE domain = 'banking' AND logical_id = 'lid-1'"
-        ).fetchall()
-    finally:
-        conn.close()
-    # Exactly one row (UPDATE, not a second INSERT), with the new content hash.
-    assert len(rows) == 1
-    assert rows[0][0] == sha256(b"alpha-edited").hexdigest()
+# _register_document's own re-ingest-always-a-replace / path-only-source
+# behavior is covered in test_ingest_identity.py.
 
 
-def test_register_replace_without_prior_row_inserts_fresh(tmp_path, monkeypatch):
-    db = _patch_db(tmp_path, monkeypatch)
-    db._init_db()
-
-    f = tmp_path / "new.md"
-    f.write_text("brand new", encoding="utf-8")
-    # replace=True but nothing registered for this logical id yet → plain insert.
-    ing._register_document("banking", f, "lid-new", replace=True)
-
-    conn = sqlite3.connect(db.DB_PATH)
-    try:
-        row = conn.execute(
-            "SELECT filename, logical_id FROM documents WHERE logical_id = 'lid-new'"
-        ).fetchone()
-    finally:
-        conn.close()
-    assert row == ("new.md", "lid-new")
-
-
-# ── commit_to_graph(replace=True): retract the prior version before rewriting ─
+# ── commit_to_graph: always retracts the prior version before rewriting ──────
+# (Phase 2 — re-ingesting a known identity is always a replace; --replace is
+# gone. A genuinely new document's retraction MATCHes nothing and is a no-op.)
 
 
 def test_commit_replace_retracts_prior_version_first(tmp_path, monkeypatch):
@@ -313,7 +276,7 @@ def test_commit_replace_retracts_prior_version_first(tmp_path, monkeypatch):
         lambda domain, doc_id: (order.append("retract"), retractions.append((domain, doc_id)), {})[-1],
     )
 
-    ok = ing.commit_to_graph(doc_kg_dir, "banking", replace=True)
+    ok = ing.commit_to_graph(doc_kg_dir, "banking")
 
     assert ok is True
     assert retractions == [("banking", "phys-1")]
@@ -322,18 +285,19 @@ def test_commit_replace_retracts_prior_version_first(tmp_path, monkeypatch):
     assert order == ["retract", "write"]
 
 
-def test_commit_without_replace_does_not_retract(tmp_path, monkeypatch):
+def test_commit_retraction_failure_does_not_fail_the_commit(tmp_path, monkeypatch):
+    """A genuinely new document (or a retraction hiccup) must not block the
+    write -- retraction is best-effort, the graph write is what matters."""
     doc_kg_dir = tmp_path / "doc"
     doc_kg_dir.mkdir()
     (doc_kg_dir / "document.json").write_text(
         json.dumps({"id": "phys-1", "name": "docA.md"}), encoding="utf-8"
     )
 
-    retractions: list = []
-    monkeypatch.setattr(
-        ing, "_retract_document_from_neo4j",
-        lambda domain, doc_id: retractions.append((domain, doc_id)) or {},
-    )
+    def _boom(domain, doc_id):
+        raise RuntimeError("no prior version to retract")
+
+    monkeypatch.setattr(ing, "_retract_document_from_neo4j", _boom)
     monkeypatch.setattr(ing, "write_to_graph", lambda d: True)
     import artmind.entity_history as eh
     monkeypatch.setattr(eh, "supersession_possible", lambda *a, **k: False)
@@ -341,6 +305,4 @@ def test_commit_without_replace_does_not_retract(tmp_path, monkeypatch):
     monkeypatch.setattr(tmp_mod, "normalize_ingested_document", lambda *a, **k: None)
     monkeypatch.setattr(tmp_mod, "detect_supersession", lambda *a, **k: {"applied": []})
 
-    ing.commit_to_graph(doc_kg_dir, "banking")  # replace defaults to False
-
-    assert retractions == []
+    assert ing.commit_to_graph(doc_kg_dir, "banking") is True

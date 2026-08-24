@@ -52,20 +52,20 @@ def _insert_document(db_path: Path, domain: str, filename: str, original_path: P
             """
             CREATE TABLE documents (
                 id           INTEGER PRIMARY KEY,
+                artmind_id   TEXT,
                 domain       TEXT NOT NULL,
                 filename     TEXT NOT NULL,
-                sha256       TEXT NOT NULL,
-                original_path TEXT NOT NULL,
+                path         TEXT NOT NULL,
+                sha256       TEXT,
                 added_at     TEXT NOT NULL,
-                UNIQUE(filename),
-                UNIQUE(sha256)
+                UNIQUE(artmind_id)
             )
             """
         )
         conn.execute(
-            "INSERT INTO documents (domain, filename, sha256, original_path, added_at)"
+            "INSERT INTO documents (domain, filename, path, sha256, added_at)"
             " VALUES (?, ?, ?, ?, ?)",
-            (domain, filename, "abc123", str(original_path), "2026-05-03T00:00:00"),
+            (domain, filename, str(original_path), "abc123", "2026-05-03T00:00:00"),
         )
         conn.commit()
     finally:

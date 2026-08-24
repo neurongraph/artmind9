@@ -111,7 +111,7 @@ def _process_job(
                     )
             else:
                 result = ingest_file(
-                    file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size, force=force
+                    file_path, image_model, domain, job_id=job_id, chunk_size=chunk_size
                 )
                 if result.get("status") == "ok":
                     _update_job_file_status(
@@ -119,8 +119,14 @@ def _process_job(
                         current_step="extract_kg",
                         doc_sha256=result.get("sha256"),
                     )
+                    if result.get("touched_path"):
+                        from artmind.vault_git import commit_paths, maybe_push
+
+                        if commit_paths([Path(result["touched_path"])], f"artmind: ingest {Path(file_path).name}"):
+                            maybe_push()
+                    effective_domain = result.get("domain", domain)
                     kg_ok = ingest_to_kg(
-                        result, domain, text_model, embed_model, chunk_size, stage_only=stage_only
+                        result, effective_domain, text_model, embed_model, chunk_size, stage_only=stage_only
                     )
                     _update_job_file_status(
                         job_id,

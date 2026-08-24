@@ -13,17 +13,28 @@ def _init_db() -> None:
     # setting it here (called on every _get_db) is idempotent and cheap.
     conn.execute("PRAGMA journal_mode=WAL")
     cursor = conn.cursor()
+    # Phase 2 (docs/document-identity.md): identity is `artmind_id` (a uuid7
+    # written into vault frontmatter), not a path/filename derivative, so this
+    # is a path <-> id CACHE, not identity storage -- `docs reindex` (Phase 5)
+    # rebuilds it from the vault. `artmind_id` is nullable: a source that
+    # cannot carry frontmatter (a binary original, a structured csv/xlsx) has
+    # no id at all and stays path-keyed, per the spec's "sources that cannot
+    # carry frontmatter" table. SQLite's UNIQUE treats each NULL as distinct,
+    # so any number of path-only rows coexist with the id-bearing ones.
+    # `filename`/`sha256` are informational display/lookup convenience, not
+    # identity -- no UNIQUE on either; a global sha256 duplicate guard is
+    # exactly what this redesign removes (a copied template with an unedited
+    # body is a legitimate new document).
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS documents (
             id           INTEGER PRIMARY KEY,
+            artmind_id   TEXT,
             domain       TEXT NOT NULL,
             filename     TEXT NOT NULL,
-            sha256       TEXT NOT NULL,
-            original_path TEXT NOT NULL,
+            path         TEXT NOT NULL,
+            sha256       TEXT,
             added_at     TEXT NOT NULL,
-            logical_id   TEXT,
-            UNIQUE(filename),
-            UNIQUE(domain, logical_id)
+            UNIQUE(artmind_id)
         )
     """)
     cursor.execute("""
@@ -207,78 +218,30 @@ def _init_db() -> None:
     if "stage_only" not in existing:
         cursor.execute("ALTER TABLE ingestion_jobs ADD COLUMN stage_only INTEGER DEFAULT 0")
 
-    # Drop the legacy UNIQUE(sha256) constraint on documents so the same content
-    # can be force-ingested as an independent document (see --force).
+    # Phase 2 dropped path/filename-derived identity (logical_id) for
+    # frontmatter-carried `artmind_id` -- no backward compatibility, no
+    # migration: a `documents` table from before this change is simply
+    # incompatible, so it is dropped and recreated empty. Re-ingesting the
+    # vault repopulates it under the new resolution table (every row reads as
+    # `new`, or `adopt` if the frontmatter already carries an id from a prior
+    # install). CREATE TABLE IF NOT EXISTS above then makes the fresh one.
     documents_sql = cursor.execute(
         "SELECT sql FROM sqlite_master WHERE type='table' AND name='documents'"
     ).fetchone()
-    if documents_sql and "UNIQUE(sha256)" in documents_sql[0]:
-        cursor.execute("ALTER TABLE documents RENAME TO documents_pre_force_migration")
+    if documents_sql and "artmind_id" not in documents_sql[0]:
+        cursor.execute("DROP TABLE documents")
         cursor.execute("""
             CREATE TABLE documents (
                 id           INTEGER PRIMARY KEY,
+                artmind_id   TEXT,
                 domain       TEXT NOT NULL,
                 filename     TEXT NOT NULL,
-                sha256       TEXT NOT NULL,
-                original_path TEXT NOT NULL,
+                path         TEXT NOT NULL,
+                sha256       TEXT,
                 added_at     TEXT NOT NULL,
-                UNIQUE(filename)
+                UNIQUE(artmind_id)
             )
         """)
-        cursor.execute(
-            "INSERT INTO documents (id, domain, filename, sha256, original_path, added_at)"
-            " SELECT id, domain, filename, sha256, original_path, added_at"
-            " FROM documents_pre_force_migration"
-        )
-        cursor.execute("DROP TABLE documents_pre_force_migration")
-
-    # Add the path-based logical_id + UNIQUE(domain, logical_id) (A1c). This is
-    # the stable identity that lets re-ingest recognise an edited file as the
-    # same document. SQLite can neither ADD a UNIQUE constraint nor ADD a column
-    # with one, so when logical_id is absent we do the rename→recreate→copy→drop
-    # dance, then backfill each row from (domain, filename) using the exact hash
-    # the pipeline computes. Re-read the schema first: the sha256 migration above
-    # may have just recreated `documents` without logical_id.
-    documents_sql = cursor.execute(
-        "SELECT sql FROM sqlite_master WHERE type='table' AND name='documents'"
-    ).fetchone()
-    if documents_sql and "logical_id" not in documents_sql[0]:
-        cursor.execute("ALTER TABLE documents RENAME TO documents_pre_logical_id")
-        cursor.execute("""
-            CREATE TABLE documents (
-                id           INTEGER PRIMARY KEY,
-                domain       TEXT NOT NULL,
-                filename     TEXT NOT NULL,
-                sha256       TEXT NOT NULL,
-                original_path TEXT NOT NULL,
-                added_at     TEXT NOT NULL,
-                logical_id   TEXT,
-                UNIQUE(filename),
-                UNIQUE(domain, logical_id)
-            )
-        """)
-        cursor.execute(
-            "INSERT INTO documents (id, domain, filename, sha256, original_path, added_at)"
-            " SELECT id, domain, filename, sha256, original_path, added_at"
-            " FROM documents_pre_logical_id"
-        )
-        cursor.execute("DROP TABLE documents_pre_logical_id")
-        # Backfill logical_id for pre-A1c rows. Best-effort: keyed on the
-        # casefolded basename (the vault-relative path isn't recoverable here),
-        # matching _canonical_key's no-vault fallback. A later --replace re-ingest
-        # from a real Vault path will supersede it. Import locally to avoid a
-        # db↔ingest import cycle; tolerate failure rather than brick _init_db.
-        try:
-            from artmind.ingest import _logical_id
-
-            rows = cursor.execute("SELECT id, domain, filename FROM documents").fetchall()
-            for row_id, domain, filename in rows:
-                cursor.execute(
-                    "UPDATE documents SET logical_id = ? WHERE id = ?",
-                    (_logical_id(domain, filename.casefold()), row_id),
-                )
-        except Exception:
-            pass
 
     # Migrate the `tables` registry's UNIQUE constraint from
     # (datasource, table_name) to (datasource, domain, table_name) so two
@@ -355,6 +318,84 @@ def _init_db() -> None:
 
     conn.commit()
     conn.close()
+
+
+def _registry_row_by_artmind_id(artmind_id: str) -> dict | None:
+    """The registry's path <-> id cache, read by id -- the lookup the
+    resolution table's `reingest`/`move`/`refuse` rows need."""
+    conn = _get_db()
+    try:
+        row = conn.execute(
+            "SELECT id, artmind_id, domain, filename, path, sha256, added_at"
+            " FROM documents WHERE artmind_id = ?",
+            (artmind_id,),
+        ).fetchone()
+        if not row:
+            return None
+        return {
+            "id": row[0], "artmind_id": row[1], "domain": row[2],
+            "filename": row[3], "path": row[4], "sha256": row[5], "added_at": row[6],
+        }
+    finally:
+        conn.close()
+
+
+def _registry_row_by_path(path: str) -> dict | None:
+    """The registry's path <-> id cache, read by path -- the lookup `heal`
+    needs (frontmatter lost its id; the registry still has it)."""
+    conn = _get_db()
+    try:
+        row = conn.execute(
+            "SELECT id, artmind_id, domain, filename, path, sha256, added_at"
+            " FROM documents WHERE path = ?",
+            (path,),
+        ).fetchone()
+        if not row:
+            return None
+        return {
+            "id": row[0], "artmind_id": row[1], "domain": row[2],
+            "filename": row[3], "path": row[4], "sha256": row[5], "added_at": row[6],
+        }
+    finally:
+        conn.close()
+
+
+def _registry_upsert(
+    artmind_id: str | None, domain: str, filename: str, path: str, sha256: str | None
+) -> None:
+    """Write (or move/refresh) a path <-> id cache row.
+
+    `artmind_id=None` is the path-only case (a source that cannot carry
+    frontmatter). Keyed on `artmind_id` when present -- an `adopt`/`move`
+    verdict repoints an *existing* id's path rather than minting a new row,
+    which is exactly the UPSERT this needs (no separate branch for "new row"
+    vs "row already exists under this id").
+    """
+    conn = _get_db()
+    now = __import__("datetime").datetime.now().isoformat()
+    try:
+        if artmind_id is not None:
+            conn.execute(
+                """
+                INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(artmind_id) DO UPDATE SET
+                    domain = excluded.domain,
+                    filename = excluded.filename,
+                    path = excluded.path,
+                    sha256 = excluded.sha256
+                """,
+                (artmind_id, domain, filename, path, sha256, now),
+            )
+        else:
+            conn.execute(
+                "INSERT INTO documents (artmind_id, domain, filename, path, sha256, added_at)"
+                " VALUES (NULL, ?, ?, ?, ?, ?)",
+                (domain, filename, path, sha256, now),
+            )
+        conn.commit()
+    finally:
+        conn.close()
 
 
 def _get_db() -> sqlite3.Connection:

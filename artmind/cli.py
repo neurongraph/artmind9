@@ -472,9 +472,20 @@ def ingest():
 
 @ingest.command("sync")
 @click.argument("file_path", type=click.Path(exists=True))
-@click.option("--domain", default=None, help="Domain to assign (prompted if omitted)")
-@click.option("--force", is_flag=True, help="Ingest even if identical content is already registered")
-@click.option("--replace", is_flag=True, help="Idempotent re-ingest of an edited document: reuse its identity (version+1) and hard-retract the prior version's graph contributions before rewriting, so shared entities/edges other documents back are preserved. KG documents only.")
+@click.option(
+    "--domain", default=None,
+    help="Domain to assign. Vault-native markdown: a fallback only — a file's own"
+    " '_domain' frontmatter wins when present (docs/document-identity.md). Prompted"
+    " when ingesting a single file with neither. Required for structured/binary files.",
+)
+@click.option(
+    "--setDomain", "set_domain", default=None,
+    help="Force this domain onto every vault-native file ingested, overriding its"
+    " own '_domain' frontmatter, and force re-extraction under the new schema.",
+)
+@click.option("--fork", is_flag=True, help="On an _artmind_id collision (two live files, one id), mint a fresh id for the newcomer instead of refusing.")
+@click.option("--adopt", is_flag=True, help="On an _artmind_id collision, transfer identity to the newcomer instead of refusing (the old claimant is left as-is).")
+@click.option("--force", is_flag=True, help="Structured (csv/xlsx) files only: ingest even if identical content is already registered.")
 @click.option("--stage-only", is_flag=True, help="Extract KG JSON but do not write to the graph (leaves it staged for a later commit)")
 @click.option(
     "--refreshMode", "refresh_mode",
@@ -495,8 +506,10 @@ def ingest():
 def ingest_sync(
     file_path: str,
     domain: str | None,
+    set_domain: str | None,
+    fork: bool,
+    adopt: bool,
     force: bool,
-    replace: bool,
     stage_only: bool,
     refresh_mode: str,
     business_key: str | None,
@@ -511,20 +524,30 @@ def ingest_sync(
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     chunk_size = int(env.get("ARTMIND_KG_CHUNK_SIZE", "6000"))
 
-    if domain is None:
-        domain = _prompt_for_domain()
-    elif domain not in _get_available_domains():
+    path = Path(file_path)
+    files = collect_ingest_files(path)
+
+    # A single file with no domain source at all is worth an interactive
+    # prompt; a directory batch is not (frontmatter is expected to carry
+    # `_domain` per-file — see docs/document-identity.md).
+    if domain is None and set_domain is None and len(files) == 1 and not is_structured_source(files[0]):
+        from artmind.ingest import _parse_md_frontmatter
+
+        frontmatter_domain = None
+        if files[0].suffix.lower() == ".md":
+            meta, _ = _parse_md_frontmatter(files[0].read_text(encoding="utf-8"))
+            frontmatter_domain = meta.get("_domain")
+        if not frontmatter_domain:
+            domain = _prompt_for_domain()
+    if domain is not None and domain not in _get_available_domains():
         raise click.ClickException(
             f"Unknown domain '{domain}'. Run 'artmind domains list' to see available domains."
         )
 
-    path = Path(file_path)
-    files = collect_ingest_files(path)
-
     logger.info(
         "═══ Sync ingest: {} file(s) | domain={} | image_model={} | text_model={} | embed={} | chunk_size={}",
         len(files),
-        domain,
+        domain or "(from frontmatter)",
         image_model,
         text_model,
         embed_model,
@@ -534,9 +557,14 @@ def ingest_sync(
         logger.debug("  File: {}", name)
     t_batch = time.monotonic()
     ok_count, fail_count = 0, 0
+    touched_paths: list[Path] = []
     for f in files:
         try:
             if is_structured_source(f):
+                if domain is None:
+                    fail_count += 1
+                    logger.error("{}: --domain is required for structured files", f.name)
+                    continue
                 res = ingest_structured_file(
                     f,
                     domain,
@@ -547,9 +575,15 @@ def ingest_sync(
                 )
                 ok_count += 1 if res.get("status") == "ok" else 0
                 continue
-            result = ingest_file(f, image_model, domain, chunk_size=chunk_size, force=force, replace=replace)
+            result = ingest_file(
+                f, image_model, domain, chunk_size=chunk_size,
+                set_domain=set_domain, fork=fork, adopt=adopt,
+            )
             if result.get("status") == "ok":
-                kg_ok = ingest_to_kg(result, domain, text_model, embed_model, chunk_size, stage_only=stage_only, replace=replace)
+                if result.get("touched_path"):
+                    touched_paths.append(Path(result["touched_path"]))
+                effective_domain = result.get("domain", domain)
+                kg_ok = ingest_to_kg(result, effective_domain, text_model, embed_model, chunk_size, stage_only=stage_only)
                 if kg_ok:
                     ok_count += 1
                 else:
@@ -557,9 +591,22 @@ def ingest_sync(
                     logger.error("KG ingestion failed for {}", f.name)
             else:
                 fail_count += 1
+                logger.error("Ingestion failed for {}: {}", f.name, result.get("error"))
         except Exception as e:
             fail_count += 1
             logger.error("Unexpected error processing {}: {}", f, e)
+
+    if touched_paths:
+        from artmind.vault_git import commit_paths, maybe_push
+
+        commit_msg = (
+            f"artmind: ingest {touched_paths[0].name}"
+            if len(touched_paths) == 1
+            else f"artmind: ingest {len(touched_paths)} document(s)"
+        )
+        if commit_paths(touched_paths, commit_msg):
+            maybe_push()
+
     elapsed = time.monotonic() - t_batch
     logger.info(
         "═══ Sync ingest complete in {:.1f}s — ok={}, failed={}",

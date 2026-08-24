@@ -317,7 +317,7 @@ def test_ingest_to_kg_takes_metadata_only_fast_path(tmp_path, monkeypatch):
         "logical_id": "lid-1",
     }
 
-    ok = ing.ingest_to_kg(file_result, domain="general", replace=True)
+    ok = ing.ingest_to_kg(file_result, domain="general")
 
     assert ok is True
     assert called_extract["n"] == 0, "extract_kg must not run on the metadata-only fast path"
@@ -360,7 +360,7 @@ def test_ingest_to_kg_falls_through_when_classifier_returns_content(tmp_path, mo
     }
     (tmp_path / "chunks").mkdir()
 
-    ok = ing.ingest_to_kg(file_result, domain="general", replace=True)
+    ok = ing.ingest_to_kg(file_result, domain="general")
 
     assert ok is True
     assert called["extract"] == 1, "content verdict must run extract_kg"

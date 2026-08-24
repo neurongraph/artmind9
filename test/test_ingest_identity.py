@@ -155,26 +155,28 @@ def _patch_db(tmp_path, monkeypatch):
     return db
 
 
-def test_fresh_db_has_logical_id_column_and_unique_constraint(tmp_path, monkeypatch):
+def test_fresh_db_has_artmind_id_column_and_unique_constraint(tmp_path, monkeypatch):
     db = _patch_db(tmp_path, monkeypatch)
     db._init_db()
     conn = sqlite3.connect(db.DB_PATH)
     try:
         cols = {row[1] for row in conn.execute("PRAGMA table_info(documents)")}
-        assert "logical_id" in cols
+        assert "artmind_id" in cols
+        assert "path" in cols
         sql = conn.execute(
             "SELECT sql FROM sqlite_master WHERE type='table' AND name='documents'"
         ).fetchone()[0]
-        assert "UNIQUE(domain, logical_id)" in sql
-        assert "UNIQUE(filename)" in sql
+        assert "UNIQUE(artmind_id)" in sql
+        # Filenames are not identity (Phase 2) -- no UNIQUE on filename/path.
+        assert "UNIQUE(filename)" not in sql
     finally:
         conn.close()
 
 
-def test_migration_adds_and_backfills_logical_id_on_legacy_db(tmp_path, monkeypatch):
+def test_legacy_documents_table_is_dropped_and_recreated_not_migrated(tmp_path, monkeypatch):
+    """No backward compatibility (Phase 2): an old-shaped table is simply
+    replaced, empty -- re-ingesting the vault repopulates it."""
     db = _patch_db(tmp_path, monkeypatch)
-    # Build a pre-A1c documents table (post-force schema: UNIQUE(filename), no
-    # logical_id) and seed a row, then let _init_db migrate it.
     conn = sqlite3.connect(db.DB_PATH)
     conn.execute(
         """
@@ -185,13 +187,15 @@ def test_migration_adds_and_backfills_logical_id_on_legacy_db(tmp_path, monkeypa
             sha256       TEXT NOT NULL,
             original_path TEXT NOT NULL,
             added_at     TEXT NOT NULL,
-            UNIQUE(filename)
+            logical_id   TEXT,
+            UNIQUE(filename),
+            UNIQUE(domain, logical_id)
         )
         """
     )
     conn.execute(
-        "INSERT INTO documents (id, domain, filename, sha256, original_path, added_at)"
-        " VALUES (1, 'banking', 'Fees.md', 'deadbeef', '/x/Fees.md', 'now')"
+        "INSERT INTO documents (id, domain, filename, sha256, original_path, added_at, logical_id)"
+        " VALUES (1, 'banking', 'Fees.md', 'deadbeef', '/x/Fees.md', 'now', 'old-lid')"
     )
     conn.commit()
     conn.close()
@@ -203,43 +207,65 @@ def test_migration_adds_and_backfills_logical_id_on_legacy_db(tmp_path, monkeypa
         sql = conn.execute(
             "SELECT sql FROM sqlite_master WHERE type='table' AND name='documents'"
         ).fetchone()[0]
-        assert "UNIQUE(domain, logical_id)" in sql
-        row = conn.execute(
-            "SELECT domain, filename, logical_id FROM documents WHERE id = 1"
-        ).fetchone()
-        # Row preserved, and backfilled with the casefolded-basename identity.
-        assert (row[0], row[1]) == ("banking", "Fees.md")
-        assert row[2] == ing._logical_id("banking", "fees.md")
+        assert "artmind_id" in sql
+        assert conn.execute("SELECT COUNT(*) FROM documents").fetchone()[0] == 0
     finally:
         conn.close()
 
 
-def test_register_document_persists_logical_id_and_rejects_duplicate(tmp_path, monkeypatch):
+def test_register_document_persists_artmind_id(tmp_path, monkeypatch):
     db = _patch_db(tmp_path, monkeypatch)
     db._init_db()
-    # _register_document computes sha256 from the file and writes the row.
     f1 = tmp_path / "a.md"
     f1.write_text("alpha", encoding="utf-8")
-    ing._register_document("banking", f1, "lid-shared")
+    ing._register_document("banking", f1, "id-shared")
 
     conn = sqlite3.connect(db.DB_PATH)
     try:
         got = conn.execute(
-            "SELECT logical_id FROM documents WHERE filename = 'a.md'"
+            "SELECT artmind_id FROM documents WHERE filename = 'a.md'"
         ).fetchone()[0]
-        assert got == "lid-shared"
+        assert got == "id-shared"
     finally:
         conn.close()
 
-    # A different file (distinct name + content) but the same logical id in the
-    # same domain must be rejected by UNIQUE(domain, logical_id).
-    f2 = tmp_path / "b.md"
-    f2.write_text("bravo", encoding="utf-8")
+
+def test_register_document_upserts_same_artmind_id_in_place(tmp_path, monkeypatch):
+    """Re-ingest is always a replace (Phase 2) -- no duplicate-guard error."""
+    db = _patch_db(tmp_path, monkeypatch)
+    db._init_db()
+    f = tmp_path / "a.md"
+    f.write_text("alpha", encoding="utf-8")
+    ing._register_document("banking", f, "id-shared")
+    f.write_text("alpha-edited", encoding="utf-8")
+    ing._register_document("banking", f, "id-shared")
+
+    conn = sqlite3.connect(db.DB_PATH)
     try:
-        ing._register_document("banking", f2, "lid-shared")
-        assert False, "expected a duplicate ValueError"
-    except ValueError as e:
-        assert "logical id" in str(e)
+        rows = conn.execute(
+            "SELECT COUNT(*) FROM documents WHERE artmind_id = 'id-shared'"
+        ).fetchone()[0]
+        assert rows == 1
+    finally:
+        conn.close()
+
+
+def test_register_document_with_no_artmind_id_is_path_only(tmp_path, monkeypatch):
+    """Binary/tabular sources have no frontmatter, hence no id (docs/document-identity.md)."""
+    db = _patch_db(tmp_path, monkeypatch)
+    db._init_db()
+    f = tmp_path / "deck.pptx"
+    f.write_text("binary", encoding="utf-8")
+    ing._register_document("banking", f)
+
+    conn = sqlite3.connect(db.DB_PATH)
+    try:
+        row = conn.execute(
+            "SELECT artmind_id FROM documents WHERE filename = 'deck.pptx'"
+        ).fetchone()
+        assert row[0] is None
+    finally:
+        conn.close()
 
 
 # ── Document MERGE props carry logical_id + version ──────────────────────────
