@@ -232,7 +232,23 @@ Their cleanup was also unsafe against a real corpus: it deleted
 the pairwise adjudicator's own nodes. Now scoped to the test domain and a
 module-specific `_test` tag.
 
-**4. A leftover `:Conflict` broke test isolation** once the real
+**4. The gate's own invariant checks were scoped wrong**, and only a graph
+holding the Phase 0 baseline could show it. Two checks — accreted `" | "`
+descriptions, and un-embedded-but-unflagged entities — matched every
+`:Entity` in `banking.reference`, including the pre-cutover entities written by
+the old accretive upsert. On a fresh graph both read 0; on the real graph the
+first reported 17 and failed the gate, while every assertion about the
+projection itself passed.
+
+The script's own `_clean` already had the right rule — it preserves entities
+with no `key` precisely because they are the baseline the scorecard measures —
+and the checks contradicted it. Both are now scoped to `e.key IS NOT NULL`, and
+the legacy count is *reported* rather than judged: scorecard row 2 clears at the
+Phase 8 re-ingest, not here. Verified both ways: seeding 17 legacy entities
+reproduces the original failure and now passes with a note, while a *projected*
+entity carrying `" | "` still fails the gate.
+
+**5. A leftover `:Conflict` broke test isolation** once the real
 `observation_id`/`conflict_id` constraints were applied to the harness. The
 fixture cleaned by domain, and pairwise conflicts carry none. Fixed by cleaning
 `c.domain IS NULL` too — and the live fixture now applies the **real**

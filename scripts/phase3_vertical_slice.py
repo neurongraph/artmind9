@@ -430,20 +430,48 @@ def assert_gate(gate: Gate) -> None:
             set(labels or []) <= {"Observation"},
             f"labels={sorted(labels or [])}",
         )
+        # These two are scoped to `e.key IS NOT NULL` — entities the Phase 3
+        # projection produced — for the same reason `_clean` is: a pre-cutover
+        # graph holds entities written by the old accretive upsert, and those
+        # are exactly what this run must NOT touch or be judged on. Scorecard
+        # row 2 (accreted descriptions) goes to zero at the Phase 8 re-ingest,
+        # not here.
         accreted = session.run(
-            "MATCH (e:Entity {domain: $d}) WHERE e.description CONTAINS ' | ' RETURN count(e) AS c",
+            "MATCH (e:Entity {domain: $d}) WHERE e.key IS NOT NULL "
+            "AND e.description CONTAINS ' | ' RETURN count(e) AS c",
             d=DOMAIN,
         ).single()["c"]
-        gate.check("no accreted ' | ' descriptions", accreted == 0, f"{accreted} entities")
+        gate.check(
+            "no accreted ' | ' descriptions among projected entities",
+            accreted == 0, f"{accreted} entities",
+        )
         nulls = session.run(
-            "MATCH (e:Entity {domain: $d}) WHERE e.embedding IS NULL AND e.embedding_stale IS NULL "
+            "MATCH (e:Entity {domain: $d}) WHERE e.key IS NOT NULL "
+            "AND e.embedding IS NULL AND e.embedding_stale IS NULL "
             "RETURN count(e) AS c", d=DOMAIN,
         ).single()["c"]
         gate.check(
-            "no entity is both un-embedded and unflagged",
+            "no projected entity is both un-embedded and unflagged",
             nulls == 0,
             f"{nulls} entities invisible to the sweep",
         )
+
+        # Pre-cutover entities, reported rather than judged. A non-zero count
+        # here is the Phase 0 baseline still sitting in the graph, which is
+        # expected until Phase 8 wipes and re-ingests.
+        legacy = session.run(
+            "MATCH (e:Entity {domain: $d}) WHERE e.key IS NULL "
+            "RETURN count(e) AS total, "
+            "count(CASE WHEN e.description CONTAINS ' | ' THEN 1 END) AS accreted",
+            d=DOMAIN,
+        ).single()
+        if legacy["total"]:
+            print(
+                f"\n  note: {legacy['total']} pre-cutover entities remain in {DOMAIN} "
+                f"({legacy['accreted']} with accreted ' | ' descriptions).\n"
+                f"        Not touched by this run, and not a gate failure — "
+                f"scorecard row 2 clears at the Phase 8 re-ingest."
+            )
 
     print(f"\n  entity name : {entity['name']!r}")
     print(f"  aliases     : {entity['aliases']}")
