@@ -165,6 +165,21 @@ def test_name_is_the_longest_canonical_name_tie_broken_by_frequency():
     assert tie["props"]["name"] == "Rate B"
 
 
+def test_aliases_keep_a_raw_name_that_merely_shares_the_key():
+    """The measurement-laden wording is what a document actually said, and it
+    is the most informative string in the set — excluding it because it
+    normalizes to the same key would throw that away."""
+    long_name = "SmartSaver Account Tier 2 Rate — 4.70% AER, effective 2026-01-15"
+    result = merge_observations([
+        obs(doc_id="a", _doc_valid_from="2026-01-01",
+            name=long_name, canonical_name="SmartSaver Account Tier 2 Rate"),
+        obs(doc_id="b", _doc_valid_from="2026-02-01",
+            name="SmartSaver Account Tier 2 Rate", canonical_name="SmartSaver Account Tier 2 Rate"),
+    ])
+    assert long_name in result["props"]["aliases"]
+    assert "SmartSaver Account Tier 2 Rate" not in result["props"]["aliases"]
+
+
 def test_aliases_union_raw_names_and_declared_aliases_excluding_the_chosen_name():
     result = merge_observations([
         obs(doc_id="a", _doc_valid_from="2026-01-01",

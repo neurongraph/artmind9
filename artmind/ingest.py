@@ -1448,6 +1448,7 @@ def ingest_to_kg(
     embed_model: str = "nomic-embed-text:latest",
     chunk_size: int = 6000,
     stage_only: bool = False,
+    defer_rebuild: bool = False,
 ) -> bool:
     """Orchestrate KG extraction and (unless stage_only) commit for one document.
 
@@ -1522,7 +1523,7 @@ def ingest_to_kg(
     if stage_only:
         logger.info("Staged (not committed): {}", doc_kg_dir)
         return True
-    return commit_to_graph(doc_kg_dir, domain)
+    return commit_to_graph(doc_kg_dir, domain, defer_rebuild=defer_rebuild)
 
 
 def _resolve_ingest_workers(chunk_count: int, override: int | None = None) -> int:

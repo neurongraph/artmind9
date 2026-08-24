@@ -556,6 +556,9 @@ def ingest_sync(
     t_batch = time.monotonic()
     ok_count, fail_count = 0, 0
     touched_paths: list[Path] = []
+    # One file rebuilds incrementally; a directory defers to one full rebuild.
+    defer_rebuild = len(files) > 1 and not stage_only
+    deferred_domains: set[str] = set()
     for f in files:
         try:
             if is_structured_source(f):
@@ -581,7 +584,17 @@ def ingest_sync(
                 if result.get("touched_path"):
                     touched_paths.append(Path(result["touched_path"]))
                 effective_domain = result.get("domain", domain)
-                kg_ok = ingest_to_kg(result, effective_domain, text_model, embed_model, chunk_size, stage_only=stage_only)
+                # A directory batch DEFERS the projection to one full rebuild
+                # at the end. Rebuilding incrementally per document would
+                # recompute the same aggregates once per contributing file —
+                # and, worse, would run the embed sweep against descriptions
+                # that the next file is about to change.
+                kg_ok = ingest_to_kg(
+                    result, effective_domain, text_model, embed_model, chunk_size,
+                    stage_only=stage_only, defer_rebuild=defer_rebuild,
+                )
+                if kg_ok and defer_rebuild:
+                    deferred_domains.add(effective_domain)
                 if kg_ok:
                     ok_count += 1
                 else:
@@ -593,6 +606,16 @@ def ingest_sync(
         except Exception as e:
             fail_count += 1
             logger.error("Unexpected error processing {}: {}", f, e)
+
+    if deferred_domains:
+        from artmind.ingest import rebuild_projection
+
+        logger.info(
+            "═══ Deferred projection rebuild over {} domain(s)", len(deferred_domains)
+        )
+        for deferred_domain in sorted(deferred_domains):
+            summary = rebuild_projection(deferred_domain)
+            logger.info("Projection rebuilt for {}: {}", deferred_domain, summary)
 
     if touched_paths:
         from artmind.vault_git import commit_paths, maybe_push

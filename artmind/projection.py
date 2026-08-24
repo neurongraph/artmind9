@@ -204,7 +204,12 @@ def merge_observations(
         [o.get("name") for o in ordered if o.get("name")]
         + [o.get("aliases") for o in ordered if o.get("aliases")]
     )
-    aliases = [a for a in aliases if normalize_name(a) != normalize_name(name)]
+    # Excluded by EXACT match, not by normalized key. A raw name that merely
+    # shares the key -- "SmartSaver Account Tier 2 Rate - 4.70% AER (£10,001-
+    # £50,000), effective 2026-01-15" -- is still a distinct thing a document
+    # actually said, and dropping it would discard the most informative wording
+    # in the set. Only the exact chosen name is redundant.
+    aliases = [a for a in aliases if a != name]
     if aliases:
         props["aliases"] = aliases
 

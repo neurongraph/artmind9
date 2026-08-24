@@ -53,11 +53,16 @@ def test_ingest_to_kg_commits_when_not_stage_only(monkeypatch, tmp_path):
     calls = []
     file_result = {"chunks_dir": str(tmp_path), "chunk_count": 1}
     monkeypatch.setattr(ing, "extract_kg", lambda fr, d, tm, em: tmp_path)
-    monkeypatch.setattr(ing, "commit_to_graph", lambda p, d, replace=False: calls.append((p, d)) or "sentinel")
+    monkeypatch.setattr(
+        ing, "commit_to_graph",
+        lambda p, d, defer_rebuild=False: calls.append((p, d, defer_rebuild)) or "sentinel",
+    )
 
     ok = ing.ingest_to_kg(file_result, "mydomain", stage_only=False)
 
-    assert calls == [(tmp_path, "mydomain")]
+    # defer_rebuild is False by default: a single document rebuilds the
+    # projection inside its own commit. Only a directory batch defers.
+    assert calls == [(tmp_path, "mydomain", False)]
     assert ok == "sentinel"
 
 

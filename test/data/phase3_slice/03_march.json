@@ -1,0 +1,110 @@
+{
+  "source_markdown": "banking_document_corpus/reference/interest_rate_schedule_2026_03.md",
+  "document": {
+    "id": "irs-2026-003",
+    "name": "interest_rate_schedule_2026_03.md",
+    "domain": "banking.reference",
+    "version": 1,
+    "path": "banking_document_corpus/reference/interest_rate_schedule_2026_03.md"
+  },
+  "chunks": [
+    {
+      "id": "mar_001",
+      "doc_id": "irs-2026-003",
+      "domain": "banking.reference",
+      "name": "Chunk 1/1",
+      "text": "Interest Rate Schedule — March 2026 ...",
+      "embedding": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "mar_001_re_001",
+      "name": "SmartSaver £0–£10,000 rate",
+      "entity_class": "RATE_ENTRY",
+      "domain": "banking.reference",
+      "type": "savings_rate_tier",
+      "description": "March rate for the lowest SmartSaver balance tier.",
+      "context": [
+        "| £0–£10,000 | 4.30% |"
+      ],
+      "chunk_id": "mar_001"
+    },
+    {
+      "id": "mar_001_re_002",
+      "name": "SmartSaver Tier 2 Rate",
+      "entity_class": "RATE_ENTRY",
+      "domain": "banking.reference",
+      "type": "savings_rate_tier",
+      "description": "March rate for the £10,001–£50,000 SmartSaver balance tier.",
+      "context": [
+        "| £10,001–£50,000 | 4.50% |"
+      ],
+      "chunk_id": "mar_001"
+    },
+    {
+      "id": "mar_001_re_003",
+      "name": "SmartSaver £50,001+ rate",
+      "entity_class": "RATE_ENTRY",
+      "domain": "banking.reference",
+      "type": "savings_rate_tier",
+      "description": "March rate for the top SmartSaver balance tier.",
+      "context": [
+        "| £50,001+ | 4.60% |"
+      ],
+      "chunk_id": "mar_001"
+    }
+  ],
+  "properties": [
+    {
+      "id": "mar_001_re_001",
+      "name": "SmartSaver £0–£10,000 rate",
+      "properties": {
+        "product_name": "SmartSaver Account",
+        "rate_value": 4.3,
+        "rate_format": "AER",
+        "balance_min": "£0",
+        "balance_max": "£10,000",
+        "effective_date": "2026-03-01"
+      }
+    },
+    {
+      "id": "mar_001_re_002",
+      "name": "SmartSaver Tier 2 Rate",
+      "properties": {
+        "product_name": "SmartSaver Account",
+        "rate_value": 4.5,
+        "rate_format": "AER",
+        "balance_min": "£10,001",
+        "balance_max": "£50,000",
+        "effective_date": "2026-03-01"
+      }
+    },
+    {
+      "id": "mar_001_re_003",
+      "name": "SmartSaver £50,001+ rate",
+      "properties": {
+        "product_name": "SmartSaver Account",
+        "rate_value": 4.6,
+        "rate_format": "AER",
+        "balance_min": "£50,001",
+        "balance_max": "unlimited",
+        "effective_date": "2026-03-01"
+      }
+    }
+  ],
+  "canonicalization_response": [
+    {
+      "name": "SmartSaver £0–£10,000 rate",
+      "canonical_name": "SmartSaver Account Tier 1 Rate"
+    },
+    {
+      "name": "SmartSaver Tier 2 Rate",
+      "canonical_name": "SmartSaver Account Tier 2 Rate"
+    },
+    {
+      "name": "SmartSaver £50,001+ rate",
+      "canonical_name": "SmartSaver Account Tier 3 Rate"
+    }
+  ]
+}
