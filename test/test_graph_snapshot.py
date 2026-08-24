@@ -167,7 +167,12 @@ class TestExportRelationships:
         cypher, params = fake.calls[0]
         assert "any(l IN labels(s) WHERE l IN $base_labels)" in cypher
         assert "any(l IN labels(e) WHERE l IN $base_labels)" in cypher
-        assert set(params["base_labels"]) == {"Document", "DocChunk", "Entity", "UserChat"}
+        # :Observation joins the set in Phase 3 — its EXTRACTED_FROM edges to
+        # DocChunk/UserChat, and the projection's AGGREGATES edges, both have
+        # to survive a round-trip.
+        assert set(params["base_labels"]) == {
+            "Document", "DocChunk", "Entity", "UserChat", "Observation"
+        }
 
     def test_builds_relationship_dict_from_kg_nodes(self):
         records = [{
@@ -275,3 +280,16 @@ class TestSessionInitiateCli:
         mock_import.assert_called_once()
         call_args = mock_import.call_args
         assert str(call_args[0][0]) == str(fake_snapshot)
+
+
+def test_snapshots_export_observations_alongside_the_projection():
+    """A snapshot carrying :Entity but not :Observation would import entities
+    that nothing asserts — and the first rebuild, which runs inside the next
+    commit, would delete every one of them.
+
+    Phase 5 inverts this properly (export sources, rebuild on import). Until
+    then, both halves have to travel together."""
+    from artmind.graph_snapshot import BASE_LABELS
+
+    assert "Observation" in BASE_LABELS
+    assert "Entity" in BASE_LABELS
