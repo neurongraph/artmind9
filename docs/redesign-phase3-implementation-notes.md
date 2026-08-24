@@ -213,7 +213,26 @@ least get a truthy result, here you get no execution at all. Every fake session
 in the suite now implements
 `execute_write = lambda fn, *a, **k: fn(self, *a, **k)`.
 
-**3. A leftover `:Conflict` broke test isolation** once the real
+**3. The live tests could not have reached AuraDB.** They opened a bare
+`GraphDatabase.driver(uri)` with no auth, which only ever works against an
+unauthenticated local instance. They now go through artmind's own
+`neo4j_session()`, so whatever `ARTMIND_KG_NEO4J_*` points at — local, Docker,
+Aura — is what they test, with the right scheme and credentials.
+
+Routing through it exposed a second trap immediately: `conftest`'s autouse
+`_no_live_neo4j` fixture replaces `graph_query.neo4j_session` with a null
+session for every test, so the live module's first run reported all 14 tests
+*skipped* with "APOC missing" — the null session answers `SHOW PROCEDURES` with
+an empty list. The module now binds the real callable at import time, before
+the per-test patch can reach it, and says why in a comment. The autouse guard
+itself is right and stays.
+
+Their cleanup was also unsafe against a real corpus: it deleted
+`:Conflict` nodes matching `c.domain IS NULL`, which on a populated graph means
+the pairwise adjudicator's own nodes. Now scoped to the test domain and a
+module-specific `_test` tag.
+
+**4. A leftover `:Conflict` broke test isolation** once the real
 `observation_id`/`conflict_id` constraints were applied to the harness. The
 fixture cleaned by domain, and pairwise conflicts carry none. Fixed by cleaning
 `c.domain IS NULL` too — and the live fixture now applies the **real**

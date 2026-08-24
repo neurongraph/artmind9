@@ -68,15 +68,69 @@ tests; Step 2 turns them on.
 
 ---
 
+## Step 1.5 — confirm which database you are pointed at (AuraDB)
+
+Nothing below hardcodes a URI. Every live step uses **artmind's own
+connection** — whatever `ARTMIND_KG_NEO4J_*` in `~/.artmind/.env` points at, so
+an Aura instance works with no extra flags, with the right scheme and
+credentials already applied.
+
+```bash
+grep ARTMIND_KG_NEO4J ~/.artmind/.env
+```
+
+For AuraDB you want the `neo4j+s://` scheme (TLS), not `bolt://`:
+
+```
+ARTMIND_KG_NEO4J_URI=neo4j+s://<dbid>.databases.neo4j.io
+ARTMIND_KG_NEO4J_USERNAME=neo4j
+ARTMIND_KG_NEO4J_PASSWORD=<your password>
+ARTMIND_KG_NEO4J_DATABASE=neo4j
+```
+
+Then check the connection and the APOC procedures the projection depends on.
+**Aura exposes a curated subset of APOC**, so this is a real gate, not a
+formality — the rebuild uses `apoc.create.addLabels` and
+`apoc.create.removeProperties`, and the relationship writer uses
+`apoc.merge.relationship`:
+
+```bash
+uv run python - <<'PY'
+from artmind.graph_query import neo4j_session, _connection_settings
+print("connecting to:", _connection_settings()["uri"])
+with neo4j_session() as s:
+    names = {r["name"] for r in s.run("SHOW PROCEDURES YIELD name RETURN name").data()}
+    for p in ("apoc.create.addLabels", "apoc.create.removeProperties",
+              "apoc.merge.relationship"):
+        print(f"  {'OK  ' if p in names else 'MISSING'} {p}")
+    print("  apoc procedures visible:", len([n for n in names if n.startswith("apoc.")]))
+PY
+```
+
+**If any of the three is MISSING, stop and tell me.** The projection rebuild
+cannot run without them and I will need to rewrite those queries in plain
+Cypher — dynamic labels and dynamic property removal are the two things APOC is
+doing, and both have workarounds, but they are not free. Steps 2–4 all
+preflight this and will refuse rather than fail halfway.
+
+---
+
 ## Step 2 — live projection tests against your Neo4j
 
 ```bash
-ARTMIND_TEST_NEO4J_URI=bolt://127.0.0.1:7687 \
-  uv run --group dev pytest test/test_projection_live.py -v
+ARTMIND_TEST_LIVE_NEO4J=1 uv run --group dev pytest test/test_projection_live.py -v
 ```
 
-**Expect: 14 passed.** These use a throwaway `test.projection` domain and clean
-up after themselves, so they do not touch your corpus.
+**Expect: 14 passed.** No URI flag — the opt-in variable is a switch, and the
+connection comes from your `.env`.
+
+**These write to that database.** Everything they create lives under the
+`test.projection` domain and is deleted before and after each test; nothing
+matches on a bare label or a null property, so your corpus in the same database
+is untouched. If you have a scratch Aura instance, prefer it anyway.
+
+If they come back **skipped**, read the reason — it will either be the opt-in
+variable or a missing APOC procedure, and Step 1.5 tells you which.
 
 They cover the invariants that fail silently: transaction rollback, label
 absence, `elementId` stability across rebuilds, the zero-observations GC, the
@@ -89,6 +143,9 @@ renamed-entity orphan case, and never-null-an-embedding.
 ```bash
 uv run python scripts/phase3_vertical_slice.py --fixtures
 ```
+
+The script prints the database it is talking to on its first line — check that
+before reading anything else.
 
 **Expect: `EXIT GATE PASSED`**, matching what I got here. This stubs the model
 call only. If this fails on your machine but passed on mine, the difference is

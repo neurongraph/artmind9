@@ -74,6 +74,33 @@ class Gate:
         return 0
 
 
+# The rebuild and the relationship writer depend on these. AuraDB exposes a
+# curated subset of APOC, so a missing one is a real possibility — and without
+# this check it surfaces as an opaque ProcedureNotFound mid-rebuild.
+REQUIRED_APOC = (
+    "apoc.create.addLabels",
+    "apoc.create.removeProperties",
+    "apoc.merge.relationship",
+)
+
+
+def _check_apoc(session) -> None:
+    try:
+        available = {r["name"] for r in session.run("SHOW PROCEDURES YIELD name RETURN name").data()}
+    except Exception as e:
+        print(f"  (could not enumerate procedures: {e}); continuing")
+        return
+    missing = [p for p in REQUIRED_APOC if p not in available]
+    if missing:
+        raise SystemExit(
+            "This database does not expose the APOC procedures the projection needs:\n"
+            + "".join(f"  - {p}\n" for p in missing)
+            + "\nOn AuraDB, check the supported-APOC list for your tier. On a local\n"
+              "install, drop the APOC plugin jar into the plugins/ directory and set\n"
+              "dbms.security.procedures.unrestricted=apoc.*"
+        )
+
+
 def _preflight(session) -> dict:
     """Report what a run would touch, BEFORE touching it.
 
@@ -159,6 +186,7 @@ def run_fixtures(gate: Gate) -> None:
     staged_root.mkdir(parents=True)
 
     with neo4j_session() as session:
+        _check_apoc(session)
         _setup_neo4j(session, 768)
         _clean(session)
 
@@ -275,6 +303,7 @@ def run_full(gate: Gate, vault: Path) -> None:
         )
 
     with neo4j_session() as session:
+        _check_apoc(session)
         _setup_neo4j(session, int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768")))
         before = _preflight(session)
         print(f"\nPreflight: {before}")
@@ -428,6 +457,11 @@ def main() -> int:
     mode.add_argument("--fixtures", action="store_true", help="Staged extraction output; projection only")
     parser.add_argument("--vault", type=Path, default=None, help="Vault dir for --full")
     args = parser.parse_args()
+
+    from artmind.graph_query import _connection_settings
+
+    settings = _connection_settings()
+    print(f"\nNeo4j: {settings['uri']}  database={settings['database']}  user={settings['user']}")
 
     gate = Gate()
     if args.full:

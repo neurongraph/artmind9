@@ -1,9 +1,19 @@
 """The projection rebuild, against a REAL Neo4j.
 
-Skipped unless `ARTMIND_TEST_NEO4J_URI` is set, so the default suite stays
-hermetic. Run it with a throwaway database:
+Opt in with `ARTMIND_TEST_LIVE_NEO4J=1`, so the default suite stays hermetic:
 
-    ARTMIND_TEST_NEO4J_URI=bolt://127.0.0.1:7687 pytest test/test_projection_live.py
+    ARTMIND_TEST_LIVE_NEO4J=1 pytest test/test_projection_live.py
+
+The connection is **artmind's own** (`graph_query.neo4j_session`), so it uses
+whatever `ARTMIND_KG_NEO4J_*` in `~/.artmind/.env` points at — local Neo4j,
+Docker, or AuraDB — with the right scheme and credentials already applied. An
+earlier version opened a bare `GraphDatabase.driver(uri)` with no auth, which
+could only ever have worked against an unauthenticated local instance.
+
+**These tests write to that database.** Everything they create lives under the
+`test.projection` domain and is deleted before and after each test; nothing
+matches on a bare label or a null domain, so a real corpus in the same database
+is not touched. Even so, prefer a scratch instance if you have one.
 
 These assertions exist because a mocked session cannot make them. A bare
 `MagicMock()` returns a truthy result for any Cypher, so it reports success
@@ -18,21 +28,48 @@ import pytest
 from artmind.observations import aggregate_key, entity_id, key_string
 from artmind.projection import full_rebuild, rebuild
 
-URI = os.environ.get("ARTMIND_TEST_NEO4J_URI")
-pytestmark = pytest.mark.skipif(not URI, reason="ARTMIND_TEST_NEO4J_URI not set")
+# `conftest._no_live_neo4j` is an autouse fixture that replaces
+# `graph_query.neo4j_session` with a null session for EVERY test, so the
+# hermetic suite can never accidentally reach a database. That guard is right
+# and stays — this module is the one place that deliberately opts out.
+#
+# Binding the function here, at import time, is what opts out: the autouse
+# fixture patches the attribute on the module object, per test, long after this
+# import has already captured the real callable. Re-importing it inside the
+# fixture instead would pick up the null session and every test would silently
+# skip on "APOC missing" — which is exactly what happened the first time.
+from artmind.graph_query import neo4j_session as _live_neo4j_session
+
+pytestmark = pytest.mark.skipif(
+    os.environ.get("ARTMIND_TEST_LIVE_NEO4J") != "1",
+    reason="set ARTMIND_TEST_LIVE_NEO4J=1 to run against the configured Neo4j",
+)
 
 DOMAIN = "test.projection"
 CLASS = "RATE_ENTRY"
+# Scopes every conflict this module creates or deletes. Without it the cleanup
+# would have to match conflicts by a null domain, which on a real graph means
+# the pairwise adjudicator's own nodes.
+CONFLICT_TAG = "phase3-live-test"
+
+REQUIRED_APOC = (
+    "apoc.create.addLabels",
+    "apoc.create.removeProperties",
+    "apoc.merge.relationship",
+)
 
 
 @pytest.fixture()
 def session():
-    from neo4j import GraphDatabase
-
     from artmind.setup import _setup_neo4j
 
-    driver = GraphDatabase.driver(URI)
-    with driver.session() as s:
+    with _live_neo4j_session() as s:
+        missing = _missing_apoc(s)
+        if missing:
+            pytest.skip(
+                "the projection rebuild needs these APOC procedures, and this "
+                f"database does not expose them: {', '.join(missing)}"
+            )
         # The REAL schema, so these tests run against the same constraints and
         # indexes production does — including the Observation.id uniqueness
         # constraint, which is what makes a duplicate write fail loudly here.
@@ -40,16 +77,33 @@ def session():
         _clean(s)
         yield s
         _clean(s)
-    driver.close()
+
+
+def _missing_apoc(s) -> list[str]:
+    """Which required APOC procedures this database lacks.
+
+    AuraDB exposes a curated subset of APOC, so this is a real possibility
+    rather than a theoretical one — and a missing procedure would otherwise
+    surface as an opaque `ProcedureNotFound` in the middle of a rebuild.
+    """
+    try:
+        available = {r["name"] for r in s.run("SHOW PROCEDURES YIELD name RETURN name").data()}
+    except Exception:
+        return []  # can't introspect — let the tests fail with the real error
+    return [p for p in REQUIRED_APOC if p not in available]
 
 
 def _clean(s):
-    """Conflicts carry no domain of their own on the pairwise path, so scoping
-    the cleanup by domain alone leaves them behind to collide with the id
-    constraint on the next run."""
+    """Delete only what this module created.
+
+    Every match is scoped to `test.projection` or to this module's own conflict
+    tag. Nothing here matches a bare label or a null property, because this may
+    be running against a database that holds a real corpus.
+    """
     s.run("MATCH (n:Observation {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
     s.run("MATCH (n:Entity {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
-    s.run("MATCH (c:Conflict) WHERE c.domain = $d OR c.domain IS NULL DETACH DELETE c", d=DOMAIN).consume()
+    s.run("MATCH (c:Conflict {domain: $d}) DETACH DELETE c", d=DOMAIN).consume()
+    s.run("MATCH (c:Conflict {_test: $tag}) DETACH DELETE c", tag=CONFLICT_TAG).consume()
 
 
 def write_observation(session, **kw):
@@ -383,8 +437,9 @@ def test_the_pairwise_adjudicators_conflicts_are_not_deleted_by_a_rebuild(sessio
     seed_three_schedules(session)
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
     session.run(
-        "MATCH (e:Entity {id: $id}) CREATE (c:Conflict {id: 'pairwise-1', status: 'open'})"
-        "-[:CONFLICT_OF]->(e)", id=entity_id(TIER2_KEY),
+        "MATCH (e:Entity {id: $id}) CREATE (c:Conflict {id: 'pairwise-1', status: 'open', "
+        "_test: $tag})-[:CONFLICT_OF]->(e)",
+        id=entity_id(TIER2_KEY), tag=CONFLICT_TAG,
     ).consume()
 
     session.execute_write(lambda tx: rebuild(tx, [TIER2_KEY]))
