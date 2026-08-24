@@ -12,10 +12,13 @@ import artmind.ingest as ing
 
 class _Rec:
     def single(self):
-        return None
+        return {"n": 0, "c": 0}
 
     def data(self):
         return []
+
+    def consume(self):
+        return None
 
 
 class _RecordingSession:
@@ -26,25 +29,30 @@ class _RecordingSession:
         self.runs.append((cypher, kwargs))
         return _Rec()
 
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
 
-class _Driver:
-    def __init__(self, session):
-        self._session = session
+    execute_read = execute_write
 
-    def session(self, **kwargs):
-        session = self._session
+    def __enter__(self):
+        return self
 
-        class _Ctx:
-            def __enter__(self):
-                return session
+    def __exit__(self, *exc):
+        return False
 
-            def __exit__(self, *exc):
-                return False
 
-        return _Ctx()
+def _observation(name, entity_class="THING", domain="banking"):
+    """Endpoints resolve through the projection's deterministic entity id, so
+    an edge can only land if an observation contributed that name."""
+    from artmind.observations import aggregate_key
 
-    def close(self):
-        pass
+    return {
+        "id": f"obs-{name}", "name": name, "canonical_name": name,
+        "key": "|".join(aggregate_key(name, entity_class, domain)),
+        "entity_class": entity_class, "domain": domain,
+        "chunk_id": "docA_001", "doc_id": "docA",
+        "_status": "latest", "_kind": "recurrent",
+    }
 
 
 def _run_write(tmp_path, monkeypatch, relationships):
@@ -52,21 +60,19 @@ def _run_write(tmp_path, monkeypatch, relationships):
         json.dumps({"id": "docA", "name": "a.md", "domain": "banking"}), encoding="utf-8"
     )
     (tmp_path / "chunks.json").write_text("[]", encoding="utf-8")
-    (tmp_path / "entities.json").write_text("[]", encoding="utf-8")
-    (tmp_path / "properties.json").write_text("[]", encoding="utf-8")
+    names = {r[k] for r in relationships for k in ("source_name", "target_name") if r.get(k)}
+    (tmp_path / "observations.json").write_text(
+        json.dumps([_observation(n) for n in sorted(names)]), encoding="utf-8"
+    )
     (tmp_path / "relationships.json").write_text(json.dumps(relationships), encoding="utf-8")
 
     runs: list = []
     session = _RecordingSession(runs)
-    monkeypatch.setattr(
-        ing,
-        "GraphDatabase",
-        type("G", (), {"driver": staticmethod(lambda *a, **k: _Driver(session))}),
-    )
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", lambda *a, **k: session)
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda *a, **k: 0)
 
-    assert ing._write_to_neo4j(tmp_path) is True
+    assert ing._write_to_neo4j(tmp_path, "banking") is not None
     return runs
 
 
@@ -74,7 +80,7 @@ def _entity_edge_runs(runs):
     return [
         (c, k)
         for c, k in runs
-        if "apoc.merge.relationship" in c and "MATCH (src:Entity" in c
+        if "apoc.merge.relationship" in c and "MATCH (s:Entity" in c
     ]
 
 
@@ -131,21 +137,17 @@ def test_edge_provenance_lists_empty_when_no_doc_id(tmp_path, monkeypatch):
     )
     for name, val in (
         ("chunks.json", "[]"),
-        ("entities.json", "[]"),
-        ("properties.json", "[]"),
+        ("observations.json", json.dumps([_observation("A"), _observation("B")])),
         ("relationships.json", json.dumps([rel])),
     ):
         (tmp_path / name).write_text(val, encoding="utf-8")
 
     runs: list = []
     session = _RecordingSession(runs)
-    monkeypatch.setattr(
-        ing, "GraphDatabase",
-        type("G", (), {"driver": staticmethod(lambda *a, **k: _Driver(session))}),
-    )
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", lambda *a, **k: session)
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda *a, **k: 0)
-    assert ing._write_to_neo4j(tmp_path) is True
+    assert ing._write_to_neo4j(tmp_path, "banking") is not None
 
     edges = _entity_edge_runs(runs)
     assert len(edges) == 1

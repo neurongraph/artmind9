@@ -117,7 +117,8 @@ class _Rec:
 
 
 class _RecordingSession:
-    """Records every run(); returns empty results so any query 'succeeds'."""
+    """Records every run() and its parameters — these tests assert on what was
+    SENT, never on a return value an empty fake could not produce."""
 
     def __init__(self, runs):
         self.runs = runs
@@ -125,6 +126,17 @@ class _RecordingSession:
     def run(self, cypher, **kwargs):
         self.runs.append((cypher, kwargs))
         return _Rec(single=None, data=[])
+
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
+    execute_read = execute_write
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
 
 
 class _Driver:
@@ -177,11 +189,11 @@ def test_docchunk_merge_props_carry_the_four_keys(tmp_path, monkeypatch):
 
     runs: list = []
     session = _RecordingSession(runs)
-    monkeypatch.setattr(ing, "GraphDatabase", type("G", (), {"driver": staticmethod(lambda *a, **k: _Driver(session))}))
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", lambda *a, **k: session)
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda *a, **k: 0)
 
-    assert ing._write_to_neo4j(doc_kg) is True
+    assert ing._write_to_neo4j(doc_kg) is not None
 
     chunk_runs = [(c, k) for c, k in runs if "MERGE (c:DocChunk" in c]
     assert chunk_runs, "expected a DocChunk MERGE"

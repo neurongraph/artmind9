@@ -50,11 +50,25 @@ def _class_enum(entity_types: dict) -> str:
     return " | ".join(entity_types.keys())
 
 
-def _render_class_block(cls: str, decl: dict) -> str:
+def _render_class_block(cls: str, decl: dict, meta: dict | None = None) -> str:
+    """One class's block in the entities prompt.
+
+    The class's declared `kind` is rendered as a naming instruction, from
+    `meta.yaml`'s `kind_naming_rules`. Without it the recurrent naming rule
+    existed only as prose for schema authors and never reached the extractor
+    -- which is why names arrived carrying the very measurements and dates the
+    aggregate key then had to strip back off.
+
+    The rule is emitted BEFORE the class's own `guidance`, so a schema whose
+    guidance says something more specific still wins the last word.
+    """
     lines = [cls]
     desc = (decl.get("description") or "").strip()
     if desc:
         lines.append(f"  {desc}")
+    kind_rule = ((meta or {}).get("kind_naming_rules") or {}).get(decl.get("kind"))
+    if kind_rule:
+        lines.append(f"  {kind_rule.strip()}")
     guidance = (decl.get("guidance") or "").strip()
     if guidance:
         lines.append(f"  {guidance}")
@@ -77,15 +91,43 @@ def _render_guidance_section(guidance: str | None, heading: str) -> str:
     return f"\n{heading}\n{text}\n"
 
 
-def assemble_entities_prompt(schema: dict, meta: dict | None = None) -> str:
+def _render_vocabulary_section(vocabulary: list | None) -> str:
+    """The retrieved name vocabulary, or '' when there is none.
+
+    Retrieval-gated rather than exhaustive: an ANN over `entity_embedding`
+    supplies the ~25 nearest names in RECURRENT classes only (see
+    `artmind.canonicalize`). Showing the extractor names already in use is
+    what stops a new document coining a fresh one for something the graph
+    already knows -- the cross-document half of the drift problem.
+    """
+    from artmind.canonicalize import render_vocabulary
+
+    rendered = render_vocabulary(vocabulary or [])
+    if not rendered:
+        return ""
+    return (
+        "\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "NAMES ALREADY IN USE — REUSE THESE WHEN THEY FIT:\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "If an entity you find is one of these, use the existing name VERBATIM\n"
+        "rather than coining a new one. If it is genuinely different, name it\n"
+        "freshly — do not force a match.\n\n"
+        f"{rendered}\n"
+    )
+
+
+def assemble_entities_prompt(
+    schema: dict, meta: dict | None = None, vocabulary: list | None = None
+) -> str:
     meta = meta if meta is not None else load_meta()
     entity_types = schema.get("entity_types") or {}
-    class_blocks = "\n\n".join(_render_class_block(c, d) for c, d in entity_types.items())
+    class_blocks = "\n\n".join(_render_class_block(c, d, meta) for c, d in entity_types.items())
     tokens = {
         "SUBJECT": schema.get("subject") or schema.get("description", "")[:120],
         "PERSONA": schema.get("persona") or meta.get("default_persona", "a subject-matter analyst"),
         "CLASS_BLOCKS": class_blocks,
         "CLASS_ENUM": _class_enum(entity_types),
+        "NAME_VOCABULARY": _render_vocabulary_section(vocabulary),
         "GUIDANCE": _render_guidance_section(
             (schema.get("guidance") or {}).get("entities"), "DOMAIN-SPECIFIC GUIDANCE:"
         ),

@@ -36,6 +36,22 @@ kinds:
 # a class declares under its own `properties:`.
 entity_common_properties: [name, aliases, entity_class, type, description, context]
 
+# Rendered into the entities prompt for every class the schema declares with
+# this kind. `kinds:` above explains the distinction to a schema author; these
+# are the instructions the extractor itself is given, and they are what make
+# the aggregate key work: a recurrent class's identity has to be recognisable
+# again in the next document, which it cannot be if its name embeds the value
+# or the date that changed.
+kind_naming_rules:
+  recurrent: >-
+    naming: name the thing, not its current value. NEVER embed a measurement,
+    an amount, a percentage or a date in the name -- those belong in
+    properties. RIGHT: "SmartSaver Account Tier 2 Rate". WRONG: "SmartSaver
+    Account Tier 2 Rate - 4.60% AER, effective 2026-02-01".
+  occurrent: >-
+    naming: this is a completed event, so a date or identifier that
+    distinguishes one occurrence from another belongs IN the name.
+
 default_persona: "a subject-matter analyst"
 
 prompt_templates:
@@ -50,6 +66,7 @@ prompt_templates:
     Use ONLY these entity_classes. However, you can add more to the type values than the examples provided here.
 
     {{CLASS_BLOCKS}}
+    {{NAME_VOCABULARY}}
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     EXTRACTION RULES:
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -233,3 +250,67 @@ prompt_templates:
 
     __text__
     {text}
+
+  # Run ONCE per document, after every chunk has extracted -- never per chunk.
+  # Chunks extract in parallel and cannot see each other, which is precisely
+  # the drift this pass repairs; a per-chunk call would share their blind spot.
+  canonicalization: |
+    You are reconciling entity names extracted from ONE document.
+
+    Chunks of this document were read independently and in parallel, so the
+    same real-world thing may have been named several different ways. Your job
+    is to decide, for each extracted name, what it should be called.
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    NAMES EXTRACTED FROM THIS DOCUMENT, BY CLASS:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    {{EXTRACTED_NAMES}}
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    NAMES ALREADY IN USE IN THE GRAPH:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    {{EXISTING_NAMES}}
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    RULES:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    1. PREFER A NAME ALREADY IN USE
+       If an extracted name denotes the same thing as one listed above under
+       "already in use", return that existing name verbatim. This is the whole
+       point: the same thing must be called the same thing across documents.
+
+    2. RECURRENT CLASSES: STRIP VALUES AND DATES FROM THE NAME
+       For a class marked `kind: recurrent`, the name must identify something
+       that PERSISTS while its values change. Remove any measurement, amount,
+       percentage, balance range or effective date.
+         "SmartSaver Account Tier 2 Rate - 4.60% AER, effective 2026-02-01"
+           -> "SmartSaver Account Tier 2 Rate"
+       For a class marked `kind: occurrent`, KEEP the distinguishing date or
+       identifier -- it is what separates one occurrence from another.
+
+    3. COLLAPSE ONLY GENUINE DUPLICATES
+       Two names denote one thing only when the text supports it. "Tier 2" and
+       "Tier 3" are different tiers. When in doubt, leave the name alone.
+
+    4. NEVER INVENT
+       A canonical name must be a name that appears in this document or in the
+       existing-names list. Do not coin new terminology.
+
+    5. EVERY EXTRACTED NAME GETS AN ENTRY
+       Including the ones you leave unchanged -- map them to themselves.
+
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    OUTPUT:
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    Return a JSON array, one object per extracted name:
+
+    {
+      "name":           string,   // the extracted name, verbatim
+      "canonical_name": string,   // what it should be called
+    }
+
+    Return only the JSON array. No preamble. No explanation. No markdown code fences.

@@ -273,10 +273,13 @@ def test_register_document_with_no_artmind_id_is_path_only(tmp_path, monkeypatch
 
 class _Rec:
     def single(self):
-        return None
+        return {"n": 0, "c": 0}
 
     def data(self):
         return []
+
+    def consume(self):
+        return None
 
 
 class _RecordingSession:
@@ -286,6 +289,17 @@ class _RecordingSession:
     def run(self, cypher, **kwargs):
         self.runs.append((cypher, kwargs))
         return _Rec()
+
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
+    execute_read = execute_write
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
 
 
 class _Driver:
@@ -326,13 +340,11 @@ def test_document_merge_props_carry_logical_id_and_version(tmp_path, monkeypatch
 
     runs: list = []
     session = _RecordingSession(runs)
-    monkeypatch.setattr(
-        ing, "GraphDatabase", type("G", (), {"driver": staticmethod(lambda *a, **k: _Driver(session))})
-    )
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", lambda *a, **k: session)
     monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda *a, **k: 0)
 
-    assert ing._write_to_neo4j(tmp_path) is True
+    assert ing._write_to_neo4j(tmp_path) is not None
 
     doc_runs = [(c, k) for c, k in runs if "MERGE (d:Document" in c]
     assert doc_runs, "expected a Document MERGE"

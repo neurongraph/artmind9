@@ -81,7 +81,7 @@ def _setup_extract_env(monkeypatch, tmp_path: Path, n_chunks: int) -> dict:
     # Deterministic, side-effect-free stand-ins for the network calls. One entity
     # per chunk lets us assert every chunk's work landed in the merge.
     monkeypatch.setattr(ing, "_embed_text", lambda model, text: [0.0, 0.1])
-    monkeypatch.setattr(ing, "build_entities_prompt", lambda text, schema: "p")
+    monkeypatch.setattr(ing, "build_entities_prompt", lambda text, schema, vocabulary=None: "p")
     monkeypatch.setattr(ing, "build_properties_prompt", lambda text, ents, schema: "p")
     monkeypatch.setattr(ing, "build_relationships_prompt", lambda text, ents, schema: "p")
 

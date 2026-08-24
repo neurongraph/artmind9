@@ -91,18 +91,48 @@ import pytest
 
 
 class _NullResult:
-    """Stand-in for a neo4j Result — nothing in this codebase's write paths
-    reads a ``session.run(...)`` return value, and the read paths
-    (``_run_read_query``) only ever iterate it, so an empty list already
-    satisfies both without needing a richer fake here."""
+    """Stand-in for a neo4j Result over an EMPTY graph.
+
+    It answers the three shapes the code actually uses — ``.data()``,
+    ``.single()`` and iteration — with the truthful answer for a graph
+    containing nothing: no rows, and no record.
+
+    Note what this fake deliberately does NOT do: it never returns a truthy
+    row. A bare ``MagicMock()`` would, for *any* Cypher, which is how a test
+    can pass identically whether a query matched the right node, the wrong
+    node, or nothing at all. Tests that need to assert on what a query did
+    should record the calls (see ``run_side_effect`` in test_update.py and
+    test_projection_rebuild.py), not lean on a mock's default truthiness.
+    """
 
     def data(self):
         return []
 
+    def single(self):
+        return None
+
+    def consume(self):
+        return None
+
+    def __iter__(self):
+        return iter(())
+
 
 class _NullSession:
     def run(self, cypher, **params):
-        return []
+        return _NullResult()
+
+    def execute_write(self, fn, *args, **kwargs):
+        """Run the unit of work against this same null session.
+
+        The commit path is transactional now (`session.execute_write(...)`),
+        so a fake that only answers `run` no longer covers it. Passing `self`
+        through keeps the fake's contract: every query returns nothing, which
+        is what a hermetic test wants.
+        """
+        return fn(self, *args, **kwargs)
+
+    execute_read = execute_write
 
     def __enter__(self):
         return self

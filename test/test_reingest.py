@@ -1,15 +1,19 @@
-"""A1d — idempotent replace, tombstone, and hard purge.
+"""Re-ingest of a known identity: the prior version's assertions leave
+`latest`, and the projection — not a heuristic — decides what disappears.
 
-The retraction primitive is scoped and shared-entity-safe: it removes exactly
-one document's contributions (its share of each edge's provenance, its property
-ledger entries, its chunks, and only the entities that lose their last source),
-leaving knowledge other documents still back untouched. We assert the params
-actually sent and which Cypher ran — never summary counts — because a MagicMock
-session returns truthy for any query (CLAUDE.md).
+Re-ingesting is always a replace (`--replace` is gone, Phase 2). What changed
+in Phase 3 is *how*: the old code hard-retracted a document's contributions and
+ran a scoped entity GC of its own. Now the transition is assertion-time only —
+observations move to `_status = 'history'` — and which entities should vanish
+is decided by the projection's zero-latest-observations rule over the affected
+keys.
+
+We assert the params actually sent and which Cypher ran — never summary counts
+— because a MagicMock session returns truthy for any query (CLAUDE.md).
 """
 import json
-import sqlite3
-from hashlib import sha256
+
+import pytest
 
 import artmind.ingest as ing
 
@@ -17,62 +21,56 @@ import artmind.ingest as ing
 # ── fake session plumbing ────────────────────────────────────────────────────
 
 
-class _Rec:
-    """A run() result routed by the Cypher that produced it."""
-
-    def __init__(self, session, cypher, kw):
-        self.session, self.cypher, self.kw = session, cypher, kw
-
-    def single(self):
-        c = self.cypher
-        if "collect(DISTINCT e.id) AS ids" in c:
-            return {"ids": list(self.session.touched_ids)}
-        # edge update / edge delete / chunk delete / entity GC all RETURN count.
-        return {"n": self.session.counts.get(_classify(c), 0)}
-
-    def data(self):
-        if "e._prop_sources AS ps" in self.cypher:
-            ids = self.kw.get("ids", [])
-            return [
-                {"id": i, "ps": json.dumps(self.session.ledgers[i])}
-                for i in ids
-                if i in self.session.ledgers
-            ]
-        return []
-
-
 def _classify(cypher: str) -> str:
+    if "SET o._status = 'history'" in cypher:
+        return "demote_observations"
     if "x <> $doc_id" in cypher:
         return "edge_update"
     if "size(r.doc_ids) = 0" in cypher:
         return "edge_delete"
     if "DETACH DELETE c" in cypher:
         return "chunk_delete"
-    if "NOT (e)-[:EXTRACTED_FROM]->(:DocChunk)" in cypher and "DETACH DELETE e" in cypher:
-        return "entity_gc"
+    if "DETACH DELETE e" in cypher:
+        return "entity_delete"
     return "other"
 
 
+class _Rec:
+    def __init__(self, session, cypher, kw):
+        self.session, self.cypher, self.kw = session, cypher, kw
+
+    def single(self):
+        return {"n": self.session.counts.get(_classify(self.cypher), 0), "c": 0}
+
+    def data(self):
+        return []
+
+    def consume(self):
+        return None
+
+
 class _RetractSession:
-    def __init__(self, touched_ids=(), ledgers=None, counts=None):
-        self.touched_ids = list(touched_ids)
-        self.ledgers = dict(ledgers or {})
+    def __init__(self, counts=None):
         self.counts = counts or {}
         self.calls: list[tuple[str, dict]] = []
-        self.writes: dict[str, dict] = {}
 
     def run(self, cypher, **kw):
         self.calls.append((cypher, kw))
-        if "SET e += $props" in cypher and "id: $id" in cypher:
-            self.writes[kw["id"]] = kw["props"]
         return _Rec(self, cypher, kw)
 
-    # convenience lookups
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
+
+    execute_read = execute_write
+
     def call(self, kind):
         for cypher, kw in self.calls:
             if _classify(cypher) == kind:
                 return cypher, kw
         raise AssertionError(f"no {kind!r} query ran; saw {[_classify(c) for c, _ in self.calls]}")
+
+    def ran(self, kind) -> bool:
+        return any(_classify(c) == kind for c, _ in self.calls)
 
 
 def _patch_session(monkeypatch, session):
@@ -89,220 +87,189 @@ def _patch_session(monkeypatch, session):
     return session
 
 
-# ── _retract_document_from_neo4j: the scoped retraction Cypher + params ───────
+# ── the version/status transition ───────────────────────────────────────────
 
 
-def test_retraction_runs_the_five_scoped_steps_with_doc_id(monkeypatch):
-    session = _RetractSession(
-        touched_ids=["e-shared", "e-unique"],
-        ledgers={"e-shared": {"description": [["docA", "x"]]}},
-        counts={"edge_update": 2, "edge_delete": 1, "chunk_delete": 3, "entity_gc": 1},
-    )
+def test_the_prior_versions_observations_are_demoted_not_deleted(monkeypatch):
+    """Assertion time, not valid time: an observation moved to `history` keeps
+    the valid-time window it always had and stays in storage."""
+    session = _RetractSession(counts={"demote_observations": 4})
     _patch_session(monkeypatch, session)
 
     result = ing._retract_document_from_neo4j("banking", "docA")
 
-    # 1a. Edge provenance is rewritten to exclude this doc_id (both list props).
-    cypher, kw = session.call("edge_update")
+    cypher, kw = session.call("demote_observations")
     assert kw["doc_id"] == "docA"
-    assert "x <> $doc_id" in cypher  # doc_ids
-    assert "STARTS WITH ($doc_id + '_')" in cypher  # chunk_ids
-    assert kw["domain"] == "banking"
-
-    # 1b. Only edges left with zero contributing documents are deleted.
-    del_cypher, _ = session.call("edge_delete")
-    assert "size(r.doc_ids) = 0" in del_cypher
-    assert "r.doc_ids IS NOT NULL" in del_cypher  # never touches pre-A1b edges
-
-    # 3. This document's chunks are deleted by doc_id.
-    _, chunk_kw = session.call("chunk_delete")
-    assert chunk_kw["doc_id"] == "docA"
-
-    # Counts flow straight from what each RETURN count reported.
-    assert result["edges_retracted"] == 2
-    assert result["edges_deleted"] == 1
-    assert result["chunks"] == 3
-    assert result["gc_entities"] == 1
+    assert "o._status = 'latest'" in cypher, "only latest observations are demoted"
+    assert "SET o._status = 'history'" in cypher
+    assert "DELETE" not in cypher, "observations are immutable — never deleted here"
+    assert result["observations_demoted"] == 4
 
 
-def test_retraction_gc_is_scoped_to_touched_ids_and_guarded(monkeypatch):
-    """Shared-entity safety: the GC deletes only touched entities that have lost
-    their last EXTRACTED_FROM — a shared entity another doc still cites survives
-    because the query's own guard excludes it, not because we filtered ids."""
-    session = _RetractSession(touched_ids=["e-shared", "e-unique"])
+def test_the_transition_never_deletes_entities_itself(monkeypatch):
+    """The zero-observations GC rule owns entity deletion now. Three competing
+    GC mechanisms is exactly how 235 entities stayed live."""
+    session = _RetractSession()
     _patch_session(monkeypatch, session)
 
     ing._retract_document_from_neo4j("banking", "docA")
 
-    cypher, kw = session.call("entity_gc")
-    # Scoped to exactly the entities this document fed (collected before the
-    # chunk delete removed the EXTRACTED_FROM edges)...
-    assert kw["ids"] == ["e-shared", "e-unique"]
-    # ...and guarded so an entity still sourced by another document is spared.
-    assert "NOT (e)-[:EXTRACTED_FROM]->(:DocChunk)" in cypher
+    assert not session.ran("entity_delete"), "entity GC belongs to the projection rebuild"
 
 
-def test_retraction_skips_gc_when_no_entities_were_touched(monkeypatch):
-    session = _RetractSession(touched_ids=[])
+def test_edge_provenance_is_still_retracted_per_document(monkeypatch):
+    session = _RetractSession(counts={"edge_update": 2, "edge_delete": 1})
     _patch_session(monkeypatch, session)
 
     result = ing._retract_document_from_neo4j("banking", "docA")
 
-    assert result["gc_entities"] == 0
-    assert not any(_classify(c) == "entity_gc" for c, _ in session.calls)
+    cypher, kw = session.call("edge_update")
+    assert kw["doc_id"] == "docA"
+    assert kw["domain"] == "banking"
+    assert "x <> $doc_id" in cypher                      # doc_ids
+    assert "STARTS WITH ($doc_id + '_')" in cypher       # chunk_ids
+
+    del_cypher, _ = session.call("edge_delete")
+    assert "size(r.doc_ids) = 0" in del_cypher
+    assert "r.doc_ids IS NOT NULL" in del_cypher         # never touches pre-A1b edges
+
+    assert result["edges_retracted"] == 2
+    assert result["edges_deleted"] == 1
 
 
-# ── _rollback_property_ledger: drop a doc's contribution, recompute clean value ─
+def test_the_documents_chunks_are_deleted_by_doc_id(monkeypatch):
+    session = _RetractSession(counts={"chunk_delete": 3})
+    _patch_session(monkeypatch, session)
+
+    result = ing._retract_document_from_neo4j("banking", "docA")
+
+    _, kw = session.call("chunk_delete")
+    assert kw["doc_id"] == "docA"
+    assert result["chunks"] == 3
 
 
-def _rollback(ledgers, doc_id, ids):
-    session = _RetractSession(ledgers=ledgers)
-    updated = ing._rollback_property_ledger(session, doc_id, ids)
-    return session, updated
+# ── commit ordering, and the removal of the swallow ─────────────────────────
 
 
-def test_rollback_drops_contribution_and_recomputes_clean_value():
-    session, updated = _rollback(
-        {"e1": {"description": [["docA", "A"], ["docB", "B"]]}}, "docA", ["e1"]
-    )
-    assert updated == 1
-    props = session.writes["e1"]
-    # The retracted doc's value is gone; the survivor's clean value is recomputed.
-    assert props["description"] == "B"
-    assert json.loads(props["_prop_sources"]) == {"description": [["docB", "B"]]}
-
-
-def test_rollback_removes_property_when_ledger_empties():
-    session, updated = _rollback(
-        {"e1": {"description": [["docA", "only"]]}}, "docA", ["e1"]
-    )
-    assert updated == 1
-    props = session.writes["e1"]
-    # Emptied property is removed from the node (null via SET +=), and so is the
-    # now-empty ledger.
-    assert props["description"] is None
-    assert props["_prop_sources"] is None
-
-
-def test_rollback_preserves_legacy_contribution():
-    session, _ = _rollback(
-        {"e1": {"description": [["__legacy__", "keep"], ["docA", "x"]]}},
-        "docA",
-        ["e1"],
-    )
-    props = session.writes["e1"]
-    # The un-attributable pre-ledger base is never dropped by a purge.
-    assert props["description"] == "keep"
-    assert json.loads(props["_prop_sources"]) == {"description": [["__legacy__", "keep"]]}
-
-
-def test_rollback_leaves_untouched_entity_alone():
-    # A shared entity whose ledger holds no contribution from the retracted doc
-    # must not be written at all.
-    session, updated = _rollback(
-        {"e1": {"description": [["docB", "B"]]}}, "docA", ["e1"]
-    )
-    assert updated == 0
-    assert "e1" not in session.writes
-
-
-def test_rollback_only_updates_affected_properties():
-    session, _ = _rollback(
-        {
-            "e1": {
-                "description": [["docA", "A"], ["docB", "B"]],
-                "fee": [["docB", "10"]],
-            }
-        },
-        "docA",
-        ["e1"],
-    )
-    props = session.writes["e1"]
-    # Only description changed; fee (docA never fed it) is not re-written...
-    assert props["description"] == "B"
-    assert "fee" not in props
-    # ...but the ledger written back still carries fee's untouched contribution.
-    assert json.loads(props["_prop_sources"]) == {
-        "description": [["docB", "B"]],
-        "fee": [["docB", "10"]],
-    }
-
-
-# ── registry: --replace UPDATEs the existing row, never a second INSERT ────────
-
-
-def _patch_db(tmp_path, monkeypatch):
-    import artmind.db as db
-
-    monkeypatch.setattr(db, "DB_PATH", tmp_path / "reg.db")
-    return db
-
-
-# _register_document's own re-ingest-always-a-replace / path-only-source
-# behavior is covered in test_ingest_identity.py.
-
-
-# ── commit_to_graph: always retracts the prior version before rewriting ──────
-# (Phase 2 — re-ingesting a known identity is always a replace; --replace is
-# gone. A genuinely new document's retraction MATCHes nothing and is a no-op.)
-
-
-def test_commit_replace_retracts_prior_version_first(tmp_path, monkeypatch):
+def _stage(tmp_path, **extra):
     doc_kg_dir = tmp_path / "doc"
-    doc_kg_dir.mkdir()
-    (doc_kg_dir / "document.json").write_text(
-        json.dumps({"id": "phys-1", "name": "docA.md"}), encoding="utf-8"
-    )
+    doc_kg_dir.mkdir(exist_ok=True)
+    document = {"id": "phys-1", "name": "docA.md", "domain": "banking"}
+    document.update(extra)
+    (doc_kg_dir / "document.json").write_text(json.dumps(document), encoding="utf-8")
+    for name in ("chunks.json", "observations.json", "relationships.json"):
+        (doc_kg_dir / name).write_text("[]", encoding="utf-8")
+    return doc_kg_dir
 
-    retractions: list[tuple[str, str]] = []
-    monkeypatch.setattr(
-        ing, "_retract_document_from_neo4j",
-        lambda domain, doc_id: retractions.append((domain, doc_id)) or {},
-    )
-    # Isolate the retraction hook: stub the write and the best-effort post-hooks.
+
+def test_the_prior_version_is_demoted_before_the_new_observations_land(tmp_path, monkeypatch):
+    """Otherwise a re-commit would accrete onto the version it replaces."""
     order: list[str] = []
-    monkeypatch.setattr(ing, "write_to_graph", lambda d: order.append("write") or True)
-
-    import artmind.entity_history as eh
-    monkeypatch.setattr(eh, "supersession_possible", lambda *a, **k: False)
-    import artmind.temporal as tmp_mod
-    monkeypatch.setattr(tmp_mod, "normalize_ingested_document", lambda *a, **k: None)
-    monkeypatch.setattr(tmp_mod, "detect_supersession", lambda *a, **k: {"applied": []})
-
-    # Record retraction ordering relative to the write.
-    real_retract = ing._retract_document_from_neo4j
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
     monkeypatch.setattr(
-        ing, "_retract_document_from_neo4j",
-        lambda domain, doc_id: (order.append("retract"), retractions.append((domain, doc_id)), {})[-1],
+        ing, "_retract_prior_version",
+        lambda tx, domain, doc_id: order.append(f"retract:{domain}:{doc_id}") or {},
+    )
+    monkeypatch.setattr(
+        ing, "_write_observations",
+        lambda tx, observations, doc_id: order.append("observations") or 0,
     )
 
-    ok = ing.commit_to_graph(doc_kg_dir, "banking")
+    ing._write_to_neo4j(_stage(tmp_path), "banking")
 
-    assert ok is True
-    assert retractions == [("banking", "phys-1")]
-    # Retraction must precede the write, so the re-commit replaces rather than
-    # accretes onto the prior version.
-    assert order == ["retract", "write"]
+    assert order == ["retract:banking:phys-1", "observations"]
 
 
-def test_commit_retraction_failure_does_not_fail_the_commit(tmp_path, monkeypatch):
-    """A genuinely new document (or a retraction hiccup) must not block the
-    write -- retraction is best-effort, the graph write is what matters."""
-    doc_kg_dir = tmp_path / "doc"
-    doc_kg_dir.mkdir()
-    (doc_kg_dir / "document.json").write_text(
-        json.dumps({"id": "phys-1", "name": "docA.md"}), encoding="utf-8"
+def test_a_failed_projection_rebuild_FAILS_the_commit(tmp_path, monkeypatch):
+    """The behaviour Phase 3 deliberately inverts.
+
+    The pre-redesign hooks caught their own exceptions and logged a warning, so
+    a broken projection was indistinguishable from a healthy one. A silently
+    skipped projection is a silently stale query layer.
+    """
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+
+    import artmind.projection as projection
+
+    def boom(tx, keys, **kw):
+        raise RuntimeError("projection rebuild failed")
+
+    monkeypatch.setattr(projection, "rebuild", boom)
+
+    assert ing.commit_to_graph(_stage(tmp_path), "banking") is False
+
+
+def test_a_failed_retraction_FAILS_the_commit(tmp_path, monkeypatch):
+    """Also inverted. Retraction is part of the transaction now, not a
+    best-effort prelude to it."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+
+    def boom(tx, domain, doc_id):
+        raise RuntimeError("retraction blew up")
+
+    monkeypatch.setattr(ing, "_retract_prior_version", boom)
+
+    assert ing.commit_to_graph(_stage(tmp_path), "banking") is False
+
+
+def test_the_embed_sweep_runs_after_the_commit_not_inside_it(tmp_path, monkeypatch):
+    """It calls the embedding service, which a transaction cannot do."""
+    order: list[str] = []
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda d, domain=None, defer_rebuild=False: (
+            order.append("commit"), {"affected_keys": [("n", "C", "d")]}
+        )[1],
+    )
+    monkeypatch.setattr(
+        ing, "_sweep_embeddings", lambda domain, keys: order.append("sweep") or 0
     )
 
-    def _boom(domain, doc_id):
-        raise RuntimeError("no prior version to retract")
+    assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
+    assert order == ["commit", "sweep"]
 
-    monkeypatch.setattr(ing, "_retract_document_from_neo4j", _boom)
-    monkeypatch.setattr(ing, "write_to_graph", lambda d: True)
-    import artmind.entity_history as eh
-    monkeypatch.setattr(eh, "supersession_possible", lambda *a, **k: False)
-    import artmind.temporal as tmp_mod
-    monkeypatch.setattr(tmp_mod, "normalize_ingested_document", lambda *a, **k: None)
-    monkeypatch.setattr(tmp_mod, "detect_supersession", lambda *a, **k: {"applied": []})
 
-    assert ing.commit_to_graph(doc_kg_dir, "banking") is True
+def test_a_failing_embed_sweep_does_not_fail_an_already_committed_write(tmp_path, monkeypatch):
+    """The opposite of the rebuild: the commit already succeeded and the graph
+    is correct. An entity that could not be embedded keeps `embedding_stale`
+    and is picked up next sweep — which is why the flag exists."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    monkeypatch.setattr(
+        ing, "_write_to_neo4j",
+        lambda d, domain=None, defer_rebuild=False: {"affected_keys": [("n", "C", "d")]},
+    )
+
+    def boom(session, domain, embed_model, keys=None):
+        raise RuntimeError("ollama is down")
+
+    monkeypatch.setattr(ing, "embed_missing_entity_embeddings", boom)
+
+    assert ing.commit_to_graph(_stage(tmp_path), "banking") is True
+
+
+def test_a_deferred_commit_skips_both_the_rebuild_and_the_sweep(tmp_path, monkeypatch):
+    """Directory ingest: one full rebuild at the end, not N incremental ones."""
+    session = _RetractSession()
+    _patch_session(monkeypatch, session)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    swept: list = []
+    monkeypatch.setattr(ing, "_sweep_embeddings", lambda domain, keys: swept.append(keys) or 0)
+
+    import artmind.projection as projection
+    rebuilds: list = []
+    monkeypatch.setattr(projection, "rebuild", lambda tx, keys, **kw: rebuilds.append(keys) or {})
+
+    assert ing.commit_to_graph(_stage(tmp_path), "banking", defer_rebuild=True) is True
+    assert rebuilds == [], "the rebuild is deferred to the end of the batch"
+    assert swept == [], "so is the sweep — there is nothing fresh to embed yet"

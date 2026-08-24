@@ -1,33 +1,43 @@
 """LLM-extracted relationships must never mint system-managed edge types.
 
-SUPERSEDES (document- and node-scope) is created ONLY by the audited helpers in
-artmind.temporal (apply_supersession / apply_node_supersession), which always stamp
-provenance (scope/detected_by/effective or detected_by/at). EXTRACTED_FROM is not
-sanctioned by any shipped domain schema as an Entity<->Entity rel_type either — it's
-structural, written only by this module's own Entity->DocChunk provenance code — so
-it stays reserved as defense-in-depth. PRIOR_STATE is reserved too: it links a live
-Entity to an :EntityVersion snapshot and is written only by artmind.entity_history,
-so an LLM-minted one would imply history no snapshot node backs. PART_OF is
-deliberately NOT reserved: several shipped schemas list it as a legitimate
-LLM-extractable Entity->Entity relationship (e.g. "Branch X part_of Region Y"); the
-only structural PART_OF edge is the hardcoded DocChunk->Document edge, a different
-code path from the Entity->Entity loop below.
-The two unrestricted relationship writers below — _write_to_neo4j's Entity->Entity
-branch and write_user_chat's relationship loop — must skip any normalized rel_type
-that falls in RESERVED_REL_TYPES rather than silently writing (or silently dropping
-without a trace) unaudited lineage edges.
+SUPERSEDES is created ONLY by the audited helpers in artmind.temporal, which
+always stamp provenance. PRIOR_STATE links a live Entity to an :EntityVersion
+snapshot and is written only by artmind.entity_history, so an LLM-minted one
+would imply history no snapshot node backs. PART_OF is deliberately NOT
+reserved: several shipped schemas list it as a legitimate Entity->Entity
+relationship ("Branch X part_of Region Y"), and the only structural PART_OF is
+the DocChunk->Document edge, a different code path.
+
+EXTRACTED_FROM changed meaning in Phase 3. It used to be an Entity->DocChunk
+provenance edge written by this same loop; provenance now lives on the
+immutable :Observation, which carries its own EXTRACTED_FROM to its DocChunk.
+So the relationship writer skips the type entirely rather than reserving it —
+see `test_extracted_from_is_written_by_observations_now`.
+
+Endpoints are matched by the deterministic ENTITY ID computed from the
+extracted name's aggregate key, never by `(name, domain)`: the Entity's name is
+projection output (the longest canonical name across its observations) and is
+frequently not what any single chunk said, so a name match would silently miss.
 """
 import json
 
+import pytest
+
 import artmind.ingest as ing
+from artmind.observations import aggregate_key, entity_id
+
+DOMAIN = "banking.test"
 
 
 class FakeResult:
     def single(self):
-        return None
+        return {"n": 0, "c": 0}
 
     def data(self):
         return []
+
+    def consume(self):
+        return None
 
 
 class FakeSession:
@@ -38,157 +48,162 @@ class FakeSession:
         self.calls.append((cypher, kwargs))
         return FakeResult()
 
+    def execute_write(self, fn, *args, **kwargs):
+        return fn(self, *args, **kwargs)
 
-class FakeSessionCtx:
-    def __init__(self, session):
-        self._session = session
+    execute_read = execute_write
 
     def __enter__(self):
-        return self._session
+        return self
 
     def __exit__(self, *exc):
         return False
 
-
-class FakeDriver:
-    def __init__(self, session):
-        self._session = session
-
-    def session(self, database=None):
-        return FakeSessionCtx(self._session)
-
-    def close(self):
-        pass
+    def rel_calls(self):
+        return [(c, kw) for c, kw in self.calls if "apoc.merge.relationship" in c]
 
 
-class FakeGraphDatabase:
-    def __init__(self, session):
-        self._session = session
+def _observation(name, entity_class, **extra):
+    key = aggregate_key(name, entity_class, DOMAIN)
+    obs = {
+        "id": f"obs-{name}",
+        "name": name,
+        "canonical_name": name,
+        "key": "|".join(key),
+        "entity_class": entity_class,
+        "domain": DOMAIN,
+        "chunk_id": "c1",
+        "doc_id": "d1",
+        "_status": "latest",
+        "_kind": "recurrent",
+    }
+    obs.update(extra)
+    return obs
 
-    def driver(self, uri, auth=None):
-        return FakeDriver(self._session)
 
-
-def _stage_doc_kg_dir(tmp_path):
+def _stage(tmp_path, relationships, observations=None):
     (tmp_path / "document.json").write_text(
-        json.dumps({"id": "d1", "name": "rates.md", "domain": "banking.test"}),
+        json.dumps({"id": "d1", "name": "rates.md", "domain": DOMAIN}), encoding="utf-8"
+    )
+    (tmp_path / "chunks.json").write_text("[]", encoding="utf-8")
+    (tmp_path / "observations.json").write_text(
+        json.dumps(observations if observations is not None else [
+            _observation("Rate A", "RATE"),
+            _observation("Rate B", "RATE"),
+            _observation("Branch X", "BRANCH"),
+            _observation("Branch Y", "BRANCH"),
+        ]),
         encoding="utf-8",
     )
-    (tmp_path / "chunks.json").write_text(json.dumps([]), encoding="utf-8")
-    (tmp_path / "entities.json").write_text(
-        json.dumps(
-            [
-                {"id": "e1", "name": "Rate A", "entity_class": "RATE", "domain": "banking.test"},
-                {"id": "e2", "name": "Rate B", "entity_class": "RATE", "domain": "banking.test"},
-                {"id": "e3", "name": "Branch X", "entity_class": "BRANCH", "domain": "banking.test"},
-                {"id": "e4", "name": "Branch Y", "entity_class": "BRANCH", "domain": "banking.test"},
-            ]
-        ),
-        encoding="utf-8",
-    )
-    (tmp_path / "properties.json").write_text(json.dumps([]), encoding="utf-8")
-    (tmp_path / "relationships.json").write_text(
-        json.dumps(
-            [
-                {"source_name": "Rate A", "target_name": "Rate B", "rel_type": "supersedes"},
-                {"source_name": "Branch X", "target_name": "Branch Y", "rel_type": "relates_to"},
-            ]
-        ),
-        encoding="utf-8",
-    )
+    (tmp_path / "relationships.json").write_text(json.dumps(relationships), encoding="utf-8")
     return tmp_path
 
 
-def test_write_to_neo4j_skips_reserved_rel_type_and_writes_normal_one(monkeypatch, tmp_path):
-    doc_kg_dir = _stage_doc_kg_dir(tmp_path)
+@pytest.fixture()
+def session(monkeypatch):
+    s = FakeSession()
+    monkeypatch.setattr("artmind.graph_query.neo4j_session", lambda *a, **k: s)
+    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda *a, **k: None)
+    monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda *a, **k: 0)
+    return s
 
-    fake_session = FakeSession()
-    monkeypatch.setattr(ing, "GraphDatabase", FakeGraphDatabase(fake_session))
-    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda session, embedding_dim=768: None)
-    monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda session, domain, model: 0)
 
+def test_a_reserved_rel_type_is_skipped_and_the_normal_one_is_written(session, monkeypatch, tmp_path):
     warnings = []
-    monkeypatch.setattr(ing.logger, "warning", lambda *a, **k: warnings.append((a, k)))
+    monkeypatch.setattr(ing.logger, "warning", lambda *a, **k: warnings.append(a))
 
-    ok = ing._write_to_neo4j(doc_kg_dir)
-    assert ok is True
+    doc_kg_dir = _stage(tmp_path, [
+        {"source_name": "Rate A", "target_name": "Rate B", "rel_type": "supersedes"},
+        {"source_name": "Branch X", "target_name": "Branch Y", "rel_type": "relates_to"},
+    ])
+    assert ing._write_to_neo4j(doc_kg_dir, DOMAIN) is not None
 
-    rel_calls = [
-        (cypher, kwargs)
-        for cypher, kwargs in fake_session.calls
-        if "apoc.merge.relationship" in cypher
+    written = {kw["type"] for _, kw in session.rel_calls()}
+    assert "SUPERSEDES" not in written
+    assert written == {"RELATES_TO"}
+    assert any("SUPERSEDES" in str(a) and "Rate A" in str(a) for a in warnings)
+
+
+def test_endpoints_are_matched_by_deterministic_entity_id_not_by_name(session, tmp_path):
+    doc_kg_dir = _stage(tmp_path, [
+        {"source_name": "Branch X", "target_name": "Branch Y", "rel_type": "relates_to"},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, DOMAIN)
+
+    cypher, kwargs = session.rel_calls()[0]
+    assert kwargs["src"] == entity_id(aggregate_key("Branch X", "BRANCH", DOMAIN))
+    assert kwargs["tgt"] == entity_id(aggregate_key("Branch Y", "BRANCH", DOMAIN))
+    assert "{id: $src}" in cypher and "{id: $tgt}" in cypher
+    assert "name: $src" not in cypher, "matching by name would silently miss"
+
+
+def test_a_canonicalized_name_still_resolves_its_endpoint(session, tmp_path):
+    """The chunk said one thing, canonicalization decided another; the edge the
+    chunk asserted must still land on the right Entity."""
+    observations = [
+        _observation("Rate A", "RATE"),
+        {**_observation("Rate B", "RATE"),
+         "name": "Rate B — 4.60% AER", "canonical_name": "Rate B"},
     ]
-    rel_types_written = {kwargs["type"] for _, kwargs in rel_calls}
-
-    assert "SUPERSEDES" not in rel_types_written
-    assert "RELATES_TO" in rel_types_written
-    # only the non-reserved relationship should have produced a merge call
-    assert len(rel_calls) == 1
-
-    # a warning naming the reserved pair must have been logged
-    assert any(
-        "Rate A" in str(a) and "Rate B" in str(a) and "SUPERSEDES" in str(a)
-        for a, _ in warnings
+    doc_kg_dir = _stage(
+        tmp_path,
+        [{"source_name": "Rate A", "target_name": "Rate B — 4.60% AER", "rel_type": "higher_tier_than"}],
+        observations=observations,
     )
+    ing._write_to_neo4j(doc_kg_dir, DOMAIN)
+
+    _, kwargs = session.rel_calls()[0]
+    assert kwargs["tgt"] == entity_id(aggregate_key("Rate B", "RATE", DOMAIN))
 
 
-def test_write_to_neo4j_still_allows_extracted_from_entity_to_docchunk(monkeypatch, tmp_path):
-    """EXTRACTED_FROM is reserved for Entity->Entity, but the Entity->DocChunk
-    provenance branch is the legitimate, intentional writer for that type and
-    must be unaffected by the guard."""
-    (tmp_path / "document.json").write_text(
-        json.dumps({"id": "d1", "name": "rates.md", "domain": "banking.test"}),
-        encoding="utf-8",
-    )
-    (tmp_path / "chunks.json").write_text(
-        json.dumps([{"id": "c1", "doc_id": "d1", "text": "chunk text", "embedding": []}]),
-        encoding="utf-8",
-    )
-    (tmp_path / "entities.json").write_text(
-        json.dumps([{"id": "e1", "name": "Rate A", "entity_class": "RATE", "domain": "banking.test"}]),
-        encoding="utf-8",
-    )
-    (tmp_path / "properties.json").write_text(json.dumps([]), encoding="utf-8")
-    (tmp_path / "relationships.json").write_text(
-        json.dumps(
-            [{"source_name": "Rate A", "target_id": "c1", "rel_type": "extracted_from"}]
-        ),
-        encoding="utf-8",
-    )
+def test_extracted_from_is_written_by_observations_now(session, tmp_path):
+    """Provenance moved to the immutable record. The relationship loop must not
+    write an Entity->DocChunk EXTRACTED_FROM at all."""
+    doc_kg_dir = _stage(tmp_path, [
+        {"source_name": "Rate A", "target_id": "c1", "rel_type": "extracted_from"},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, DOMAIN)
 
-    fake_session = FakeSession()
-    monkeypatch.setattr(ing, "GraphDatabase", FakeGraphDatabase(fake_session))
-    monkeypatch.setattr(ing, "_ensure_neo4j_schema", lambda session, embedding_dim=768: None)
-    monkeypatch.setattr(ing, "embed_missing_entity_embeddings", lambda session, domain, model: 0)
-
-    ok = ing._write_to_neo4j(tmp_path)
-    assert ok is True
-
-    rel_calls = [
-        (cypher, kwargs)
-        for cypher, kwargs in fake_session.calls
-        if "apoc.merge.relationship" in cypher
+    assert session.rel_calls() == []
+    # ...and the observation write is what carries it
+    provenance = [
+        c for c, _ in session.calls
+        if "MERGE (o)-[:EXTRACTED_FROM]->(c)" in c
     ]
-    assert len(rel_calls) == 1
-    assert rel_calls[0][1]["type"] == "EXTRACTED_FROM"
+    assert provenance, "observations must carry their own EXTRACTED_FROM to the chunk"
 
 
-def test_reserved_rel_types_constant_covers_expected_types():
-    """PART_OF is deliberately excluded — it's a legitimate, schema-sanctioned
-    LLM-extractable Entity->Entity relationship type (see module docstring)."""
-    assert ing.RESERVED_REL_TYPES == frozenset(
-        {"SUPERSEDES", "EXTRACTED_FROM", "PRIOR_STATE"}
+def test_a_self_edge_is_skipped(session, tmp_path):
+    """Two names that canonicalize to one thing must not produce a self-loop."""
+    observations = [
+        _observation("Rate A", "RATE"),
+        {**_observation("Rate A alias", "RATE"), "canonical_name": "Rate A"},
+    ]
+    doc_kg_dir = _stage(
+        tmp_path,
+        [{"source_name": "Rate A", "target_name": "Rate A alias", "rel_type": "relates_to"}],
+        observations=observations,
     )
-    assert "PART_OF" not in ing.RESERVED_REL_TYPES
+    ing._write_to_neo4j(doc_kg_dir, DOMAIN)
+    assert session.rel_calls() == []
 
 
-def test_prior_state_is_reserved():
-    """History edges are system-managed, like SUPERSEDES and EXTRACTED_FROM.
+def test_an_edge_to_an_unknown_endpoint_is_skipped(session, tmp_path):
+    doc_kg_dir = _stage(tmp_path, [
+        {"source_name": "Rate A", "target_name": "Never Extracted", "rel_type": "relates_to"},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, DOMAIN)
+    assert session.rel_calls() == []
 
-    An LLM-extracted PRIOR_STATE edge would fabricate entity history carrying
-    no snapshot node and no provenance — the same failure mode the existing
-    reserved types guard against.
-    """
-    from artmind.ingest import RESERVED_REL_TYPES
 
-    assert "PRIOR_STATE" in RESERVED_REL_TYPES
+def test_a_bidirectional_edge_writes_both_directions(session, tmp_path):
+    doc_kg_dir = _stage(tmp_path, [
+        {"source_name": "Branch X", "target_name": "Branch Y",
+         "rel_type": "relates_to", "bidirectional": True},
+    ])
+    ing._write_to_neo4j(doc_kg_dir, DOMAIN)
+
+    pairs = {(kw["src"], kw["tgt"]) for _, kw in session.rel_calls()}
+    x = entity_id(aggregate_key("Branch X", "BRANCH", DOMAIN))
+    y = entity_id(aggregate_key("Branch Y", "BRANCH", DOMAIN))
+    assert pairs == {(x, y), (y, x)}
