@@ -128,5 +128,5 @@ a recurrent class's names — the single biggest lever on projection quality).
 
 `artmind-create-schema` should be written **after** cluster 8 is decided, and
 `artmind-query`'s structural-schema section should be written **with** the test that
-guards it (Q82) — not before. The other three can be rewritten as soon as the code
+guards it — not before. The other three can be rewritten as soon as the code
 lands.

@@ -155,7 +155,7 @@ document's history is its git history.
 
 ## One duplication the redesign creates
 
-Q15 mirrors **derived** markdown (docling output from pptx/pdf/docx) into the vault
+Ingestion mirrors **derived** markdown (docling output from pptx/pdf/docx) into the vault
 at `<vault>/_derived/<domain>/<stem>.md`, so binary-sourced documents get versioned
 too. That leaves the same markdown in two places — the vault copy (versioned,
 authoritative) and `documents/markdowns/` (working).

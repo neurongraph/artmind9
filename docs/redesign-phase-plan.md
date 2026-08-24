@@ -58,14 +58,21 @@ relationship-type leakage (row 4) should already fall.
 
 ## Phase 2 — Identity and versioning · master
 
+**Full specification: [document-identity.md](./document-identity.md)** — read it
+before planning; it carries the resolution table, the frontmatter contract, and the
+promotion rules.
+
 - `_artmind_id` in frontmatter, uuid7, seeded on first ingest (one bulk commit)
-- Q7.16 resolution table: move / duplicate / heal / new
+- The six-row resolution table: re-ingest / move / refuse / adopt / heal / new
 - `_content_sha256` (**body only**) drives `_version`; `declared_version` split out
 - `_`-prefixing of system properties, including `_id` and `_domain`
 - `--replace` and `--force` deleted
 - Git commit per artmind-authored frontmatter change; push opt-in, non-fatal
-- No copies of vault-native files into `originals/` or `markdowns/` (Q96)
+- **No copies of vault-native files** into `originals/` or `markdowns/` — the vault
+  file *is* the document and git *is* its history
 - Single `markdown_path_for(document)` resolver replaces four hand-built paths
+  (`temporal.py` ×3, `delta._compute_body_block_hashes`)
+- Derived-markdown promotion (`_derived_sha256`)
 
 **Exit gate:** edit a vault file, re-ingest, confirm one version bump; touch only
 frontmatter, confirm none; `git mv` it, confirm identity survives.
@@ -113,7 +120,6 @@ unproven projection.
 - `curation` snapshot component (`same_as.yaml` + schemas, **never `.env`**);
   `originals` component; `registry` component dropped; `docs reindex` on import
 - Registry shrunk to a path↔id cache
-- Derived-markdown promotion (`_derived_sha256`)
 
 ## Phase 6 — Curation
 
