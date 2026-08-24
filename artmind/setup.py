@@ -151,12 +151,45 @@ def _setup_neo4j(session, embedding_dim: int) -> None:
         "CREATE CONSTRAINT conflict_id IF NOT EXISTS FOR (n:Conflict) REQUIRE n.id IS UNIQUE"
     )
 
+    # ── The observation zone ──────────────────────────────────────────────────
+    # :Observation is the immutable record of what one chunk of one document
+    # version asserted. It carries NO :Entity label and NO class label, which is
+    # what keeps it structurally out of entity_embedding and entity_name_ft --
+    # no predicate to forget, no index to filter. Its id is a hash of
+    # (chunk, canonical name, class, domain), so the constraint below also
+    # guarantees a re-write cannot duplicate.
+    session.run(
+        "CREATE CONSTRAINT observation_id IF NOT EXISTS FOR (n:Observation) REQUIRE n.id IS UNIQUE"
+    )
+    # The projection rebuild reads observations by aggregate key and status;
+    # the version transition and affected-key capture read them by doc_id.
+    session.run(
+        "CREATE INDEX observation_key_status IF NOT EXISTS "
+        "FOR (n:Observation) ON (n.key, n._status)"
+    )
+    session.run(
+        "CREATE INDEX observation_doc_id IF NOT EXISTS FOR (n:Observation) ON (n.doc_id)"
+    )
+    session.run(
+        "CREATE INDEX observation_domain IF NOT EXISTS FOR (n:Observation) ON (n.domain)"
+    )
+    # Entity.key backs the full-rebuild sweep and the scoped embed sweep.
+    session.run(
+        "CREATE INDEX entity_key IF NOT EXISTS FOR (n:Entity) ON (n.key)"
+    )
+    # The embed sweep matches on `embedding IS NULL OR embedding_stale`.
+    session.run(
+        "CREATE INDEX entity_embedding_stale IF NOT EXISTS FOR (n:Entity) ON (n.embedding_stale)"
+    )
+
     # ── Entity.id: unique constraint, or a plain index as fallback ────────────
     # Exact-id lookup is the query layer's primary retrieval path, so this must
-    # be backed by an index either way. Entities are written with CREATE (not
-    # MERGE on id), so a pre-existing graph may hold duplicate ids — there the
-    # constraint cannot be created and a plain index keeps lookups fast until
-    # the duplicates are cleaned up.
+    # be backed by an index either way. Since Phase 3 an Entity's id is
+    # sha256(canonical_name | entity_class | domain) and the projection MERGEs
+    # on it, so duplicates cannot arise from a fresh graph — but a graph
+    # carrying pre-Phase-3 random uuids may still hold them, and there the
+    # constraint cannot be created. The plain index keeps lookups fast until a
+    # full rebuild replaces those ids.
     try:
         session.run(
             "CREATE CONSTRAINT entity_id IF NOT EXISTS FOR (n:Entity) REQUIRE n.id IS UNIQUE"

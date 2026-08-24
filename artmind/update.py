@@ -30,7 +30,6 @@ from artmind.ingest import (
     _sanitize_label,
     embed_missing_entity_embeddings,
 )
-from artmind.temporal import apply_node_supersession
 from paths import DOMAIN_SCHEMAS_DIR
 from utils.functions import load_env, resolve_llm_model
 
@@ -196,71 +195,60 @@ def _ensure_user_chat_schema(session, embedding_dim: int = 768) -> None:
 def _find_existing_entity(
     session, name: str, entity_class: str, domain: str
 ) -> dict | None:
-    """The node already holding this (name, entity_class, domain) identity, if any.
+    """The projected entity already holding this identity, if any."""
+    from artmind.observations import aggregate_key, entity_id
 
-    Matched on the :Entity label plus properties — never on the sanitized class
-    label — mirroring ingest._upsert_entity, so both write paths agree on what
-    "already exists" means regardless of how the class label was cased.
-    """
+    eid = entity_id(aggregate_key(name, entity_class, domain))
     rec = session.run(
-        "MATCH (e:Entity {name: $name, entity_class: $ec, domain: $domain})"
-        " RETURN e.id AS id, e.name AS name LIMIT 1",
-        name=name, ec=entity_class, domain=domain,
+        "MATCH (e:Entity {id: $id}) RETURN e.id AS id, e.name AS name LIMIT 1", id=eid
     ).single()
     return {"id": rec["id"], "name": rec["name"]} if rec else None
 
 
-def _link_entity_in_session(
-    session, node_ref: str | None, name: str, entity_class: str, domain: str,
-    new_properties: dict, user_id: str, now: str,
+def _resolve_target_identity(
+    session, node_ref: str | None, name: str, entity_class: str, domain: str
 ) -> dict | None:
-    """Apply a `link` resolution to the node the caller actually chose.
+    """The identity a resolution should be recorded AGAINST — not a write.
 
-    `node_ref` is whichever identifier the caller has in hand — the elementId
-    find_candidates returns in `candidates_per_entity`, or the app-managed `id`
-    property entity_context/pattern2 return — the same dual-format contract
-    apply_node_supersession accepts, for the same reason.
+    This is the fix for the defect `CLAUDE.md` describes. `update confirm` used
+    to patch entity properties matched by the **LLM's extracted name**, so a
+    user who picked "Alice Smith" for an extracted "Alice" silently updated
+    nothing while the returned counts still reported success.
 
-    Resolving by the chosen node rather than by the LLM's extracted surface form
-    is the entire point of the candidate step: a user who picks "Alice Smith"
-    for an extracted "Alice" must update *that* node. Matching on
-    (name, entity_class, domain) instead silently no-ops in exactly that case,
-    and can never reach a cross-domain candidate (find_candidates falls back to
-    a global search when the domain-scoped one comes up empty).
+    Under the observation model the fix is structural rather than careful: the
+    write is no longer "find the Entity and patch it". We look up the node the
+    user actually chose, take *its* name/class/domain, and record the
+    observation under that canonical name. The aggregate key then lands the
+    observation on that same entity by construction — there is no separate
+    matching step left to get wrong.
 
-    Falls back to the triple match only when no node_ref is supplied. Returns
-    the node's real name and id — callers key MENTIONS and relationship writes
-    off those, not off the extracted name — or None when nothing matched.
-
-    Property values are applied with `+=`, so a user's correction overwrites
-    rather than accretes (unlike ingest's _merge_props_dicts): a conversational
-    "no, it's X" is an authority statement, not another chunk's contribution.
+    `node_ref` is whichever identifier the caller has in hand: the elementId
+    `find_candidates` returns, or the app-managed `id` property
+    `entity_context`/`pattern2` return.
     """
-    props = _flatten_props({**new_properties, "updated_at": now, "updated_by": user_id})
-    # Nodes written before Entity.id existed carry no id; backfill one so the
-    # caller always gets a usable handle (supersession matches newer by id).
-    fallback_id = uuid.uuid4().hex
     if node_ref:
-        cypher = """
-        MATCH (e:Entity) WHERE elementId(e) = $ref OR e.id = $ref
-        SET e += $props
-        SET e.id = coalesce(e.id, $fallbackId)
-        RETURN e.id AS id, e.name AS name
-        """
-        params = {"ref": node_ref, "props": props, "fallbackId": fallback_id}
-    else:
-        cypher = """
-        MATCH (e:Entity {name: $name, entity_class: $ec, domain: $domain})
-        SET e += $props
-        SET e.id = coalesce(e.id, $fallbackId)
-        RETURN e.id AS id, e.name AS name
-        """
-        params = {
-            "name": name, "ec": entity_class, "domain": domain,
-            "props": props, "fallbackId": fallback_id,
-        }
-    rec = session.run(cypher, **params).single()
-    return {"id": rec["id"], "name": rec["name"]} if rec else None
+        rec = session.run(
+            """
+            MATCH (e:Entity) WHERE elementId(e) = $ref OR e.id = $ref
+            RETURN e.id AS id, e.name AS name, e.entity_class AS entity_class,
+                   e.domain AS domain
+            LIMIT 1
+            """,
+            ref=node_ref,
+        ).single()
+        if rec:
+            return {
+                "id": rec["id"],
+                "name": rec["name"],
+                "entity_class": rec["entity_class"] or entity_class,
+                "domain": rec["domain"] or domain,
+            }
+        return None
+
+    existing = _find_existing_entity(session, name, entity_class, domain)
+    if existing:
+        return {**existing, "entity_class": entity_class, "domain": domain}
+    return None
 
 
 def write_user_chat(
@@ -272,13 +260,41 @@ def write_user_chat(
     extracted_entities: list[dict],
     extracted_relationships: list[dict],
 ) -> dict:
+    """Record a UserChat and the Observations it asserts, then rebuild.
+
+    A conversational correction is a **source**, exactly like a document, and
+    it earns its authority the same way every other source does: its
+    observations carry today's date as their document-level `valid_from`, so
+    the projection's winner rule prefers them over an older schedule without
+    any special-casing. Nothing here writes to an `:Entity` directly — the
+    projection owns every entity property, and a direct write would be silently
+    reverted by the next rebuild.
+
+    Entity-level supersession is gone (`apply_node_supersession`, along with
+    `Entity.superseded_by` and `status='superseded'`). Those were projection-
+    owned properties, so a chat that set them would have them wiped by the next
+    rebuild. A `supersedes` resolution is reported rather than applied — see
+    the warning below for what to use instead.
+    """
+    from artmind import projection
+    from artmind.observations import aggregate_key, build_observation, key_string
+    from artmind.temporal import load_schema
+
     env = load_env()
     embed_model = env.get("ARTMIND_KG_EMBEDDINGS_MODEL", "nomic-embed-text:latest")
     embedding_dim = int(env.get("ARTMIND_KG_EMBEDDING_DIMENSIONS", "768"))
     now = datetime.now().isoformat()
+    today = date.today().isoformat()
     chat_id = uuid.uuid4().hex
     embedding = embed_text(embed_model, raw_text)
     input_hint = _classify_input(raw_text)
+    schema = load_schema(domain)
+
+    observations: list[dict] = []
+    resolved: dict[str, dict] = {}
+    nodes_created = 0
+    nodes_updated = 0
+    nodes_superseded = 0
 
     with neo4j_session() as session:
         _ensure_user_chat_schema(session, embedding_dim)
@@ -288,21 +304,14 @@ def write_user_chat(
             CREATE (c:UserChat {
                 id: $id, raw_text: $raw_text, embedding: $embedding,
                 domain: $domain, session_id: $session_id,
-                input_hint: $input_hint, created_at: $now, created_by: $user_id
+                input_hint: $input_hint, created_at: $now, created_by: $user_id,
+                _status: 'latest', _valid_from: $today
             })
             """,
             id=chat_id, raw_text=raw_text, embedding=embedding,
-            domain=domain, session_id=session_id,
+            domain=domain, session_id=session_id, today=today,
             input_hint=input_hint, now=now, user_id=user_id,
         )
-
-        # temp_id -> the node that resolution actually landed on {"id", "name"}.
-        # Everything downstream (MENTIONS, relationships, supersession) keys off
-        # this rather than the extracted name, so a link to a differently-named
-        # canonical node wires up to the node the user picked.
-        resolved: dict[str, dict] = {}
-        nodes_created = 0
-        nodes_updated = 0
 
         for res in resolutions:
             temp_id = res["entity_temp_id"]
@@ -313,163 +322,97 @@ def write_user_chat(
             if not entity_data:
                 continue
 
-            node = None
-            if action == "create":
-                # (name, entity_class, domain) is the identity every other write
-                # path matches on — ingest._upsert_entity, this module's own
-                # _link_entity_in_session fallback — but nothing in the Neo4j
-                # schema constrains it (only Entity.id is unique). A bare CREATE could
-                # therefore mint a second node for that triple and leave all of
-                # those matches choosing arbitrarily between the two, so an
-                # existing match is updated instead of duplicated.
-                existing = _find_existing_entity(
-                    session, entity_data["name"], entity_data["entity_class"], domain
-                )
-                if existing:
-                    logger.warning(
-                        "create resolution for {!r} ({}) already exists in domain {!r}; "
-                        "updating that node instead of creating a duplicate",
-                        entity_data["name"], entity_data["entity_class"], domain,
-                    )
-                    node = _link_entity_in_session(
-                        session, existing["id"],
-                        entity_data["name"], entity_data["entity_class"], domain,
-                        entity_data.get("properties", {}), user_id, now,
-                    )
-                    if node:
-                        nodes_updated += 1
-                else:
-                    new_id = uuid.uuid4().hex
-                    label_str = f"{_sanitize_label(entity_data['entity_class'])}:Entity"
-                    props = _flatten_props({
-                        "id": new_id,
-                        "name": entity_data["name"],
-                        "entity_class": entity_data["entity_class"],
-                        "domain": domain,
-                        "created_at": now,
-                        "created_by": user_id,
-                        "updated_at": now,
-                        "updated_by": user_id,
-                        **entity_data.get("properties", {}),
-                    })
-                    session.run(f"CREATE (e:{label_str}) SET e = $props", props=props)
-                    node = {"id": new_id, "name": entity_data["name"]}
-                    nodes_created += 1
+            entity_class = entity_data["entity_class"]
+            canonical_name = entity_data["name"]
+            target_domain = domain
 
-            elif action == "link":
-                node = _link_entity_in_session(
-                    session, res.get("node_id"),
-                    entity_data["name"], entity_data["entity_class"], domain,
-                    entity_data.get("properties", {}), user_id, now,
+            if action == "link":
+                target = _resolve_target_identity(
+                    session, res.get("node_id"), entity_data["name"], entity_class, domain
                 )
-                if node:
-                    nodes_updated += 1
-                else:
+                if not target:
                     # Counting a link that matched nothing would report a write
-                    # that never happened. Skip it and let the caller see the
-                    # lower count; the rest of the confirm still lands.
+                    # that never happened.
                     logger.warning(
                         "link resolution for {!r} ({}) matched no node "
                         "(node_id={!r}, domain={!r}); skipped",
-                        entity_data["name"], entity_data["entity_class"],
-                        res.get("node_id"), domain,
+                        entity_data["name"], entity_class, res.get("node_id"), domain,
                     )
-
-            if not node:
-                continue
-            resolved[temp_id] = node
-            session.run(
-                """
-                MATCH (c:UserChat {id: $chat_id})
-                MATCH (e:Entity {id: $entityId})
-                MERGE (c)-[:MENTIONS]->(e)
-                """,
-                chat_id=chat_id, entityId=node["id"],
-            )
-
-        nodes_superseded = 0
-        for res in resolutions:
-            supersedes = res.get("supersedes") or []
-            if not supersedes:
-                continue
-            newer_id = (resolved.get(res["entity_temp_id"]) or {}).get("id")
-            if not newer_id:
-                logger.warning(
-                    "supersession skipped for chat {}: superseding entity {!r} "
-                    "did not resolve to a node",
-                    chat_id, res["entity_temp_id"],
-                )
-                continue
-            for item in supersedes:
-                older_node_id = item.get("node_id")
-                if not older_node_id:
                     continue
-                try:
-                    apply_node_supersession(
-                        newer_id=newer_id,
-                        older_id=older_node_id,
-                        effective=item.get("effective") or date.today().isoformat(),
-                        detected_by="user_update",
-                        source_chat_id=chat_id,
-                        reason=item.get("reason"),
-                    )
-                    nodes_superseded += 1
-                except ValueError as e:
-                    logger.warning("supersession skipped for chat {}: {}", chat_id, e)
-
-        rel_count = 0
-        for rel in extracted_relationships:
-            src = resolved.get(rel.get("source_temp_id", ""))
-            tgt = resolved.get(rel.get("target_temp_id", ""))
-            if not src or not tgt:
-                continue
-            src_name, tgt_name = src["name"], tgt["name"]
-            rel_type = _sanitize_label(rel.get("rel_type", "RELATED_TO"))
-            if rel_type in RESERVED_REL_TYPES:
-                # System-managed edge type — only the audited temporal helpers
-                # (apply_supersession / apply_node_supersession) may create these.
-                logger.warning(
-                    "Reserved relationship type skipped ({} -[{}]-> {}); "
-                    "only audited helpers may create this edge type",
-                    src_name, rel_type, tgt_name,
-                )
-                continue
-            rel_props = _flatten_props({
-                "source_chat_id": chat_id,
-                "created_at": now,
-                "created_by": user_id,
-                "updated_at": now,
-                "updated_by": user_id,
-            })
-            try:
-                # Matched by resolved id, not (name, domain): a linked entity's
-                # canonical name differs from the extracted one, and a
-                # cross-domain link wouldn't match the domain either. Counting
-                # only a returned row keeps relationships_written honest when
-                # the MATCH finds nothing (an empty result raises nothing).
-                written = session.run(
-                    """
-                    MATCH (src:Entity {id: $srcId})
-                    MATCH (tgt:Entity {id: $tgtId})
-                    CALL apoc.merge.relationship(src, $type, {source_chat_id: $chat_id},
-                         $props, tgt, {}) YIELD rel
-                    RETURN rel
-                    """,
-                    srcId=src["id"], tgtId=tgt["id"], type=rel_type,
-                    chat_id=chat_id, props=rel_props,
-                ).single()
-                if written:
-                    rel_count += 1
+                # The chosen node's identity, NOT the extracted surface form.
+                canonical_name = target["name"]
+                entity_class = target["entity_class"]
+                target_domain = target["domain"]
+                nodes_updated += 1
+            elif action == "create":
+                if _find_existing_entity(session, canonical_name, entity_class, domain):
+                    nodes_updated += 1
                 else:
-                    logger.warning(
-                        "Relationship not written ({} -[{}]-> {}): endpoints did not match",
-                        src_name, rel_type, tgt_name,
-                    )
-            except Exception as e:
+                    nodes_created += 1
+            else:
+                continue
+
+            key = aggregate_key(canonical_name, entity_class, target_domain)
+            observation = build_observation(
+                {
+                    "name": entity_data["name"],
+                    "entity_class": entity_class,
+                    "domain": target_domain,
+                    "type": entity_data.get("type"),
+                    "description": entity_data.get("description"),
+                    "context": entity_data.get("context"),
+                    "aliases": entity_data.get("aliases"),
+                },
+                canonical_name=canonical_name,
+                domain_props=entity_data.get("properties", {}),
+                doc_id=chat_id,
+                doc_version=1,
+                chunk_id=chat_id,
+                kind=_class_kind(schema, entity_class),
+                doc_valid_from=today,
+                valid_time_source="user_chat",
+            )
+            observation["source_kind"] = "user_chat"
+            observation["created_by"] = user_id
+            observations.append(observation)
+            resolved[temp_id] = {"id": _entity_id_for(key), "name": canonical_name}
+
+        for res in resolutions:
+            if res.get("supersedes"):
+                nodes_superseded += 0
                 logger.warning(
-                    "Relationship skipped ({} -[{}]-> {}): {}",
-                    src_name, rel_type, tgt_name, e,
+                    "supersession in chat {} not applied: entity-level supersession was "
+                    "removed with the projection (Entity.superseded_by is derived now). "
+                    "Retire the source document (`docs retire`) or declare a same-as "
+                    "group instead.", chat_id,
                 )
+
+        # One transaction: the observations and the rebuild they dirty.
+        def _write(tx):
+            for observation in observations:
+                tx.run(
+                    "MERGE (o:Observation {id: $id}) SET o = $props",
+                    id=observation["id"], props=observation,
+                )
+                tx.run(
+                    """
+                    MATCH (o:Observation {id: $id})
+                    MATCH (c:UserChat {id: $chat_id})
+                    MERGE (o)-[:EXTRACTED_FROM]->(c)
+                    """,
+                    id=observation["id"], chat_id=chat_id,
+                )
+            keys = {
+                tuple(o["key"].split("|")) for o in observations
+                if o.get("key") and o["key"].count("|") == 2
+            }
+            return projection.rebuild(tx, keys)
+
+        session.execute_write(_write)
+
+        rel_count = _write_chat_relationships(
+            session, extracted_relationships, resolved, chat_id, now, user_id
+        )
 
         embed_missing_entity_embeddings(session, domain, embed_model)
 
@@ -478,8 +421,74 @@ def write_user_chat(
         "nodes_created": nodes_created,
         "nodes_updated": nodes_updated,
         "nodes_superseded": nodes_superseded,
+        "observations_written": len(observations),
         "relationships_written": rel_count,
     }
+
+
+def _entity_id_for(key) -> str:
+    from artmind.observations import entity_id
+
+    return entity_id(key)
+
+
+def _class_kind(schema: dict, entity_class: str) -> str:
+    from artmind.observations import class_kind
+
+    return class_kind(schema, entity_class)
+
+
+def _write_chat_relationships(
+    session, extracted_relationships, resolved, chat_id, now, user_id
+) -> int:
+    """Entity->Entity edges asserted by a chat, matched by the resolved entity
+    ids the projection just produced."""
+    rel_count = 0
+    for rel in extracted_relationships:
+        src = resolved.get(rel.get("source_temp_id", ""))
+        tgt = resolved.get(rel.get("target_temp_id", ""))
+        if not src or not tgt or src["id"] == tgt["id"]:
+            continue
+        rel_type = _sanitize_label(rel.get("rel_type", "RELATED_TO"))
+        if rel_type in RESERVED_REL_TYPES:
+            logger.warning(
+                "Reserved relationship type skipped ({} -[{}]-> {}); "
+                "only audited helpers may create this edge type",
+                src["name"], rel_type, tgt["name"],
+            )
+            continue
+        rel_props = _flatten_props({
+            "source_chat_id": chat_id,
+            "created_at": now,
+            "created_by": user_id,
+            "updated_at": now,
+            "updated_by": user_id,
+        })
+        try:
+            written = session.run(
+                """
+                MATCH (src:Entity {id: $srcId})
+                MATCH (tgt:Entity {id: $tgtId})
+                CALL apoc.merge.relationship(src, $type, {source_chat_id: $chat_id},
+                     $props, tgt, {}) YIELD rel
+                RETURN rel
+                """,
+                srcId=src["id"], tgtId=tgt["id"], type=rel_type,
+                chat_id=chat_id, props=rel_props,
+            ).single()
+            if written:
+                rel_count += 1
+            else:
+                logger.warning(
+                    "Relationship not written ({} -[{}]-> {}): endpoints did not match",
+                    src["name"], rel_type, tgt["name"],
+                )
+        except Exception as e:
+            logger.warning(
+                "Relationship skipped ({} -[{}]-> {}): {}",
+                src["name"], rel_type, tgt["name"], e,
+            )
+    return rel_count
 
 
 def _detect_supersession_candidates(

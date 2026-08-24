@@ -48,7 +48,6 @@ from artmind.jobs import (
 )
 from artmind.consolidate import consolidate_descriptions
 from artmind.refine_graph import refine_graph
-from artmind.refine_pipeline import run_pipeline
 from paths import (
     DOMAIN_SCHEMAS_DIR,
     INGEST_LOG_FILE,
@@ -166,6 +165,7 @@ click.rich_click.COMMAND_GROUPS = {
         {"name": "Structured store", "commands": ["db"]},
         {"name": "Query", "commands": ["query"]},
         {"name": "Documents", "commands": ["docs"]},
+        {"name": "Projection", "commands": ["projection"]},
         {"name": "Updates", "commands": ["update"]},
         {"name": "Sessions", "commands": ["session", "snapshot"]},
         {"name": "Setup & tools", "commands": ["setup", "init", "serve", "chat-ui", "admin-ui"]},
@@ -186,9 +186,7 @@ click.rich_click.COMMAND_GROUPS = {
             "name": "Refinement",
             "commands": [
                 "refine-graph",
-                "refine-pipeline",
                 "consolidate-descriptions",
-                "normalize-time",
                 "detect-conflicts",
                 "resolve-conflict",
                 "supersede",
@@ -1060,62 +1058,6 @@ def ingest_refine_graph(
         click.echo(f"Skipped {len(skipped)} cross-domain merge cluster(s) (use --allow-cross-domain-merge to merge): {skipped}")
 
 
-@ingest.command("refine-pipeline")
-@click.option("--domain", "domain", required=True, multiple=True, help="Domain to refine (repeatable; 2+ domains add a cross-domain conflicts pass)")
-@click.option("--apply", "apply_", is_flag=True, help="One-shot: compute AND apply every step (skips the review gate)")
-@click.option("--from-file", "from_file", default=None, type=click.Path(exists=True), help="Apply vetted proposals from a prior propose report (pipeline_report.json)")
-@click.option("--steps", default=None, help="Comma-separated subset of: time,supersession,merge,conflicts,consolidate,embed (canonical order enforced)")
-@click.option("--model", default=None, help="LLM model for merge/conflict/consolidation calls (default: env)")
-@click.option("--mergeThreshold", "merge_threshold", type=float, default=0.7, show_default=True, help="Similarity threshold for merge clustering")
-@click.option("--simThreshold", "conflict_sim_threshold", type=float, default=0.75, show_default=True, help="Similarity threshold for conflict candidate pairs")
-@click.option("--maxPairs", "max_pairs", type=int, default=200, show_default=True, help="Cap on conflict candidate pairs per detection pass (bounds LLM cost)")
-@click.option("--sampleConsolidations", "sample_consolidations", type=int, default=3, show_default=True, help="Consolidation samples shown per domain in propose mode")
-@click.option("--consolidateLimit", "consolidate_limit", type=int, default=None, help="Cap entities consolidated per domain in apply mode (default: all)")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_refine_pipeline(
-    domain: tuple,
-    apply_: bool,
-    from_file: str | None,
-    steps: str | None,
-    model: str | None,
-    merge_threshold: float,
-    conflict_sim_threshold: float,
-    max_pairs: int,
-    sample_consolidations: int,
-    consolidate_limit: int | None,
-    compact: bool,
-) -> None:
-    """Run all refinement steps in dependency order: time → supersession → merge → conflicts → consolidate → embed.
-
-    \b
-    Workflow:
-      1. Propose:  artmind ingest refine-pipeline --domain <d> [--domain <d2>]
-         (time/supersession run for real — additive and idempotent;
-          merge/conflicts/consolidation produce reviewable proposals;
-          with 2+ domains, a cross-domain conflicts pass runs after every
-          domain's own steps — merges land first by construction)
-      2. Review the report and its merges_*.json / conflicts_*.json; edit if needed
-      3. Apply:    artmind ingest refine-pipeline --domain <d> --from-file <report>
-    Use --apply to skip the review gate (trusted automation only).
-    """
-    _setup_logger()
-    step_list = steps.split(",") if steps else None
-    try:
-        result = run_pipeline(
-            domains=_parse_domains(domain),
-            apply=apply_,
-            from_file=from_file,
-            steps=step_list,
-            model=model,
-            merge_threshold=merge_threshold,
-            conflict_sim_threshold=conflict_sim_threshold,
-            max_pairs=max_pairs,
-            sample_consolidations=sample_consolidations,
-            consolidate_limit=consolidate_limit,
-        )
-    except ValueError as exc:
-        raise click.ClickException(str(exc)) from exc
-    _echo_json(result, compact)
 
 
 @ingest.command("consolidate-descriptions")
@@ -1159,19 +1101,6 @@ def ingest_consolidate_descriptions(
     _echo_json(result, compact)
 
 
-@ingest.command("normalize-time")
-@click.option("--domain", required=True, help="Domain to backfill canonical temporal properties for")
-@click.option("--dry-run", is_flag=True, help="Compute counts only; do not write")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def ingest_normalize_time(domain: str, dry_run: bool, compact: bool) -> None:
-    """Backfill canonical valid_from/valid_to/event_at from schema temporal mappings.
-
-    Additive and idempotent. Runs automatically per document at ingest; use this
-    to backfill pre-existing documents or after editing a schema's temporal block.
-    """
-    _setup_logger()
-    from artmind.temporal import normalize_time
-    _echo_json(normalize_time(domain, dry_run=dry_run), compact)
 
 
 @ingest.command("detect-conflicts")
@@ -2441,6 +2370,86 @@ def docs_purge(domain: str, document_name: str):
 # ── artmind update ─────────────────────────────────────────────────────────────
 
 
+@docs.command("retire")
+@click.option("--domain", required=True, help="Domain the document belongs to")
+@click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def docs_retire(domain: str, document_name: str, compact: bool) -> None:
+    """Move a document and everything it asserted from `latest` to `history`.
+
+    An assertion-time act with no date semantics: a retired document's facts
+    keep the valid-time window they always had. Its observations stay in
+    storage and stay reachable by asking for them; they leave every index.
+
+    Entities left with no `latest` observation anywhere are then deleted by the
+    projection rebuild — not because retire decided they were orphans, but
+    because nothing asserts them any more. Reversible with `docs restore`.
+    """
+    _setup_logger()
+    from artmind.lifecycle import resolve_document_id, retire_document
+
+    doc_id = resolve_document_id(document_name, domain)
+    if not doc_id:
+        raise click.ClickException(
+            f"No document matching {document_name!r} in domain {domain!r}"
+        )
+    _echo_json(retire_document(doc_id, domain), compact)
+
+
+@docs.command("restore")
+@click.option("--domain", required=True, help="Domain the document belongs to")
+@click.option("--documentName", "document_name", required=True, help="Document name, title, or id")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def docs_restore(domain: str, document_name: str, compact: bool) -> None:
+    """Move a retired document's assertions back from `history` to `latest`.
+
+    The exact inverse of `docs retire`. Because entity ids are deterministic
+    and the projection is derived, restoring recreates the same entities with
+    the same ids rather than a parallel set.
+    """
+    _setup_logger()
+    from artmind.lifecycle import resolve_document_id, restore_document
+
+    doc_id = resolve_document_id(document_name, domain)
+    if not doc_id:
+        raise click.ClickException(
+            f"No document matching {document_name!r} in domain {domain!r}"
+        )
+    _echo_json(restore_document(doc_id, domain), compact)
+
+
+@cli.group()
+def projection():
+    """The Entity projection — rebuilt deterministically from observations.
+
+    Nobody should need these in the normal course of work: a rebuild is a step
+    inside whatever operation dirtied the projection (a document commit, a
+    retire, a restore), and a failure fails that operation. These commands
+    exist for the cases that have no natural host — a directory ingest that
+    deferred its rebuild, a hand-edited curation file, a schema change.
+    """
+
+
+@projection.command("rebuild")
+@click.option("--domain", default=None, help="Restrict to one domain family (default: every domain)")
+@click.option("--compact", is_flag=True, help="Emit compact JSON")
+def projection_rebuild(domain: str | None, compact: bool) -> None:
+    """Recompute Entities from observations.
+
+    Deterministic and needs no language model. Entity ids are
+    `sha256(canonical_name | entity_class | domain)`, so dropping the whole
+    projection and rebuilding it produces a byte-identical result — which is
+    also why this is safe to run at any time.
+
+    The embed sweep follows automatically, since a rebuild leaves everything it
+    touched marked `embedding_stale`.
+    """
+    _setup_logger()
+    from artmind.ingest import rebuild_projection
+
+    _echo_json(rebuild_projection(domain), compact)
+
+
 @cli.group()
 def update():
     """Add and update knowledge graph facts from natural language.
@@ -2490,48 +2499,6 @@ def update_confirm(session: str, resolutions: str):
         raise click.ClickException(str(e))
 
 
-@update.command("supersede")
-@click.option("--newer", "newer_ref", required=True, help="id of the entity that replaces the older one.")
-@click.option("--older", "older_ref", required=True, help="id of the entity being retired.")
-@click.option("--effective", default=None, help="ISO date the supersession takes effect (default: today).")
-@click.option("--reason", default=None, help="Optional free-text reason, for audit purposes.")
-@click.option("--compact", is_flag=True, help="Emit compact JSON")
-def update_supersede(
-    newer_ref: str, older_ref: str, effective: str | None, reason: str | None, compact: bool
-) -> None:
-    """Mark one entity node as superseding another (node-level, not document-level).
-
-    Use when a new fact replaces an existing node rather than a property on it
-    — e.g. a role holder or an address changing. Sets a SUPERSEDES edge and
-    stamps valid_to/superseded_by/status on the older node; nothing is deleted.
-    --newer and --older each accept either identifier an agent is likely to
-    already have in hand: the `node_id` (Neo4j elementId) returned by
-    `update draft`'s candidates, or the `id` property returned by
-    `entity-context`/`query graph pattern2`/etc.
-    """
-    _setup_logger()
-    from artmind.graph_query import neo4j_session
-    from artmind.temporal import apply_node_supersession
-
-    with neo4j_session() as session:
-        rec = session.run(
-            "MATCH (e:Entity) WHERE elementId(e) = $ref OR e.id = $ref RETURN e.id AS id",
-            ref=newer_ref,
-        ).single()
-    if not rec or not rec["id"]:
-        raise click.ClickException(f"Could not resolve newer entity id={newer_ref!r}")
-
-    try:
-        result = apply_node_supersession(
-            newer_id=rec["id"],
-            older_id=older_ref,
-            effective=effective or date.today().isoformat(),
-            detected_by="manual",
-            reason=reason,
-        )
-    except ValueError as e:
-        raise click.ClickException(str(e))
-    _echo_json(result, compact)
 
 
 @update.command("history")

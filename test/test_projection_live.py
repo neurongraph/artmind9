@@ -29,24 +29,27 @@ CLASS = "RATE_ENTRY"
 def session():
     from neo4j import GraphDatabase
 
+    from artmind.setup import _setup_neo4j
+
     driver = GraphDatabase.driver(URI)
     with driver.session() as s:
-        s.run(
-            "MATCH (n) WHERE n.domain = $d OR n.entity_id IS NOT NULL AND n.domain = $d DETACH DELETE n",
-            d=DOMAIN,
-        ).consume()
-        s.run("MATCH (n:Observation {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
-        s.run("MATCH (n:Entity {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
-        s.run(
-            "CREATE CONSTRAINT observation_id IF NOT EXISTS FOR (n:Observation) REQUIRE n.id IS UNIQUE"
-        ).consume()
-        s.run(
-            "CREATE CONSTRAINT entity_id_live IF NOT EXISTS FOR (n:Entity) REQUIRE n.id IS UNIQUE"
-        ).consume()
+        # The REAL schema, so these tests run against the same constraints and
+        # indexes production does — including the Observation.id uniqueness
+        # constraint, which is what makes a duplicate write fail loudly here.
+        _setup_neo4j(s, 768)
+        _clean(s)
         yield s
-        s.run("MATCH (n:Observation {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
-        s.run("MATCH (n:Entity {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
+        _clean(s)
     driver.close()
+
+
+def _clean(s):
+    """Conflicts carry no domain of their own on the pairwise path, so scoping
+    the cleanup by domain alone leaves them behind to collide with the id
+    constraint on the next run."""
+    s.run("MATCH (n:Observation {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
+    s.run("MATCH (n:Entity {domain: $d}) DETACH DELETE n", d=DOMAIN).consume()
+    s.run("MATCH (c:Conflict) WHERE c.domain = $d OR c.domain IS NULL DETACH DELETE c", d=DOMAIN).consume()
 
 
 def write_observation(session, **kw):

@@ -240,140 +240,10 @@ def _temporal_mapping(schema: dict) -> tuple[dict, dict, str | None]:
     return t.get("document", {}), _entity_temporal_mapping(schema), t.get("relative_anchor")
 
 
-def _normalize_time_one_domain(domain: str, dry_run: bool = False) -> dict:
-    """Backfill canonical temporal properties for every document in a domain.
-
-    Additive + idempotent. Reads each Document's markdown for header dates and
-    each Entity's schema-mapped property. Returns counts (deterministic vs llm).
-    """
-    schema = load_schema(domain)
-    doc_map, ent_map, anchor = _temporal_mapping(schema)
-    stats = {"domain": domain, "documents": 0, "entities": 0,
-             "deterministic": 0, "llm": 0, "dry_run": dry_run}
-    with neo4j_session() as session:
-        docs = session.run(
-            "MATCH (d:Document) WHERE d.domain = $domain RETURN d.id AS id, d.name AS name, d.path AS path",
-            domain=domain,
-        ).data()
-        for doc in docs:
-            md_file = MARKDOWNS_DIR / f"{Path(doc['name']).stem}.md"
-            md_text, fm = "", {}
-            if md_file.exists():
-                from artmind.ingest import _parse_md_frontmatter
-                fm, md_text = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
-            defaults = (schema.get("temporal") or {}).get("defaults") or {}
-            lifted = lift_document_dates(md_text, fm, doc_map, defaults) if doc_map else {}
-            if lifted:
-                stats["documents"] += 1
-                stats["deterministic"] += 1
-                if not dry_run:
-                    session.run(
-                        "MATCH (d:Document {id:$id}) SET d += $props, d.ingested_at = coalesce(d.ingested_at, $now)",
-                        id=doc["id"], props=lifted,
-                        now=datetime.now(timezone.utc).isoformat(),
-                    )
-                    _stamp_chunk_valid_from(session, doc["id"], lifted.get("valid_from"))
-        if ent_map:
-            ents = session.run(
-                "MATCH (e:Entity) WHERE e.domain = $domain RETURN e.id AS id, e.entity_class AS entity_class, properties(e) AS properties",
-                domain=domain,
-            ).data()
-            for e in ents:
-                canon = canonical_entity_dates(e, ent_map, anchor)
-                clean = {k: v for k, v in canon.items() if not k.startswith("_")}
-                if clean:
-                    stats["entities"] += 1
-                    stats["deterministic"] += 1
-                    if not dry_run:
-                        session.run(
-                            "MATCH (e:Entity {id:$id}) SET e += $props",
-                            id=e["id"], props=clean,
-                        )
-    logger.info("normalize_time({}): {}", domain, stats)
-    return stats
 
 
-def normalize_time(domain: str, dry_run: bool = False) -> dict:
-    """Backfill canonical temporal properties across a domain family.
-
-    A parent domain fans out to every concrete child holding data, so each
-    child's own schema (and therefore its own temporal mappings) loads. The
-    return shape stays flat with summed counts so existing consumers —
-    refine_pipeline's report, skills/artmind-refine's summarize_gates.py —
-    keep working; `domains_processed` is additive.
-    """
-    domains = expand_domain_family(domain)
-    totals = {"domain": domain, "documents": 0, "entities": 0,
-              "deterministic": 0, "llm": 0, "dry_run": dry_run,
-              "domains_processed": domains}
-    for d in domains:
-        one = _normalize_time_one_domain(d, dry_run=dry_run)
-        for key in ("documents", "entities", "deterministic", "llm"):
-            totals[key] += one.get(key, 0)
-    return totals
 
 
-def normalize_ingested_document(doc_kg_dir: Path, domain: str) -> dict:
-    """Per-document normalization hook — runs after write_to_graph() at ingest time.
-
-    Additive-only, idempotent, single-document scope; no dry-run gate.
-    """
-    import json
-    schema = load_schema(domain)
-    doc_map, ent_map, anchor = _temporal_mapping(schema)
-    if not (doc_map or ent_map):
-        return {"domain": domain, "skipped": "no temporal block"}
-    try:
-        document = json.loads((doc_kg_dir / "document.json").read_text(encoding="utf-8"))
-        entities = json.loads((doc_kg_dir / "entities.json").read_text(encoding="utf-8"))
-        properties_path = doc_kg_dir / "properties.json"
-        properties_list = (
-            json.loads(properties_path.read_text(encoding="utf-8")) if properties_path.exists() else []
-        )
-    except Exception as e:
-        logger.warning("normalize_ingested_document: could not load JSON: {}", e)
-        return {"domain": domain, "error": str(e)}
-    # entities.json entries are flat (id/name/entity_class/...) with no "properties"
-    # key — the domain-specific values (e.g. effective_date) live in properties.json,
-    # keyed by entity id, and are merged onto the node only at Neo4j-write time
-    # (see artmind.ingest._write_to_neo4j's props_by_id). Merge the same way here so
-    # canonical_entity_dates sees the actual property values, not an empty dict.
-    props_by_id = {p["id"]: p.get("properties", {}) for p in properties_list}
-    md_file = MARKDOWNS_DIR / f"{Path(document['name']).stem}.md"
-    md_text, fm = "", {}
-    if md_file.exists():
-        from artmind.ingest import _parse_md_frontmatter
-        fm, md_text = _parse_md_frontmatter(md_file.read_text(encoding="utf-8"))
-    defaults = (schema.get("temporal") or {}).get("defaults") or {}
-    lifted = lift_document_dates(md_text, fm, doc_map, defaults) if doc_map else {}
-    written = {"documents": 0, "entities": 0}
-    with neo4j_session() as session:
-        if lifted:
-            session.run(
-                "MATCH (d:Document {id:$id}) SET d += $props, d.ingested_at = coalesce(d.ingested_at, $now)",
-                id=document["id"], props=lifted, now=datetime.now(timezone.utc).isoformat(),
-            )
-            _stamp_chunk_valid_from(session, document["id"], lifted.get("valid_from"))
-            written["documents"] = 1
-        for e in entities:
-            entity_with_props = {**e, "properties": props_by_id.get(e["id"], {})}
-            canon = canonical_entity_dates(entity_with_props, ent_map, anchor)
-            clean = {k: v for k, v in canon.items() if not k.startswith("_")}
-            if clean:
-                # entities.json ids are chunk-scoped extraction ids; graph nodes get a
-                # fresh uuid from _upsert_entity, keyed by (name, entity_class, domain).
-                # Match on that key, and count only entities that actually matched.
-                record = session.run(
-                    "MATCH (e:Entity {name:$name, entity_class:$entity_class, domain:$domain}) "
-                    "SET e += $props RETURN count(e) AS matched",
-                    name=e["name"],
-                    entity_class=e["entity_class"],
-                    domain=e.get("domain") or domain,
-                    props=clean,
-                ).single()
-                written["entities"] += record["matched"] if record else 0
-    logger.info("normalize_ingested_document({}): {}", document.get("name"), written)
-    return {"domain": domain, **written}
 
 
 _SUPERSEDES_VER_RE = re.compile(
@@ -461,62 +331,8 @@ def parse_supersession_notice(md_text: str) -> dict | None:
     return {"superseded_version": m.group(1).strip(), "effective": eff}
 
 
-def _stamp_chunk_valid_from(session, doc_id: str, valid_from: str | None) -> None:
-    """Mirror a document's canonical `valid_from` onto its chunks.
-
-    The counterpart to `apply_supersession`'s `valid_to` stamp below. Without
-    this, only half of `asof_predicate` works on chunk queries: the predicate is
-    NULL-safe by design, so a NULL `valid_from` always passes and `--asOf` can
-    retire superseded content but cannot hide content that is not yet in force.
-    Denormalized onto the chunk the way `domain` and `doc_id` already are, which
-    keeps the predicate a plain property test rather than a PART_OF traversal.
-    """
-    if not valid_from:
-        return
-    session.run(
-        "MATCH (c:DocChunk {doc_id:$docId}) SET c.valid_from = $validFrom",
-        docId=doc_id, validFrom=valid_from,
-    )
 
 
-def _retire_orphaned_entities(
-    session, older_doc_id: str, newer_doc_id: str, effective: str | None
-) -> None:
-    """Stamp valid_to on entities the superseded document solely sourced.
-
-    The counterpart to `_stamp_chunk_valid_from` for the entity layer, and the
-    reason `--asOf` works on entity-oriented queries at all: `asof_predicate`
-    is applied per node type, so `pattern1`/`pattern2`/`pattern9` filter on
-    `Entity.valid_to` — a property nothing else ever sets from a *document*
-    supersession.
-
-    The single-source condition is the whole safety story. By the time this
-    runs the newer document is already written, so an entity it re-asserts
-    carries EXTRACTED_FROM edges to both documents and is left alone; so is an
-    entity with any unrelated live source. Only entities whose entire evidence
-    is the superseded document retire.
-
-    Idempotent via coalesce. A null `effective` is a no-op: there is no
-    boundary to stamp, and writing `status` alone would retire an entity that
-    still reads as current to every as-of query.
-    """
-    if not effective:
-        return
-    session.run(
-        """
-        MATCH (c0:DocChunk {doc_id: $olderDocId})<-[:EXTRACTED_FROM]-(e:Entity)
-        WITH DISTINCT e
-        MATCH (e)-[:EXTRACTED_FROM]->(c:DocChunk)
-        WITH e, collect(DISTINCT c.doc_id) AS docIds
-        WHERE size(docIds) = 1
-        SET e.valid_to      = coalesce(e.valid_to, $effective),
-            e.superseded_by = $newerDocId,
-            e.status        = 'superseded'
-        """,
-        olderDocId=older_doc_id,
-        newerDocId=newer_doc_id,
-        effective=effective,
-    )
 
 
 def apply_supersession(
@@ -526,11 +342,21 @@ def apply_supersession(
     effective: str | None = None,
     detected_by: str = "manual",
 ) -> dict:
-    """Create (:Document)-[:SUPERSEDES]->(:Document) and set valid_to on the older side.
+    """Create (:Document)-[:SUPERSEDES]->(:Document) and retire the older side.
 
-    Document scope also stamps valid_to on the older document's chunks — this is
-    what makes --asOf queries exclude stale content automatically — and retires
-    entities the older document solely sourced (see `_retire_orphaned_entities`).
+    Document-level lineage only. What it does NOT do any more is reach into the
+    entity layer: `_retire_orphaned_entities` stamped `valid_to`,
+    `superseded_by` and `status='superseded'` onto entities it guessed were
+    solely sourced by the older document, using a `size(docIds) = 1` heuristic
+    that failed silently — on the live corpus it fired on 2 of 5 supersessions
+    and left 235 entities live.
+
+    All three of those properties are projection-owned now and would be wiped
+    by the next rebuild anyway. Instead, superseding a document **retires** it
+    (`artmind.lifecycle`): its observations move to `history`, and any
+    aggregate key left with zero `latest` observations loses its `:Entity`.
+    Not a heuristic — an arithmetic fact about what is still asserted.
+
     Idempotent.
     """
     with neo4j_session() as session:
@@ -545,67 +371,16 @@ def apply_supersession(
             newer=newer_doc_id, older=older_doc_id, scope=scope,
             effective=effective, detectedBy=detected_by,
         )
-        if scope == "document" and effective:
-            session.run(
-                "MATCH (c:DocChunk {doc_id:$older}) SET c.valid_to = coalesce($effective, c.valid_to)",
-                older=older_doc_id, effective=effective,
-            )
-            # same gate as the chunk stamp above — retirement only makes sense
-            # at document granularity, where a whole DocChunk (and therefore
-            # its solely-sourced entities) goes stale at once
-            _retire_orphaned_entities(session, older_doc_id, newer_doc_id, effective)
+    if scope == "document":
+        # Retirement is document-granular by nature: a whole document's
+        # assertions stop being the current record at once.
+        from artmind.lifecycle import retire_document
+
+        retire_document(older_doc_id)
     logger.info("supersession: {} supersedes {} (scope={}, effective={})", newer_doc_id, older_doc_id, scope, effective)
     return {"newer": newer_doc_id, "older": older_doc_id, "scope": scope, "effective": effective}
 
 
-def apply_node_supersession(
-    newer_id: str,
-    older_id: str,
-    effective: str | None = None,
-    detected_by: str = "manual",
-    source_chat_id: str | None = None,
-    reason: str | None = None,
-) -> dict:
-    """Create (:Entity)-[:SUPERSEDES]->(:Entity) and retire the older node.
-
-    Node-scoped counterpart to apply_supersession (which is document-scoped) —
-    for facts like "the branch manager changed" where the old fact lives on a
-    distinct Entity node rather than a distinct Document. `newer` is matched by
-    the app-managed `id` uuid property (what create/link already know). `older`
-    accepts EITHER the app-managed `id` (what entity_context/pattern2/etc.
-    return) OR the Neo4j elementId (what find_candidates returns) — callers
-    reach this from both kinds of query, and the older node may not have been
-    touched by this update at all, so there's no single canonical source for
-    it. Idempotent; does not delete or touch older's relationships — as-of
-    queries already exclude it once valid_to is set (see
-    graph_query.asof_predicate).
-    """
-    now = datetime.now(timezone.utc).isoformat()
-    with neo4j_session() as session:
-        rec = session.run(
-            """
-            MATCH (newer:Entity {id:$newerId})
-            MATCH (older:Entity) WHERE elementId(older) = $olderRef OR older.id = $olderRef
-            MERGE (newer)-[s:SUPERSEDES]->(older)
-            SET s.effective=$effective, s.detected_by=$detectedBy, s.at=$now,
-                s.source_chat_id=$sourceChatId, s.reason=$reason
-            SET older.valid_to = coalesce(older.valid_to, $effective),
-                older.superseded_by = newer.id,
-                older.status = 'superseded'
-            RETURN newer.id AS newer_id, older.id AS older_id, older.name AS older_name
-            """,
-            newerId=newer_id, olderRef=older_id, effective=effective,
-            detectedBy=detected_by, now=now, sourceChatId=source_chat_id, reason=reason,
-        ).single()
-    if not rec:
-        raise ValueError(
-            f"Could not resolve newer entity id={newer_id!r} or older entity id/elementId={older_id!r}"
-        )
-    logger.info(
-        "node supersession: {} supersedes {} ({!r}) (effective={}, detected_by={})",
-        rec["newer_id"], rec["older_id"], rec["older_name"], effective, detected_by,
-    )
-    return {"newer": rec["newer_id"], "older": rec["older_id"], "effective": effective}
 
 
 def _read_doc_body(name: str) -> str | None:

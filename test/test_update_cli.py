@@ -90,30 +90,6 @@ def test_update_confirm_fails_gracefully_on_missing_draft(runner):
     assert result.exit_code != 0
 
 
-def test_update_supersede_returns_json(runner):
-    supersede_result = {"newer": "newer-uuid", "older": "older-uuid", "effective": "2026-07-18"}
-
-    mock_session = MagicMock()
-    mock_session.run.return_value.single.return_value = {"id": "newer-uuid"}
-    mock_ctx = MagicMock()
-    mock_ctx.__enter__.return_value = mock_session
-
-    with patch("artmind.graph_query.neo4j_session", return_value=mock_ctx), \
-         patch("artmind.temporal.apply_node_supersession", return_value=supersede_result) as mock_apply:
-        result = runner.invoke(cli, [
-            "update", "supersede",
-            "--newer", "4:abc:newer",
-            "--older", "4:abc:older",
-            "--effective", "2026-07-18",
-        ])
-
-    assert result.exit_code == 0, result.output
-    data = json.loads(result.output)
-    assert data == supersede_result
-    mock_apply.assert_called_once_with(
-        newer_id="newer-uuid", older_id="4:abc:older",
-        effective="2026-07-18", detected_by="manual", reason=None,
-    )
 
 
 def test_update_supersede_fails_when_newer_unresolved(runner):
@@ -174,3 +150,12 @@ def test_update_export_by_entity_with_domain_filter(runner, tmp_path):
     mock.assert_called_once_with(
         domain="fiction", format="by-entity", output_dir=Path(str(tmp_path))
     )
+
+
+def test_update_supersede_command_is_gone(runner):
+    """Entity-level supersession wrote `Entity.superseded_by` and
+    `status='superseded'`, both projection-owned since Phase 3 — a command that
+    set them would have them silently wiped by the next rebuild. Retiring the
+    source document or declaring a same-as group expresses the intent instead."""
+    result = runner.invoke(cli, ["update", "supersede", "--help"])
+    assert result.exit_code != 0

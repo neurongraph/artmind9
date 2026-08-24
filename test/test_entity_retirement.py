@@ -1,102 +1,176 @@
-"""Document supersession must retire entities the superseded document solely sourced."""
+"""Superseding a document must take its entities with it.
+
+The old mechanism guessed. `_retire_orphaned_entities` stamped `valid_to`,
+`superseded_by` and `status='superseded'` onto entities it believed the
+superseded document solely sourced, using a `size(docIds) = 1` heuristic. On
+the live corpus it fired on 2 of 5 supersessions and left **235 entities live**
+whose only source was a superseded document — and it failed silently, because
+an empty Cypher MATCH raises nothing.
+
+There is no guess any more. Superseding retires the document
+(`artmind.lifecycle`), which moves its observations to `history`; the
+projection then deletes any aggregate key with zero `latest` observations. That
+is not a heuristic about sourcing — it is an arithmetic fact about what is
+still asserted.
+"""
+from unittest.mock import MagicMock
+
+import pytest
 
 import artmind.temporal as t
 
 
-class _Rec:
-    def __init__(self, data):
-        self._data = data
-
-    def single(self):
-        return self._data
-
-    def data(self):
-        return [self._data] if self._data else []
+def test_the_single_source_heuristic_is_gone():
+    assert not hasattr(t, "_retire_orphaned_entities")
+    assert not hasattr(t, "apply_node_supersession")
+    assert not hasattr(t, "_stamp_chunk_valid_from")
 
 
-class FakeSession:
-    """Records every Cypher statement and its parameters."""
+def test_document_supersession_retires_the_older_document(monkeypatch):
+    retired: list = []
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda doc_id, *a, **k: retired.append(doc_id))
 
-    def __init__(self):
-        self.runs = []
+    session = MagicMock()
+    ctx = MagicMock()
+    ctx.__enter__.return_value = session
+    monkeypatch.setattr(t, "neo4j_session", lambda *a, **k: ctx)
 
-    def run(self, cypher, **kwargs):
-        self.runs.append((cypher, kwargs))
-        return _Rec({"n": 1})
+    t.apply_supersession("newer-id", "older-id", scope="document", effective="2026-03-01")
 
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *a):
-        return False
+    assert retired == ["older-id"], "the older document's assertions must leave `latest`"
 
 
-def test_retire_orphaned_entities_uses_single_source_guard():
-    """Only entities whose entire evidence is the superseded document may retire.
+def test_node_scoped_supersession_does_not_retire_a_whole_document(monkeypatch):
+    """Retirement is document-granular by nature."""
+    retired: list = []
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda doc_id, *a, **k: retired.append(doc_id))
 
-    An entity the newer document re-asserts has EXTRACTED_FROM edges to both
-    documents by the time this runs, and an entity with an unrelated live
-    source likewise — both must survive, which the size(docIds) = 1 test is
-    what enforces.
-    """
-    session = FakeSession()
+    session = MagicMock()
+    ctx = MagicMock()
+    ctx.__enter__.return_value = session
+    monkeypatch.setattr(t, "neo4j_session", lambda *a, **k: ctx)
 
-    t._retire_orphaned_entities(session, "older-doc", "newer-doc", "2026-06-01")
+    t.apply_supersession("newer-id", "older-id", scope="node", effective="2026-03-01")
 
-    assert len(session.runs) == 1
-    cypher, kwargs = session.runs[0]
-    assert "size(docIds) = 1" in cypher
-    assert "DocChunk {doc_id: $olderDocId}" in cypher
-    assert "DISTINCT" in cypher
-    assert "coalesce(e.valid_to, $effective)" in cypher
-    assert kwargs["olderDocId"] == "older-doc"
-    assert kwargs["newerDocId"] == "newer-doc"
-    assert kwargs["effective"] == "2026-06-01"
+    assert retired == []
 
 
-def test_retire_orphaned_entities_noop_without_effective_date():
-    """Without an effective date there is no validity boundary to stamp.
+def test_supersession_no_longer_writes_projection_owned_entity_properties(monkeypatch):
+    """`valid_to`, `superseded_by` and `status` on an :Entity are derived now.
+    Writing them here would have them wiped by the next rebuild."""
+    calls: list = []
+    session = MagicMock()
+    session.run.side_effect = lambda cypher, **kw: calls.append(cypher) or MagicMock()
+    ctx = MagicMock()
+    ctx.__enter__.return_value = session
+    monkeypatch.setattr(t, "neo4j_session", lambda *a, **k: ctx)
+    monkeypatch.setattr("artmind.lifecycle.retire_document", lambda *a, **k: None)
 
-    apply_supersession already tolerates a null effective for the document
-    stamp (coalesce keeps the old value); retiring entities to a null valid_to
-    would set nothing while still writing status, so skip entirely.
-    """
-    session = FakeSession()
+    t.apply_supersession("newer-id", "older-id", scope="document", effective="2026-03-01")
 
-    t._retire_orphaned_entities(session, "older-doc", "newer-doc", None)
-
-    assert session.runs == []
+    for cypher in calls:
+        assert "e.status" not in cypher
+        assert "superseded_by = newer.id" not in cypher or ":Document" in cypher
+        assert "MATCH (c0:DocChunk" not in cypher, "the single-source guard must be gone"
 
 
-def test_apply_supersession_retires_entities_for_document_scope(monkeypatch):
-    """All three supersession routes converge here, so retirement belongs here.
+# ── the rule that replaced it ───────────────────────────────────────────────
 
-    Gated on document scope, matching the existing chunk stamp: a section- or
-    clause-scoped supersession does not retire whole entities.
-    """
-    session = FakeSession()
-    monkeypatch.setattr(t, "neo4j_session", lambda: session)
-    calls = []
+
+def test_retire_demotes_observations_and_rebuilds_the_keys_it_touched(monkeypatch):
+    """Assert on the parameters actually sent, and on which queries ran."""
+    from artmind import lifecycle
+
+    calls: list = []
+
+    class _Tx:
+        def run(self, cypher, **kw):
+            calls.append((cypher, kw))
+            result = MagicMock()
+            result.single.return_value = {"n": 3, "c": 0}
+            result.data.return_value = [{"key": "alice|PERSON|general"}]
+            return result
+
+    tx = _Tx()
+    session = MagicMock()
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(tx, *a, **k)
+    ctx = MagicMock()
+    ctx.__enter__.return_value = session
+    monkeypatch.setattr(lifecycle, "neo4j_session", lambda *a, **k: ctx)
+
+    rebuilt: list = []
     monkeypatch.setattr(
-        t, "_retire_orphaned_entities",
-        lambda s, older, newer, eff: calls.append((older, newer, eff)),
+        "artmind.projection.rebuild", lambda tx, keys, **kw: rebuilt.append(sorted(keys)) or {}
     )
 
-    t.apply_supersession("newer-doc", "older-doc", "document", "2026-06-01")
+    result = lifecycle.retire_document("doc-1")
 
-    assert calls == [("older-doc", "newer-doc", "2026-06-01")]
+    demote = [(c, kw) for c, kw in calls if "SET o._status = $to_status" in c]
+    assert len(demote) == 1
+    assert demote[0][1]["doc_id"] == "doc-1"
+    assert demote[0][1]["from_status"] == "latest"
+    assert demote[0][1]["to_status"] == "history"
+    assert result["observations"] == 3
+
+    # ...and the keys it touched are handed to the projection, which owns
+    # whether an entity survives.
+    assert rebuilt == [[("alice", "PERSON", "general")]]
 
 
-def test_apply_supersession_skips_retirement_for_non_document_scope(monkeypatch):
-    """Sub-document scopes retire no entities — there is no sub-document unit."""
-    session = FakeSession()
-    monkeypatch.setattr(t, "neo4j_session", lambda: session)
-    calls = []
-    monkeypatch.setattr(
-        t, "_retire_orphaned_entities",
-        lambda s, older, newer, eff: calls.append((older, newer, eff)),
-    )
+def test_restore_is_the_exact_inverse(monkeypatch):
+    from artmind import lifecycle
 
-    t.apply_supersession("newer-doc", "older-doc", "section", "2026-06-01")
+    calls: list = []
 
-    assert calls == []
+    class _Tx:
+        def run(self, cypher, **kw):
+            calls.append((cypher, kw))
+            result = MagicMock()
+            result.single.return_value = {"n": 3, "c": 0}
+            result.data.return_value = []
+            return result
+
+    tx = _Tx()
+    session = MagicMock()
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(tx, *a, **k)
+    ctx = MagicMock()
+    ctx.__enter__.return_value = session
+    monkeypatch.setattr(lifecycle, "neo4j_session", lambda *a, **k: ctx)
+    monkeypatch.setattr("artmind.projection.rebuild", lambda tx, keys, **kw: {})
+
+    lifecycle.restore_document("doc-1")
+
+    demote = [kw for c, kw in calls if "SET o._status = $to_status" in c]
+    assert demote[0]["from_status"] == "history"
+    assert demote[0]["to_status"] == "latest"
+
+
+def test_retire_writes_no_dates_anywhere(monkeypatch):
+    """Retiring is an assertion-time act. A retired document's facts keep the
+    valid-time window they always had — conflating the two axes is the most
+    common modelling error in this system."""
+    from artmind import lifecycle
+
+    calls: list = []
+
+    class _Tx:
+        def run(self, cypher, **kw):
+            calls.append(cypher)
+            result = MagicMock()
+            result.single.return_value = {"n": 0, "c": 0}
+            result.data.return_value = []
+            return result
+
+    tx = _Tx()
+    session = MagicMock()
+    session.execute_write.side_effect = lambda fn, *a, **k: fn(tx, *a, **k)
+    ctx = MagicMock()
+    ctx.__enter__.return_value = session
+    monkeypatch.setattr(lifecycle, "neo4j_session", lambda *a, **k: ctx)
+    monkeypatch.setattr("artmind.projection.rebuild", lambda tx, keys, **kw: {})
+
+    lifecycle.retire_document("doc-1")
+
+    for cypher in calls:
+        assert "valid_from" not in cypher
+        assert "valid_to" not in cypher
