@@ -247,3 +247,63 @@ def test_a_dict_shaped_response_is_accepted_too(monkeypatch):
     )
     entities = [{"name": "A", "entity_class": "RATE_ENTRY"}]
     assert canonicalize_document(entities, schema=SCHEMA, vocabulary=[], model="m") == {"A": "Canonical A"}
+
+
+# ── the model's echo is never byte-identical ────────────────────────────────
+
+
+EXTRACTED = "SmartSaver Account Tier 2 Rate — 4.70% AER (£10,001–£50,000), effective 2026-01-15"
+
+
+@pytest.mark.parametrize(
+    "label,echoed",
+    [
+        ("exact", EXTRACTED),
+        ("hyphen for em-dash", EXTRACTED.replace("—", "-")),
+        ("en-dash normalized", EXTRACTED.replace("–", "-")),
+        ("trailing period", EXTRACTED + "."),
+        ("collapsed double space", EXTRACTED.replace(" Tier", "  Tier")),
+        ("all lowercase", EXTRACTED.lower()),
+    ],
+)
+def test_a_rewrite_survives_the_model_reformatting_the_name_it_echoes(label, echoed):
+    """Exact-string matching silently discarded the rewrite whenever the model
+    echoed a name back with a hyphen for an em-dash, a collapsed double space
+    or a trailing period — which is most of the time on names carrying `—`,
+    `–` and `£`. The symptom was a canonicalization pass that appeared to run
+    and changed nothing at all."""
+    from artmind.canonicalize import _apply_mapping
+
+    out = _apply_mapping(
+        {"RATE_ENTRY": [EXTRACTED]},
+        [{"name": echoed, "canonical_name": "SmartSaver Account Tier 2 Rate"}],
+    )
+    assert out[EXTRACTED] == "SmartSaver Account Tier 2 Rate", label
+
+
+def test_tolerant_matching_does_not_conflate_two_different_measurements():
+    """The match fold must NOT be the key function: that strips measurement
+    tails, so a rewrite aimed at the 4.70% entry would land on the 5.25% one."""
+    from artmind.canonicalize import _apply_mapping
+
+    a = "SmartSaver Tier 2 Rate — 4.70% AER"
+    b = "SmartSaver Tier 2 Rate — 5.25% AER"
+    out = _apply_mapping(
+        {"RATE_ENTRY": [a, b]}, [{"name": a, "canonical_name": "SmartSaver Tier 2 Rate"}]
+    )
+    assert out[a] == "SmartSaver Tier 2 Rate"
+    assert out[b] == b, "the untouched entry must keep its own name"
+
+
+def test_a_returned_name_matching_nothing_is_reported(monkeypatch):
+    from artmind.canonicalize import _apply_mapping
+
+    warnings = []
+    monkeypatch.setattr("artmind.canonicalize.logger.warning",
+                        lambda *a, **k: warnings.append(a))
+    out = _apply_mapping(
+        {"RATE_ENTRY": ["Real Name"]},
+        [{"name": "Hallucinated Name", "canonical_name": "Something"}],
+    )
+    assert out == {"Real Name": "Real Name"}
+    assert any("matched nothing" in str(w) for w in warnings)

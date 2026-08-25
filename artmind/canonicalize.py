@@ -25,6 +25,8 @@ rebuild, which fails its commit on purpose.
 """
 from __future__ import annotations
 
+import unicodedata
+
 from loguru import logger
 
 # How many existing names to show the extractor. Enough to cover a document's
@@ -155,13 +157,43 @@ def build_canonicalization_prompt(
     )
 
 
+def _match_key(value: str) -> str:
+    """A tolerant index key for matching the model's echoed name back to the
+    name we actually sent it.
+
+    Deliberately NOT `observations.normalize_name`: that strips measurement
+    tails, so `"X - 4.70% AER"` and `"X - 5.25% AER"` would collide and one
+    entry's rewrite would be applied to the other. This folds only the noise a
+    model introduces when echoing a string back — case, unicode form,
+    whitespace runs, dash variants, trailing punctuation — and keeps everything
+    that distinguishes two names.
+
+    The dash fold matters more than it looks: these names are full of em- and
+    en-dashes, and a model that normalises them to a plain hyphen would
+    otherwise have its entire response discarded.
+    """
+    text = unicodedata.normalize("NFKC", str(value or "")).casefold()
+    text = text.replace("\u2014", "-").replace("\u2013", "-").replace("\u2212", "-")
+    text = " ".join(text.split())
+    return text.strip(" .,;:!?-")
+
+
 def _apply_mapping(names_by_class: dict[str, list[str]], mapping: dict) -> dict[str, str]:
     """Fold the model's output into `raw name -> canonical name`, defaulting
-    any name the model omitted or mangled to itself."""
+    any name the model omitted or mangled to itself.
+
+    Matching is exact first, then tolerant (`_match_key`). Exact-only matching
+    silently discarded the rewrite whenever the model echoed a name back with a
+    hyphen for an em-dash, a collapsed double space, or a trailing period —
+    which is most of the time on names carrying `—`, `–` and `£`. The symptom
+    was a canonicalization pass that appeared to run and changed nothing.
+    """
     resolved: dict[str, str] = {}
+    by_match_key: dict[str, str] = {}
     for names in names_by_class.values():
         for name in names:
             resolved[name] = name
+            by_match_key.setdefault(_match_key(name), name)
 
     if isinstance(mapping, list):
         mapping = {
@@ -173,9 +205,20 @@ def _apply_mapping(names_by_class: dict[str, list[str]], mapping: dict) -> dict[
         logger.warning("Canonicalization: unusable response shape {}; keeping extracted names", type(mapping))
         return resolved
 
+    unmatched = 0
     for raw, canonical in mapping.items():
-        if raw in resolved and isinstance(canonical, str) and canonical.strip():
-            resolved[raw] = canonical.strip()
+        if not isinstance(canonical, str) or not canonical.strip():
+            continue
+        target = raw if raw in resolved else by_match_key.get(_match_key(raw))
+        if target is None:
+            unmatched += 1
+            continue
+        resolved[target] = canonical.strip()
+    if unmatched:
+        logger.warning(
+            "Canonicalization: {} returned name(s) matched nothing this document extracted; ignored",
+            unmatched,
+        )
     return resolved
 
 
