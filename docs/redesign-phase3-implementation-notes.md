@@ -173,14 +173,15 @@ model is asked to copy names out of.
 The phase plan says "three `:Observation` nodes behind it", written before real
 chunking was in play. The spec is one observation per *(doc_version, **chunk**,
 entity-identity)*, and January's long-form schedule mentions the Tier 2 rate in
-three separate chunks — so three documents legitimately produce five
-observations. Counting observations would make the exit gate a function of
-`chunk_size`.
+several separate chunks — so three documents legitimately produce more than
+three observations (the live `--full` run produced six). Counting observations
+would make the exit gate a function of `chunk_size`.
 
 What the criterion is actually asserting is "all three schedules feed this one
 entity", so the gate counts **distinct `doc_id`s** and reports the observation
 count alongside. Flagged rather than assumed, since this is a change to a
-stated exit criterion.
+stated exit criterion — one of two, the other being the cross-document conflict
+split below.
 
 ### Four schemas were instructing the extractor to break the naming rule
 
@@ -373,8 +374,8 @@ PASS  its id is the hash of the key
 PASS  its name normalizes to the Tier 2 rate                        'SmartSaver Account Tier 2 Rate'
 PASS  rate_value is 4.50 (March, the latest valid_from)             4.5
 PASS  _temporal_props includes "rate_value"                         ['effective_date', 'rate_value']
-PASS  three :Observation nodes behind it via AGGREGATES             rates=[4.5, 4.7, 4.6]
-PASS  no :Conflict (the three windows are disjoint)
+PASS  all THREE documents feed it via AGGREGATES                    rates=[4.5, 4.7, 4.6]
+PASS  no CROSS-DOCUMENT :Conflict (the three windows are disjoint)
 PASS  observations carry no :Entity and no class label              labels=['Observation']
 PASS  no accreted ' | ' descriptions                                0 entities
 PASS  no entity is both un-embedded and unflagged                   0 entities
@@ -412,7 +413,87 @@ Not exercised, because this machine has no reachable LLM or embedding service:
 - **the embed sweep end to end** — the query and flag-clearing are covered
   live; the embedding call itself is not.
 
-`--full` covers all three on a machine with Ollama. **Run it before Phase 8.**
+`--full` covers all three, and has since been run — see below.
+
+### `--full`, live against AuraDB: PASSED
+
+Four runs on the author's desktop against AuraDB (`neo4j+s://`), with
+`qwen3.6:35b-mlx` for text and `nomic-embed-text` for embeddings. The first
+three each found a real bug — all listed under "Bugs the gate caught". The
+fourth:
+
+```
+PASS  the embed sweep embedded at least one entity              embedded=52
+PASS  exactly ONE :Entity for the aggregate key                 found 1
+PASS  its id is the hash of the key
+PASS  its name normalizes to the Tier 2 rate                    'SmartSaver Account Tier 2 Rate'
+PASS  rate_value is 4.50 (March, the latest valid_from)         4.5
+PASS  _temporal_props includes "rate_value"                     ['effective_date', 'rate_value']
+PASS  all THREE documents feed it via AGGREGATES                documents=3, observations=6,
+                                                                rates=[4.7, 4.7, 4.7, 4.6, 4.5]
+PASS  observations carry no :Entity and no class label          labels=['Observation']
+PASS  no accreted ' | ' descriptions among projected entities   0 entities
+PASS  no projected entity is both un-embedded and unflagged     0 entities
+```
+
+The rate series is the thing to read: three identical 4.70s from January's
+four chunks, then 4.60 and 4.50 from the two single-chunk schedules. The
+winner rule picks March, the temporal axis records that it moved, and the
+observations keep all of it.
+
+All three legs the fixtures run could not reach were exercised: chunk
+extraction (22 chunks on January, real entities/properties/relationships),
+the vocabulary ANN (`25 existing name(s) across 17 recurrent class(es)` on
+every document, so the index round-trip works end to end), and the embed
+sweep (`52 embedded, 0 skipped`).
+
+Canonicalization ran **once per document**, three times total — trap 10 holds
+under real chunking, where a per-chunk implementation would have run it 24
+times.
+
+### The one criterion that changed, and why
+
+The gate as originally specified says "no `:Conflict`". The fourth run raised
+three, on `balance_max`, `rate_basis` and `calculation_example` — **all of them
+confined to the January document**, none spanning two schedules.
+
+That is designed behaviour rather than a projection defect, and the design doc
+says so directly: `projection-pipeline.md`'s worked example *is* January
+disputing itself, and `test_a_property_can_be_BOTH_temporal_and_conflicted`
+covers the shape. January's schedule is 22 chunks and describes the Tier 2 rate
+in four places — the tier table, a competitor comparison, a savings strategy and
+an FAQ — so it has ample room to disagree with itself at a single instant.
+
+The criterion's own parenthetical names what it was testing: *the three windows
+are disjoint*. That is a claim about conflicts **between** the schedules, and
+there are none. So the gate now counts a conflict whose evidence spans more than
+one `doc_id` separately from one confined to a single document, fails on the
+former, and prints the latter as a note with the disputed values. Confirmed with
+the author before closing the phase.
+
+Reporting the values matters as much as the split: `conflicts on ['balance_max']`
+does not say whether two sources disagree about the world or the extractor wrote
+`50000` in one chunk and `£50k` in another. That distinction is the whole
+difference between a corpus finding and a prompt bug.
+
+### What the intra-document conflicts turned out to be
+
+Read as extraction quality, they pointed at three property hints, now fixed:
+
+| Property | What the hint said | What went wrong |
+|---|---|---|
+| `balance_min` / `balance_max` | "lower bound of balance range" | No format named, so chunks produced `£50,000`, `50000` and `£50k`. `rate_value` says "numeric, e.g., 4.50" and came out identical across all four chunks — the hints now match it. |
+| `calculation_example` | "the example from the document verbatim" | Verbatim, but not whose. January's **Tier 1** worked example sits directly beneath the tier table, so it was being attached to Tier 2. Now says to omit rather than borrow another tier's. |
+| `rate_basis` | `formula, e.g., "BoE Base Rate + 2.50% margin"` | Also collected "Variable" (the rate type) and "AER" (the quoting basis). Now names the formula only and points the other readings at `rate_format`. |
+
+One further signal from the same run: `flatten_domain_props` dropped a nested
+`balance_rules` object. `balance_min`/`balance_max` *are* declared as flat
+scalars, so this was the model improvising a container around declared
+properties rather than a schema gap — the warning fired exactly as intended and
+no JSON blob reached the graph.
+
+These changes are **not verified by a re-run**; they are hint edits made after
+the passing run, and their effect will show at the Phase 8 re-ingest.
 
 ---
 
@@ -470,14 +551,19 @@ safe and Phase 5's snapshot inversion possible.
    decide whether a same-as group covers it, or whether observations need an
    explicit retraction mechanism.
 
-2. **`banking.reference`'s RATE_ENTRY guidance still contradicts the recurrent
-   naming rule** — it instructs the extractor to put the rate value and
-   effective date *in the name*, with a worked example. The meta-schema's rule
-   is now injected before it, so the class guidance gets the last word. The key
-   function and the canonicalization pass both repair the damage, so this is a
-   quality cost rather than a correctness one, but it makes the extractor work
-   against itself. Per your Phase 1 scope call the 16 schemas were left alone;
-   worth a sweep in Phase 7 alongside the skills.
+2. **Property hints across the other 14 schemas are unaudited.** The four
+   recurrent classes whose *naming* guidance contradicted the meta-schema were
+   fixed (found by `test_schema_naming_guidance.py`, not by hand — a hand scan
+   missed two of the four). The live run then showed the same class of problem
+   one level down, in *property* hints: a hint that names a format
+   (`rate_value`: "numeric, e.g., 4.50") extracts identically across chunks,
+   and one that does not (`balance_max`: "upper bound") comes back as `£50,000`,
+   `50000` and `£50k` from the same document. Four hints in
+   `banking.reference` and `banking.products` were tightened; the remaining
+   schemas were not read for this. Unlike the naming rule there is no guard
+   test, because "does this hint pin a format?" is not mechanically checkable —
+   so this is a Phase 7 reading pass, and the signal to prioritise it is
+   intra-document conflicts on scalar properties.
 
 3. **Scorecard row 12 (property-key hygiene) is unmeasured** on the new model.
    Row 3 (unretired orphans) is demonstrably 0 by construction, and row 2

@@ -190,7 +190,7 @@ Deferred full rebuild + embed sweep: {'rebuilt': ..., 'embedded': N>0}
   PASS  rate_value is 4.50 (March, the latest valid_from)
   PASS  _temporal_props includes "rate_value"
   PASS  all THREE documents feed it via AGGREGATES
-  PASS  no :Conflict (the three windows are disjoint)
+  PASS  no CROSS-DOCUMENT :Conflict (the three windows are disjoint)
   ...
 EXIT GATE PASSED
 ```
@@ -278,12 +278,11 @@ the same two assertions the gate makes, but read through the query layer a
 user would actually go through.
 
 **Judgement call, not an assertion:** look at the entity names the real
-extractor produced. `banking.reference`'s RATE_ENTRY guidance still tells it to
-put the rate value and effective date *in* the name, contradicting the
-meta-schema's recurrent naming rule (open question 2 in the notes). The key
-function and canonicalization repair it, but if names are still arriving
-measurement-laden, that is the schema guidance fighting the prompt and worth
-fixing in Phase 7.
+extractor produced. The four recurrent classes whose guidance contradicted the
+meta-schema's naming rule are fixed, so names should now arrive clean at source
+— the last live run produced `SmartSaver Account Tier 2 Rate` verbatim from the
+extractor. If a name still arrives carrying a rate or a date, a class guidance
+is fighting the prompt again and belongs in the Phase 7 sweep.
 
 ---
 
